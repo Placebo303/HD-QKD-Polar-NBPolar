@@ -1,0 +1,117 @@
+{
+  "task_id": "NBPOLAR-PHASE4-P2-R1-DIAGNOSTIC-INDEX-RECOVERY",
+  "attempt": {
+    "allowed": 1,
+    "used": 1,
+    "scope": "single content-read on same sibling artifact; P2 attempt 1/1 preserved BLOCKED"
+  },
+  "artifact": {
+    "root": "D:/Code/HD-QKD_Polar_Comparison/workspace/v72p2d5_model_f_input/20260907_r1/",
+    "files": [
+      "model_f_input.npz",
+      "model_f_input_summary.json"
+    ],
+    "sizes_bytes": [
+      208467,
+      752
+    ],
+    "session": "20260123_1M_600k_0dB",
+    "source": "1M",
+    "cal_start": 702,
+    "cal_end": 1725,
+    "n_frames": 1024,
+    "pairs_per_frame": 256,
+    "n_symbols": 262144,
+    "axis": [
+      "Alice",
+      "Bob"
+    ],
+    "dims": [
+      1024,
+      1024
+    ],
+    "mapping": "symbol=low+32*high;high=U1;low=U2",
+    "field": {
+      "poly": 37,
+      "q": 32
+    },
+    "lambda_star": 137.3823795883264,
+    "selection": "D4R2 nested-CV refit",
+    "status": "MODEL_F_INPUT_CANDIDATE"
+  },
+  "loader": {
+    "conditioning": "FULL_BOB_ONLY",
+    "provenance": "PRIOR_ONLY",
+    "allow_pickle": false,
+    "npz_keys": [
+      "counts_ab",
+      "p_b"
+    ]
+  },
+  "gates": {
+    "schema": "PASS",
+    "transpose_sentinel_diff": 0.000209808349609375,
+    "packing_exhaustive_1024": "PASS",
+    "banned_imports": "PASS",
+    "no_truth_vector": "PASS"
+  },
+  "formula": {
+    "max_abs_diff_vs_literal": 0.0,
+    "spot_loop_max_3cols": 0.0,
+    "tol": 1e-12,
+    "pass": true
+  },
+  "normalization": {
+    "f_col_max": 2.930988785010413e-14,
+    "p1_col_max": 6.661338147750939e-16,
+    "p2_row_max": 2.55351295663786e-15,
+    "slice_loop_max": 3.3306690738754696e-16,
+    "tol": 1e-12,
+    "pass": true
+  },
+  "fallbacks_support": {
+    "unseen_B_columns": 0,
+    "zero_U1B_slices": 0,
+    "exact_zero_f_cells": 0,
+    "n_b": 1024,
+    "K_nonzero_B": 1024,
+    "bad_empirical_zero_support": 0
+  },
+  "entropies_bits_per_symbol": {
+    "H_U1_given_B": 4.286720430201375,
+    "H_U2_given_U1B": 3.2227198846343783,
+    "H_chain": 7.509440314835754,
+    "H_direct_A_given_B": 7.5094403148357545,
+    "chain_discrepancy": 8.881784197001252e-16,
+    "chain_tol": 1e-10
+  },
+  "oracle_checks": {
+    "H1_abs_diff": 3.552713678800501e-15,
+    "H2_abs_diff": 6.217248937900877e-15,
+    "direct_abs_diff": 0.0,
+    "oracle_chain_discrepancy": 8.881784197001252e-16,
+    "tol": 1e-12
+  },
+  "cal_resubstitution_bits": {
+    "CE_resubstitution": 5.5985039618345835,
+    "note": "CAL-only descriptive; never held-out performance; never threshold"
+  },
+  "resources": {
+    "wall_s": 0.370104639994679,
+    "peak_rss_bytes": 183656448,
+    "budget_s": 300,
+    "rss_ceiling_bytes": 2147483648
+  },
+  "method": {
+    "f3_layout": "[U1,B,U2]",
+    "selection": "f3[u1,nz_b,:] -> (K,32)",
+    "weights": "p_b[nz_b,None] -> (K,1)",
+    "modules": [
+      "prior_artifact.load_prior_artifact",
+      "prior.smooth_joint_to_conditional/derive_p1/derive_p2",
+      "cal_diagnostic.select_bob_slice/weighted_conditional_entropy"
+    ]
+  },
+  "scope": "CAL-resubstitution descriptives only; no FER/leakage/key-rate/DEV/EVAL/decoder/construction/benchmark/reconciliation/promotion; acceptance does not open P3",
+  "result": "P2_R1_CAL_PRIOR_VALIDATION_CANDIDATE"
+}

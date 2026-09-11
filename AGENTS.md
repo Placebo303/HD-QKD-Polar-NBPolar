@@ -6,26 +6,25 @@ These rules apply to all agents operating in this repository.
 
 ## 0. Repository Scope (READ FIRST — boundary rule)
 
-- **This checkout (`HD-QKD_Polar_Comparison`) is the FORMAL IR / LDPC
-  RESEARCH MAINLINE** (`main` branch): formal Cascade/LDPC methods,
-  binary-LDPC v3+ long-frame work, and the nonbinary-LDPC ladder live and
-  evolve here.
-- **The sibling checkout `../HD-QKD_Polar_Release` is the BINARY POLAR
-  MAINLINE** (branch `polar-mainline`): mature binary Polar usage, frozen
-  baseline, security tooling. Do not advance Polar-mainline workstreams
-  there from this repository, and do not merge `polar-mainline` into this
-  `main`.
-- Both checkouts historically shared one remote and one `main`, which
-  caused a crosstalk incident (research content swept into the shared
-  mainline, 2026-08-12..22). Keep research commits on this `main`; never
-  sweep them into the sibling's branch again.
+- **This checkout (`HD-QKD_Polar_Comparison-nbpolar`) is the independent
+  NB-Polar planning and implementation worktree**. Its canonical plan is
+  `docs/nbpolar/` and its candidate change is
+  `openspec/changes/formal-ir-nbpolar-mvp/`.
+- **The sibling checkout `../HD-QKD_Polar_Comparison` is the formal-IR /
+  NB-LDPC history and decision owner**. It is a separate project and is not
+  the NB-Polar implementation location.
+- **The sibling checkout `../HD-QKD_Polar_Comparison-worktree-cascade-single`
+  is the isolated binary Cascade study. `../HD-QKD_Polar_Release` remains the
+  frozen binary Polar baseline and protocol reference.**
+- Keep these projects separate: no inherited NB-LDPC graph route, Cascade
+  route, or binary Polar baseline logic is silently promoted into NB-Polar.
 
 ---
 
 ## 1. Project Identity
 
-- **Project name**: `HD-QKD_Polar_Comparison`
-- **Purpose**: Evaluate and compare information reconciliation (IR) methods for high-dimensional QKD data. The original Polar pipeline is a frozen baseline; the `comparison_bench/` layer adds a non-invasive comparison framework.
+- **Project name**: `HD-QKD_Polar_Comparison-nbpolar`
+- **Purpose**: Define and implement a native q-ary NB-Polar research track for high-dimensional QKD, using the three sibling projects as read-only sources of accepted semantics and history.
 - **Main objective**: Discover, implement, and experimentally validate
   scientifically reasonable **high-performance information-reconciliation
   algorithms** for the actual HD-QKD data. The benchmark layer and frozen Polar
@@ -211,6 +210,8 @@ openspec/
 ## 8. Execution Environment
 
 - **OS**: Windows host; WSL support via `wsl-env.sh`
+- **Python interpreter**: use `source .venv/bin/activate` or `.venv/bin/python -m ...` (WSL/bash, POSIX-first); Windows native PowerShell/CMD use `.venv\Scripts\python -m ...`; bare `python`/`python3` is disabled (system `/usr/bin/python3` lacks `numpy`/`pytest`).
+- Validate once: `.venv/bin/python -c "import numpy,pytest"`.
 - **Python dependencies**: `numpy`, `pandas`, `numba`, `tqdm` (root `requirements.txt`)
 - **Optional comparison deps**: `pyyaml`, `pyarrow`, `pytest` (`comparison_bench/requirements-comparison.txt`)
 - **Known constraints**:
@@ -272,6 +273,12 @@ This workflow is the default for all substantial delegated implementation:
    conditions. Give acceptance items stable IDs; subagents report those IDs
    instead of restating the specification. Do not add foreseeable acceptance
    requirements one at a time during implementation.
+   Every execution-ready packet must also include a directly copyable
+   `AUTHORIZATION_PROMPT.md` beside `TASK_PACKET.md`, `PROMPT.md`, and
+   `STATUS.yaml`. Whenever authorization is the next gate, the main thread
+   must paste the full authorization text in its user response; links alone
+   are insufficient. After a return, the main thread owns adjudication,
+   durable status, and preparation of the next complete packet.
 2. **Keep ownership separated.** The main thread owns planning, requirements,
    thresholds, OpenSpec, acceptance, and scientific conclusions. A designated
    implementation subagent is an operator only and must not change those

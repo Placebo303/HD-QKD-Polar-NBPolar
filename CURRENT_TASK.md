@@ -1,3 +1,26 @@
+Status: **NB-Polar Phase 3-R1 EVAL_ACCEPTED_DIAGNOSTIC** — 2026-09-11
+
+本 checkout 的 Phase 0-2 已 ACCEPT。Phase 3 因 full Spearman 0.7665、
+缺失真实独立 pre-EVAL review 和 zero-impossible gate 失败而 BLOCKED；唯一
+EVAL 299/300 仅诊断保留，seed 2026091203 不得重跑。下一步候选为
+`.workbuddy/queue/NBPOLAR-PHASE3-R1-CONSTRUCTION-RECOVERY/`，当前只完成
+任务包完成并通过收口复核。唯一 fresh EVAL 使用 O3 analytic、eps=0.05、
+K=45、seed 2026091213，结果为 299/300 exact、1 个 impossible@219、
+300/300 initial-error、other/nan 均为 0。该结果仅作为 synthetic development
+diagnostic 接受；seed 与输出根已消耗并冻结。Model-F、真实数据、Phase 4
+继续关闭。Phase 4-P0 prior contract 已 FREEZE_ACCEPT；下一包为待显式授权的
+Phase 4-P1 pure prior adapter + synthetic oracle 已在 option (a) 哨兵范围修复后
+获得独立 ACCEPT，并固化为 `IMPLEMENTATION_ACCEPTED_SYNTHETIC_ONLY`：完整
+focused suite 66/66、独立 decoder-free 11/11。不含 CAL 或 decoder。
+
+P2 attempt 1/1 在 accepted artifact loader 通过后因自研诊断
+`[U1,B,U2]` advanced-indexing 轴错误而 BLOCKED，目标未创建。P2-R1 已用独立
+slice oracle 修复并接受：88 tests、一次 artifact read、CAL prior-table 数值闭合，
+接受范围不含 decoder/FER。下一步 heavy P3 empirical-prior SC interface 包已准备，
+等待显式授权；真实数据、DEV/EVAL、reconciliation 继续关闭。
+
+---
+
 Status: **V31 ARCHIVED — `finite_graph_fail`** — 2026-08-21 收口
 V31 deterministic finite-graph redesign gate 已执行并归档（用户目标授权）。
 - M1 DE confirmation PASS 60/60（每 n 30/30，m1=16）。

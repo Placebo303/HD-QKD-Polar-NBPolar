@@ -1,0 +1,22 @@
+{
+  "entry": "eval_r1",
+  "q": 32,
+  "n": 256,
+  "alpha": 2,
+  "field": "GF32/poly37",
+  "channel": "erasure",
+  "param": 0.05,
+  "k": 45,
+  "seed": 2026091213,
+  "n_blocks": 300,
+  "n_exact": 299,
+  "n_failed_total": 1,
+  "n_impossible": 1,
+  "n_other_failure": 0,
+  "n_nan": 0,
+  "n_initial_error": 300,
+  "fail_indices": [
+    219
+  ],
+  "prereg": "impossible counts as failed decode/non-exact inside the denominator and is reported as its own class"
+}

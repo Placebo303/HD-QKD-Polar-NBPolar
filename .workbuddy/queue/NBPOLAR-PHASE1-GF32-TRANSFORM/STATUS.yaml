@@ -1,0 +1,12 @@
+task_id: NBPOLAR-PHASE1-GF32-TRANSFORM
+state: IMPLEMENTATION_ACCEPTED
+plan_gate: FREEZE_ACCEPT
+user_authorized: true
+implementation_authorized: true
+focused_t0_t1_tests_authorized: true
+decoder_authorized: false
+model_f_authorized: false
+real_data_authorized: false
+result_root_authorized: false
+scientific_promotion: false
+next_gate: PHASE2_SC_ORACLE_PACKET

@@ -1,0 +1,82 @@
+"""Phase 3 native NB-Polar public surface: field adapter, frozen transform, reference SC, tiny oracle, synthetic construction."""
+
+from .algebra import make_gf2m, make_gf32, validate_symbols
+from .construction import (
+    BlockEvalResult,
+    ConstructionResult,
+    analytic_construction,
+    analytic_order,
+    build_construction,
+    disclosure_order_from_stats,
+    evaluate_blocks,
+    failure_summary,
+    genie_conditionals,
+    resolvable_rank_corr,
+    spearman_rank_corr,
+    topk_overlap,
+)
+from .oracle import oracle_block_log_score, oracle_sc_metric
+from .prior import (
+    Conditioning,
+    Provenance,
+    SymbolMetric,
+    build_p1_metrics,
+    derive_p1,
+    derive_p2,
+    gather_p2_metrics,
+    probs_to_symbol_metric,
+    smooth_joint_to_conditional,
+)
+from .sc import SCResult, sc_decode
+from .synthetic import (
+    DEV_SEED,
+    EVAL_SEED,
+    TRAIN_SEED,
+    UNIT_SEED,
+    analytic_erasure_probs,
+    generate_erasure_block,
+    generate_qsc_block,
+)
+from .transform import kernel_pair, polar_transform, polar_transform_reference, transform_and_select
+
+__all__ = [
+    "make_gf2m",
+    "make_gf32",
+    "validate_symbols",
+    "kernel_pair",
+    "polar_transform",
+    "polar_transform_reference",
+    "transform_and_select",
+    "sc_decode",
+    "SCResult",
+    "oracle_sc_metric",
+    "oracle_block_log_score",
+    "generate_erasure_block",
+    "generate_qsc_block",
+    "analytic_erasure_probs",
+    "UNIT_SEED",
+    "TRAIN_SEED",
+    "DEV_SEED",
+    "EVAL_SEED",
+    "genie_conditionals",
+    "disclosure_order_from_stats",
+    "build_construction",
+    "evaluate_blocks",
+    "failure_summary",
+    "resolvable_rank_corr",
+    "analytic_construction",
+    "spearman_rank_corr",
+    "topk_overlap",
+    "analytic_order",
+    "ConstructionResult",
+    "BlockEvalResult",
+    "SymbolMetric",
+    "Conditioning",
+    "Provenance",
+    "smooth_joint_to_conditional",
+    "derive_p1",
+    "derive_p2",
+    "build_p1_metrics",
+    "gather_p2_metrics",
+    "probs_to_symbol_metric",
+]

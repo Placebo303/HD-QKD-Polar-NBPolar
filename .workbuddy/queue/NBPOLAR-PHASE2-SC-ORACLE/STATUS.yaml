@@ -1,0 +1,13 @@
+task_id: NBPOLAR-PHASE2-SC-ORACLE
+state: IMPLEMENTATION_ACCEPTED
+prerequisite: NBPOLAR-PHASE1-GF32-TRANSFORM_IMPLEMENTATION_ACCEPTED
+user_authorized: true
+implementation_authorized: true
+synthetic_reference_decoder_authorized: true
+focused_t0_t1_tests_authorized: true
+model_f_authorized: false
+real_data_authorized: false
+benchmark_authorized: false
+result_root_authorized: false
+scientific_promotion: false
+next_gate: PHASE3_SYNTHETIC_CONSTRUCTION_PACKET

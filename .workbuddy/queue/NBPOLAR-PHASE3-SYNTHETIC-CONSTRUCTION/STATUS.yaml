@@ -1,0 +1,11 @@
+task_id: NBPOLAR-PHASE3-SYNTHETIC-CONSTRUCTION
+state: BLOCKED_REVIEWED_DIAGNOSTIC_RETAINED
+terminal: BLOCKED(PHASE3_GATE_INVALID)
+preserved_operator_terminal: BLOCKED(EVAL_GATE)
+first_failing_gate: P3-T1-05-full-vector-spearman
+failing_detail: full-vector Spearman 0.7665 below frozen 0.90; resolvable-subset reinterpretation not accepted
+procedure_failure: required independent reviewer-go unavailable; operator self-check did not authorize EVAL
+reproducibility_gap: exact call still depends on an unrecorded full 256-coordinate permutation
+preserved_eval: EVAL_SEED=2026091203 300 blocks eps=0.05 K=45 fails=[104] no-rerun
+diagnostic_only: exact 299/300, initial-error 300/300, impossible 1 at block 104
+next_decision: Phase3-R1 requires a new reviewed packet and explicit authorization; no EVAL rerun

@@ -1,0 +1,17 @@
+task_id: NBPOLAR-PHASE4-P1-PRIOR-ADAPTER
+state: IMPLEMENTATION_ACCEPTED_SYNTHETIC_ONLY
+predecessor: NBPOLAR-PHASE4-P0-PRIOR-CONTRACT-FREEZE
+documentation_authorized: true
+implementation_authorized: true
+cal_read_authorized: false
+model_f_execution_authorized: false
+real_data_authorized: false
+decoder_execution_authorized: false
+phase4_p1_authorized: true
+scientific_promotion: false
+next_gate: PHASE4_P2_EXPLICIT_AUTHORIZATION_DECISION
+conflict_ruling: OPTION_A_SCOPE_P3_T1_09
+focused_prior_tests: 11_PASSED
+full_nbpolar_tests: 66_PASSED
+independent_acceptance: ACCEPT
+p1_accepted: true

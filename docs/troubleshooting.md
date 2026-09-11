@@ -22,6 +22,49 @@ Reusable failure modes and their fixes for the HD-QKD_Polar_Comparison project.
 
 ## Known Issues
 
+### Phase 1 NB-Polar reference axis and empty-coordinate dtype
+
+**Observed**: A dense field matvec broadcasts on the wrong axis, or an empty
+coordinate list becomes float dtype and fails integer validation.
+
+**Root cause**: NumPy indexing needs the source vector as `vec[:, None]` for
+row-vector multiplication. `np.asarray([])` defaults to float dtype even when
+the intended domain is integer coordinates.
+
+**Fix**: Index the multiplication table with `vec[:, None]`; handle an empty
+one-dimensional coordinate collection before dtype rejection and return an
+explicit `int64` empty array.
+
+**Prevention**: Retain the GF4/GF32 fast-versus-dense tests and the empty
+selection test in `test_nbpolar_transform.py`.
+
+### Pytest absent from system Python but available in Miniforge
+
+**Observed**: `py -3.11 -m pytest` and `py -3.12 -m pytest` fail with
+`No module named pytest` even though a pytest validation is required.
+
+**Root cause**: Those system interpreters do not contain project test tools;
+pytest 9.0.3 is installed in the existing Miniforge environment.
+
+**Fix**: On this Windows host, set `PYTHONPATH` to the repository root and run
+`D:/software/Miniforge3/python.exe -m pytest`. A plain-Python test runner is a
+useful fallback, but it does not replace an available pytest collection check.
+
+**Prevention**: Probe the known interpreters before reporting pytest as absent
+from the machine.
+
+### No module named pytest/numpy (bare interpreter)
+
+**Observed**: `ModuleNotFoundError: No module named 'pytest'` (or `'numpy'`) when running a project command via bare `python -m ...` / `python3 -m ...`.
+
+**Root cause**: bare `python`/`python3` binds the system interpreter (`/usr/bin/python3`), which lacks the project dependencies; they live in the repo-local `.venv/`.
+
+**Fix**: use the project venv: `source .venv/bin/activate`, or run via `.venv/bin/python -m ...`.
+
+**Prevention**: never use bare `python`/`python3` for project commands. Validate once: `.venv/bin/python -c "import numpy,pytest"`.
+
+---
+
 ### Permission denied on pytest cache directories
 
 **Observed**: When globbing or grepping the repo, you get `拒绝访问 (os error 5)` on files under `pytest-cache-files-*` directories.
@@ -286,3 +329,25 @@ do not promote an uncommitted rewrite whose numbers cannot be recomputed from
 accepted evidence.
 
 ---
+## Text isolation tests must match architectural layers
+
+Symptom: a later package-level API export fails an earlier textual
+"forbidden import" test even though the forbidden dependency is absent from the
+earlier algorithm modules.
+
+Cause: one regex was applied both to algorithm files and package `__init__.py`,
+combining two different contracts. A new legitimate export then became
+impossible without violating one frozen requirement.
+
+Fix: split the sentinel by responsibility. Keep dependency bans on the modules
+whose algorithms must remain isolated; keep package-wide legacy/protocol bans
+separate; allow explicitly accepted exports at the package surface. Never evade
+the sentinel through alternate import spelling or lazy imports. Before freezing
+a new cross-phase ban, test it against the planned next public API surface.
+## NumPy advanced indexing can move the selected axis
+
+For `[U1,B,U2]`, `f3[u1,:,nz]` selects U2 and advanced indexing can move that
+axis ahead of B. To select supported Bob states, use `f3[u1,nz_b,:]`. Test with
+unequal dimensions or a sparse non-all-true Bob mask and compare every element
+to a loop oracle; square 32-valued axes can hide the error until a 1024-state
+table is used.

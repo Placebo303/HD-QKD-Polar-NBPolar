@@ -1,0 +1,12 @@
+cycle_id: NBPOLAR-PHASE0
+state: FREEZE_ACCEPT
+plan_accepted: true
+implementation_authorized: false
+development_execution_authorized: false
+formal_execution_authorized: false
+decoder_executed: false
+real_data_execution_authorized: false
+result_created: false
+scientific_promotion: false
+next_gate: PHASE4_P3_EXPLICIT_USER_AUTHORIZATION_REQUIRED
+scope: Phase 0-2 GF32 transform and q-ary SC tiny oracle only

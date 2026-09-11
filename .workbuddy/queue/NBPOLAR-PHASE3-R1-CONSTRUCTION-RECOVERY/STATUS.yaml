@@ -1,0 +1,17 @@
+task_id: NBPOLAR-PHASE3-R1-CONSTRUCTION-RECOVERY
+state: EVAL_ACCEPTED_DIAGNOSTIC
+terminal: PHASE3_R1_FRESH_SYNTHETIC_DIAGNOSTIC_ACCEPTED
+predecessor: NBPOLAR-PHASE3-SYNTHETIC-CONSTRUCTION_BLOCKED
+implementation_authorized: true
+train_dev_authorized: true
+eval_authorized_after_independent_freeze_review: true
+model_f_authorized: false
+real_data_authorized: false
+phase4_authorized: false
+scientific_promotion: false
+next_gate: PHASE4_P0_PACKET_AUTHORIZATION_DECISION
+eval_attempted: true
+eval_seed_consumed: 2026091213
+eval_rerun_authorized: false
+phase3_r1_accepted: true
+historical_blocked_snapshot: OPERATOR_RETURN_R1.md

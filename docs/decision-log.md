@@ -1,6 +1,6 @@
 # Decision Log
 
-Durable decisions and rejected alternatives for the HD-QKD_Polar_Comparison project.
+Durable decisions and rejected alternatives for the HD-QKD_Polar_Comparison-nbpolar project.
 
 ---
 
@@ -23,6 +23,113 @@ Durable decisions and rejected alternatives for the HD-QKD_Polar_Comparison proj
 ---
 
 ## Decisions
+
+## 2026-09-11 NB-Polar Phase 3 blocked; one-shot EVAL retained as diagnostic
+
+**Decision**: Record Phase 3 as `BLOCKED(PHASE3_GATE_INVALID)`. Retain the sole
+EVAL as diagnostic, do not rerun it, do not relax its gate, and do not enter
+Phase 4.
+
+**Context**: The implementation tests report 45/45 pass, but the first frozen
+construction gate fails: full-vector Spearman is 0.7665 below 0.90. The later
+e>0 subset value 0.9959 cannot replace the preregistered population. The
+required independent reviewer-go was unavailable and an operator self-check
+incorrectly authorized EVAL. The reconstructed invocation also omits the
+literal full 256-coordinate permutation. The resulting one-shot EVAL is
+preserved: 299/300 exact, 300/300 initial-error, one impossible disclosure at
+block 104.
+
+**Consequences**: The result suggests a small residual failure probability at
+q=32, N=256, epsilon=0.05, K=45, but does not prove N/K is the unique cause.
+Any Phase 3-R1 construction/gate revision requires a fresh packet and explicit
+authorization; EVAL seed 2026091203 remains consumed and may not be rerun.
+
+## 2026-09-11 NB-Polar Phase 2 reference SC and oracle accepted
+
+**Decision**: Accept the Phase 2 log-domain q-ary SC, explicit partial-sum
+recursion, known-coordinate semantics, and independent exhaustive oracle as
+`IMPLEMENTATION_ACCEPTED`.
+
+**Context**: reviewer-go independently reported 33/33 tests passing. Across
+221 production/oracle comparisons, maximum probability error was 3.331e-16,
+maximum finite log error 1.776e-15, with zero support mismatches. Noiseless
+loopback was 831/831 exact. The main-thread review closed five comments without
+rerunning the trusted suite; the only correction was a report count from “all
+32 betas” to four representative betas.
+
+**Consequences**: Phase 3 synthetic construction may be planned separately.
+This acceptance makes no construction, FER, Model-F, real-data, protocol,
+benchmark, qualification, or promotion claim.
+
+## 2026-09-11 NB-Polar Phase 1 transform implementation accepted
+
+**Decision**: Accept the Phase 1 GF4/GF32 adapter, natural-order transform,
+dense reference, and source-coordinate selection as
+`IMPLEMENTATION_ACCEPTED`. The independent pytest run collected and passed
+17/17 tests.
+
+**Context**: The execution-session candidate passed its plain-Python runner.
+The main thread additionally located pytest 9.0.3 in the installed Miniforge
+environment and reran the exact focused file: 17 passed in 2.06 seconds. Fast
+and dense paths are independent, natural order has explicit anti-bit-reversal
+cases, and frozen directories plus forbidden dependencies remain clean.
+
+**Consequences**: Phase 2 may receive a separate SC/oracle implementation
+packet. `N=1` without a dedicated test and acceptance of `alpha=0` are recorded
+Phase 1 limitations; the operative MVP remains fixed to primitive `alpha=2`.
+No decoder, Model-F, real-data, performance, result, or promotion claim follows.
+
+## 2026-09-11 venv-only docs fix + fence fix
+
+**Decision**: 冻结 venv-only Python 入口（`.venv/bin/python -m ...`），不改代码。
+
+**Context**: 裸 `python`/`python3` 缺 numpy/pytest 导致误报，需统一文档与示例。
+
+**Alternatives considered**:
+- 裸 python：已否决（系统 python 缺依赖）。
+
+**Consequences**: 示例统一 venv 前缀；§7 旧裸示例另开 follow-up。
+
+## 2026-09-11 NB-Polar Phase 0 document freeze accepted
+
+**Decision**: Accept `openspec/changes/nbpolar-phase0-freeze/` as
+`FREEZE_ACCEPT`. Phase 1 packet preparation is unlocked. The acceptance covers
+only document and pure-array alignment; implementation, decoder, Model-F,
+real-data, result, qualification, and promotion flags remain false.
+
+**Context**: A first review returned four blockers. After correction, the
+execution-session review returned `PASS with comments`; the main thread
+rechecked the current files, the D4R2 formula and result lines, three synthetic
+array checks, scoped path hits, and the isolation ban list. The durable verdict
+is `docs/research_cycles/NBPOLAR-PHASE0/FREEZE_REVIEW_VERDICT.md`.
+
+**Consequences**: Canonical docs now state the two-reference Phase 0 basis,
+relative path discipline, absolute tolerance semantics, and natural-log versus
+bit units. Phase 1 work must use a separate bounded packet and cannot open
+Phase 2 or any claim-bearing run.
+
+## 2026-09-11 NB-Polar independent worktree initialized
+
+**Decision**: This checkout is the sole NB-Polar planning and future
+implementation location. Its canonical documents are docs/nbpolar/ and
+OpenSpec change formal-ir-nbpolar-mvp. The inherited Comparison, Cascade,
+and Release checkouts remain separate reference projects.
+
+**Context**: The prior live APP-transfer draft coupled a proposed Polar
+upper layer to the unresolved NB-LDPC lower layer. The new plan separates
+GF arithmetic, symbol metrics, transform, construction, decoder, prior,
+protocol, and validation so a failure is attributable to one layer.
+
+**Frozen candidate**: GF32 polynomial basis, primitive polynomial 37,
+alpha=2 kernel F_alpha=[[1,0],[alpha,1]], natural index order, normalized
+float64 log-probabilities, source SC, static full-symbol disclosure, and one
+final universal tag. Model-F and Release assets enter only through explicit
+adapters. CRC, puncturing, shortening, SCL, and real-data execution are
+later gates.
+
+**Status**: PLAN_CANDIDATE / IMPLEMENTATION_NOT_AUTHORIZED /
+EXECUTE_NOT_AUTHORIZED. No decoder, result root, benchmark, leakage,
+security, qualification, promotion, or push is implied by this entry.
 ### 2026-08-24: Use GitHub as the ChatGPT/OpenCode research exchange surface
 
 **Decision**: Use repository-native, copy-pasteable handoffs rather than MCP.
@@ -3423,3 +3530,74 @@ these may not be merged or reordered.
 **Context**: The frozen matrix establishes no preregistered flooding or layered advantage; `43 vs 40` and the three layered-only pairs are reported, not promoted into a schedule-superiority claim; schedule choice is not supported as the dominant explanation of the current failures. D7-C's accepted bidirectional oracle dependence remains the stronger route evidence but does not prove that alternating/joint BP can bootstrap. No FER, leakage, key rate, qualification, promotion, general schedule equivalence or general NB-LDPC conclusion. Eight strata labels (no advantage stratum): `EXACT_TIE_LOW, MIXED_SCHEDULE_EFFECT, EXACT_TIE_LOW, EXACT_TIE_LOW, EXACT_TIE_LOW, EXACT_TIE_HIGH, EXACT_TIE_LOW, EXACT_TIE_HIGH`. Immutable root: seven files 3164/57659/17690/1777/1546/455/290 B, whole-file read twice identical; lifecycle authorize `7a3f0d92` → one invocation → revoke `eba385bb` → result `63a69f57`; verifier `VERIFY_OK {'ok': True, 'problems': [], 'records': 256, 'terminal': 'D7_D_SCHEDULE_EFFECT_INCONCLUSIVE'}`; outer wall 67.178 s, stored wall 65.945 s, max call 0.436 s, RSS 105304064 B. R1d becomes `PAUSED_OPTIONAL_LOCAL_CONFIRMATION_NOT_MAINLINE_GATE`; G1/G2 unauthorized; old D5/D6 checkboxes are historical accounting, not gates to dimension generalization.
 
 **Consequences**: `D7_D_SCHEDULE_EFFECT_INCONCLUSIVE` has no frozen automatic successor; this ruling selects Alternative A (explicit belief provenance plus fail-closed cross-layer consumers) as the next mainline action. `next_gate` → `BP_INTERFACE_PROVENANCE_IMPLEMENTATION`. No forced sweep (Alternative B), warm-start mechanism, alternating/joint decoder or scientific decoder run is authorized. Dimension/bw expansion waits for a working provenance-safe fixed-dimension mechanism and, for more than two layers, a separate mathematical/leakage contract. All authorizations stay false; D7-D/D7-C/D7-B roots immutable; no D7-E work; no push.
+## 2026-09-11 — Authorize NB-Polar Phase 3-R1 construction recovery
+
+The user authorized the new heavy autonomous execution packet at
+`.workbuddy/queue/NBPOLAR-PHASE3-R1-CONSTRUCTION-RECOVERY/`. The operator may
+implement and iterate on TRAIN/DEV, then perform one fresh synthetic EVAL only
+after a real independent reviewer-go PASS on the final frozen contract. The
+procedure-invalid predecessor remains diagnostic only; seed 2026091203 is not
+rerun or reused. Phase 4, Model-F, real data, promotion, commit, and push remain
+closed.
+## 2026-09-11 — Accept Phase 3-R1 as a bounded synthetic diagnostic
+
+After independent Pre-RESULT review, accept the single fresh O3 analytic
+synthetic EVAL at q32/N256, erasure eps=0.05, K45, seed 2026091213. It achieved
+299/300 exact with one impossible failure at block 219, 300/300 initial-error,
+and zero other/NaN failures. The result is `EVAL_ACCEPTED_DIAGNOSTIC`; it does
+not open Phase 4 or support unique-cause, general-performance, Model-F,
+real-data, leakage, key-rate, qualification, or promotion claims. The seed and
+output root are frozen against rerun or overwrite.
+## 2026-09-11 — Accept Phase 4-P0 prior contract; split P1 before CAL
+
+Accept `formal-ir-nbpolar-phase4-p0` after independent reviewer-go PASS WITH
+COMMENTS. The accepted contract uses per-Bob-column concentration smoothing,
+explicit `[Alice,Bob]` axes and 5+5 integer-label packing, dense SymbolMetric,
+six pure helpers, separated evidence streams and V-P0-01..12. To preserve
+failure attribution, Phase 4-P1 covers only the pure adapter and synthetic
+V-P0-01..07; CAL/DEV and decoder diagnostics move to a later separately
+authorized packet. No implementation or data execution is authorized here.
+## 2026-09-11 — Scope P3-T1-09 instead of hiding the Phase 4 prior export
+
+P3-T1-09 accidentally applied its `.prior` text ban to package `__init__.py`,
+while accepted Phase 4-P0 design §7 required that public export. Choose option
+(a): retain the `.prior` ban on `synthetic.py` and `construction.py`; retain all
+legacy/protocol/result bans on the original three-file set; permit the explicit
+Phase 4 API export from `__init__.py`. Reject import-spelling evasion and API
+relocation. After the change, the combined Phase 1-4-P1 suite passed 66/66 and
+independent focused review passed with comments. P1 advances only to
+`IMPLEMENTATION_CANDIDATE`; CAL/decoder/P2 remain closed.
+## 2026-09-11 — Accept Phase 4-P1 synthetic prior adapter
+
+Independent reviewer-go returned ACCEPT on the P1 candidate after option (a)
+resolved the P3 sentinel conflict. Promote P1 to
+`IMPLEMENTATION_ACCEPTED_SYNTHETIC_ONLY` on the paired 66/66 full focused and
+independent 11/11 decoder-free evidence. Acceptance covers the pure dense prior
+adapter and synthetic V-P0-01..07 only. It does not cover CAL, Model-F, SC with
+empirical priors, DEV/EVAL, FER, leakage, key rate, qualification or promotion.
+P2 remains all-false and requires separate authorization.
+## 2026-09-11 — Require copyable authorization text and isolate P2 before SC
+
+Every WorkBuddy task now carries TASK_PACKET, PROMPT, AUTHORIZATION_PROMPT and
+STATUS. At each authorization gate the main thread must paste the full grant in
+chat and continue through adjudication and next-packet preparation. Phase 4-P2
+is narrowed to one read-only validation of the accepted sibling CAL count
+artifact against the P1 prior adapter. Empirical-prior SC decoding moves to P3
+so artifact/schema/formula failures cannot be confused with decoder failures.
+## 2026-09-11 — Retain P2 attempt 1 BLOCKED; route to Bob-axis recovery
+
+P2's sole content attempt passed the accepted artifact loader and failed in a
+new diagnostic expression `f3[u1,:,nz]`, producing `(32,1024)` against Bob
+weights `(1024,1)`. Classify this as `BLOCKED(P2_DIAG_INDEX_ERROR)`, not an
+artifact, prior-formula or decoder result. Preserve attempt 1/1 and absent
+target. P2-R1 must use `f3[u1,nz_b,:]`, asymmetric shape tests and an
+independent loop oracle before a newly authorized single attempt. P3 closed.
+## 2026-09-12 — Accept P2-R1 CAL prior validation; keep SC separate
+
+Accept the reviewed P2-R1 result only as validation of the accepted CAL count
+artifact through the P1/P2 prior-table formulas, axes, support and entropy
+chain. Evidence: 88 tests, one consumed R1 read, formula error 0,
+normalization/oracle errors below 3e-14/7e-15 and chain discrepancy 8.88e-16.
+H1/H2/chain and CE are CAL-resubstitution descriptions, not held-out
+performance. Prepare P3 as a separate model-sampled P1-prior-to-SC interface
+qualification; no real data, reconciliation or performance claim.

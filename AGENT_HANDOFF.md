@@ -8,6 +8,19 @@ scientific result wrong, irreproducible, unauthorized, or destructive to
 existing data. See AGENTS.md §1.1 and
 `openspec/changes/research-code-engineering-policy/`.
 
+## 2026-09-11 NB-Polar worktree handoff boundary
+
+- This checkout owns the native NB-Polar plan and future implementation.
+  Start with docs/nbpolar/DOCUMENT_INDEX.md and the
+  NBPOLAR-PHASE0 review/packet documents.
+- D:/Code/HD-QKD_Polar_Comparison owns NB-LDPC history and decisions;
+  D:/Code/HD-QKD_Polar_Comparison-worktree-cascade-single owns binary
+  Cascade; D:/Code/HD-QKD_Polar_Release owns the frozen binary Polar
+  baseline. Do not merge their algorithm assumptions into this worktree.
+- Current state is PLAN_CANDIDATE / IMPLEMENTATION_NOT_AUTHORIZED /
+  EXECUTE_NOT_AUTHORIZED. No real-data run, result, qualification, or push
+  is implied.
+
 ## 2026-08-24 COLLABORATION SOP — GITHUB / CHATGPT / OPENCODE
 
 - Durable protocol: `docs/research-cycle-sop.md`.
@@ -125,8 +138,10 @@ existing data. See AGENTS.md §1.1 and
   conversion still fails, move to
   informed NB-MLC/JRDO, protograph/MET, one Block-MDS/QC candidate, or a
   rate-adaptive mother code rather than more QC/PEG seed tuning.
-- Do not delete/overwrite historical outputs, rerun V33, start finite-control,
-  implement NB-Polar, push, or claim qualification/promotion.
+- Do not delete/overwrite historical outputs, rerun V33, or start finite-control.
+- Do not modify inherited D5/D6 files for NB-Polar; native NB-Polar work is
+  authorized only through the new docs/nbpolar OpenSpec and phase gates.
+- Do not push or claim qualification/promotion from this plan-only state.
 
 ## 2026-08-21 V31 — CLOSED finite_graph_fail (archived)
 

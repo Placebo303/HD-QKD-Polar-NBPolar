@@ -1,0 +1,14 @@
+task_id: NBPOLAR-PHASE4-P0-PRIOR-CONTRACT-FREEZE
+state: FREEZE_ACCEPT
+predecessor: NBPOLAR-PHASE3-R1_CONSTRUCTION_RECOVERY_ACCEPTED_DIAGNOSTIC
+documentation_authorized: true
+implementation_authorized: false
+cal_read_authorized: false
+model_f_execution_authorized: false
+real_data_authorized: false
+decoder_execution_authorized: false
+phase4_p1_authorized: false
+scientific_promotion: false
+next_gate: PHASE4_P1_EXPLICIT_AUTHORIZATION_DECISION
+phase4_p0_accepted: true
+review_verdict: PASS_WITH_COMMENTS

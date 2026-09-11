@@ -1,9 +1,9 @@
 # OpenSpec Project Context
 
-## Project: HD-QKD_Polar_Comparison
+## Project: HD-QKD_Polar_Comparison-nbpolar
 
 ### Summary
-Evaluate and compare Information Reconciliation (IR) methods for high-dimensional Quantum Key Distribution (QKD). The original Polar pipeline is a frozen baseline; `comparison_bench/` adds a non-invasive comparison layer.
+Define and implement a native q-ary NB-Polar source-reconciliation track for high-dimensional QKD. The three sibling checkouts provide read-only algorithm history, protocol semantics, and accepted evidence; `comparison_bench/` is the implementation surface in this checkout.
 
 ### Strict First Principle
 
@@ -30,6 +30,8 @@ scientific attribution, execution authorization, or existing data.
 - **Frozen baseline**: `src/`, `experiments/`, `tools/` (original Polar pipeline — do not modify)
 - **Comparison layer**: `comparison_bench/` (outer wrapper, reads Polar outputs, adds new baselines)
 - **Data**: raw data external to repo; processed outputs under `results/` (read-only) and `comparison_bench/outputs_comparison/` (append-only)
+- **NB-Polar modules**: new `comparison_bench/src/comparison_bench/formal_ir/nbpolar/` and focused tests, created only after the Phase 0 review gate.
+- **Sibling references**: Comparison NB-LDPC and Release binary Polar code are read-only inputs for this project.
 
 ### Key Constraints
 - Original Polar code is frozen; only `comparison_bench/` is mutable
@@ -42,7 +44,14 @@ scientific attribution, execution authorization, or existing data.
 - Parquet output may fall back to pickle
 - Long-running commands must not be run casually
 
-### Roadmap (deliverable-organized; read-only review 2026-09-06)
+### NB-Polar roadmap (canonical)
+
+The active plan is the native GF32 q-ary Polar route in
+`docs/nbpolar/ROADMAP.md` and the serial coding order in
+`docs/nbpolar/CRITICAL_PATH.md`. It remains a plan candidate; no decoder,
+Model-F, real-data, qualification, or promotion execution is authorized.
+
+### Inherited Comparison roadmap (historical context; read-only)
 
 Organized by six deliverables (D1–D6), not by version number. No
 completion-percentage claim is made.
@@ -62,7 +71,7 @@ is to be developed in Release.
 - `n_IR`: symbols per IR block. D5 widths 64/256 are IR block lengths, not
   physical dimension; D5 progress does not complete a Release dimension scan.
 
-#### Current position (frozen facts, read-only)
+#### Current position of inherited Comparison roadmap (historical facts)
 - Sibling Release chain (BINARY POLAR MAINLINE; boundary per AGENTS.md §0 —
   no work advanced there from this repo): ttbin → channel/delay/pairing/
   framing → symbols → Polar correction → per-block verification and leakage
