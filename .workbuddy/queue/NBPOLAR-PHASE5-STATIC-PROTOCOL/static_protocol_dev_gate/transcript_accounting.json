@@ -1,0 +1,15 @@
+{
+  "event_count": 600,
+  "incremental": {
+    "key_dependent_bits": 86700,
+    "public_control_bits": 786900,
+    "verification_invocations": 300
+  },
+  "mismatch_count": 0,
+  "recount": {
+    "key_dependent_bits": 86700,
+    "public_control_bits": 786900,
+    "verification_invocations": 300
+  },
+  "transcript_sha256": "767418d2670fb1f7e36d71a23ab1afb4593ec6164aef62bce5d97f5b7903b048"
+}

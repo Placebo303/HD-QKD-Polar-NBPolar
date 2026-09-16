@@ -1,0 +1,137 @@
+{
+  "entry": "empirical_stageb_diagnostic",
+  "scope": "P3 Stage B: model-sampled accepted-CAL-prior P1 metric into the accepted q-ary SC decoder; interface qualification only",
+  "q": 32,
+  "seed": 2026091316,
+  "invocation": {
+    "mode": "stageb",
+    "npz_path": "/mnt/d/Code/HD-QKD_Polar_Comparison/workspace/v72p2d5_model_f_input/20260907_r1/model_f_input.npz",
+    "summary_path": "/mnt/d/Code/HD-QKD_Polar_Comparison/workspace/v72p2d5_model_f_input/20260907_r1/model_f_input_summary.json",
+    "out": ".workbuddy/queue/NBPOLAR-PHASE4-P3-EMPIRICAL-PRIOR-SC/empirical_prior_sc_diagnostic"
+  },
+  "artifact": {
+    "npz_path": "/mnt/d/Code/HD-QKD_Polar_Comparison/workspace/v72p2d5_model_f_input/20260907_r1/model_f_input.npz",
+    "npz_bytes": 208467,
+    "summary_path": "/mnt/d/Code/HD-QKD_Polar_Comparison/workspace/v72p2d5_model_f_input/20260907_r1/model_f_input_summary.json",
+    "summary_bytes": 752,
+    "loader": "prior_artifact.load_prior_artifact",
+    "lambda_star": 137.3823795883264,
+    "counts_ab_shape": [
+      1024,
+      1024
+    ],
+    "p_b_shape": [
+      1024
+    ],
+    "derived_p1_shape": [
+      32,
+      1024
+    ]
+  },
+  "attempt_accounting": {
+    "attempts_allowed": 1,
+    "consumed_at_write": 1,
+    "consumed_on": "first artifact content open"
+  },
+  "seeds": {
+    "stageb_diagnostic": 2026091316,
+    "unit_not_used": 2026091314,
+    "train_not_used": 2026091315,
+    "banned_predecessor_range": [
+      2026091200,
+      2026091201,
+      2026091202,
+      2026091203,
+      2026091204,
+      2026091205,
+      2026091206,
+      2026091207,
+      2026091208,
+      2026091209,
+      2026091210,
+      2026091211,
+      2026091212,
+      2026091213
+    ]
+  },
+  "derivation": "prior.smooth_joint_to_conditional(counts_ab, LAMBDA_STAR) -> prior.derive_p1; p_b = artifact.p_b; probs -> prior.probs_to_symbol_metric (q=32)",
+  "b1": {
+    "n": [
+      2,
+      4
+    ],
+    "blocks_per_n": 64,
+    "disclosure": "none",
+    "oracle": "empirical_oracle vectorized exhaustive backend",
+    "thresholds": {
+      "max_prob_err": 1e-12,
+      "max_log_err": 1e-09,
+      "support_mismatches": 0,
+      "numeric_failures": 0,
+      "truth_leak_violations": 0
+    }
+  },
+  "b2": {
+    "n": [
+      16,
+      64
+    ],
+    "masks": [
+      "M1_all_but_one",
+      "M2_prefix",
+      "M3_suffix",
+      "M4_alternating",
+      "M5_construction_order"
+    ],
+    "blocks_per_mask": 16
+  },
+  "b3": {
+    "n": 256,
+    "masks": [
+      "M1_all_but_one",
+      "M2_prefix",
+      "M3_suffix",
+      "M4_alternating",
+      "M5_construction_order"
+    ],
+    "blocks_per_mask": 8,
+    "total_blocks": 40,
+    "exhaustive_oracle": false,
+    "hard_gate": "zero crash/nonfinite/truth-leak only"
+  },
+  "b4": {
+    "n": [
+      64,
+      256,
+      1024
+    ],
+    "reps": 5,
+    "metric_batch_frames": 4,
+    "decode_disclosure_mask": "M5_construction_order first N//2"
+  },
+  "b5": {
+    "categories": [
+      "artifact_adapter_support",
+      "normalization",
+      "disclosure_contradiction",
+      "SC_numeric",
+      "SC_decision",
+      "expected_under_disclosure",
+      "unattributed"
+    ]
+  },
+  "budget": {
+    "total_s": 3600.0,
+    "per_case_soft_s": 120.0,
+    "rss_bytes_max": 2147483648
+  },
+  "out_files": [
+    "frozen_plan.json",
+    "oracle_records.json",
+    "stress_and_profile.json",
+    "diagnostic_summary.json",
+    "report.md"
+  ],
+  "wall_s": 17.64500926400069,
+  "no_claim_note": "Candidate-scope interface diagnostic only. No FER, leakage, key-rate, reconciliation, construction/K or performance claim."
+}

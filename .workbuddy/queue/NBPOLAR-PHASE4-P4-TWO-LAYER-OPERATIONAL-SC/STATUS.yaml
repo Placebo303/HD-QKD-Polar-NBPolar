@@ -1,0 +1,22 @@
+task_id: NBPOLAR-PHASE4-P4-TWO-LAYER-OPERATIONAL-SC
+state: TWO_LAYER_OPERATIONAL_SC_INTERFACE_ACCEPTED
+predecessor: TWO_LAYER_RATE_FEASIBILITY_ACCEPTED
+result: TWO_LAYER_OPERATIONAL_SC_INTERFACE_ACCEPTED
+documentation_authorized: true
+implementation_authorized: true
+synthetic_exploration_authorized: true
+decoder_execution_authorized: true
+development_gate_authorized: true
+artifact_read_authorized: false
+raw_data_authorized: false
+real_data_authorized: false
+empirical_construction_authorized: false
+scalable_decoder_authorized: false
+scl_authorized: false
+phase7_authorized: false
+scientific_promotion: false
+independent_pre_execute: PASS (PRE_EXECUTE_REVIEW.md)
+independent_pre_result: PASS_WITH_COMMENTS (PRE_RESULT_REVIEW.md)
+attempts_allowed: 1
+attempts_used: 1
+next_gate: EXPLORATORY_PROBE_TIER

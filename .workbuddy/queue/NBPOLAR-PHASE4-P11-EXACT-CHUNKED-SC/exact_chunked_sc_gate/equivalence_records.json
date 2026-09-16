@@ -1,0 +1,977 @@
+{
+ "primitive_cells": [
+  {
+   "rows": 1,
+   "kind": "moderate_m20",
+   "exact_equal": true,
+   "max_finite_abs_err": 0.0,
+   "support_equal": true,
+   "support_mismatch_rows": 0
+  },
+  {
+   "rows": 1,
+   "kind": "wide_m160",
+   "exact_equal": true,
+   "max_finite_abs_err": 0.0,
+   "support_equal": true,
+   "support_mismatch_rows": 0
+  },
+  {
+   "rows": 1,
+   "kind": "neginf_support",
+   "exact_equal": true,
+   "max_finite_abs_err": 0.0,
+   "support_equal": true,
+   "support_mismatch_rows": 0
+  },
+  {
+   "rows": 31,
+   "kind": "moderate_m20",
+   "exact_equal": true,
+   "max_finite_abs_err": 0.0,
+   "support_equal": true,
+   "support_mismatch_rows": 0
+  },
+  {
+   "rows": 31,
+   "kind": "wide_m160",
+   "exact_equal": true,
+   "max_finite_abs_err": 0.0,
+   "support_equal": true,
+   "support_mismatch_rows": 0
+  },
+  {
+   "rows": 31,
+   "kind": "neginf_support",
+   "exact_equal": true,
+   "max_finite_abs_err": 0.0,
+   "support_equal": true,
+   "support_mismatch_rows": 0
+  },
+  {
+   "rows": 32,
+   "kind": "moderate_m20",
+   "exact_equal": true,
+   "max_finite_abs_err": 0.0,
+   "support_equal": true,
+   "support_mismatch_rows": 0
+  },
+  {
+   "rows": 32,
+   "kind": "wide_m160",
+   "exact_equal": true,
+   "max_finite_abs_err": 0.0,
+   "support_equal": true,
+   "support_mismatch_rows": 0
+  },
+  {
+   "rows": 32,
+   "kind": "neginf_support",
+   "exact_equal": true,
+   "max_finite_abs_err": 0.0,
+   "support_equal": true,
+   "support_mismatch_rows": 0
+  },
+  {
+   "rows": 33,
+   "kind": "moderate_m20",
+   "exact_equal": true,
+   "max_finite_abs_err": 0.0,
+   "support_equal": true,
+   "support_mismatch_rows": 0
+  },
+  {
+   "rows": 33,
+   "kind": "wide_m160",
+   "exact_equal": true,
+   "max_finite_abs_err": 0.0,
+   "support_equal": true,
+   "support_mismatch_rows": 0
+  },
+  {
+   "rows": 33,
+   "kind": "neginf_support",
+   "exact_equal": true,
+   "max_finite_abs_err": 0.0,
+   "support_equal": true,
+   "support_mismatch_rows": 0
+  },
+  {
+   "rows": 127,
+   "kind": "moderate_m20",
+   "exact_equal": true,
+   "max_finite_abs_err": 0.0,
+   "support_equal": true,
+   "support_mismatch_rows": 0
+  },
+  {
+   "rows": 127,
+   "kind": "wide_m160",
+   "exact_equal": true,
+   "max_finite_abs_err": 0.0,
+   "support_equal": true,
+   "support_mismatch_rows": 0
+  },
+  {
+   "rows": 127,
+   "kind": "neginf_support",
+   "exact_equal": true,
+   "max_finite_abs_err": 0.0,
+   "support_equal": true,
+   "support_mismatch_rows": 0
+  },
+  {
+   "rows": 128,
+   "kind": "moderate_m20",
+   "exact_equal": true,
+   "max_finite_abs_err": 0.0,
+   "support_equal": true,
+   "support_mismatch_rows": 0
+  },
+  {
+   "rows": 128,
+   "kind": "wide_m160",
+   "exact_equal": true,
+   "max_finite_abs_err": 0.0,
+   "support_equal": true,
+   "support_mismatch_rows": 0
+  },
+  {
+   "rows": 128,
+   "kind": "neginf_support",
+   "exact_equal": true,
+   "max_finite_abs_err": 0.0,
+   "support_equal": true,
+   "support_mismatch_rows": 0
+  },
+  {
+   "rows": 129,
+   "kind": "moderate_m20",
+   "exact_equal": true,
+   "max_finite_abs_err": 0.0,
+   "support_equal": true,
+   "support_mismatch_rows": 0
+  },
+  {
+   "rows": 129,
+   "kind": "wide_m160",
+   "exact_equal": true,
+   "max_finite_abs_err": 0.0,
+   "support_equal": true,
+   "support_mismatch_rows": 0
+  },
+  {
+   "rows": 129,
+   "kind": "neginf_support",
+   "exact_equal": true,
+   "max_finite_abs_err": 0.0,
+   "support_equal": true,
+   "support_mismatch_rows": 0
+  },
+  {
+   "rows": 511,
+   "kind": "moderate_m20",
+   "exact_equal": true,
+   "max_finite_abs_err": 0.0,
+   "support_equal": true,
+   "support_mismatch_rows": 0
+  },
+  {
+   "rows": 511,
+   "kind": "wide_m160",
+   "exact_equal": true,
+   "max_finite_abs_err": 0.0,
+   "support_equal": true,
+   "support_mismatch_rows": 0
+  },
+  {
+   "rows": 511,
+   "kind": "neginf_support",
+   "exact_equal": true,
+   "max_finite_abs_err": 0.0,
+   "support_equal": true,
+   "support_mismatch_rows": 0
+  },
+  {
+   "rows": 512,
+   "kind": "moderate_m20",
+   "exact_equal": true,
+   "max_finite_abs_err": 0.0,
+   "support_equal": true,
+   "support_mismatch_rows": 0
+  },
+  {
+   "rows": 512,
+   "kind": "wide_m160",
+   "exact_equal": true,
+   "max_finite_abs_err": 0.0,
+   "support_equal": true,
+   "support_mismatch_rows": 0
+  },
+  {
+   "rows": 512,
+   "kind": "neginf_support",
+   "exact_equal": true,
+   "max_finite_abs_err": 0.0,
+   "support_equal": true,
+   "support_mismatch_rows": 0
+  },
+  {
+   "rows": 513,
+   "kind": "moderate_m20",
+   "exact_equal": true,
+   "max_finite_abs_err": 0.0,
+   "support_equal": true,
+   "support_mismatch_rows": 0
+  },
+  {
+   "rows": 513,
+   "kind": "wide_m160",
+   "exact_equal": true,
+   "max_finite_abs_err": 0.0,
+   "support_equal": true,
+   "support_mismatch_rows": 0
+  },
+  {
+   "rows": 513,
+   "kind": "neginf_support",
+   "exact_equal": true,
+   "max_finite_abs_err": 0.0,
+   "support_equal": true,
+   "support_mismatch_rows": 0
+  },
+  {
+   "rows": 2048,
+   "kind": "moderate_m20",
+   "exact_equal": true,
+   "max_finite_abs_err": 0.0,
+   "support_equal": true,
+   "support_mismatch_rows": 0
+  },
+  {
+   "rows": 2048,
+   "kind": "wide_m160",
+   "exact_equal": true,
+   "max_finite_abs_err": 0.0,
+   "support_equal": true,
+   "support_mismatch_rows": 0
+  },
+  {
+   "rows": 2048,
+   "kind": "neginf_support",
+   "exact_equal": true,
+   "max_finite_abs_err": 0.0,
+   "support_equal": true,
+   "support_mismatch_rows": 0
+  }
+ ],
+ "primitive_totals": {
+  "cells": 33,
+  "all_exact": true
+ },
+ "validation_contract": [
+  {
+   "name": "nan_entry",
+   "baseline": {
+    "raised": true,
+    "exc_type": "ValueError",
+    "message": "metric contract: logp_x must not contain NaN"
+   },
+   "chunked": {
+    "raised": true,
+    "exc_type": "ValueError",
+    "message": "metric contract: logp_x must not contain NaN"
+   },
+   "parity": true
+  },
+  {
+   "name": "posinf_entry",
+   "baseline": {
+    "raised": true,
+    "exc_type": "ValueError",
+    "message": "metric contract: logp_x must not contain positive infinity"
+   },
+   "chunked": {
+    "raised": true,
+    "exc_type": "ValueError",
+    "message": "metric contract: logp_x must not contain positive infinity"
+   },
+   "parity": true
+  },
+  {
+   "name": "all_neginf_row",
+   "baseline": {
+    "raised": true,
+    "exc_type": "ValueError",
+    "message": "metric contract: every logp_x row needs finite support"
+   },
+   "chunked": {
+    "raised": true,
+    "exc_type": "ValueError",
+    "message": "metric contract: every logp_x row needs finite support"
+   },
+   "parity": true
+  },
+  {
+   "name": "width_mismatch",
+   "baseline": {
+    "raised": true,
+    "exc_type": "ValueError",
+    "message": "field/shape contract: logp_x width 33 != field q 32"
+   },
+   "chunked": {
+    "raised": true,
+    "exc_type": "ValueError",
+    "message": "field/shape contract: logp_x width 33 != field q 32"
+   },
+   "parity": true
+  },
+  {
+   "name": "non_power_of_two_N",
+   "baseline": {
+    "raised": true,
+    "exc_type": "ValueError",
+    "message": "field/shape contract: block length N=48 is not a positive power of two"
+   },
+   "chunked": {
+    "raised": true,
+    "exc_type": "ValueError",
+    "message": "field/shape contract: block length N=48 is not a positive power of two"
+   },
+   "parity": true
+  },
+  {
+   "name": "rank1_input",
+   "baseline": {
+    "raised": true,
+    "exc_type": "ValueError",
+    "message": "metric contract: logp_x must have shape (N, q), got shape (32,)"
+   },
+   "chunked": {
+    "raised": true,
+    "exc_type": "ValueError",
+    "message": "metric contract: logp_x must have shape (N, q), got shape (32,)"
+   },
+   "parity": true
+  },
+  {
+   "name": "boolean_input",
+   "baseline": {
+    "raised": true,
+    "exc_type": "TypeError",
+    "message": "metric contract: logp_x must hold float log-scores, got boolean input"
+   },
+   "chunked": {
+    "raised": true,
+    "exc_type": "TypeError",
+    "message": "metric contract: logp_x must hold float log-scores, got boolean input"
+   },
+   "parity": true
+  },
+  {
+   "name": "positions_out_of_range",
+   "baseline": {
+    "raised": true,
+    "exc_type": "ValueError",
+    "message": "known-coordinate contract: positions must lie in 0..7"
+   },
+   "chunked": {
+    "raised": true,
+    "exc_type": "ValueError",
+    "message": "known-coordinate contract: positions must lie in 0..7"
+   },
+   "parity": true
+  },
+  {
+   "name": "positions_repeat",
+   "baseline": {
+    "raised": true,
+    "exc_type": "ValueError",
+    "message": "known-coordinate contract: positions must not repeat"
+   },
+   "chunked": {
+    "raised": true,
+    "exc_type": "ValueError",
+    "message": "known-coordinate contract: positions must not repeat"
+   },
+   "parity": true
+  },
+  {
+   "name": "positions_values_length",
+   "baseline": {
+    "raised": true,
+    "exc_type": "ValueError",
+    "message": "known-coordinate contract: positions and values lengths differ"
+   },
+   "chunked": {
+    "raised": true,
+    "exc_type": "ValueError",
+    "message": "known-coordinate contract: positions and values lengths differ"
+   },
+   "parity": true
+  },
+  {
+   "name": "positions_none_values_given",
+   "baseline": {
+    "raised": true,
+    "exc_type": "ValueError",
+    "message": "known-coordinate contract: positions and values must be given together"
+   },
+   "chunked": {
+    "raised": true,
+    "exc_type": "ValueError",
+    "message": "known-coordinate contract: positions and values must be given together"
+   },
+   "parity": true
+  },
+  {
+   "name": "positions_given_values_none",
+   "baseline": {
+    "raised": true,
+    "exc_type": "ValueError",
+    "message": "known-coordinate contract: positions and values must be given together"
+   },
+   "chunked": {
+    "raised": true,
+    "exc_type": "ValueError",
+    "message": "known-coordinate contract: positions and values must be given together"
+   },
+   "parity": true
+  },
+  {
+   "name": "float_positions",
+   "baseline": {
+    "raised": true,
+    "exc_type": "TypeError",
+    "message": "known-coordinate contract: positions must hold integers"
+   },
+   "chunked": {
+    "raised": true,
+    "exc_type": "TypeError",
+    "message": "known-coordinate contract: positions must hold integers"
+   },
+   "parity": true
+  },
+  {
+   "name": "boolean_positions",
+   "baseline": {
+    "raised": true,
+    "exc_type": "TypeError",
+    "message": "known-coordinate contract: positions must hold integers, got boolean input"
+   },
+   "chunked": {
+    "raised": true,
+    "exc_type": "TypeError",
+    "message": "known-coordinate contract: positions must hold integers, got boolean input"
+   },
+   "parity": true
+  },
+  {
+   "name": "value_out_of_range",
+   "baseline": {
+    "raised": true,
+    "exc_type": "ValueError",
+    "message": "known-coordinate contract: known_values symbols must lie in 0..31"
+   },
+   "chunked": {
+    "raised": true,
+    "exc_type": "ValueError",
+    "message": "known-coordinate contract: known_values symbols must lie in 0..31"
+   },
+   "parity": true
+  },
+  {
+   "name": "negative_position",
+   "baseline": {
+    "raised": true,
+    "exc_type": "ValueError",
+    "message": "known-coordinate contract: positions must lie in 0..7"
+   },
+   "chunked": {
+    "raised": true,
+    "exc_type": "ValueError",
+    "message": "known-coordinate contract: positions must lie in 0..7"
+   },
+   "parity": true
+  }
+ ],
+ "validation_totals": {
+  "cases": 16,
+  "all_parity": true
+ },
+ "full_sc": {
+  "64": {
+   "N": 64,
+   "controls": {
+    "F1_moderate": {
+     "control": "F1_moderate",
+     "direct": {
+      "raised": false,
+      "status": "ok"
+     },
+     "comparison": {
+      "status_equal": true,
+      "status": "ok",
+      "u_hat_exact": true,
+      "u_hat_mismatches": 0,
+      "x_hat_exact": true,
+      "x_hat_mismatches": 0,
+      "metrics_exact": true,
+      "max_finite_metric_abs_err": 0.0,
+      "metrics_support_equal": true,
+      "metrics_argmax_mismatches": 0,
+      "scores_exact": true,
+      "max_finite_score_abs_err": 0.0,
+      "known_mask_exact": true,
+      "known_count_equal": true,
+      "provenance_equal": true
+     },
+     "parity": true
+    },
+    "F2_wide": {
+     "control": "F2_wide",
+     "direct": {
+      "raised": false,
+      "status": "ok"
+     },
+     "comparison": {
+      "status_equal": true,
+      "status": "ok",
+      "u_hat_exact": true,
+      "u_hat_mismatches": 0,
+      "x_hat_exact": true,
+      "x_hat_mismatches": 0,
+      "metrics_exact": true,
+      "max_finite_metric_abs_err": 0.0,
+      "metrics_support_equal": true,
+      "metrics_argmax_mismatches": 0,
+      "scores_exact": true,
+      "max_finite_score_abs_err": 0.0,
+      "known_mask_exact": true,
+      "known_count_equal": true,
+      "provenance_equal": true
+     },
+     "parity": true
+    },
+    "F3_neginf_jmod5_evenoff": {
+     "control": "F3_neginf_jmod5_evenoff",
+     "direct": {
+      "raised": false,
+      "status": "ok"
+     },
+     "comparison": {
+      "status_equal": true,
+      "status": "ok",
+      "u_hat_exact": true,
+      "u_hat_mismatches": 0,
+      "x_hat_exact": true,
+      "x_hat_mismatches": 0,
+      "metrics_exact": true,
+      "max_finite_metric_abs_err": 0.0,
+      "metrics_support_equal": true,
+      "metrics_argmax_mismatches": 0,
+      "scores_exact": true,
+      "max_finite_score_abs_err": 0.0,
+      "known_mask_exact": true,
+      "known_count_equal": true,
+      "provenance_equal": true
+     },
+     "parity": true
+    },
+    "K4_known25pct_positive_support": {
+     "control": "K4_known25pct_positive_support",
+     "direct": {
+      "raised": false,
+      "status": "ok"
+     },
+     "comparison": {
+      "status_equal": true,
+      "status": "ok",
+      "u_hat_exact": true,
+      "u_hat_mismatches": 0,
+      "x_hat_exact": true,
+      "x_hat_mismatches": 0,
+      "metrics_exact": true,
+      "max_finite_metric_abs_err": 0.0,
+      "metrics_support_equal": true,
+      "metrics_argmax_mismatches": 0,
+      "scores_exact": true,
+      "max_finite_score_abs_err": 0.0,
+      "known_mask_exact": true,
+      "known_count_equal": true,
+      "provenance_equal": true
+     },
+     "parity": true
+    },
+    "C3_x11_pattern_positive_support": {
+     "control": "C3_x11_pattern_positive_support",
+     "direct": {
+      "raised": false,
+      "status": "ok"
+     },
+     "comparison": {
+      "status_equal": true,
+      "status": "ok",
+      "u_hat_exact": true,
+      "u_hat_mismatches": 0,
+      "x_hat_exact": true,
+      "x_hat_mismatches": 0,
+      "metrics_exact": true,
+      "max_finite_metric_abs_err": 0.0,
+      "metrics_support_equal": true,
+      "metrics_argmax_mismatches": 0,
+      "scores_exact": true,
+      "max_finite_score_abs_err": 0.0,
+      "known_mask_exact": true,
+      "known_count_equal": true,
+      "provenance_equal": true
+     },
+     "parity": true
+    },
+    "C4_impossible_disclosed_value": {
+     "control": "C4_impossible_disclosed_value",
+     "search_index_t": 0,
+     "k": 16,
+     "search_attempts": 1,
+     "exception_type": "ImpossibleDisclosedValueError",
+     "direct_message": "impossible disclosed value: U[3]=2 has exact-zero support",
+     "chunked": {
+      "raised": true,
+      "exc_type": "ImpossibleDisclosedValueError",
+      "message": "impossible disclosed value: U[3]=2 has exact-zero support"
+     },
+     "parity": true
+    },
+    "T5_ties": {
+     "exact_tie": {
+      "control": "T5_exact_tie",
+      "direct": {
+       "raised": false,
+       "status": "ok"
+      },
+      "comparison": {
+       "status_equal": true,
+       "status": "ok",
+       "u_hat_exact": true,
+       "u_hat_mismatches": 0,
+       "x_hat_exact": true,
+       "x_hat_mismatches": 0,
+       "metrics_exact": true,
+       "max_finite_metric_abs_err": 0.0,
+       "metrics_support_equal": true,
+       "metrics_argmax_mismatches": 0,
+       "scores_exact": true,
+       "max_finite_score_abs_err": 0.0,
+       "known_mask_exact": true,
+       "known_count_equal": true,
+       "provenance_equal": true
+      },
+      "parity": true
+     },
+     "ramp": {
+      "control": "T5_ramp",
+      "direct": {
+       "raised": false,
+       "status": "ok"
+      },
+      "comparison": {
+       "status_equal": true,
+       "status": "ok",
+       "u_hat_exact": true,
+       "u_hat_mismatches": 0,
+       "x_hat_exact": true,
+       "x_hat_mismatches": 0,
+       "metrics_exact": true,
+       "max_finite_metric_abs_err": 0.0,
+       "metrics_support_equal": true,
+       "metrics_argmax_mismatches": 0,
+       "scores_exact": true,
+       "max_finite_score_abs_err": 0.0,
+       "known_mask_exact": true,
+       "known_count_equal": true,
+       "provenance_equal": true
+      },
+      "parity": true
+     },
+     "near_tie": {
+      "control": "T5_near_tie",
+      "direct": {
+       "raised": false,
+       "status": "ok"
+      },
+      "comparison": {
+       "status_equal": true,
+       "status": "ok",
+       "u_hat_exact": true,
+       "u_hat_mismatches": 0,
+       "x_hat_exact": true,
+       "x_hat_mismatches": 0,
+       "metrics_exact": true,
+       "max_finite_metric_abs_err": 0.0,
+       "metrics_support_equal": true,
+       "metrics_argmax_mismatches": 0,
+       "scores_exact": true,
+       "max_finite_score_abs_err": 0.0,
+       "known_mask_exact": true,
+       "known_count_equal": true,
+       "provenance_equal": true
+      },
+      "parity": true
+     }
+    }
+   }
+  },
+  "256": {
+   "N": 256,
+   "controls": {
+    "F1_moderate": {
+     "control": "F1_moderate",
+     "direct": {
+      "raised": false,
+      "status": "ok"
+     },
+     "comparison": {
+      "status_equal": true,
+      "status": "ok",
+      "u_hat_exact": true,
+      "u_hat_mismatches": 0,
+      "x_hat_exact": true,
+      "x_hat_mismatches": 0,
+      "metrics_exact": true,
+      "max_finite_metric_abs_err": 0.0,
+      "metrics_support_equal": true,
+      "metrics_argmax_mismatches": 0,
+      "scores_exact": true,
+      "max_finite_score_abs_err": 0.0,
+      "known_mask_exact": true,
+      "known_count_equal": true,
+      "provenance_equal": true
+     },
+     "parity": true
+    },
+    "F2_wide": {
+     "control": "F2_wide",
+     "direct": {
+      "raised": false,
+      "status": "ok"
+     },
+     "comparison": {
+      "status_equal": true,
+      "status": "ok",
+      "u_hat_exact": true,
+      "u_hat_mismatches": 0,
+      "x_hat_exact": true,
+      "x_hat_mismatches": 0,
+      "metrics_exact": true,
+      "max_finite_metric_abs_err": 0.0,
+      "metrics_support_equal": true,
+      "metrics_argmax_mismatches": 0,
+      "scores_exact": true,
+      "max_finite_score_abs_err": 0.0,
+      "known_mask_exact": true,
+      "known_count_equal": true,
+      "provenance_equal": true
+     },
+     "parity": true
+    },
+    "F3_neginf_jmod5_evenoff": {
+     "control": "F3_neginf_jmod5_evenoff",
+     "direct": {
+      "raised": false,
+      "status": "ok"
+     },
+     "comparison": {
+      "status_equal": true,
+      "status": "ok",
+      "u_hat_exact": true,
+      "u_hat_mismatches": 0,
+      "x_hat_exact": true,
+      "x_hat_mismatches": 0,
+      "metrics_exact": true,
+      "max_finite_metric_abs_err": 0.0,
+      "metrics_support_equal": true,
+      "metrics_argmax_mismatches": 0,
+      "scores_exact": true,
+      "max_finite_score_abs_err": 0.0,
+      "known_mask_exact": true,
+      "known_count_equal": true,
+      "provenance_equal": true
+     },
+     "parity": true
+    },
+    "K4_known25pct_positive_support": {
+     "control": "K4_known25pct_positive_support",
+     "direct": {
+      "raised": false,
+      "status": "ok"
+     },
+     "comparison": {
+      "status_equal": true,
+      "status": "ok",
+      "u_hat_exact": true,
+      "u_hat_mismatches": 0,
+      "x_hat_exact": true,
+      "x_hat_mismatches": 0,
+      "metrics_exact": true,
+      "max_finite_metric_abs_err": 0.0,
+      "metrics_support_equal": true,
+      "metrics_argmax_mismatches": 0,
+      "scores_exact": true,
+      "max_finite_score_abs_err": 0.0,
+      "known_mask_exact": true,
+      "known_count_equal": true,
+      "provenance_equal": true
+     },
+     "parity": true
+    },
+    "C3_x11_pattern_positive_support": {
+     "control": "C3_x11_pattern_positive_support",
+     "direct": {
+      "raised": false,
+      "status": "ok"
+     },
+     "comparison": {
+      "status_equal": true,
+      "status": "ok",
+      "u_hat_exact": true,
+      "u_hat_mismatches": 0,
+      "x_hat_exact": true,
+      "x_hat_mismatches": 0,
+      "metrics_exact": true,
+      "max_finite_metric_abs_err": 0.0,
+      "metrics_support_equal": true,
+      "metrics_argmax_mismatches": 0,
+      "scores_exact": true,
+      "max_finite_score_abs_err": 0.0,
+      "known_mask_exact": true,
+      "known_count_equal": true,
+      "provenance_equal": true
+     },
+     "parity": true
+    },
+    "C4_impossible_disclosed_value": {
+     "control": "C4_impossible_disclosed_value",
+     "search_index_t": 0,
+     "k": 16,
+     "search_attempts": 1,
+     "exception_type": "ImpossibleDisclosedValueError",
+     "direct_message": "impossible disclosed value: U[3]=12 has exact-zero support",
+     "chunked": {
+      "raised": true,
+      "exc_type": "ImpossibleDisclosedValueError",
+      "message": "impossible disclosed value: U[3]=12 has exact-zero support"
+     },
+     "parity": true
+    },
+    "T5_ties": {
+     "exact_tie": {
+      "control": "T5_exact_tie",
+      "direct": {
+       "raised": false,
+       "status": "ok"
+      },
+      "comparison": {
+       "status_equal": true,
+       "status": "ok",
+       "u_hat_exact": true,
+       "u_hat_mismatches": 0,
+       "x_hat_exact": true,
+       "x_hat_mismatches": 0,
+       "metrics_exact": true,
+       "max_finite_metric_abs_err": 0.0,
+       "metrics_support_equal": true,
+       "metrics_argmax_mismatches": 0,
+       "scores_exact": true,
+       "max_finite_score_abs_err": 0.0,
+       "known_mask_exact": true,
+       "known_count_equal": true,
+       "provenance_equal": true
+      },
+      "parity": true
+     },
+     "ramp": {
+      "control": "T5_ramp",
+      "direct": {
+       "raised": false,
+       "status": "ok"
+      },
+      "comparison": {
+       "status_equal": true,
+       "status": "ok",
+       "u_hat_exact": true,
+       "u_hat_mismatches": 0,
+       "x_hat_exact": true,
+       "x_hat_mismatches": 0,
+       "metrics_exact": true,
+       "max_finite_metric_abs_err": 0.0,
+       "metrics_support_equal": true,
+       "metrics_argmax_mismatches": 0,
+       "scores_exact": true,
+       "max_finite_score_abs_err": 0.0,
+       "known_mask_exact": true,
+       "known_count_equal": true,
+       "provenance_equal": true
+      },
+      "parity": true
+     },
+     "near_tie": {
+      "control": "T5_near_tie",
+      "direct": {
+       "raised": false,
+       "status": "ok"
+      },
+      "comparison": {
+       "status_equal": true,
+       "status": "ok",
+       "u_hat_exact": true,
+       "u_hat_mismatches": 0,
+       "x_hat_exact": true,
+       "x_hat_mismatches": 0,
+       "metrics_exact": true,
+       "max_finite_metric_abs_err": 0.0,
+       "metrics_support_equal": true,
+       "metrics_argmax_mismatches": 0,
+       "scores_exact": true,
+       "max_finite_score_abs_err": 0.0,
+       "known_mask_exact": true,
+       "known_count_equal": true,
+       "provenance_equal": true
+      },
+      "parity": true
+     }
+    }
+   }
+  }
+ },
+ "paired_n65536": {
+  "N": 65536,
+  "arm_order": "direct_before_chunked",
+  "comparison": {
+   "status_equal": true,
+   "status": "ok",
+   "u_hat_exact": true,
+   "u_hat_mismatches": 0,
+   "x_hat_exact": true,
+   "x_hat_mismatches": 0,
+   "metrics_exact": true,
+   "max_finite_metric_abs_err": 0.0,
+   "metrics_support_equal": true,
+   "metrics_argmax_mismatches": 0,
+   "scores_exact": true,
+   "max_finite_score_abs_err": 0.0,
+   "known_mask_exact": true,
+   "known_count_equal": true,
+   "provenance_equal": true
+  },
+  "parity": true,
+  "wall_s": {
+   "direct": 15.683720048000396,
+   "chunked": 14.584007425000891
+  },
+  "rss_after": {
+   "ru_maxrss_bytes": 710504448,
+   "vmhwm_bytes": 710504448,
+   "peak_bytes": 710504448
+  }
+ }
+}

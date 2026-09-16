@@ -67,9 +67,10 @@ Q_LOW_PROD = 32
 N_LABELS_PROD = 1024
 
 # Frozen synthetic seeds: selected before sampling, disjoint from every
-# predecessor stream. Phase 3 seeds 2026091200..1213 and all earlier
-# official seeds (1200..1203 unit/train/dev/eval, 20260911 sc-oracle,
-# 20260930 prior-adapter) are banned and refused by make_rng.
+# predecessor stream. The Phase 3 range 2026091200..1213 (which contains the
+# earlier 2026091200..1203 unit/train/dev/eval streams) is refused by
+# make_rng; the earlier official seeds 20260911 (SC-oracle) and 20260930
+# (prior-adapter) are packet-banned and must never be used (not runtime-refused).
 P3_UNIT_SEED = 2026091314
 P3_TRAIN_SEED = 2026091315
 P3_DIAG_SEED = 2026091316

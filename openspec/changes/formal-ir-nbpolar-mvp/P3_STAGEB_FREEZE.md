@@ -1,3 +1,24 @@
+> **SUPERSEDED / STALE DRAFT — do not execute.**
+>
+> This draft is retained for history only. Authoritative P3 Stage B freeze:
+> `.workbuddy/queue/NBPOLAR-PHASE4-P3-EMPIRICAL-PRIOR-SC/P3_STAGEB_FREEZE.md` (v2).
+>
+> Known defects of the text below:
+>
+> 1. Its frozen runner flags `--case/--mask` do not exist. The frozen runner is
+>    `empirical_diagnostic --mode stageb --npz ... --summary ... --seed ... --out ...`
+>    (five cases B1-B5 run internally, no `--case`/`--mask` arguments).
+> 2. Its target layout contradicts TASK_PACKET §Output: five per-case compact
+>    JSONs plus `workspace/p3-stageb/ATTEMPT_COUNTER.txt` instead of one absent
+>    root containing exactly five files (`frozen_plan.json`,
+>    `oracle_records.json`, `stress_and_profile.json`,
+>    `diagnostic_summary.json`, `report.md`).
+> 3. `MASTER_SEED = 20260911` is an earlier official seed and is not the P3
+>    Stage B seed; the frozen Stage B diagnostic seed is `2026091316`
+>    (2026091314/2026091315 remain unit/TRAIN and are not used in Stage B).
+>
+> Original stale draft text follows.
+
 # P3 Stage B Freeze — seed / mask / commands / targets (NOT EXECUTED, attempt 0)
 
 - Scope: P3 Stage B only. No P5. No construction / K / disclosure / rate changes (inherited, untouched here).

@@ -1,0 +1,15 @@
+task_id: NBPOLAR-PHASE4-P19-HOLDOUT-BACKOFF-DIAGNOSTIC
+state: IMPLEMENTATION_COMPLETE_PENDING_PRE_EXECUTE
+tier: Y
+predecessor: TARGET_EMPIRICAL_OPERATIONAL_F13_N32768_HOLD_MICROCHECK_COMPLETE_ACCEPTED_DESCRIPTIVE
+execution_authorized: true
+train_artifact_reads_allowed: 1
+train_artifact_reads_used: 0
+hold_data_reads_allowed: 1
+hold_data_reads_used: 0
+attempts_allowed: 1
+attempts_used: 0
+result: null
+pre_execute_review: pending
+pre_result_review: pending
+next_gate: INDEPENDENT_PRE_EXECUTE

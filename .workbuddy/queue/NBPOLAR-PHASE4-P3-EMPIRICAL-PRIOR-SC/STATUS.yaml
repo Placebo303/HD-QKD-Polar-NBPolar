@@ -1,10 +1,11 @@
 task_id: NBPOLAR-PHASE4-P3-EMPIRICAL-PRIOR-SC
-state: AUTHORIZED_FOR_AUTONOMOUS_PHASE4_P3_EMPIRICAL_PRIOR_SC
+state: EMPIRICAL_PRIOR_SC_INTERFACE_ACCEPTED
 predecessor: NBPOLAR-PHASE4-P2-R1_CAL_PRIOR_VALIDATION_ACCEPTED
 documentation_authorized: true
 implementation_authorized: true
 accepted_artifact_read_authorized: true
 artifact_content_attempts_allowed: 1
+artifact_content_attempts_used: 1
 synthetic_model_f_sampling_authorized: true
 decoder_execution_authorized: true
 autonomous_synthetic_exploration_authorized: true
@@ -16,4 +17,8 @@ reconciliation_authorized: false
 phase4_p3_authorized: true
 phase5_authorized: false
 scientific_promotion: false
-next_gate: STAGE_A_THEN_INDEPENDENT_PRE_EXECUTE_REVIEW
+result: EMPIRICAL_PRIOR_SC_INTERFACE_CANDIDATE
+independent_pre_execute: PASS (PRE_EXECUTE_REVIEW_R1.md; initial review NEEDS_CHANGES F-1 repaired docs-only and re-reviewed)
+independent_pre_result: PASS_WITH_COMMENTS
+main_thread_acceptance: EMPIRICAL_PRIOR_SC_INTERFACE_ACCEPTED
+next_gate: PHASE5_STATIC_PROTOCOL_FROZEN_AWAITING_EXPLICIT_AUTHORIZATION

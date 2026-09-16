@@ -1,0 +1,27 @@
+{
+ "scaling_record": {
+  "N": 262144,
+  "chunk_rows": 512,
+  "status": "ok",
+  "finite_outputs": true,
+  "wall_s": 66.08841076899989,
+  "rss_bytes": {
+   "ru_maxrss_bytes": 710504448,
+   "vmhwm_bytes": 710504448,
+   "peak_bytes": 710504448
+  },
+  "rss_hard_limit_bytes": 1610612736,
+  "planning_targets_report_only": {
+   "wall_s_target": 120.0,
+   "wall_s_met": true,
+   "rss_bytes_target": 1073741824,
+   "rss_bytes_met": true
+  }
+ },
+ "wall_total_s": 97.95551134699963,
+ "rss_final": {
+  "ru_maxrss_bytes": 710504448,
+  "vmhwm_bytes": 710504448,
+  "peak_bytes": 710504448
+ }
+}

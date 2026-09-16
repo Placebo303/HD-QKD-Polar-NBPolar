@@ -1,0 +1,15 @@
+task_id: NBPOLAR-PHASE4-P11-EXACT-CHUNKED-SC
+state: EXACT_CHUNKED_SC_ACCEPTED
+tier: Y
+predecessor: X12_PROBE_COMPLETE_DESCRIPTIVE_ONLY
+documentation_authorized: true
+implementation_authorized: true
+decoder_execution_authorized: true
+artifact_access_authorized: false
+attempts_allowed: 1
+attempts_used: 1
+scientific_promotion: false
+result: EXACT_CHUNKED_SC_ACCEPTED
+independent_pre_execute: PASS
+independent_pre_result: PASS_WITH_COMMENTS
+next_gate: PHASE4_P12_TARGET_F13_N_SCALING_PROFILE

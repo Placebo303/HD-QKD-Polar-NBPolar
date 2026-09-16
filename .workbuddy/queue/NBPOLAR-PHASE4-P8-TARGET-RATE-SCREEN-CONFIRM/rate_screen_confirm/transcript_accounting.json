@@ -1,0 +1,68 @@
+{
+  "event_count": 24000,
+  "incremental": {
+    "key_dependent_bits": 5470080,
+    "public_control_bits": 20984000,
+    "tag_invocations": 8000
+  },
+  "incremental_by_arm": {
+    "bec": {
+      "key_dependent_bits": 322560,
+      "public_control_bits": 1678720,
+      "tag_invocations": 640
+    },
+    "empirical": {
+      "key_dependent_bits": 5147520,
+      "public_control_bits": 19305280,
+      "tag_invocations": 7360
+    }
+  },
+  "incremental_by_phase": {
+    "confirm": {
+      "key_dependent_bits": 645120,
+      "public_control_bits": 3357440,
+      "tag_invocations": 1280
+    },
+    "screen": {
+      "key_dependent_bits": 4824960,
+      "public_control_bits": 17626560,
+      "tag_invocations": 6720
+    }
+  },
+  "mismatch_count": 0,
+  "mismatches": [],
+  "recount": {
+    "by_arm": {
+      "bec": {
+        "key_dependent_bits": 322560,
+        "public_control_bits": 1678720,
+        "tag_invocations": 640
+      },
+      "empirical": {
+        "key_dependent_bits": 5147520,
+        "public_control_bits": 19305280,
+        "tag_invocations": 7360
+      }
+    },
+    "by_phase": {
+      "confirm": {
+        "key_dependent_bits": 645120,
+        "public_control_bits": 3357440,
+        "tag_invocations": 1280
+      },
+      "screen": {
+        "key_dependent_bits": 4824960,
+        "public_control_bits": 17626560,
+        "tag_invocations": 6720
+      }
+    },
+    "event_types": {
+      "l1_disclosure": 8000,
+      "l2_disclosure": 8000,
+      "verification_tag": 8000
+    },
+    "key_dependent_bits": 5470080,
+    "public_control_bits": 20984000,
+    "tag_invocations": 8000
+  }
+}

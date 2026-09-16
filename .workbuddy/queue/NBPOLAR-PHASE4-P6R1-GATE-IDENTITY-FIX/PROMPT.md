@@ -1,0 +1,2 @@
+Execute `.workbuddy/queue/NBPOLAR-PHASE4-P6R1-GATE-IDENTITY-FIX/TASK_PACKET.md` as a code-and-read-only-evidence Δ successor. Repair only the multi-stream event identity/D2-once checker, add the required regression test, run the frozen tests, and revalidate the existing P6 five-file root without decoder/RNG/tag calls. Obtain independent reviewer-go revalidation before returning. Preserve the original BLOCKED label/root and return the successor candidate only if every corrected frozen gate is true. No new attempt, rerun, tuning, old-root write, commit or push.
+

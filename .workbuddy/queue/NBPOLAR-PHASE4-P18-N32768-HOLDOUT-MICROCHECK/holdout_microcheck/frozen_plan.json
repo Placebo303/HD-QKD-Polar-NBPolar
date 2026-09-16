@@ -1,0 +1,209 @@
+{
+  "attempt_consumption_point": "first protected content open (load_v25_channel_counts)",
+  "block_count": 3,
+  "block_frames": 128,
+  "block_ranges": [
+    [
+      1600,
+      1727
+    ],
+    [
+      1728,
+      1855
+    ],
+    [
+      1856,
+      1983
+    ]
+  ],
+  "block_rule": "sort HOLD rows by (frame_id, pair_idx); require exactly 400 frames 1600..1999, 256 rows per frame, pair_idx 0..255 and symbols 0..1023; blocks 1600..1727 / 1728..1855 / 1856..1983 (128 frames = 32768 pairs each); frames 1984..1999 are the declared unused remainder; no shuffle, resampling, overlap, padding, pooling or fitting",
+  "budget": {
+    "env": {
+      "MALLOC_ARENA_MAX": "2",
+      "MKL_NUM_THREADS": "1",
+      "OMP_NUM_THREADS": "1",
+      "OPENBLAS_NUM_THREADS": "1"
+    },
+    "external_timeout_s": 600,
+    "rss_bytes_max": 2147483648,
+    "total_wall_s": 600.0,
+    "ulimit_virtual_kib": 2097152
+  },
+  "chunk_rows": 512,
+  "claim_scope": "real-input operational microcheck of the frozen V25 1M HOLD split at N=32768 only (three registered chronological blocks, frames 1600..1983); descriptive loading/ordering/prior/decoder/accounting evidence, not real-frame FER, reconciliation efficiency, leakage, key rate, scaling superiority, qualification or promotion; the CE-normalized disclosure ratio is not qualification efficiency; undetected is never success",
+  "counts_path": "/mnt/d/Code/HD-QKD_Polar_Comparison/comparison_bench/outputs_comparison/nonbinary_diagnostics/nbldpc_v25_20260818/run_04/channel_counts.npz",
+  "created_utc": "2026-09-15T17:51:27Z",
+  "decision": {
+    "blocked": "BLOCKED(<earliest gate>)",
+    "complete": "TARGET_EMPIRICAL_OPERATIONAL_F13_N32768_HOLD_MICROCHECK_COMPLETE",
+    "recovery_threshold": null
+  },
+  "entropy_expectations": {
+    "column_tol": 1e-12,
+    "entropy_tol": 1e-12,
+    "floor_entropy_change_tol": 1e-09,
+    "h1": 0.02428054681872374,
+    "h2": 0.7767572780789994,
+    "total": 0.8010378248977232
+  },
+  "expected_hold_parquet_bytes": 1354289,
+  "expected_npz_bytes": 25166822,
+  "f_inequality": {
+    "leakage_bits": 34119,
+    "limit_bits": 34122.92968012317
+  },
+  "field": {
+    "alpha": 2,
+    "index_order": "natural",
+    "name": "GF32 polynomial basis",
+    "primitive_polynomial": 37
+  },
+  "floor": 1e-15,
+  "frozen_command": "cd /mnt/d/Code/HD-QKD_Polar_Comparison-nbpolar\nexport OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1 MKL_NUM_THREADS=1 MALLOC_ARENA_MAX=2\nulimit -v 2097152\ntimeout 600 /mnt/d/Code/HD-QKD_Polar_Comparison/.venv/bin/python -m comparison_bench.src.comparison_bench.formal_ir.nbpolar.holdout_microcheck --counts /mnt/d/Code/HD-QKD_Polar_Comparison/comparison_bench/outputs_comparison/nonbinary_diagnostics/nbldpc_v25_20260818/run_04/channel_counts.npz --source 1M --floor 1e-15 --n 32768 --k1 319 --k2 6492 --construction .workbuddy/queue/NBPOLAR-PHASE4-P16-N32768-OPERATIONAL-F13/operational_f13_gate/construction_and_allocation.json --construction-digest 055c906472dd2a09761761b18aceb5f31d8b5db19bac658721f8dc49c3faea1b --hold-pairs comparison_bench/outputs_comparison/nonbinary_diagnostics/v13r3fresh_pairs_20260816/type2_1M_20260121_184040/pairs.parquet --hold-frames 1600 1999 --block-frames 128 --remainder-frames 1984 1999 --tag-master 2026092050 --chunk-rows 512 --tag-bits 64 --out-dir .workbuddy/queue/NBPOLAR-PHASE4-P18-N32768-HOLDOUT-MICROCHECK/holdout_microcheck",
+  "full_block_key_dependent_bits": 34119,
+  "hold_frame_range": [
+    1600,
+    1999
+  ],
+  "hold_frames": 400,
+  "hold_pairs": 102400,
+  "hold_pairs_path": "comparison_bench/outputs_comparison/nonbinary_diagnostics/v13r3fresh_pairs_20260816/type2_1M_20260121_184040/pairs.parquet",
+  "integrity_gate_order": [
+    "predecessor_construction_identity",
+    "hold_split_manifest_identity",
+    "target_population_contract",
+    "hold_population_exact",
+    "blocks_exact_with_declared_remainder",
+    "orders_valid_k_replay_f_within_budget",
+    "sc_calls_exact",
+    "tags_exact",
+    "buckets_disjoint_exhaustive",
+    "truth_isolation",
+    "undetected_zero",
+    "nonfinite_zero",
+    "disclosure_recount_exact",
+    "one_open_per_protected_input",
+    "input_stat_unchanged",
+    "no_unregistered_access",
+    "resource_limits_met_and_no_abort"
+  ],
+  "k1": 319,
+  "k2": 6492,
+  "k_total": 6811,
+  "manifest_identity": {
+    "expected_hold_frames": 400,
+    "expected_hold_pairs": 102400,
+    "hold_frames": 400,
+    "hold_pairs": 102400,
+    "manifest_path": "comparison_bench/outputs_comparison/nonbinary_diagnostics/nbldpc_v25_20260818/run_04/split_manifest.json",
+    "schema": "nbldpc_v25_split_manifest_v1",
+    "source": "1M",
+    "source_tag": "type2_1M_20260121_184040",
+    "train_frames": 1200,
+    "train_pairs": 307200,
+    "val_frames": 400,
+    "val_pairs": 102400
+  },
+  "manifest_path": "comparison_bench/outputs_comparison/nonbinary_diagnostics/nbldpc_v25_20260818/run_04/split_manifest.json",
+  "mode": "holdout-microcheck",
+  "n": 32768,
+  "nll_rule": "per block under the fixed floor-1e-15 TRAIN prior: l1_nll_bits = sum_i -log2 p1[high_i, bob_i]; l2_nll_bits = sum_i -log2 p2[high_i, bob_i, low_i]; total_nll_bits = l1 + l2 (bits per 32768-pair block); descriptive scoring only, never a metric input",
+  "no_threshold_rule": "there is no exact-count, FER, winner or promotion threshold and no recovery gate of any kind; 0..3 exact outcomes are descriptive; only integrity/resource failures produce BLOCKED(<earliest gate>)",
+  "npz_loader": "comparison_bench.src.comparison_bench.formal_ir.v35_algorithm_development.load_v25_channel_counts",
+  "operational_rule": "per block: disclose true U1 at verified order1[:K1], operational L1 SC; L2 metrics from Bob plus the hard L1 candidate only; disclose true U2 at verified order2[:K2], restarted operational L2 SC; label_hat=32*high_hat+low_hat; exactly one 64-bit Toeplitz tag in the P18/N/block seed domain (public master 2026092050); exactly one of exact/undetected/verify_failed/decode_failed/nonfinite/resource_abort; undetected never success",
+  "out_root": ".workbuddy/queue/NBPOLAR-PHASE4-P18-N32768-HOLDOUT-MICROCHECK/holdout_microcheck",
+  "outcome_precedence": [
+    "resource_abort: block not executed (preregistered budget stop)",
+    "nonfinite: numeric nonfinite failure in L1/L2 SC; no tag",
+    "decode_failed: other L1/L2 SC exception; no tag",
+    "verify_failed: tag mismatch",
+    "exact: tag pass and label == true label",
+    "undetected: tag pass and not exact (never success)"
+  ],
+  "output_files": [
+    "frozen_plan.json",
+    "input_and_construction_identity.json",
+    "per_block_outcomes.jsonl",
+    "aggregate_summary.json",
+    "report.md"
+  ],
+  "pairs_loader": "comparison_bench.src.comparison_bench.io.pairs_loader.load_pairs_table+normalize_pair_columns",
+  "planned_sc_calls_max": 6,
+  "planned_tag_invocations": 3,
+  "precondition_order": [
+    "no_zero_bob_column",
+    "p_b_normalized",
+    "conditional_columns_normalized",
+    "h1_matches_literal",
+    "h2_matches_literal",
+    "total_matches_literal",
+    "floor_entropy_change_at_most_1e-9"
+  ],
+  "predecessor": {
+    "construction_digest": "055c906472dd2a09761761b18aceb5f31d8b5db19bac658721f8dc49c3faea1b",
+    "construction_path": ".workbuddy/queue/NBPOLAR-PHASE4-P16-N32768-OPERATIONAL-F13/operational_f13_gate/construction_and_allocation.json",
+    "identity": {
+      "construction_path": ".workbuddy/queue/NBPOLAR-PHASE4-P16-N32768-OPERATIONAL-F13/operational_f13_gate/construction_and_allocation.json",
+      "digest_expected": "055c906472dd2a09761761b18aceb5f31d8b5db19bac658721f8dc49c3faea1b",
+      "digest_match": true,
+      "digest_recomputed": "055c906472dd2a09761761b18aceb5f31d8b5db19bac658721f8dc49c3faea1b",
+      "f": 1.2998502888172847,
+      "k1": 319,
+      "k2": 6492,
+      "k_total": 6811,
+      "l1_head8": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        6,
+        8,
+        9
+      ],
+      "l1_len": 32768,
+      "l2_head8": [
+        2296,
+        1706,
+        3456,
+        1708,
+        1745,
+        2282,
+        4630,
+        4868
+      ],
+      "l2_len": 32768,
+      "leakage_bits": 34119,
+      "n": 32768,
+      "predecessor_dev_seeds": [
+        2026092010,
+        2026092011,
+        2026092012,
+        2026092013,
+        2026092014,
+        2026092015,
+        2026092016,
+        2026092017
+      ],
+      "predecessor_protocol": "nbpolar-p16-operational-f13-gate",
+      "protocol": "nbpolar-p17-operational-replication-gate"
+    }
+  },
+  "protocol": "nbpolar-p18-holdout-microcheck",
+  "public_control_bits_per_tag": 327743,
+  "q": 32,
+  "ratio_rule": "disclosure_ce_ratio = 34119 / total_nll_bits for every registered block with an observed NLL (the numerator is the registered full-block disclosure, so a partially invoked block keeps a nominal value; actual disclosure is the transcript recount); aggregate = (34119 * observed blocks) / total_nll_bits; a sample cross-entropy-normalized descriptive disclosure ratio, explicitly NOT qualification reconciliation efficiency",
+  "remainder_frame_range": [
+    1984,
+    1999
+  ],
+  "remainder_symbols": 4096,
+  "repository": "HD-QKD_Polar_Comparison-nbpolar",
+  "source": "1M",
+  "support_rule": "f = counts / column totals; every cell below 1e-15 replaced by 1e-15; columns renormalized; p_b = column totals / total count; P1/P2 = accepted derive_p1/derive_p2(f) under A=32*U1+U2; no lambda, backoff, tuning, floor scan or fitting (exact P7 rule)",
+  "tag_bits": 64,
+  "tag_master": 2026092050,
+  "tag_seed_domain": "nbpolar-p18-holdout-microcheck-seed:<master>:<n>:<block_index>",
+  "target_f": 1.3,
+  "truth_boundary": "Alice truth enters only scoring (SER/NLL), disclosed values, tag construction and tag scoring; it never enters Bob metrics, candidate priors or decisions; each layer restarts SC with no state transfer; each L2 metric is gathered from Bob and the hard L1 candidate only"
+}

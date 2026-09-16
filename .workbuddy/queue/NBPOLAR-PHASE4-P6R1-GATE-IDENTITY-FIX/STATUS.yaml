@@ -1,0 +1,17 @@
+task_id: NBPOLAR-PHASE4-P6R1-GATE-IDENTITY-FIX
+state: ADAPTIVE_HARD_L1_DISCLOSURE_ACCEPTED
+predecessor: BLOCKED(d1_exactly_nested_and_d2_disclosed_once)
+original_root_immutable: true
+documentation_authorized: true
+implementation_authorized: true
+existing_evidence_read_authorized: true
+decoder_execution_authorized: false
+development_gate_authorized: false
+artifact_read_authorized: false
+real_data_authorized: false
+scientific_promotion: false
+attempts_allowed: 0
+attempts_used: 0
+result: ADAPTIVE_HARD_L1_DISCLOSURE_ACCEPTED
+independent_revalidation_review: PASS_WITH_COMMENTS (INDEPENDENT_REVALIDATION_REVIEW.md)
+next_gate: X06_EMPIRICAL_CONSTRUCTION_ORDER_PROBE

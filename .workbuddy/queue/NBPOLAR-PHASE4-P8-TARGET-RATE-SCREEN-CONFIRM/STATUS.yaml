@@ -1,0 +1,22 @@
+task_id: NBPOLAR-PHASE4-P8-TARGET-RATE-SCREEN-CONFIRM
+state: TARGET_EMPIRICAL_RATE_POINT_ACCEPTED
+predecessor: TARGET_EMPIRICAL_CONSTRUCTION_ACCEPTED
+documentation_authorized: true
+implementation_authorized: true
+artifact_read_authorized: true
+decoder_execution_authorized: true
+development_gate_authorized: true
+artifact_reads_allowed: 1
+artifact_reads_used: 1
+attempts_allowed: 1
+attempts_used: 1
+real_data_authorized: false
+eval_authorized: false
+adaptive_authorized: false
+scalable_decoder_authorized: false
+scl_authorized: false
+scientific_promotion: false
+result: TARGET_EMPIRICAL_RATE_POINT_ACCEPTED
+independent_pre_execute: PASS (seed-coincidence ratified FRESH)
+independent_pre_result: PASS_WITH_COMMENTS (non-blocking only)
+next_gate: PHASE4_P9_LOWER_RATE_BOUNDARY_RESOLUTION

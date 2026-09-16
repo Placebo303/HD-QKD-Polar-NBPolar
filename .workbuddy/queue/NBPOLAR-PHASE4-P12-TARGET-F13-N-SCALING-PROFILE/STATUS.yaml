@@ -1,0 +1,17 @@
+task_id: NBPOLAR-PHASE4-P12-TARGET-F13-N-SCALING-PROFILE
+state: BLOCKED(resource_limits_met_and_no_abort)
+tier: Y
+predecessor: EXACT_CHUNKED_SC_ACCEPTED
+artifact_reads_allowed: 1
+artifact_reads_used: 1
+attempts_allowed: 1
+attempts_used: 1
+implementation_authorized: true
+artifact_read_authorized: true
+decoder_execution_authorized: true
+real_data_authorized: false
+scientific_promotion: false
+result: BLOCKED(resource_limits_met_and_no_abort)
+independent_pre_execute: PASS
+independent_pre_result: CONFIRMED_SINGLE_RESOURCE_ABORT
+next_gate: NONE_PACKET_TERMINAL_NEW_AUTHORIZATION_REQUIRED

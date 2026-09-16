@@ -1,0 +1,15 @@
+task_id: NBPOLAR-PHASE4-P18-N32768-HOLDOUT-MICROCHECK
+state: TARGET_EMPIRICAL_OPERATIONAL_F13_N32768_HOLD_MICROCHECK_COMPLETE_ACCEPTED_DESCRIPTIVE
+tier: Y
+predecessor: TARGET_EMPIRICAL_OPERATIONAL_F13_N32768_REPLICATION_CANDIDATE_ACCEPTED_MODEL_SAMPLED
+execution_authorized: true
+train_artifact_reads_allowed: 1
+train_artifact_reads_used: 1
+hold_data_reads_allowed: 1
+hold_data_reads_used: 1
+attempts_allowed: 1
+attempts_used: 1
+result: TARGET_EMPIRICAL_OPERATIONAL_F13_N32768_HOLD_MICROCHECK_COMPLETE
+pre_execute_review: PASS
+pre_result_review: PASS_WITH_COMMENTS
+next_gate: P19_HOLDOUT_BACKOFF_DIAGNOSTIC_AWAITING_EXPLICIT_AUTHORIZATION

@@ -1,0 +1,188 @@
+{
+  "arms": [
+    "empirical",
+    "bec"
+  ],
+  "artifact_read_accounting": {
+    "artifact_content_reads_allowed": 1,
+    "artifact_content_reads_consumed_before": 0,
+    "artifact_content_reads_consumed_by_this_run": 1,
+    "attempts_allowed": 1,
+    "attempts_consumed_before": 0,
+    "attempts_consumed_by_this_run": 1,
+    "reopen_attempted": false,
+    "retries": 0,
+    "retry_after_open": false
+  },
+  "attempt_consumption_point": "first NPZ content open (load_v25_channel_counts)",
+  "bec_control_rule": "accepted P7 H1/H2-surrogate orders from construction_orders.json (analytic_order(epsilon_l, 256) with epsilon_l = H_l/5); report-only control",
+  "budget": {
+    "external_timeout_s": 3600,
+    "rss_bytes_max": 2147483648,
+    "total_wall_s": 3600.0,
+    "ulimit_virtual_kib": 2097152
+  },
+  "claim_scope": "frozen V25 TRAIN target-population static rate development signal at N=256 only; not held-out or real frame FER, efficiency, key rate, scaling, qualification or promotion; planning-only f is not real-channel efficiency; undetected is never success",
+  "confirm_blocks": 128,
+  "confirm_exact_min": 618,
+  "confirm_seeds": [
+    2026091690,
+    2026091691,
+    2026091692,
+    2026091693,
+    2026091694
+  ],
+  "counts_path": "/mnt/d/Code/HD-QKD_Polar_Comparison/comparison_bench/outputs_comparison/nonbinary_diagnostics/nbldpc_v25_20260818/run_04/channel_counts.npz",
+  "created_utc": "2026-09-14T04:59:23Z",
+  "disclosure_accounting": {
+    "formula": "5*(K1+K2)+64 key-dependent bits per fully invoked point",
+    "public_control_bits_per_tag": 2623,
+    "recount_rule": "independent literal transcript recount equals the incremental totals"
+  },
+  "entropy_expectations": {
+    "column_tol": 1e-12,
+    "entropy_tol": 1e-12,
+    "floor_entropy_change_tol": 1e-09,
+    "h1": 0.02428054681872374,
+    "h2": 0.7767572780789994,
+    "provenance": "docs/v49_distribution_tables/v49_train_val_hold_nll.csv row 1M/TRAIN (nll_u1/nll_u2/nll_total); ratified P7 population raw-MLE in-sample semantics",
+    "total": 0.8010378248977232
+  },
+  "expected_npz_bytes": 25166822,
+  "expected_orders_sha256": "8ec690344897655418b71520b22e9e403dfa381ca193fe0d322cb13e1d714104",
+  "field": {
+    "alpha": 2,
+    "index_order": "natural",
+    "name": "GF32 polynomial basis",
+    "primitive_polynomial": 37
+  },
+  "floor": 1e-15,
+  "frozen_command": "cd /mnt/d/Code/HD-QKD_Polar_Comparison-nbpolar\nulimit -v 2097152\ntimeout 3600 /mnt/d/Code/HD-QKD_Polar_Comparison/.venv/bin/python -m comparison_bench.src.comparison_bench.formal_ir.nbpolar.target_rate --counts /mnt/d/Code/HD-QKD_Polar_Comparison/comparison_bench/outputs_comparison/nonbinary_diagnostics/nbldpc_v25_20260818/run_04/channel_counts.npz --source 1M --orders .workbuddy/queue/NBPOLAR-PHASE4-P7-TARGET-EMPIRICAL-CONSTRUCTION/target_construction_gate/construction_orders.json --n 256 --floor 1e-15 --screen-seeds 2026091680 2026091681 2026091682 --screen-blocks 64 --k1-grid 8 10 12 16 24 32 45 --k2-grid 80 94 110 125 140 --confirm-seeds 2026091690 2026091691 2026091692 2026091693 2026091694 --confirm-blocks 128 --out-dir .workbuddy/queue/NBPOLAR-PHASE4-P8-TARGET-RATE-SCREEN-CONFIRM/rate_screen_confirm",
+  "integrity_gate_order": [
+    "orders_identity_and_permutations",
+    "target_population_contract",
+    "coverage_complete_and_disjoint",
+    "pairing_and_buckets",
+    "truth_leak_zero",
+    "undetected_zero",
+    "nonfinite_zero",
+    "resource_abort_zero",
+    "disclosure_and_recount_exact",
+    "attempt_read_accounting_exact",
+    "resource_limits_met"
+  ],
+  "k1_grid": [
+    8,
+    10,
+    12,
+    16,
+    24,
+    32,
+    45
+  ],
+  "k2_grid": [
+    80,
+    94,
+    110,
+    125,
+    140
+  ],
+  "labels": {
+    "blocked": "BLOCKED(<earliest gate>)",
+    "candidate": "TARGET_EMPIRICAL_RATE_POINT_CANDIDATE",
+    "no_eligible_point": "TARGET_RATE_SCREEN_NO_ELIGIBLE_POINT",
+    "not_confirmed": "TARGET_EMPIRICAL_RATE_POINT_NOT_CONFIRMED"
+  },
+  "loader": "comparison_bench.src.comparison_bench.formal_ir.v35_algorithm_development.load_v25_channel_counts",
+  "mode": "static-target-rate-screen-confirm",
+  "n": 256,
+  "n_configs": 35,
+  "orders_mode": "p7_file",
+  "orders_path": ".workbuddy/queue/NBPOLAR-PHASE4-P7-TARGET-EMPIRICAL-CONSTRUCTION/target_construction_gate/construction_orders.json",
+  "orders_sha256": "8ec690344897655418b71520b22e9e403dfa381ca193fe0d322cb13e1d714104",
+  "out_root": ".workbuddy/queue/NBPOLAR-PHASE4-P8-TARGET-RATE-SCREEN-CONFIRM/rate_screen_confirm",
+  "outcome_buckets": [
+    "exact",
+    "undetected",
+    "verify_failed",
+    "decode_failed",
+    "resource_abort"
+  ],
+  "outcome_precedence": [
+    "resource_abort: block not executed (preregistered budget stop)",
+    "decode_failed: L1 or L2 SC exception / nonfinite marginals; no tag",
+    "verify_failed: tag mismatch",
+    "exact: tag pass and label == true label",
+    "undetected: tag pass and not exact (never success)"
+  ],
+  "output_files": [
+    "frozen_plan.json",
+    "screen_records.json",
+    "selection_and_confirmation_records.json",
+    "transcript_accounting.json",
+    "report.md"
+  ],
+  "phases": [
+    "screen",
+    "confirm"
+  ],
+  "planned_confirm_blocks": 640,
+  "planned_screen_blocks": 192,
+  "precondition_order": [
+    "no_zero_bob_column",
+    "p_b_normalized",
+    "conditional_columns_normalized",
+    "h1_matches_literal",
+    "h2_matches_literal",
+    "total_matches_literal",
+    "floor_entropy_change_at_most_1e-9"
+  ],
+  "protocol": "nbpolar-p8-target-rate-screen-confirm",
+  "q": 32,
+  "repository": "HD-QKD_Polar_Comparison-nbpolar",
+  "sampling_rule": "per shared block: B ~ p_b (rng.random(n) against the cumulative p_b), then A ~ P_floor(A|B) per coordinate (rng.random(n) against the cumulative column); high=A//32, low=A%32; explicit np.random.default_rng(stream seed), one stream RNG, no global RNG; every grid point uses the identical block object",
+  "scientific_gates": {
+    "confirm_empirical_exact_at_least_618_of_640": 618,
+    "confirm_empirical_wilson_lower_bound_at_least_0p95": 0.95,
+    "wilson_z": 1.6448536269514722
+  },
+  "screen_blocks": 64,
+  "screen_exact_min": 188,
+  "screen_rule": "eligible iff 192/192 blocks accounted, undetected/nonfinite/resource_abort zero, one-sided 95% Wilson exact-recovery lower bound >= 0.95 (at this shape exact >= 188/192); selection is the lexicographic minimum of (K1+K2, K1, K2) over eligible points only",
+  "screen_seeds": [
+    2026091680,
+    2026091681,
+    2026091682
+  ],
+  "selection_rule": "lexicographic minimum of (K1+K2, K1, K2) over eligible points only",
+  "source": "1M",
+  "support_rule": "f = counts / column totals; every cell below 1e-15 replaced by 1e-15; columns renormalized; p_b = column totals / total count; P1/P2 = accepted derive_p1/derive_p2(f) under A=32*U1+U2; no lambda, backoff, tuning, floor scan or held-out fitting (exact P7 rule)",
+  "toeplitz": {
+    "arm_labels": [
+      "empirical",
+      "bec"
+    ],
+    "derivation": "MSB-first unpack of SHA-256('nbpolar-p8-target-rate-seed:<master>:<phase>:<arm>:<block>:<counter>') concatenated over counter=0,1,...; truncated to 10*n+63 bits; public control, never persisted raw",
+    "phase_labels": [
+      "screen",
+      "confirm"
+    ],
+    "public_seed_bits": 2623,
+    "tag_bits": 64
+  },
+  "toeplitz_masters": {
+    "confirm": [
+      2026101690,
+      2026101691,
+      2026101692,
+      2026101693,
+      2026101694
+    ],
+    "screen": [
+      2026101680,
+      2026101681,
+      2026101682
+    ]
+  },
+  "truth_boundary": "Alice truth enters only sampling, disclosed values, tag construction and scoring; it never enters an undisclosed operational metric, decision or candidate label; each arm restarts SC per layer with no state transfer; each arm copies its truth inputs and the per-arm sentinel proves the protected metrics/decisions stayed bitwise under truth mutation"
+}

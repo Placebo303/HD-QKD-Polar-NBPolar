@@ -1,0 +1,790 @@
+{
+  "entry": "empirical_stageb_diagnostic",
+  "q": 32,
+  "seed": 2026091316,
+  "wall_s": 17.64500926400069,
+  "b1": [
+    {
+      "case": "B1_N2",
+      "n": 2,
+      "n_blocks": 64,
+      "n_blocks_planned": 64,
+      "n_executed": 64,
+      "n_resource_abort": 0,
+      "n_exact": 8,
+      "n_impossible": 0,
+      "n_other": 56,
+      "n_nonfinite": 0,
+      "oracle_rows": 128,
+      "max_prob_err": 1.1102230246251565e-15,
+      "max_log_err": 2.220446049250313e-15,
+      "support_mismatches": 0,
+      "numeric_failures": 0,
+      "decode_exceptions": 0,
+      "oracle_exceptions": 0,
+      "truth_leak_violations": 0,
+      "oracle_wall_s": 0.08233164694684092,
+      "wall_s": 0.25600711899460293,
+      "attribution": {
+        "artifact_adapter_support": 0,
+        "normalization": 0,
+        "disclosure_contradiction": 0,
+        "SC_numeric": 0,
+        "SC_decision": 56,
+        "expected_under_disclosure": 0,
+        "unattributed": 0
+      },
+      "gates": {
+        "coverage_complete": true,
+        "max_prob_err": true,
+        "max_log_err": true,
+        "support_mismatches": true,
+        "numeric_failures": true,
+        "decode_exceptions": true,
+        "oracle_exceptions": true,
+        "truth_leak": true
+      }
+    },
+    {
+      "case": "B1_N4",
+      "n": 4,
+      "n_blocks": 64,
+      "n_blocks_planned": 64,
+      "n_executed": 64,
+      "n_resource_abort": 0,
+      "n_exact": 1,
+      "n_impossible": 0,
+      "n_other": 63,
+      "n_nonfinite": 0,
+      "oracle_rows": 256,
+      "max_prob_err": 7.771561172376096e-16,
+      "max_log_err": 5.329070518200751e-15,
+      "support_mismatches": 0,
+      "numeric_failures": 0,
+      "decode_exceptions": 0,
+      "oracle_exceptions": 0,
+      "truth_leak_violations": 0,
+      "oracle_wall_s": 11.075341445059166,
+      "wall_s": 11.268172367999796,
+      "attribution": {
+        "artifact_adapter_support": 0,
+        "normalization": 0,
+        "disclosure_contradiction": 0,
+        "SC_numeric": 0,
+        "SC_decision": 63,
+        "expected_under_disclosure": 0,
+        "unattributed": 0
+      },
+      "gates": {
+        "coverage_complete": true,
+        "max_prob_err": true,
+        "max_log_err": true,
+        "support_mismatches": true,
+        "numeric_failures": true,
+        "decode_exceptions": true,
+        "oracle_exceptions": true,
+        "truth_leak": true
+      }
+    }
+  ],
+  "b2": {
+    "cases": [
+      {
+        "case": "B2_N16_M1_all_but_one",
+        "n": 16,
+        "mask": "M1_all_but_one",
+        "n_disclosed": 15,
+        "n_blocks": 16,
+        "n_blocks_planned": 16,
+        "n_executed": 16,
+        "n_resource_abort": 0,
+        "n_exact": 15,
+        "n_impossible": 0,
+        "n_other": 1,
+        "n_nonfinite": 0,
+        "truth_leak_violations": 0,
+        "wall_s": 0.07961819399497472,
+        "attribution": {
+          "artifact_adapter_support": 0,
+          "normalization": 0,
+          "disclosure_contradiction": 0,
+          "SC_numeric": 0,
+          "SC_decision": 0,
+          "expected_under_disclosure": 1,
+          "unattributed": 0
+        }
+      },
+      {
+        "case": "B2_N16_M2_prefix",
+        "n": 16,
+        "mask": "M2_prefix",
+        "n_disclosed": 8,
+        "n_blocks": 16,
+        "n_blocks_planned": 16,
+        "n_executed": 16,
+        "n_resource_abort": 0,
+        "n_exact": 0,
+        "n_impossible": 0,
+        "n_other": 16,
+        "n_nonfinite": 0,
+        "truth_leak_violations": 0,
+        "wall_s": 0.07986224199703429,
+        "attribution": {
+          "artifact_adapter_support": 0,
+          "normalization": 0,
+          "disclosure_contradiction": 0,
+          "SC_numeric": 0,
+          "SC_decision": 0,
+          "expected_under_disclosure": 16,
+          "unattributed": 0
+        }
+      },
+      {
+        "case": "B2_N16_M3_suffix",
+        "n": 16,
+        "mask": "M3_suffix",
+        "n_disclosed": 8,
+        "n_blocks": 16,
+        "n_blocks_planned": 16,
+        "n_executed": 16,
+        "n_resource_abort": 0,
+        "n_exact": 0,
+        "n_impossible": 0,
+        "n_other": 16,
+        "n_nonfinite": 0,
+        "truth_leak_violations": 0,
+        "wall_s": 0.08071323900367133,
+        "attribution": {
+          "artifact_adapter_support": 0,
+          "normalization": 0,
+          "disclosure_contradiction": 0,
+          "SC_numeric": 0,
+          "SC_decision": 0,
+          "expected_under_disclosure": 16,
+          "unattributed": 0
+        }
+      },
+      {
+        "case": "B2_N16_M4_alternating",
+        "n": 16,
+        "mask": "M4_alternating",
+        "n_disclosed": 8,
+        "n_blocks": 16,
+        "n_blocks_planned": 16,
+        "n_executed": 16,
+        "n_resource_abort": 0,
+        "n_exact": 0,
+        "n_impossible": 0,
+        "n_other": 16,
+        "n_nonfinite": 0,
+        "truth_leak_violations": 0,
+        "wall_s": 0.07930619300168473,
+        "attribution": {
+          "artifact_adapter_support": 0,
+          "normalization": 0,
+          "disclosure_contradiction": 0,
+          "SC_numeric": 0,
+          "SC_decision": 0,
+          "expected_under_disclosure": 16,
+          "unattributed": 0
+        }
+      },
+      {
+        "case": "B2_N16_M5_construction_order",
+        "n": 16,
+        "mask": "M5_construction_order",
+        "n_disclosed": 8,
+        "n_blocks": 16,
+        "n_blocks_planned": 16,
+        "n_executed": 16,
+        "n_resource_abort": 0,
+        "n_exact": 0,
+        "n_impossible": 0,
+        "n_other": 16,
+        "n_nonfinite": 0,
+        "truth_leak_violations": 0,
+        "wall_s": 0.07957610799348913,
+        "attribution": {
+          "artifact_adapter_support": 0,
+          "normalization": 0,
+          "disclosure_contradiction": 0,
+          "SC_numeric": 0,
+          "SC_decision": 0,
+          "expected_under_disclosure": 16,
+          "unattributed": 0
+        }
+      },
+      {
+        "case": "B2_N64_M1_all_but_one",
+        "n": 64,
+        "mask": "M1_all_but_one",
+        "n_disclosed": 63,
+        "n_blocks": 16,
+        "n_blocks_planned": 16,
+        "n_executed": 16,
+        "n_resource_abort": 0,
+        "n_exact": 16,
+        "n_impossible": 0,
+        "n_other": 0,
+        "n_nonfinite": 0,
+        "truth_leak_violations": 0,
+        "wall_s": 0.2570910759968683,
+        "attribution": {
+          "artifact_adapter_support": 0,
+          "normalization": 0,
+          "disclosure_contradiction": 0,
+          "SC_numeric": 0,
+          "SC_decision": 0,
+          "expected_under_disclosure": 0,
+          "unattributed": 0
+        }
+      },
+      {
+        "case": "B2_N64_M2_prefix",
+        "n": 64,
+        "mask": "M2_prefix",
+        "n_disclosed": 32,
+        "n_blocks": 16,
+        "n_blocks_planned": 16,
+        "n_executed": 16,
+        "n_resource_abort": 0,
+        "n_exact": 0,
+        "n_impossible": 0,
+        "n_other": 16,
+        "n_nonfinite": 0,
+        "truth_leak_violations": 0,
+        "wall_s": 0.2609518559911521,
+        "attribution": {
+          "artifact_adapter_support": 0,
+          "normalization": 0,
+          "disclosure_contradiction": 0,
+          "SC_numeric": 0,
+          "SC_decision": 0,
+          "expected_under_disclosure": 16,
+          "unattributed": 0
+        }
+      },
+      {
+        "case": "B2_N64_M3_suffix",
+        "n": 64,
+        "mask": "M3_suffix",
+        "n_disclosed": 32,
+        "n_blocks": 16,
+        "n_blocks_planned": 16,
+        "n_executed": 16,
+        "n_resource_abort": 0,
+        "n_exact": 0,
+        "n_impossible": 0,
+        "n_other": 16,
+        "n_nonfinite": 0,
+        "truth_leak_violations": 0,
+        "wall_s": 0.2709249129984528,
+        "attribution": {
+          "artifact_adapter_support": 0,
+          "normalization": 0,
+          "disclosure_contradiction": 0,
+          "SC_numeric": 0,
+          "SC_decision": 0,
+          "expected_under_disclosure": 16,
+          "unattributed": 0
+        }
+      },
+      {
+        "case": "B2_N64_M4_alternating",
+        "n": 64,
+        "mask": "M4_alternating",
+        "n_disclosed": 32,
+        "n_blocks": 16,
+        "n_blocks_planned": 16,
+        "n_executed": 16,
+        "n_resource_abort": 0,
+        "n_exact": 0,
+        "n_impossible": 0,
+        "n_other": 16,
+        "n_nonfinite": 0,
+        "truth_leak_violations": 0,
+        "wall_s": 0.2668816829973366,
+        "attribution": {
+          "artifact_adapter_support": 0,
+          "normalization": 0,
+          "disclosure_contradiction": 0,
+          "SC_numeric": 0,
+          "SC_decision": 0,
+          "expected_under_disclosure": 16,
+          "unattributed": 0
+        }
+      },
+      {
+        "case": "B2_N64_M5_construction_order",
+        "n": 64,
+        "mask": "M5_construction_order",
+        "n_disclosed": 32,
+        "n_blocks": 16,
+        "n_blocks_planned": 16,
+        "n_executed": 16,
+        "n_resource_abort": 0,
+        "n_exact": 0,
+        "n_impossible": 0,
+        "n_other": 16,
+        "n_nonfinite": 0,
+        "truth_leak_violations": 0,
+        "wall_s": 0.2633451639994746,
+        "attribution": {
+          "artifact_adapter_support": 0,
+          "normalization": 0,
+          "disclosure_contradiction": 0,
+          "SC_numeric": 0,
+          "SC_decision": 0,
+          "expected_under_disclosure": 16,
+          "unattributed": 0
+        }
+      }
+    ],
+    "totals": {
+      "n_blocks_planned": 160,
+      "n_executed": 160,
+      "n_resource_abort": 0,
+      "n_exact": 31,
+      "n_impossible": 0,
+      "n_other": 129,
+      "n_nonfinite": 0,
+      "truth_leak_violations": 0,
+      "wall_s": 1.7182706679741386
+    }
+  },
+  "b3": {
+    "cases": [
+      {
+        "case": "B3_N256_M1_all_but_one",
+        "n": 256,
+        "mask": "M1_all_but_one",
+        "n_disclosed": 255,
+        "n_blocks": 8,
+        "n_blocks_planned": 8,
+        "n_executed": 8,
+        "n_resource_abort": 0,
+        "n_exact": 8,
+        "n_impossible": 0,
+        "n_other": 0,
+        "n_nonfinite": 0,
+        "truth_leak_violations": 0,
+        "wall_s": 0.5723039599979529,
+        "attribution": {
+          "artifact_adapter_support": 0,
+          "normalization": 0,
+          "disclosure_contradiction": 0,
+          "SC_numeric": 0,
+          "SC_decision": 0,
+          "expected_under_disclosure": 0,
+          "unattributed": 0
+        },
+        "n_initial_error": 8,
+        "n_nan": 0
+      },
+      {
+        "case": "B3_N256_M2_prefix",
+        "n": 256,
+        "mask": "M2_prefix",
+        "n_disclosed": 128,
+        "n_blocks": 8,
+        "n_blocks_planned": 8,
+        "n_executed": 8,
+        "n_resource_abort": 0,
+        "n_exact": 0,
+        "n_impossible": 0,
+        "n_other": 8,
+        "n_nonfinite": 0,
+        "truth_leak_violations": 0,
+        "wall_s": 0.5775467259954894,
+        "attribution": {
+          "artifact_adapter_support": 0,
+          "normalization": 0,
+          "disclosure_contradiction": 0,
+          "SC_numeric": 0,
+          "SC_decision": 0,
+          "expected_under_disclosure": 8,
+          "unattributed": 0
+        },
+        "n_initial_error": 8,
+        "n_nan": 0
+      },
+      {
+        "case": "B3_N256_M3_suffix",
+        "n": 256,
+        "mask": "M3_suffix",
+        "n_disclosed": 128,
+        "n_blocks": 8,
+        "n_blocks_planned": 8,
+        "n_executed": 8,
+        "n_resource_abort": 0,
+        "n_exact": 0,
+        "n_impossible": 0,
+        "n_other": 8,
+        "n_nonfinite": 0,
+        "truth_leak_violations": 0,
+        "wall_s": 0.5920247180038132,
+        "attribution": {
+          "artifact_adapter_support": 0,
+          "normalization": 0,
+          "disclosure_contradiction": 0,
+          "SC_numeric": 0,
+          "SC_decision": 0,
+          "expected_under_disclosure": 8,
+          "unattributed": 0
+        },
+        "n_initial_error": 8,
+        "n_nan": 0
+      },
+      {
+        "case": "B3_N256_M4_alternating",
+        "n": 256,
+        "mask": "M4_alternating",
+        "n_disclosed": 128,
+        "n_blocks": 8,
+        "n_blocks_planned": 8,
+        "n_executed": 8,
+        "n_resource_abort": 0,
+        "n_exact": 0,
+        "n_impossible": 0,
+        "n_other": 8,
+        "n_nonfinite": 0,
+        "truth_leak_violations": 0,
+        "wall_s": 0.5724234569934197,
+        "attribution": {
+          "artifact_adapter_support": 0,
+          "normalization": 0,
+          "disclosure_contradiction": 0,
+          "SC_numeric": 0,
+          "SC_decision": 0,
+          "expected_under_disclosure": 8,
+          "unattributed": 0
+        },
+        "n_initial_error": 8,
+        "n_nan": 0
+      },
+      {
+        "case": "B3_N256_M5_construction_order",
+        "n": 256,
+        "mask": "M5_construction_order",
+        "n_disclosed": 128,
+        "n_blocks": 8,
+        "n_blocks_planned": 8,
+        "n_executed": 8,
+        "n_resource_abort": 0,
+        "n_exact": 0,
+        "n_impossible": 0,
+        "n_other": 8,
+        "n_nonfinite": 0,
+        "truth_leak_violations": 0,
+        "wall_s": 0.5746429120044922,
+        "attribution": {
+          "artifact_adapter_support": 0,
+          "normalization": 0,
+          "disclosure_contradiction": 0,
+          "SC_numeric": 0,
+          "SC_decision": 0,
+          "expected_under_disclosure": 8,
+          "unattributed": 0
+        },
+        "n_initial_error": 8,
+        "n_nan": 0
+      }
+    ],
+    "totals": {
+      "n_blocks_planned": 40,
+      "n_executed": 40,
+      "n_resource_abort": 0,
+      "n_exact": 8,
+      "n_impossible": 0,
+      "n_other": 32,
+      "n_nonfinite": 0,
+      "n_nan": 0,
+      "n_initial_error": 40,
+      "truth_leak_violations": 0,
+      "wall_s": 2.8889417729951674
+    }
+  },
+  "b4": {
+    "profiles": [
+      {
+        "case": "B4_N64",
+        "n": 64,
+        "n_disclosed": 32,
+        "reps_planned": 5,
+        "n_metric_measured": 5,
+        "n_decode_measured": 5,
+        "metric_median_s": 3.799899423029274e-05,
+        "decode_median_s": 0.007757172992569394,
+        "metric_batch_shape": [
+          4,
+          64,
+          32
+        ],
+        "metric_shape": [
+          64,
+          32
+        ],
+        "decision_shape": [
+          64,
+          32
+        ],
+        "decode_status": "ok",
+        "disclosed_value_source": "true_U",
+        "peak_rss_gib": 0.23288726806640625,
+        "resource_abort": false,
+        "complete": true,
+        "wall_s": 0.05984112100850325
+      },
+      {
+        "case": "B4_N256",
+        "n": 256,
+        "n_disclosed": 128,
+        "reps_planned": 5,
+        "n_metric_measured": 5,
+        "n_decode_measured": 5,
+        "metric_median_s": 4.309399810153991e-05,
+        "decode_median_s": 0.03448710800148547,
+        "metric_batch_shape": [
+          4,
+          256,
+          32
+        ],
+        "metric_shape": [
+          256,
+          32
+        ],
+        "decision_shape": [
+          256,
+          32
+        ],
+        "decode_status": "ok",
+        "disclosed_value_source": "true_U",
+        "peak_rss_gib": 0.23288726806640625,
+        "resource_abort": false,
+        "complete": true,
+        "wall_s": 0.24409522199130151
+      },
+      {
+        "case": "B4_N1024",
+        "n": 1024,
+        "n_disclosed": 512,
+        "reps_planned": 5,
+        "n_metric_measured": 5,
+        "n_decode_measured": 5,
+        "metric_median_s": 0.00011792199802584946,
+        "decode_median_s": 0.16753002499171998,
+        "metric_batch_shape": [
+          4,
+          1024,
+          32
+        ],
+        "metric_shape": [
+          1024,
+          32
+        ],
+        "decision_shape": [
+          1024,
+          32
+        ],
+        "decode_status": "ok",
+        "disclosed_value_source": "true_U",
+        "peak_rss_gib": 0.23288726806640625,
+        "resource_abort": false,
+        "complete": true,
+        "wall_s": 1.187861480997526
+      }
+    ],
+    "peak_rss_gib": 0.23288726806640625
+  },
+  "b5": {
+    "categories": [
+      "artifact_adapter_support",
+      "normalization",
+      "disclosure_contradiction",
+      "SC_numeric",
+      "SC_decision",
+      "expected_under_disclosure",
+      "unattributed"
+    ],
+    "per_case": {
+      "B1_N2": {
+        "artifact_adapter_support": 0,
+        "normalization": 0,
+        "disclosure_contradiction": 0,
+        "SC_numeric": 0,
+        "SC_decision": 56,
+        "expected_under_disclosure": 0,
+        "unattributed": 0
+      },
+      "B1_N4": {
+        "artifact_adapter_support": 0,
+        "normalization": 0,
+        "disclosure_contradiction": 0,
+        "SC_numeric": 0,
+        "SC_decision": 63,
+        "expected_under_disclosure": 0,
+        "unattributed": 0
+      },
+      "B2_N16_M1_all_but_one": {
+        "artifact_adapter_support": 0,
+        "normalization": 0,
+        "disclosure_contradiction": 0,
+        "SC_numeric": 0,
+        "SC_decision": 0,
+        "expected_under_disclosure": 1,
+        "unattributed": 0
+      },
+      "B2_N16_M2_prefix": {
+        "artifact_adapter_support": 0,
+        "normalization": 0,
+        "disclosure_contradiction": 0,
+        "SC_numeric": 0,
+        "SC_decision": 0,
+        "expected_under_disclosure": 16,
+        "unattributed": 0
+      },
+      "B2_N16_M3_suffix": {
+        "artifact_adapter_support": 0,
+        "normalization": 0,
+        "disclosure_contradiction": 0,
+        "SC_numeric": 0,
+        "SC_decision": 0,
+        "expected_under_disclosure": 16,
+        "unattributed": 0
+      },
+      "B2_N16_M4_alternating": {
+        "artifact_adapter_support": 0,
+        "normalization": 0,
+        "disclosure_contradiction": 0,
+        "SC_numeric": 0,
+        "SC_decision": 0,
+        "expected_under_disclosure": 16,
+        "unattributed": 0
+      },
+      "B2_N16_M5_construction_order": {
+        "artifact_adapter_support": 0,
+        "normalization": 0,
+        "disclosure_contradiction": 0,
+        "SC_numeric": 0,
+        "SC_decision": 0,
+        "expected_under_disclosure": 16,
+        "unattributed": 0
+      },
+      "B2_N64_M1_all_but_one": {
+        "artifact_adapter_support": 0,
+        "normalization": 0,
+        "disclosure_contradiction": 0,
+        "SC_numeric": 0,
+        "SC_decision": 0,
+        "expected_under_disclosure": 0,
+        "unattributed": 0
+      },
+      "B2_N64_M2_prefix": {
+        "artifact_adapter_support": 0,
+        "normalization": 0,
+        "disclosure_contradiction": 0,
+        "SC_numeric": 0,
+        "SC_decision": 0,
+        "expected_under_disclosure": 16,
+        "unattributed": 0
+      },
+      "B2_N64_M3_suffix": {
+        "artifact_adapter_support": 0,
+        "normalization": 0,
+        "disclosure_contradiction": 0,
+        "SC_numeric": 0,
+        "SC_decision": 0,
+        "expected_under_disclosure": 16,
+        "unattributed": 0
+      },
+      "B2_N64_M4_alternating": {
+        "artifact_adapter_support": 0,
+        "normalization": 0,
+        "disclosure_contradiction": 0,
+        "SC_numeric": 0,
+        "SC_decision": 0,
+        "expected_under_disclosure": 16,
+        "unattributed": 0
+      },
+      "B2_N64_M5_construction_order": {
+        "artifact_adapter_support": 0,
+        "normalization": 0,
+        "disclosure_contradiction": 0,
+        "SC_numeric": 0,
+        "SC_decision": 0,
+        "expected_under_disclosure": 16,
+        "unattributed": 0
+      },
+      "B3_N256_M1_all_but_one": {
+        "artifact_adapter_support": 0,
+        "normalization": 0,
+        "disclosure_contradiction": 0,
+        "SC_numeric": 0,
+        "SC_decision": 0,
+        "expected_under_disclosure": 0,
+        "unattributed": 0
+      },
+      "B3_N256_M2_prefix": {
+        "artifact_adapter_support": 0,
+        "normalization": 0,
+        "disclosure_contradiction": 0,
+        "SC_numeric": 0,
+        "SC_decision": 0,
+        "expected_under_disclosure": 8,
+        "unattributed": 0
+      },
+      "B3_N256_M3_suffix": {
+        "artifact_adapter_support": 0,
+        "normalization": 0,
+        "disclosure_contradiction": 0,
+        "SC_numeric": 0,
+        "SC_decision": 0,
+        "expected_under_disclosure": 8,
+        "unattributed": 0
+      },
+      "B3_N256_M4_alternating": {
+        "artifact_adapter_support": 0,
+        "normalization": 0,
+        "disclosure_contradiction": 0,
+        "SC_numeric": 0,
+        "SC_decision": 0,
+        "expected_under_disclosure": 8,
+        "unattributed": 0
+      },
+      "B3_N256_M5_construction_order": {
+        "artifact_adapter_support": 0,
+        "normalization": 0,
+        "disclosure_contradiction": 0,
+        "SC_numeric": 0,
+        "SC_decision": 0,
+        "expected_under_disclosure": 8,
+        "unattributed": 0
+      }
+    },
+    "totals": {
+      "artifact_adapter_support": 0,
+      "normalization": 0,
+      "disclosure_contradiction": 0,
+      "SC_numeric": 0,
+      "SC_decision": 119,
+      "expected_under_disclosure": 161,
+      "unattributed": 0
+    },
+    "b4_scored_blocks": 0
+  },
+  "truth_leak_violations": 0,
+  "resource_abort_blocks": 0,
+  "resource_abort_profiles": 0,
+  "nonfinite_total": 0,
+  "hard_gates": {
+    "b1_all_gates": true,
+    "b2_b3_zero_nonfinite": true,
+    "b2_b3_zero_unattributed": true,
+    "b2_b3_coverage_complete": true,
+    "b4_complete": true,
+    "zero_truth_leak": true
+  },
+  "hard_gates_pass": true,
+  "candidate_conclusion": "EMPIRICAL_PRIOR_SC_INTERFACE_CANDIDATE",
+  "candidate_conclusion_note": "Candidate label only: acceptance is owned by the main thread and an independent Pre-RESULT review. This is not real-data FER, reconciliation, leakage, key rate or construction/K evidence."
+}

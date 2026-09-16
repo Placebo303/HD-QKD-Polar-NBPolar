@@ -1,0 +1,18 @@
+task_id: NBPOLAR-PHASE4-P5-HARD-CONDITIONING-PENALTY
+state: HARD_L1_CONDITIONING_PENALTY_ACCEPTED
+predecessor: X02_DEPENDENT_L2_POINT_SEARCH_COMPLETE
+documentation_authorized: true
+implementation_authorized: true
+decoder_execution_authorized: true
+development_gate_authorized: true
+artifact_read_authorized: false
+real_data_authorized: false
+scalable_decoder_authorized: false
+scl_authorized: false
+scientific_promotion: false
+attempts_allowed: 1
+attempts_used: 1
+result: HARD_L1_CONDITIONING_PENALTY_ACCEPTED
+independent_pre_execute: PASS (PRE_EXECUTE_REVIEW_R1.md; R0 NEEDS_CHANGES docs-only B-1 repaired)
+independent_pre_result: PASS_WITH_COMMENTS (PRE_RESULT_REVIEW.md)
+next_gate: X03_BOB_MARGINAL_L2_PROBE

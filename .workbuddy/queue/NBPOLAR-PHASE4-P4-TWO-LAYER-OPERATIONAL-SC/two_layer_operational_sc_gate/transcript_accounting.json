@@ -1,0 +1,51 @@
+{
+  "event_count": 576,
+  "event_types": {
+    "l1_disclosure": 192,
+    "l2_disclosure": 192,
+    "verification_tag": 192
+  },
+  "incremental": {
+    "key_dependent_bits": 161088,
+    "public_control_bits": 503616,
+    "tag_invocations": 192
+  },
+  "incremental_by_arm": {
+    "operational": {
+      "key_dependent_bits": 80544,
+      "public_control_bits": 251808,
+      "tag_invocations": 96
+    },
+    "oracle": {
+      "key_dependent_bits": 80544,
+      "public_control_bits": 251808,
+      "tag_invocations": 96
+    }
+  },
+  "mismatch_count": 0,
+  "mismatches": [],
+  "public_control_bits_per_tag": 2623,
+  "recount": {
+    "by_arm": {
+      "operational": {
+        "key_dependent_bits": 80544,
+        "public_control_bits": 251808,
+        "tag_invocations": 96
+      },
+      "oracle": {
+        "key_dependent_bits": 80544,
+        "public_control_bits": 251808,
+        "tag_invocations": 96
+      }
+    },
+    "event_types": {
+      "l1_disclosure": 192,
+      "l2_disclosure": 192,
+      "verification_tag": 192
+    },
+    "key_dependent_bits": 161088,
+    "public_control_bits": 503616,
+    "tag_invocations": 192
+  },
+  "transcript_sha256": "c3ffc6d76e9bb9e2c3e64afc9bbc1d7997b55ab26e4b55652d1d6768500135c5"
+}

@@ -1,0 +1,16 @@
+task_id: NBPOLAR-X06-EMPIRICAL-CONSTRUCTION-ORDER-PROBE
+state: COMPLETE_DESCRIPTIVE_ROUTE_BLOCKED_BY_ENTROPY_CONTRACT
+predecessor: ADAPTIVE_HARD_L1_DISCLOSURE_ACCEPTED
+documentation_authorized: true
+probe_execution_authorized: true
+artifact_content_reads_allowed: 1
+artifact_content_reads_used: 1
+decoder_attempts_allowed: 0
+decoder_attempts_used: 0
+real_data_authorized: false
+eval_authorized: false
+production_edit_authorized: false
+scientific_promotion: false
+result: X06_EMPIRICAL_CONSTRUCTION_ORDER_PROBE_COMPLETE_DESCRIPTIVE_ONLY
+independent_focused_review: PASS (focused review; descriptive only; no token/acceptance)
+next_gate: X07_ENTROPY_CONTRACT_RECONCILIATION

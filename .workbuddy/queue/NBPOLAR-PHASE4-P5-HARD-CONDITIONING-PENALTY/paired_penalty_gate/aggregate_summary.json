@@ -1,0 +1,146 @@
+{
+  "X": 144,
+  "accounting": {
+    "fully_invoked_arm_bits": 989,
+    "key_dependent_bits_total": 759552,
+    "l1_disclosure_bits_per_arm": 225,
+    "l2_disclosure_bits_per_arm": 700,
+    "public_control_bits_per_tag": 2623,
+    "public_control_bits_total": 2014464,
+    "tag_bits": 64,
+    "tag_invocations": 768
+  },
+  "analysis": "nbpolar-p5-hard-conditioning-penalty-gate",
+  "attempt_consumption_point": "first gate L1 SC call (stream 0, block 0)",
+  "attempts_allowed": 1,
+  "attempts_consumed_before": 0,
+  "attempts_consumed_by_this_run": 1,
+  "cells": {
+    "both_exact": 233,
+    "neither": 7,
+    "operational_only": 0,
+    "oracle_only": 144
+  },
+  "claim_scope": "synthetic single-point N=256 hard-conditioning penalty signal only; not real-data FER, efficiency, qualification or promotion; operational-arm numbers are interface diagnostics",
+  "discriminator": {
+    "lower_bound_above_0p30": true,
+    "operational_only_zero": true,
+    "oracle_exact_min_met": true,
+    "passed": true
+  },
+  "epsilon1": 0.05,
+  "failing_integrity_gates": [],
+  "integrity": {
+    "attempt_accounting_at_frozen_point": true,
+    "cells_disjoint_exhaustive": true,
+    "disclosures_exact_and_transcript_recount_zero": true,
+    "nonfinite_zero": true,
+    "operational_truth_leak_zero": true,
+    "p2_maxdiff_at_least_0p30": true,
+    "pairing_coverage_complete": true,
+    "provenance_candidate_oracle_complete": true,
+    "resource_abort_zero": true,
+    "undetected_zero": true
+  },
+  "integrity_all_pass": true,
+  "k1": 45,
+  "k2": 140,
+  "lower_bound": 0.3338842736427746,
+  "lower_bound_definition": "root of sum_{j=X}^{384} C(384,j) L^j (1-L)^(384-j) = 0.05 by monotone bisection; X=0 -> 0.0; X=384 -> 0.05**(1/384)",
+  "marginals": {
+    "operational_exact": 233,
+    "operational_exact_rate": 0.606770833,
+    "operational_outcomes": {
+      "decode_failed": 0,
+      "exact": 233,
+      "resource_abort": 0,
+      "undetected": 0,
+      "verify_failed": 151
+    },
+    "oracle_exact": 377,
+    "oracle_exact_rate": 0.981770833,
+    "oracle_outcomes": {
+      "decode_failed": 0,
+      "exact": 377,
+      "resource_abort": 0,
+      "undetected": 0,
+      "verify_failed": 7
+    },
+    "paired_exact_gap": 144
+  },
+  "mode": "paired-penalty-dev-gate",
+  "n": 256,
+  "outcome_label": "HARD_L1_CONDITIONING_PENALTY_CANDIDATE",
+  "p2_maxdiff": 0.34875000000000267,
+  "planned_pairs": 384,
+  "profile": "strong",
+  "provenance_counts": {
+    "operational_candidate_conditioned": 384,
+    "oracle_oracle_conditioned": 384
+  },
+  "q": 32,
+  "resource_stop_fired": false,
+  "retries": 0,
+  "rss_bytes_peak": 211537920,
+  "seeds": [
+    2026091470,
+    2026091471,
+    2026091472
+  ],
+  "shape_is_frozen_384": true,
+  "toeplitz_masters": [
+    2026101470,
+    2026101471,
+    2026101472
+  ],
+  "transcript": {
+    "event_count": 2304,
+    "event_types": {
+      "l1_disclosure": 768,
+      "l2_disclosure": 768,
+      "verification_tag": 768
+    },
+    "incremental": {
+      "key_dependent_bits": 759552,
+      "public_control_bits": 2014464,
+      "tag_invocations": 768
+    },
+    "incremental_by_arm": {
+      "operational": {
+        "key_dependent_bits": 379776,
+        "public_control_bits": 1007232,
+        "tag_invocations": 384
+      },
+      "oracle": {
+        "key_dependent_bits": 379776,
+        "public_control_bits": 1007232,
+        "tag_invocations": 384
+      }
+    },
+    "mismatch_count": 0,
+    "mismatches": [],
+    "recount": {
+      "by_arm": {
+        "operational": {
+          "key_dependent_bits": 379776,
+          "public_control_bits": 1007232,
+          "tag_invocations": 384
+        },
+        "oracle": {
+          "key_dependent_bits": 379776,
+          "public_control_bits": 1007232,
+          "tag_invocations": 384
+        }
+      },
+      "event_types": {
+        "l1_disclosure": 768,
+        "l2_disclosure": 768,
+        "verification_tag": 768
+      },
+      "key_dependent_bits": 759552,
+      "public_control_bits": 2014464,
+      "tag_invocations": 768
+    }
+  },
+  "wall_s": 41.187262
+}

@@ -1,0 +1,193 @@
+{
+  "attempts_consumed": 0,
+  "cells": {
+    "adaptive_only": 0,
+    "both_exact": 632,
+    "neither": 8,
+    "static_only": 0
+  },
+  "corrected_gate": {
+    "name": "d1_exactly_nested_and_d2_disclosed_once",
+    "value": true
+  },
+  "counters": {
+    "decoder_calls": 0,
+    "rng_calls": 0,
+    "tag_calls": 0
+  },
+  "cross_checks": {
+    "no_l2_exhaustion_blocks_zero": true,
+    "per_block_seeds_match_plan": true,
+    "persisted_blocked_state_exact": true,
+    "plan_thresholds_verbatim": true,
+    "report_label": "BLOCKED",
+    "resource_stop_not_fired": true,
+    "summary_cells_match_records": true,
+    "summary_outcomes_match_records": true,
+    "summary_union_bound_matches_recount": true
+  },
+  "disclosure": {
+    "adaptive_public_control_bits": 2471168,
+    "adaptive_tag_invocations": 942,
+    "adaptive_total_key_dependent_bits": 675783,
+    "static_public_control_bits": 1678720,
+    "static_tag_invocations": 640,
+    "static_total_key_dependent_bits": 847360,
+    "total_feedback_invocations": 302,
+    "total_tag_invocations": 1582
+  },
+  "failing_integrity_gates": [],
+  "gate_differences_vs_persisted": [
+    {
+      "gate": "d1_exactly_nested_and_d2_disclosed_once",
+      "persisted": false,
+      "recomputed": true
+    }
+  ],
+  "input_inventory": [
+    {
+      "file": "frozen_plan.json",
+      "sha256": "f27fa45d5485b31de286f800e7a248e27f2db5bfbd20091f3dadb92d8705be07",
+      "size_bytes": 15248
+    },
+    {
+      "file": "per_block_paired_outcomes.json",
+      "sha256": "7b794dddac31d9cf8aa51a13da4ec054b7ba23f1dc74dd131c599638e5e61423",
+      "size_bytes": 1125035
+    },
+    {
+      "file": "transcript_accounting.json",
+      "sha256": "c308489879739aa3a6fea4ceeedcc3fe20583f1b06aa428b46bfdb884d8b4138",
+      "size_bytes": 2090
+    },
+    {
+      "file": "aggregate_summary.json",
+      "sha256": "2c2c09bf90c0376720e6cdd6e1db8a26ef4ef62574c981972f400906d59c5dc6",
+      "size_bytes": 9090
+    },
+    {
+      "file": "report.md",
+      "sha256": "d595e95f4c9b12ca700fc67f417833bbd7400151b6f1c4061f53eafb76187ce3",
+      "size_bytes": 2023
+    }
+  ],
+  "input_inventory_after": [
+    {
+      "file": "frozen_plan.json",
+      "sha256": "f27fa45d5485b31de286f800e7a248e27f2db5bfbd20091f3dadb92d8705be07",
+      "size_bytes": 15248
+    },
+    {
+      "file": "per_block_paired_outcomes.json",
+      "sha256": "7b794dddac31d9cf8aa51a13da4ec054b7ba23f1dc74dd131c599638e5e61423",
+      "size_bytes": 1125035
+    },
+    {
+      "file": "transcript_accounting.json",
+      "sha256": "c308489879739aa3a6fea4ceeedcc3fe20583f1b06aa428b46bfdb884d8b4138",
+      "size_bytes": 2090
+    },
+    {
+      "file": "aggregate_summary.json",
+      "sha256": "2c2c09bf90c0376720e6cdd6e1db8a26ef4ef62574c981972f400906d59c5dc6",
+      "size_bytes": 9090
+    },
+    {
+      "file": "report.md",
+      "sha256": "d595e95f4c9b12ca700fc67f417833bbd7400151b6f1c4061f53eafb76187ce3",
+      "size_bytes": 2023
+    }
+  ],
+  "integrity_all_pass": true,
+  "integrity_gates": {
+    "attempt_seed_accounting_exact": true,
+    "d1_exactly_nested_and_d2_disclosed_once": true,
+    "nonfinite_zero": true,
+    "pairing_coverage_complete": true,
+    "provenance_and_truth_isolation_complete": true,
+    "resource_abort_zero": true,
+    "result_buckets_disjoint_exhaustive": true,
+    "stream_block_identity_exact": true,
+    "tag_feedback_public_control_accounting_and_union_bound_exact": true,
+    "transcript_recount_mismatch_zero": true,
+    "undetected_zero": true,
+    "wall_rss_within_frozen_limits": true
+  },
+  "l2_disclosure": {
+    "arm_block_obligations": 1280,
+    "compound_identity_distinct": 1280,
+    "recorded_event_total": 1280,
+    "recounted_event_total": 1280
+  },
+  "marginals": {
+    "adaptive_exact": 632,
+    "frozen_pairs": 640,
+    "static_exact": 632,
+    "static_exact_min": 620
+  },
+  "mode": "read-only-revalidation",
+  "notes": "The persisted P6 BLOCKED label and its five files are unchanged; this successor recomputes the corrected compound-identity D2 gate and every other frozen gate read-only, with zero decoder/RNG/tag calls and zero attempt consumption.",
+  "old_root_unchanged": true,
+  "original_persisted": {
+    "failing_integrity_gates": [
+      "d1_exactly_nested_and_d2_disclosed_once"
+    ],
+    "integrity_all_pass": false,
+    "outcome_label": "BLOCKED",
+    "persisted_integrity_gates": {
+      "attempt_seed_accounting_exact": true,
+      "d1_exactly_nested_and_d2_disclosed_once": false,
+      "nonfinite_zero": true,
+      "pairing_coverage_complete": true,
+      "provenance_and_truth_isolation_complete": true,
+      "resource_abort_zero": true,
+      "result_buckets_disjoint_exhaustive": true,
+      "stream_block_identity_exact": true,
+      "tag_feedback_public_control_accounting_and_union_bound_exact": true,
+      "transcript_recount_mismatch_zero": true,
+      "undetected_zero": true,
+      "wall_rss_within_frozen_limits": true
+    },
+    "persisted_scientific_gates": {
+      "adaptive_exact_equals_static_exact": true,
+      "leakage_100_adaptive_le_85_static": true,
+      "paired_adaptive_only_zero_and_static_only_zero": true,
+      "static_exact_at_least_620_of_640": true
+    },
+    "report_outcome_label": "BLOCKED",
+    "scientific_all_pass": true
+  },
+  "outcomes": {
+    "adaptive": {
+      "decode_failed": 0,
+      "exact": 632,
+      "resource_abort": 0,
+      "undetected": 0,
+      "verify_failed": 8
+    },
+    "static": {
+      "decode_failed": 0,
+      "exact": 632,
+      "resource_abort": 0,
+      "undetected": 0,
+      "verify_failed": 8
+    }
+  },
+  "paired": {
+    "arms_per_record": 2,
+    "identity_is_exact_product": true,
+    "planned_pairs": 640,
+    "records": 640,
+    "unique_identities": 640
+  },
+  "result_label": "ADAPTIVE_HARD_L1_DISCLOSURE_CANDIDATE",
+  "root": "/mnt/d/Code/HD-QKD_Polar_Comparison-nbpolar/.workbuddy/queue/NBPOLAR-PHASE4-P6-ADAPTIVE-HARD-L1/paired_adaptive_gate",
+  "scientific_all_pass": true,
+  "scientific_gates": {
+    "adaptive_exact_equals_static_exact": true,
+    "leakage_100_adaptive_le_85_static": true,
+    "paired_adaptive_only_zero_and_static_only_zero": true,
+    "static_exact_at_least_620_of_640": true
+  },
+  "task": "NBPOLAR-PHASE4-P6R1-GATE-IDENTITY-FIX"
+}

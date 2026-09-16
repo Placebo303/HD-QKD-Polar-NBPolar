@@ -1,0 +1,334 @@
+{
+  "adaptive_termination_histogram": {
+    "1": 403,
+    "2": 185,
+    "3": 39,
+    "4": 13
+  },
+  "adaptive_termination_k1_histogram": {
+    "112": 13,
+    "45": 403,
+    "60": 185,
+    "72": 39
+  },
+  "analysis": "nbpolar-p4p6-adaptive-hard-l1-gate",
+  "attempt_consumption_point": "first scientific SC call (stream 2026091550, block 0, static L1)",
+  "attempts_allowed": 1,
+  "attempts_consumed_before": 0,
+  "attempts_consumed_by_this_run": 1,
+  "cells": {
+    "adaptive_only": 0,
+    "both_exact": 632,
+    "neither": 8,
+    "static_only": 0
+  },
+  "claim_scope": "synthetic N=256 development evidence only; this is not real-channel FER, reconciliation efficiency, key rate, qualification or promotion; undetected frames are never merged with exact frames and planning-only f is not real-channel efficiency",
+  "disclosure": {
+    "adaptive_mean_key_dependent_bits": 1055.9109375,
+    "adaptive_total_key_dependent_bits": 675783,
+    "mean_saving_bits": 268.08906249999995,
+    "percentage_saving": 20.248418617824772,
+    "static_fully_invoked_bits": 1324,
+    "static_mean_key_dependent_bits": 1324.0,
+    "static_total_key_dependent_bits": 847360
+  },
+  "epsilon1": 0.05,
+  "failing_integrity_gates": [
+    "d1_exactly_nested_and_d2_disclosed_once"
+  ],
+  "failing_scientific_gates": [],
+  "feedback_invocations": {
+    "adaptive": 302,
+    "static": 0,
+    "total": 302
+  },
+  "integrity": {
+    "attempt_seed_accounting_exact": true,
+    "d1_exactly_nested_and_d2_disclosed_once": false,
+    "nonfinite_zero": true,
+    "pairing_coverage_complete": true,
+    "provenance_and_truth_isolation_complete": true,
+    "resource_abort_zero": true,
+    "result_buckets_disjoint_exhaustive": true,
+    "stream_block_identity_exact": true,
+    "tag_feedback_public_control_accounting_and_union_bound_exact": true,
+    "transcript_recount_mismatch_zero": true,
+    "undetected_zero": true,
+    "wall_rss_within_frozen_limits": true
+  },
+  "integrity_all_pass": false,
+  "k1_levels": [
+    45,
+    60,
+    72,
+    112
+  ],
+  "k2": 140,
+  "marginals": {
+    "adaptive_exact": 632,
+    "adaptive_exact_rate": 0.9875,
+    "static_exact": 632,
+    "static_exact_rate": 0.9875
+  },
+  "mode": "paired-adaptive-hard-l1-dev-gate",
+  "n": 256,
+  "no_l2_exhaustion_blocks": 0,
+  "outcome_label": "BLOCKED",
+  "outcomes": {
+    "adaptive": {
+      "decode_failed": 0,
+      "exact": 632,
+      "resource_abort": 0,
+      "undetected": 0,
+      "verify_failed": 8
+    },
+    "static": {
+      "decode_failed": 0,
+      "exact": 632,
+      "resource_abort": 0,
+      "undetected": 0,
+      "verify_failed": 8
+    }
+  },
+  "p2_maxdiff": 0.34875000000000267,
+  "per_stream": [
+    {
+      "adaptive_exact": 127,
+      "adaptive_feedback_invocations": 64,
+      "adaptive_tag_invocations": 192,
+      "adaptive_termination_histogram": {
+        "1": 75,
+        "2": 43,
+        "3": 9,
+        "4": 1
+      },
+      "adaptive_total_key_dependent_bits": 135463,
+      "blocks": 128,
+      "cells": {
+        "adaptive_only": 0,
+        "both_exact": 127,
+        "neither": 1,
+        "static_only": 0
+      },
+      "static_exact": 127,
+      "static_tag_invocations": 128,
+      "static_total_key_dependent_bits": 169472,
+      "stream_seed": 2026091550,
+      "toeplitz_master": 2026101550
+    },
+    {
+      "adaptive_exact": 127,
+      "adaptive_feedback_invocations": 62,
+      "adaptive_tag_invocations": 190,
+      "adaptive_termination_histogram": {
+        "1": 80,
+        "2": 37,
+        "3": 8,
+        "4": 3
+      },
+      "adaptive_total_key_dependent_bits": 135420,
+      "blocks": 128,
+      "cells": {
+        "adaptive_only": 0,
+        "both_exact": 127,
+        "neither": 1,
+        "static_only": 0
+      },
+      "static_exact": 127,
+      "static_tag_invocations": 128,
+      "static_total_key_dependent_bits": 169472,
+      "stream_seed": 2026091551,
+      "toeplitz_master": 2026101551
+    },
+    {
+      "adaptive_exact": 124,
+      "adaptive_feedback_invocations": 62,
+      "adaptive_tag_invocations": 190,
+      "adaptive_termination_histogram": {
+        "1": 84,
+        "2": 30,
+        "3": 10,
+        "4": 4
+      },
+      "adaptive_total_key_dependent_bits": 135500,
+      "blocks": 128,
+      "cells": {
+        "adaptive_only": 0,
+        "both_exact": 124,
+        "neither": 4,
+        "static_only": 0
+      },
+      "static_exact": 124,
+      "static_tag_invocations": 128,
+      "static_total_key_dependent_bits": 169472,
+      "stream_seed": 2026091552,
+      "toeplitz_master": 2026101552
+    },
+    {
+      "adaptive_exact": 127,
+      "adaptive_feedback_invocations": 64,
+      "adaptive_tag_invocations": 192,
+      "adaptive_termination_histogram": {
+        "1": 78,
+        "2": 39,
+        "3": 8,
+        "4": 3
+      },
+      "adaptive_total_key_dependent_bits": 135698,
+      "blocks": 128,
+      "cells": {
+        "adaptive_only": 0,
+        "both_exact": 127,
+        "neither": 1,
+        "static_only": 0
+      },
+      "static_exact": 127,
+      "static_tag_invocations": 128,
+      "static_total_key_dependent_bits": 169472,
+      "stream_seed": 2026091553,
+      "toeplitz_master": 2026101553
+    },
+    {
+      "adaptive_exact": 127,
+      "adaptive_feedback_invocations": 50,
+      "adaptive_tag_invocations": 178,
+      "adaptive_termination_histogram": {
+        "1": 86,
+        "2": 36,
+        "3": 4,
+        "4": 2
+      },
+      "adaptive_total_key_dependent_bits": 133702,
+      "blocks": 128,
+      "cells": {
+        "adaptive_only": 0,
+        "both_exact": 127,
+        "neither": 1,
+        "static_only": 0
+      },
+      "static_exact": 127,
+      "static_tag_invocations": 128,
+      "static_total_key_dependent_bits": 169472,
+      "stream_seed": 2026091554,
+      "toeplitz_master": 2026101554
+    }
+  ],
+  "planned_pairs": 640,
+  "planning_only_f": {
+    "adaptive": 1.932787424304826,
+    "definition": "mean_key_dependent_bits / (256*(H1+H2)); planning-only surrogate",
+    "denominator_bits": 546.3150909520141,
+    "denominator_reference_bits": 546.3150909520141,
+    "h_a_given_b_bits": 2.134043324031305,
+    "h_a_given_b_reference_bits": 2.134043324031305,
+    "scope": "not real-channel efficiency or qualification evidence",
+    "static": 2.423509842447853
+  },
+  "profile": "strong",
+  "public_control": {
+    "adaptive_feedback_bits": 302,
+    "adaptive_public_control_bits": 2471168,
+    "adaptive_public_seed_bits": 2470866,
+    "static_feedback_bits": 0,
+    "static_public_control_bits": 1678720,
+    "static_public_seed_bits": 1678720,
+    "total_public_control_bits": 4149888
+  },
+  "public_control_bits_per_tag": 2623,
+  "q": 32,
+  "resource_stop_fired": false,
+  "retries": 0,
+  "rss_bytes_peak": 394567680,
+  "scientific": {
+    "adaptive_exact_equals_static_exact": true,
+    "leakage_100_adaptive_le_85_static": true,
+    "paired_adaptive_only_zero_and_static_only_zero": true,
+    "static_exact_at_least_620_of_640": true
+  },
+  "scientific_all_pass": true,
+  "seeds": [
+    2026091550,
+    2026091551,
+    2026091552,
+    2026091553,
+    2026091554
+  ],
+  "shape_is_frozen_640": true,
+  "static_k1": 112,
+  "tag_invocations": {
+    "adaptive": 942,
+    "static": 640,
+    "total": 1582
+  },
+  "toeplitz_masters": [
+    2026101550,
+    2026101551,
+    2026101552,
+    2026101553,
+    2026101554
+  ],
+  "transcript": {
+    "event_count": 4746,
+    "event_types": {
+      "control": 302,
+      "l1_disclosure": 1582,
+      "l2_disclosure": 1280,
+      "verification_tag": 1582
+    },
+    "incremental_by_arm": {
+      "adaptive": {
+        "feedback_bits": 302,
+        "feedback_invocations": 302,
+        "key_dependent_bits": 675783,
+        "public_control_bits": 2471168,
+        "public_seed_bits": 2470866,
+        "tag_invocations": 942
+      },
+      "static": {
+        "feedback_bits": 0,
+        "feedback_invocations": 0,
+        "key_dependent_bits": 847360,
+        "public_control_bits": 1678720,
+        "public_seed_bits": 1678720,
+        "tag_invocations": 640
+      }
+    },
+    "mismatch_count": 0,
+    "mismatches": [],
+    "recount": {
+      "by_arm": {
+        "adaptive": {
+          "feedback_bits": 302,
+          "feedback_invocations": 302,
+          "key_dependent_bits": 675783,
+          "public_control_bits": 2471168,
+          "public_seed_bits": 2470866,
+          "tag_invocations": 942
+        },
+        "static": {
+          "feedback_bits": 0,
+          "feedback_invocations": 0,
+          "key_dependent_bits": 847360,
+          "public_control_bits": 1678720,
+          "public_seed_bits": 1678720,
+          "tag_invocations": 640
+        }
+      },
+      "event_types": {
+        "control": 302,
+        "l1_disclosure": 1582,
+        "l2_disclosure": 1280,
+        "verification_tag": 1582
+      },
+      "feedback_bits": 302,
+      "feedback_invocations": 302,
+      "key_dependent_bits": 1523143,
+      "public_control_bits": 4149888,
+      "public_seed_bits": 4149586,
+      "tag_invocations": 1582
+    }
+  },
+  "union_bound": 8.57603918436034e-17,
+  "union_bound_definition": "min(1.0, total_tag_invocations * 2**-64)",
+  "wall_s": 105.941485
+}

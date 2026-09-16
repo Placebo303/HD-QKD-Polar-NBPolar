@@ -1,0 +1,18 @@
+task_id: NBPOLAR-PHASE6-R2-TWO-LAYER-RATE-FEASIBILITY
+state: TWO_LAYER_RATE_FEASIBILITY_ACCEPTED
+predecessor: DECODE_REJECT_ADVANCE_DEVELOPMENT_ACCEPTED
+result: TWO_LAYER_RATE_FEASIBILITY_ACCEPTED
+independent_result_review: PASS_WITH_COMMENTS (INDEPENDENT_RESULT_REVIEW.md)
+documentation_authorized: true
+implementation_authorized: true
+decoder_free_analysis_authorized: true
+artifact_read_authorized: false
+decoder_execution_authorized: false
+synthetic_execution_authorized: false
+raw_data_authorized: false
+real_data_authorized: false
+phase7_authorized: false
+scientific_promotion: false
+attempts_allowed: 0
+attempts_used: 0
+next_gate: SUCCESSOR_PACKET

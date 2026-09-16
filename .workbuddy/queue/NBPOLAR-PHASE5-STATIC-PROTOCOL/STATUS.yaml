@@ -1,0 +1,24 @@
+task_id: NBPOLAR-PHASE5-STATIC-PROTOCOL
+state: STATIC_PROTOCOL_DEVELOPMENT_ACCEPTED
+predecessor: EMPIRICAL_PRIOR_SC_INTERFACE_ACCEPTED
+documentation_authorized: true
+implementation_authorized: true
+synthetic_exploration_authorized: true
+decoder_execution_authorized: true
+development_gate_authorized: true
+artifact_read_authorized: false
+raw_data_authorized: false
+real_data_authorized: false
+dev_eval_authorized: false
+rate_adaptation_authorized: false
+scl_authorized: false
+phase5_authorized: true
+phase6_authorized: false
+scientific_promotion: false
+attempts_allowed: 1
+attempts_used: 1
+result: STATIC_PROTOCOL_DEVELOPMENT_CANDIDATE
+independent_pre_execute: PASS (PRE_EXECUTE_REVIEW.md)
+independent_pre_result: PASS_WITH_COMMENTS (PRE_RESULT_REVIEW.md)
+main_thread_acceptance: STATIC_PROTOCOL_DEVELOPMENT_ACCEPTED
+next_gate: PHASE6_FIXED_INCREMENTAL_FROZEN_AWAITING_EXPLICIT_AUTHORIZATION

@@ -1,0 +1,189 @@
+{
+  "artifact_read_accounting": {
+    "artifact_content_reads_allowed": 1,
+    "artifact_content_reads_consumed_before": 0,
+    "artifact_content_reads_consumed_by_this_run": 1,
+    "attempts_allowed": 1,
+    "attempts_consumed_before": 0,
+    "attempts_consumed_by_this_run": 1,
+    "reopen_attempted": false,
+    "retries": 0,
+    "retry_after_open": false
+  },
+  "attempt_consumption_point": "first NPZ content open (load_v25_channel_counts)",
+  "budget": {
+    "env": {
+      "MALLOC_ARENA_MAX": "2",
+      "MKL_NUM_THREADS": "1",
+      "OMP_NUM_THREADS": "1",
+      "OPENBLAS_NUM_THREADS": "1"
+    },
+    "external_timeout_s": 2400,
+    "rss_bytes_max": 2147483648,
+    "total_wall_s": 2400.0,
+    "ulimit_virtual_kib": 2097152
+  },
+  "chunk_rows": 512,
+  "claim_scope": "frozen V25 1M-population operational replication development signal at N=32768 only, sampled from the model; P16 blocks are report-only context and contribute zero observations to this decision; not held-out or real frame FER, efficiency, key rate, scaling superiority, qualification or promotion; planning f is not real-channel efficiency; undetected is never success",
+  "construction_rule": "no construction path exists in this runner; L1/L2 orders and the (K1, K2) allocation arrive only through the verified P16 file (identity checked before any attempt) and are never recomputed",
+  "counts_path": "/mnt/d/Code/HD-QKD_Polar_Comparison/comparison_bench/outputs_comparison/nonbinary_diagnostics/nbldpc_v25_20260818/run_04/channel_counts.npz",
+  "created_utc": "2026-09-15T13:08:07Z",
+  "decision": {
+    "blocked": "BLOCKED(<earliest gate>)",
+    "candidate": "TARGET_EMPIRICAL_OPERATIONAL_F13_N32768_REPLICATION_CANDIDATE",
+    "not_confirmed": "TARGET_EMPIRICAL_OPERATIONAL_F13_N32768_REPLICATION_NOT_CONFIRMED"
+  },
+  "dev_blocks_per_stream": 16,
+  "dev_seeds": [
+    2026092030,
+    2026092031,
+    2026092032,
+    2026092033,
+    2026092034,
+    2026092035,
+    2026092036,
+    2026092037
+  ],
+  "dev_total": 128,
+  "entropy_expectations": {
+    "column_tol": 1e-12,
+    "entropy_tol": 1e-12,
+    "floor_entropy_change_tol": 1e-09,
+    "h1": 0.02428054681872374,
+    "h2": 0.7767572780789994,
+    "total": 0.8010378248977232
+  },
+  "expected_npz_bytes": 25166822,
+  "field": {
+    "alpha": 2,
+    "index_order": "natural",
+    "name": "GF32 polynomial basis",
+    "primitive_polynomial": 37
+  },
+  "floor": 1e-15,
+  "frozen_command": "cd /mnt/d/Code/HD-QKD_Polar_Comparison-nbpolar\nexport OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1 MKL_NUM_THREADS=1 MALLOC_ARENA_MAX=2\nulimit -v 2097152\ntimeout 2400 /mnt/d/Code/HD-QKD_Polar_Comparison/.venv/bin/python -m comparison_bench.src.comparison_bench.formal_ir.nbpolar.operational_f13_replication --counts /mnt/d/Code/HD-QKD_Polar_Comparison/comparison_bench/outputs_comparison/nonbinary_diagnostics/nbldpc_v25_20260818/run_04/channel_counts.npz --source 1M --floor 1e-15 --n 32768 --k1 319 --k2 6492 --construction .workbuddy/queue/NBPOLAR-PHASE4-P16-N32768-OPERATIONAL-F13/operational_f13_gate/construction_and_allocation.json --construction-digest 055c906472dd2a09761761b18aceb5f31d8b5db19bac658721f8dc49c3faea1b --dev-seeds 2026092030 2026092031 2026092032 2026092033 2026092034 2026092035 2026092036 2026092037 --dev-blocks-per-stream 16 --chunk-rows 512 --tag-bits 64 --out-dir .workbuddy/queue/NBPOLAR-PHASE4-P17-N32768-OPERATIONAL-REPLICATION/operational_replication_gate",
+  "integrity_gate_order": [
+    "predecessor_construction_identity",
+    "target_population_contract",
+    "construction_frozen_before_dev",
+    "dev_coverage_complete",
+    "streams_disjoint_frozen",
+    "orders_valid_k_replay_f_within_budget",
+    "buckets_disjoint_exhaustive",
+    "truth_isolation",
+    "undetected_zero",
+    "nonfinite_zero",
+    "no_unregistered_calls",
+    "disclosure_recount_exact",
+    "attempt_read_accounting_exact",
+    "resource_limits_met_and_no_abort"
+  ],
+  "k1": 319,
+  "k2": 6492,
+  "k_total": 6811,
+  "loader": "comparison_bench.src.comparison_bench.formal_ir.v35_algorithm_development.load_v25_channel_counts",
+  "mode": "operational-replication-gate",
+  "n": 32768,
+  "operational_rule": "per DEV block: disclose true U1 at verified order1[:K1], operational L1 SC; L2 metrics from Bob plus the hard L1 candidate only; disclose true U2 at verified order2[:K2], restarted operational L2 SC; label_hat=32*high_hat+low_hat; exactly one 64-bit Toeplitz tag in the P17/N/block seed domain (master DEV seed+10000); exactly one of exact/undetected/verify_failed/decode_failed/nonfinite/resource_abort; undetected never success",
+  "out_root": ".workbuddy/queue/NBPOLAR-PHASE4-P17-N32768-OPERATIONAL-REPLICATION/operational_replication_gate",
+  "outcome_precedence": [
+    "resource_abort: block not executed (preregistered budget stop)",
+    "nonfinite: numeric nonfinite failure in L1/L2 SC; no tag",
+    "decode_failed: other L1/L2 SC exception; no tag",
+    "verify_failed: tag mismatch",
+    "exact: tag pass and label == true label",
+    "undetected: tag pass and not exact (never success)"
+  ],
+  "output_files": [
+    "frozen_plan.json",
+    "predecessor_construction_identity.json",
+    "per_block_outcomes.jsonl",
+    "aggregate_summary.json",
+    "report.md"
+  ],
+  "precondition_order": [
+    "no_zero_bob_column",
+    "p_b_normalized",
+    "conditional_columns_normalized",
+    "h1_matches_literal",
+    "h2_matches_literal",
+    "total_matches_literal",
+    "floor_entropy_change_at_most_1e-9"
+  ],
+  "predecessor": {
+    "construction_digest": "055c906472dd2a09761761b18aceb5f31d8b5db19bac658721f8dc49c3faea1b",
+    "construction_path": ".workbuddy/queue/NBPOLAR-PHASE4-P16-N32768-OPERATIONAL-F13/operational_f13_gate/construction_and_allocation.json",
+    "identity": {
+      "construction_path": ".workbuddy/queue/NBPOLAR-PHASE4-P16-N32768-OPERATIONAL-F13/operational_f13_gate/construction_and_allocation.json",
+      "digest_expected": "055c906472dd2a09761761b18aceb5f31d8b5db19bac658721f8dc49c3faea1b",
+      "digest_match": true,
+      "digest_recomputed": "055c906472dd2a09761761b18aceb5f31d8b5db19bac658721f8dc49c3faea1b",
+      "f": 1.2998502888172847,
+      "k1": 319,
+      "k2": 6492,
+      "k_total": 6811,
+      "l1_head8": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        6,
+        8,
+        9
+      ],
+      "l1_len": 32768,
+      "l2_head8": [
+        2296,
+        1706,
+        3456,
+        1708,
+        1745,
+        2282,
+        4630,
+        4868
+      ],
+      "l2_len": 32768,
+      "leakage_bits": 34119,
+      "n": 32768,
+      "predecessor_dev_seeds": [
+        2026092010,
+        2026092011,
+        2026092012,
+        2026092013,
+        2026092014,
+        2026092015,
+        2026092016,
+        2026092017
+      ],
+      "predecessor_protocol": "nbpolar-p16-operational-f13-gate",
+      "protocol": "nbpolar-p17-operational-replication-gate"
+    }
+  },
+  "predecessor_report_only": {
+    "p16_exact": 62,
+    "p16_total": 64,
+    "p16_wilson_lb": 0.9098711859,
+    "pooled_into_decision": false
+  },
+  "protocol": "nbpolar-p17-operational-replication-gate",
+  "public_control_bits_per_tag": 327743,
+  "q": 32,
+  "recovery_gates": {
+    "boundary_120_of_128": 0.8924595822,
+    "boundary_121_of_128": 0.902108476,
+    "dev_total": 128,
+    "exact_min": 121,
+    "wilson_min": 0.9,
+    "wilson_z": 1.6448536269514722
+  },
+  "repository": "HD-QKD_Polar_Comparison-nbpolar",
+  "sampling_rule": "per block: B ~ p_b (rng.random(n) against the cumulative p_b), then A ~ P_floor(A|B) per coordinate (rng.random(n) against the cumulative column); high=A//32, low=A%32; one explicit RNG per stream (np.random.default_rng(stream seed)), blocks sequential, no global RNG; each DEV block sampled once",
+  "source": "1M",
+  "support_rule": "f = counts / column totals; every cell below 1e-15 replaced by 1e-15; columns renormalized; p_b = column totals / total count; P1/P2 = accepted derive_p1/derive_p2(f) under A=32*U1+U2; no lambda, backoff, tuning, floor scan or held-out fitting (exact P7 rule)",
+  "tag_bits": 64,
+  "tag_master_rule": "DEV stream seed + 10000",
+  "tag_seed_domain": "nbpolar-p17-operational-replication-seed:<master>:<n>:<block_index>",
+  "target_f": 1.3,
+  "truth_boundary": "Alice truth enters only sampling, disclosed values, tag construction and scoring; it never enters an undisclosed operational metric, decision or candidate label; each DEV layer restarts SC with no state transfer; each DEV L2 metric is gathered from Bob and the hard L1 candidate only"
+}

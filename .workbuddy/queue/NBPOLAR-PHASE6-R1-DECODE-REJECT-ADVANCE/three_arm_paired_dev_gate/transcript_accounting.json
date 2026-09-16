@@ -1,0 +1,88 @@
+{
+  "public_control": {
+    "r1_feedback_control_bits": 67,
+    "r1_feedback_control_invocations": 67,
+    "r1_seed_bits": 873459,
+    "r1_split": {
+      "feedback_control_bits": 67,
+      "seed_bits": 873459
+    },
+    "static_seed_bits": 781654,
+    "strict_stop_feedback_control_bits": 34,
+    "strict_stop_feedback_control_invocations": 34,
+    "strict_stop_seed_bits": 823622,
+    "strict_stop_split": {
+      "feedback_control_bits": 34,
+      "seed_bits": 823622
+    },
+    "total_public_control_bits": 2478836
+  },
+  "r1": {
+    "incremental": {
+      "feedback_control_bits": 67,
+      "feedback_control_invocations": 67,
+      "key_dependent_bits": 66152,
+      "public_control_bits": 873526,
+      "public_seed_bits": 873459,
+      "verification_invocations": 333
+    },
+    "mismatch_count": 0,
+    "recount": {
+      "feedback_control_invocations": 67,
+      "key_dependent_bits": 66152,
+      "public_control_bits": 873526,
+      "verification_invocations": 333
+    },
+    "transcript_sha256": "4db1ef8966cb914a22499d8322bb73f1b4b7fd16da617febe3dee318ef520885"
+  },
+  "r1_event_count": 767,
+  "static": {
+    "incremental": {
+      "feedback_control_bits": 0,
+      "feedback_control_invocations": 0,
+      "key_dependent_bits": 86572,
+      "public_control_bits": 781654,
+      "public_seed_bits": 781654,
+      "verification_invocations": 298
+    },
+    "mismatch_count": 0,
+    "recount": {
+      "feedback_control_invocations": 0,
+      "key_dependent_bits": 86572,
+      "public_control_bits": 781654,
+      "verification_invocations": 298
+    },
+    "transcript_sha256": "06fbcd8aeff63efcc14b60914d15ef81d751ee66416f51b43eecbf44af89ac18"
+  },
+  "static_event_count": 598,
+  "strict_stop": {
+    "incremental": {
+      "feedback_control_bits": 34,
+      "feedback_control_invocations": 34,
+      "key_dependent_bits": 64276,
+      "public_control_bits": 823656,
+      "public_seed_bits": 823622,
+      "verification_invocations": 314
+    },
+    "mismatch_count": 0,
+    "recount": {
+      "feedback_control_invocations": 34,
+      "key_dependent_bits": 64276,
+      "public_control_bits": 823656,
+      "verification_invocations": 314
+    },
+    "transcript_sha256": "53a371353aecc42fb24e82265d53bdb226e9c6c836ce6a97debbb78a9ea86d92"
+  },
+  "strict_stop_event_count": 682,
+  "union_bound": {
+    "r1": 1.805196617188365e-17,
+    "r1_tag_invocations": 333,
+    "recount_total_tag_invocations": 945,
+    "static": 1.6154612370034016e-17,
+    "static_tag_invocations": 298,
+    "strict_stop": 1.702197410802242e-17,
+    "strict_stop_tag_invocations": 314,
+    "total": 5.1228552649940085e-17,
+    "total_tag_invocations": 945
+  }
+}

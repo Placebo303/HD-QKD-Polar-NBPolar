@@ -1,0 +1,13 @@
+task_id: NBPOLAR-PHASE4-X13R1-METRIC-MEMORY-COMPLETION-PROBE
+state: COMPLETE_DESCRIPTIVE_MAIN_THREAD_RECORDED
+tier: X
+predecessor: X13_STOP_RESOURCE_TIMEOUT
+probe_execution_authorized: true
+artifact_access_authorized: false
+attempts_allowed: 0
+attempts_used: 0
+scientific_status_change_authorized: false
+result: X13R1_COMPLETE_DESCRIPTIVE_ONLY
+focused_review: PASS_WITH_COMMENTS_REPORTED_POST_RUN
+review_provenance_note: results.json records no reviewer available during execution; the later independent reviewer-go report supplied to the main thread is the review evidence
+next_gate: NONE_X13R1_COMPLETE

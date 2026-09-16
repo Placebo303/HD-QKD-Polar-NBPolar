@@ -1,0 +1,68 @@
+{
+ "packet": "NBPOLAR-PHASE4-P11-EXACT-CHUNKED-SC",
+ "parameters": {
+  "seed": 2026091800,
+  "dtype": "float64",
+  "q": 32,
+  "alpha": 2,
+  "primitive_polynomial": 37,
+  "chunk_rows": 512,
+  "primitive_rows": [
+   1,
+   31,
+   32,
+   33,
+   127,
+   128,
+   129,
+   511,
+   512,
+   513,
+   2048
+  ],
+  "primitive_kinds": [
+   "moderate_m20",
+   "wide_m160",
+   "neginf_support"
+  ],
+  "full_sc_N": [
+   64,
+   256
+  ],
+  "paired_N": 65536,
+  "large_N": 262144,
+  "arm_order_paired": "direct_before_chunked",
+  "rng_stream_order": "primitives(rows asc x kinds)->V0(fixed)->N64 controls->N256 controls->N65536 block->N262144 block; C4 search draws data-dependent in count, stream-ordered"
+ },
+ "command": "cd /mnt/d/Code/HD-QKD_Polar_Comparison-nbpolar && ulimit -v 2097152 && timeout 600 /mnt/d/Code/HD-QKD_Polar_Comparison/.venv/bin/python -m comparison_bench.src.comparison_bench.formal_ir.nbpolar.sc_chunked_gate --seed 2026091800 --chunk-rows 512 --out-dir .workbuddy/queue/NBPOLAR-PHASE4-P11-EXACT-CHUNKED-SC/exact_chunked_sc_gate",
+ "environment": {
+  "interpreter": "/mnt/d/Code/HD-QKD_Polar_Comparison/.venv/bin/python",
+  "python": "3.12.3 (main, Aug 31 2026, 10:18:26) [GCC 13.3.0]",
+  "numpy": "2.5.3",
+  "platform": "Linux-6.18.33.2-microsoft-standard-WSL2-x86_64-with-glibc2.39",
+  "cpu_count": 8
+ },
+ "attempt_accounting": {
+  "attempts_allowed": 1,
+  "attempts_consumed_before": 0,
+  "attempts_consumed_by_this_run": 1,
+  "consumption_point": "first formal sc_decode call (step-1 N=64 F1_moderate direct arm); no artifact read is authorized or consumed",
+  "artifact_reads_authorized": 0,
+  "artifact_reads_consumed": 0,
+  "no_reopen": "N/A: no artifact/content file is opened at any point; every input is RNG-injected from the frozen seed, so there is nothing to reopen"
+ },
+ "gates": {
+  "semantic_parity": true,
+  "paired_n65536_exact": true,
+  "large_n262144_completion": true,
+  "large_n262144_rss": true
+ },
+ "budgets": {
+  "timeout_s": 600,
+  "vsz_kb": 2097152,
+  "rss_hard_limit_bytes": 1610612736,
+  "planning_wall_s_report_only": 120.0,
+  "planning_rss_bytes_report_only": 1073741824
+ },
+ "label": "EXACT_CHUNKED_SC_CANDIDATE"
+}

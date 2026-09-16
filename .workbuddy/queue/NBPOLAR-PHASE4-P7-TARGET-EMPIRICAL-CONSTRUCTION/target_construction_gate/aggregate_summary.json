@@ -1,0 +1,381 @@
+{
+  "analysis": "nbpolar-p7-target-empirical-construction-gate",
+  "attempt_read_accounting": {
+    "artifact_content_reads_allowed": 1,
+    "artifact_content_reads_consumed_before": 0,
+    "artifact_content_reads_consumed_by_this_run": 1,
+    "attempts_allowed": 1,
+    "attempts_consumed_before": 0,
+    "attempts_consumed_by_this_run": 1,
+    "consumption_point": "first NPZ content open (load_v25_channel_counts)",
+    "counts_path": "/mnt/d/Code/HD-QKD_Polar_Comparison/comparison_bench/outputs_comparison/nonbinary_diagnostics/nbldpc_v25_20260818/run_04/channel_counts.npz",
+    "expected_npz_bytes": 25166822,
+    "input_mode": "v25_npz",
+    "loader": "comparison_bench.src.comparison_bench.formal_ir.v35_algorithm_development.load_v25_channel_counts",
+    "observed_npz_bytes": 25166822,
+    "open_count": 1,
+    "reopen_attempted": false,
+    "retries": 0,
+    "retry_after_open": false,
+    "stat_size_checked": true
+  },
+  "bec_controls": {
+    "epsilon_1": 0.00485610936373576,
+    "epsilon_2": 0.15535145561579988,
+    "report_only": true,
+    "rule": "epsilon_l = H_l / 5; analytic_order(epsilon_l, n); report-only control"
+  },
+  "blocked_detail": null,
+  "cells": {
+    "bec_only": 0,
+    "both_exact": 640,
+    "empirical_only": 0,
+    "neither": 0
+  },
+  "claim_scope": "frozen V25 TRAIN target-population empirical construction development signal at N=256 only; not held-out or real frame FER, efficiency, key rate, scaling, qualification or promotion; planning-only f is not real-channel efficiency; undetected is never success",
+  "construction_stability": {
+    "l1": {
+      "bec_report_only": {
+        "pooled_empirical|bec": 0.8991073472190433,
+        "train_2026091650|bec": 0.8993197814145113,
+        "train_2026091651|bec": 0.8993548294804303,
+        "train_2026091652|bec": 0.8970101853971161
+      },
+      "min_pairwise_spearman": 0.9973291943236439,
+      "order_names": [
+        "train_2026091650",
+        "train_2026091651",
+        "train_2026091652",
+        "pooled_empirical"
+      ],
+      "pairwise_train_orders": {
+        "train_2026091650|pooled_empirical": 0.999124513618677,
+        "train_2026091650|train_2026091651": 0.9986896314946212,
+        "train_2026091650|train_2026091652": 0.9973291943236439,
+        "train_2026091651|pooled_empirical": 0.9991338120851453,
+        "train_2026091651|train_2026091652": 0.9979378862439917,
+        "train_2026091652|pooled_empirical": 0.998675326161593
+      },
+      "topk_vs_bec_report_only": {
+        "k": 45,
+        "overlap": {
+          "pooled_empirical|bec": 0.9111111111111111,
+          "train_2026091650|bec": 0.9111111111111111,
+          "train_2026091651|bec": 0.9111111111111111,
+          "train_2026091652|bec": 0.8888888888888888
+        }
+      }
+    },
+    "l2": {
+      "bec_report_only": {
+        "pooled_empirical|bec": 0.9430797951476311,
+        "train_2026091650|bec": 0.9374055848020142,
+        "train_2026091651|bec": 0.9435847734035249,
+        "train_2026091652|bec": 0.936845531013962
+      },
+      "min_pairwise_spearman": 0.9950453479056992,
+      "order_names": [
+        "train_2026091650",
+        "train_2026091651",
+        "train_2026091652",
+        "pooled_empirical"
+      ],
+      "pairwise_train_orders": {
+        "train_2026091650|pooled_empirical": 0.9961668860151064,
+        "train_2026091650|train_2026091651": 0.9950453479056992,
+        "train_2026091650|train_2026091652": 0.9991917486839094,
+        "train_2026091651|pooled_empirical": 0.9994220645456626,
+        "train_2026091651|train_2026091652": 0.9953629262989242,
+        "train_2026091652|pooled_empirical": 0.9960874914168002
+      },
+      "topk_vs_bec_report_only": {
+        "k": 140,
+        "overlap": {
+          "pooled_empirical|bec": 0.9357142857142857,
+          "train_2026091650|bec": 0.9285714285714286,
+          "train_2026091651|bec": 0.9357142857142857,
+          "train_2026091652|bec": 0.9357142857142857
+        }
+      }
+    }
+  },
+  "counts_path": "/mnt/d/Code/HD-QKD_Polar_Comparison/comparison_bench/outputs_comparison/nonbinary_diagnostics/nbldpc_v25_20260818/run_04/channel_counts.npz",
+  "created_utc": "2026-09-13T19:33:09Z",
+  "dev_blocks": 128,
+  "dev_seeds": [
+    2026091660,
+    2026091661,
+    2026091662,
+    2026091663,
+    2026091664
+  ],
+  "disclosure_accounting": {
+    "disclosed_bits_per_coordinate": 5,
+    "fully_invoked_arm_bits": 989,
+    "incremental_by_arm": {
+      "bec": {
+        "key_dependent_bits": 632960,
+        "public_control_bits": 1678720,
+        "tag_invocations": 640
+      },
+      "empirical": {
+        "key_dependent_bits": 632960,
+        "public_control_bits": 1678720,
+        "tag_invocations": 640
+      }
+    },
+    "key_dependent_bits_total": 1265920,
+    "l1_bits_per_arm": 225,
+    "l2_bits_per_arm": 700,
+    "mismatch_count": 0,
+    "mismatches": [],
+    "public_control_bits_per_tag": 2623,
+    "public_control_bits_total": 3357440,
+    "recount": {
+      "by_arm": {
+        "bec": {
+          "key_dependent_bits": 632960,
+          "public_control_bits": 1678720,
+          "tag_invocations": 640
+        },
+        "empirical": {
+          "key_dependent_bits": 632960,
+          "public_control_bits": 1678720,
+          "tag_invocations": 640
+        }
+      },
+      "event_types": {
+        "l1_disclosure": 1280,
+        "l2_disclosure": 1280,
+        "verification_tag": 1280
+      },
+      "key_dependent_bits": 1265920,
+      "public_control_bits": 3357440,
+      "tag_invocations": 1280
+    },
+    "tag_bits": 64,
+    "tag_invocations": 1280
+  },
+  "entropy": {
+    "checks": {
+      "conditional_columns_normalized": true,
+      "floor_entropy_change_at_most_1e-9": true,
+      "h1_matches_literal": true,
+      "h2_matches_literal": true,
+      "no_zero_bob_column": true,
+      "p_b_normalized": true,
+      "total_matches_literal": true
+    },
+    "column_dev": 1.1357581541915351e-13,
+    "expected_h1": 0.02428054681872374,
+    "expected_h2": 0.7767572780789994,
+    "expected_total": 0.8010378248977232,
+    "floor_entropy_change": 5.1600945738528026e-11,
+    "floor_functional": "same functionals on the floor-renormalized protocol table (reported only for the floor-change guard)",
+    "floor_h1": 0.024280546864581108,
+    "floor_h2": 0.776757278084698,
+    "floor_total": 0.8010378249492791,
+    "h1": 0.024280546818678802,
+    "h2": 0.7767572780789994,
+    "p_b_sum": 1.0,
+    "population_functional": "raw-MLE in-sample conditional entropies H1=E_B H(P1(:,b)), H2=E_{B,U1} H(P2(u1,b,:)) (accepted V26/V49 chain; the frozen literals are these values)",
+    "tolerances": {
+      "column": 1e-12,
+      "entropy": 1e-12,
+      "floor_entropy_change": 1e-09
+    },
+    "total": 0.8010378248976782
+  },
+  "failing_integrity_gates": [],
+  "failing_scientific_gates": [],
+  "floor": 1e-15,
+  "input_mode": "v25_npz",
+  "integrity": {
+    "attempt_read_accounting_exact": true,
+    "coverage_complete_and_disjoint": true,
+    "disclosure_and_recount_exact": true,
+    "nonfinite_zero": true,
+    "orders_frozen_permutations_provenance": true,
+    "pairing_and_buckets": true,
+    "resource_abort_zero": true,
+    "resource_limits_met": true,
+    "target_population_contract": true,
+    "truth_leak_zero": true,
+    "undetected_zero": true
+  },
+  "integrity_all_pass": true,
+  "k1": 45,
+  "k2": 140,
+  "marginals": {
+    "bec_exact": 640,
+    "bec_exact_rate": 1.0,
+    "bec_outcomes": {
+      "decode_failed": 0,
+      "exact": 640,
+      "resource_abort": 0,
+      "undetected": 0,
+      "verify_failed": 0
+    },
+    "empirical_exact": 640,
+    "empirical_exact_rate": 1.0,
+    "empirical_outcomes": {
+      "decode_failed": 0,
+      "exact": 640,
+      "resource_abort": 0,
+      "undetected": 0,
+      "verify_failed": 0
+    },
+    "fully_invoked_arms": 1280,
+    "paired_exact_gap": 0
+  },
+  "mode": "paired-target-population-dev-gate",
+  "n": 256,
+  "orders_sha256": "8ec690344897655418b71520b22e9e403dfa381ca193fe0d322cb13e1d714104",
+  "orders_unchanged_after_dev": true,
+  "outcome_label": "TARGET_EMPIRICAL_CONSTRUCTION_CANDIDATE",
+  "per_stream": {
+    "2026091660": {
+      "bec": {
+        "outcome_counts": {
+          "decode_failed": 0,
+          "exact": 128,
+          "resource_abort": 0,
+          "undetected": 0,
+          "verify_failed": 0
+        }
+      },
+      "empirical": {
+        "outcome_counts": {
+          "decode_failed": 0,
+          "exact": 128,
+          "resource_abort": 0,
+          "undetected": 0,
+          "verify_failed": 0
+        }
+      },
+      "records": 128
+    },
+    "2026091661": {
+      "bec": {
+        "outcome_counts": {
+          "decode_failed": 0,
+          "exact": 128,
+          "resource_abort": 0,
+          "undetected": 0,
+          "verify_failed": 0
+        }
+      },
+      "empirical": {
+        "outcome_counts": {
+          "decode_failed": 0,
+          "exact": 128,
+          "resource_abort": 0,
+          "undetected": 0,
+          "verify_failed": 0
+        }
+      },
+      "records": 128
+    },
+    "2026091662": {
+      "bec": {
+        "outcome_counts": {
+          "decode_failed": 0,
+          "exact": 128,
+          "resource_abort": 0,
+          "undetected": 0,
+          "verify_failed": 0
+        }
+      },
+      "empirical": {
+        "outcome_counts": {
+          "decode_failed": 0,
+          "exact": 128,
+          "resource_abort": 0,
+          "undetected": 0,
+          "verify_failed": 0
+        }
+      },
+      "records": 128
+    },
+    "2026091663": {
+      "bec": {
+        "outcome_counts": {
+          "decode_failed": 0,
+          "exact": 128,
+          "resource_abort": 0,
+          "undetected": 0,
+          "verify_failed": 0
+        }
+      },
+      "empirical": {
+        "outcome_counts": {
+          "decode_failed": 0,
+          "exact": 128,
+          "resource_abort": 0,
+          "undetected": 0,
+          "verify_failed": 0
+        }
+      },
+      "records": 128
+    },
+    "2026091664": {
+      "bec": {
+        "outcome_counts": {
+          "decode_failed": 0,
+          "exact": 128,
+          "resource_abort": 0,
+          "undetected": 0,
+          "verify_failed": 0
+        }
+      },
+      "empirical": {
+        "outcome_counts": {
+          "decode_failed": 0,
+          "exact": 128,
+          "resource_abort": 0,
+          "undetected": 0,
+          "verify_failed": 0
+        }
+      },
+      "records": 128
+    }
+  },
+  "planned_pairs": 640,
+  "planning_f": {
+    "f": 4.8228449767568495,
+    "f_no_tag": 4.5107498518706635,
+    "leakage_bits": 989,
+    "leakage_bits_no_tag": 925,
+    "nH_bits": 205.0656831738056,
+    "note": "planning-only fixed-design ratio; no gate depends on f; not real-channel efficiency",
+    "planning_only": true
+  },
+  "q": 32,
+  "repository": "HD-QKD_Polar_Comparison-nbpolar",
+  "resource_stop_fired": false,
+  "rss_bytes_peak": 383832064,
+  "scientific": {
+    "empirical_exact_at_least_620_of_640": true,
+    "empirical_wilson_lower_bound_at_least_0p95": true,
+    "train_spearman_min_at_least_0p95": true
+  },
+  "scientific_all_pass": true,
+  "shape_is_frozen_640": true,
+  "source": "1M",
+  "toeplitz_masters": [
+    2026101660,
+    2026101661,
+    2026101662,
+    2026101663,
+    2026101664
+  ],
+  "train_blocks": 256,
+  "train_seeds": [
+    2026091650,
+    2026091651,
+    2026091652
+  ],
+  "wall_s": 132.523651,
+  "wilson_lower_bound": 0.9957903841321254,
+  "wilson_z": 1.6448536269514722
+}

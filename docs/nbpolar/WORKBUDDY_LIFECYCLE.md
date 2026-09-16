@@ -60,6 +60,23 @@ The next packet remains all-false until its own authorization prompt is sent by
 the user. Data, decoder, EVAL and scientific-promotion permissions stay
 separate so a code task cannot silently become a result-producing run.
 
+## Tier X / Tier Y
+
+Independent `reviewer-go` returns are produced by separate subagents and are
+trusted for the checks they explicitly report. Main-thread acceptance reviews
+scope and scientific interpretation; it does not routinely rerun identical
+reviewer tests. Conflicts, missing gates, internal inconsistencies, or
+out-of-scope claims still require targeted follow-up.
+
+Exploratory sensitivity work may run as a non-claim **Tier X** probe inside any
+authorized packet: it writes only under `workspace/probes/<id>/`, begins with a
+three-line preregistration, ends with one result record, and gets a focused
+numerical review instead of Pre-EXECUTE/Pre-RESULT. It creates no candidate or
+accepted token and cannot promote accepted evidence. Claim-bearing **Tier Y**
+decision gates keep explicit authorization, frozen thresholds, one-shot
+attempts and independent reviews. A same-point semantic correction may follow
+the delta-successor fast path. See `PROBE_TIER.md` and `AGENTS.md` §10.4.
+
 ## Documentation updates
 
 Each accepted milestone updates `CURRENT_TASK.md`, `docs/CURRENT_MAINLINE.md`,

@@ -1,0 +1,289 @@
+{
+  "analysis": "nbpolar-p18-holdout-microcheck",
+  "attempt_read_accounting": {
+    "artifact_content_reads_allowed_per_input": 1,
+    "attempts_allowed": 1,
+    "attempts_consumed_by_this_run": 1,
+    "construction_path": ".workbuddy/queue/NBPOLAR-PHASE4-P16-N32768-OPERATIONAL-F13/operational_f13_gate/construction_and_allocation.json",
+    "consumption_point": "first protected content open (load_v25_channel_counts)",
+    "counts_content_opens": 1,
+    "counts_input_mode": "v25_npz",
+    "counts_path": "/mnt/d/Code/HD-QKD_Polar_Comparison/comparison_bench/outputs_comparison/nonbinary_diagnostics/nbldpc_v25_20260818/run_04/channel_counts.npz",
+    "hold_content_opens": 1,
+    "hold_input_mode": "pairs_parquet",
+    "hold_pairs_path": "comparison_bench/outputs_comparison/nonbinary_diagnostics/v13r3fresh_pairs_20260816/type2_1M_20260121_184040/pairs.parquet",
+    "input_mode": "real",
+    "manifest_path": "comparison_bench/outputs_comparison/nonbinary_diagnostics/nbldpc_v25_20260818/run_04/split_manifest.json",
+    "npz_loader": "comparison_bench.src.comparison_bench.formal_ir.v35_algorithm_development.load_v25_channel_counts",
+    "opened_content_paths": [
+      "/mnt/d/Code/HD-QKD_Polar_Comparison/comparison_bench/outputs_comparison/nonbinary_diagnostics/nbldpc_v25_20260818/run_04/channel_counts.npz",
+      "/mnt/d/Code/HD-QKD_Polar_Comparison-nbpolar/comparison_bench/outputs_comparison/nonbinary_diagnostics/v13r3fresh_pairs_20260816/type2_1M_20260121_184040/pairs.parquet"
+    ],
+    "pairs_loader": "comparison_bench.src.comparison_bench.io.pairs_loader.load_pairs_table+normalize_pair_columns",
+    "registered_content_paths": [
+      "/mnt/d/Code/HD-QKD_Polar_Comparison/comparison_bench/outputs_comparison/nonbinary_diagnostics/nbldpc_v25_20260818/run_04/channel_counts.npz",
+      "/mnt/d/Code/HD-QKD_Polar_Comparison-nbpolar/comparison_bench/outputs_comparison/nonbinary_diagnostics/v13r3fresh_pairs_20260816/type2_1M_20260121_184040/pairs.parquet"
+    ],
+    "reopen_attempted": false,
+    "retries": 0,
+    "retry_after_open": false
+  },
+  "block_count": 3,
+  "blocks": [
+    {
+      "block_index": 0,
+      "disclosure_ce_ratio": 1.2366728355903898,
+      "frame_end": 1727,
+      "frame_start": 1600,
+      "l1_correct": true,
+      "outcome": "verify_failed",
+      "raw_ser": 0.240936279296875,
+      "tag_pass": false,
+      "total_nll_bits": 27589.350245339167
+    },
+    {
+      "block_index": 1,
+      "disclosure_ce_ratio": 1.2235978917674373,
+      "frame_end": 1855,
+      "frame_start": 1728,
+      "l1_correct": false,
+      "outcome": "verify_failed",
+      "raw_ser": 0.23980712890625,
+      "tag_pass": false,
+      "total_nll_bits": 27884.160498770143
+    },
+    {
+      "block_index": 2,
+      "disclosure_ce_ratio": 1.232262733815947,
+      "frame_end": 1983,
+      "frame_start": 1856,
+      "l1_correct": false,
+      "outcome": "verify_failed",
+      "raw_ser": 0.240264892578125,
+      "tag_pass": false,
+      "total_nll_bits": 27688.088800952148
+    }
+  ],
+  "chunk_rows": 512,
+  "claim_scope": "real-input operational microcheck of the frozen V25 1M HOLD split at N=32768 only (three registered chronological blocks, frames 1600..1983); descriptive loading/ordering/prior/decoder/accounting evidence, not real-frame FER, reconciliation efficiency, leakage, key rate, scaling superiority, qualification or promotion; the CE-normalized disclosure ratio is not qualification efficiency; undetected is never success",
+  "counts_path": "/mnt/d/Code/HD-QKD_Polar_Comparison/comparison_bench/outputs_comparison/nonbinary_diagnostics/nbldpc_v25_20260818/run_04/channel_counts.npz",
+  "created_utc": "2026-09-15T17:52:05Z",
+  "decision": {
+    "blocked": "BLOCKED(<earliest gate>)",
+    "complete": "TARGET_EMPIRICAL_OPERATIONAL_F13_N32768_HOLD_MICROCHECK_COMPLETE",
+    "recovery_threshold": null
+  },
+  "disclosure": {
+    "ce_normalized_disclosure_ratio": 1.230820481567787,
+    "full_block_key_dependent_bits": 34119,
+    "key_dependent_bits": 102357,
+    "mismatches": [],
+    "public_control_bits": 983229,
+    "public_control_bits_per_tag": 327743,
+    "ratio_note": "descriptive sample CE-normalized ratio, NOT qualification efficiency",
+    "recount": {
+      "event_types": {
+        "l1_disclosure": 3,
+        "l2_disclosure": 3,
+        "verification_tag": 3
+      },
+      "key_dependent_bits": 102357,
+      "public_control_bits": 983229,
+      "tag_invocations": 3
+    },
+    "tag_invocations": 3
+  },
+  "entropy": {
+    "checks": {
+      "conditional_columns_normalized": true,
+      "floor_entropy_change_at_most_1e-9": true,
+      "h1_matches_literal": true,
+      "h2_matches_literal": true,
+      "no_zero_bob_column": true,
+      "p_b_normalized": true,
+      "total_matches_literal": true
+    },
+    "column_dev": 1.1357581541915351e-13,
+    "expected_h1": 0.02428054681872374,
+    "expected_h2": 0.7767572780789994,
+    "expected_total": 0.8010378248977232,
+    "floor_entropy_change": 5.1600945738528026e-11,
+    "floor_total": 0.8010378249492791,
+    "h1": 0.024280546818678802,
+    "h2": 0.7767572780789994,
+    "p_b_sum": 1.0,
+    "total": 0.8010378248976782
+  },
+  "exact_count": 0,
+  "failing_integrity_gates": [],
+  "hold": {
+    "block_count": 3,
+    "block_ranges": [
+      [
+        1600,
+        1727
+      ],
+      [
+        1728,
+        1855
+      ],
+      [
+        1856,
+        1983
+      ]
+    ],
+    "hold_frame_range": [
+      1600,
+      1999
+    ],
+    "hold_frames": 400,
+    "hold_pairs": 102400,
+    "remainder": {
+      "frame_end": 1999,
+      "frame_start": 1984,
+      "frames": 16,
+      "symbols": 4096,
+      "used": false
+    }
+  },
+  "hold_pairs_path": "comparison_bench/outputs_comparison/nonbinary_diagnostics/v13r3fresh_pairs_20260816/type2_1M_20260121_184040/pairs.parquet",
+  "identity": {
+    "construction_path": ".workbuddy/queue/NBPOLAR-PHASE4-P16-N32768-OPERATIONAL-F13/operational_f13_gate/construction_and_allocation.json",
+    "digest_expected": "055c906472dd2a09761761b18aceb5f31d8b5db19bac658721f8dc49c3faea1b",
+    "digest_match": true,
+    "digest_recomputed": "055c906472dd2a09761761b18aceb5f31d8b5db19bac658721f8dc49c3faea1b",
+    "f": 1.2998502888172847,
+    "k1": 319,
+    "k2": 6492,
+    "k_total": 6811,
+    "l1_head8": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      6,
+      8,
+      9
+    ],
+    "l1_len": 32768,
+    "l2_head8": [
+      2296,
+      1706,
+      3456,
+      1708,
+      1745,
+      2282,
+      4630,
+      4868
+    ],
+    "l2_len": 32768,
+    "leakage_bits": 34119,
+    "n": 32768,
+    "predecessor_dev_seeds": [
+      2026092010,
+      2026092011,
+      2026092012,
+      2026092013,
+      2026092014,
+      2026092015,
+      2026092016,
+      2026092017
+    ],
+    "predecessor_protocol": "nbpolar-p16-operational-f13-gate",
+    "protocol": "nbpolar-p17-operational-replication-gate"
+  },
+  "input_mode": "real",
+  "input_stats_after": {
+    "counts_npz": {
+      "mtime_ns": 1787074449691122000,
+      "path": "/mnt/d/Code/HD-QKD_Polar_Comparison/comparison_bench/outputs_comparison/nonbinary_diagnostics/nbldpc_v25_20260818/run_04/channel_counts.npz",
+      "size_bytes": 25166822
+    },
+    "hold_pairs_parquet": {
+      "mtime_ns": 1789155517259296100,
+      "path": "comparison_bench/outputs_comparison/nonbinary_diagnostics/v13r3fresh_pairs_20260816/type2_1M_20260121_184040/pairs.parquet",
+      "size_bytes": 1354289
+    }
+  },
+  "input_stats_before": {
+    "counts_npz": {
+      "mtime_ns": 1787074449691122000,
+      "path": "/mnt/d/Code/HD-QKD_Polar_Comparison/comparison_bench/outputs_comparison/nonbinary_diagnostics/nbldpc_v25_20260818/run_04/channel_counts.npz",
+      "size_bytes": 25166822
+    },
+    "hold_pairs_parquet": {
+      "mtime_ns": 1789155517259296100,
+      "path": "comparison_bench/outputs_comparison/nonbinary_diagnostics/v13r3fresh_pairs_20260816/type2_1M_20260121_184040/pairs.parquet",
+      "size_bytes": 1354289
+    }
+  },
+  "integrity": {
+    "blocks_exact_with_declared_remainder": true,
+    "buckets_disjoint_exhaustive": true,
+    "disclosure_recount_exact": true,
+    "hold_population_exact": true,
+    "hold_split_manifest_identity": true,
+    "input_stat_unchanged": true,
+    "no_unregistered_access": true,
+    "nonfinite_zero": true,
+    "one_open_per_protected_input": true,
+    "orders_valid_k_replay_f_within_budget": true,
+    "predecessor_construction_identity": true,
+    "resource_limits_met_and_no_abort": true,
+    "sc_calls_exact": true,
+    "tags_exact": true,
+    "target_population_contract": true,
+    "truth_isolation": true,
+    "undetected_zero": true
+  },
+  "integrity_all_pass": true,
+  "k1": 319,
+  "k2": 6492,
+  "k_total": 6811,
+  "manifest": {
+    "expected_hold_frames": 400,
+    "expected_hold_pairs": 102400,
+    "hold_frames": 400,
+    "hold_pairs": 102400,
+    "manifest_path": "comparison_bench/outputs_comparison/nonbinary_diagnostics/nbldpc_v25_20260818/run_04/split_manifest.json",
+    "schema": "nbldpc_v25_split_manifest_v1",
+    "source": "1M",
+    "source_tag": "type2_1M_20260121_184040",
+    "train_frames": 1200,
+    "train_pairs": 307200,
+    "val_frames": 400,
+    "val_pairs": 102400
+  },
+  "mode": "holdout-microcheck",
+  "n": 32768,
+  "nll": {
+    "l1_nll_bits": 2449.3368772476615,
+    "l2_nll_bits": 80712.26266781379,
+    "total_nll_bits": 83161.59954506146
+  },
+  "outcome_counts": {
+    "decode_failed": 0,
+    "exact": 0,
+    "nonfinite": 0,
+    "resource_abort": 0,
+    "undetected": 0,
+    "verify_failed": 3
+  },
+  "outcome_label": "TARGET_EMPIRICAL_OPERATIONAL_F13_N32768_HOLD_MICROCHECK_COMPLETE",
+  "planned_sc_calls_max": 6,
+  "planned_tag_invocations": 3,
+  "provenance_violations": 0,
+  "q": 32,
+  "repository": "HD-QKD_Polar_Comparison-nbpolar",
+  "resource_stop_fired": false,
+  "resource_stop_reason": null,
+  "rss_bytes_peak": 520798208,
+  "sc_calls": 6,
+  "source": "1M",
+  "tag_bits": 64,
+  "tag_invocations": 3,
+  "tag_master": 2026092050,
+  "target_f": 1.3,
+  "wall_s": 37.274417
+}

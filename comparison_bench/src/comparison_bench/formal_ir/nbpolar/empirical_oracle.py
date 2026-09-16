@@ -21,6 +21,16 @@ The oracle takes an explicit candidate prefix, so tests evaluate
 conditionals at decoded, forced, or adversarial prefixes. Enumeration
 is exponential and guarded to tiny domains (at most 4096 full
 candidates: GF4 N<=4, GF32 N<=2). Not a decoder.
+
+Vectorized backend (Stage B addition): the literal function above stays
+exactly as accepted. ``empirical_oracle_sc_metric_vectorized`` evaluates
+the same exhaustive conditional with the same standalone log-sum
+arithmetic, but enumerates candidates in mixed-radix order (U_0 slowest)
+once, applies the dense transform to the whole candidate batch with
+:func:`batch_polar_transform_reference`, and evaluates each conditional
+as a contiguous slice logsumexp. It carries its own, larger candidate cap
+(``MAX_VECTOR_ORACLE_CANDIDATES``, q**N <= 1048576 = GF32 N=4) and never
+changes the default behavior or the 4096 cap of the literal callers.
 """
 
 from __future__ import annotations
@@ -33,11 +43,16 @@ import numpy as np
 from .transform import polar_transform_reference
 
 MAX_ORACLE_CANDIDATES = 4096
+MAX_VECTOR_ORACLE_CANDIDATES = 1 << 20  # 1048576 == GF32 N=4
 
 __all__ = [
     "MAX_ORACLE_CANDIDATES",
+    "MAX_VECTOR_ORACLE_CANDIDATES",
+    "batch_polar_transform_reference",
     "empirical_block_score",
+    "empirical_oracle_conditionals_vectorized",
     "empirical_oracle_sc_metric",
+    "empirical_oracle_sc_metric_vectorized",
 ]
 
 
@@ -52,7 +67,7 @@ def _standalone_logsumexp(values) -> float:
     return float(peak + np.log(float(np.sum(np.exp(flat - peak)))))
 
 
-def _check_logp(logp_x, field, alpha: int):
+def _check_logp(logp_x, field, alpha: int, *, max_candidates: int = MAX_ORACLE_CANDIDATES):
     q = getattr(field, "q", None)
     if isinstance(q, bool) or not isinstance(q, Integral) or int(q) <= 0:
         raise ValueError("empirical oracle contract: field must expose positive integer q")
@@ -80,10 +95,10 @@ def _check_logp(logp_x, field, alpha: int):
         raise ValueError("empirical oracle contract: logp_x must not contain NaN or +inf")
     if np.isneginf(mat).all(axis=1).any():
         raise ValueError("empirical oracle contract: every logp_x row needs finite support")
-    if q**n > MAX_ORACLE_CANDIDATES:
+    if q**n > max_candidates:
         raise ValueError(
             f"empirical oracle contract: q**N={q ** n} exceeds tiny cap "
-            f"{MAX_ORACLE_CANDIDATES}"
+            f"{max_candidates}"
         )
     return mat, n, q, alpha
 
@@ -122,15 +137,27 @@ def empirical_block_score(logp_x, u_candidate, *, field, alpha: int = 2) -> floa
     return total
 
 
-def empirical_oracle_sc_metric(logp_x, prefix, *, field, alpha: int = 2) -> np.ndarray:
+def empirical_oracle_sc_metric(
+    logp_x,
+    prefix,
+    *,
+    field,
+    alpha: int = 2,
+    max_candidates: int = MAX_ORACLE_CANDIDATES,
+) -> np.ndarray:
     """Exhaustive conditional for ``U[len(prefix)]`` given ``prefix``.
 
     Every suffix assignment is enumerated, each complete candidate is
     scored with the literal block sum, scores are aggregated per
     candidate symbol with the standalone logsumexp, and the row is
     normalized. An all-``-inf`` row reports an impossible prefix.
+
+    ``max_candidates`` defaults to the accepted tiny cap 4096; tests may
+    pass the vector cap explicitly to compare the literal arithmetic
+    against the vectorized backend outside the default domain. Existing
+    callers keep the unchanged 4096 guard.
     """
-    mat, n, q, alpha = _check_logp(logp_x, field, alpha)
+    mat, n, q, alpha = _check_logp(logp_x, field, alpha, max_candidates=max_candidates)
     fixed = _check_prefix(prefix, n, q)
     coord = len(fixed)
     rows = np.empty(q, dtype=np.float64)
@@ -148,3 +175,163 @@ def empirical_oracle_sc_metric(logp_x, prefix, *, field, alpha: int = 2) -> np.n
     if peak == -np.inf:
         return rows
     return rows - peak
+
+
+def _dense_generator(field, alpha: int, n: int) -> np.ndarray:
+    """Literal Kronecker-power generator matrix, exactly as the reference.
+
+    Independent copy of the accepted dense construction (the frozen
+    ``transform.py`` module is never modified): ``G_1 = [[1, 0],
+    [alpha, 1]]`` and ``G_{2k} = [[G_k, 0], [alpha*G_k, G_k]]``.
+    """
+    q = field.q
+    a = field.add(alpha, 0)
+    mul_table = np.empty((q, q), dtype=np.int64)
+    for i in range(q):
+        for j in range(q):
+            mul_table[i, j] = field.mul(i, j)
+    gen = np.array([[1, 0], [a, 1]], dtype=np.int64)
+    while gen.shape[0] < n:
+        k = gen.shape[0]
+        big = np.empty((2 * k, 2 * k), dtype=np.int64)
+        big[:k, :k] = gen
+        big[:k, k:] = 0
+        big[k:, :k] = mul_table[a, gen]
+        big[k:, k:] = gen
+        gen = big
+    return gen
+
+
+def batch_polar_transform_reference(vectors, *, field, alpha: int = 2) -> np.ndarray:
+    """Dense row-wise ``v G_N`` for a batch of candidate rows.
+
+    ``vectors`` is an integer ``(M, N)`` array; the result is the int64
+    ``(M, N)`` matrix of source-to-coded symbols. Row ``m`` of the result
+    equals ``polar_transform_reference(vectors[m])`` (tested). Used only
+    by the vectorized oracle to transform the whole candidate
+    enumeration once.
+    """
+    q = getattr(field, "q", None)
+    if isinstance(q, bool) or not isinstance(q, Integral) or int(q) <= 0:
+        raise ValueError("empirical oracle contract: field must expose a positive integer q")
+    q = int(q)
+    arr = np.asarray(vectors)
+    if arr.dtype.kind == "b":
+        raise TypeError("empirical oracle contract: vectors must hold integers, got boolean input")
+    if arr.ndim != 2:
+        raise ValueError(
+            f"empirical oracle contract: vectors must be 2-D (M,N), got shape {arr.shape}"
+        )
+    n = arr.shape[1]
+    if n < 1 or (n & (n - 1)):
+        raise ValueError("empirical oracle contract: vector length N must be a positive power of two")
+    if arr.size and arr.dtype.kind not in "iu":
+        raise TypeError("empirical oracle contract: vectors must hold integers")
+    cand = arr.astype(np.int64, copy=True)
+    if cand.size and (cand.min() < 0 or cand.max() >= q):
+        raise ValueError(f"empirical oracle contract: vectors entries must lie in 0..{q - 1}")
+    gen = _dense_generator(field, alpha, n)
+    mul_table = np.empty((q, q), dtype=np.int64)
+    for i in range(q):
+        for j in range(q):
+            mul_table[i, j] = field.mul(i, j)
+    out = np.empty(cand.shape, dtype=np.int64)
+    for j in range(n):
+        acc = np.zeros(cand.shape[0], dtype=np.int64)
+        for i in range(n):
+            gi = int(gen[i, j])
+            if gi:
+                acc ^= mul_table[cand[:, i], gi]
+        out[:, j] = acc
+    return out
+
+
+def _rows_logsumexp(mat: np.ndarray) -> np.ndarray:
+    """Vectorized standalone logsumexp over axis 1; all-``-inf`` stays ``-inf``."""
+    peaks = mat.max(axis=1)
+    out = np.full(mat.shape[0], -np.inf, dtype=np.float64)
+    finite = np.isfinite(peaks)
+    if finite.any():
+        sub = mat[finite]
+        shifted = sub - peaks[finite, None]
+        out[finite] = peaks[finite] + np.log(np.exp(shifted).sum(axis=1))
+    return out
+
+
+def _vectorized_scores(mat: np.ndarray, n: int, q: int, *, field, alpha: int):
+    """Joint candidate scores over the full mixed-radix enumeration.
+
+    Candidate index ``m`` encodes ``U_j = (m // q**(n-1-j)) % q``
+    (``U_0`` slowest), matching the literal ``fixed + [symbol] + suffix``
+    enumeration order. Scores are literal ``sum_j logp_x[j, X_j]``.
+    """
+    total = q**n
+    idx = np.arange(total, dtype=np.int64)
+    cand = np.empty((total, n), dtype=np.int64)
+    for i in range(n):
+        cand[:, i] = (idx // q ** (n - 1 - i)) % q
+    coded = batch_polar_transform_reference(cand, field=field, alpha=alpha)
+    scores = np.zeros(total, dtype=np.float64)
+    for j in range(n):
+        scores += mat[j, coded[:, j]]
+    return scores
+
+
+def empirical_oracle_conditionals_vectorized(
+    logp_x,
+    prefixes,
+    *,
+    field,
+    alpha: int = 2,
+    max_candidates: int = MAX_VECTOR_ORACLE_CANDIDATES,
+) -> np.ndarray:
+    """Vectorized exhaustive conditionals for a batch of prefixes.
+
+    Returns a ``(len(prefixes), q)`` array: row ``k`` is the conditional
+    for ``U[len(prefixes[k])]`` given ``prefixes[k]``, identical (same
+    math, same normalization, all-``-inf`` preserved) to
+    :func:`empirical_oracle_sc_metric`. The joint candidate scores are
+    computed once; each prefix then selects one contiguous slice of the
+    mixed-radix enumeration.
+
+    Same failure contract as the literal oracle, with its own candidate
+    cap (default ``MAX_VECTOR_ORACLE_CANDIDATES``).
+    """
+    mat, n, q, alpha = _check_logp(logp_x, field, alpha, max_candidates=max_candidates)
+    try:
+        entries = list(prefixes)
+    except TypeError as exc:
+        raise ValueError(
+            "empirical oracle contract: prefixes must be a sequence of prefix vectors"
+        ) from exc
+    fixed_list = [_check_prefix(entry, n, q) for entry in entries]
+    scores = _vectorized_scores(mat, n, q, field=field, alpha=alpha)
+    out = np.empty((len(fixed_list), q), dtype=np.float64)
+    for row, fixed in enumerate(fixed_list):
+        coord = len(fixed)
+        step = q ** (n - 1 - coord)
+        base = 0
+        for i, value in enumerate(fixed):
+            base += value * q ** (n - 1 - i)
+        rows = _rows_logsumexp(scores[base : base + q * step].reshape(q, step))
+        peak = _standalone_logsumexp(rows)
+        out[row] = rows if peak == -np.inf else rows - peak
+    return out
+
+
+def empirical_oracle_sc_metric_vectorized(
+    logp_x,
+    prefix,
+    *,
+    field,
+    alpha: int = 2,
+    max_candidates: int = MAX_VECTOR_ORACLE_CANDIDATES,
+) -> np.ndarray:
+    """Vectorized exhaustive conditional for ``U[len(prefix)]`` given ``prefix``.
+
+    Thin single-prefix wrapper over
+    :func:`empirical_oracle_conditionals_vectorized`.
+    """
+    return empirical_oracle_conditionals_vectorized(
+        logp_x, [prefix], field=field, alpha=alpha, max_candidates=max_candidates
+    )[0]

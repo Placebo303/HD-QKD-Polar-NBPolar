@@ -1,0 +1,60 @@
+{
+  "incremental": {
+    "incremental": {
+      "feedback_control_bits": 16,
+      "feedback_control_invocations": 16,
+      "key_dependent_bits": 62188,
+      "public_control_bits": 752817,
+      "public_seed_bits": 752801,
+      "verification_invocations": 287
+    },
+    "mismatch_count": 0,
+    "recount": {
+      "feedback_control_invocations": 16,
+      "key_dependent_bits": 62188,
+      "public_control_bits": 752817,
+      "verification_invocations": 287
+    },
+    "transcript_sha256": "dadf5e3e5ebcd546b5d1f7ddaa3c01d216b421089fd0ec5d4930363fc8182299"
+  },
+  "incremental_event_count": 619,
+  "public_control": {
+    "incremental_feedback_control_bits": 16,
+    "incremental_feedback_control_invocations": 16,
+    "incremental_seed_bits": 752801,
+    "incremental_split": {
+      "feedback_control_bits": 16,
+      "seed_bits": 752801
+    },
+    "static_seed_bits": 781654,
+    "total_public_control_bits": 1534471
+  },
+  "static": {
+    "incremental": {
+      "feedback_control_bits": 0,
+      "feedback_control_invocations": 0,
+      "key_dependent_bits": 86572,
+      "public_control_bits": 781654,
+      "public_seed_bits": 781654,
+      "verification_invocations": 298
+    },
+    "mismatch_count": 0,
+    "recount": {
+      "feedback_control_invocations": 0,
+      "key_dependent_bits": 86572,
+      "public_control_bits": 781654,
+      "verification_invocations": 298
+    },
+    "transcript_sha256": "e7a3302e287773d2de1048d9bb33c7f155e2a9d7e64fd36ae14ef0af74d58fb3"
+  },
+  "static_event_count": 598,
+  "union_bound": {
+    "incremental": 1.555830117516699e-17,
+    "incremental_tag_invocations": 287,
+    "recount_total_tag_invocations": 585,
+    "static": 1.6154612370034016e-17,
+    "static_tag_invocations": 298,
+    "total": 3.1712913545201005e-17,
+    "total_tag_invocations": 585
+  }
+}

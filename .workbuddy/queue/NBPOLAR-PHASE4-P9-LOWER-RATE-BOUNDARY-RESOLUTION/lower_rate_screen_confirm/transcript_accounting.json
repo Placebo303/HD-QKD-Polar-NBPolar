@@ -1,0 +1,68 @@
+{
+  "event_count": 36096,
+  "incremental": {
+    "key_dependent_bits": 4392768,
+    "public_control_bits": 31559936,
+    "tag_invocations": 12032
+  },
+  "incremental_by_arm": {
+    "bec": {
+      "key_dependent_bits": 284160,
+      "public_control_bits": 1678720,
+      "tag_invocations": 640
+    },
+    "empirical": {
+      "key_dependent_bits": 4108608,
+      "public_control_bits": 29881216,
+      "tag_invocations": 11392
+    }
+  },
+  "incremental_by_phase": {
+    "confirm": {
+      "key_dependent_bits": 568320,
+      "public_control_bits": 3357440,
+      "tag_invocations": 1280
+    },
+    "screen": {
+      "key_dependent_bits": 3824448,
+      "public_control_bits": 28202496,
+      "tag_invocations": 10752
+    }
+  },
+  "mismatch_count": 0,
+  "mismatches": [],
+  "recount": {
+    "by_arm": {
+      "bec": {
+        "key_dependent_bits": 284160,
+        "public_control_bits": 1678720,
+        "tag_invocations": 640
+      },
+      "empirical": {
+        "key_dependent_bits": 4108608,
+        "public_control_bits": 29881216,
+        "tag_invocations": 11392
+      }
+    },
+    "by_phase": {
+      "confirm": {
+        "key_dependent_bits": 568320,
+        "public_control_bits": 3357440,
+        "tag_invocations": 1280
+      },
+      "screen": {
+        "key_dependent_bits": 3824448,
+        "public_control_bits": 28202496,
+        "tag_invocations": 10752
+      }
+    },
+    "event_types": {
+      "l1_disclosure": 12032,
+      "l2_disclosure": 12032,
+      "verification_tag": 12032
+    },
+    "key_dependent_bits": 4392768,
+    "public_control_bits": 31559936,
+    "tag_invocations": 12032
+  }
+}

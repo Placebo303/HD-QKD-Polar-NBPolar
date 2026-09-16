@@ -1,0 +1,14 @@
+task_id: NBPOLAR-PHASE4-P14-EMPIRICAL-GENIE-LEARNING-CURVE
+state: TARGET_EMPIRICAL_GENIE_F13_N16384_TRAIN128_NOT_CONFIRMED_ACCEPTED
+tier: Y
+predecessor: TARGET_EMPIRICAL_GENIE_F13_SCALING_NOT_CONFIRMED_ACCEPTED
+execution_authorized: true
+artifact_reads_allowed: 1
+artifact_reads_used: 1
+attempts_allowed: 1
+attempts_used: 1
+result: TARGET_EMPIRICAL_GENIE_F13_N16384_TRAIN128_NOT_CONFIRMED
+pre_execute_review: PASS
+pre_result_review: PASS_WITH_COMMENTS
+main_thread_acceptance: ACCEPTED_VALID_NEGATIVE
+next_gate: NBPOLAR_PHASE4_P15_EMPIRICAL_GENIE_MID_N_SCALING

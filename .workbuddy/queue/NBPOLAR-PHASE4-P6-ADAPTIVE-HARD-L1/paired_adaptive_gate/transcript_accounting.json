@@ -1,0 +1,83 @@
+{
+  "arms": [
+    "static",
+    "adaptive"
+  ],
+  "event_count": 4746,
+  "event_types": {
+    "control": 302,
+    "l1_disclosure": 1582,
+    "l2_disclosure": 1280,
+    "verification_tag": 1582
+  },
+  "fully_invoked_adaptive_arm_bits_by_level": {
+    "112": 1324,
+    "45": 989,
+    "60": 1064,
+    "72": 1124
+  },
+  "fully_invoked_static_arm_bits": 1324,
+  "incremental": {
+    "feedback_bits": 302,
+    "feedback_invocations": 302,
+    "key_dependent_bits": 1523143,
+    "public_control_bits": 4149888,
+    "public_seed_bits": 4149586,
+    "tag_invocations": 1582
+  },
+  "incremental_by_arm": {
+    "adaptive": {
+      "feedback_bits": 302,
+      "feedback_invocations": 302,
+      "key_dependent_bits": 675783,
+      "public_control_bits": 2471168,
+      "public_seed_bits": 2470866,
+      "tag_invocations": 942
+    },
+    "static": {
+      "feedback_bits": 0,
+      "feedback_invocations": 0,
+      "key_dependent_bits": 847360,
+      "public_control_bits": 1678720,
+      "public_seed_bits": 1678720,
+      "tag_invocations": 640
+    }
+  },
+  "mismatch_count": 0,
+  "mismatches": [],
+  "public_control_bits_per_tag": 2623,
+  "recount": {
+    "by_arm": {
+      "adaptive": {
+        "feedback_bits": 302,
+        "feedback_invocations": 302,
+        "key_dependent_bits": 675783,
+        "public_control_bits": 2471168,
+        "public_seed_bits": 2470866,
+        "tag_invocations": 942
+      },
+      "static": {
+        "feedback_bits": 0,
+        "feedback_invocations": 0,
+        "key_dependent_bits": 847360,
+        "public_control_bits": 1678720,
+        "public_seed_bits": 1678720,
+        "tag_invocations": 640
+      }
+    },
+    "event_types": {
+      "control": 302,
+      "l1_disclosure": 1582,
+      "l2_disclosure": 1280,
+      "verification_tag": 1582
+    },
+    "feedback_bits": 302,
+    "feedback_invocations": 302,
+    "key_dependent_bits": 1523143,
+    "public_control_bits": 4149888,
+    "public_seed_bits": 4149586,
+    "tag_invocations": 1582
+  },
+  "union_bound": 8.57603918436034e-17,
+  "union_bound_definition": "min(1.0, total_tag_invocations * 2**-64)"
+}

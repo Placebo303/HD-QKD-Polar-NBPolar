@@ -1,0 +1,277 @@
+{
+  "analysis": "nbpolar-p13-target-empirical-genie-scaling-gate",
+  "attempt_read_accounting": {
+    "artifact_content_reads_allowed": 1,
+    "artifact_content_reads_consumed_before": 0,
+    "artifact_content_reads_consumed_by_this_run": 1,
+    "attempts_allowed": 1,
+    "attempts_consumed_before": 0,
+    "attempts_consumed_by_this_run": 1,
+    "consumption_point": "first NPZ content open (load_v25_channel_counts)",
+    "counts_path": "/mnt/d/Code/HD-QKD_Polar_Comparison/comparison_bench/outputs_comparison/nonbinary_diagnostics/nbldpc_v25_20260818/run_04/channel_counts.npz",
+    "expected_npz_bytes": 25166822,
+    "input_mode": "v25_npz",
+    "loader": "comparison_bench.src.comparison_bench.formal_ir.v35_algorithm_development.load_v25_channel_counts",
+    "observed_npz_bytes": 25166822,
+    "open_count": 1,
+    "reopen_attempted": false,
+    "retries": 0,
+    "retry_after_open": false,
+    "stat_size_checked": true
+  },
+  "candidate_ns": [],
+  "chunk_rows": 512,
+  "claim_scope": "frozen V25 TRAIN target-population empirical-genie construction/rate development signal only; not held-out or real frame FER, efficiency, key rate, scaling, qualification or promotion; BEC results and empirical-minus-BEC differences are report-only; undetected has no meaning in this tag-free gate and no success bucket exists",
+  "counts_path": "/mnt/d/Code/HD-QKD_Polar_Comparison/comparison_bench/outputs_comparison/nonbinary_diagnostics/nbldpc_v25_20260818/run_04/channel_counts.npz",
+  "created_utc": "2026-09-14T17:17:15Z",
+  "dev_block_count": 96,
+  "dev_blocks_per_stream": 8,
+  "dev_seeds": [
+    2026091870,
+    2026091871,
+    2026091872,
+    2026091873,
+    2026091890,
+    2026091891,
+    2026091892,
+    2026091893,
+    2026091910,
+    2026091911,
+    2026091912,
+    2026091913
+  ],
+  "entropy": {
+    "checks": {
+      "conditional_columns_normalized": true,
+      "floor_entropy_change_at_most_1e-9": true,
+      "h1_matches_literal": true,
+      "h2_matches_literal": true,
+      "no_zero_bob_column": true,
+      "p_b_normalized": true,
+      "total_matches_literal": true
+    },
+    "column_dev": 1.1357581541915351e-13,
+    "expected_h1": 0.02428054681872374,
+    "expected_h2": 0.7767572780789994,
+    "expected_total": 0.8010378248977232,
+    "floor_entropy_change": 5.1600945738528026e-11,
+    "floor_h1": 0.024280546864581108,
+    "floor_h2": 0.776757278084698,
+    "floor_total": 0.8010378249492791,
+    "h1": 0.024280546818678802,
+    "h2": 0.7767572780789994,
+    "p_b_sum": 1.0,
+    "tolerances": {
+      "column": 1e-12,
+      "entropy": 1e-12,
+      "floor_entropy_change": 1e-09
+    },
+    "total": 0.8010378248976782
+  },
+  "failing_integrity_gates": [],
+  "genie_calls": 240,
+  "input_mode": "v25_npz",
+  "integrity": {
+    "attempt_read_accounting_exact": true,
+    "budget_allocation_reproduced": true,
+    "checkpoint_accounting_consistent": true,
+    "no_unregistered_calls": true,
+    "orders_valid_frozen_before_dev": true,
+    "resource_limits_met_and_no_abort": true,
+    "risks_finite": true,
+    "streams_disjoint_frozen": true,
+    "target_population_contract": true,
+    "three_n_cells_complete": true,
+    "truth_isolation": true,
+    "zero_genie_exceptions": true
+  },
+  "integrity_all_pass": true,
+  "mode": "target-population-empirical-genie-scaling-gate",
+  "n_values": [
+    4096,
+    8192,
+    16384
+  ],
+  "outcome_label": "TARGET_EMPIRICAL_GENIE_F13_SCALING_NOT_CONFIRMED",
+  "per_n": {
+    "16384": {
+      "bec": {
+        "max": 67.88960955900333,
+        "mean": 57.155382700913776,
+        "min": 49.717172588631136,
+        "n": 32,
+        "std_sample": 4.7558971846798235,
+        "ucb_95_t31": 58.580859237207626
+      },
+      "block_errors": 0,
+      "dev_blocks": 32,
+      "dev_seeds": [
+        2026091910,
+        2026091911,
+        2026091912,
+        2026091913
+      ],
+      "emp_minus_bec_mean": -56.96216296324918,
+      "empirical": {
+        "max": 0.7382396685293214,
+        "mean": 0.1932197376646005,
+        "min": 0.004172203043802836,
+        "n": 32,
+        "std_sample": 0.19774453910014764,
+        "ucb_95_t31": 0.2524893538319819
+      },
+      "f": 1.2998121912679332,
+      "freeze_sha256": "b5fb574c3b4d6901f34b94b8c48340c75e62540701b3ec12952459174d275922",
+      "k1": 152,
+      "k2": 3247,
+      "k_total": 3399,
+      "leakage_bits": 17059,
+      "n": 16384,
+      "resources": {
+        "rss_bytes_hwm": 301961216,
+        "vm_peak_kb": 525660,
+        "vm_size_kb": 486108,
+        "wall_s": 291.806806
+      },
+      "train_blocks": 8,
+      "train_impossible": 0,
+      "train_residual": 9.123285118244062e-05,
+      "train_seeds": [
+        2026091900,
+        2026091901,
+        2026091902,
+        2026091903
+      ],
+      "train_used_l1": 8,
+      "train_used_l2": 8
+    },
+    "4096": {
+      "bec": {
+        "max": 27.340062694717773,
+        "mean": 18.631744135001654,
+        "min": 7.935346036283711,
+        "n": 32,
+        "std_sample": 3.399237254768987,
+        "ucb_95_t31": 19.650591422865244
+      },
+      "block_errors": 0,
+      "dev_blocks": 32,
+      "dev_seeds": [
+        2026091870,
+        2026091871,
+        2026091872,
+        2026091873
+      ],
+      "emp_minus_bec_mean": -17.804045391850998,
+      "empirical": {
+        "max": 1.7636954144631765,
+        "mean": 0.827698743150655,
+        "min": 0.11514359942895647,
+        "n": 32,
+        "std_sample": 0.4156658929058898,
+        "ucb_95_t31": 0.9522855359820204
+      },
+      "f": 1.2995836059713857,
+      "freeze_sha256": "c40e8b1ec4c03ad5bec84a760733ca33677b7727db5753373175240f1f71ccfe",
+      "k1": 38,
+      "k2": 802,
+      "k_total": 840,
+      "leakage_bits": 4264,
+      "n": 4096,
+      "resources": {
+        "rss_bytes_hwm": 244137984,
+        "vm_peak_kb": 470620,
+        "vm_size_kb": 440156,
+        "wall_s": 65.04243
+      },
+      "train_blocks": 8,
+      "train_impossible": 0,
+      "train_residual": 0.10927696273202786,
+      "train_seeds": [
+        2026091860,
+        2026091861,
+        2026091862,
+        2026091863
+      ],
+      "train_used_l1": 8,
+      "train_used_l2": 8
+    },
+    "8192": {
+      "bec": {
+        "max": 41.61687078448317,
+        "mean": 33.207758990009765,
+        "min": 21.719751341207555,
+        "n": 32,
+        "std_sample": 4.800882169090053,
+        "ucb_95_t31": 34.646718795027105
+      },
+      "block_errors": 0,
+      "dev_blocks": 32,
+      "dev_seeds": [
+        2026091890,
+        2026091891,
+        2026091892,
+        2026091893
+      ],
+      "emp_minus_bec_mean": -32.81091856446303,
+      "empirical": {
+        "max": 1.264753487350557,
+        "mean": 0.39684042554673166,
+        "min": 0.003468452776927977,
+        "n": 32,
+        "std_sample": 0.2972785735520714,
+        "ucb_95_t31": 0.4859431994053538
+      },
+      "f": 1.299735996169084,
+      "freeze_sha256": "6f444ebfb33225c747d54db8c265fd7d6444443372c539ce503e1c94cd14cc8b",
+      "k1": 78,
+      "k2": 1615,
+      "k_total": 1693,
+      "leakage_bits": 8529,
+      "n": 8192,
+      "resources": {
+        "rss_bytes_hwm": 244137984,
+        "vm_peak_kb": 470620,
+        "vm_size_kb": 442716,
+        "wall_s": 139.731162
+      },
+      "train_blocks": 8,
+      "train_impossible": 0,
+      "train_residual": 0.005622605905980432,
+      "train_seeds": [
+        2026091880,
+        2026091881,
+        2026091882,
+        2026091883
+      ],
+      "train_used_l1": 8,
+      "train_used_l2": 8
+    }
+  },
+  "planned_genie_calls": 240,
+  "provenance_violations": 0,
+  "q": 32,
+  "repository": "HD-QKD_Polar_Comparison-nbpolar",
+  "resource_stop_fired": false,
+  "resource_stop_reason": null,
+  "rss_bytes_peak": 301961216,
+  "smallest_candidate_n": null,
+  "source": "1M",
+  "target_f": 1.3,
+  "train_blocks_per_stream": 2,
+  "train_seeds": [
+    2026091860,
+    2026091861,
+    2026091862,
+    2026091863,
+    2026091880,
+    2026091881,
+    2026091882,
+    2026091883,
+    2026091900,
+    2026091901,
+    2026091902,
+    2026091903
+  ],
+  "wall_s": 496.580679
+}

@@ -1,0 +1,121 @@
+{
+  "attempt_read_accounting": {
+    "artifact_content_reads_allowed_per_input": 1,
+    "attempt_read_accounting_finalized": true,
+    "attempts_allowed": 1,
+    "attempts_consumed_by_this_run": 1,
+    "construction_path": ".workbuddy/queue/NBPOLAR-PHASE4-P16-N32768-OPERATIONAL-F13/operational_f13_gate/construction_and_allocation.json",
+    "consumption_point": "first protected content open (load_v25_channel_counts)",
+    "counts_content_opens": 1,
+    "counts_input_mode": "v25_npz",
+    "counts_path": "/mnt/d/Code/HD-QKD_Polar_Comparison/comparison_bench/outputs_comparison/nonbinary_diagnostics/nbldpc_v25_20260818/run_04/channel_counts.npz",
+    "hold_content_opens": 1,
+    "hold_input_mode": "pairs_parquet",
+    "hold_pairs_path": "comparison_bench/outputs_comparison/nonbinary_diagnostics/v13r3fresh_pairs_20260816/type2_1M_20260121_184040/pairs.parquet",
+    "input_mode": "real",
+    "manifest_path": "comparison_bench/outputs_comparison/nonbinary_diagnostics/nbldpc_v25_20260818/run_04/split_manifest.json",
+    "npz_loader": "comparison_bench.src.comparison_bench.formal_ir.v35_algorithm_development.load_v25_channel_counts",
+    "opened_content_paths": [
+      "/mnt/d/Code/HD-QKD_Polar_Comparison/comparison_bench/outputs_comparison/nonbinary_diagnostics/nbldpc_v25_20260818/run_04/channel_counts.npz",
+      "/mnt/d/Code/HD-QKD_Polar_Comparison-nbpolar/comparison_bench/outputs_comparison/nonbinary_diagnostics/v13r3fresh_pairs_20260816/type2_1M_20260121_184040/pairs.parquet"
+    ],
+    "pairs_loader": "comparison_bench.src.comparison_bench.io.pairs_loader.load_pairs_table+normalize_pair_columns",
+    "registered_content_paths": [
+      "/mnt/d/Code/HD-QKD_Polar_Comparison/comparison_bench/outputs_comparison/nonbinary_diagnostics/nbldpc_v25_20260818/run_04/channel_counts.npz",
+      "/mnt/d/Code/HD-QKD_Polar_Comparison-nbpolar/comparison_bench/outputs_comparison/nonbinary_diagnostics/v13r3fresh_pairs_20260816/type2_1M_20260121_184040/pairs.parquet"
+    ],
+    "reopen_attempted": false,
+    "retries": 0,
+    "retry_after_open": false
+  },
+  "claim_scope": "real-input operational microcheck of the frozen V25 1M HOLD split at N=32768 only (three registered chronological blocks, frames 1600..1983); descriptive loading/ordering/prior/decoder/accounting evidence, not real-frame FER, reconciliation efficiency, leakage, key rate, scaling superiority, qualification or promotion; the CE-normalized disclosure ratio is not qualification efficiency; undetected is never success",
+  "created_utc": "2026-09-15T17:51:27Z",
+  "hold_split_manifest": {
+    "expected_hold_frames": 400,
+    "expected_hold_pairs": 102400,
+    "hold_frames": 400,
+    "hold_pairs": 102400,
+    "manifest_path": "comparison_bench/outputs_comparison/nonbinary_diagnostics/nbldpc_v25_20260818/run_04/split_manifest.json",
+    "schema": "nbldpc_v25_split_manifest_v1",
+    "source": "1M",
+    "source_tag": "type2_1M_20260121_184040",
+    "train_frames": 1200,
+    "train_pairs": 307200,
+    "val_frames": 400,
+    "val_pairs": 102400
+  },
+  "input_stats_after": {
+    "counts_npz": {
+      "mtime_ns": 1787074449691122000,
+      "path": "/mnt/d/Code/HD-QKD_Polar_Comparison/comparison_bench/outputs_comparison/nonbinary_diagnostics/nbldpc_v25_20260818/run_04/channel_counts.npz",
+      "size_bytes": 25166822
+    },
+    "hold_pairs_parquet": {
+      "mtime_ns": 1789155517259296100,
+      "path": "comparison_bench/outputs_comparison/nonbinary_diagnostics/v13r3fresh_pairs_20260816/type2_1M_20260121_184040/pairs.parquet",
+      "size_bytes": 1354289
+    }
+  },
+  "input_stats_before": {
+    "counts_npz": {
+      "mtime_ns": 1787074449691122000,
+      "path": "/mnt/d/Code/HD-QKD_Polar_Comparison/comparison_bench/outputs_comparison/nonbinary_diagnostics/nbldpc_v25_20260818/run_04/channel_counts.npz",
+      "size_bytes": 25166822
+    },
+    "hold_pairs_parquet": {
+      "mtime_ns": 1789155517259296100,
+      "path": "comparison_bench/outputs_comparison/nonbinary_diagnostics/v13r3fresh_pairs_20260816/type2_1M_20260121_184040/pairs.parquet",
+      "size_bytes": 1354289
+    }
+  },
+  "mode": "holdout-microcheck",
+  "out_root": ".workbuddy/queue/NBPOLAR-PHASE4-P18-N32768-HOLDOUT-MICROCHECK/holdout_microcheck",
+  "predecessor_construction": {
+    "construction_path": ".workbuddy/queue/NBPOLAR-PHASE4-P16-N32768-OPERATIONAL-F13/operational_f13_gate/construction_and_allocation.json",
+    "digest_expected": "055c906472dd2a09761761b18aceb5f31d8b5db19bac658721f8dc49c3faea1b",
+    "digest_match": true,
+    "digest_recomputed": "055c906472dd2a09761761b18aceb5f31d8b5db19bac658721f8dc49c3faea1b",
+    "f": 1.2998502888172847,
+    "k1": 319,
+    "k2": 6492,
+    "k_total": 6811,
+    "l1_head8": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      6,
+      8,
+      9
+    ],
+    "l1_len": 32768,
+    "l2_head8": [
+      2296,
+      1706,
+      3456,
+      1708,
+      1745,
+      2282,
+      4630,
+      4868
+    ],
+    "l2_len": 32768,
+    "leakage_bits": 34119,
+    "n": 32768,
+    "predecessor_dev_seeds": [
+      2026092010,
+      2026092011,
+      2026092012,
+      2026092013,
+      2026092014,
+      2026092015,
+      2026092016,
+      2026092017
+    ],
+    "predecessor_protocol": "nbpolar-p16-operational-f13-gate",
+    "protocol": "nbpolar-p17-operational-replication-gate"
+  },
+  "protocol": "nbpolar-p18-holdout-microcheck",
+  "repository": "HD-QKD_Polar_Comparison-nbpolar"
+}

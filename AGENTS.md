@@ -82,6 +82,17 @@ These rules apply to all agents operating in this repository.
 | **Memory** | Must not write temporary or speculative content into long-term memory. |
 | **Orchestrator** | Must not perform large-scale code edits directly. Delegate to specialized agents. |
 
+### 4.1 Independent reviewer trust
+
+`reviewer-go` reviews in this project are performed by independent subagents.
+Their reported reruns, recomputations, tests, and artifact checks are trusted
+as independent acceptance evidence. The main thread should adjudicate their
+scope and conclusions without mechanically repeating the same checks. Repeat
+or extend verification only when the review is internally inconsistent,
+conflicts with persisted raw evidence, omits a required frozen gate, or makes a
+claim outside its reviewed scope. A reviewer verdict never replaces the
+main-thread acceptance or scientific-scope decision.
+
 ---
 
 ## 5. Project-Specific Rules
@@ -292,7 +303,8 @@ This workflow is the default for all substantial delegated implementation:
    execution. For low-risk algorithm iteration, use focused numerical review;
    do not let review ceremony displace algorithm work. Do not require an
    independent reviewer after every docs-only commit or tiny unchanged-scope
-   correction; batch them into the next milestone review.
+   correction; batch them into the next milestone review. Tier X probes use the
+   focused numerical review defined in §10.4 instead of Pre-EXECUTE/Pre-RESULT.
 5. **Reuse before rebuilding.** A successor starts from the nearest accepted
    predecessor contract and an explicit delta list. Preserve unchanged
    artifact, transcript, provenance, invalid-run, replay, and no-overwrite
@@ -360,6 +372,38 @@ pre-registered no-rerun/no-tuning rules intact.
   this rule: SHA/remote-equality clauses are non-binding unless a concrete
   exception risk is stated. Scientific scope, authorization, tests, stop rules,
   and no-overwrite checks remain binding.
+
+### 10.4 Two-tier execution (Tier X probes / Tier Y decision gates)
+
+- **Tier X — probe runs (non-claim).** Permitted inside any authorized packet
+  when the only probe output root is `workspace/probes/<id>/`. A Tier-X run:
+  1. begins with a three-line preregistration `prereg.md` (question; exact
+     parameters incl. N/models/seeds/masters; exact command). Parameters, models
+     and seeds freeze at prereg time and must not change afterwards; a rerun
+     required to fix an execution error is allowed and must be recorded in the
+     single result record.
+  2. ends with ONE result record `results.json` reporting per-seed values and
+     mean/sample-std/range; it may use multiple synthetic seeds and multiple
+     frozen model variants.
+  3. receives a focused numerical review (commands, completeness, arithmetic,
+     truth isolation, write-scope) instead of Pre-EXECUTE/Pre-RESULT.
+  4. never creates a candidate/accepted token, never counts or consumes an
+     attempt, never changes scientific status, and can never retroactively
+     strengthen or promote previously accepted evidence.
+  Forbidden in Tier X: artifact/real-data access, writes outside
+  `workspace/probes/<id>/`, claim-bearing thresholds or pass/fail verdicts, and
+  per-probe decision-log/index/project-memory updates (batch those at
+  milestones).
+- **Tier Y — decision gates (claims).** Unchanged: explicit user authorization,
+  frozen thresholds, one-shot attempt with no rerun/seed change/tuning,
+  independent Pre-EXECUTE and Pre-RESULT reviews, main-thread acceptance. A
+  claim-bearing synthetic threshold additionally requires either prior Tier-X
+  variance/sensitivity evidence for that point or an explicit statement in the
+  freeze that one draw cannot discriminate the hypothesis.
+- **Delta-successor fast path.** A same-point semantic correction may reuse the
+  unchanged predecessor contract: one delta document, one independent freeze
+  review, one execution, one Pre-RESULT review, milestone-batched ledger
+  updates; everything not listed as changed in the delta document is inherited.
 
 ---
 

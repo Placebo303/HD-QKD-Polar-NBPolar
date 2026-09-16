@@ -1,0 +1,46 @@
+{
+  "construction_path": ".workbuddy/queue/NBPOLAR-PHASE4-P16-N32768-OPERATIONAL-F13/operational_f13_gate/construction_and_allocation.json",
+  "digest_expected": "055c906472dd2a09761761b18aceb5f31d8b5db19bac658721f8dc49c3faea1b",
+  "digest_match": true,
+  "digest_recomputed": "055c906472dd2a09761761b18aceb5f31d8b5db19bac658721f8dc49c3faea1b",
+  "f": 1.2998502888172847,
+  "k1": 319,
+  "k2": 6492,
+  "k_total": 6811,
+  "l1_head8": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    6,
+    8,
+    9
+  ],
+  "l1_len": 32768,
+  "l2_head8": [
+    2296,
+    1706,
+    3456,
+    1708,
+    1745,
+    2282,
+    4630,
+    4868
+  ],
+  "l2_len": 32768,
+  "leakage_bits": 34119,
+  "n": 32768,
+  "predecessor_dev_seeds": [
+    2026092010,
+    2026092011,
+    2026092012,
+    2026092013,
+    2026092014,
+    2026092015,
+    2026092016,
+    2026092017
+  ],
+  "predecessor_protocol": "nbpolar-p16-operational-f13-gate",
+  "protocol": "nbpolar-p17-operational-replication-gate"
+}

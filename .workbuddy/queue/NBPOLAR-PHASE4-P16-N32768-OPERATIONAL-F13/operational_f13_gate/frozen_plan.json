@@ -1,0 +1,140 @@
+{
+  "artifact_read_accounting": {
+    "artifact_content_reads_allowed": 1,
+    "artifact_content_reads_consumed_before": 0,
+    "artifact_content_reads_consumed_by_this_run": 1,
+    "attempts_allowed": 1,
+    "attempts_consumed_before": 0,
+    "attempts_consumed_by_this_run": 1,
+    "reopen_attempted": false,
+    "retries": 0,
+    "retry_after_open": false
+  },
+  "attempt_consumption_point": "first NPZ content open (load_v25_channel_counts)",
+  "budget": {
+    "env": {
+      "MALLOC_ARENA_MAX": "2",
+      "MKL_NUM_THREADS": "1",
+      "OMP_NUM_THREADS": "1",
+      "OPENBLAS_NUM_THREADS": "1"
+    },
+    "external_timeout_s": 2100,
+    "rss_bytes_max": 2147483648,
+    "total_wall_s": 2100.0,
+    "ulimit_virtual_kib": 2097152
+  },
+  "chunk_rows": 512,
+  "claim_scope": "frozen V25 TRAIN target-population empirical-construction operational development signal at N=32768 only, sampled from the model; not held-out or real frame FER, efficiency, key rate, scaling superiority, qualification or promotion; planning f is not real-channel efficiency; undetected is never success",
+  "construction_rule": "per TRAIN block accumulate h_i=-log2 p_i[U_i], e_i=1-max p_i from the P13 genie rows; pool means per layer; worst-first orders by accepted (e,h,index); K_total=floor((1.3*N*(H1+H2)-64)/5) clipped to [0,2N] (6811 at N=32768); all feasible (K1,K2) enumerated, lexicographic minimum of (TRAIN residual e sum, K1, K2); frozen before the first DEV block; DEV never changes it",
+  "counts_path": "/mnt/d/Code/HD-QKD_Polar_Comparison/comparison_bench/outputs_comparison/nonbinary_diagnostics/nbldpc_v25_20260818/run_04/channel_counts.npz",
+  "created_utc": "2026-09-15T10:07:49Z",
+  "decision": {
+    "blocked": "BLOCKED(<earliest gate>)",
+    "candidate": "TARGET_EMPIRICAL_OPERATIONAL_F13_N32768_CANDIDATE",
+    "not_confirmed": "TARGET_EMPIRICAL_OPERATIONAL_F13_N32768_NOT_CONFIRMED"
+  },
+  "dev_blocks_per_stream": 8,
+  "dev_seeds": [
+    2026092010,
+    2026092011,
+    2026092012,
+    2026092013,
+    2026092014,
+    2026092015,
+    2026092016,
+    2026092017
+  ],
+  "dev_total": 64,
+  "entropy_expectations": {
+    "column_tol": 1e-12,
+    "entropy_tol": 1e-12,
+    "floor_entropy_change_tol": 1e-09,
+    "h1": 0.02428054681872374,
+    "h2": 0.7767572780789994,
+    "total": 0.8010378248977232
+  },
+  "expected_npz_bytes": 25166822,
+  "field": {
+    "alpha": 2,
+    "index_order": "natural",
+    "name": "GF32 polynomial basis",
+    "primitive_polynomial": 37
+  },
+  "floor": 1e-15,
+  "frozen_command": "cd /mnt/d/Code/HD-QKD_Polar_Comparison-nbpolar\nexport OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1 MKL_NUM_THREADS=1 MALLOC_ARENA_MAX=2\nulimit -v 2097152\ntimeout 2100 /mnt/d/Code/HD-QKD_Polar_Comparison/.venv/bin/python -m comparison_bench.src.comparison_bench.formal_ir.nbpolar.operational_f13 --counts /mnt/d/Code/HD-QKD_Polar_Comparison/comparison_bench/outputs_comparison/nonbinary_diagnostics/nbldpc_v25_20260818/run_04/channel_counts.npz --source 1M --floor 1e-15 --target-f 1.3 --n 32768 --train-seeds 2026092000 2026092001 2026092002 2026092003 --train-blocks-per-stream 4 --dev-seeds 2026092010 2026092011 2026092012 2026092013 2026092014 2026092015 2026092016 2026092017 --dev-blocks-per-stream 8 --chunk-rows 512 --tag-bits 64 --out-dir .workbuddy/queue/NBPOLAR-PHASE4-P16-N32768-OPERATIONAL-F13/operational_f13_gate",
+  "frozen_k_total_from_literals": {
+    "32768": 6811
+  },
+  "integrity_gate_order": [
+    "target_population_contract",
+    "construction_frozen_before_dev",
+    "train_dev_coverage_complete",
+    "streams_disjoint_frozen",
+    "orders_valid_k_replay_f_within_budget",
+    "buckets_disjoint_exhaustive",
+    "truth_isolation",
+    "undetected_zero",
+    "nonfinite_zero",
+    "no_unregistered_calls",
+    "disclosure_recount_exact",
+    "attempt_read_accounting_exact",
+    "resource_limits_met_and_no_abort"
+  ],
+  "loader": "comparison_bench.src.comparison_bench.formal_ir.v35_algorithm_development.load_v25_channel_counts",
+  "mode": "empirical-construction-operational-f13-gate",
+  "n": 32768,
+  "operational_rule": "per DEV block: disclose true U1 at order1[:K1], operational L1 SC; L2 metrics from Bob plus the hard L1 candidate only; disclose true U2 at order2[:K2], restarted operational L2 SC; label_hat=32*high_hat+low_hat; exactly one 64-bit Toeplitz tag (master DEV seed+10000, P16/N/block domain); exactly one of exact/undetected/verify_failed/decode_failed/nonfinite/resource_abort; undetected never success",
+  "out_root": ".workbuddy/queue/NBPOLAR-PHASE4-P16-N32768-OPERATIONAL-F13/operational_f13_gate",
+  "outcome_precedence": [
+    "resource_abort: block not executed (preregistered budget stop)",
+    "nonfinite: numeric nonfinite failure in L1/L2 SC; no tag",
+    "decode_failed: other L1/L2 SC exception; no tag",
+    "verify_failed: tag mismatch",
+    "exact: tag pass and label == true label",
+    "undetected: tag pass and not exact (never success)"
+  ],
+  "output_files": [
+    "frozen_plan.json",
+    "construction_and_allocation.json",
+    "per_block_outcomes.jsonl",
+    "aggregate_summary.json",
+    "report.md"
+  ],
+  "precondition_order": [
+    "no_zero_bob_column",
+    "p_b_normalized",
+    "conditional_columns_normalized",
+    "h1_matches_literal",
+    "h2_matches_literal",
+    "total_matches_literal",
+    "floor_entropy_change_at_most_1e-9"
+  ],
+  "protocol": "nbpolar-p16-operational-f13-gate",
+  "public_control_bits_per_tag": 327743,
+  "q": 32,
+  "recovery_gates": {
+    "boundary_61_of_64": 0.8883797144,
+    "boundary_62_of_64": 0.9098711859,
+    "dev_total": 64,
+    "exact_min": 62,
+    "wilson_min": 0.9,
+    "wilson_z": 1.6448536269514722
+  },
+  "repository": "HD-QKD_Polar_Comparison-nbpolar",
+  "sampling_rule": "per block: B ~ p_b (rng.random(n) against the cumulative p_b), then A ~ P_floor(A|B) per coordinate (rng.random(n) against the cumulative column); high=A//32, low=A%32; one explicit RNG per stream (np.random.default_rng(stream seed)), blocks sequential, no global RNG; each DEV block sampled once",
+  "source": "1M",
+  "support_rule": "f = counts / column totals; every cell below 1e-15 replaced by 1e-15; columns renormalized; p_b = column totals / total count; P1/P2 = accepted derive_p1/derive_p2(f) under A=32*U1+U2; no lambda, backoff, tuning, floor scan or held-out fitting (exact P7 rule)",
+  "tag_bits": 64,
+  "tag_master_rule": "DEV stream seed + 10000",
+  "tag_seed_domain": "nbpolar-p16-operational-f13-seed:<master>:<n>:<block_index>",
+  "target_f": 1.3,
+  "train_blocks_per_stream": 4,
+  "train_seeds": [
+    2026092000,
+    2026092001,
+    2026092002,
+    2026092003
+  ],
+  "train_total": 16,
+  "truth_boundary": "Alice truth enters only sampling, disclosed values, tag construction and scoring; it never enters an undisclosed operational metric, decision or candidate label; TRAIN L2 genie rows are true-high-conditioned construction inputs only; each DEV layer restarts SC with no state transfer; each DEV L2 metric is gathered from Bob and the hard L1 candidate only"
+}

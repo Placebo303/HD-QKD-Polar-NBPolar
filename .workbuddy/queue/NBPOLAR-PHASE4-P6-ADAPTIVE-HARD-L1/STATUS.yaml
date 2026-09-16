@@ -1,0 +1,19 @@
+task_id: NBPOLAR-PHASE4-P6-ADAPTIVE-HARD-L1
+state: BLOCKED_INTEGRITY_GATE_DEFECT_PENDING_MAIN_THREAD_DISPOSITION
+predecessor: X05_L1_LADDER_REPLAY_COMPLETE
+documentation_authorized: true
+implementation_authorized: true
+decoder_execution_authorized: true
+development_gate_authorized: true
+artifact_read_authorized: false
+real_data_authorized: false
+scalable_decoder_authorized: false
+scl_authorized: false
+scientific_promotion: false
+attempts_allowed: 1
+attempts_used: 1
+result: BLOCKED(d1_exactly_nested_and_d2_disclosed_once)
+independent_pre_execute: PASS (PRE_EXECUTE_REVIEW.md)
+independent_pre_result: PASS_WITH_COMMENTS (PRE_RESULT_REVIEW.md; sole failing gate diagnosed as gate-check defect; contract-correct value true)
+next_gate: MAIN_THREAD_DISPOSITION
+

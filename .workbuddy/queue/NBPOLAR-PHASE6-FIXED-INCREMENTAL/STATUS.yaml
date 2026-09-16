@@ -1,0 +1,24 @@
+task_id: NBPOLAR-PHASE6-FIXED-INCREMENTAL
+state: FIXED_INCREMENTAL_NEGATIVE_ACCEPTED
+predecessor: STATIC_PROTOCOL_DEVELOPMENT_ACCEPTED
+documentation_authorized: true
+implementation_authorized: true
+synthetic_exploration_authorized: true
+decoder_execution_authorized: true
+development_gate_authorized: true
+artifact_read_authorized: false
+raw_data_authorized: false
+real_data_authorized: false
+dev_eval_authorized: false
+rate_adaptation_authorized: true
+scl_authorized: false
+phase6_authorized: true
+phase7_authorized: false
+scientific_promotion: false
+attempts_allowed: 1
+attempts_used: 1
+result: BLOCKED(incremental_exact_ge_285)
+independent_pre_execute: PASS (PRE_EXECUTE_REVIEW.md)
+independent_pre_result: PASS_WITH_COMMENTS (PRE_RESULT_REVIEW.md)
+main_thread_disposition: FIXED_INCREMENTAL_NEGATIVE_ACCEPTED_OPTION_A_SUCCESSOR
+next_gate: PHASE6_R1_DECODE_REJECT_ADVANCE_FROZEN_AWAITING_EXPLICIT_AUTHORIZATION

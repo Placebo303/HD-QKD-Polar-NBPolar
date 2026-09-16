@@ -329,6 +329,31 @@ do not promote an uncommitted rewrite whose numbers cannot be recomputed from
 accepted evidence.
 
 ---
+### Delegated execution completed but result delivery failed (lost delivery with completed side effects)
+
+**Observed** (2026-09-14, NBPOLAR-PHASE4-P9): the first Wave-C delegation
+executed the frozen command and flushed the 5-file evidence root at 15:29:50,
+but its result delivery failed on an infrastructure certificate error. A retry
+operator found the root already present.
+
+**Root cause**: the failure was in result transport, not in execution — the
+side effects (five flushed files) were complete while the return path was
+broken. Re-executing would consume a second attempt and violate the
+no-rerun freeze.
+
+**Fix**: the retry operator correctly STOPPED without running anything
+(`BLOCKED(prior-output-exists)`, nothing consumed by the retry). A read-only
+inspection then verified the root as the genuine product of exactly one frozen
+execution: single contiguous flush window (~0.3 s), expected protocol/prefix
+identifiers only, expected record shapes (here 56x192+640x2), and the frozen
+command verbatim in `frozen_plan.json`. STATUS counters were aligned to
+reads/attempts 1/1. No rerun ever occurred.
+
+**Prevention**: on a lost-delivery-with-present-output incident, never rerun to
+"get a clean return" — STOP, read-only verify single-flush provenance against
+the frozen plan, align counters to the single attempt, and record the incident
+in `OPERATOR_RETURN.md` plus the decision log for main-thread adjudication.
+
 ## Text isolation tests must match architectural layers
 
 Symptom: a later package-level API export fails an earlier textual
@@ -351,3 +376,195 @@ axis ahead of B. To select supported Bob states, use `f3[u1,nz_b,:]`. Test with
 unequal dimensions or a sparse non-all-true Bob mask and compare every element
 to a loop oracle; square 32-valued axes can hide the error until a 1024-state
 table is used.
+
+## `ru_maxrss` units differ by platform (bytes vs KiB)
+
+**Observed** (2026-09-13, WSL/Linux): a peak-RSS reading reported as "GiB" was
+implausibly small (three orders of magnitude below the measured memory use), so
+the `<2 GiB` resource envelope evidence was meaningless.
+
+**Root cause**: `resource.getrusage(...).ru_maxrss` is in **KiB on Linux** but
+in **bytes on macOS**. Dividing by `1024**3` assumes bytes and under-reports
+GiB by 1024× on Linux.
+
+**Fix**: convert platform-aware — `raw / 1024**2` on Linux, `raw / 1024**3` on
+macOS (fixed in `comparison_bench/src/comparison_bench/formal_ir/nbpolar/
+empirical_diagnostic.py` `_peak_rss_gib`).
+
+**Prevention**: on Linux, sanity-check that a reported "GiB" RSS is not
+implausibly small; convert `ru_maxrss` with a platform-aware helper rather than
+a hard-coded divisor.
+
+## `ru_maxrss` is corrupted under `ulimit -v` on this WSL2 kernel
+
+**Observed** (2026-09-13, WSL2): the P5/P6 scripts persist a peak RSS from
+`resource.getrusage().ru_maxrss` (used for `rss_bytes_peak`) while running under
+the frozen `ulimit -v 2097152` wrapper. Under that wrapper the reading is not a
+reliable measurement: P6 Pre-EXECUTE F-1 reproduced a constant 1193268 KiB
+(≈1.14 GiB) from process start while the true `VmHWM` was ~105 MB, and the
+P5/P6 runs persisted ~106 MiB values (P5 `111190016` B, P6 `111816704` B) that
+are likewise environment-dependent.
+
+**Root cause**: this WSL2 kernel's `ru_maxrss` accounting is unreliable under an
+address-space (`-v`) limit, so it is not a real memory measurement there.
+
+**Fix**: treat a persisted RSS from such a run as advisory, never as a memory
+envelope claim. When an exact value matters, read `/proc/self/status` `VmHWM`
+instead.
+
+**Prevention**: do not gate on or claim `rss_bytes_peak`; record the plan's
+`rss_bytes_max` and the true `VmHWM` separately.
+
+## `RuntimeWarning: 'pkg.module' found in sys.modules after import of package 'pkg'`
+
+**Observed** (2026-09-13, WSL): running a package module directly emits this
+warning on stderr, e.g.
+
+```bash
+.venv/bin/python -m comparison_bench.src.comparison_bench.formal_ir.nbpolar.protocol --mode dev-gate ...
+# RuntimeWarning: 'comparison_bench.src.comparison_bench.formal_ir.nbpolar.protocol' found in sys.modules
+#   after import of package 'comparison_bench.src.comparison_bench.formal_ir.nbpolar', but prior to execution
+```
+
+**Root cause**: `pkg/__init__.py` re-exports the submodule (here `protocol`), so
+importing the package already puts the module in `sys.modules`; `python -m`
+then finds it loaded before it runs it as `__main__`.
+
+**Fix**: benign — no action needed for correctness; the run proceeds normally.
+Suppress it in harnesses (e.g. `-W ignore::RuntimeWarning`) only if stderr
+cleanliness is required.
+
+**Prevention**: in `__init__.py`, import the submodule lazily (e.g. inside a
+module-level `__getattr__`) instead of re-exporting eagerly at import time, or
+route the standalone entrypoint through a dedicated script rather than `-m`.
+
+## Frozen docs hand-enumerate a value derived by a code constant
+
+**Observed** (2026-09-13, NBPOLAR-PHASE4-P5): the freeze and implementation
+notes listed the public tag masters as `2026092470..2026092472` (`seed + 1000`),
+while the frozen definition, packet, authorization and module constant
+(`PUBLIC_TAG_MASTER_OFFSET = 10000`) are `seed + 10000` =
+`2026101470..2026101472`. Independent Pre-EXECUTE R0 flagged it as a docs-only
+blocker (B-1); it was repaired and closed by R1 PASS.
+
+**Root cause**: a value that the executable path derives arithmetically from a
+single module constant was copied into prose by hand with the wrong offset, so
+the documentation contradicted the code and the emitted artifact metadata.
+
+**Fix**: corrected the two docs-only enumerations to the constant-derived values;
+no code, constant, command, seed, set or root change was needed.
+
+**Prevention**: when a documented value is derived from a constant (offsets,
+scales, bit counts), recompute it from that constant instead of transcribing it;
+have the independent review recompute all derived values from the constant and
+diff them against the prose.
+
+### Multi-stream experiment gates keyed on a per-stream `block_id`
+
+**Observed** (2026-09-13, NBPOLAR-PHASE4-P6-ADAPTIVE-HARD-L1): the frozen
+640-pair run persisted 11/12 integrity gates true but
+`d1_exactly_nested_and_d2_disclosed_once = false`, even though D2 was disclosed
+exactly once per arm/block in every block. An isolated 2-stream probe reproduced
+the same single failure.
+
+**Root cause**: the gate counted per-block events by `(block_id, arm)` while
+`block_id` is the per-stream block index (the runner reuses indices 0..127 for
+each stream and the event id omits `stream_seed`). Across five streams the 1,280
+L2 events collapsed onto 256 keys `{(0..127) x {static, adaptive}}`, each counted
+5, so `all(count == 1 ...)` was falsely unsatisfiable; the `set(l2_counts) ==
+expected_l2` term still passed because a set hides multiplicity. The contract
+("D2 disclosed once per arm/block") is per `(stream, block, arm)`, whose count is
+exactly 1.
+
+**Fix**: do not repair or rerun a consumed gate; preserve the failure root and
+record the persisted `BLOCKED` label. The correct count key must include the
+stream identity — composite `(stream, block, arm)` or an event identity that
+already encodes the full paired block.
+
+**Prevention**: in any multi-stream (shared-index) experiment, key per-block
+event counters on the full identity `(stream, block, arm)`, never on a
+per-stream `block_id`; add at least one multi-stream test to the focused suite,
+since single-stream tests cannot expose a cross-stream key collision.
+
+### Entropy literals from a raw-MLE table gated against a floored/smoothed table
+
+**Observed** (2026-09-14, NBPOLAR-PHASE4-P7): the frozen `1e-12`
+literal preconditions on `H1/H2/total` (`0.02428054681872374` /
+`0.7767572780789994` / `0.8010378248977232`, the V49 1M/TRAIN `nll_*` columns)
+are unsatisfiable if read as the entropies of the floored sampling table: the
+`1e-15` cell floor shifts the total by `~5.16e-11` (H1 `~4.59e-11`, H2
+`~5.70e-12`) on this near-zero-entropy sparse population. The strict reading
+therefore fails precondition 3 while the packet's separate "floor-induced
+change `<= 1e-9`" guard would simultaneously pass, which is self-contradictory.
+
+**Root cause**: two different functionals were conflated. V49's `nll_*` literals
+are the **raw-MLE in-sample population conditional entropies** (`H1 = sum_b p_b
+H(P1_raw)`, `H2 = sum_b p_b sum_u1 P1_raw(u1|b) H(P2_raw)` with `P1_raw/P2_raw =
+derive_p1/derive_p2(counts / column totals)`), not the A-level floored/renormalized
+protocol-table entropies. Both are legitimately needed, but for different checks.
+
+**Fix**: ratify and record which functional each check uses — literals compare
+the raw-MLE population values at `1e-12`; the floored-table values are reported
+only and fed to the separate `|floor_total - total| <= 1e-9` guard. Never gate
+the floored entropies against the raw-MLE literals. Independent Pre-EXECUTE
+review must confirm the functional before execution (P7 review item #1: PASS,
+ratified).
+
+**Prevention**: whenever a floor/smoothing/renormalization is applied before an
+entropy check, state the functional explicitly in the freeze; recompute both the
+raw and the transformed entropies in the independent review and confirm the
+literal tolerance and the floor guard are jointly satisfiable on the actual
+table before authorizing the run.
+
+### Gate runner catches ValueError/OSError but not MemoryError, with end-only writes
+
+**Observed** (2026-09-14, NBPOLAR-PHASE4-P12): the single gate run aborted
+after ~18.5 min with an uncaught
+`numpy._core._exceptions._ArrayMemoryError: Unable to allocate 64.0 MiB for
+an array with shape (262144, 32)` at the L2 candidate-metric construction
+(outside both SC try-guards) and exited 1 with empty stdout and zero output
+files, instead of the fail-closed `resource_abort`-record + persisted
+`BLOCKED(resource_limits_met_and_no_abort)` path.
+
+**Root cause**: `main` caught only `(ValueError, FileExistsError, OSError)`,
+but `_ArrayMemoryError` subclasses `MemoryError`, so the in-block allocator
+failure bypassed both the between-block resource guard and the exception
+mapping. Writes sat after the execution loop, so all in-memory progress from
+~124 completed blocks was lost with the abort (the X11/X12 per-cell
+checkpointing lesson not applied here).
+
+**Fix**: none for the consumed packet (terminal; no rerun). For future gate
+runners: catch `MemoryError` alongside the existing refusal types and route
+it to the frozen resource gate; wrap in-block metric allocations (not just
+SC calls) in the resource guard or pre-size them against the envelope; and
+checkpoint per cell/block instead of writing only at the end.
+
+**Prevention**: before freezing a gate runner, verify the caught-exception
+tuple covers `MemoryError` (check the MRO of the array allocator error) and
+that every full-size allocation site is either inside a guarded block or
+bounded by the memory envelope; require per-cell checkpointing whenever a
+run spans more than one cell.
+
+### Reviewer subagent manually terminated mid-run: resume from its saved transcript
+
+**Observed** (2026-09-16, NBPOLAR-PHASE4-P18): the first independent
+`reviewer-go` Pre-RESULT attempt was manually terminated after completing
+items 1–8 and the focused test run, leaving no review file, while its
+full-suite run was interrupted mid-execution.
+
+**Root cause**: the reviewer process was stopped, not the review — the
+runner infrastructure was still healthy and the completed work was already
+persisted in the thread's structured transcript.
+
+**Fix**: complete the review as a resumption from the saved transcript.
+Treat the transcript's recorded numbers as recovery input only: independently
+re-verify every load-bearing value in the resuming session, re-run any
+interrupted suite fresh (not from partial state), and write the review file in
+the resuming session. Record the resumption explicitly in the review and in
+the operator return. Do not rerun the frozen gate as part of the recovery.
+
+**Prevention**: for a long review run, keep each stage's evidence in the
+transcript so an interruption is recoverable; never accept recovered numbers
+without independent recomputation, and never let a terminated reviewer trigger
+a gate rerun or a second attempt.
+

@@ -173,10 +173,38 @@ def _combination_index(field, alpha: int, q: int) -> np.ndarray:
     return index
 
 
-def _minus_block(first: np.ndarray, second: np.ndarray, index: np.ndarray) -> np.ndarray:
-    """Left synthetic metrics: ``logsumexp_v L0[u+alpha*v] + L1[v]``, normalized."""
-    gathered = first[:, index] + second[:, None, :]
-    return _normalize_rows(np.logaddexp.reduce(gathered, axis=2))
+def _minus_block(
+    first: np.ndarray, second: np.ndarray, index: np.ndarray, *, chunk_rows: int | None = 512
+) -> np.ndarray:
+    """Left synthetic metrics: ``logsumexp_v L0[u+alpha*v] + L1[v]``, normalized.
+
+    Allocation-only row chunking: contiguous slices in original order each run
+    the exact accepted per-slice expression, then the accepted
+    ``_normalize_rows`` is applied once over the full matrix. ``chunk_rows``
+    is the production row budget (default 512); ``None`` is the original
+    unchunked golden path for tests/gate comparison only.
+    """
+    if chunk_rows is None:
+        gathered = first[:, index] + second[:, None, :]
+        return _normalize_rows(np.logaddexp.reduce(gathered, axis=2))
+    if isinstance(chunk_rows, bool) or not isinstance(chunk_rows, Integral):
+        raise TypeError(
+            f"field/shape contract: chunk_rows must be a positive integer or None, got {chunk_rows!r}"
+        )
+    chunk = int(chunk_rows)
+    if chunk <= 0:
+        raise ValueError(
+            f"field/shape contract: chunk_rows must be positive, got {chunk_rows!r}"
+        )
+    rows = first.shape[0]
+    out = np.empty((rows, first.shape[1]), dtype=np.float64)
+    for start in range(0, rows, chunk):
+        stop = start + chunk if start + chunk < rows else rows
+        first_slice = first[start:stop]
+        second_slice = second[start:stop]
+        gathered = first_slice[:, index] + second_slice[:, None, :]
+        out[start:stop] = np.logaddexp.reduce(gathered, axis=2)
+    return _normalize_rows(out)
 
 
 def _plus_block(first: np.ndarray, second: np.ndarray, beta: np.ndarray, index: np.ndarray) -> np.ndarray:

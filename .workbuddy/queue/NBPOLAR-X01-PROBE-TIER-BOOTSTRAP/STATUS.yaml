@@ -1,0 +1,11 @@
+task_id: NBPOLAR-X01-PROBE-TIER-BOOTSTRAP
+state: X01_PROBE_COMPLETE
+workflow_change_authorized: true
+documentation_authorized: true
+synthetic_probe_authorized: true
+decoder_probe_authorized: true
+artifact_read_authorized: false
+real_data_authorized: false
+claim_bearing_execution_authorized: false
+scientific_promotion: false
+next_gate: PHASE4_P5_HARD_CONDITIONING_PENALTY

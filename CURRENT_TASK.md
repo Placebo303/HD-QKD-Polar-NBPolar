@@ -1,4 +1,179 @@
-Status: **NB-Polar Phase 3-R1 EVAL_ACCEPTED_DIAGNOSTIC** — 2026-09-11
+Status: **P18 HOLD microcheck accepted descriptively; P19 layer/backoff diagnostic frozen awaiting explicit authorization** — 2026-09-16
+
+P18 completed its one authorized run with all 17 integrity gates true. The
+three N=32768 1M-HOLD blocks were 0/3 exact, all `verify_failed`, with zero
+undetected/decode/nonfinite/resource outcomes and aggregate sample
+CE-normalized disclosure ratio 1.23082048. Main-thread acceptance is
+descriptive only: there was no recovery/FER gate, and three chronological
+blocks cannot qualify or reject the rate.
+
+P19 is frozen, not authorized. It reuses the same blocks, prior and
+construction in five arms: base, +128 L1 coordinates, +512 L2 coordinates,
+both increments, and a provenance-isolated true-L1 L2 control. It has no
+recovery/superiority threshold and exists only to locate the finite
+backoff/layer mechanism before any qualification plan.
+
+Previous status (retained): **P18 three-block 1M HOLD microcheck COMPLETE (17/17 integrity gates; 0/3 exact descriptive); main-thread acceptance pending** — 2026-09-16
+
+P18 single gate executed once (exit 0, stderr empty, in-run wall 37.274417 s
+within 600 s; outer ≈55.9 s) and returned
+`TARGET_EMPIRICAL_OPERATIONAL_F13_N32768_HOLD_MICROCHECK_COMPLETE`: all 17
+integrity gates true, reads 1/1 + 1/1 and attempt 1/1 consumed at the first
+protected content open (no reopen/retry). Three registered HOLD blocks
+(1600..1727 / 1728..1855 / 1856..1983) each returned `verify_failed`
+(exact 0/3, undetected 0); this is descriptive by design — the packet has no
+FER/recovery threshold, so 0/3 exact is not a gate. Aggregate NLL
+83161.59954506146 bits; key-dependent 102357 / public-control 983229 / tags 3;
+recount mismatch 0; remainder 1984..1999 unused. Independent Pre-EXECUTE PASS /
+Pre-RESULT PASS_WITH_COMMENTS (resumed from an interrupted reviewer attempt;
+all numbers independently recomputed). Evidence: packet `OPERATOR_RETURN.md` +
+`holdout_microcheck/` (five files). No box checked; no commit/push; both
+protected inputs read-only and unchanged. Not an acceptance and not a
+FER/qualification result; main-thread acceptance pending.
+
+Previous status (retained): **P17 model-sampled replication accepted; P18 three-block 1M HOLD microcheck frozen awaiting explicit authorization** — 2026-09-15
+
+Main-thread decision accepts
+`TARGET_EMPIRICAL_OPERATIONAL_F13_N32768_REPLICATION_CANDIDATE` within its
+model-sampled development scope: 123/128 exact, undetected 0, Wilson LB
+0.92193404995, and count margin 2. P16 observations were not pooled. This is
+not real-data FER or qualification.
+
+P18 is frozen but not authorized. It reuses the exact P16/P17 N=32768,
+K1=319/K2=6492 construction and fixed TRAIN prior on the V49/V25 1M HOLD
+split. HOLD contains only 400 frames/102400 symbols, so P18 deterministically
+forms three chronological non-overlapping 32768-symbol blocks and leaves 4096
+symbols unused. It has integrity gates but deliberately no recovery/FER
+threshold: the sample is only a real-input/interface and mismatch microcheck.
+
+Previous status (retained): **P17 independent 128-block replication CANDIDATE returned (count margin 2); main-thread acceptance pending** — 2026-09-15
+
+P17 single gate executed once (exit 0, stderr empty, wall 2031.385216 s
+within 2400 s) and returned
+`TARGET_EMPIRICAL_OPERATIONAL_F13_N32768_REPLICATION_CANDIDATE`: DEV exact
+123/128 with Wilson one-sided 95% LB 0.921934049951655 ≥ 0.90 — count margin
+exactly 2 over 121 (LB margin +0.0219). Reads/attempts 1/1 spent; no
+reopen/rerun; 256 operational SC calls, 0 TRAIN/genie calls; P16 62/64
+report-only, never pooled. Independent Pre-EXECUTE PASS / Pre-RESULT
+PASS_WITH_COMMENTS (independent 123/128 recount + Wilson recomputation
+confirm CANDIDATE; item-8 VmPeak/VmSize resolved — per-record values present
+in all 128 records, aggregate carries wall+RSS by schema design). Evidence:
+packet `OPERATOR_RETURN.md` + `operational_replication_gate/` (five files).
+No box checked; no commit/push; NPZ and P16 root untouched. Main-thread
+acceptance pending; this entry is not an acceptance.
+
+Previous status (retained): **P16 operational candidate accepted with zero-count margin; P17 independent 128-block replication frozen awaiting explicit authorization** — 2026-09-15
+
+P16 main-thread decision accepts
+`TARGET_EMPIRICAL_OPERATIONAL_F13_N32768_CANDIDATE` only as a model-sampled
+development signal: 62/64 exact, undetected 0, Wilson LB 0.90987, but exactly
+zero count margin. P17 is frozen, not authorized. It reuses P16's exact
+N=32768 K1=319/K2=6492 construction, performs no TRAIN/genie work, and tests
+128 fresh operational blocks; P16 observations remain report-only and are not
+pooled into the replication gates.
+
+P16 single gate executed once (exit 0, stderr empty, wall 1183.61887 s)
+and returned `TARGET_EMPIRICAL_OPERATIONAL_F13_N32768_CANDIDATE`: 62/64
+exact with Wilson one-sided 95% LB 0.9098711859061207 ≥ 0.90 — exactly at
+threshold with ZERO-count margin (one fewer exact flips to NOT_CONFIRMED
+at 61/64 → 0.8883797143731994). Reads/attempts 1/1 spent; no reopen/rerun;
+independent Pre-EXECUTE PASS / Pre-RESULT PASS_WITH_COMMENTS
+(independent 62/64 recount + Wilson recomputation confirm CANDIDATE).
+Evidence: packet `OPERATOR_RETURN.md` + `operational_f13_gate/` (five
+files). No box checked; no commit/push; NPZ untouched. Main-thread
+acceptance pending; this entry is not an acceptance.
+
+Previous status (retained): **P15 valid negative accepted; P16 N=32768 operational f=1.3 Tier-Y packet frozen awaiting explicit authorization** — 2026-09-15
+
+P15 main-thread decision accepts
+`TARGET_EMPIRICAL_GENIE_F13_MID_N_SCALING_NOT_CONFIRMED` within its genie-proxy
+scope. N=32768 and 65536 both missed residual UCB 0.01; the latter was
+non-monotone due to a rare high-residual block. This does not establish
+operational FER. P16 is frozen, not authorized: empirical construction at
+N=32768 followed by 64 independent target-model operational two-layer
+hard-candidate SC blocks with one 64-bit tag each and planning f<=1.3; no BEC
+arm, adaptive retry or P12 rerun.
+
+P15 single gate executed once (exit 0, stderr empty, wall 1620.511243 s)
+and returned `TARGET_EMPIRICAL_GENIE_F13_MID_N_SCALING_NOT_CONFIRMED`:
+12/12 integrity true but neither registered N meets UCB≤0.01 (N=32768 UCB
+0.035899663088366535; N=65536 UCB 0.07612810621111707). Reads/attempts
+1/1 spent; no reopen/rerun; independent Pre-EXECUTE PASS / Pre-RESULT
+PASS (numbers bit-exact; two non-blocking notes). Evidence: packet
+`OPERATOR_RETURN.md` + `empirical_genie_mid_n_gate/` (five files). No box
+checked; no commit/push; NPZ untouched. Main-thread acceptance pending;
+this entry is not an acceptance.
+
+P14 main-thread decision: accept
+`TARGET_EMPIRICAL_GENIE_F13_N16384_TRAIN128_NOT_CONFIRMED` as a valid
+genie-proxy negative. Its flat/non-monotone B=8..128 curve and stable orders
+reject eight-block TRAIN size as the material P13 confounder. P15 is frozen,
+not authorized: empirical-only N=32768/65536, each with 16 TRAIN and 16
+independent DEV blocks; no P12 rerun or BEC arm.
+
+P13 consumed its sole V25 TRAIN read/attempt and completed without rerun:
+12/12 integrity gates passed, but DEV residual UCBs were 0.952/0.486/0.252 at
+N=4096/8192/16384, so no registered N met 0.01. Main thread accepts
+`TARGET_EMPIRICAL_GENIE_F13_SCALING_NOT_CONFIRMED` as a valid model-sampled
+genie-proxy negative, not operational FER or a minimum-N proof. At N=16384,
+TRAIN residual `9.12e-5` versus DEV mean `0.193` makes eight-block construction
+sample sufficiency the next confounder. P14 executed its single authorized gate once
+(exit 0, stderr empty, wall 1110.16709 s) and returned
+`TARGET_EMPIRICAL_GENIE_F13_N16384_TRAIN128_NOT_CONFIRMED`: nested
+B=8/16/32/64/128 constructions from one 128-block TRAIN set, all evaluated on
+one independent 32-block DEV set without repeated genie calls or DEV tuning.
+Integrity 13/13 true but B=128 DEV UCB 0.2011332146072146 > 0.01; the curve is
+flat (B=8 UCB 0.17251343416734777 → B=128 UCB 0.2011332146072146). Reads/attempts
+1/1 spent; no reopen/rerun. Independent Pre-EXECUTE PASS / Pre-RESULT
+PASS_WITH_COMMENTS (non-blocking only). Evidence: packet `OPERATOR_RETURN.md`
++ `empirical_genie_learning_curve_gate/` (five files). No box checked; no commit/push;
+NPZ untouched. Main-thread acceptance pending; this entry is not an acceptance.
+
+P13 single gate executed once (exit 0, stderr empty, total wall 496.580679 s):
+integrity 12/12 true but no registered N meets UCB≤0.01 — DEV UCBs
+0.9522855359820204 (N=4096) / 0.4859431994053538 (N=8192) /
+0.2524893538319819 (N=16384), all >0.01. Reads/attempts 1/1 spent; no
+reopen/retry/rerun. Independent Pre-EXECUTE PASS / Pre-RESULT
+PASS_WITH_COMMENTS (non-blocking only). Evidence: packet `OPERATOR_RETURN.md`
++ `empirical_genie_scaling_gate/` (five files). No box checked; no commit/push;
+NPZ untouched. Main-thread acceptance pending; this entry is not an acceptance.
+
+Previous status (retained): **P12 remains terminal BLOCKED; X13-R1 metric-memory completion recorded descriptive-only; P13 empirical-genie N=2^12..2^14 Tier-Y packet frozen awaiting explicit authorization** — 2026-09-14
+
+X13-R1 completed both registered lifetime alternatives 6/6 under the 2 GiB
+virtual-memory limit (including N=262144 x2 each), with inherited/replayed
+small-N parity and X13 immutability. Main-thread disposition records this as
+`X13R1_COMPLETE_DESCRIPTIVE_ONLY`: it establishes an available allocation-
+lifetime remedy for the P12 resource blocker but selects no implementation and
+does not justify rerunning P12. The machine record notes that no reviewer was
+available during execution; the later independent reviewer-go report supplied
+to the main thread is accepted as the post-run focused review, with that timing
+distinction retained. Next packet:
+`.workbuddy/queue/NBPOLAR-PHASE4-P13-EMPIRICAL-GENIE-SCALING/`, frozen and not
+authorized. It uses one V25 TRAIN NPZ read/one attempt to estimate independent
+DEV genie residuals at N=4096/8192/16384 under an empirical construction and
+f=1.3 allocation before any P12 successor is considered.
+
+P12 Tier-Y single run executed once 20:53:45→21:12:37 (exit 1, stdout empty)
+and resource-aborted on the N=262144 arm: uncaught `_ArrayMemoryError`
+(64.0 MiB `(262144, 32)` float64 alloc at `prior.py:255` via
+`target_n_scaling.py:774`, outside both SC try-guards; `MemoryError` outside
+the runner's caught `(ValueError, FileExistsError, OSError)`). No output
+root, no label persisted, ~124 smaller-N blocks of in-memory progress lost
+(end-only writes). Read 1/1 + attempt 1/1 spent; no rerun/repair; successor
+needs new authorization. Pre-EXECUTE PASS / Pre-RESULT
+CONFIRMED_SINGLE_RESOURCE_ABORT. Evidence: packet `OPERATOR_RETURN.md`
+(with verbatim stderr) + `PRE_RESULT_REVIEW.md`. No box checked; no
+commit/push; NPZ untouched by closeout.
+
+P11 Tier-Y gate returned candidate `EXACT_CHUNKED_SC_CANDIDATE`
+(acceptance pending): 33 primitive + 16 V0 + 18 full-SC parity; paired
+N=65536 exact; N=262144 ok, wall 66.09 s / RSS 710.5 MB (hard 1.5 GiB met,
+120 s / 1 GiB report-only); attempt 1/1 at first formal `sc_decode`,
+0 artifact reads; Pre-EXECUTE PASS / Pre-RESULT PASS_WITH_COMMENTS
+(non-blocking only). Evidence:
+`.workbuddy/queue/NBPOLAR-PHASE4-P11-EXACT-CHUNKED-SC/OPERATOR_RETURN.md`
++ `exact_chunked_sc_gate/` (four files). No box checked; no commit/push.
 
 本 checkout 的 Phase 0-2 已 ACCEPT。Phase 3 因 full Spearman 0.7665、
 缺失真实独立 pre-EVAL review 和 zero-impossible gate 失败而 BLOCKED；唯一
@@ -16,8 +191,157 @@ focused suite 66/66、独立 decoder-free 11/11。不含 CAL 或 decoder。
 P2 attempt 1/1 在 accepted artifact loader 通过后因自研诊断
 `[U1,B,U2]` advanced-indexing 轴错误而 BLOCKED，目标未创建。P2-R1 已用独立
 slice oracle 修复并接受：88 tests、一次 artifact read、CAL prior-table 数值闭合，
-接受范围不含 decoder/FER。下一步 heavy P3 empirical-prior SC interface 包已准备，
-等待显式授权；真实数据、DEV/EVAL、reconciliation 继续关闭。
+接受范围不含 decoder/FER。P3 empirical-prior SC interface 包已获授权并完成其唯一
+Stage B attempt（exit 0），返回 candidate `EMPIRICAL_PRIOR_SC_INTERFACE_CANDIDATE`；
+证据根 `.workbuddy/queue/NBPOLAR-PHASE4-P3-EMPIRICAL-PRIOR-SC/empirical_prior_sc_diagnostic/`，
+独立 Pre-EXECUTE PASS (R1)、Pre-RESULT PASS_WITH_COMMENTS，artifact 尝试已消耗；
+主线程已按独立评审接受为 model-sampled interface-consistency evidence；不接受为
+FER、reconciliation、leakage、key-rate、construction/K 或 performance 证据。
+artifact attempt 1/1 与 seed 2026091316 已消耗，五文件根冻结且不得重跑。
+`.workbuddy/queue/NBPOLAR-PHASE5-STATIC-PROTOCOL/` 已实现 Phase 5 static protocol
+并执行其唯一一次 300-block synthetic development gate（exit 0），返回 candidate
+`STATIC_PROTOCOL_DEVELOPMENT_CANDIDATE`；证据根
+`.workbuddy/queue/NBPOLAR-PHASE5-STATIC-PROTOCOL/static_protocol_dev_gate/`。
+300/300 exact、Wilson 单侧 95% 下界 0.9911、平均 key-dependent disclosure 289
+bits、transcript recount mismatch 0、11/11 hard gates 通过；attempt 1/1 已消耗，
+run seed 2026091317 已消耗，Toeplitz master 2026091318 为 public control，不得
+重跑。独立 Pre-EXECUTE PASS 与 Pre-RESULT PASS_WITH_COMMENTS（唯一 mandatory
+closeout 项 R-1 `attempts_used` 0→1 已完成）；主线程已接受为 synthetic static-
+protocol development signal。真实数据、DEV/EVAL、Phase 6 与 scientific promotion
+继续关闭。Phase 6 fixed-incremental paired 300-block development gate 已执行一次
+（exit 0），证据根
+`.workbuddy/queue/NBPOLAR-PHASE6-FIXED-INCREMENTAL/paired_incremental_dev_gate/`；
+incremental arm 相对 paired static arm 节省 28.2% key-dependent disclosure
+（207.293333 vs 288.573333 bits/block），但未通过冻结的恢复门：incremental exact
+271 < 285、Wilson 单侧 95% 下界 0.8716 < 0.90（paired static arm 298/300 exact）。
+失败机制为 K=29 层的 true disclosed value 零支撑 `ImpossibleDisclosedValueError`
+（wrong early SC prefix），按冻结 fail-closed 规则在 level 0 终止 29 个 block；
+Pre-RESULT 独立评审判定为有效 scheduled science、非实现缺陷。主线程接受该负结果并
+选择 option (a)：非最终层 impossible decode 记为拒收推进，无候选/tag，计 public
+feedback 后进入下一固定层并重启 SC；K45 仍 fail-closed。attempt 1/1 与 run seed
+2026091340 已消耗（master 2026091341 为 public control），不得重跑/调参；独立
+Pre-EXECUTE PASS 与 Pre-RESULT PASS_WITH_COMMENTS（N-1..N-4）已记录。Phase 6-R1
+decode-reject-advance 三臂配对 development gate 已执行一次（exit 0），证据根
+`.workbuddy/queue/NBPOLAR-PHASE6-R1-DECODE-REJECT-ADVANCE/three_arm_paired_dev_gate/`；
+返回 candidate `DECODE_REJECT_ADVANCE_DEVELOPMENT_CANDIDATE`：R1 exact 298/300、
+Wilson 单侧 95% 下界 0.98006、平均 key-dependent 220.51 vs static 288.57 bits/block
+（低 23.59%）、rescue 18 / persisted 282 / regressed 0、18/18 hard gates true。
+attempt 1/1 与 run seed 2026091350 已消耗（master 2026091351 为 public control），
+不得重跑/调参；独立 Pre-EXECUTE PASS 与 Pre-RESULT PASS 已记录。主线程已在
+严格边界内接受为 `DECODE_REJECT_ADVANCE_DEVELOPMENT_ACCEPTED`；它仍只覆盖低半
+字节恒零的单层 BEC 合成协议，不证明 L2、效率或真实信道性能。
+
+`.workbuddy/queue/NBPOLAR-PHASE6-R2-TWO-LAYER-RATE-FEASIBILITY/` 的 decoder-free
+两层 BEC rate feasibility 已完成并返回 candidate
+`TWO_LAYER_RATE_FEASIBILITY_CANDIDATE_PENDING_MAIN_THREAD_ACCEPTANCE`：K43
+标定复算通过（N256/eps0.05/budget1e-2，residual 0.0080281681532746）；66/66
+行（N=2^8..2^18 × 3 sources × 2 allocations）全部有限，`f<=1.3` 首次命中在
+2^18（六轴一致），log2 线性内插 crossing 位于 2^17.20-2^17.36，与 decision-log
+scratch "near 2^17-2^18" 判为 MATCH。L2 审计结论：oracle-L2 与 candidate-L2
+从未进入 SC 执行，仅单层 L1 high-plane 路径（`label=32*x_hat`，low half 恒零）
+执行过；后续前置条件（L2 prior 提取 + two-stage restart SC、paired two-layer
+development gate、empirical construction + scalable decoder）仅为决策输出。
+独立评审 PASS_WITH_COMMENTS（66/66 行零差异）后，主线程接受为
+`TWO_LAYER_RATE_FEASIBILITY_ACCEPTED`。无 decoder/attempt/seed 消耗（0/0）；
+该 BEC 表只允许作为规划估计，不得称为真实信道性能或严格下界。
+
+`.workbuddy/queue/NBPOLAR-PHASE4-P4-TWO-LAYER-OPERATIONAL-SC/` 已执行唯一一次
+paired synthetic interface gate（exit 0），返回 candidate
+`TWO_LAYER_OPERATIONAL_SC_CANDIDATE`：96/96 paired coverage、13/13 hard gates true、
+operational exact 26/96 vs oracle 44/96（report-only，无阈值）、accounting/recount
+精确（839 bits/fully-invoked arm；key-dependent 161088；public control 503616；
+576 transcript events；mismatch 0）、report-only divergence 34/96（float64 ULP 级
+bitwise 不等）。关键记录：frozen independent-layer model 使 table-derived P2 在数值上
+独立于 L1 candidate（7.77e-16），故该 gate 验证的是 causal wiring/provenance/
+isolation/accounting 与 label-level propagation，而非 metric-level L1→L2 依赖。
+attempt 1/1 与 run seed 2026091360 已消耗（master 2026091361 为 public control），
+不得重跑/调参；Pre-EXECUTE PASS、Pre-RESULT PASS_WITH_COMMENTS 已记录，acceptance
+待主线程。synthetic gate 之外无 decoder；无 artifact/真实数据；离线；无 commit/push。
+真实数据、artifact、empirical construction、N>256、FWHT、Phase 7 与 scientific
+promotion 继续关闭。
+
+`.workbuddy/queue/NBPOLAR-PHASE4-P5-HARD-CONDITIONING-PENALTY/` 的唯一一次
+384-pair paired gate 已执行（exit 0），返回 candidate
+`HARD_L1_CONDITIONING_PENALTY_CANDIDATE`（acceptance 待主线程）；证据根
+`paired_penalty_gate/`（五文件）。四 cell 233/144/0/7（both/oracle_only/
+operational_only/neither），per-stream 83/43/0/2、72/55/0/1、78/46/0/4；marginals
+operational exact 233/384（151 verify_failed）、oracle exact 377/384（7
+verify_failed）；X=144、单侧 95% exact 下界 L=0.3338842736427746>0.30；10/10
+integrity gates true；accounting/recount 精确（989 bits/fully-invoked arm；
+key-dependent 759552；public control 2014464；2304 events；mismatch 0）。attempt 1/1
+与 streams 2026091470..1472 已消耗（masters 2026101470..72 为 public control），
+不得重跑/调参；独立 Pre-EXECUTE PASS（R0 NEEDS_CHANGES docs-only B-1
+已修复）、Pre-RESULT PASS_WITH_COMMENTS 已记录。无 artifact/真实数据；无
+commit/push。
+
+`.workbuddy/queue/NBPOLAR-PHASE4-P6R1-GATE-IDENTITY-FIX/` 的 Δ successor
+已修复多流门身份并只读复核原始 P6 artifacts，返回 candidate
+`ADAPTIVE_HARD_L1_DISCLOSURE_CANDIDATE`（acceptance 待主线程）。代码 delta 仅限
+transcript event 身份（`stream_seed` + stream-qualified `frame_key`）与 D2-once
+门按 `(stream_seed, block_id, arm)` 分组（+32/−6，无 constant/decoder/threshold
+变更）；新增多流回归测试（旧 `(block,arm)` 多重度 [2,2,2,2] → 旧门 false；修正门
+true；缺失/重复 disclosure 可检出）；focused 16 passed、全 NB-Polar 217 passed。
+只读复核原五文件：640 唯一 `(stream_seed,block_index)`、1280 个 D2 arm-block
+obligation 各恰 1、L2 disclosure 合计 1280、12/12 integrity gate 与 4/4
+scientific gate 修正后全 true（唯一差异 = `d1_exactly_nested_and_d2_disclosed_once`
+false→true）；static 632/640、adaptive 632 = static、cells 632/0/0/8、
+leakage 67,578,300 ≤ 72,025,600（20.25% 节省）。原 P6 根五文件 sha256/mtime 不变，
+persisted `BLOCKED` label 未改；R1 消耗 attempt/seed = 0/0，decoder/RNG/tag
+calls = 0。独立 revalidation review = PASS_WITH_COMMENTS（非阻塞注记：叙述
++31 应为 +32、counters 为声明常量、D2 复核为 anchor-based）。仅限 candidate
+范围；非真实数据 FER/efficiency/qualification/promotion；无 commit/push；未勾选
+任何 task box。
+
+`.workbuddy/queue/NBPOLAR-PHASE4-P7-TARGET-EMPIRICAL-CONSTRUCTION/` 的
+target-population empirical construction gate（`TASK_PACKET.md`）已实现并执行唯一一次
+640-pair Tier-Y development gate（exit 0），返回 candidate
+`TARGET_EMPIRICAL_CONSTRUCTION_CANDIDATE`（acceptance 待主线程）；证据根
+`target_construction_gate/`（五文件）。目标 population 为 V25 1M TRAIN counts
+（`channel_counts.npz` 25,166,822 B、[Alice,Bob] 1024x1024）经 accepted
+`load_v25_channel_counts` 读取一次；support rule = column-normalize + 1e-15 floor
++ column renormalize（无 lambda/backoff/tuning）。Preconditions 全 true：H1/H2/total
+与 V49 1M TRAIN `nll_*` literals 差 <=4.5e-14（raw-MLE in-sample population
+conditional entropies，Pre-EXECUTE review item-1 ratified）；floor guard
+5.1600945738528026e-11 <= 1e-9；column dev 1.1357581541915351e-13。TRAIN
+2026091650..52 x256、DEV 2026091660..64 x128 = 640；orders 在 DEV 前冻结、
+permutations 有效、min pairwise TRAIN-order Spearman L1 0.9973291943236439 /
+L2 0.9950453479056992、`orders_sha256`
+8ec690344897655418b71520b22e9e403dfa381ca193fe0d322cb13e1d714104。DEV：empirical
+exact 640/640、BEC control 640/640（report-only；两臂均饱和，本期不区分 empirical
+与 BEC）、cells both 640 / empirical_only 0 / bec_only 0 / neither 0；Wilson 单侧
+95% 下界 0.9957903841321254；11/11 integrity + 3/3 scientific gates true；
+disclosure 989 bits/fully-invoked arm、totals 1,265,920 key-dependent / 3,357,440
+public / 1280 tags、recount mismatch 0；wall 132.523651 s、RSS 383,832,064 B。
+read 1/1 + attempt 1/1 在首次 NPZ content open 消耗；无 reopen/rerun/tuning；独立
+Pre-EXECUTE PASS、Pre-RESULT PASS（非阻塞注记：STATUS 已在此收口修正；两臂饱和的
+比较含义仅属解释层）。仅限 synthetic N=256 V25-1M-TRAIN model-sampled development
+signal；非 held-out/real FER、efficiency、key-rate、scaling、qualification 或
+promotion；Model-F 与真实数据未触碰；无 commit/push；未勾选任何 task box。
+
+`.workbuddy/queue/NBPOLAR-PHASE4-P8-TARGET-RATE-SCREEN-CONFIRM/` 的
+Tier-Y SCREEN→CONFIRM gate 已执行唯一一次（exit 0，wall 522.26697 s），返回
+candidate `TARGET_EMPIRICAL_RATE_POINT_CANDIDATE`（acceptance 待主线程）；证据根
+`rate_screen_confirm/`（五文件）。SCREEN 35 点全部 eligible，确定性选择
+(K1=8,K2=80)；CONFIRM empirical 638/640、BEC control 621/640（report-only）、
+Wilson 单侧 95% 下界 0.9906；read 1/1 + attempt 1/1 在首次 NPZ content open 消耗，
+无 reopen/rerun/tuning；独立 Pre-EXECUTE PASS（seed-coincidence ratified FRESH）、
+Pre-RESULT PASS_WITH_COMMENTS（非阻塞注记）；仅限 synthetic N=256 V25-1M-TRAIN
+model-sampled development signal；无 commit/push；未勾选任何 task box。
+
+`.workbuddy/queue/NBPOLAR-PHASE4-P9-LOWER-RATE-BOUNDARY-RESOLUTION/` 的
+Tier-Y lower-rate boundary-resolution gate 已执行唯一一次（artifact wall
+720.522313 s），返回 candidate
+`TARGET_EMPIRICAL_LOWER_RATE_POINT_CANDIDATE`（acceptance 待主线程）；证据根
+`lower_rate_screen_confirm/`（五文件）。SCREEN 为 8x7 精确网格
+（K1=[0,2,4,6,8,12,24,45] x K2=[0,20,40,50,60,70,80] = 56 点，含 (0,0) 与 P8
+anchor (8,80)），恰 10 eligible，确定性选择 (K1=6,K2=70) 444 bits；CONFIRM
+empirical 624/640、BEC control 520/640（report-only）、Wilson 单侧 95% 下界
+0.9627；read 1/1 + attempt 1/1 在首次 NPZ content open 消耗，无
+reopen/rerun/tuning；独立 Pre-EXECUTE PASS、Pre-RESULT PASS（零 comments）。
+Wave-C 首轮执行后结果回传因基础设施证书错误失败，重试方见根存在即 STOP 未
+执行任何命令，只读复核确认为单次冻结执行的真实产物，未发生 rerun。仅限
+synthetic N=256 V25-1M-TRAIN model-sampled development signal；无 commit/push；
+未勾选任何 task box。
 
 ---
 

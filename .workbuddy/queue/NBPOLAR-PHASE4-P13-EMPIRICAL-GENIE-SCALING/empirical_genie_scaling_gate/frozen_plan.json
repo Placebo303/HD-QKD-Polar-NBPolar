@@ -1,0 +1,138 @@
+{
+  "artifact_read_accounting": {
+    "artifact_content_reads_allowed": 1,
+    "artifact_content_reads_consumed_before": 0,
+    "artifact_content_reads_consumed_by_this_run": 1,
+    "attempts_allowed": 1,
+    "attempts_consumed_before": 0,
+    "attempts_consumed_by_this_run": 1,
+    "reopen_attempted": false,
+    "retries": 0,
+    "retry_after_open": false
+  },
+  "attempt_consumption_point": "first NPZ content open (load_v25_channel_counts)",
+  "bec_rule": "P12 same-entropy BEC orders (epsilon_l=H_l/5 via analytic_order) with their deterministic same-budget allocation (accepted allocate_layer_ks); report-only residuals from the same DEV genie rows with no extra SC calls; never selected or tuned from",
+  "budget": {
+    "env": {
+      "MALLOC_ARENA_MAX": "2",
+      "MKL_NUM_THREADS": "1",
+      "OMP_NUM_THREADS": "1",
+      "OPENBLAS_NUM_THREADS": "1"
+    },
+    "external_timeout_s": 1800,
+    "rss_bytes_max": 2147483648,
+    "total_wall_s": 1800.0,
+    "ulimit_virtual_kib": 2097152
+  },
+  "chunk_rows": 512,
+  "claim_scope": "frozen V25 TRAIN target-population empirical-genie construction/rate development signal only; not held-out or real frame FER, efficiency, key rate, scaling, qualification or promotion; BEC results and empirical-minus-BEC differences are report-only; undetected has no meaning in this tag-free gate and no success bucket exists",
+  "construction_rule": "per TRAIN block accumulate h_i=-log2 p_i[U_i], e_i=1-max p_i from the genie rows; pool means per layer; worst-first orders by accepted (e,h,index); K_total=floor((1.3*N*(H1+H2)-64)/5) clipped to [0,2N]; all feasible (K1,K2) enumerated, lexicographic minimum of (TRAIN residual e sum, K1, K2); frozen before the first DEV block",
+  "counts_path": "/mnt/d/Code/HD-QKD_Polar_Comparison/comparison_bench/outputs_comparison/nonbinary_diagnostics/nbldpc_v25_20260818/run_04/channel_counts.npz",
+  "created_utc": "2026-09-14T17:08:48Z",
+  "decision": {
+    "blocked": "BLOCKED(<earliest gate>)",
+    "candidate": "TARGET_EMPIRICAL_GENIE_F13_SCALING_CANDIDATE",
+    "not_confirmed": "TARGET_EMPIRICAL_GENIE_F13_SCALING_NOT_CONFIRMED",
+    "t_factor_df31_95": 1.695518782,
+    "ucb_threshold": 0.01
+  },
+  "dev_blocks_per_stream": 8,
+  "dev_seeds": [
+    2026091870,
+    2026091871,
+    2026091872,
+    2026091873,
+    2026091890,
+    2026091891,
+    2026091892,
+    2026091893,
+    2026091910,
+    2026091911,
+    2026091912,
+    2026091913
+  ],
+  "entropy_expectations": {
+    "column_tol": 1e-12,
+    "entropy_tol": 1e-12,
+    "floor_entropy_change_tol": 1e-09,
+    "h1": 0.02428054681872374,
+    "h2": 0.7767572780789994,
+    "total": 0.8010378248977232
+  },
+  "expected_npz_bytes": 25166822,
+  "field": {
+    "alpha": 2,
+    "index_order": "natural",
+    "name": "GF32 polynomial basis",
+    "primitive_polynomial": 37
+  },
+  "floor": 1e-15,
+  "frozen_command": "cd /mnt/d/Code/HD-QKD_Polar_Comparison-nbpolar\nexport OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1 MKL_NUM_THREADS=1 MALLOC_ARENA_MAX=2\nulimit -v 2097152\ntimeout 1800 /mnt/d/Code/HD-QKD_Polar_Comparison/.venv/bin/python -m comparison_bench.src.comparison_bench.formal_ir.nbpolar.empirical_genie_scaling --counts /mnt/d/Code/HD-QKD_Polar_Comparison/comparison_bench/outputs_comparison/nonbinary_diagnostics/nbldpc_v25_20260818/run_04/channel_counts.npz --source 1M --floor 1e-15 --target-f 1.3 --n-values 4096 8192 16384 --train-seeds 2026091860 2026091861 2026091862 2026091863 2026091880 2026091881 2026091882 2026091883 2026091900 2026091901 2026091902 2026091903 --dev-seeds 2026091870 2026091871 2026091872 2026091873 2026091890 2026091891 2026091892 2026091893 2026091910 2026091911 2026091912 2026091913 --train-blocks-per-stream 2 --dev-blocks-per-stream 8 --chunk-rows 512 --out-dir .workbuddy/queue/NBPOLAR-PHASE4-P13-EMPIRICAL-GENIE-SCALING/empirical_genie_scaling_gate",
+  "frozen_k_total_from_literals": {
+    "16384": 3399,
+    "4096": 840,
+    "8192": 1693
+  },
+  "integrity_gate_order": [
+    "target_population_contract",
+    "three_n_cells_complete",
+    "streams_disjoint_frozen",
+    "orders_valid_frozen_before_dev",
+    "budget_allocation_reproduced",
+    "risks_finite",
+    "zero_genie_exceptions",
+    "truth_isolation",
+    "no_unregistered_calls",
+    "checkpoint_accounting_consistent",
+    "attempt_read_accounting_exact",
+    "resource_limits_met_and_no_abort"
+  ],
+  "loader": "comparison_bench.src.comparison_bench.formal_ir.v35_algorithm_development.load_v25_channel_counts",
+  "mode": "target-population-empirical-genie-scaling-gate",
+  "n_values": [
+    4096,
+    8192,
+    16384
+  ],
+  "out_root": ".workbuddy/queue/NBPOLAR-PHASE4-P13-EMPIRICAL-GENIE-SCALING/empirical_genie_scaling_gate",
+  "output_files": [
+    "frozen_plan.json",
+    "construction_and_allocations.json",
+    "per_block_genie_residuals.jsonl",
+    "aggregate_summary.json",
+    "report.md"
+  ],
+  "precondition_order": [
+    "no_zero_bob_column",
+    "p_b_normalized",
+    "conditional_columns_normalized",
+    "h1_matches_literal",
+    "h2_matches_literal",
+    "total_matches_literal",
+    "floor_entropy_change_at_most_1e-9"
+  ],
+  "protocol": "nbpolar-p13-target-empirical-genie-scaling-gate",
+  "q": 32,
+  "repository": "HD-QKD_Polar_Comparison-nbpolar",
+  "residual_scope": "genie union-bound construction proxy: R sums undisclosed-coordinate genie error risks; it is not operational FER, not a real-channel result and not proof of any minimum N",
+  "sampling_rule": "per block: B ~ p_b (rng.random(n) against the cumulative p_b), then A ~ P_floor(A|B) per coordinate (rng.random(n) against the cumulative column); high=A//32, low=A%32; one explicit RNG per stream (np.random.default_rng(stream seed)), blocks sequential, no global RNG",
+  "source": "1M",
+  "support_rule": "f = counts / column totals; every cell below 1e-15 replaced by 1e-15; columns renormalized; p_b = column totals / total count; P1/P2 = accepted derive_p1/derive_p2(f) under A=32*U1+U2; no lambda, backoff, tuning, floor scan or held-out fitting (exact P7 rule)",
+  "target_f": 1.3,
+  "train_blocks_per_stream": 2,
+  "train_seeds": [
+    2026091860,
+    2026091861,
+    2026091862,
+    2026091863,
+    2026091880,
+    2026091881,
+    2026091882,
+    2026091883,
+    2026091900,
+    2026091901,
+    2026091902,
+    2026091903
+  ],
+  "truth_boundary": "Alice truth enters only sampling and oracle-conditioned genie rows; it never enters an undisclosed operational metric, decision or candidate label; there is no operational decoder in this gate, hence no tag, no Toeplitz master and no disclosed values"
+}

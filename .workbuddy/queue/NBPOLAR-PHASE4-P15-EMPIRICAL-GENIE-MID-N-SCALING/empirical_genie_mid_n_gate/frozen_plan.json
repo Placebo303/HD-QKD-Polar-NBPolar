@@ -1,0 +1,128 @@
+{
+  "artifact_read_accounting": {
+    "artifact_content_reads_allowed": 1,
+    "artifact_content_reads_consumed_before": 0,
+    "artifact_content_reads_consumed_by_this_run": 1,
+    "attempts_allowed": 1,
+    "attempts_consumed_before": 0,
+    "attempts_consumed_by_this_run": 1,
+    "reopen_attempted": false,
+    "retries": 0,
+    "retry_after_open": false
+  },
+  "attempt_consumption_point": "first NPZ content open (load_v25_channel_counts)",
+  "budget": {
+    "env": {
+      "MALLOC_ARENA_MAX": "2",
+      "MKL_NUM_THREADS": "1",
+      "OMP_NUM_THREADS": "1",
+      "OPENBLAS_NUM_THREADS": "1"
+    },
+    "external_timeout_s": 2100,
+    "rss_bytes_max": 2147483648,
+    "total_wall_s": 2100.0,
+    "ulimit_virtual_kib": 2097152
+  },
+  "chunk_rows": 512,
+  "claim_scope": "frozen V25 TRAIN target-population empirical-genie mid-N construction/rate development signal only; not held-out or real frame FER, efficiency, key rate, scaling, qualification or promotion; the UCB is a genie construction proxy, not an FER threshold or proof of any minimum N; undetected has no meaning in this tag-free gate and no success bucket exists",
+  "construction_rule": "per TRAIN block accumulate h_i=-log2 p_i[U_i], e_i=1-max p_i from the genie rows; pool means per layer; worst-first orders by accepted (e,h,index); K_total=floor((1.3*N*(H1+H2)-64)/5) clipped to [0,2N] (6811 at N=32768, 13636 at N=65536); all feasible (K1,K2) enumerated, lexicographic minimum of (TRAIN residual e sum, K1, K2); frozen before that N's first DEV block",
+  "counts_path": "/mnt/d/Code/HD-QKD_Polar_Comparison/comparison_bench/outputs_comparison/nonbinary_diagnostics/nbldpc_v25_20260818/run_04/channel_counts.npz",
+  "created_utc": "2026-09-15T06:59:52Z",
+  "decision": {
+    "blocked": "BLOCKED(<earliest gate>)",
+    "candidate": "TARGET_EMPIRICAL_GENIE_F13_MID_N_SCALING_CANDIDATE",
+    "not_confirmed": "TARGET_EMPIRICAL_GENIE_F13_MID_N_SCALING_NOT_CONFIRMED",
+    "t_factor_df15_95": 1.753050356,
+    "ucb_threshold": 0.01
+  },
+  "dev_blocks_per_stream": 4,
+  "dev_seeds": [
+    2026091970,
+    2026091971,
+    2026091972,
+    2026091973,
+    2026091990,
+    2026091991,
+    2026091992,
+    2026091993
+  ],
+  "entropy_expectations": {
+    "column_tol": 1e-12,
+    "entropy_tol": 1e-12,
+    "floor_entropy_change_tol": 1e-09,
+    "h1": 0.02428054681872374,
+    "h2": 0.7767572780789994,
+    "total": 0.8010378248977232
+  },
+  "expected_npz_bytes": 25166822,
+  "field": {
+    "alpha": 2,
+    "index_order": "natural",
+    "name": "GF32 polynomial basis",
+    "primitive_polynomial": 37
+  },
+  "floor": 1e-15,
+  "frozen_command": "cd /mnt/d/Code/HD-QKD_Polar_Comparison-nbpolar\nexport OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1 MKL_NUM_THREADS=1 MALLOC_ARENA_MAX=2\nulimit -v 2097152\ntimeout 2100 /mnt/d/Code/HD-QKD_Polar_Comparison/.venv/bin/python -m comparison_bench.src.comparison_bench.formal_ir.nbpolar.empirical_genie_mid_n --counts /mnt/d/Code/HD-QKD_Polar_Comparison/comparison_bench/outputs_comparison/nonbinary_diagnostics/nbldpc_v25_20260818/run_04/channel_counts.npz --source 1M --floor 1e-15 --target-f 1.3 --n-values 32768 65536 --train-seeds 2026091960 2026091961 2026091962 2026091963 2026091980 2026091981 2026091982 2026091983 --dev-seeds 2026091970 2026091971 2026091972 2026091973 2026091990 2026091991 2026091992 2026091993 --train-blocks-per-stream 4 --dev-blocks-per-stream 4 --chunk-rows 512 --out-dir .workbuddy/queue/NBPOLAR-PHASE4-P15-EMPIRICAL-GENIE-MID-N-SCALING/empirical_genie_mid_n_gate",
+  "frozen_k_total_from_literals": {
+    "32768": 6811,
+    "65536": 13636
+  },
+  "integrity_gate_order": [
+    "target_population_contract",
+    "two_n_cells_complete",
+    "streams_disjoint_frozen",
+    "orders_valid_frozen_before_dev",
+    "budget_allocation_reproduced",
+    "risks_finite",
+    "zero_genie_exceptions",
+    "truth_isolation",
+    "no_unregistered_calls",
+    "checkpoint_accounting_consistent",
+    "attempt_read_accounting_exact",
+    "resource_limits_met_and_no_abort"
+  ],
+  "loader": "comparison_bench.src.comparison_bench.formal_ir.v35_algorithm_development.load_v25_channel_counts",
+  "mode": "target-population-empirical-genie-mid-n-scaling-gate",
+  "n_values": [
+    32768,
+    65536
+  ],
+  "out_root": ".workbuddy/queue/NBPOLAR-PHASE4-P15-EMPIRICAL-GENIE-MID-N-SCALING/empirical_genie_mid_n_gate",
+  "output_files": [
+    "frozen_plan.json",
+    "construction_and_allocations.json",
+    "per_block_genie_residuals.jsonl",
+    "aggregate_summary.json",
+    "report.md"
+  ],
+  "planned_genie_calls": 128,
+  "precondition_order": [
+    "no_zero_bob_column",
+    "p_b_normalized",
+    "conditional_columns_normalized",
+    "h1_matches_literal",
+    "h2_matches_literal",
+    "total_matches_literal",
+    "floor_entropy_change_at_most_1e-9"
+  ],
+  "protocol": "nbpolar-p15-empirical-genie-mid-n-scaling-gate",
+  "q": 32,
+  "repository": "HD-QKD_Polar_Comparison-nbpolar",
+  "residual_scope": "genie union-bound construction proxy: R sums undisclosed-coordinate genie error risks; it is not operational FER, not a real-channel result and not proof of any minimum N",
+  "sampling_rule": "per block: B ~ p_b (rng.random(n) against the cumulative p_b), then A ~ P_floor(A|B) per coordinate (rng.random(n) against the cumulative column); high=A//32, low=A%32; one explicit RNG per stream (np.random.default_rng(stream seed)), blocks sequential, no global RNG",
+  "source": "1M",
+  "support_rule": "f = counts / column totals; every cell below 1e-15 replaced by 1e-15; columns renormalized; p_b = column totals / total count; P1/P2 = accepted derive_p1/derive_p2(f) under A=32*U1+U2; no lambda, backoff, tuning, floor scan or held-out fitting (exact P7 rule)",
+  "target_f": 1.3,
+  "train_blocks_per_stream": 4,
+  "train_seeds": [
+    2026091960,
+    2026091961,
+    2026091962,
+    2026091963,
+    2026091980,
+    2026091981,
+    2026091982,
+    2026091983
+  ],
+  "truth_boundary": "Alice truth enters only sampling and oracle-conditioned genie rows; it never enters an undisclosed operational metric, decision or candidate label; there is no operational decoder in this gate, hence no tag, no Toeplitz master and no disclosed values"
+}

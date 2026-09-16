@@ -1,0 +1,104 @@
+{
+  "entry": "empirical_stageb_stress_and_profile",
+  "b2_b3_wall_s": {
+    "b2": {
+      "cases": 1.7182706679741386
+    },
+    "b3": {
+      "cases": 2.8889417729951674
+    }
+  },
+  "b4": {
+    "profiles": [
+      {
+        "case": "B4_N64",
+        "n": 64,
+        "n_disclosed": 32,
+        "reps_planned": 5,
+        "n_metric_measured": 5,
+        "n_decode_measured": 5,
+        "metric_median_s": 3.799899423029274e-05,
+        "decode_median_s": 0.007757172992569394,
+        "metric_batch_shape": [
+          4,
+          64,
+          32
+        ],
+        "metric_shape": [
+          64,
+          32
+        ],
+        "decision_shape": [
+          64,
+          32
+        ],
+        "decode_status": "ok",
+        "disclosed_value_source": "true_U",
+        "peak_rss_gib": 0.23288726806640625,
+        "resource_abort": false,
+        "complete": true,
+        "wall_s": 0.05984112100850325
+      },
+      {
+        "case": "B4_N256",
+        "n": 256,
+        "n_disclosed": 128,
+        "reps_planned": 5,
+        "n_metric_measured": 5,
+        "n_decode_measured": 5,
+        "metric_median_s": 4.309399810153991e-05,
+        "decode_median_s": 0.03448710800148547,
+        "metric_batch_shape": [
+          4,
+          256,
+          32
+        ],
+        "metric_shape": [
+          256,
+          32
+        ],
+        "decision_shape": [
+          256,
+          32
+        ],
+        "decode_status": "ok",
+        "disclosed_value_source": "true_U",
+        "peak_rss_gib": 0.23288726806640625,
+        "resource_abort": false,
+        "complete": true,
+        "wall_s": 0.24409522199130151
+      },
+      {
+        "case": "B4_N1024",
+        "n": 1024,
+        "n_disclosed": 512,
+        "reps_planned": 5,
+        "n_metric_measured": 5,
+        "n_decode_measured": 5,
+        "metric_median_s": 0.00011792199802584946,
+        "decode_median_s": 0.16753002499171998,
+        "metric_batch_shape": [
+          4,
+          1024,
+          32
+        ],
+        "metric_shape": [
+          1024,
+          32
+        ],
+        "decision_shape": [
+          1024,
+          32
+        ],
+        "decode_status": "ok",
+        "disclosed_value_source": "true_U",
+        "peak_rss_gib": 0.23288726806640625,
+        "resource_abort": false,
+        "complete": true,
+        "wall_s": 1.187861480997526
+      }
+    ],
+    "peak_rss_gib": 0.23288726806640625
+  },
+  "peak_rss_gib": 0.23288726806640625
+}

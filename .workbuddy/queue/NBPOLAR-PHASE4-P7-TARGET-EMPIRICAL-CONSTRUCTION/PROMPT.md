@@ -1,0 +1,2 @@
+Implement and execute `.workbuddy/queue/NBPOLAR-PHASE4-P7-TARGET-EMPIRICAL-CONSTRUCTION/TASK_PACKET.md` exactly. Add the OpenSpec P7 delta first, then the smallest scoped module/tests. Obtain independent reviewer-go Pre-EXECUTE PASS before the single frozen V25 TRAIN-count execution and Pre-RESULT review before return. Use only the fixed MLE+1e-15 floor rule and frozen streams/K values. Return only the frozen candidate/not-confirmed label or a concrete blocker. No retry/tuning, Model-F/raw/held-out data, N>256, APP/SCL/FWHT, commit or push.
+

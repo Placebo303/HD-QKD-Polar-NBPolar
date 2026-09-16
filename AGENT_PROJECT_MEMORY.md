@@ -1,3 +1,396 @@
+## 2026-09-16 NB-Polar Phase 4 P18 N32768 1M HOLD real-input microcheck accepted (descriptive complete)
+
+- Packet [repo-observed]: `NBPOLAR-PHASE4-P18-N32768-HOLDOUT-MICROCHECK`
+  executed once + independent Pre-EXECUTE PASS and Pre-RESULT
+  PASS_WITH_COMMENTS (the latter completed as a resumption from an interrupted
+  first attempt); state
+  `TARGET_EMPIRICAL_OPERATIONAL_F13_N32768_HOLD_MICROCHECK_COMPLETE_ACCEPTED_DESCRIPTIVE`,
+  result label `TARGET_EMPIRICAL_OPERATIONAL_F13_N32768_HOLD_MICROCHECK_COMPLETE`;
+  main thread accepted it as descriptive only — NOT a FER/recovery/
+  qualification/promotion claim.
+- Code delta [repo-observed]: thin runner
+  `formal_ir/nbpolar/holdout_microcheck.py` (fixed P16 construction reuse;
+  zero TRAIN/genie/RNG/fitting paths on HOLD; five files created pre-open +
+  per-block checkpointing; one content open per protected input); +26 focused
+  tests (full NB-Polar suite 409 = 383 + 26 green, zero protected opens via
+  audit). OpenSpec P18 delta under
+  `formal-ir-nbpolar-phase4-p0/specs/nbpolar-phase4-p18/spec.md` + tasks.
+- Gate [repo-observed]: 1M HOLD split of `type2_1M_20260121_184040` = 400
+  frames / 102400 symbols; three chronological N=32768 blocks (frames
+  1600..1727, 1728..1855, 1856..1983); remainder frames 1984..1999 (4096
+  symbols) unused; tag_master 2026092050; 6 SC calls / 3 tag invocations.
+  Predecessor digest
+  `055c906472dd2a09761761b18aceb5f31d8b5db19bac658721f8dc49c3faea1b` match
+  true; manifest 400/102400; preconditions 7/7; consumption train read 1/1 +
+  hold read 1/1 + attempt 1/1 at first protected open (opens 1 each; no
+  reopen/rerun; sizes+mtime unchanged).
+- Result [repo-observed]: per-block buckets all `verify_failed` (exact 0/3;
+  L1 correct true/false/false; tag pass false for all three); raw SER
+  0.240936279296875 / 0.23980712890625 / 0.240264892578125; total NLL bits
+  27589.350245339167 / 27884.160498770143 / 27688.088800952148 (aggregate
+  83161.59954506146); disclosure key 102357 / public 983229 / tags 3, recount
+  mismatch 0; sample CE-normalized disclosure ratio 1.2366728355903898 /
+  1.2235978917674373 / 1.232262733815947 (aggregate 1.230820481567787;
+  34119 per-block NLL; explicitly NOT qualification efficiency); 17/17
+  integrity gates true; wall 37.274417 s; RSS peak 520798208 B; no resource
+  stop. Evidence root
+  `.workbuddy/queue/NBPOLAR-PHASE4-P18-N32768-HOLDOUT-MICROCHECK/holdout_microcheck/`
+  (5 files).
+- Scope [decision]: real-input microcheck at N=32768 with FIXED P16
+  construction only — no recovery or FER threshold and not
+  qualification/promotion; exact 0/3 is a descriptive observation with no
+  FER meaning; no Model-F/HOLD fitting, no fitting/tuning on HOLD;
+  P12-P17/old roots untouched; no commit/push.
+- Process lesson [procedure]: a reviewer subagent manually terminated mid-run
+  can be resumed from its saved session transcript — re-execute the
+  interrupted suite fresh, write the review, and note the resumption in the
+  review file (P18: the first Pre-RESULT attempt was interrupted during the
+  full-suite run; the resumption re-ran both suites with zero protected
+  opens). Primary coder-doc/memory/reviewer models can be region-blocked
+  while their backup instances work.
+
+## 2026-09-16 NB-Polar Phase 4 P19 HOLDOUT backoff diagnostic frozen (not authorized)
+
+- [next/status] Tier-Y packet
+  `NBPOLAR-PHASE4-P19-HOLDOUT-BACKOFF-DIAGNOSTIC` remains frozen awaiting
+  explicit user authorization; `execution_authorized: false`, TRAIN/HOLD
+  protected reads 0/1 and attempt 0/1, with no result or review. P19 has not
+  run.
+- [scope] The same three P18 blocks have five frozen descriptive arms:
+  `base`; `l1_plus` (+128 L1); `l2_plus` (+512 L2); `both_plus` (+128 L1 and
+  +512 L2); and `true_l1_control` (oracle-labelled true-L1 control, excluded
+  from operational aggregates). There is no recovery, FER, Wilson,
+  superiority, qualification or promotion threshold; outcomes remain
+  descriptive and cannot be converted to pass/fail.
+
+## 2026-09-18 NB-Polar Phase 4 P17 operational F13 N32768 replication accepted (model-sampled only)
+
+- Packet [repo-observed]: `NBPOLAR-PHASE4-P17-N32768-OPERATIONAL-REPLICATION`
+  candidate stage executed once + two independent reviews; Pre-RESULT
+  PASS_WITH_COMMENTS with independent 123/128 recount confirming the candidate
+  classification. Main thread accepted
+  `TARGET_EMPIRICAL_OPERATIONAL_F13_N32768_REPLICATION_CANDIDATE` as a
+  model-sampled operational development signal only — not qualified, promoted,
+  or a real-data FER result.
+- Code delta [repo-observed]: thin runner
+  `formal_ir/nbpolar/operational_f13_replication.py` (ZERO TRAIN/genie/BEC/
+  adaptive paths; reads accepted P16 construction file read-only with digest
+  verification; reuses P16 operational helpers + accepted P7/P11 contracts;
+  P17 N/block tag domains; five files created pre-open + per-block
+  checkpointing); +25 focused tests (full NB-Polar suite 383 = 358 + 25
+  green). OpenSpec P17 delta under
+  `formal-ir-nbpolar-phase4-p0/specs/nbpolar-phase4-p17/spec.md` + tasks.
+- Gate [repo-observed]: N=32768; V25 1M TRAIN NPZ 25166822 B read-only;
+  preconditions 7/7; read 1/1 + attempt 1/1 at first open, opens 1, no
+  reopen/rerun; 256 operational SC calls, 0 TRAIN/genie calls, 128 tags.
+  Predecessor digest `055c906472dd2a09761761b18aceb5f31d8b5db19bac658721f8dc49c3faea1b`
+  triple-match (stored==recomputed==frozen); K_total=6811 (K1 319/K2 6492,
+  f 1.29985, leakage 34119); DEV 128 blocks (streams 2026092030..2037x16,
+  fresh vs P16); P16 root untouched; scored tag domains P17-only.
+- DEV [repo-observed]: exact 123 / undetected 0 / verify_failed 5 /
+  decode_failed 0 / nonfinite 0 / resource_abort 0 (per-stream
+  15/1,15/1,16/0,15/1,15/1,15/1,16/0,16/0); exact fraction 123/128=
+  0.9609375; one-sided 95% Wilson LB 0.921934049951655 (EXACT-COUNT MARGIN
+  exactly 2 over 121/128→0.9021084760; LB margin +0.0219; 120/128→
+  0.8924595822 False). P16's 62/64 report-only, pooled_into_decision false
+  (decision inputs exactly the 128 P17 blocks). Disclosure totals key
+  4367232 / public 41951104 / tags 128, recount mismatch 0. Resources: wall
+  2031.39 s (margin 368.6 s vs 2400 s); RSS peak 569614336 B; per-record
+  VmPeak/VmSize present; no resource stop. 14/14 integrity true. Evidence
+  root
+  `.workbuddy/queue/NBPOLAR-PHASE4-P17-N32768-OPERATIONAL-REPLICATION/operational_replication_gate/`
+  (5 files).
+- Scope [decision]: model-sampled replication at N=32768/f≤1.3 ONLY — not
+  real-data FER/qualification/promotion; P16 never pooled; threshold-sit
+  context (P16 was exactly 62/64 zero-margin; P17 has 2-count margin); no
+  BEC/adaptive; no Model-F/HOLD/raw/real/EVAL beyond the single V25 TRAIN
+  read; P12-P16/old roots untouched; no commit/push.
+
+## 2026-09-18 NB-Polar Phase 4 P18 N32768 1M HOLD operational microcheck frozen
+
+- [next/status] Tier-Y packet
+  `NBPOLAR-PHASE4-P18-N32768-HOLDOUT-MICROCHECK` is frozen awaiting explicit
+  user authorization; `execution_authorized: false`, protected reads and
+  attempt remain 0/1, and no result or review exists. Do not describe P18 as
+  executed, candidate, accepted, or a FER result.
+- [scope] P18 is a real-input/interface microcheck that reuses the accepted
+  P16/P17 N=32768, K1=319/K2=6492, leakage=34119 construction and fixed TRAIN
+  prior. The 1M HOLD split has 400 frames / 102400 symbols; at 32768 symbols
+  per block it provides only three non-overlapping chronological blocks
+  (frames 1600..1983), with 4096 symbols (frames 1984..1999) left as an
+  unused remainder. The three blocks are explicitly insufficient for any FER,
+  Wilson, qualification, or promotion claim; P18 has no recovery threshold.
+- [boundary] P18 forbids shuffling, overlap, padding, resampling, HOLD fitting,
+  pooling with TRAIN/VAL/P16/P17, and any decoder/prior/construction/tag
+  semantic change. If later authorized, it must remain descriptive regardless
+  of 0..3 exact outcomes, use one read per TRAIN NPZ and HOLD parquet, and
+  preserve the five-file checkpointed root and no-commit/no-push rule.
+
+## 2026-09-18 NB-Polar Phase 4 P16 operational F13 N32768 CANDIDATE (pending main-thread acceptance)
+
+- Packet [repo-observed]: `NBPOLAR-PHASE4-P16-N32768-OPERATIONAL-F13`
+  candidate stage executed once + two independent reviews; Pre-RESULT
+  PASS_WITH_COMMENTS with independent 62/64 recount confirming CANDIDATE
+  uniquely correct. Verdict is
+  `TARGET_EMPIRICAL_OPERATIONAL_F13_N32768_CANDIDATE` only — NOT accepted,
+  NOT qualified, NOT promoted, NOT BLOCKED. Main-thread acceptance pending.
+- Code delta [repo-observed]: thin runner
+  `formal_ir/nbpolar/operational_f13.py` (reuses P7 loader/support/preconditions,
+  P13 construction/allocation, P4 causal wiring, P5 hard-candidate/tag semantics,
+  P11 chunk_rows=512 SC; five files created pre-open + per-block checkpointing);
+  +23 focused tests (full NB-Polar suite 358 = 335 + 23 green). OpenSpec P16
+  delta under `formal-ir-nbpolar-phase4-p0/specs/nbpolar-phase4-p16/spec.md` +
+  tasks.
+- Gate [repo-observed]: N=32768; V25 1M TRAIN NPZ 25166822 B read-only;
+  preconditions 7/7; read 1/1 + attempt 1/1 at first open, opens 1, no
+  reopen/rerun; TRAIN genie 32 + DEV SC 128 calls. K_total=6811 (K1 319/K2
+  6492, f 1.29985, leakage 34119); TRAIN 16 blocks; DEV 64 blocks (streams
+  2026092010..2017x8); orders frozen pre-DEV.
+- DEV [repo-observed]: exact 62 / undetected 0 / verify_failed 2 /
+  decode_failed 0 / nonfinite 0 / resource_abort 0 (the two verify_failed:
+  stream 2026092015 block 5 + stream 2026092017 block 3, both tag False/label
+  False); exact fraction 62/64=0.96875; one-sided 95% Wilson LB
+  0.9098711859061207 (margin +0.00987 over the 0.90 gate; EXACT-COUNT MARGIN
+  ZERO — one fewer exact flips to NOT_CONFIRMED at 61/64→0.8884). Disclosure
+  totals key 2183616 / public 20975552 / tags 64, recount mismatch 0.
+  Resources: wall 1183.62 s (≤2100); RSS peak 545861632 B; VmPeak ≤763408 kB;
+  no resource stop. 13/13 integrity true. Evidence root
+  `.workbuddy/queue/NBPOLAR-PHASE4-P16-N32768-OPERATIONAL-F13/operational_f13_gate/`
+  (5 files).
+- Scope [decision]: model-sampled operational outcome at N=32768/f≤1.3 ONLY —
+  not real-data FER/qualification/promotion; no BEC arm; threshold-sit
+  neutrality (exactly at 62/64); no Model-F/HOLD/raw/real/EVAL beyond the
+  single V25 TRAIN read; P12-P15/old roots untouched; no commit/push.
+
+## 2026-09-18 NB-Polar Phase 4 P15 empirical-genie mid-N scaling NEGATIVE (NOT_CONFIRMED, no candidacy, no acceptance)
+
+- Packet [repo-observed]: `NBPOLAR-PHASE4-P15-EMPIRICAL-GENIE-MID-N-SCALING`
+  negative stage executed once + two independent reviews; Pre-RESULT PASS.
+  Verdict is `TARGET_EMPIRICAL_GENIE_F13_MID_N_SCALING_NOT_CONFIRMED` only
+  — NOT candidate, NOT accepted, NOT qualified, NOT promoted, NOT BLOCKED.
+  Main-thread acceptance pending.
+- Code delta [repo-observed]: thin runner
+  `formal_ir/nbpolar/empirical_genie_mid_n.py` (reuses P13 helpers +
+  accepted P7/P11 contracts; per-N TRAIN-freeze-DEV loop; five files created
+  pre-open + per-block checkpointing; NO BEC arm by design); +15 focused
+  tests (full NB-Polar suite 335 = 320 + 15 green). OpenSpec P15 delta under
+  `formal-ir-nbpolar-phase4-p0/specs/nbpolar-phase4-p15/spec.md` + tasks.
+- Gate [repo-observed]: V25 1M TRAIN NPZ 25166822 B read-only; preconditions
+  7/7; read 1/1 + attempt 1/1 at first open, opens 1, no reopen/rerun; genie
+  calls 128/128. Allocations: N=32768 K 6811 (K1 314/K2 6497, f 1.29985,
+  leakage 34119) / N=65536 K 13636 (K1 607/K2 13029, f 1.29996, leakage
+  68244); TRAIN 16+16 blocks; DEV 16+16; N-to-seed grouping exact
+  (1960..63/1970..73 → 32768; 1980..83/1990..93 → 65536); TRAIN∩DEV ∅;
+  orders frozen pre-DEV.
+- DEV [repo-observed]: empirical residual one-sided 95% t UCBs (factor
+  1.753050356, df=15, n=16): N=32768 mean 0.01915 / UCB 0.03590; N=65536
+  mean 0.02877 / UCB 0.07613 — BOTH >0.01 →
+  `TARGET_EMPIRICAL_GENIE_F13_MID_N_SCALING_NOT_CONFIRMED` (12/12 integrity
+  true; candidate_ns empty). N=65536 mean exceeds N=32768 mean (descriptive
+  numbers only, no improvement claim). Resources: wall 1620.51 s (≤2100);
+  RSS peak 1033293824 B (0.48×2GiB); VmPeak max 1241560 KiB; no resource
+  stop. Evidence root
+  `.workbuddy/queue/NBPOLAR-PHASE4-P15-EMPIRICAL-GENIE-MID-N-SCALING/empirical_genie_mid_n_gate/`
+  (5 files).
+- Scope [decision]: genie union-bound construction proxy only — not
+  operational FER/real-channel/minimum-N; no qualification/promotion; no
+  Model-F/HOLD/raw/real/EVAL/tag beyond the single V25 TRAIN read;
+  P12/P13/P14/old roots untouched; no commit/push.
+
+## 2026-09-18 NB-Polar Phase 4 P14 empirical-genie learning curve NEGATIVE (NOT_CONFIRMED, no candidacy, no acceptance)
+
+- Packet [repo-observed]: `NBPOLAR-PHASE4-P14-EMPIRICAL-GENIE-LEARNING-CURVE`
+  negative stage executed once + two independent reviews; Pre-RESULT
+  PASS_WITH_COMMENTS non-blocking. Verdict is
+  `TARGET_EMPIRICAL_GENIE_F13_N16384_TRAIN128_NOT_CONFIRMED` only — NOT
+  candidate, NOT accepted, NOT qualified, NOT promoted, NOT BLOCKED.
+  Main-thread acceptance pending.
+- Code delta [repo-observed]: thin runner
+  `formal_ir/nbpolar/empirical_genie_learning_curve.py` (reuses P13 helpers +
+  accepted P7/P11 contracts; nested 8/16/32/64/128 prefixes from ONE
+  stream-major TRAIN sequence; each block decoded once per layer, 320 genie
+  calls; five files created pre-open + per-block checkpointing); +15 focused
+  tests (full NB-Polar suite 320 = 305 + 15 green). OpenSpec P14 delta under
+  `formal-ir-nbpolar-phase4-p0/specs/nbpolar-phase4-p14/spec.md` + tasks.
+- Gate [repo-observed]: N=16384; V25 1M TRAIN NPZ 25166822 B read-only;
+  preconditions 7/7; read 1/1 + attempt 1/1 at first open, no reopen/rerun.
+  K_total=3399 (f 1.29981, leakage 17059); TRAIN 128 blocks (1930..37x16) +
+  DEV 32 (1940..43x8); orders nested-exact, frozen before DEV; TRAIN∩DEV ∅;
+  no P13 merge.
+- DEV [repo-observed]: per-prefix empirical residual one-sided 95% t UCBs
+  (n=32): B=8 mean 0.1176 / UCB 0.1725; B=16 0.1318 / 0.1879; B=32 0.1060 /
+  0.1587; B=64 0.0898 / 0.1391; B=128 0.1420 / 0.2011 — ALL FIVE >0.01 →
+  `TARGET_EMPIRICAL_GENIE_F13_N16384_TRAIN128_NOT_CONFIRMED` (13/13 integrity
+  true). Paired R_128−R_8 mean +0.0244 / UCB +0.0753. Curve FLAT: B=128 not
+  better than B=8 (descriptive numbers only). Allocations (K1,K2):
+  (158,3241)/(161,3238)/(162,3237)/(162,3237)/(173,3226). Resources: wall
+  1110.17 s; VmPeak 508308 kB; no resource stop. Evidence root
+  `.workbuddy/queue/NBPOLAR-PHASE4-P14-EMPIRICAL-GENIE-LEARNING-CURVE/empirical_genie_learning_curve_gate/`
+  (5 files).
+- Scope [decision]: genie union-bound construction proxy only — not
+  operational FER/real-channel/minimum-N; no route recommendation; no
+  qualification/promotion; no Model-F/HOLD/raw/real/EVAL/tag beyond the
+  single V25 TRAIN read; P13/old roots untouched; no commit/push.
+
+## 2026-09-15 P13 empirical-genie negative accepted; P14 learning curve frozen
+
+- [decision] Main thread accepted `TARGET_EMPIRICAL_GENIE_F13_SCALING_NOT_CONFIRMED_ACCEPTED` as a valid negative result within the V25 1M TRAIN model-sampled genie-proxy scope. P13 had 12/12 integrity gates true, independent Pre-EXECUTE PASS and Pre-RESULT PASS_WITH_COMMENTS, one read/attempt consumed, and no rerun or tuning.
+- [result] At f=1.3, all registered N failed the frozen DEV residual-UCB criterion: N=4096 mean 0.8277 / one-sided 95% t-UCB 0.9523; N=8192 mean 0.3968 / UCB 0.4859; N=16384 mean 0.1932 / UCB 0.2525. `candidate_ns` is empty. The P13 8-block TRAIN construction was sample-limited; at N=16384 its TRAIN residual (~9.1e-5) was far below the DEV mean, so construction-sample sufficiency is the next confounder.
+- [boundary] This is a genie union-bound construction proxy, not operational FER, minimum-N, efficiency, key-rate, qualification or promotion evidence. The small-N `eps_eff~0.115` scenario remains unestablished; higher HOLD entropy means fixed TRAIN disclosure has roughly f=1.23 relative to HOLD, not f~1.37.
+- [next] `NBPOLAR-PHASE4-P14-EMPIRICAL-GENIE-LEARNING-CURVE` is frozen as the next Tier-Y gate, awaiting explicit authorization. At N=16384 it builds nested B=8/16/32/64/128 constructions from one 128-block TRAIN sequence, scores all five on the same disjoint 32-block DEV sequence, and freezes orders/allocations before DEV. Each TRAIN/DEV genie block is decoded once and reused across prefixes (320 calls total); only B=128's one-sided t-UCB (df=31, factor 1.695518782) may classify the result (`..._CANDIDATE` iff UCB<=0.01, otherwise `..._NOT_CONFIRMED`). DEV never tunes the construction.
+- [procedure] P14 reads the V25 1M TRAIN NPZ exactly once and consumes one attempt at first content open; it uses the accepted 1e-15 floor, P11 chunk_rows=512, f=1.3 allocation, single-thread allocator environment, 2-GiB/1800-s limits, per-block checkpointing of exactly five files, and VmPeak/VmSize recording. No P13/old-root modification, Model-F/HOLD/raw/real/EVAL/tag/Toeplitz/operational decode/APP/SCL/FWHT work, rerun, tuning, commit or push.
+
+## 2026-09-18 NB-Polar Phase 4 P13 empirical-genie scaling NEGATIVE (NOT_CONFIRMED, no candidacy, no acceptance)
+
+- Packet [repo-observed]: `NBPOLAR-PHASE4-P13-EMPIRICAL-GENIE-SCALING`
+  negative stage executed once + two independent reviews; Pre-RESULT
+  PASS_WITH_COMMENTS non-blocking. Verdict is
+  `TARGET_EMPIRICAL_GENIE_F13_SCALING_NOT_CONFIRMED` only — NOT candidate,
+  NOT accepted, NOT qualified, NOT promoted, NOT BLOCKED. Main-thread
+  acceptance pending.
+- Code delta [repo-observed]: thin runner
+  `formal_ir/nbpolar/empirical_genie_scaling.py` (accepted P7
+  loader/support/preconditions/genie_conditionals, P11 chunk_rows=512 SC,
+  f=1.3 BEC-budget/allocation helpers mirrored from P12, NO tag/Toeplitz;
+  per-block checkpointing); +20 focused tests (full NB-Polar subset 305 =
+  285 + 20 green). OpenSpec P13 delta under
+  `formal-ir-nbpolar-phase4-p0/specs/nbpolar-phase4-p13/spec.md` + tasks.
+- Gate [repo-observed]: V25 1M TRAIN NPZ 25166822 B read-only; preconditions
+  7/7; read 1/1 + attempt 1/1 at first open, no reopen/rerun. Allocations:
+  N=4096 K 840 (K1 38/K2 802, f 1.29958) / N=8192 K 1693 (78/1615,
+  f 1.29974) / N=16384 K 3399 (152/3247, f 1.29981); TRAIN 8+8+8, DEV
+  32x3=96; orders frozen before DEV; genie_calls 240/240.
+- DEV [repo-observed]: empirical residual one-sided 95% t UCBs (n=32):
+  N=4096 mean 0.8277 / UCB 0.9523; N=8192 mean 0.3968 / UCB 0.4859; N=16384
+  mean 0.1932 / UCB 0.2525 — ALL THREE >0.01 →
+  `TARGET_EMPIRICAL_GENIE_F13_SCALING_NOT_CONFIRMED` (12/12 integrity true;
+  candidate_ns empty). Evidence root
+  `.workbuddy/queue/NBPOLAR-PHASE4-P13-EMPIRICAL-GENIE-SCALING/empirical_genie_scaling_gate/`
+  (5 files).
+- Guards [decision]: (1) eps_eff~0.115 is only a scenario hypothesis
+  back-inferred from small-N, not established; (2) higher HOLD entropy =>
+  fixed TRAIN disclosure is ~f=1.23 relative to HOLD (less redundancy),
+  not f~1.37.
+- Scope [decision]: genie union-bound construction proxy only — not
+  operational FER/real-channel/minimum-N; no qualification/promotion; no
+  Model-F/HOLD/raw/real/EVAL/tag beyond the single V25 TRAIN read; old
+  roots untouched; no commit/push.
+
+## 2026-09-18 NB-Polar Phase 4 P12 f=1.3 N-scaling profile TERMINAL BLOCKED (no candidacy, no acceptance)
+
+- Packet [repo-observed]: `NBPOLAR-PHASE4-P12-TARGET-F13-N-SCALING-PROFILE`
+  Tier-Y terminal stage executed once + two independent reviews; no rerun
+  permitted. Verdict is `BLOCKED(resource_limits_met_and_no_abort)` only —
+  NOT candidate, NOT accepted, NOT qualified, NOT promoted. Independent
+  Pre-RESULT: `CONFIRMED_SINGLE_RESOURCE_ABORT`.
+- Code delta [repo-observed]: thin runner
+  `formal_ir/nbpolar/target_n_scaling.py` (accepted P7 support/preconditions,
+  P11 chunk_rows=512 SC, two-layer hard-candidate, Toeplitz tag/accounting);
+  +23 focused tests (full suite 285 = 262 + 23). OpenSpec P12 delta under
+  `formal-ir-nbpolar-phase4-p0/specs/nbpolar-phase4-p12/spec.md` + tasks.
+- Frozen matrix [repo-observed]: six-N profile (256x64, 4096x32, 16384x16,
+  65536x8, 131072x4, 262144x4 = 128 blocks; seeds 2026091820..25) with
+  analytic BEC K allocations (e.g. N=256: 40/1/39; N=262144:
+  54583/2776/51807) — never executed to completion.
+- Gate [repo-observed]: single run seed 2026091800 resource-aborted at the
+  N=262144 arm: uncaught `_ArrayMemoryError` allocating (262144,32) float64
+  (64 MiB) in `prior.py probs_to_symbol_metric` via
+  `target_n_scaling.py:774` L2 candidate metric (outside SC try-guards;
+  MemoryError not in caught ValueError/FileExistsError/OSError) -> exit 1
+  after ~1107 s. Read 1/1 + attempt 1/1 SPENT. No output root, no label,
+  ~124 blocks of progress lost (end-only writes, no checkpointing).
+- Lessons [decision]: (1) gate runners must catch MemoryError AND checkpoint
+  per cell (X11 lost-record + P12 lost-progress — X12 checkpointing is the
+  positive pattern); (2) allocation-only SC chunking does not bound
+  metric-pipeline memory — large-N profiling must budget the full per-block
+  metric planes, not just SC temporaries.
+- Scope [decision]: synthetic engineering gate only; terminal, no successor
+  authorized; no FER/efficiency/key-rate/qualification/promotion implication;
+  no Model-F/raw/held-out/real data touched beyond the single V25 TRAIN read;
+  old roots untouched; no commit/push.
+
+## 2026-09-18 NB-Polar Phase 4 P11 exact chunked SC (CANDIDATE, pending main-thread acceptance)
+
+- Packet [repo-observed]: `NBPOLAR-PHASE4-P11-EXACT-CHUNKED-SC`
+  candidate stage executed once + two independent reviews; Pre-RESULT
+  PASS_WITH_COMMENTS non-blocking. Verdict is
+  `EXACT_CHUNKED_SC_CANDIDATE` only — NOT accepted, NOT qualified, NOT
+  promoted.
+- Code delta [repo-observed]: allocation-only promotion of X12 row-chunking
+  into accepted reference SC: `_minus_block` gains keyword-only
+  `chunk_rows=512` default (per-slice exact accepted expression +
+  logaddexp.reduce(axis=2) + single full-matrix _normalize_rows;
+  None = golden unchunked; bool/non-integral→TypeError,
+  nonpositive→ValueError before allocation); `sc_decode` public signature
+  UNCHANGED; thin gate runner `sc_chunked_gate.py` (required
+  --seed/--chunk-rows/--out-dir, no defaults); +10 focused tests in
+  `test_nbpolar_sc_chunked.py` (full suite 262 = 252 + 10). OpenSpec P11
+  delta under `formal-ir-nbpolar-phase4-p0/specs/nbpolar-phase4-p11/spec.md`
+  + tasks.
+- Gate [repo-observed]: seed 2026091800, float64, GF32 poly 37 alpha 2;
+  attempt 1/1 at first formal sc_decode; 0 artifact reads. 33 primitive
+  cells all exact (11 boundary rows x moderate/wide/-inf, err 0.0, support
+  parity); 16 invalid-input cases exception type+message parity; N=64+N=256
+  full-SC 9 controls each all parity (incl. X11-C3, C4
+  impossible-disclosure, T5 ties); N=65536 paired direct-first exact parity
+  (u/x 0 mismatches); N=262144 default-512 status ok, finite outputs, wall
+  66.088411 s (report-only ≤120 met), peak RSS 710504448 B < 1610612736
+  hard gate (margin 900108288); gates semantic_parity /
+  paired_n65536_exact / large_n262144_completion / large_n262144_rss all
+  True. Wall_total 97.955511 s (600 s envelope unhit). Evidence root
+  `.workbuddy/queue/NBPOLAR-PHASE4-P11-EXACT-CHUNKED-SC/exact_chunked_sc_gate/`
+  (4 files).
+- Scope [decision]: synthetic injected-data engineering gate only — not
+  FER/efficiency/key-rate, qualification/promotion; no throughput claim
+  (single draw); no artifact/evidence/raw/held-out/real/EVAL/tag/protocol
+  access; no N>262144/FWHT/APP/SCL; old roots untouched; no commit/push.
+
+## 2026-09-17 NB-Polar Phase 4 P9 lower-rate boundary resolution (CANDIDATE, pending main-thread acceptance)
+
+- Packet [repo-observed]: `NBPOLAR-PHASE4-P9-LOWER-RATE-BOUNDARY-RESOLUTION`
+  candidate stage executed once + two independent reviews; Pre-RESULT PASS zero
+  comments. Verdict is `TARGET_EMPIRICAL_LOWER_RATE_POINT_CANDIDATE` only —
+  NOT accepted, NOT qualified, NOT promoted.
+- Code delta [repo-observed]: delta-only `--gate-id p9-lower-rate-boundary` on
+  accepted `target_rate.py` (P9 protocol name/tag-prefix/labels; P8 behavior
+  preserved); +12 P9 tests in `test_nbpolar_target_rate.py` (24 focused; full
+  suite 252 = 240 + 12). OpenSpec P9 delta under
+  `formal-ir-nbpolar-phase4-p0/specs/nbpolar-phase4-p9/spec.md` + tasks.
+- Target input [repo-observed]: accepted P7 pooled empirical orders (sha
+  `8ec690344897655418b71520b22e9e403dfa381ca193fe0d322cb13e1d714104`) + V25 1M
+  TRAIN NPZ (25166822 B) via accepted loader, floor 1e-15. One read + one
+  attempt consumed at first NPZ open; no reopen/retry/rerun.
+- SCREEN [repo-observed]: N=256; seeds 2026091710..1712 x64 = 192;
+  shared-block sampling; exact 8x7 grid
+  K1=[0,2,4,6,8,12,24,45] x K2=[0,20,40,50,60,70,80] = 56 pts incl. (0,0) and
+  P8 anchor (8,80). Exactly 10 eligible (188→LB 0.9544 / 192→0.9861); (0,0)
+  exact 0/192 (tag-only arm, all verify_failed, zero undetected); (8,80)
+  192/192. Deterministic lexicographic-min (K1+K2,K1,K2) selected (k1=6,k2=70)
+  — 444 key-dependent bits, BELOW the P8 anchor (8,80)/504 bits
+  (report-only observation).
+- CONFIRM [repo-observed]: seeds 2026091720..1724 x128 = 640, disjoint;
+  selected point only + same-K BEC control report-only. Empirical exact
+  624/640 (16 vf), BEC 520/640, paired cells 520/104/0/16, Wilson one-sided 95%
+  LB 0.9626753340557015; per-stream emp [122,123,125,127,127], bec
+  [103,102,97,108,110].
+- Accounting [repo-observed]: 5*(K1+K2)+64 per fully invoked point ((0,0)=64
+  tag-only); public 2623/tag; totals key 4392768 / public 31559936 / tags
+  12032 (56x192+640x2 cross-check); recount mismatch 0; planning-only f
+  2.165159928897918 (not real efficiency). 11/11 integrity + 2/2 scientific
+  true. Wall 720.522313 s; RSS 318406656 B. Evidence root
+  `.workbuddy/queue/NBPOLAR-PHASE4-P9-LOWER-RATE-BOUNDARY-RESOLUTION/lower_rate_screen_confirm/`
+  (5 files).
+- Execution incident [repo-observed, decision]: first Wave-C delegation
+  executed the gate but result delivery failed (infrastructure cert error);
+  retry correctly STOPPED on existing root; read-only inspection verified
+  single-flush provenance; counters aligned; NO rerun. Durable pattern: lost
+  delivery with completed side effects → STOP, verify, align, never rerun.
+- Scope [decision]: synthetic N=256 V25-1M-TRAIN model-sampled development
+  signal only — not held-out/real FER, efficiency/key-rate, scaling,
+  qualification/promotion; BEC gap + anchor comparison report-only; no
+  interpolation; no Model-F/raw/held-out/EVAL; no N>256/APP/SCL/FWHT/adaptive;
+  old roots untouched; no commit/push.
+
 ## 2026-09-11 venv-only
 
 - Python唯一入口 `.venv/bin/python -m ...`；裸 `python`/`python3` 禁用（系统 python 缺 numpy/pytest）。
@@ -3592,3 +3985,941 @@ diagnostic replay is not an official verifier pass. Preserve all seven artifacts
   formula error 0, chain discrepancy 8.88e-16, no SC/raw data.
 - Accept only CAL prior-table/entropy bookkeeping. Both P2 attempts are
   consumed. P3 remains separately authorized and model-sampled only.
+## 2026-09-13 NB-Polar Phase 4-P3 Stage B empirical-prior SC interface ACCEPTED
+
+- Acceptance [decision]: main thread accepts the reviewed candidate as
+  `EMPIRICAL_PRIOR_SC_INTERFACE_ACCEPTED`, limited to model-sampled interface
+  consistency. Sole Stage B execution exit 0, wall
+  17.645 s, peak RSS 0.2329 GiB, 6/6 hard gates true; independent Pre-RESULT
+  `PASS_WITH_COMMENTS`. Evidence root
+  `.workbuddy/queue/NBPOLAR-PHASE4-P3-EMPIRICAL-PRIOR-SC/empirical_prior_sc_diagnostic/`
+  holds exactly five files (frozen_plan.json, oracle_records.json,
+  stress_and_profile.json, diagnostic_summary.json, report.md).
+- Accounting [decision]: artifact-content attempt 1/1 consumed on first content
+  open; seed 2026091316 consumed; unit 2026091314 / TRAIN 2026091315 not used;
+  no rerun allowed; frozen budget 3600 s total / 120 s per case / <2 GiB.
+- Executed [repo-observed]: 328 blocks = B1 128 (N=2/4, 64 each) + B2 160
+  (N=16/64, 5 masks x 16) + B3 40 (N=256, 5 masks x 8); exact 48 (B1 9 / B2 31
+  / B3 8); non-exact 280; resource_abort 0, nonfinite 0, truth-leak 0.
+- B1 oracle [repo-observed]: vs independent exhaustive oracle max prob err
+  1.11e-15 (tol 1e-12), max log err 5.33e-15 (tol 1e-9), support mismatch 0,
+  numeric 0. B3 initial-MAP-error 40/40.
+- B4/B5 [repo-observed]: B4 medians at N=64/256/1024 (M5 first N//2, 5 reps)
+  metric 3.80e-5/4.31e-5/1.18e-4 s, decode 0.00776/0.0345/0.1675 s; B5
+  non-exact attribution SC_decision 119 + expected_under_disclosure 161 = 280,
+  all other categories 0, unattributed 0.
+- Scope [decision]: interface/mechanism diagnostic only — no FER, leakage,
+  reconciliation, key rate, construction/K or performance claim; input is the
+  sibling Model-F artifact
+  `/mnt/d/Code/HD-QKD_Polar_Comparison/workspace/v72p2d5_model_f_input/20260907_r1/model_f_input.npz`
+  (LAMBDA_STAR 137.3823795883264).
+- Locations [repo-observed]: P3 code
+  `comparison_bench/src/comparison_bench/formal_ir/nbpolar/` (empirical_channel.py,
+  empirical_oracle.py, empirical_diagnostic.py); tests
+  `comparison_bench/tests/test_nbpolar_empirical_sc.py` — focused 32 passed,
+  8-file predecessor suite 120 passed.
+- Environment [repo-observed]: this checkout has no repo-local `.venv`; accepted
+  runtime is `/mnt/d/Code/HD-QKD_Polar_Comparison/.venv/bin/python` (numpy 2.5.3,
+  pytest 9.1.1). pytest needs `-p no:cacheprovider --basetemp=<fresh /tmp path>`
+  because pytest.ini's Windows basetemp path is unusable in WSL.
+- Workflow lesson [decision]: the stale planning draft
+  `openspec/changes/formal-ir-nbpolar-mvp/P3_STAGEB_FREEZE.md` must not govern
+  execution; the authoritative freeze is the packet-local
+  `.workbuddy/queue/NBPOLAR-PHASE4-P3-EMPIRICAL-PRIOR-SC/P3_STAGEB_FREEZE.md`.
+  F-1 (B5 attribution-precedence text vs classifier) was repaired docs-only and
+  re-reviewed before the artifact-content read.
+- Next gate [decision]: Phase 5 static-protocol OpenSpec and WorkBuddy packet
+  are frozen all-false awaiting explicit authorization. No real data,
+  adaptation, SCL, Phase 6, qualification or promotion is opened.
+## 2026-09-13 NBPOLAR-PHASE5-STATIC-PROTOCOL development ACCEPTED
+
+- Acceptance [decision]: `STATIC_PROTOCOL_DEVELOPMENT_ACCEPTED`, limited to
+  the single reviewed synthetic development run; qualification and promotion
+  are not granted. Implementation
+  `comparison_bench/src/comparison_bench/formal_ir/nbpolar/protocol.py`
+  (GF32 polynomial 37, alpha=2, N=256, erasure eps=0.05, K=45) + thin adapter
+  `comparison_bench/src/comparison_bench/methods/nbpolar_static.py`
+  (FrameBatch/IRRunConfig/IRRunResult signatures unchanged; beta_eff derived)
+  + tests `comparison_bench/tests/test_nbpolar_protocol.py` (16 new; suite
+  total 136 = 16 + 120 predecessor).
+- Frozen protocol [candidate]: static disclosure K=45 =
+  `construction.analytic_order(0.05, 256)[:45]` worst-first, publishing actual
+  GF32 U values including zeros; exactly one `sc_decode` per block; 10-bit
+  physical label `label = 32*x_hat` over a 2560-bit message; at most one 64-bit
+  Toeplitz tag after decode from a deterministic public per-block seed stream
+  (master 2026091318, SHA-256 counter derivation, 2623 seed bits/block);
+  disjoint outcomes {exact, undetected, verify_failed, decode_failed,
+  resource_abort} with nested verified/verification_invocations and an
+  independent transcript recount.
+- Rulings [decision, 2026-09-13]: R1 disclosed set = first 45 of the worst-first
+  analytic order (packet "disclose its complement" wording superseded); R2
+  label domain = 10-bit embedding 32*x_hat (tag message 2560 bits, seed 2623
+  bits/block).
+- Sole gate execution [repo-observed]: 300 blocks, exit 0, wall 4.998916 s,
+  peak RSS 111190016 B (<2 GiB); exact 300 / undetected 0 / verify_failed 0 /
+  decode_failed 0 / resource_abort 0; one-sided 95% Wilson exact-recovery lower
+  bound 0.9910621278248719 (threshold 0.90); key-dependent total 86700 bits
+  (avg 289/block < 2560), public control 786900; transcript recount mismatch 0;
+  truth-leak 0; 11/11 gates true. Evidence root
+  `.workbuddy/queue/NBPOLAR-PHASE5-STATIC-PROTOCOL/static_protocol_dev_gate/`
+  holds exactly five files (frozen_plan.json, per_block_outcomes.json,
+  transcript_accounting.json, aggregate_summary.json, report.md).
+- Accounting [decision]: attempt 1/1 consumed at the first scientific
+  `sc_decode` call; run seed 2026091317 consumed; master 2026091318 is public
+  control; no rerun. Budget 300 s total / 5 s per-block soft cap / 600 s
+  external timeout / <2 GiB. Packet and OpenSpec locations:
+  `.workbuddy/queue/NBPOLAR-PHASE5-STATIC-PROTOCOL/` and
+  `openspec/changes/formal-ir-nbpolar-phase5-static-protocol/`.
+- Scope [decision]: synthetic development signal only — no real-data FER,
+  leakage efficiency, key rate, qualification, promotion, adaptive disclosure,
+  SCL/CRC, benchmark or Phase 6. Next gate is Phase 6 rate-adaptation contract
+  freeze; Phase 6 remains unauthorized.
+- Successor freeze [decision]: Phase 6 uses fixed nested worst-first sizes
+  29/33/37/41/45, restart-from-scratch SC and one tag per invoked level. Tag
+  mismatch may advance only to the immediate next frozen level; it never ranks
+  candidates or alters decoding. The paired synthetic gate requires >=285/300
+  exact, Wilson LB >=0.90, undetected 0 and >=5% average key-dependent-bit
+  reduction versus same-block static K45. Packet/OpenSpec prepared all-false;
+  no Phase 6 attempt or seed consumed.
+- Environment/reusable [repo-observed]: unchanged from the 2026-09-13 P3 entry
+  (accepted interpreter `/mnt/d/Code/HD-QKD_Polar_Comparison/.venv/bin/python`;
+  pytest `-p no:cacheprovider --basetemp=<fresh /tmp path>`); running the
+  protocol module emits a benign RuntimeWarning because `nbpolar/__init__.py`
+  re-exports it.
+## 2026-09-13 NBPOLAR-PHASE6-FIXED-INCREMENTAL BLOCKED(incremental_exact_ge_285) — negative result, no acceptance
+
+- Implementation [repo-observed]:
+  `comparison_bench/src/comparison_bench/formal_ir/nbpolar/incremental.py`
+  (frozen nested worst-first K=(29,33,37,41,45) =
+  `analytic_order(0.05,256)[:K_i]`, publish only new actual GF32 U values with
+  each coordinate counted once; every invoked level restarts `sc_decode` from
+  scratch on the original metric with the cumulative known set) + thin adapter
+  `comparison_bench/src/comparison_bench/methods/nbpolar_incremental.py` +
+  tests `comparison_bench/tests/test_nbpolar_incremental.py` (17 new; suite
+  153 = 17 + 136 predecessor).
+- Frozen mechanism [decision]: one independent 64-bit Toeplitz tag per invoked
+  level over the 2560-bit `label = 32*x_hat` domain; tag match accepts the
+  current candidate and terminates, mismatch advances exactly one level, final
+  mismatch is verify_failed; decode/numeric failure stops fail-closed;
+  per-arm/per-block/per-level public seed derivation via SHA-256 counter stream
+  from master 2026091341; key_dependent = 5*K_j + 64*j; feedback control
+  counted as 1 public bit per advance; tag union bound = tag invocations x
+  2^-64.
+- Sole paired gate execution [repo-observed]: 300 blocks, single attempt, exit
+  0, wall 9.619874 s; run seed 2026091340 consumed at the first `sc_decode`.
+  Static K45 arm exact 298/300, avg 288.573333 key-dependent bits, Wilson LB
+  0.9800565738801275; incremental arm exact 271/300, decode_failed 29 (all
+  `ImpossibleDisclosedValueError` at level 0), undetected 0, avg 207.293333
+  bits (-28.17%), Wilson LB 0.8715597837542944; 18 gates 16 true / 2 FALSE
+  (`incremental_exact_ge_285`: 271 < 285; `incremental_wilson_lower_ge_0_90`:
+  0.87156 < 0.90); candidate null; result `BLOCKED(incremental_exact_ge_285)`;
+  main-thread disposition pending. Disclosure saving real but not sufficient;
+  public control 1534471 bits (static seed 781654 + incremental seed 752801 +
+  feedback 16); truth-leak 0, nonfinite 0, recount mismatch 0. Evidence root
+  `.workbuddy/queue/NBPOLAR-PHASE6-FIXED-INCREMENTAL/paired_incremental_dev_gate/`
+  holds exactly five files (frozen_plan.json, aggregate_comparison.json,
+  per_block_paired_outcomes.json, transcript_accounting.json, report.md).
+- Mechanism [decision]: with fewer disclosed coordinates (K=29) a wrong early
+  hard decision can make a later true disclosed value zero-support in the
+  accepted `sc.py`, raising `ImpossibleDisclosedValueError`; the frozen
+  fail-closed rule terminates the block instead of advancing, costing ~10% of
+  blocks. The disclosure saving (~28%) is real but the recovery signal is lost
+  at the frozen threshold. Valid scheduled science, not an implementation
+  defect; no tuning, K/threshold change or rerun is permitted; any design
+  revision needs a main-thread/OpenSpec successor packet.
+- Review state [decision]: Pre-EXECUTE PASS (4 non-blocking findings) and
+  Pre-RESULT PASS_WITH_COMMENTS; both confirmed the two failing gates, the
+  mechanism, and that this is a negative development result only.
+- Scope [decision]: synthetic paired development signal only — no real-data
+  FER, leakage efficiency, key rate, qualification or promotion claim; the
+  single attempt is consumed and no rerun is authorized.
+- Environment/reusable [repo-observed]:
+  `resource.getrusage(...).ru_maxrss` under `ulimit -v 2097152` on this WSL2
+  kernel can be corrupted (persisted `rss_bytes_peak` ~1.22 GB while true
+  `/proc/self/status` VmHWM ~105 MB) — treat RSS as advisory and prefer VmHWM;
+  benign runpy RuntimeWarning when running the protocol via `python -m` because
+  `nbpolar/__init__.py` re-exports it; pytest needs
+  `-p no:cacheprovider --basetemp=<fresh /tmp path>`; interpreter
+  `/mnt/d/Code/HD-QKD_Polar_Comparison/.venv/bin/python` (3.12.3, numpy 2.5.3).
+
+## 2026-09-13 Phase 6 strict-stop negative accepted; R1 successor frozen
+
+- Acceptance [decision]: `FIXED_INCREMENTAL_NEGATIVE_ACCEPTED`; paired static
+  298/300 versus incremental 271/300, incremental Wilson 0.8715598, while
+  disclosure 207.293 versus 288.573 bits saves 28.17%. Recovery gates fail.
+- Attribution [decision]: 29 level-0 `ImpossibleDisclosedValueError` failures
+  are valid strict-stop scheduler science, not an SC implementation defect.
+  Attempt 1/1 and run seed 2026091340 consumed; public master 2026091341 and
+  five-file paired root immutable.
+- Successor [decision]: option (a). At non-final levels the impossible decode
+  is `decode_rejected_continue`, with no candidate/tag, one feedback request,
+  next fixed increment and restart SC. Final K45 remains decode-failed. P6-R1
+  OpenSpec/packet prepared all-false; no new attempt or seed consumed.
+
+## 2026-09-13 NBPOLAR-PHASE6-R1-DECODE-REJECT-ADVANCE three-arm gate CANDIDATE (not acceptance)
+
+- Implementation [repo-observed]: extended
+  `comparison_bench/src/comparison_bench/formal_ir/nbpolar/incremental.py`
+  (non-final-level `ImpossibleDisclosedValueError` -> `decode_rejected_continue`:
+  no candidate/tag, one public feedback, next increment disclosed, SC restarted
+  from the original metric; K45 same error stays terminal `decode_failed`; all
+  other exceptions remain fail-closed; strict-stop default path pinned
+  unchanged) + adapter
+  `comparison_bench/src/comparison_bench/methods/nbpolar_incremental.py`
+  (`NBPolarIncrementalR1Method`) + tests
+  `comparison_bench/tests/test_nbpolar_incremental_r1.py` (17 new; full NB-Polar
+  suite 170 = 120 + 16 + 17 + 17).
+- Sole three-arm gate execution [repo-observed, candidate]: 300 paired blocks,
+  single attempt, exit 0; run seed consumed at the first `sc_decode` (static arm
+  block 0), master public control seed, no rerun. Static K45 arm exact 298/300,
+  avg 288.573333 key-dependent bits; strict-stop arm exact 280/300, avg
+  214.253333, 20 decode_failed; R1 arm exact 298/300, avg 220.506667 (-23.59%
+  vs static), Wilson LB 0.9800565738801275; rejection histogram
+  {0:20,1:7,2:3,3:2}; rescued 18 / persisted 282 / regressed 0 / other 0
+  (reported identities, no threshold); union bound 5.1228552649940085e-17 over
+  945 tag invocations; transcript mismatch 0; truth leak 0; nonfinite 0; 18/18
+  gates true; candidate label `DECODE_REJECT_ADVANCE_DEVELOPMENT_CANDIDATE`.
+  Evidence root
+  `.workbuddy/queue/NBPOLAR-PHASE6-R1-DECODE-REJECT-ADVANCE/three_arm_paired_dev_gate/`
+  holds exactly five compact scalar-only files (frozen_plan.json,
+  per_block_three_arm_outcomes.json, transcript_accounting.json,
+  aggregate_comparison.json, report.md).
+- Mechanism [decision, candidate]: the R1 semantic delta recovers the
+  strict-stop losses caused by K<45 impossible disclosure under a wrong early
+  prefix while retaining most of the disclosure saving; K45-level exceptions
+  stay terminal and account for the residual 2 decode_failed (same count as the
+  static arm).
+- Carried non-blocking notes [repo-observed]:
+  static-arm `terminating_k` metadata records 29 while key bits/gates use 45;
+  the report could state the strict arm is an in-run recomputation.
+- Scope/status [decision]: synthetic paired development signal only — no
+  real-data FER, leakage efficiency, key rate, qualification, promotion,
+  Phase 7, learned policy or SCL; CANDIDATE pending main-thread acceptance, not
+  an acceptance/promotion. Environment unchanged from the two 2026-09-13
+  entries above (interpreter
+  `/mnt/d/Code/HD-QKD_Polar_Comparison/.venv/bin/python`; pytest
+  `-p no:cacheprovider --basetemp=<fresh /tmp path>`; `ru_maxrss` under
+  `ulimit -v` is advisory).
+
+## 2026-09-13 Phase 6-R1 accepted; two-layer efficiency gap prioritized
+
+- Acceptance [decision]: `DECODE_REJECT_ADVANCE_DEVELOPMENT_ACCEPTED` in the
+  frozen single-layer BEC synthetic scope only. The prior candidate evidence,
+  reviews, attempt/seed consumption and immutable five-file root are unchanged.
+- Gap [repo-observed]: Phase 5/6 protocol gates use the 10-bit embedding with
+  L1 in the high half and constant-zero low half. They do not execute the
+  roadmap's oracle-L2(true L1) or operational-L2(candidate L1) paths and do not
+  establish whole-system reconciliation efficiency.
+- Priority [decision]: Phase 7/SCL is paused. The next all-false packet is
+  `NBPOLAR-PHASE6-R2-TWO-LAYER-RATE-FEASIBILITY`, which adds an explicit
+  `f<=1.3` target and a decoder-free per-source N=2^8..2^18 BEC-surrogate
+  sensitivity plus L2 execution audit.
+- Claim boundary [decision]: a scratch recurrence reproduced N256/epsilon0.05
+  K43 and suggested an f≈1.3 crossing near 2^17–2^18. This is unaccepted
+  planning evidence until independently reproduced; BEC is not registered as
+  a rigorous lower bound for the empirical neighbor-shift channel.
+## 2026-09-13 NBPOLAR-PHASE6-R2 two-layer BEC rate feasibility CANDIDATE (decoder-free, no acceptance)
+
+- Implementation [repo-observed, candidate]: decoder-free module
+  `comparison_bench/src/comparison_bench/formal_ir/nbpolar/two_layer_rate.py`
+  + tests `comparison_bench/tests/test_nbpolar_two_layer_rate.py` (10 new;
+  full NB-Polar suite 180 = 170 predecessor + 10). OpenSpec change
+  `openspec/changes/formal-ir-nbpolar-phase6-r2-two-layer-rate-feasibility/`.
+- Frozen inputs [candidate]: full-precision per-source L1/L2 entropies from
+  `docs/v49_distribution_tables/v49_train_val_hold_nll.csv` TRAIN rows
+  (nll_u1/nll_u2; mirrored in `docs/v49-distribution-shift-diagnosis-20260827.md`
+  §3.1; chain-verified against the V27R decision-log recomputation and V26 A02
+  rows): 1M H1=0.02428054681872374 / H2=0.7767572780789994; 1p5M
+  0.02519949687789926 / 0.8003665547438703; 2M 0.025662048796915037 /
+  0.8069006731253232. Surrogate mapping `epsilon_l = H_l/5`.
+- Method [candidate]: BEC recurrence `z_minus=2z-z**2; z_plus=z**2` natural
+  order; minimum worst-first disclosure K per layer with residual union bound
+  <= layer budget (equal 0.005/0.005 vs entropy-proportional
+  0.01*H_l/(H1+H2)); `nH = N*(H1+H2)`, `leakage = 5*(K1+K2)+64`
+  (tag-free variant reported), `f = leakage/nH`, `f<=1.3` target.
+- Calibration [candidate]: reproduction of the scratch N=256 / epsilon=0.05 /
+  budget=1e-2 -> K=43 exactly (residual 0.0080281681532746, max
+  operational-vs-literal difference 0.0); H1-nll vs same-row `ent` alternative
+  changes zero K selections.
+- Result [candidate]: full 66/66 rows over N=2^8..2^18 x 3 sources x 2
+  allocations, all finite, axes complete. First `f<=1.3` crossing is N=2^18
+  on all six axes (f 1.2596..1.2670); log2-linear interpolation of the last
+  two rows puts the exact crossing at 2^17.20..2^17.36, matching the
+  decision-log scratch "near 2^17-2^18". Independently recomputed by
+  reviewer-go with zero differences (PASS_WITH_COMMENTS, non-blocking
+  citation notes only); CANDIDATE pending main-thread acceptance.
+- L2 audit (R2-A07) [candidate]: oracle-L2 (true-L1-conditioned) and
+  operational candidate-L2 have never entered SC execution; only the
+  single-layer L1 high-plane path (`label=32*x_hat`, low half constant zero)
+  has ever run in the accepted P3/P5/P6/R1 gates. `prior.gather_p2_metrics` /
+  `derive_p2` and the ORACLE_CONDITIONED / CANDIDATE_CONDITIONED provenance
+  values have zero production call sites (test-only), and `sc_decode` accepts
+  no L1/L2 conditioning argument. Successor prerequisites (decision output
+  only, not implemented): L2 prior extraction per the P0 contract
+  (P2_true/P2_hat) plus a two-stage restart SC; a paired two-layer development
+  gate with frozen thresholds; empirical construction and a scalable decoder
+  for N >= 2^17 (e.g. FWHT q-ary SC), explicitly out of R2 scope.
+- Scope/labels [decision]: surrogate planning estimate only — not empirical
+  neighbor-shift channel performance, not a rigorous optimistic lower bound,
+  not decoder/FER/leakage-efficiency/key-rate evidence, not
+  qualification/promotion. No SC call, no artifact/parquet/TTBin read, no
+  block sampling, no attempt/seed consumed (attempts 0/0), no commit/push,
+  old evidence roots untouched. Evidence root
+  `.workbuddy/queue/NBPOLAR-PHASE6-R2-TWO-LAYER-RATE-FEASIBILITY/`
+  (`two_layer_rate_sensitivity.json`, `R2_REPORT.md`,
+  `INDEPENDENT_RESULT_REVIEW.md`); predecessor gap/priority context is the
+  entry above.
+
+## 2026-09-13 Phase 6-R2 accepted; Phase 4-P4 operational L2 frozen
+
+- Acceptance [decision]: `TWO_LAYER_RATE_FEASIBILITY_ACCEPTED`. Reviewer-go
+  independently reproduced K43, all 66 rows and all six N=2^18 first-grid
+  crossings. No attempt/seed or decoder was used.
+- Bound [decision]: retain the BEC table as surrogate planning evidence only;
+  the interpolated 2^17.20–2^17.36 crossing is not an empirical-channel or
+  decoder result and is not registered as a rigorous lower bound.
+- Successor [decision]: before empirical construction, FWHT scaling or SCL,
+  execute the missing causal two-stage interface on injected synthetic tables:
+  P1 -> L1 SC -> source-domain hard candidate -> P2_hat -> fresh L2 SC -> full
+  10-bit label/tag, paired with an isolated P2_true oracle arm.
+- Packet [repo-observed]:
+  `.workbuddy/queue/NBPOLAR-PHASE4-P4-TWO-LAYER-OPERATIONAL-SC/` and OpenSpec
+  `formal-ir-nbpolar-phase4-p4-two-layer-operational-sc` are frozen all-false;
+  artifact/real data/N>256/empirical construction/FWHT/SCL remain unauthorized.
+
+## 2026-09-13 NBPOLAR-PHASE4-P4-TWO-LAYER-OPERATIONAL-SC two-stage SC gate CANDIDATE (not acceptance)
+
+- Implementation [repo-observed, candidate]: two-stage SC closed loop
+  `comparison_bench/src/comparison_bench/formal_ir/nbpolar/two_layer.py` plus
+  tests `comparison_bench/tests/test_nbpolar_two_layer.py` (12 new; full
+  NB-Polar suite 192 across 13 `test_nbpolar_*.py` files); OpenSpec change
+  `formal-ir-nbpolar-phase4-p4-two-layer-operational-sc`.
+- Two-stage semantics [candidate]: Bob-only P1 (PRIOR_ONLY) -> L1 SC ->
+  source-domain hard candidate `high_hat = sc1.x_hat` ->
+  `P2_hat = gather_p2_metrics(B, high_hat, p2_table)` (CANDIDATE_CONDITIONED)
+  -> fresh L2 SC -> `label = low_hat + 32*high_hat` -> one final 64-bit tag;
+  the strictly isolated oracle arm uses true L1 (ORACLE_CONDITIONED) with the
+  same D2/U2 disclosures.
+- Sole 96-block paired gate [repo-observed, candidate]: run seed 2026091360
+  consumed at the first gate SC call (block 0 operational L1); master
+  2026091361 public control; candidate label
+  `TWO_LAYER_OPERATIONAL_SC_CANDIDATE`; 13/13 hard gates true; both arms
+  L1/L2 invoked 96/96; provenance counts 96/96/96 (P1 PRIOR_ONLY, L2
+  CANDIDATE_CONDITIONED, L2 ORACLE_CONDITIONED); operational exact 26 /
+  verify_failed 70; oracle exact 44 / verify_failed 52;
+  undetected/decode_failed/resource_abort 0; truth-leak 0; accounting 839
+  bits per fully invoked arm (5*45 + 5*110 + 64), key-dependent total 161088,
+  public control 503616 (192 tags x 2623); transcript recount mismatch 0;
+  report-only `oracle_candidate_divergence_count` 34/96 is float64
+  last-bit inequality of the candidate- vs oracle-conditioned P2 arrays (no
+  threshold); artifact wall 10.154709 s; no rerun/tuning. Evidence root
+  `.workbuddy/queue/NBPOLAR-PHASE4-P4-TWO-LAYER-OPERATIONAL-SC/two_layer_operational_sc_gate/`
+  holds exactly five scalar-only files (frozen_plan.json,
+  per_block_two_layer_outcomes.json, transcript_accounting.json,
+  aggregate_summary.json, report.md).
+- Model consequence [decision]: the frozen independent-layer-erasure injected
+  model makes table-derived `P2` numerically independent of the L1 candidate
+  (max row difference 7.771561172376096e-16), so the paired
+  operational/oracle comparison is degenerate at the metric level; the gate
+  validates causal wiring, provenance isolation, label-level propagation (the
+  forced wrong-L1 pre-run check) and accounting, NOT a metric-level L1->L2
+  dependency. Any future paired L1->L2 gate needs a model whose P2 genuinely
+  depends on U1 (e.g. dependent-layer/joint-erasure construction), and the
+  arms' discriminative dynamic range should be checked before freezing.
+- Seed note [decision]: 2026091360/2026091361 equal P6-R1 test-local seeds;
+  adjudicated acceptable (test-only, no consumed official stream, distinct
+  Toeplitz namespace).
+- Review state [repo-observed]: independent Pre-EXECUTE PASS (with the
+  model-independence consequence recorded) and independent Pre-RESULT
+  PASS_WITH_COMMENTS; both recomputed the frozen artifact numbers and neither
+  reran the gate.
+- Scope/status [decision]: synthetic two-layer interface gate only — no
+  real-data FER, leakage efficiency, key rate, f<=1.3 claim, qualification or
+  promotion; no Model-F artifact/parquet/TTBin/real data; no N>256/FWHT/SCL or
+  Phase 7; old evidence roots untouched; no commit/push; CANDIDATE pending
+  main-thread acceptance, not an acceptance. Environment unchanged (pinned
+  interpreter `/mnt/d/Code/HD-QKD_Polar_Comparison/.venv/bin/python`; pytest
+  `-p no:cacheprovider --basetemp=<fresh /tmp path>`).
+
+## 2026-09-13 P4 interface accepted; X01 workflow/probe successor
+
+- P4 [decision]: `TWO_LAYER_OPERATIONAL_SC_INTERFACE_ACCEPTED`; causal wiring,
+  provenance, isolation and accounting only. Attempt/seed remain consumed.
+- Degeneracy [repo-observed]: independent-layer P2 changes across L1 by at most
+  7.77e-16; 26/96, 44/96 and 34/96 are not performance evidence.
+- Workflow [decision]: propose a non-claim Tier X plus retained Tier Y. X01 is
+  frozen all-false with four five-seed families including dependent L2; Tier X
+  cannot retroactively upgrade accepted evidence.
+
+## 2026-09-13 Two-tier workflow active; X01 routes to X02
+
+- Workflow [decision]: AGENTS.md §10.4 is active project-wide. X01 completed
+  with focused review and remains non-claim design evidence.
+- X01 [probe-observed]: P5/R1 exact dispersion is small; P4 dispersion is much
+  larger; dependent P2 has cross-u1 max difference 0.2325. These observations
+  do not alter accepted results.
+- Route [decision]: skip redundant R1 Gate A and defer weak-oracle P4 Gate B.
+  Run X02 Tier X over three dependence profiles and a frozen K1/K2 grid to find
+  an informative operating point before defining any Tier-Y threshold.
+
+## 2026-09-13 X02 routes to Phase 4-P5 penalty discriminator
+
+- X02 [probe-observed]: strong/K1=45/K2=140 gave oracle 96/96 and operational
+  47/96 across three probe streams; use as design evidence only.
+- Statistics [decision]: the Tier-Y endpoint is a paired four-cell table.
+  Clopper-Pearson applies only to the oracle-only event when operational-only
+  is zero, never directly to the difference of marginal exact rates.
+- Packet [decision]: P5 is frozen all-false for 384 new pairs; a confirmed
+  penalty is a synthetic negative mechanism result, not algorithm success.
+
+## 2026-09-13 NBPOLAR-PHASE4-P5-HARD-CONDITIONING-PENALTY paired gate CANDIDATE (not acceptance)
+
+- Implementation [repo-observed, candidate]: hard-L1 conditioning penalty gate
+  `comparison_bench/src/comparison_bench/formal_ir/nbpolar/penalty_gate.py` wraps
+  the accepted `two_layer.run_two_layer_block` and adds the dependent-L2
+  table/sampler, the four-cell statistic, ten integrity gates and the
+  exact-binomial discriminator; tests
+  `comparison_bench/tests/test_nbpolar_penalty_gate.py` (9 new; full NB-Polar
+  suite 201 across 14 `test_nbpolar_*.py` files). OpenSpec: the P5 spec/tasks
+  delta lives under `formal-ir-nbpolar-phase4-p0`
+  (`specs/nbpolar-phase4-p5/spec.md` + the P5 tasks section); no separate
+  Phase-4-P5 change directory exists.
+- Frozen point [decision, candidate]: GF32/poly37/alpha2 natural order, N=256,
+  epsilon1=0.05, strong dependent-L2 `epsilon2(u1)=0.02+0.36*u1/31` (mean 0.20),
+  K1=45/K2=140; streams 2026091470..1472 with 128 paired blocks each (384
+  pairs), public Toeplitz masters 2026101470..72; derived P2 cross-u1 maxdiff
+  0.34875000000000267 clears the >=0.30 gate.
+- Sole gate execution [repo-observed, candidate]: attempt 1/1 consumed at the
+  first gate L1 SC call (stream 0 block 0); no rerun/tuning. Cells both_exact
+  233 / oracle_only 144 / operational_only 0 / neither 7; operational exact
+  233/384 (0.606771, 151 verify_failed), oracle exact 377/384 (0.981771, 7
+  verify_failed); undetected/nonfinite/decode_failed/resource_abort all 0;
+  X=144 and the one-sided 95% exact lower bound on the oracle-only proportion
+  is 0.3338842736427746 > 0.30. Ten integrity gates all true; accounting 989
+  key-dependent bits per fully invoked arm (225+700+64), totals 759552 /
+  2014464 (768 tags x 2623); recount mismatch 0; persisted label
+  `HARD_L1_CONDITIONING_PENALTY_CANDIDATE`; evidence root
+  `.workbuddy/queue/NBPOLAR-PHASE4-P5-HARD-CONDITIONING-PENALTY/paired_penalty_gate/`
+  holds exactly five scalar-only files.
+- Finding [decision, candidate]: at the X02-recommended strong dependent-L2
+  point the hard-L1 candidate conditioning shows a material penalty signal
+  (oracle 0.982 vs operational 0.607 on the same blocks), the paired exact gap
+  is one-sided, and operational_only is structurally zero; the frozen decision
+  statistic is the exact binomial lower bound on the oracle-only proportion,
+  not Clopper-Pearson on a marginal-rate difference.
+- Review state [repo-observed]: independent Pre-EXECUTE R0 NEEDS_CHANGES
+  (docs-only masters-enumeration defect B-1: `P5_FREEZE.md` listed
+  2026092470..72 instead of 2026101470..72) -> repaired -> R1 PASS; independent
+  Pre-RESULT PASS_WITH_COMMENTS.
+- Carried notes [repo-observed]: per-block `oracle_candidate_divergence` is
+  deliberately not persisted (structural argument via code + contingency +
+  tiny-n test); integrity gate 10 is a frozen-record self-consistency check.
+- Scope/status [decision]: synthetic single-point N=256 hard-conditioning
+  interface signal only — no real-data FER, efficiency, key rate, qualification
+  or promotion; no artifact/real data; no N>256/FWHT/SCL/APP-soft; old evidence
+  roots untouched; no commit/push; CANDIDATE pending main-thread acceptance,
+  not an acceptance.
+
+## Standing reviewer-go trust rule
+
+- User instruction [decision]: repository `reviewer-go` reports come from
+  independent subagents. Their stated reruns, recomputations, tests and
+  artifact checks may be trusted as independent evidence without routine
+  main-thread duplication.
+- Main-thread duty [decision]: still adjudicate scope and scientific meaning.
+  Recheck only for internal contradiction, conflict with persisted artifacts,
+  a missing frozen gate, or an out-of-scope conclusion.
+
+## 2026-09-13 NBPOLAR-PHASE4-P6-ADAPTIVE-HARD-L1 adaptive hard-L1 gate BLOCKED (gate-check defect, not acceptance)
+
+- Implementation [repo-observed]: adaptive hard-L1 gate
+  `comparison_bench/src/comparison_bench/formal_ir/nbpolar/adaptive_l1.py` plus
+  tests `comparison_bench/tests/test_nbpolar_adaptive_l1.py` (15 new; full
+  NB-Polar suite 216 = 201 + 15); the P6 spec/tasks delta lives under
+  `formal-ir-nbpolar-phase4-p0` (`specs/nbpolar-phase4-p6/spec.md` + the P6
+  tasks section); no separate Phase-4-P6 change directory exists.
+- Frozen point/schedule [decision]: GF32/N256, epsilon1=0.05, strong
+  dependent-L2 `epsilon2(u1)=0.02+0.36*u1/31`, nested D1 [45,60,72,112],
+  D2=140; streams 2026091550..1554 x 128 common blocks each (640 pairs);
+  public Toeplitz masters 2026101550..54. Static arm: one L1 SC at D1=112,
+  one candidate-conditioned L2 SC, one final tag. Adaptive arm: per-stage
+  restart L1/L2 with one tag per stage; a tag match stops, a mismatch advances
+  with one feedback bit, a nonterminal impossible-disclosure advances without
+  a tag, and a terminal impossible is decode_failed.
+- Sole gate execution [repo-observed]: attempt 1/1 consumed at the first
+  scientific SC call (stream 2026091550 block 0 static L1); exit 0; no rerun
+  or repair. Scientific gates all true: static exact 632/640, adaptive exact
+  632; cells both 632 / adaptive_only 0 / static_only 0 / neither 8; leakage
+  100x adaptive_total 67578300 <= 85x static_total 72025600 (20.2484%
+  saving); per-arm outcomes exact 632 / verify_failed 8 / all other buckets
+  0; termination histogram {45:403, 60:185, 72:39, 112:13}; tags
+  640/942/1582, feedback 302, public control 4149888, union bound 8.576e-17,
+  transcript recount mismatch 0; per-stream both/neither 127/1, 127/1, 124/4,
+  127/1, 127/1; artifact wall 105.941485 s, RSS 394567680 B.
+- Integrity [repo-observed, decision]: 11/12 gates true; the sole failing gate
+  `d1_exactly_nested_and_d2_disclosed_once` is a gate-check implementation
+  defect at `adaptive_l1.py:1342` — L2 events are counted by `(block_id, arm)`
+  while `block_id` is per-stream, so the 1280 L2 events (640 static + 640
+  adaptive) collapse onto 256 keys each counted 5, making `all(count == 1)`
+  false. The contract-correct value is TRUE (per `(stream, block, arm)`
+  identity the D2 disclosure count is exactly 1 for all 640x2); the reviewer
+  reproduced the isolated false with a 2-stream probe.
+- Lesson [decision]: a multi-stream identity/count gate must key on the full
+  `(stream, block, arm)` identity and ship with a multi-stream test; counting
+  on `(block_id, arm)` alone is silently wrong whenever block_id is
+  stream-local.
+- Disposition [decision]: no rerun/repair is permitted in this packet; the
+  main thread owns disposition (a ruling on the corrected gate interpretation
+  plus a successor fix keying the D2 check on full `(stream, block, arm)`
+  identity and adding a multi-stream test). Persisted label is `BLOCKED`; this
+  is not an acceptance.
+- Review state [repo-observed]: two independent reviews verified the stage
+  against the single executed run; the persisted `BLOCKED` label is caused by
+  the gate-check defect above, not by a scientific or resource outcome
+  failure.
+- Scope/status [decision]: synthetic N=256 development evidence only — no
+  real-data FER, efficiency, key rate, qualification or promotion; no
+  artifact/real data; no N>256/FWHT/soft-APP/SCL; predecessor probes/roots
+  untouched; no commit/push. Evidence root
+  `.workbuddy/queue/NBPOLAR-PHASE4-P6-ADAPTIVE-HARD-L1/paired_adaptive_gate/`
+  holds exactly five scalar-only files.
+
+## 2026-09-14 NBPOLAR-PHASE4-P6R1-GATE-IDENTITY-FIX Δ-successor revalidation CANDIDATE (not acceptance)
+
+- Fix [repo-observed, candidate]:
+  `comparison_bench/src/comparison_bench/formal_ir/nbpolar/adaptive_l1.py`
+  repairs only the multi-stream event identity (13 hunks, +32/-6): every future
+  transcript event carries the public scalar `stream_seed` and a
+  stream-qualified `frame_key`, and the D2-once gate groups by
+  `(stream_seed, block_id, arm)` with the matching `expected_l2`; no scientific
+  constant, threshold, decoder path, outcome, disclosure formula or schema line
+  changed. P6-R1 rev note in `formal-ir-nbpolar-phase4-p0/tasks.md`.
+- Regression/tooling [repo-observed, candidate]: pure record/checker test
+  `test_p6_r1_multistream_compound_d2_identity_gate` (two streams sharing block
+  indices; fails under the old `(block_id, arm)` grouping; detects
+  missing/duplicate disclosures) in
+  `comparison_bench/tests/test_nbpolar_adaptive_l1.py`; new stdlib-only helper
+  `comparison_bench/src/comparison_bench/formal_ir/nbpolar/adaptive_l1_revalidate.py`.
+  Focused 16 passed; full NB-Polar suite 217 passed.
+- Read-only revalidation [repo-observed, candidate]: original P6 root
+  `.workbuddy/queue/NBPOLAR-PHASE4-P6-ADAPTIVE-HARD-L1/paired_adaptive_gate/`
+  (five files, sha256 f27fa45d… / 7b794ddd… / c3084898… / 2c2c09bf… /
+  d595e95f… unchanged) recomputes 640 unique `(stream_seed, block_index)`
+  identities, 1280 `(stream, block, arm)` D2 obligations each exactly one
+  disclosure, L2 total 1280, all 12 integrity gates true and all 4 scientific
+  gates true (static exact 632/640; adaptive exact 632 = static; cells both
+  632 / adaptive_only 0 / static_only 0 / neither 8; leakage 67,578,300 <=
+  72,025,600, 20.2484% saving). The only difference vs the persisted booleans
+  is `d1_exactly_nested_and_d2_disclosed_once false→true`; the original
+  aggregate summary/report and persisted `BLOCKED` label were never rewritten.
+- Accounting/immutability [repo-observed, candidate]: zero decoder/RNG/tag
+  calls, no new sample or seed, `attempts_consumed=0` (R1 STATUS 0/0); the P6
+  attempt 1/1 and streams 2026091550..54 remain consumed; old root
+  byte-for-byte unchanged; single machine result
+  `.workbuddy/queue/NBPOLAR-PHASE4-P6R1-GATE-IDENTITY-FIX/revalidation.json`;
+  no commit/push.
+- Review/status [repo-observed]: `INDEPENDENT_REVALIDATION_REVIEW.md` is
+  PASS_WITH_COMMENTS (no blocking issue; operator narrative `+31/-6` is a docs
+  off-by-one, reviewer counted +32/-6) and `OPERATOR_RETURN_R1.md` returns
+  successor label `ADAPTIVE_HARD_L1_DISCLOSURE_CANDIDATE` as a candidate
+  pending main-thread acceptance — not an acceptance.
+- Reusable pattern [decision]: multi-stream gates must key per-block event
+  counts on the full `(stream, block, arm)` identity and ship a multi-stream
+  regression test; an event-identity checker fix can be validated without
+  rerunning the experiment by read-only recomputation of frozen artifacts,
+  preserving the old persisted label and replacing only the diagnosed gate
+  value.
+
+## 2026-09-14 Phase 4-P6R1 main-thread acceptance
+
+- Acceptance [decision]: `ADAPTIVE_HARD_L1_DISCLOSURE_ACCEPTED` within the
+  frozen synthetic N=256 dependent-L2 development scope. Corrected gates are
+  12/12 integrity and 4/4 scientific; adaptive/static exact are both 632/640
+  and adaptive key-dependent disclosure is lower by 20.2484%.
+- Provenance [decision]: original P6 evidence and persisted `BLOCKED` label stay
+  immutable; acceptance belongs to the P6-R1 successor revalidation, which
+  consumed zero decoder/RNG/tag calls and zero new attempt/seed.
+- Boundary/next [decision]: no real-channel FER, efficiency, key-rate,
+  qualification, N-scaling, APP/SCL or FWHT claim. Next is X06, a one-artifact-
+  read Tier-X empirical-genie versus BEC construction-order discriminator.
+
+## 2026-09-14 X07 population/session divergence accepted; P7 frozen
+
+- X07 [decision]: accepted only as descriptive provenance diagnosis
+  `POPULATION_SESSION_IDENTITY_1M`. V49's `0.8010378248977232 bits/symbol` is
+  the floor-only TRAIN entropy of V25 session `type2_1M_20260121_184040`; X06
+  sampled distinct Model-F CAL session `20260123_1M_600k_0dB`, whose accepted-
+  smoothed model entropy is `7.5094403148357545 bits/symbol`.
+- Attribution [decision]: axis, packing, Bob weighting and normalization are
+  excluded. X07 auxiliary MI fields are not accepted evidence; required
+  entropy/CE/provenance quantities were independently reproduced.
+- Construction route [decision]: use V25 1M TRAIN counts with columnwise MLE,
+  fixed `1e-15` floor and renormalization. Do not tune lambda or use Model-F
+  CAL as the target-channel construction law.
+- P7 freeze [decision]: Tier-Y N=256 target-population construction gate;
+  TRAIN 2026091650..52 (3x256), DEV 2026091660..64 (5x128), pooled empirical
+  L1/L2 orders, paired BEC report-only control, K1=45/K2=140. Candidate gates
+  include construction Spearman >=0.95, empirical exact >=620/640, one-sided
+  Wilson lower bound >=0.95 and all integrity gates.
+- Lifecycle/boundary [decision]: P7 is `FROZEN_AWAITING_EXPLICIT_AUTHORIZATION`,
+  artifact read and attempt 0/1. Synthetic development only; no held-out/real
+  FER, efficiency, key rate, scaling, qualification or promotion claim.
+
+## 2026-09-14 NBPOLAR-PHASE4-P7-TARGET-EMPIRICAL-CONSTRUCTION gate CANDIDATE (not acceptance)
+
+- Implementation [repo-observed, candidate]: P7 target-population empirical
+  construction gate
+  `comparison_bench/src/comparison_bench/formal_ir/nbpolar/target_construction.py`
+  plus `comparison_bench/tests/test_nbpolar_target_construction.py` (11 tests;
+  full NB-Polar suite 228 = 217 predecessor + 11); the P7 spec/tasks delta lives
+  under `formal-ir-nbpolar-phase4-p0` (`specs/nbpolar-phase4-p7/spec.md` + P7
+  tasks section); no separate Phase-4-P7 change directory exists.
+- Target input/consumption [repo-observed, candidate]: V25 1M TRAIN counts at
+  `/mnt/d/Code/HD-QKD_Polar_Comparison/comparison_bench/outputs_comparison/nonbinary_diagnostics/nbldpc_v25_20260818/run_04/channel_counts.npz`
+  (25,166,822 B; [Alice,Bob] 1024x1024) via accepted `load_v25_channel_counts`;
+  the single artifact content read and the single attempt are consumed at the
+  first NPZ content open (open_count 1, no reopen/retry). TRAIN seeds
+  2026091650..52 (x256), DEV seeds 2026091660..64 (x128) and Toeplitz masters
+  2026101660..64 are spent; the X07 "attempt 0/1" freeze state is superseded.
+- Support rule [decision, candidate]: column-normalize counts; floor every cell
+  below `1e-15` to `1e-15` and renormalize columns; p_b from column totals;
+  P1/P2 = accepted `derive_p1/derive_p2` under A=32*U1+U2; no lambda, backoff,
+  tuning, floor scan or held-out fitting.
+- Ratified entropy semantics [decision]: the frozen literals
+  0.02428054681872374 / 0.7767572780789994 / 0.8010378248977232 (V49 1M TRAIN
+  `nll_*` columns) are the raw-MLE in-sample conditional entropies under p_b
+  (matched to <=4.5e-14); the floor-induced total-entropy change has the
+  separate <=1e-9 guard (recorded 5.1600945738528026e-11). The strict
+  floored-table reading at 1e-12 is unsatisfiable (V49's own floored `ent`
+  exceeds its `nll` by ~1.5e-12); Pre-EXECUTE review item #1 ratified the
+  raw-MLE reading, not the floored-table reading.
+- Sole gate execution [repo-observed, candidate]: exit 0; module wall
+  132.523651 s; peak RSS 383,832,064 B; no rerun. 11/11 integrity gates and
+  3/3 scientific gates true -> label `TARGET_EMPIRICAL_CONSTRUCTION_CANDIDATE`.
+  Construction stability: min pairwise TRAIN-order Spearman L1
+  0.9973291943236439 / L2 0.9950453479056992; permutations valid; orders frozen
+  before DEV (`orders_sha256`
+  8ec690344897655418b71520b22e9e403dfa381ca193fe0d322cb13e1d714104).
+- DEV result/accounting [repo-observed, candidate]: 640 paired blocks;
+  empirical exact 640/640; BEC control exact 640/640 (report-only; both
+  saturate so no empirical-vs-BEC discrimination); cells both 640 /
+  empirical_only 0 / bec_only 0 / neither 0; one-sided 95% Wilson lower bound
+  0.9957903841321254 > 0.95; truth-leak/undetected/nonfinite/resource_abort 0;
+  recount mismatch 0; disclosure 989 key-dependent bits per fully invoked arm
+  (L1 225 + L2 700 + tag 64), totals 1,265,920 key-dependent / 3,357,440 public
+  / 1280 tags; planning-only f 4.8228 (no gate depends on f). Evidence root
+  `.workbuddy/queue/NBPOLAR-PHASE4-P7-TARGET-EMPIRICAL-CONSTRUCTION/target_construction_gate/`
+  holds exactly five scalar-only files.
+- Review/status [repo-observed]: independent Pre-EXECUTE PASS with the ratified
+  entropy semantics and independent Pre-RESULT PASS; CANDIDATE pending
+  main-thread acceptance — not an acceptance.
+- Scope/status [decision]: synthetic N=256 V25-1M-TRAIN model-sampled
+  development signal only — no held-out/real-frame FER, efficiency, key rate,
+  scaling, qualification or promotion; no Model-F/raw/held-out/EVAL artifact; no
+  N>256/APP/SCL/FWHT; old evidence roots untouched; no commit/push.
+- Context [decision]: this packet operationalized the accepted X07
+  `POPULATION_SESSION_IDENTITY_1M` finding — V25 1M TRAIN is the 0.801-bit
+  near-neighbor channel; the Model-F CAL artifact is a different, 7.5-bit
+  population and is not the target-channel construction law.
+
+## 2026-09-14 P7 target empirical construction accepted; P8 frozen
+
+- [decision] Main thread accepted `TARGET_EMPIRICAL_CONSTRUCTION_ACCEPTED` for
+  the V25 1M TRAIN model-sampled N=256 point with columnwise MLE, fixed
+  `1e-15` floor and renormalization, pooled empirical orders, K1=45/K2=140,
+  and the accepted two-layer hard-candidate SC/accounting semantics.
+- [accepted evidence] The sole Tier-Y read/attempt was consumed without rerun
+  or tuning; both independent reviews PASS. Minimum pairwise order Spearman was
+  L1 0.9973291943 / L2 0.9950453479; empirical DEV exact was 640/640 with
+  one-sided 95% Wilson LB 0.9957903841 and zero integrity failures. The BEC
+  control also reached 640/640, so no empirical-over-BEC or order-discrimination
+  claim is accepted.
+- [accepted contract] V49 entropy literals are raw-MLE in-sample conditional
+  entropies and the floor perturbation is governed separately. The accepted P7
+  pooled order identity is
+  `8ec690344897655418b71520b22e9e403dfa381ca193fe0d322cb13e1d714104`.
+- [boundary] This is synthetic V25-1M-TRAIN model-sampled N=256 development
+  evidence only, not held-out/real FER, efficiency, key rate, scaling,
+  qualification, promotion, or APP/SCL/FWHT/adaptive evidence.
+- [next gate] `NBPOLAR-PHASE4-P8-TARGET-RATE-SCREEN-CONFIRM` is frozen at
+  `FROZEN_AWAITING_EXPLICIT_AUTHORIZATION` with reads/attempts 0/1. It screens
+  the fixed 35-point static K1/K2 grid on 192 shared blocks, selects the
+  eligible lexicographic minimum `(K1+K2,K1,K2)`, and confirms once on 640
+  disjoint blocks with a report-only paired BEC control. No eligible point is a
+  valid negative result; execution and both independent reviews remain pending.
+
+## 2026-09-14 P8 target empirical rate point accepted; P9 lower boundary frozen
+
+- [decision] Main thread accepted `TARGET_EMPIRICAL_RATE_POINT_ACCEPTED` in the
+  frozen synthetic V25-1M-TRAIN model-sampled N=256 static scope. All 35 SCREEN
+  points were eligible; deterministic `(K1+K2,K1,K2)` minimization selected
+  K1=8/K2=80, or 504 key-dependent bits per fully invoked arm.
+- [accepted evidence] Disjoint CONFIRM achieved 638/640 exact, 2
+  verify_failed, one-sided 95% Wilson LB 0.9906013677, zero integrity failures,
+  and exact transcript recount. All 11 integrity and 2 scientific gates were
+  true; independent Pre-EXECUTE PASS and Pre-RESULT PASS_WITH_COMMENTS support
+  acceptance. The sole read/attempt was consumed without rerun or tuning.
+- [interpretation] This accepts feasibility, not a global minimum-rate claim:
+  every SCREEN point passed and (8,80) was the lower grid corner, so P8 is
+  left-boundary censored. Same-K BEC was 621/640 with 17 empirical-only paired
+  cells, but is report-only and establishes no general superiority.
+- [boundary] Planning-only f=2.4577491085 is not real efficiency. This is not
+  held-out/real FER, efficiency, key rate, scaling, qualification, promotion,
+  adaptive, APP, SCL, or FWHT evidence; no commit/push.
+- [next gate] `NBPOLAR-PHASE4-P9-LOWER-RATE-BOUNDARY-RESOLUTION` is frozen
+  awaiting explicit authorization with reads/attempts 0/1. It screens the 56
+  points K1=[0,2,4,6,8,12,24,45] x K2=[0,20,40,50,60,70,80] on 192 new shared
+  blocks, then confirms one deterministic eligible minimum on 640 disjoint
+  blocks. Both zero axes remove grid-boundary ambiguity. This is the final
+  N=256 static-rate localization gate before choosing adaptive target-rate work
+  versus N-scaling/decoder acceleration.
+
+## 2026-09-14 NBPOLAR-PHASE4-P8-TARGET-RATE-SCREEN-CONFIRM gate CANDIDATE (not acceptance)
+
+- Implementation [repo-observed, candidate]: P8 rate SCREEN→CONFIRM gate
+  `comparison_bench/src/comparison_bench/formal_ir/nbpolar/target_rate.py`
+  plus `comparison_bench/tests/test_nbpolar_target_rate.py` (12 tests;
+  full suite 240 = 228 + 12); the P8 spec/tasks delta lives under
+  `formal-ir-nbpolar-phase4-p0` (`specs/nbpolar-phase4-p8/spec.md` + P8
+  tasks section); no separate Phase-4-P8 change directory exists.
+- Target input/consumption [repo-observed, candidate]: accepted P7 pooled
+  empirical L1/L2 orders (sha
+  `8ec690344897655418b71520b22e9e403dfa381ca193fe0d322cb13e1d714104`) +
+  V25 1M TRAIN NPZ (25166822 B) via accepted loader with floor-1e-15 rule;
+  the single read and the single attempt are consumed at the first NPZ
+  content open (open_count 1, no reopen/retry/rerun).
+- SCREEN [repo-observed, candidate]: N=256; seeds 2026091680..1682 (x64 =
+  192) with shared-block sampling; grid K1=[8,10,12,16,24,32,45] x
+  K2=[80,94,110,125,140] = 35 points. ALL 35 eligible (Wilson LB>=0.95
+  each; splits 1x189/4x190/6x191/24x192; undetected/decode/resource 0).
+  Deterministic lexicographic-min (K1+K2,K1,K2) selected (k1=8,k2=80) —
+  the lowest-disclosure eligible point.
+- CONFIRM [repo-observed, candidate]: seeds 2026091690..1694 (x128 = 640),
+  disjoint from SCREEN; selected point only plus same-K BEC control
+  report-only. Empirical exact 638/640 (2 verify_failed); BEC 621/640;
+  paired cells 621/17/0/2; one-sided 95% Wilson LB 0.9906013676984646;
+  per-stream emp/bec 127/124, 128/122, 128/123, 128/127, 127/125.
+- Accounting [repo-observed, candidate]: 5*(K1+K2)+64 key-dependent bits per
+  fully invoked point (selected 504 bits); public 2623/tag; totals key
+  5470080 / public 20984000 / tags 8000; independent recount mismatch 0;
+  planning-only f 2.457749108478718 (not real efficiency). 11/11 integrity
+  + 2/2 scientific gates true → `TARGET_EMPIRICAL_RATE_POINT_CANDIDATE`.
+  Wall 522.26697 s; RSS 274264064 B. Evidence root
+  `.workbuddy/queue/NBPOLAR-PHASE4-P8-TARGET-RATE-SCREEN-CONFIRM/rate_screen_confirm/`
+  holds exactly five files.
+- Review/status [repo-observed]: one executed run plus two independent
+  reviews; CANDIDATE pending main-thread acceptance — not an acceptance.
+- Scope/status [decision]: synthetic N=256 V25-1M-TRAIN model-sampled
+  development signal only — not held-out/real FER, efficiency/key-rate,
+  scaling, qualification/promotion; BEC gap report-only; no
+  Model-F/raw/held-out/EVAL; no N>256/APP/SCL/FWHT/adaptive; old roots
+  untouched; no commit/push.
+
+## 2026-09-14 P9 lower-rate point accepted; FWHT scaling probe frozen
+
+- [decision] Main thread accepted `TARGET_EMPIRICAL_LOWER_RATE_POINT_ACCEPTED`
+  for the frozen V25-1M-TRAIN model-sampled N=256 grid. Among 56 registered
+  points reaching both zero axes, deterministic selection chose K1=6/K2=70.
+- [accepted evidence] Disjoint CONFIRM achieved 624/640 exact, Wilson one-sided
+  95% LB 0.9626753340557015, 444 key-dependent bits per full arm, zero integrity
+  failures, and exact recount. Both independent reviewer-go reviews PASS. The
+  Wave-C certificate failure lost delivery only; read-only reconstruction
+  established one genuine run and the retry correctly stopped, so read/attempt
+  remain 1/1 with no rerun or tuning.
+- [scope] This is the lowest eligible point of the frozen finite grid, not a
+  continuous/global optimum. BEC 520/640 and 104 empirical-only cells are
+  report-only. Planning-only f=2.1651599289 is not real efficiency and remains
+  above the project target f<=1.3. No held-out/real FER, key rate, scaling,
+  qualification, promotion, adaptive, APP/SCL/FWHT claim, commit, or push.
+- [route] Stop further N=256 static/adaptive gating for now. The next gate is
+  the non-claim Tier-X `NBPOLAR-PHASE4-P10-FWHT-KERNEL-SCALING-PROBE`, frozen
+  awaiting authorization. It uses injected data only to compare the accepted
+  direct GF(32) minus-node with an all-finite FWHT prototype, preserve direct
+  fallback for nonfinite rows, and profile the unmodified reference SC through
+  N=1024. No attempt or artifact access.
+
+## 2026-09-14 X10-X12 scaling milestone; exact chunked Tier-Y gate frozen
+
+- [probe evidence] X10 found useful bare-kernel FWHT scaling but wide/dominant
+  inputs created 5371 exact-support mismatches. X11 then STOPPED correctly:
+  ~1e-15 to 1e-14 finite numerical perturbations flipped near-tied early SC
+  decisions, changed plus paths, and caused direct-success versus hybrid
+  `ImpossibleDisclosedValueError`. Independent reviewer-go reproduced the
+  mechanism. Do not advance this FWHT path to an exact-semantics Tier-Y gate;
+  X11 timing transcript is not persisted performance evidence.
+- [probe evidence] X12 retained the accepted q² `logaddexp.reduce` operation
+  and reduction order, changing only row allocation. Chunk sizes
+  32/128/512/2048 preserved exact arrays/support across 144 primitive cells,
+  72 full-SC comparisons, 16 validation exceptions, impossible disclosure,
+  X11-C3, known coordinates and tie controls; all 148 monkeypatches restored.
+  Chunk512 completed N=262144 in 65.7253 s; process cumulative HWM was
+  754,647,040 B and chunk temporary storage 4 MiB versus a 1 GiB direct-gather
+  estimate. Independent focused review PASS.
+- [boundary/next] These are Tier-X engineering observations, not FER,
+  efficiency, qualification, promotion, or throughput claims. P11 is frozen as
+  a Tier-Y allocation-only `sc.py` change with default 512, exact comparator
+  semantics, injected one-shot N=65536 parity and N=262144 resource gates, no
+  artifact access, and attempt 0/1 awaiting explicit authorization.
+
+## 2026-09-14 P11 exact chunked SC accepted; P12 f=1.3 profile frozen
+
+- [decision] Main thread accepted `EXACT_CHUNKED_SC_ACCEPTED`. Default
+  `chunk_rows=512` changes allocation only and preserved bitwise results,
+  support, exceptions and full-SC behavior in the frozen injected matrix.
+  N=65536 paired exactly; N=262144 completed in 66.088 s at 710,504,448 B RSS.
+  Both independent reviews support acceptance; attempt 1/1, artifact reads 0/0,
+  no rerun. The 120-second/1-GiB values remain report-only.
+- [boundary] Acceptance is engineering reachability, not FER, efficiency,
+  key-rate, throughput superiority, qualification or promotion. X11's FWHT
+  exception-parity blocker remains historical and is not repaired by chunking.
+- [next] P12 is frozen to profile V25-1M-TRAIN model-sampled recovery at the
+  actual f=1.3 budget over N=256..262144. Each N uses its own analytic BEC order
+  and deterministic full-budget K split; no P7 empirical-order extrapolation.
+  The 128-block uneven sample matrix has no recovery pass threshold and cannot
+  qualify FER. Read/attempt 0/1 await explicit authorization.
+
+## 2026-09-14 P12 terminal resource blocker; metric-lifetime probe frozen
+
+- [decision] Accept terminal `BLOCKED(resource_limits_met_and_no_abort)`.
+  P12 executed once and reached the N=262144 candidate-conditioned L2 metric,
+  where an uncaught 64-MiB float64 allocation failed under 2 GiB. Read/attempt
+  1/1 are spent; no output root exists and the roughly 124 in-memory earlier
+  blocks are not evidence. Independent review confirmed one run and no rerun.
+- [mechanism] P11 chunks only SC minus-node allocation. P12 retained L1/L2
+  probability, SymbolMetric and SCResult planes, and long-lived result objects
+  retained decoded arrays across blocks. The successor must preserve prior.py
+  immutability/SC semantics, release temporaries at last use, retain scalar-only
+  outcomes, catch resource errors outside decode taxonomy, and checkpoint every
+  block without resume.
+- [next] X13 is frozen as a two-file injected Tier-X comparison of lifetime-only
+  versus owned-in-place-log metric construction, including sequential large-N
+  blocks and live-array accounting. It does not rerun P12, access artifacts,
+  modify production, consume an attempt, or create a scientific status.
+
+## 2026-09-14 X13R1 metric-memory completion; P13 empirical-genie scaling frozen
+
+- [decision] Record `X13R1_COMPLETE_DESCRIPTIVE_ONLY`. The four isolated
+  injected cells completed 6/6 blocks for both `lifetime_only` and `owned_log`
+  (N=65536 x4 and N=262144 x2) under the 2 GiB child limit, with no timeout or
+  MemoryError. Parent replay of X13 N=64 controls passed 19 parity keys and
+  X13 remained immutable. The independent reviewer-go focused review was
+  supplied after execution and accepted as post-run evidence; that timing is
+  retained in the probe record.
+- [boundary] X13R1 shows that release-at-last-use removes the specific P12
+  allocation blocker in the injected setting, but it does not select
+  `lifetime_only` versus `owned_log`, establish target-channel recovery, or
+  authorize a P12 rerun. Neither alternative is promoted yet; no attempt,
+  artifact read, scientific status change, production edit, or commit/push.
+- [next] Before any P12 retry, frozen Tier-Y packet
+  `NBPOLAR-PHASE4-P13-EMPIRICAL-GENIE-SCALING` measures target V25 1M TRAIN
+  empirical-genie residuals at N=4096, 8192 and 16384. It uses true-prefix
+  genie risks, empirical worst-first orders, an exhaustive TRAIN-only integer
+  split at `f=1.3`, and independent DEV residual/UCB reporting; DEV never tunes
+  the frozen allocation. The smallest registered N with one-sided DEV residual
+  UCB <= 0.01 is only a planning candidate, not FER or minimum-N evidence.
+- [procedure] P13 is frozen awaiting explicit authorization: one V25 TRAIN NPZ
+  content read and one scientific attempt, five-file per-block checkpointed
+  root, scalar-only persistence, 2 GiB/1800 s limits, `OPENBLAS_NUM_THREADS=1`,
+  `OMP_NUM_THREADS=1`, `MKL_NUM_THREADS=1`, `MALLOC_ARENA_MAX=2`, and VmPeak /
+  VmSize recording. Any resource, semantic, integrity, or review failure stops
+  without rerun; no Model-F/HOLD/raw/real/EVAL or old-root access.
+
+## 2026-09-15 P14 empirical-genie learning curve accepted negative; P15 mid-N scaling frozen
+
+- [decision] Main thread accepted
+  `TARGET_EMPIRICAL_GENIE_F13_N16384_TRAIN128_NOT_CONFIRMED` as a valid
+  negative within the V25-1M-TRAIN model-sampled genie-proxy scope. At
+  N=16384 and fixed `f=1.3`, nested TRAIN prefixes B=8..128 did not yield a
+  monotone or material DEV residual reduction: B=8 mean/UCB was 0.1176/0.1725,
+  B=128 was 0.1420/0.2011, and paired B128-B8 mean was +0.0244. Orders were
+  already highly stable, so eight-block construction size is not accepted as
+  the material cause of P13's miss.
+- [boundary] P14 is genie-construction proxy evidence only, not operational
+  FER, a minimum-N result, qualification, or promotion. Its single read and
+  attempt were consumed without rerun or tuning. The next route resumes the N
+  axis; it does not retry P12 or use BEC orders.
+- [next] Tier-Y packet
+  `NBPOLAR-PHASE4-P15-EMPIRICAL-GENIE-MID-N-SCALING` is frozen awaiting
+  explicit authorization. It measures empirical true-prefix genie residuals
+  at N=32768 and 65536 using 16 TRAIN plus 16 disjoint DEV blocks per N,
+  empirical worst-first orders, an exhaustive `f=1.3` integer split frozen
+  before DEV, and a one-sided df=15 t-UCB. It plans 128 genie calls, no BEC,
+  tags, Toeplitz or operational decode, one V25 TRAIN NPZ content read and one
+  scientific attempt, and an exactly five-file checkpointed evidence root.
+  The frozen environment uses single-thread BLAS/OpenMP, `MALLOC_ARENA_MAX=2`,
+  a 2-GiB virtual-memory limit and a 2100-second timeout; any resource,
+  semantic, integrity or review failure stops without rerun or tuning.
+
+## 2026-09-15 P15 empirical-genie mid-N negative accepted; P16 operational f=1.3 frozen
+
+- [decision] Main thread accepted
+  `TARGET_EMPIRICAL_GENIE_F13_MID_N_SCALING_NOT_CONFIRMED` as a valid negative
+  within the V25-1M-TRAIN model-sampled genie-proxy scope. At fixed `f=1.3`,
+  N=32768 had DEV mean/UCB 0.01915/0.03590 and N=65536 had 0.02877/0.07613;
+  neither met the UCB <= 0.01 criterion. The larger-N mean was affected by a
+  rare high-residual block, so no monotone cross-N improvement is accepted.
+- [boundary] P15 is genie construction proxy evidence only, not operational
+  FER, a minimum-N result, qualification or promotion. Its one NPZ read and
+  one scientific attempt were consumed without rerun or tuning; P12-P15 roots
+  remain immutable. The next route tests operational recovery at N=32768 and
+  does not extend the genie curve or retry P12.
+- [next] Tier-Y packet
+  `NBPOLAR-PHASE4-P16-N32768-OPERATIONAL-F13` is frozen awaiting explicit user
+  authorization. It uses the accepted V25-1M-TRAIN empirical construction at
+  N=32768, 16 disjoint TRAIN blocks and 64 disjoint DEV blocks, empirical
+  worst-first orders and an exhaustive `f=1.3` integer split frozen before
+  DEV. Each DEV block performs one hard-candidate L1 decode, candidate-
+  conditioned L2 restart and one 64-bit Toeplitz verification; there is no
+  BEC arm, adaptive retry or oracle arm. Gates are exact >=62/64 and one-sided
+  95% Wilson LB >=0.90, with `undetected` isolated from success.
+- [procedure] P16 plans one V25 TRAIN NPZ content read and one scientific
+  attempt, five checkpointed files, scalar-only persistence, `chunk_rows=512`,
+  `OPENBLAS_NUM_THREADS=1`, `OMP_NUM_THREADS=1`, `MKL_NUM_THREADS=1`,
+  `MALLOC_ARENA_MAX=2`, a 2-GiB virtual-memory limit and a 2100-second
+  timeout. It records RSS HWM, VmPeak and VmSize; resource, semantic,
+  integrity or review failure stops without rerun or tuning. No Model-F/HOLD,
+  raw/real/EVAL, FWHT/APP/SCL, qualification/promotion, old-root modification,
+  commit or push is authorized by the frozen packet.
+
+## 2026-09-15 P16 operational N=32768 candidate accepted; P17 replication frozen
+
+- [decision] Main thread accepted
+  `TARGET_EMPIRICAL_OPERATIONAL_F13_N32768_CANDIDATE` as a model-sampled
+  operational development signal. P16 completed with exact 62/64,
+  undetected 0, and one-sided Wilson 95% LB 0.9098711859. The construction
+  used N=32768, K1=319, K2=6492, total disclosure 34119 bits per block, and
+  the accepted V25-1M-TRAIN empirical orders. Independent reviewer-go
+  Pre-EXECUTE and Pre-RESULT evidence is trusted under the repository review
+  rule; main-thread scope acceptance remains separate.
+- [boundary] P16 has zero count margin: 62/64 is exactly the frozen count
+  threshold and 61/64 would fail both recovery gates (Wilson LB 0.8884).
+  Therefore it is not a stable rate point, finite-length FER claim,
+  qualification, promotion, or real-data result. Its one artifact read and
+  one scientific attempt are consumed; observations are not pooled into the
+  next decision and the P16 evidence root remains immutable.
+- [next] Tier-Y packet
+  `NBPOLAR-PHASE4-P17-N32768-OPERATIONAL-REPLICATION` is frozen awaiting
+  explicit authorization. It reuses the accepted P16 construction identity,
+  orders, N=32768, K1/K2, disclosure and operational protocol without TRAIN or
+  genie work. It uses fresh DEV streams `2026092030..2026092037`, 16 blocks per
+  stream (128 blocks total), with one L1 SC, candidate-conditioned L2 restart,
+  and one 64-bit tag per block; P16 observations are report-only and contribute
+  zero observations to P17 gates. The frozen gates are exact >=121/128 and
+  one-sided Wilson 95% LB >=0.90 (the boundary LB is 0.9021084760).
+- [procedure] P17 consumes one V25-1M-TRAIN NPZ content read and one new
+  scientific attempt at the first content open, performs no adaptive retry,
+  oracle/comparator arm, rescue, second tag, retuning, or rerun, and writes
+  exactly five checkpointed scalar-only files. It requires predecessor
+  construction identity, 128/128 coverage, 256 operational SC calls, 128 tags,
+  exhaustive outcome buckets, truth isolation, exact accounting, one-open
+  provenance and resource checks. Resource/semantic/integrity/review failure
+  stops with evidence preserved; no commit/push or old-root modification.
+- [route principle] The evidence route is
+  empirical channel -> asymptotic DE/construction threshold -> finite-length
+  backoff or scaling -> finite graph and decoder/target-FER verification.
+  An asymptotic DE or construction result selects a candidate rate/order but
+  never establishes finite-length decoder usability. Information-theoretic
+  finite-length backoff (rate margin for a target error probability) is a
+  separate correction from graph/decoder effects such as short cycles, rank
+  deficiency, trapping/absorbing structures, layered error propagation and
+  BP convergence; the latter require finite-graph and decoder evidence.

@@ -1,0 +1,13 @@
+task_id: NBPOLAR-PHASE4-X11-HYBRID-FWHT-ENDTOEND-PROBE
+state: FROZEN_AWAITING_EXPLICIT_AUTHORIZATION
+tier: X
+predecessor: X10_FWHT_KERNEL_SCALING_COMPLETE_NONCLAIM
+documentation_authorized: false
+probe_execution_authorized: false
+artifact_access_authorized: false
+attempts_allowed: 0
+attempts_used: 0
+scientific_status_change_authorized: false
+result: null
+focused_review: pending
+next_gate: EXPLICIT_USER_AUTHORIZATION

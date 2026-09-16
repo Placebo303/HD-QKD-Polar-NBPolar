@@ -94,3 +94,73 @@ P3-A01--A12 + packing/derivation parity: 23/23 pytest green
 110 → 111 green, 0 failed. Pre-EXECUTE review (seeds, Stage B
 masks/counts/command/target, attempt accounting) is the next gate and
 is owned by the main thread + independent reviewer — not this operator.
+
+# Stage B implementation notes (synthetic/injected only, artifact attempt 0)
+
+Scope: make the frozen Stage B command executable (`--mode stageb`),
+implement the vectorized exhaustive oracle backend, and add the Stage B
+tests. The accepted artifact was **not** read: artifact-content attempts
+consumed = **0**, target root still ABSENT. No real Stage B command ran.
+
+## Alternatives compared
+
+- **Literal oracle at GF32 N=4** (q^N = 1048576 candidates, per-candidate
+  Python enumeration + dense reference transform): rejected as the B1
+  backend — minutes-to-hours per prefix and refused above the unchanged
+  4096 default cap. The literal function stays exactly as accepted for
+  tiny domains; parity tests call it with an explicit test-only
+  `max_candidates` opt-in at prefixes of length >= 2 (32 and 1 candidate
+  suffixes).
+- **Vectorized single-prefix backend** (recompute the 1M-candidate score
+  vector per oracle call): works, but the frozen B1 compares all 4 nested
+  prefixes per block, so it costs ~4x. A batch-prefix API
+  (`empirical_oracle_conditionals_vectorized`) computes the joint scores
+  once per block and evaluates each nested prefix as one contiguous
+  mixed-radix slice logsumexp; the single-prefix function is now a thin
+  wrapper over it. Measured chain cost 0.17-0.19 s per N=4 block → 64-block
+  full-coordinate sweep ≈ 11-12 s (in-runner oracle wall 11.7 s; final
+  standalone median 0.1724 s/block → 11.0 s), well under the 120 s
+  per-case soft stop.
+- **Batched butterfly transform instead of the dense batch transform**
+  (42 ms vs 104 ms per N=4 call): rejected — the dense batch transform is
+  validated row-wise against `polar_transform_reference`, and the chain
+  design already brings the sweep far under budget; a second transform
+  variant is duplicate surface without a gate it would change.
+- **Stateful candidate/transform cache**: rejected (hidden state; no
+  custom caching policy in this repo).
+- **Per-case fresh RNG seeds**: rejected — one `make_rng(2026091316)`
+  stream in frozen case order is the frozen contract.
+
+## Measured cost (injected (32,8) tables, temp root; no artifact)
+
+- Full frozen matrix (B1-B4 + B5 aggregation, default 120 s/3600 s caps):
+  wall ≈ **18.1 s**, exactly 5 files, coverage complete, hard gates pass,
+  truth-leak violations 0, resource aborts 0.
+- B1 N=4: 64 blocks × 4 conditionals = 256 oracle rows, oracle wall
+  **11.7 s**; max prob err 5.3e-16, finite max log err 5.3e-15, support
+  mismatches 0 (gates 1e-12 / 1e-9).
+- B4 medians (1 warm-up + 5 measured): metric 9.0e-6 / 1.9e-5 / 6.1e-5 s
+  and decode 7.5e-3 / 3.4e-2 / 1.6e-1 s at N=64/256/1024; shapes
+  (4,N,32)/(N,32)/(N,32); peak RSS ≈ 0.22 GiB.
+- Tests: focused file 32 passed in 29.1 s; full predecessor suite
+  (8 files) **120 passed** in 65.3 s.
+
+## Rejected / corrected details
+
+- **B4 disclosed values**: true U first (spec-aligned disclosure map); if a
+  true value is impossible, fall back to the metric argmax at that
+  position and record `disclosed_value_source`. Always-argmax and
+  unguarded true-U were rejected (one impossible disclosure would abort a
+  timing case).
+- **Peak RSS unit fix**: `_peak_rss_gib` now scales `ru_maxrss` as KiB on
+  Linux (bytes on macOS). The previous `/1024**3` under-reported by 1024x
+  on this platform, which would have made the 2 GiB envelope evidence
+  meaningless.
+- **Alias keys**: `n_blocks` (= planned) and B3 `n_nan` (= `n_nonfinite`)
+  are recorded so the compact JSON matches the frozen B2/B3 report
+  wording exactly; B5 records `b4_scored_blocks = 0` because B4 is
+  timing-only and never scored.
+- **Full-matrix test seam**: `_run_stageb_from_tables` (keyword-only
+  caps, optional `artifact_identity`) lets ordinary tests run the entire
+  frozen matrix on injected tables and temp roots; artifact/root/seed
+  refusal paths are tested with nonexistent temp paths only.

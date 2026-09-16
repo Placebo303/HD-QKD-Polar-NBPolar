@@ -24,6 +24,416 @@ Durable decisions and rejected alternatives for the HD-QKD_Polar_Comparison-nbpo
 
 ## Decisions
 
+## 2026-09-16 NB-Polar Phase 4-P18 N=32768 1M-HOLD microcheck COMPLETE (single run, 0/3 exact descriptive)
+
+**Decision**: Record the single P18 Tier-Y execution (exit 0, stderr empty,
+in-run wall 37.274417 s within 600 s; outer ≈55.9 s) as
+`TARGET_EMPIRICAL_OPERATIONAL_F13_N32768_HOLD_MICROCHECK_COMPLETE`. Main-thread
+acceptance is pending; this entry is not an acceptance and not blocked. No
+route recommendation is made.
+
+**Context**: Real-input operational microcheck of the frozen V25 1M HOLD split
+at N=32768, reusing the accepted P16/P17 construction (K1 319/K2 6492, digest
+`055c906472dd2a09761761b18aceb5f31d8b5db19bac658721f8dc49c3faea1b`), fixed
+floor-1e-15 TRAIN prior and operational block path. Split manifest verified
+400 HOLD frames / 102400 HOLD pairs before any open; three registered
+chronological blocks 1600..1727 / 1728..1855 / 1856..1983 with remainder
+1984..1999 (16 frames / 4096 symbols) recorded unused. All 17 integrity gates
+true, `failing_integrity_gates` empty, `provenance_violations` 0. Per-block
+outcomes were `verify_failed` × 3 (exact 0, undetected 0, decode_failed 0,
+nonfinite 0, resource_abort 0); aggregate total NLL 83161.59954506146 bits,
+key-dependent 102357 / public-control 983229 / tags 3, recount mismatch 0,
+sample CE-normalized disclosure ratio 1.230820481567787 (descriptive only).
+Preconditions 7/7 true; reads 1/1 + 1/1 and attempt 1/1 consumed at the first
+protected content open; input sizes/mtimes unchanged; no reopen/rerun. Peak RSS
+520798208 B ≤ 2 GiB. **There is no exact-count, Wilson, FER, winner, promotion
+or recovery threshold in this gate**: the 0/3 exact outcomes are descriptive
+real-input observations and are neither a gate nor a pass/fail result, and
+`undetected` is never success. Independent Pre-EXECUTE PASS and Pre-RESULT
+PASS_WITH_COMMENTS; the Pre-RESULT review was completed as a resumption from an
+interrupted prior reviewer attempt's saved transcript (the interrupted suites
+were re-run fresh — 26 focused / 409 full, zero protected opens — and every
+load-bearing number independently recomputed; the gate itself was not rerun).
+Evidence: packet `OPERATOR_RETURN.md` + `holdout_microcheck/` (five files);
+`.workbuddy/queue/NBPOLAR-PHASE4-P18-N32768-HOLDOUT-MICROCHECK/`.
+
+**Alternatives considered**:
+- Rerun/tune seeds, N, K, floor, orders, blocks or thresholds: rejected —
+  forbidden by the freeze; read 1/1 + read 1/1 + attempt 1/1 are consumed.
+- Treat the 0/3 exact outcome as a failure or as blocked: rejected — the gate
+  has no recovery/FER threshold by design and every integrity gate passes; the
+  label is COMPLETE independent of the exact count.
+- Promote to real-frame FER, reconciliation efficiency, leakage, key rate,
+  scaling, qualification or promotion evidence: rejected — scope is a
+  real-input operational microcheck at N=32768 only, and the CE ratio is
+  explicitly not qualification efficiency.
+
+**Consequences**: No OpenSpec box checked; no code/artifact/old-root change;
+neither protected input modified; no commit/push. Next gate is main-thread
+acceptance.
+
+## 2026-09-15 NB-Polar Phase 4-P17 N=32768 operational replication CANDIDATE returned (single run, count margin 2)
+
+**Decision**: Record the single P17 Tier-Y gate execution (exit 0, stderr
+empty, wall 2031.385216 s within 2400 s) as candidate
+`TARGET_EMPIRICAL_OPERATIONAL_F13_N32768_REPLICATION_CANDIDATE`. Main-thread
+acceptance is pending; this entry is not an acceptance and not blocked.
+No route recommendation is made.
+
+**Context**: Independent 128-block replication of P16 at the exact same target
+model, N=32768, construction (K1 319/K2 6492, verified digest
+055c90…c3faea1b), disclosure (34119 key / 327743 public bits per block) and
+protocol; fresh DEV streams 2026092030..2037 × 16. DEV exact 123/128 with
+Wilson one-sided 95% LB 0.921934049951655 ≥ 0.90 — count margin exactly 2
+over 121 (LB margin +0.0219), resolving P16's zero margin. Per-stream
+15/1, 15/1, 16/0, 15/1, 15/1, 15/1, 16/0, 16/0 (block_index 0–15 each).
+Integrity 14/14 true, failing list empty; undetected 0; preconditions 7/7
+true; reads/attempts 1/1 spent at the first NPZ content open; 256 operational
+SC calls, 0 TRAIN/genie calls; no reopen/rerun. P16's 62/64 + 0.9098711859
+are report-only (`pooled_into_decision: false`); decision inputs are exactly
+the 128 P17 blocks. Independent Pre-EXECUTE PASS and Pre-RESULT
+PASS_WITH_COMMENTS (independent 123/128 recount + Wilson recomputation
+confirm CANDIDATE; item-8 resolved — per-record VmPeak/VmSize present in all
+128 records, aggregate carries wall+RSS by schema design). Evidence: packet
+`OPERATOR_RETURN.md` + `operational_replication_gate/` (five files);
+`.workbuddy/queue/NBPOLAR-PHASE4-P17-N32768-OPERATIONAL-REPLICATION/`.
+
+**Alternatives considered**:
+- Rerun/tune seeds, N, K, floor, orders or thresholds: rejected —
+  forbidden by the freeze; read 1/1 + attempt 1/1 are consumed.
+- Treat as NOT_CONFIRMED or blocked: rejected — both recovery gates pass
+  and all integrity gates pass; CANDIDATE is uniquely correct (with the
+  plainly stated count-margin-2 caveat above).
+- Promote to real-data FER/qualification/efficiency/key-rate/scaling
+  evidence: rejected — scope is a model-sampled replication outcome at
+  N=32768/f≤1.3 only.
+
+**Consequences**: No OpenSpec box checked; no code/artifact/old-root change;
+no commit/push. Next gate is main-thread acceptance.
+
+## 2026-09-15 NB-Polar Phase 4-P16 N=32768 operational f=1.3 CANDIDATE returned (single run, exact-threshold meet)
+
+**Decision**: Record the single P16 Tier-Y gate execution (exit 0, stderr
+empty, wall 1183.61887 s within 2100 s) as candidate
+`TARGET_EMPIRICAL_OPERATIONAL_F13_N32768_CANDIDATE`. Main-thread
+acceptance is pending; this entry is not an acceptance and not blocked.
+No route recommendation is made.
+
+**Context**: Empirical construction at N=32768 (K_total 6811; K1 319/K2
+6492; TRAIN residual 5.87097048643237e-07; leakage 34119; f
+1.2998502888173578 ≤ 1.3) frozen before DEV; 16 TRAIN + 64 independent
+operational DEV blocks (TRAIN genie 32 + DEV SC 128 calls). DEV exact
+62/64 with Wilson one-sided 95% LB 0.9098711859061207 ≥ 0.90 — exactly at
+threshold with ZERO-count margin (61/64 → 0.8883797143731994 would flip
+to NOT_CONFIRMED). Integrity 13/13 true, failing list empty; undetected
+0; preconditions 7/7 true; reads/attempts 1/1 spent at the first NPZ
+content open; no reopen/rerun. Independent Pre-EXECUTE PASS and
+Pre-RESULT PASS_WITH_COMMENTS (independent 62/64 recount + Wilson
+recomputation confirm CANDIDATE). Evidence: packet `OPERATOR_RETURN.md`
++ `operational_f13_gate/` (five files);
+`.workbuddy/queue/NBPOLAR-PHASE4-P16-N32768-OPERATIONAL-F13/`.
+
+**Alternatives considered**:
+- Rerun/tune seeds, N, K, floor, orders or thresholds: rejected —
+  forbidden by the freeze; read 1/1 + attempt 1/1 are consumed.
+- Treat as NOT_CONFIRMED or blocked: rejected — both recovery gates pass
+  and all integrity gates pass; CANDIDATE is uniquely correct (with the
+  blunt zero-margin caveat above).
+- Promote to real-data FER/qualification/efficiency/key-rate/scaling
+  evidence: rejected — scope is a model-sampled operational outcome at
+  N=32768/f≤1.3 only.
+
+**Consequences**: No OpenSpec box checked; no code/artifact/old-root change;
+no commit/push. Next gate is main-thread acceptance.
+
+## 2026-09-15 NB-Polar Phase 4-P15 empirical-genie mid-N scaling NOT_CONFIRMED (single run, negative)
+
+**Decision**: Record the single P15 Tier-Y gate execution (exit 0, stderr
+empty, wall 1620.511243 s) as valid scientific negative
+`TARGET_EMPIRICAL_GENIE_F13_MID_N_SCALING_NOT_CONFIRMED`. Main-thread
+acceptance is pending; this entry is not an acceptance, not a candidate, and
+not blocked. No route recommendation is made.
+
+**Context**: P13/P14 curve extended to N=32768/65536 under empirical
+construction and f=1.3 allocation (K_total 6811/13636; splits
+(314,6497)/(607,13029); TRAIN residuals 1.1128237904570182e-06/
+1.1015630768662632e-10). Each N has 16 TRAIN + 16 independent DEV blocks;
+orders frozen before each N's first DEV. DEV UCBs 0.035899663088366535 /
+0.07612810621111707 — both >0.01, so `candidate_ns` [],
+`smallest_candidate_n` null. Integrity 12/12 true, failing list empty;
+preconditions 7/7 true; genie_calls 128/128; reads/attempts 1/1 spent at
+the first NPZ content open; no reopen/rerun. Independent Pre-EXECUTE PASS
+and Pre-RESULT PASS (numbers bit-exact; two non-blocking notes). Evidence:
+packet `OPERATOR_RETURN.md` + `empirical_genie_mid_n_gate/` (five files);
+`.workbuddy/queue/NBPOLAR-PHASE4-P15-EMPIRICAL-GENIE-MID-N-SCALING/`.
+
+**Alternatives considered**:
+- Rerun/tune seeds, N, K, floor, orders or thresholds: rejected —
+  forbidden by the freeze; read 1/1 + attempt 1/1 are consumed.
+- Treat as candidate or blocked: rejected — integrity passes (not blocked)
+  but neither UCB ≤0.01 (not a candidate); NOT_CONFIRMED is uniquely correct.
+- Promote to FER/real-channel/minimum-N/efficiency/key-rate/qualification
+  evidence: rejected — scope is genie union-bound proxy only.
+
+**Consequences**: No OpenSpec box checked; no code/artifact/old-root change;
+no commit/push. Next gate is main-thread acceptance.
+
+## 2026-09-15 NB-Polar Phase 4-P14 empirical-genie learning curve NOT_CONFIRMED (single run, negative)
+
+**Decision**: Record the single P14 Tier-Y gate execution (exit 0, stderr
+empty, wall 1110.16709 s) as valid scientific negative
+`TARGET_EMPIRICAL_GENIE_F13_N16384_TRAIN128_NOT_CONFIRMED`. Main-thread
+acceptance is pending; this entry is not an acceptance, not a candidate, and
+not blocked. No route recommendation is made — the more-TRAIN /
+regularization / larger-N choice belongs to the main thread.
+
+**Context**: At P13's N=16384 point, nested B=8/16/32/64/128 constructions from
+one 128-block TRAIN sequence (streams 2026091930..37 x16), all evaluated on one
+independent 32-block DEV set (streams 2026091940..43 x8), orders frozen before
+first DEV, K_total=3399 (leakage 17059, f=1.2998121912679332). Per-prefix DEV
+UCBs 0.17251343416734777 / 0.18789978997914214 / 0.15868335611416776 /
+0.13913227660764454 / 0.2011332146072146 — all >0.01, so only the B=128 rule
+applies and it fails. The curve is flat: B=128 (mean 0.1419810706809162) is not
+better than B=8 (mean 0.1175773969604019); paired R_128−R_8 mean
++0.024403673720514288. Integrity 13/13 true, failing list empty; preconditions
+7/7 true; genie_calls 320/320; reads/attempts 1/1 spent at the first NPZ
+content open; no reopen/rerun. Independent Pre-EXECUTE PASS and Pre-RESULT
+PASS_WITH_COMMENTS (non-blocking only, numbers verified). Evidence: packet
+`OPERATOR_RETURN.md` + `empirical_genie_learning_curve_gate/` (five files);
+`.workbuddy/queue/NBPOLAR-PHASE4-P14-EMPIRICAL-GENIE-LEARNING-CURVE/`.
+
+**Alternatives considered**:
+- Rerun/tune seeds, prefixes, N, K, floor, orders or thresholds: rejected —
+  forbidden by the freeze; read 1/1 + attempt 1/1 are consumed.
+- Treat as candidate or blocked: rejected — integrity passes (not blocked)
+  but B=128 UCB >0.01 (not a candidate); NOT_CONFIRMED is uniquely correct.
+- Promote to FER/real-channel/minimum-N/efficiency/key-rate/qualification
+  evidence: rejected — scope is genie union-bound proxy only.
+
+**Consequences**: No OpenSpec box checked; no code/artifact/old-root change;
+no commit/push. Next gate is main-thread acceptance.
+
+## 2026-09-14 NB-Polar Phase 4-P13 empirical-genie f=1.3 scaling NOT_CONFIRMED (single run, negative)
+
+**Decision**: Record the single P13 Tier-Y gate execution (exit 0, stderr
+empty, total wall 496.580679 s) as valid scientific negative
+`TARGET_EMPIRICAL_GENIE_F13_SCALING_NOT_CONFIRMED`. Main-thread acceptance
+is pending; this entry is not an acceptance, not a candidate, and not
+blocked.
+
+**Context**: Pre-P12-retry empirical-genie check at N=4096/8192/16384 under
+empirical construction and f=1.3 allocation (K_total 840/1693/3399; splits
+(38,802)/(78,1615)/(152,3247); TRAIN residuals
+0.10927696273202786/0.005622605905980432/9.123285118244062e-05). TRAIN
+8+8+8 blocks, DEV 32×3=96, orders frozen before first DEV. DEV empirical
+UCBs 0.9522855359820204/0.4859431994053538/0.2524893538319819 — all >0.01,
+so no registered N meets the frozen rule; `candidate_ns` [],
+`smallest_candidate_n` null. Integrity 12/12 true, failing list empty;
+preconditions 7/7 true; genie_calls 240/240; reads/attempts 1/1 spent at
+the first NPZ content open; no reopen/retry/rerun. BEC means/UCBs
+report-only, transcribed without interpretation. Independent Pre-EXECUTE
+PASS and Pre-RESULT PASS_WITH_COMMENTS (non-blocking only, numbers
+verified). Evidence: packet `OPERATOR_RETURN.md` +
+`empirical_genie_scaling_gate/` (five files);
+`.workbuddy/queue/NBPOLAR-PHASE4-P13-EMPIRICAL-GENIE-SCALING/`.
+
+**User-stated interpretive guards** (main-thread bounds, recorded verbatim,
+not extended here): (1) ε_eff≈0.115 is currently only a scenario hypothesis
+back-inferred from small-N behavior, not established; (2) higher HOLD
+entropy means the fixed TRAIN disclosure is only ≈f=1.23 relative to HOLD
+(less redundancy) — not numerically f≈1.37.
+
+**Alternatives considered**:
+- Rerun/tune seeds, N, K, floor, orders or thresholds: rejected —
+  forbidden by the freeze; read 1/1 + attempt 1/1 are consumed.
+- Treat as candidate or blocked: rejected — integrity passes (not blocked)
+  but no N meets UCB≤0.01 (not a candidate); NOT_CONFIRMED is uniquely
+  correct.
+- Promote to FER/real-channel/minimum-N/efficiency/key-rate/qualification
+  evidence: rejected — scope is genie union-bound proxy only.
+
+**Consequences**: No OpenSpec box checked; no code/artifact/old-root change;
+no commit/push. Next gate is main-thread acceptance.
+
+## 2026-09-14 NB-Polar Phase 4-P12 target f=1.3 N-scaling profile TERMINAL BLOCKED (resource abort, single run)
+
+**Decision**: Close packet `NBPOLAR-PHASE4-P12-TARGET-F13-N-SCALING-PROFILE`
+as terminal `BLOCKED(resource_limits_met_and_no_abort)`. The single
+authorized Tier-Y run executed once 20:53:45→21:12:37 (exit 1, stdout empty)
+and resource-aborted on the N=262144 arm: uncaught `_ArrayMemoryError`
+(64.0 MiB `(262144, 32)` float64 at `prior.py:255` via
+`target_n_scaling.py:774` L2 candidate metric, outside both SC try-guards;
+`MemoryError` outside the runner's caught
+`(ValueError, FileExistsError, OSError)`). No output root created (end-only
+writes), no label persisted, ~124 smaller-N blocks of in-memory progress
+lost. Read 1/1 + attempt 1/1 spent at the first NPZ content open; no
+reopen/rerun/repair/tuning. Independent Pre-EXECUTE PASS and Pre-RESULT
+CONFIRMED_SINGLE_RESOURCE_ABORT. Evidence: packet `OPERATOR_RETURN.md`
+(verbatim stderr) + `PRE_RESULT_REVIEW.md`; `STATUS.yaml` 1/1 spent.
+
+**Alternatives considered**:
+- Rerun/repair/retry with changed guards or checkpointing: rejected —
+  forbidden by the freeze; attempt 1/1 is consumed and the packet is
+  terminal.
+- Treat the abort as a semantic or precondition finding: rejected — the
+  traceback proves deep execution past preconditions/allocation into the
+  N=262144 arm; the allocator refused, not a value/contract check.
+- Promote partial in-memory progress to evidence: rejected — nothing was
+  persisted; no artifacts exist.
+
+**Consequences**: No OpenSpec box checked; no code/artifact/old-root change;
+no commit/push. A successor packet, if any, requires NEW authorization.
+
+## 2026-09-14 NB-Polar Phase 4-P11 exact chunked SC candidate returned (acceptance pending)
+
+**Decision**: Record the single P11 Tier-Y gate execution (exit 0,
+wall_total 97.955511 s) as candidate `EXACT_CHUNKED_SC_CANDIDATE`.
+Main-thread acceptance is pending; this entry is not an acceptance.
+
+**Context**: Allocation-only `_minus_block` promotion (keyword-only
+`chunk_rows=512` default; `None` golden comparator; validation before
+allocation; `sc_decode` signature unchanged). Gate seed 2026091800, float64,
+GF32 poly 37 alpha 2. Semantic parity: 33 primitive cells all exact (11 rows
+× 3 kinds, err 0.0, support parity); 16 V0 invalid-input cases all exception
+type+message parity; N=64 + N=256 full-SC 9+9 cases all parity (incl. C4
+N=64 U[3]=2 / N=256 U[3]=12 `ImpossibleDisclosedValueError` parity).
+Paired N=65536 direct-first exact (u/x 0 mismatches, metrics/scores err 0.0;
+walls 15.684/14.584 report-only). N=262144 status ok, finite True, wall
+66.088411 s (report-only ≤120 met), RSS 710504448 < 1610612736 hard gate met
+(margin 900108288; 1 GiB report-only met). Gates semantic_parity /
+paired_n65536_exact / large_n262144_completion / large_n262144_rss all True.
+Attempt 1/1 at first formal `sc_decode`, 0 artifact reads; no rerun/tuning.
+Independent Pre-EXECUTE PASS (partial-evidence fallback ratified) and
+Pre-RESULT PASS_WITH_COMMENTS (non-blocking only). Evidence:
+`OPERATOR_RETURN.md` and `exact_chunked_sc_gate/` (four files: frozen_plan
+2152 / equivalence_records 23808 / scaling_record 580 / report 8018 B) in
+`.workbuddy/queue/NBPOLAR-PHASE4-P11-EXACT-CHUNKED-SC/`.
+
+**Alternatives considered**:
+- Rerun/tune seed, chunk size, thresholds: rejected — forbidden by the
+  freeze; attempt 1/1 is consumed.
+- Treat N=65536 walls as a throughput claim: rejected — report-only; one
+  draw cannot discriminate timing variance.
+- Promote to FER/efficiency/key-rate/qualification evidence: rejected —
+  scope is synthetic injected-data engineering gate only.
+
+**Consequences**: No OpenSpec box checked; no code/artifact/old-root change;
+no commit/push. Next gate is main-thread acceptance.
+
+## 2026-09-14 NB-Polar Phase 4-P9 lower-rate boundary-resolution candidate returned (acceptance pending)
+
+**Decision**: Record the single P9 Tier-Y gate execution (artifact wall
+720.522313 s) as candidate `TARGET_EMPIRICAL_LOWER_RATE_POINT_CANDIDATE`.
+Main-thread acceptance is pending; this entry is not an acceptance.
+
+**Context**: The P8 grid left-censored the boundary below the (8,80) anchor.
+P9 ran a SCREEN over the exact 8x7 grid (K1=[0,2,4,6,8,12,24,45] x
+K2=[0,20,40,50,60,70,80] = 56 points, incl. (0,0) and the (8,80) anchor) on
+seeds 2026091710..1712 x64 (192), reusing the accepted P7 orders
+(sha 8ec690344897655418b71520b22e9e403dfa381ca193fe0d322cb13e1d714104)
+with the 1e-15 floor. Exactly 10 points were eligible; (0,0) gave exact 0/192
+(tag-only, zero undetected). Deterministic selection picked (k1=6,k2=70), key
+(76,6,70). CONFIRM on disjoint seeds 2026091720..1724 x128 (640) at the
+selected point only gave empirical 624/640 vs BEC control 520/640
+(report-only), cells 520/104/0/16, Wilson LB 0.9626753340557015 (>=0.95,
+>=618/640 met). Disclosure 5*(K1+K2)+64 per fully invoked point (selected 444
+vs P8 anchor 504, report-only); totals key 4392768 / public 31559936 / tags
+12032 with recount mismatch 0; planning-only f 2.165159928897918; RSS
+318406656 B. Reads/attempts 1/1 consumed at the first NPZ content open; no
+reopen/rerun/tuning. Independent Pre-EXECUTE PASS and Pre-RESULT PASS (zero
+comments). Evidence: `OPERATOR_RETURN.md` and `lower_rate_screen_confirm/`
+(five files) in
+`.workbuddy/queue/NBPOLAR-PHASE4-P9-LOWER-RATE-BOUNDARY-RESOLUTION/`.
+
+**Execution incident**: The first Wave-C delegation executed the frozen command
+and flushed the root at 15:29:50 but result delivery failed on an
+infrastructure certificate error; the retry found the root present and STOPPED
+without running anything (BLOCKED(prior-output-exists), nothing consumed);
+read-only inspection verified single-flush provenance (0.3 s window, P9-only
+identifiers, 56x192+640x2 shapes, frozen command verbatim). STATUS counters
+aligned to 1/1; no rerun occurred. The incident changes no scientific fact.
+
+**Alternatives considered**:
+- Rerun/tune seeds, grid, floor or thresholds: rejected — forbidden by the
+  freeze; read 1/1 + attempt 1/1 are consumed.
+- Treat the BEC gap (104 empirical-only cells) or the anchor disclosure delta
+  as a superiority claim: rejected — both are report-only.
+- Interpolate between grid points or claim a global minimum rate: rejected —
+  scope is the frozen grid plus one confirmed point.
+- Promote to qualification/efficiency/key-rate evidence: rejected — scope is
+  synthetic N=256 V25-1M-TRAIN model-sampled development signal only.
+
+**Consequences**: No OpenSpec box checked; no code/artifact/old-root change;
+no commit/push. Next gate is main-thread acceptance.
+
+## 2026-09-14 NB-Polar Phase 4-P8 target-rate SCREEN→CONFIRM candidate returned (acceptance pending)
+
+**Decision**: Record the single P8 Tier-Y gate execution (exit 0) as candidate
+`TARGET_EMPIRICAL_RATE_POINT_CANDIDATE`. Main-thread acceptance is pending;
+this entry is not an acceptance.
+
+**Context**: Over the exact 35-grid (K1=[8,10,12,16,24,32,45] x
+K2=[80,94,110,125,140]) with shared-block sampling on SCREEN seeds
+2026091680..1682 x64 (192), all 35 points were eligible (Wilson LB>=0.95
+each). Deterministic selection picked (k1=8,k2=80). CONFIRM on disjoint
+seeds 2026091690..1694 x128 (640) gave empirical 638 exact / 2
+verify_failed vs BEC control 621/19 (report-only), paired cells
+621/17/0/2, Wilson LB 0.9906013676984646 (>=0.95, >=618/640 met).
+Disclosure 5*(K1+K2)+64 per fully invoked point (selected 504), totals
+key 5470080 / public 20984000 / tags 8000, recount mismatch 0.
+Reads/attempts 1/1 consumed at the first NPZ content open; no
+reopen/retry/rerun/tuning. Independent Pre-EXECUTE PASS (seed-coincidence
+ratified FRESH) and Pre-RESULT PASS_WITH_COMMENTS (non-blocking only).
+Evidence: `OPERATOR_RETURN.md` and
+`rate_screen_confirm/` (five files) in
+`.workbuddy/queue/NBPOLAR-PHASE4-P8-TARGET-RATE-SCREEN-CONFIRM/`.
+
+**Alternatives considered**:
+- Rerun/tune seeds, grid, floor or thresholds: rejected — forbidden by the
+  freeze; read 1/1 + attempt 1/1 are consumed.
+- Treat the BEC gap (17 empirical-only cells) as a superiority claim:
+  rejected — BEC is report-only; empirical was not required to beat BEC.
+- Promote to qualification/efficiency/key-rate evidence: rejected — scope is
+  synthetic N=256 V25-1M-TRAIN model-sampled development signal only.
+
+**Consequences**: No OpenSpec box checked; no code/artifact/old-root change;
+no commit/push. Next gate is main-thread acceptance.
+
+## 2026-09-13 NB-Polar Phase 6 fixed-incremental paired gate blocked on recovery
+
+**Decision**: Record the Phase 6 fixed-incremental paired 300-block development
+gate as `BLOCKED(incremental_exact_ge_285)`. The negative result is final for
+this packet: no rerun, no seed change, no threshold or K tuning. Main-thread
+disposition is pending.
+
+**Context**: One frozen paired attempt (exit 0) ran the incremental arm
+(K=(29,33,37,41,45)) and an in-run static K=45 comparator on the same 300
+synthetic blocks (300/300 paired_match). Incremental saved 28.2% key-dependent
+disclosure (207.293333 vs 288.573333 avg bits; integer rule 6218800 <= 8224340)
+and passed 16 of 18 gates, but failed the recovery gates: incremental exact
+271 < 285 and Wilson one-sided 95% LB 0.8715597837542944 < 0.90; the paired
+static arm was 298/300 exact. The 29 incremental `decode_failed` (and 2 static)
+were all `ImpossibleDisclosedValueError` at invoked level 0.
+
+**Mechanism**: On the q-ary erasure channel a wrong early SC decision can make a
+later true disclosed value have exact-zero support, raising the accepted
+`sc.py` `ImpossibleDisclosedValueError`; the frozen fail-closed rule then
+terminates the block at that level. Independent Pre-RESULT review classified
+this as valid scheduled science, not an implementation defect, and confirmed
+the evidence is self-consistent.
+
+**Alternatives considered**:
+- Rerun/tune K, seeds or thresholds to clear the gates: rejected — forbidden by
+  the freeze; attempt 1/1 is consumed and the run seed is spent.
+- Report a candidate from the passing disclosure gate alone: rejected — the
+  candidate label requires all 18 gates, including recovery.
+
+**Consequences**: Pre-EXECUTE PASS and Pre-RESULT PASS_WITH_COMMENTS are
+recorded; `STATUS.yaml` is `attempts_used: 1`, `next_gate:
+MAIN_THREAD_DISPOSITION`. A successor (level-advance reject semantics, a
+different frozen K/early-safety level) or closing the route is a main-thread
+design decision. No commit or push; no qualification or promotion claim.
+
 ## 2026-09-11 NB-Polar Phase 3 blocked; one-shot EVAL retained as diagnostic
 
 **Decision**: Record Phase 3 as `BLOCKED(PHASE3_GATE_INVALID)`. Retain the sole
@@ -3601,3 +4011,658 @@ normalization/oracle errors below 3e-14/7e-15 and chain discrepancy 8.88e-16.
 H1/H2/chain and CE are CAL-resubstitution descriptions, not held-out
 performance. Prepare P3 as a separate model-sampled P1-prior-to-SC interface
 qualification; no real data, reconciliation or performance claim.
+
+## 2026-09-13 — Accept Phase 4-P3 interface candidate; freeze static protocol
+
+Accept the independently reviewed P3 result as
+`EMPIRICAL_PRIOR_SC_INTERFACE_ACCEPTED`: the accepted CAL-derived P1 metric is
+numerically consistent with q-ary SC and an independent tiny exhaustive oracle
+under model-sampled data. The sole artifact attempt and seed 2026091316 are
+consumed; the five-file root is immutable. The 48/328 exact count is not a FER,
+construction, disclosure-pattern or performance result.
+
+Freeze `formal-ir-nbpolar-phase5-static-protocol` and the paired WorkBuddy
+packet as all-false. Phase 5 starts with one static synthetic protocol, actual
+GF32 disclosed values, full-label reconstruction, one final Toeplitz tag and
+independent disclosure recount. No Phase 5 action is authorized by this
+decision.
+
+## 2026-09-13 — Ratify P3 Stage B B5 attribution precedence; stale MVP freeze superseded; P3 candidate returned
+
+**Decision**: Ratify the implemented B5 earliest-layer attribution precedence as
+the frozen classifier rule: `artifact_adapter_support` > `normalization` >
+`disclosure_contradiction` > `SC_numeric` > `unattributed` >
+`expected_under_disclosure` > `SC_decision`. This resolves Pre-EXECUTE review
+F-1, whose NEEDS_CHANGES finding was that freeze-v2 §4's precedence text was the
+reverse of `classify_stageb_failure` for the last three categories; the repair
+was docs/comments-only and re-reviewed to PASS (R1), with no frozen value
+changed.
+
+**Context**: The stale draft
+`openspec/changes/formal-ir-nbpolar-mvp/P3_STAGEB_FREEZE.md` is superseded by the
+queue `P3_STAGEB_FREEZE.md` v2/Rev 2a: the stale draft's `--case`/`--mask`
+runner never existed, its target-output layout conflicted with TASK_PACKET
+§Output, and its `MASTER_SEED 20260911` is an earlier official (oracle) seed,
+not the Stage B diagnostic seed 2026091316. The single authorized Stage B
+artifact-content attempt was consumed (1/1) and returned
+`EMPIRICAL_PRIOR_SC_INTERFACE_CANDIDATE` with independent Pre-EXECUTE PASS (R1)
+and Pre-RESULT PASS_WITH_COMMENTS; evidence root
+`.workbuddy/queue/NBPOLAR-PHASE4-P3-EMPIRICAL-PRIOR-SC/empirical_prior_sc_diagnostic/`.
+
+**Consequences**: Acceptance is NOT granted by this entry; it remains owned by
+the main thread. The candidate is an interface-consistency label only — not FER,
+reconciliation, leakage, key-rate, construction-K or real-data evidence. No
+Phase 5 authorization, no promotion, no commit/push.
+
+## 2026-09-13 — P5 static protocol returned as candidate (not accepted); R1/R2 rulings
+
+**Decision**: Ratify the two Phase 5 static-protocol rulings recorded in
+`P5_FREEZE.md` Rev 1 §0 and implemented in `protocol.py`:
+
+- **R1 (disclosure orientation)** — the static DISCLOSED set is
+  `construction.analytic_order(0.05, 256)[:45]`, the 45 *highest-risk*
+  coordinates; SC reconstructs the remaining 211. This supersedes the
+  `TASK_PACKET.md` phrase "information set … disclose its complement" and the
+  corresponding `design.md` sentence. It matches `docs/nbpolar/ARCHITECTURE.md`
+  ("Alice sends the actual values `U[D]`") and the accepted Phase 3 point
+  `evaluate_blocks(..., k=45)`.
+- **R2 (label domain)** — the physical label vector is the 10-bit single-layer
+  embedding `label_j = 32 * x_hat_j` with low half constant zero; the
+  verification message domain is `10*N = 2560` bits and the per-block Toeplitz
+  seed is `2560 + 63 = 2623` public-control bits.
+
+**Context**: The Phase 5 packet (`NBPOLAR-PHASE5-STATIC-PROTOCOL`) implemented a
+static synthetic reconciliation protocol and executed its single preregistered
+300-block development gate (exit 0) under run seed 2026091317 and public Toeplitz
+master seed 2026091318. Result: 300/300 exact, `undetected` 0, recount mismatch
+0, 11/11 hard gates true, one-sided 95% Wilson lower bound 0.9910621278248719
+(threshold 0.90), average key-dependent disclosure 289.0 bits/block
+(< `10*N` = 2560). Evidence root
+`.workbuddy/queue/NBPOLAR-PHASE5-STATIC-PROTOCOL/static_protocol_dev_gate/`.
+Independent Pre-EXECUTE review PASS and Pre-RESULT review PASS_WITH_COMMENTS;
+mandatory closeout item R-1 (`STATUS.yaml attempts_used 0 → 1`) completed.
+
+**Consequences**: The operator returned the candidate label
+`STATIC_PROTOCOL_DEVELOPMENT_CANDIDATE`; **acceptance is NOT granted by this
+entry** and remains owned by the main thread. The single attempt 1/1 is consumed
+and the five-file root is frozen — no rerun, no retuning, no seed change. The
+candidate is a synthetic development signal only: not real-data FER, leakage
+efficiency, reconciliation, key rate, qualification or promotion. No Phase 6
+authorization, no commit/push.
+
+## 2026-09-13 — Accept Phase 5 static synthetic protocol development gate
+
+Accept the independently reviewed candidate as
+`STATIC_PROTOCOL_DEVELOPMENT_ACCEPTED`. At the frozen
+GF32/N256/epsilon0.05/K45 point, the sole 300-block attempt produced 300 exact
+outcomes, zero undetected or other terminal failures, Wilson one-sided 95%
+lower bound 0.9910621278248719, and independently recounted 289 key-dependent
+plus 2623 public-control bits per block. The physical label is `32*x_hat`; the
+Toeplitz message domain is 2560 bits.
+
+This is a synthetic static-protocol development signal, not real-data FER,
+leakage efficiency, key rate, qualification, promotion or adaptation evidence.
+Attempt 1/1 and seed 2026091317 are consumed and the five-file root is
+immutable. Phase 6 remains false; its next action is contract freeze, not
+execution.
+
+## 2026-09-13 — Freeze Phase 6 fixed incremental successor
+
+Freeze a single successor schedule `K=(29,33,37,41,45)` on the accepted
+GF32/N256/erasure0.05 point. A tag match accepts the current level; mismatch
+may only discard it and enter the immediately next frozen level with a
+restart-from-scratch SC call. The tag cannot rank candidates, carry decoder
+state, skip levels or change decoder parameters. Each coordinate is disclosed
+once and every tag/public seed/control invocation is counted.
+
+The paired 300-block development criterion requires zero undetected, at least
+285 exact, Wilson lower bound at least 0.90, and at least 5% lower average
+key-dependent disclosure than an in-run static K45 arm on identical blocks.
+OpenSpec and WorkBuddy four-file packet are prepared all-false; no Phase 6
+action or execution is authorized by this freeze.
+
+## 2026-09-13 — Accept Phase 6 strict-stop negative; choose decode-reject advancement
+
+Accept the sole paired strict-stop result as
+`FIXED_INCREMENTAL_NEGATIVE_ACCEPTED`: incremental 271/300 and Wilson 0.87156
+fail the frozen recovery gates despite 28.17% lower average disclosure. All 29
+incremental failures are level-0 `ImpossibleDisclosedValueError`; independent
+review classifies this as valid scheduler science, not an SC defect. Attempt
+1/1 and seed 2026091340 are consumed; the five-file root is immutable.
+
+Choose successor option (a). At K<45 an impossible-disclosure decode creates no
+candidate/tag, counts one public feedback request, advances one fixed level and
+restarts SC. At K45 it remains terminal decode-failed. K, construction, SC,
+thresholds and old evidence do not change. P6-R1 OpenSpec and four-file packet
+are frozen all-false awaiting explicit authorization.
+
+## 2026-09-13 — Phase 6-R1 decode-reject advancement returns candidate (not accepted)
+
+**Decision**: Return the Phase 6-R1 decode-reject-advance result as the candidate
+`DECODE_REJECT_ADVANCE_DEVELOPMENT_CANDIDATE`. This is a candidate, not an
+acceptance; no task box is checked and acceptance remains a main-thread decision.
+No tuning, seed change, threshold change or rerun.
+
+**Context**: One frozen three-arm paired 300-block development gate executed once
+(exit 0) with static K=45, strict-stop and R1 arms on identical blocks
+(300/300 paired_match). Static: 298/300 exact, avg 288.573333 key-dependent
+bits/block. Strict-stop: 280/300 exact, 20 `ImpossibleDisclosedValueError`
+failures, avg 214.253333. R1: 298/300 exact, 2 failures, avg 220.506667 —
+23.59% below static (integer rule 6615200 <= 8224340), Wilson one-sided 95% LB
+0.9800565738801275, 32 rejections over 20 blocks (histogram `{0:20,1:7,2:3,3:2}`).
+R1 vs strict-stop rescue identities: rescued 18 / persisted 282 / regressed 0 /
+other 0. All 18 frozen gates true; transcript mismatch 0/0/0; truth leak 0;
+nonfinite 0; union bound 5.1228552649940085e-17 over 945 tag invocations.
+
+**The unique semantic delta**: the only change from the accepted Phase 6 schedule
+is that a non-final (K<45) impossible-disclosure rejection is treated as
+reject-and-continue — no candidate/tag at that level, exactly one public feedback
+request, next fixed increment disclosed, and SC restarted from the original
+metric with no carried state. At the terminal K=45 level the same error remains
+fail-closed `decode_failed`, as do all other exceptions and nonfinite marginals.
+An intermediate rejection is never a success or a final outcome bucket.
+
+**Alternatives considered**:
+- Tune K/thresholds or rerun to improve the numbers: rejected — forbidden by the
+  freeze; attempt 1/1 and run seed 2026091350 are consumed.
+- Gating on the rescue identities: rejected — they are reported, not thresholded,
+  matching the freeze (§9).
+
+**Consequences**: Independent Pre-EXECUTE PASS and Pre-RESULT PASS are recorded;
+`attempts_used: 1`; `next_gate: MAIN_THREAD_ACCEPTANCE`. Evidence root
+`.workbuddy/queue/NBPOLAR-PHASE6-R1-DECODE-REJECT-ADVANCE/three_arm_paired_dev_gate/`
+(five scalar-only files). The result is a synthetic paired development signal
+only — not real-data FER, leakage efficiency, key rate, qualification or
+promotion evidence. No commit or push.
+
+## 2026-09-13 — Accept Phase 6-R1; pause Phase 7 for two-layer rate feasibility
+
+Accept the sole R1 three-arm result as
+`DECODE_REJECT_ADVANCE_DEVELOPMENT_ACCEPTED` within its frozen single-layer BEC
+synthetic scope. The 18/18 gates, 298/300 recovery, 23.59% disclosure saving,
+zero undetected/regressed outcomes and independent Pre-RESULT PASS support the
+protocol-semantic acceptance. Attempt 1/1 and seed 2026091350 remain consumed.
+
+Do not interpret the acceptance as reconciliation efficiency or two-layer
+evidence. Phase 5/6 used `label=32*x_hat` with a constant-zero low half, while
+the roadmap's oracle-L2 and candidate-conditioned operational L2 paths have not
+been exercised by those gates. The planning documents also lacked a numerical
+NB-Polar `f<=1.3` gate.
+
+Pause Phase 7/SCL. Freeze successor
+`formal-ir-nbpolar-phase6-r2-two-layer-rate-feasibility`: a decoder-free,
+full-precision, per-source BEC-surrogate sensitivity across N=2^8..2^18,
+explicit two-layer FER-budget allocations, tag-inclusive leakage and f. A
+scratch recomputation reproduced the single-layer N256/epsilon0.05 K43
+calibration and placed the f≈1.3 crossing near 2^17–2^18, but this is only a
+planning estimate. The successor must independently reproduce it and must not
+claim that BEC is a rigorous empirical-channel lower bound.
+
+## 2026-09-13 — Phase 6-R2 two-layer rate-feasibility candidate returned (pending main-thread acceptance)
+
+Decoder-free two-layer BEC surrogate feasibility study returned candidate
+`TWO_LAYER_RATE_FEASIBILITY_CANDIDATE` from
+`.workbuddy/queue/NBPOLAR-PHASE6-R2-TWO-LAYER-RATE-FEASIBILITY/`
+(`two_layer_rate_sensitivity.json`, `R2_REPORT.md`, `OPERATOR_RETURN.md`).
+Inputs are the frozen per-source TRAIN `nll_u1`/`nll_u2` entropies from
+`docs/v49_distribution_tables/v49_train_val_hold_nll.csv` (1M
+0.024280547/0.776757278; 1p5M 0.025199497/0.800366555; 2M
+0.025662049/0.806900673), mapped `epsilon_l=H_l/5`.
+
+K43 calibration (N=256, epsilon=0.05, budget 1e-2) reproduced: residual
+`sum(z[43:])=0.0080281681532746`, K=42 residual `0.010563784528611946` (>1e-2).
+All 66 rows (N=2^8..2^18 x 3 sources x 2 allocations) are complete and finite.
+First `f<=1.3` crossing is 2^18 on all six axes; log2-linear interpolation
+places the exact crossing at 2^17.20-2^17.36, matching the earlier scratch
+"near 2^17-2^18" estimate. `f=leakage_bits/nH` with
+`leakage_bits=5*(K1+K2)+64` (one 64-bit tag) and `nH=N*(H1+H2)`; tag-free
+`f_no_tag` reported alongside, `f > f_no_tag` in every row.
+
+L2 audit gap: code and docs confirm oracle-L2 (true-L1-conditioned) and
+operational candidate-L2 SC have never executed; only the single-layer L1
+high-plane path (`label=32*x_hat`, low half constant zero) has ever entered SC.
+Successor prerequisites (decision output only, nothing implemented): L2 prior
+extraction per the P0 contract (P2_true/P2_hat) with two-stage restart SC; a
+paired two-layer development gate under the same accounting discipline; and
+empirical construction plus a scalable decoder (e.g. FWHT) for N>=2^17.
+
+These BEC figures are a surrogate planning estimate only, not real-channel
+performance, not a rigorous lower bound, and not decoder evidence. No SC call,
+no artifact/parquet/TTBin read, no sampling, no attempt/seed consumed
+(`attempts_allowed/used` 0/0), old evidence roots untouched, no commit/push.
+Independent result review is PASS_WITH_COMMENTS (66/66 rows recomputed with
+zero difference); acceptance remains a main-thread decision.
+
+## 2026-09-13 — Accept Phase 6-R2; restore operational L2 before scaling
+
+Accept `TWO_LAYER_RATE_FEASIBILITY_CANDIDATE` as
+`TWO_LAYER_RATE_FEASIBILITY_ACCEPTED`. Independent recomputation matched all
+66 rows, K43 calibration, leakage/f arithmetic and the six first-grid crossings
+at N=2^18. The L2 call-site audit is also accepted: neither oracle-L2 nor
+candidate-conditioned L2 has entered SC execution.
+
+Scope remains a BEC-surrogate planning estimate only. The 2^17.20–2^17.36
+interpolation is not a measured sufficient N, a rigorous lower bound, decoder
+FER, achieved reconciliation efficiency or empirical-channel evidence.
+
+Do not jump directly to N=2^18 optimization or SCL. Restore the omitted Phase-4
+dependency first with `formal-ir-nbpolar-phase4-p4-two-layer-operational-sc`:
+an injected-table, bounded N<=256 causal path from L1 SC hard candidate through
+P2_hat and fresh L2 SC, paired against an isolated P2_true oracle arm. This
+successor measures wiring and cross-layer propagation only; empirical
+construction and scalable/FWHT decoding remain separate later changes.
+
+## 2026-09-13 — Phase 4-P4 two-layer operational SC interface candidate returned (pending main-thread acceptance)
+
+**Decision**: Record the single authorized Phase 4-P4 two-layer operational SC
+paired synthetic interface gate (exit 0) as candidate
+`TWO_LAYER_OPERATIONAL_SC_CANDIDATE`, pending main-thread acceptance. This is a
+candidate, not an acceptance, and makes no real-data FER, leakage-efficiency,
+key-rate, qualification, promotion or `f<=1.3` claim.
+
+**Context**: The gate executed once on the frozen point via
+`.workbuddy/queue/NBPOLAR-PHASE4-P4-TWO-LAYER-OPERATIONAL-SC/` (Q32/N=256,
+epsilon1=0.05/epsilon2=0.20, K1=45/K2=110, 96 paired blocks, run seed
+2026091360, public Toeplitz master 2026091361, output root
+`two_layer_operational_sc_gate/`). It implements Bob-only P1 -> L1 SC hard
+candidate -> candidate-conditioned P2_hat -> fresh L2 SC -> `low_hat+32*high_hat`
+-> one final 64-bit tag, paired against a strictly isolated true-L1 oracle arm.
+
+**Result**: 96/96 paired coverage; both arms' L2 invoked 96/96;
+PRIOR_ONLY 96 / CANDIDATE_CONDITIONED 96 / ORACLE_CONDITIONED 96; 13/13 hard
+gates true; truth-leak 0; nonfinite 0; undetected/decode_failed/resource_abort
+all 0; operational exact 26/96 vs oracle exact 44/96 (report-only, no
+threshold); accounting exact per fully invoked arm 839 bits (225+550+64),
+key-dependent total 161088, public control 503616 (192 tags x 2623), 576
+transcript events, recount mismatch 0; wall 10.154709 s; peak RSS 144609280 B;
+192 tests (12 new + 180 predecessor) pass. Attempt 1/1 and run seed 2026091360
+are consumed; master 2026091361 is public control.
+
+**Frozen-model consequence**: the independent-layer injected model makes the
+table-derived P2 numerically independent of the L1 high symbol
+(`max |P2[u1=0]-P2[u1=1]| = 7.771561172376096e-16`, pure float64 rounding), so
+the paired comparison is degenerate at the metric level. The report-only
+`oracle_candidate_divergence` count 34/96 = `not np.array_equal(P2_hat,
+P2_true)` (`two_layer.py` `_candidate_divergence`), i.e. ULP-level bitwise
+inequality between the candidate- and oracle-conditioned arrays, not a semantic
+metric-level L1->L2 dependence. The gate's value is therefore causal
+wiring/provenance/isolation/accounting discipline plus label-level propagation
+(the five high bits of the label), not a performance delta.
+
+**Seed-overlap adjudication**: `2026091360`/`2026091361` were used only as P6-R1
+**test-local** seeds (not consumed official streams); the distinct
+`nbpolar-p4-toeplitz-seed` namespace prevents tag-stream collision and no
+accepted evidence depends on them. Pre-EXECUTE adjudicated the overlap
+acceptable.
+
+**Alternatives considered**:
+- Rerun or tune seeds/table/K/thresholds after the run: rejected — forbidden by
+  the freeze; attempt 1/1 is consumed and no tuning or rerun occurred.
+- Report a metric-level L1->L2 dependence: rejected — the frozen model is
+  layer-independent and the divergence flag is ULP-level and report-only.
+
+**Consequences**: Independent Pre-EXECUTE PASS and Pre-RESULT PASS_WITH_COMMENTS
+are recorded (`next_gate: MAIN_THREAD_ACCEPTANCE`). No commit or push; no
+qualification or promotion. Empirical construction, scalable/FWHT decoding,
+real-data FER and Phase 7 remain separate, later, separately authorized changes.
+
+## 2026-09-13 — Accept P4 interface; propose explicit probe tier
+
+Accept P4 as `TWO_LAYER_OPERATIONAL_SC_INTERFACE_ACCEPTED`: all 13 wiring,
+provenance, isolation and accounting gates passed. Do not promote operational
+26/96, oracle 44/96 or divergence 34/96: the independent-layer model makes P2
+vary across L1 only at 7.77e-16 rounding scale.
+
+Propose Tier X non-claim probes while retaining Tier Y one-shot decisions.
+Tier-X results may calibrate a future gate but cannot strengthen old evidence.
+Freeze `NBPOLAR-X01-PROBE-TIER-BOOTSTRAP` all-false; neither the workflow change
+nor its four five-seed probe families are active before explicit authorization.
+
+## 2026-09-13 — Activate two-tier workflow; route X01 to X02, not Gate A
+
+The Tier-X/Tier-Y and delta-successor rules are implemented in AGENTS.md §10.4
+and apply project-wide. X01 is closed as a reviewed non-claim probe. Its five
+seeds show low P5/R1 dispersion and materially larger P4 dispersion, but do not
+upgrade prior accepted evidence.
+
+Reject an additional R1-vs-static Tier-Y Gate A as low information: the route
+already has a frozen gate and the probe resolves its dispersion. Defer P4 Gate
+B because the current dependent model's oracle arm is only about 42/96 exact.
+Next is the compact X02 Tier-X search over frozen dependence profiles and K1/K2
+to identify an informative high-oracle operating point without a pass verdict.
+
+## 2026-09-13 — X02 selects the hard-conditioning penalty discriminator
+
+X02 is a reviewed Tier-X probe, not accepted scientific evidence. Its frozen
+grid identifies strong/K1=45/K2=140 as the lowest-disclosure strong point with
+oracle 96/96 and operational 47/96 across the three probe streams. Preserve the
+execution-body provenance correction in the successor rather than treating the
+logged pre-fix body as byte-faithful.
+
+Freeze Phase 4-P5 as a negative mechanism discriminator with 384 new paired
+blocks. Use four paired cells; do not apply Clopper-Pearson to a difference of
+marginal rates. Confirmation requires oracle>=365/384, operational-only=0 and
+the one-sided exact lower bound for the oracle-only event above 0.30. This can
+stop direct scaling of hard conditioning, but cannot establish real performance.
+
+## 2026-09-13 — Phase 4-P5 hard-L1 conditioning penalty returned as candidate (not accepted)
+
+**Decision**: Record the Phase 4-P5 gate result as a candidate only. At the frozen
+strong dependent-L2 point (GF32, N=256, epsilon1=0.05,
+`epsilon2(u1)=0.02+0.36*u1/31`, K1=45, K2=140), the single 384-pair paired gate
+(exit 0) shows a material hard-L1 conditioning penalty: oracle exact 377/384 vs
+operational exact 233/384, operational-only 0, `neither` 7, `oracle_only` X=144,
+and the one-sided 95% exact lower bound `L=0.3338842736427746 > 0.30`. All ten
+integrity gates pass. Persisted label `HARD_L1_CONDITIONING_PENALTY_CANDIDATE`.
+Main-thread acceptance is pending and is not claimed here.
+
+**Context**: The discriminator was frozen as oracle exact >=365/384,
+operational-only == 0, and `L > 0.30`, with no binomial interval on the marginal
+rate difference. Per-stream cells: 83/43/0/2, 72/55/0/1, 78/46/0/4. The first X
+with `L > 0.30` is 131; X=144 is well inside the pass region. Independent
+Pre-EXECUTE R0 returned `NEEDS_CHANGES` on a docs-only Blocking Issue B-1 (the
+freeze/notes enumerated the public masters as `seed+1000` while the frozen
+contract and module constant are `seed+10000`); repaired docs-only and closed by
+R1 `PASS`. Independent Pre-RESULT review was `PASS_WITH_COMMENTS`; every number,
+gate and the lower-bound root were independently recomputed from the five
+persisted files.
+
+**Consequences**: attempt 1/1 is consumed at the first gate L1 SC call (stream 0,
+block 0); streams 2026091470..2026091472 are consumed and public masters
+2026101470..2026101472 are public control. No rerun, seed/model/K/threshold change
+or tuning. This is a synthetic single-point mechanism signal only — not real-data
+FER, efficiency, leakage, key-rate, qualification or promotion evidence; the
+operational numbers are interface diagnostics. Any scaling decision requires a
+separate authorized change. No commit/push.
+
+## 2026-09-13 — Phase 4-P6 adaptive hard-L1 gate BLOCKED on a gate-check defect (scientific gates true)
+
+**Decision**: Record the Phase 4-P6 adaptive hard-L1 disclosure gate as
+`BLOCKED(d1_exactly_nested_and_d2_disclosed_once)`. The persisted label is
+`BLOCKED` even though all four scientific gates are true, because one of the
+twelve integrity gates is `false`; the sole failing gate is diagnosed as a
+**gate-check implementation defect** (class b), not a contract violation. The
+failure root is preserved and no rerun/re-score/tuning is permitted in this
+packet. Main-thread disposition is pending; this is not an acceptance.
+
+**Context**: One authorized paired synthetic Tier-Y gate (exit 0) at the frozen
+point GF32/N=256, `epsilon1=0.05`, strong dependent-L2, D1 `[45,60,72,112]`,
+`K2=140`, five streams `2026091550..54` x 128 blocks (640 pairs; public masters
+`2026101550..54`). Scientific gates 4/4 true: static exact 632/640, adaptive
+exact 632/640, `adaptive_only=0`/`static_only=0`, `neither=8`, and the exact
+integer leakage comparison `100*675,783 = 67,578,300 <= 85*847,360 = 72,025,600`
+(20.2484% saving). Accounting: tags 640/942/1582, feedback 302, public control
+4,149,888 bits, union bound 8.57603918436034e-17, transcript recount mismatch 0,
+`undetected`/`decode_failed`/`resource_abort` all 0. Adaptive termination
+`{45:403, 60:185, 72:39, 112:13}`. Wall 105.941485 s; RSS 394,567,680 B.
+Planning-only f: static 2.4235, adaptive 1.9328. Tests 15 new + 216 total.
+Independent Pre-EXECUTE = PASS; independent Pre-RESULT = PASS_WITH_COMMENTS,
+with every number and 12+4 booleans independently recomputed.
+
+**Root cause**: The gate at `comparison_bench/src/comparison_bench/formal_ir/nbpolar/adaptive_l1.py:1342`
+counts L2 events by `(block_id, arm)` while `block_id` is a per-stream index.
+The runner loops blocks 0..127 inside each of five streams and the event id
+omits `stream_seed`, so the 1,280 L2 events collapse onto 256 keys each counted
+5; `all(count == 1 ...)` is spuriously false (the set-equality term still
+passes). Under the frozen "D2 once per arm/block" contract the per-`(stream,
+block, arm)` count is exactly 1 for all 640x2, so the **contract-correct gate
+value is true**; had the check been keyed on the full identity the label would
+have been `ADAPTIVE_HARD_L1_DISCLOSURE_CANDIDATE`. The reviewer reproduced the
+isolated false with a 2-stream probe and confirmed the focused suite never
+exercises a multi-stream runner call.
+
+**Preserved failure root / no-rerun**: Attempt 1/1 was consumed at the first
+scientific SC call (stream 2026091550, block 0, static L1); streams and masters
+are consumed. The output root
+`.workbuddy/queue/NBPOLAR-PHASE4-P6-ADAPTIVE-HARD-L1/paired_adaptive_gate/`
+(the five files) plus the persisted `BLOCKED` label and failing gate are kept
+byte-for-byte. No repair, rerun or re-score.
+
+**Consequences**: The one requested main-thread decision is the disposition of
+the BLOCKED result: accept the artifacts under the documented corrected gate
+interpretation via a main-thread ruling paired with a successor fix keying the
+D2 check on the composite `(stream, block, arm)` identity plus a multi-stream
+test, or require a new authorization. This is synthetic N=256 development
+evidence only — not real-data FER, efficiency, leakage, key-rate,
+qualification or promotion; `undetected` is never merged with exact. No
+commit/push.
+
+## 2026-09-14 — Phase 4-P6R1 Δ successor: identity fix + read-only revalidation → candidate
+
+**Decision**: Disposition the `NBPOLAR-PHASE4-P6-ADAPTIVE-HARD-L1` BLOCKED
+result through the Δ successor `NBPOLAR-PHASE4-P6R1-GATE-IDENTITY-FIX`: repair
+the multi-stream transcript-event identity (and the D2-once gate grouping) and
+read-only revalidate the original five P6 artifacts. All corrected gates are
+true, so the successor returns candidate label
+`ADAPTIVE_HARD_L1_DISCLOSURE_CANDIDATE`. This is a **candidate only**;
+main-thread acceptance is separate. The original P6 evidence root and its
+persisted `BLOCKED` label are preserved immutable, and no attempt, seed,
+sample, rerun or decoder call is consumed.
+
+**Context**: The P6 gate scored only one integrity gate false
+(`d1_exactly_nested_and_d2_disclosed_once`) while all four scientific gates
+were true; the independent P6 `PRE_RESULT_REVIEW.md` diagnosed the cause as a
+gate-check implementation defect: the D2 count was keyed on `(block_id, arm)`
+although `block_id` is a per-stream index (the five streams share block indices
+0..127), collapsing 1,280 L2 events onto 256 keys each counted 5, so
+`all(count == 1 …)` was spuriously false. Under the frozen "D2 once per
+arm/block" contract the per-`(stream, block, arm)` count is exactly 1.
+
+**R1 disposition (delta, no new science)**: code delta limited to event
+identity (`stream_seed` + stream-qualified `frame_key`) and the D2-once gate
+grouping by `(stream_seed, block_id, arm)` (+32/−6; no constant, decoder,
+threshold, K, seed, accounting or schema change) plus one multi-stream
+regression test (old `(block,arm)` multiplicities [2,2,2,2] → old gate false;
+corrected gate true; missing/dup disclosures detected). Tests: focused 16
+passed, full NB-Polar suite 217 passed. Read-only revalidation of the original
+five files (`adaptive_l1_revalidate.py` → `revalidation.json`): 640 unique
+`(stream_seed, block_index)` identities; 1,280 D2 arm-block obligations each
+exactly 1; L2 disclosure total 1,280; all 12 integrity and 4 scientific gates
+true after the sole correction (632/640 both arms; adaptive = static; cells
+632/0/0/8; leakage 67,578,300 ≤ 72,025,600); the only difference vs the
+persisted run is that one gate's `false → true`. Old-root sha256/mtimes
+unchanged; `decoder_calls=rng_calls=tag_calls=attempts_consumed=0`.
+
+**Alternatives considered**:
+- Rerun/re-score the consumed P6 gate: rejected — the freeze forbids it and the
+  failure root is preserved byte-for-byte.
+- Rewrite the persisted `BLOCKED` label in place: rejected — the original
+  result and its status history stay immutable; the corrected value is recorded
+  only in the successor result.
+- Treat the corrected gate as acceptance: rejected — R1 returns a candidate;
+  main-thread acceptance is a separate step.
+
+**Consequences**: Independent `INDEPENDENT_REVALIDATION_REVIEW.md` returned
+PASS_WITH_COMMENTS (non-blocking notes: a narrative `+31` line count that is
+actually `+32`; declarative rather than instrumented zero-call counters; an
+anchor-based D2 recount). `STATUS.yaml` is
+`ADAPTIVE_HARD_L1_DISCLOSURE_CANDIDATE_PENDING_MAIN_THREAD_ACCEPTANCE`,
+`result: ADAPTIVE_HARD_L1_DISCLOSURE_CANDIDATE`, `next_gate:
+MAIN_THREAD_ACCEPTANCE`, `attempts_allowed/used: 0/0`,
+`original_root_immutable: true`. This is synthetic N=256 development evidence
+only — not real-data FER, efficiency, leakage, key-rate, qualification or
+promotion; `undetected` is never merged with exact. No commit/push.
+
+### 2026-09-14 — P6-R1 main-thread acceptance
+
+Accepted as `ADAPTIVE_HARD_L1_DISCLOSURE_ACCEPTED`. Within the frozen synthetic
+N=256 dependent-L2 point, adaptive `[45,60,72,112]` matched static K1=112 at
+632/640 exact and reduced key-dependent disclosure by 20.2484%. The original
+P6 `BLOCKED` root and status history remain immutable; acceptance belongs to
+the attempt-free P6-R1 revalidation. This is not real-channel FER, efficiency,
+key-rate, empirical-construction, scaling or promotion evidence. Next gate is
+the X06 empirical-vs-BEC construction-order Tier-X probe.
+
+### 2026-09-14 — Route target construction to V25 TRAIN population
+
+Accept X07's earliest divergence as `POPULATION_SESSION_IDENTITY_1M`, not as a
+scientific candidate. V49 and X06 entropy values describe different sessions
+and populations, so X06 zero recovery cannot adjudicate construction order for
+the V49 target channel.
+
+Select V25 1M TRAIN counts with the fixed V49 floor-only support rule. Reject
+for this purpose: tuning Model-F smoothing; using Model-F CAL as the target
+construction law; treating X06 as evidence empirical construction is
+ineffective; or stopping NB-Polar solely from this cross-population mismatch.
+
+Freeze `NBPOLAR-PHASE4-P7-TARGET-EMPIRICAL-CONSTRUCTION` as the next Tier-Y
+gate awaiting explicit authorization. It tests whether pooled empirical
+construction supports the fixed N=256 two-layer hard-candidate development
+point. BEC is report-only; empirical is not required to beat it.
+
+### 2026-09-14 — P7 target-population empirical construction gate CANDIDATE (not acceptance)
+
+`NBPOLAR-PHASE4-P7-TARGET-EMPIRICAL-CONSTRUCTION` executed its single
+authorized 640-pair Tier-Y development gate once (exit 0) and returned the
+persisted candidate label `TARGET_EMPIRICAL_CONSTRUCTION_CANDIDATE` on the
+accepted `POPULATION_SESSION_IDENTITY_1M` route (V25 1M TRAIN counts, not the
+Model-F CAL artifact). Main-thread acceptance is pending; this is not an
+acceptance.
+
+- Target/support: source `1M` (`channel_counts.npz`, 25,166,822 B,
+  `[Alice,Bob]` 1024x1024) via accepted `load_v25_channel_counts`;
+  column-normalize + `1e-15` floor + column renormalize; `P1/P2` from accepted
+  `derive_p1/derive_p2` under `A=32*U1+U2`; no lambda/backoff/tuning.
+- Ratified entropy semantics: the frozen literals
+  `0.02428054681872374 / 0.7767572780789994 / 0.8010378248977232` (V49 1M TRAIN
+  `nll_*` columns) are the **raw-MLE in-sample population conditional
+  entropies** (`H1 = sum_b p_b H(P1_raw)`, `H2 = sum_b p_b sum_u1
+  P1_raw(u1|b) H(P2_raw)`), matched to `<= 4.5e-14` at `1e-12` tolerance; the
+  floor-induced total-entropy change is a **separate** `<= 1e-9` guard (recorded
+  `5.1600945738528026e-11`). The strict floored-table reading at `1e-12` is
+  unsatisfiable; independent Pre-EXECUTE review item #1 ratified the raw-MLE
+  reading and the floored entropies are reported but never gated against the
+  literals.
+- Construction/result: TRAIN `2026091650..52` x256, DEV `2026091660..64` x128 =
+  640; orders frozen before DEV (min pairwise TRAIN-order Spearman L1
+  `0.9973291943236439` / L2 `0.9950453479056992`; `orders_sha256`
+  `8ec690344897655418b71520b22e9e403dfa381ca193fe0d322cb13e1d714104`);
+  empirical exact **640/640**; BEC control exact 640/640 (report-only; both arms
+  saturate, so this gate carries no empirical-vs-BEC discrimination); cells
+  both 640 / empirical_only 0 / bec_only 0 / neither 0; one-sided 95% Wilson LB
+  `0.9957903841321254`; 11/11 integrity + 3/3 scientific gates true; disclosure
+  989 bits per fully invoked arm, totals 1,265,920 key-dependent / 3,357,440
+  public / 1280 tags, recount mismatch 0; wall `132.523651 s`, peak RSS
+  `383,832,064 B`.
+- Consumption/no-rerun: the single artifact content read (1/1) and the single
+  scientific attempt (1/1) were consumed at the first NPZ content open
+  (`open_count 1`, no reopen/retry); no rerun, no retuning, no seed/order/K/floor/
+  threshold change. Seeds `2026091650..52`/`2026091660..64` and masters
+  `2026101660..64` are spent. Independent Pre-EXECUTE and Pre-RESULT reviews both
+  PASS.
+- Scope: synthetic N=256 V25-1M-TRAIN model-sampled development signal only — no
+  held-out/real-frame FER, efficiency, key rate, scaling, qualification or
+  promotion; `undetected` is never success; no commit/push. Next gate is
+  main-thread acceptance.
+
+### 2026-09-14 — Accept P7 target empirical construction; freeze P8 target-rate screen/confirm
+
+Accept `TARGET_EMPIRICAL_CONSTRUCTION_ACCEPTED` within the frozen V25 1M TRAIN
+model-sampled N=256 development scope. The accepted support rule is columnwise
+MLE with fixed `1e-15` floor and renormalization. P7 showed stable pooled
+empirical construction and 640/640 exact recovery at K1=45/K2=140 with all
+gates true and both independent reviews PASS. Because the paired BEC control
+also achieved 640/640, accept no empirical superiority or order-discrimination
+claim. Do not extend this result to held-out/real FER, efficiency, key rate,
+scaling, qualification, or promotion.
+
+Freeze P8 as the next Tier-Y gate, awaiting explicit user authorization with
+artifact read/attempt 0/1. P8 searches the frozen 35-point static rate grid
+using SCREEN data and deterministic minimum-disclosure selection, then tests
+the selected point once on disjoint CONFIRM streams; BEC remains report-only.
+No adaptive schedule, N>256, FWHT/APP/SCL, real/EVAL data, commit, or push is
+authorized.
+
+### 2026-09-14 — Accept P8 selected static rate point; freeze P9 lower-boundary resolution
+
+Accept `TARGET_EMPIRICAL_RATE_POINT_ACCEPTED` within the frozen synthetic
+V25-1M-TRAIN model-sampled N=256 development scope. All 35 P8 SCREEN points
+were eligible and deterministic selection chose K1=8/K2=80. Disjoint CONFIRM
+achieved empirical 638/640 exact with one-sided 95% Wilson LB 0.9906013677,
+all integrity/scientific gates true, zero undetected/nonfinite/resource abort/
+truth leak, and exact transcript recount. Both independent reviews support
+acceptance; the sole read/attempt was consumed without rerun or tuning.
+
+This accepts feasibility, not a global minimum: (8,80) was the lower corner of
+the frozen grid and all points passed, so P8 is left-censored. BEC 621/640 and
+17 empirical-only cells remain report-only and do not establish general
+superiority. Do not extend the result to real/held-out FER, efficiency, key
+rate, scaling, qualification, promotion, adaptive operation, APP/SCL/FWHT.
+
+Freeze `NBPOLAR-PHASE4-P9-LOWER-RATE-BOUNDARY-RESOLUTION` as the next Tier-Y
+gate, awaiting explicit authorization with read/attempt 0/1. P9 extends SCREEN
+to 56 points including both zero axes and the P8 anchor, selects the eligible
+lexicographic minimum, and confirms once on disjoint streams. No eligible point
+is a valid negative. P9 is the final N=256 static-rate localization gate before
+the route choice between adaptive target-rate work and N-scaling/decoder
+acceleration. No commit/push or promotion is authorized.
+
+### 2026-09-14 — Accept P9 lower-rate point; route next to FWHT scaling probe
+
+Accept `TARGET_EMPIRICAL_LOWER_RATE_POINT_ACCEPTED` within the frozen synthetic
+V25-1M-TRAIN model-sampled N=256 scope. The zero-axis 56-point SCREEN selected
+K1=6/K2=70; disjoint CONFIRM achieved 624/640 exact, Wilson one-sided 95% LB
+0.9626753340557015, and all integrity/scientific gates true. Both independent
+reviews PASS. The Wave-C delivery certificate failure did not cause a second
+run; the retry stopped on the existing root and read-only evidence established
+the single genuine execution.
+
+Accept only the frozen-grid result, not a continuous/global optimum. BEC and
+P8-anchor comparisons remain report-only. Planning-only f=2.1651599289 remains
+above f<=1.3, so another N=256 static/adaptive gate is not the next priority.
+Freeze `NBPOLAR-PHASE4-P10-FWHT-KERNEL-SCALING-PROBE` as a Tier-X injected-data
+engineering probe of direct-vs-FWHT GF(32) minus-node equivalence, fallback,
+timing/memory scaling and the unmodified SC baseline through N=1024. It has no
+artifact access, attempt, claim status, production change, commit, or push and
+awaits explicit authorization.
+
+### 2026-09-14 — Reject exact-semantics FWHT route; freeze exact chunked SC gate
+
+Batch the X10-X12 Tier-X scaling milestone. X10's FWHT primitive was fast but
+did not preserve exact tail support. X11 correctly STOPPED after finite
+roundoff flipped near-tied SC decisions and produced direct/hybrid exception
+parity failure; independent reviewer-go reproduced the causal chain. Do not
+advance the current FWHT approach into an exact-semantics production gate, and
+do not treat X11's stdout timing transcript as persisted performance evidence.
+
+X12 established that contiguous row chunking of the unchanged q²
+`logaddexp.reduce` calculation preserves bitwise arrays, support, decisions,
+exceptions and ties over its frozen matrix. Chunk512 completed N=262144 in
+65.7253 s with cumulative peak RSS 754,647,040 B. Freeze
+`NBPOLAR-PHASE4-P11-EXACT-CHUNKED-SC` as the next Tier-Y allocation-only
+implementation gate. It awaits explicit authorization, has attempt 0/1 and no
+artifact access, and makes no FER/efficiency/key-rate/throughput/promotion
+claim.
+
+### 2026-09-14 — Accept exact chunked SC; freeze target f=1.3 N profile
+
+Accept `EXACT_CHUNKED_SC_ACCEPTED` as an allocation-only implementation change.
+Default 512-row chunking preserved the accepted direct arithmetic and all
+frozen semantic/exception checks, paired exactly at N=65536, and completed
+N=262144 in 66.088 s at 710,504,448 B RSS. Both independent reviews support
+acceptance; attempt 1/1 was consumed without rerun and no artifact was read.
+This is not a throughput, FER, efficiency, key-rate, qualification or promotion
+claim; report-only timing targets remain report-only.
+
+Freeze `NBPOLAR-PHASE4-P12-TARGET-F13-N-SCALING-PROFILE` as the next Tier-Y
+gate. It uses V25 1M TRAIN model sampling and N-specific BEC-surrogate orders,
+allocates the exact f=1.3 disclosure budget deterministically, and reports a
+six-N/128-block recovery profile without a recovery pass threshold. It does not
+extrapolate P7's N=256 empirical order or qualify large-N FER. Artifact read and
+attempt are 0/1 pending explicit authorization; no commit/push or promotion.
+
+### 2026-09-14 — Accept P12 terminal resource blocker; probe metric lifetimes
+
+Accept `BLOCKED(resource_limits_met_and_no_abort)` as P12's terminal outcome.
+The only run reached N=262144 L2 metric construction and failed on a 64-MiB
+float64 allocation outside the SC/resource guard. Read/attempt 1/1 are spent;
+no persisted profile exists, earlier in-memory blocks are not evidence, and
+independent review confirmed there was no rerun.
+
+The blocker is outside P11's chunked minus-node and includes cross-stage and
+cross-block retention of N×32 planes. Do not rerun or repair P12. Freeze
+`NBPOLAR-PHASE4-X13-METRIC-MEMORY-LIFETIME-PROBE` to compare two exact injected
+ownership/lifetime strategies, scalar-only outcome retention and sequential
+N=262144 behavior under 2 GiB. It is Tier-X, has no artifact access/attempt/
+claim, and awaits explicit authorization. A future P12-R1 requires a fresh
+packet, root, seeds, read and attempt.

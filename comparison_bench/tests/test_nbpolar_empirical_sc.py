@@ -29,7 +29,13 @@ if __package__ in (None, ""):
     sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
 
 from comparison_bench.src.comparison_bench.formal_ir.nbpolar import (
+    construction as construction_mod,
+)
+from comparison_bench.src.comparison_bench.formal_ir.nbpolar import (
     empirical_channel as ech,
+)
+from comparison_bench.src.comparison_bench.formal_ir.nbpolar import (
+    empirical_diagnostic as ediag,
 )
 from comparison_bench.src.comparison_bench.formal_ir.nbpolar import (
     empirical_oracle as eor,
@@ -658,6 +664,316 @@ def test_gather_matches_accepted_prior_at_production_shape():
     theirs = prior_mod.build_p1_metrics(bob, p1)
     assert mine.shape == theirs.shape == (3, 16, 32)
     assert float(np.abs(mine - theirs).max()) == 0.0
+
+
+# --- Stage B: vectorized oracle backend + frozen runner ---------------------
+
+def test_sb_masks_m1_m5_positions_and_values():
+    for n in (16, 64, 256):
+        masks = ediag.stageb_masks(n)
+        assert list(masks) == list(ediag.STAGEB_MASK_NAMES)
+        assert masks["M1_all_but_one"].tolist() == list(range(n - 1))
+        assert masks["M2_prefix"].tolist() == list(range(n // 2))
+        assert masks["M3_suffix"].tolist() == list(range(n // 2, n))
+        assert masks["M4_alternating"].tolist() == list(range(0, n, 2))
+        assert np.array_equal(
+            masks["M5_construction_order"],
+            construction_mod.analytic_order(0.05, n)[: n // 2])
+        assert masks["M1_all_but_one"].size == n - 1
+        assert masks["M2_prefix"].size == n // 2
+        assert masks["M3_suffix"].size == n // 2
+        assert masks["M4_alternating"].size == n // 2
+        for name, pos in masks.items():
+            assert pos.dtype == np.int64, name
+            assert len(set(pos.tolist())) == pos.size, name
+            assert int(pos.min()) >= 0 and int(pos.max()) < n, name
+    # disclosed values are the true U at the mask positions and are kept
+    f32 = make_gf32()
+    n = 16
+    rng = ech.make_rng(ech.P3_UNIT_SEED + 201)
+    raw = rng.random((32, 6)) + 0.05
+    p1 = raw / raw.sum(axis=0, keepdims=True)
+    p_b = np.full(6, 1.0 / 6)
+    bob = ech.sample_bob(rng, p_b, n)
+    high = ech.sample_high_given_bob(rng, bob, p1)
+    u_true = polar_transform(high, field=f32, alpha=2)
+    logp = probs_to_symbol_metric(ech.build_p1_metrics(bob, p1)).logp
+    for name, pos in ediag.stageb_masks(n).items():
+        res = sc_decode(logp, field=f32, alpha=2,
+                        known_positions=pos, known_values=u_true[pos])
+        assert res.known_count == pos.size, name
+        assert np.array_equal(res.u_hat[pos], u_true[pos]), name
+
+
+def _gf32_logp_cases():
+    rng = np.random.default_rng(ech.P3_UNIT_SEED + 202)
+    cases = {}
+    raw = rng.normal(0, 1.4, size=(2, 32))
+    cases["n2_asym"] = raw - np.logaddexp.reduce(raw, axis=1, keepdims=True)
+    cases["n2_uniform"] = np.zeros((2, 32))
+    one = np.full((2, 32), -np.inf)
+    one[(0, 1), (7, 19)] = 0.0
+    cases["n2_one_hot"] = one
+    raw4 = rng.normal(0, 1.0, size=(4, 32))
+    raw4[raw4 < raw4.max(axis=1, keepdims=True) - 1.5] = -np.inf
+    lse = np.logaddexp.reduce(np.where(np.isfinite(raw4), raw4, -np.inf),
+                              axis=1, keepdims=True)
+    cases["n4_zero"] = np.where(np.isfinite(raw4), raw4 - lse, -np.inf)
+    return cases
+
+
+def _assert_oracle_parity(got, ref, label):
+    assert got.shape == ref.shape, label
+    assert np.array_equal(np.isfinite(got), np.isfinite(ref)), label
+    assert float(np.abs(np.exp(got) - np.exp(ref)).max()) <= PROB_TOL, label
+    both = np.isfinite(got) & np.isfinite(ref)
+    if both.any():
+        assert float(np.abs(got[both] - ref[both]).max()) <= LOG_TOL, label
+
+
+def test_sb_oracle_vectorized_matches_literal():
+    f4 = make_gf2m(2, 7)
+    f32 = make_gf32()
+    # GF4 N=2/4: every prefix length is cheap in the literal backend
+    for name, logp in sorted(_gf4_logp_cases().items()):
+        n = logp.shape[0]
+        prefixes = ([[], [0], [1], [3]] if n == 2
+                    else [[], [2], [1, 3], [0, 2, 1]])
+        for prefix in prefixes:
+            ref = eor.empirical_oracle_sc_metric(logp, prefix, field=f4)
+            got = eor.empirical_oracle_sc_metric_vectorized(logp, prefix, field=f4)
+            _assert_oracle_parity(got, ref, (name, prefix))
+    # GF32 N=2: one-hot / uniform / asymmetric
+    for name, logp in sorted(_gf32_logp_cases().items()):
+        if logp.shape[0] != 2:
+            continue
+        for prefix in ([], [7], [19]):
+            ref = eor.empirical_oracle_sc_metric(logp, prefix, field=f32)
+            got = eor.empirical_oracle_sc_metric_vectorized(logp, prefix, field=f32)
+            _assert_oracle_parity(got, ref, (name, prefix))
+    # GF32 N=4: literal parity at prefixes of length >= 2 (the literal path
+    # needs the explicit vector cap opt-in outside its 4096 default domain)
+    logp4 = _gf32_logp_cases()["n4_zero"]
+    for prefix in ([5, 9], [31, 0, 17]):
+        ref = eor.empirical_oracle_sc_metric(
+            logp4, prefix, field=f32,
+            max_candidates=eor.MAX_VECTOR_ORACLE_CANDIDATES)
+        got = eor.empirical_oracle_sc_metric_vectorized(logp4, prefix, field=f32)
+        _assert_oracle_parity(got, ref, ("gf32_n4", prefix))
+    # batch API equals the single-prefix wrapper on shared nested prefixes
+    chain_prefixes = [[], [3], [3, 12], [3, 12, 1]]
+    chain = eor.empirical_oracle_conditionals_vectorized(
+        logp4, chain_prefixes, field=f32)
+    for row, prefix in enumerate(chain_prefixes):
+        single = eor.empirical_oracle_sc_metric_vectorized(logp4, prefix, field=f32)
+        assert np.array_equal(chain[row], single), prefix
+
+
+def test_sb_oracle_exact_zero_and_all_inf_handling():
+    f4 = make_gf2m(2, 7)
+    f32 = make_gf32()
+    # exact-zero support stays distinguishable from finite support
+    logp = _gf32_logp_cases()["n4_zero"]
+    ref = eor.empirical_oracle_sc_metric(
+        logp, [2, 5], field=f32,
+        max_candidates=eor.MAX_VECTOR_ORACLE_CANDIDATES)
+    got = eor.empirical_oracle_sc_metric_vectorized(logp, [2, 5], field=f32)
+    assert np.array_equal(np.isneginf(ref), np.isneginf(got))
+    # an all--inf input row is rejected by both backends
+    bad = np.zeros((2, 32))
+    bad[0] = -np.inf
+    assert_raises_match(ValueError, "every logp_x row needs finite support",
+                        eor.empirical_oracle_sc_metric, bad, [], field=f32)
+    assert_raises_match(ValueError, "every logp_x row needs finite support",
+                        eor.empirical_oracle_conditionals_vectorized, bad, [[]],
+                        field=f32)
+    # an impossible prefix yields the same all--inf aggregate in both backends
+    one = np.full((2, 4), -np.inf)
+    one[0, 0] = 0.0
+    one[1, 0] = 0.0
+    ref = eor.empirical_oracle_sc_metric(one, [2], field=f4)
+    got = eor.empirical_oracle_sc_metric_vectorized(one, [2], field=f4)
+    assert bool((ref == -np.inf).all()) and np.array_equal(ref, got)
+    # uniform rows: analytic 1/q conditionals at N=2 and N=4
+    uni2 = eor.empirical_oracle_sc_metric_vectorized(
+        np.zeros((2, 32)), [], field=f32)
+    assert float(np.abs(np.exp(uni2) - 1.0 / 32).max()) <= PROB_TOL
+    uni4 = eor.empirical_oracle_sc_metric_vectorized(
+        np.zeros((4, 32)), [], field=f32)
+    assert float(np.abs(np.exp(uni4) - 1.0 / 32).max()) <= PROB_TOL
+
+
+def test_sb_batch_transform_matches_reference():
+    rng = np.random.default_rng(ech.P3_UNIT_SEED + 203)
+    for field in (make_gf2m(2, 7), make_gf32()):
+        for n in (2, 4, 8):
+            vecs = rng.integers(0, field.q, size=(6, n))
+            got = eor.batch_polar_transform_reference(vecs, field=field)
+            assert got.shape == (6, n)
+            for row in range(vecs.shape[0]):
+                ref = polar_transform_reference(vecs[row], field=field, alpha=2)
+                assert np.array_equal(got[row], ref), (field.q, n, row)
+    # the default literal oracle cap is unchanged for existing callers
+    assert eor.MAX_ORACLE_CANDIDATES == 4096
+    assert eor.MAX_VECTOR_ORACLE_CANDIDATES == 1 << 20
+
+
+def test_sb_stageb_refusal_paths():
+    with tempfile.TemporaryDirectory() as tmp:
+        root = Path(tmp)
+        npz = root / "model_f_input.npz"
+        summary = root / "model_f_input_summary.json"
+        existing = root / "existing"
+        existing.mkdir()
+        assert_raises_match(
+            FileExistsError, "refuse to overwrite",
+            ediag.run_stageb_diagnostic, npz_path=str(npz),
+            summary_path=str(summary), seed=ediag.STAGEB_SEED,
+            out=str(existing))
+        banned_out = root / "banned_seed_out"
+        assert_raises_match(
+            ValueError, "seed contract", ediag.run_stageb_diagnostic,
+            npz_path=str(npz), summary_path=str(summary), seed=2026091200,
+            out=str(banned_out))
+        assert not banned_out.exists(), "banned seed must not create the root"
+        missing_out = root / "missing_artifact_out"
+        assert_raises_match(
+            ValueError, "artifact contract", ediag.run_stageb_diagnostic,
+            npz_path=str(npz), summary_path=str(summary),
+            seed=ediag.STAGEB_SEED, out=str(missing_out))
+        assert not missing_out.exists(), "failed load must not create the root"
+
+
+def _stageb_injected_tables(n_b=8):
+    rng = np.random.default_rng(ech.P3_UNIT_SEED + 204)
+    raw = rng.random((32, n_b)) + 0.05
+    p1 = raw / raw.sum(axis=0, keepdims=True)
+    p_b = rng.random(n_b) + 0.2
+    return p_b / p_b.sum(), p1
+
+
+def _stageb_scored_cases(summary):
+    return summary["b1"] + summary["b2"]["cases"] + summary["b3"]["cases"]
+
+
+def test_sb_injected_full_matrix_smoke():
+    import json
+
+    p_b, p1 = _stageb_injected_tables()
+    with tempfile.TemporaryDirectory() as tmp:
+        out = Path(tmp) / "stageb"
+        summary = ediag._run_stageb_from_tables(
+            rng=ech.make_rng(ech.P3_DIAG_SEED), p_b=p_b, p1=p1,
+            seed=ech.P3_DIAG_SEED, out=str(out))
+        assert sorted(p.name for p in out.iterdir()) == sorted(ediag.STAGEB_OUT_FILES)
+        plan = json.loads((out / "frozen_plan.json").read_text())
+        assert plan["entry"] == "empirical_stageb_diagnostic"
+        assert plan["artifact"]["source"] == "caller-injected tables (test seam)"
+        assert plan["attempt_accounting"]["consumed_at_write"] == 0
+        assert plan["out_files"] == list(ediag.STAGEB_OUT_FILES)
+        assert plan["b2"]["blocks_per_mask"] == 16
+        assert plan["b3"]["blocks_per_mask"] == 8
+        oracle = json.loads((out / "oracle_records.json").read_text())
+        assert oracle["backend"] == "empirical_oracle_conditionals_vectorized"
+        assert len(oracle["b1"]) == 2
+        profile = json.loads((out / "stress_and_profile.json").read_text())
+        assert [rec["n"] for rec in profile["b4"]["profiles"]] == [64, 256, 1024]
+        for rec in profile["b4"]["profiles"]:
+            assert rec["metric_batch_shape"] == [4, rec["n"], 32]
+            assert rec["metric_shape"] == [rec["n"], 32]
+            assert rec["decision_shape"] == [rec["n"], 32]
+        payload = json.loads((out / "diagnostic_summary.json").read_text())
+        assert payload["hard_gates_pass"] is True, payload["hard_gates"]
+        assert payload["truth_leak_violations"] == 0
+        assert payload["resource_abort_blocks"] == 0
+        assert payload["candidate_conclusion"] == "EMPIRICAL_PRIOR_SC_INTERFACE_CANDIDATE"
+        assert len(payload["b2"]["cases"]) == 10
+        assert all(rec["n_blocks_planned"] == 16 for rec in payload["b2"]["cases"])
+        assert len(payload["b3"]["cases"]) == 5
+        assert all(rec["n_blocks_planned"] == 8 for rec in payload["b3"]["cases"])
+        assert all(rec["n_disclosed"] == rec["n"] - 1
+                   for rec in payload["b3"]["cases"]
+                   if rec["mask"] == "M1_all_but_one")
+        for rec in payload["b1"]:
+            assert all(rec["gates"].values()), (rec["case"], rec["gates"])
+            assert rec["max_prob_err"] <= PROB_TOL
+            assert rec["max_log_err"] <= LOG_TOL
+            assert rec["support_mismatches"] == 0
+        # disjoint accounting: exact+failed==attempted per case
+        for rec in _stageb_scored_cases(payload):
+            assert rec["n_executed"] + rec["n_resource_abort"] == rec["n_blocks_planned"]
+            assert (rec["n_exact"] + rec["n_impossible"] + rec["n_other"]
+                    + rec["n_nonfinite"]) == rec["n_executed"]
+            assert sum(rec["attribution"].values()) == rec["n_executed"] - rec["n_exact"]
+        report = (out / "report.md").read_text()
+        assert report.startswith("# P3 Stage B empirical-prior SC interface diagnostic")
+
+
+def test_sb_truth_leak_sentinel_direct():
+    f32 = make_gf32()
+    rng = ech.make_rng(ech.P3_DIAG_SEED + 1)
+    raw = rng.random((32, 5)) + 0.1
+    p1 = raw / raw.sum(axis=0, keepdims=True)
+    p_b = np.full(5, 0.2)
+    bob = ech.sample_bob(rng, p_b, 4)
+    high = ech.sample_high_given_bob(rng, bob, p1)
+    probs = ech.build_p1_metrics(bob, p1)
+    logp = probs_to_symbol_metric(probs).logp
+    res = sc_decode(logp, field=f32, alpha=2)
+    assert ediag._truth_leak_violation(
+        bob=bob, high=high, p1=p1, probs=probs, res=res, field=f32) == 0
+    assert ediag._truth_leak_violation(
+        bob=bob, high=high, p1=p1, probs=probs * 2.0, res=res, field=f32) == 1
+    tampered = sc_decode(logp, field=f32, alpha=2)
+    tampered.u_hat[0] = int((tampered.u_hat[0] + 1) % 32)
+    assert ediag._truth_leak_violation(
+        bob=bob, high=high, p1=p1, probs=probs, res=tampered, field=f32) == 1
+
+
+def test_sb_attribution_classifier_forced_categories():
+    classify = ediag.classify_stageb_failure
+    assert classify(outcome="other", support_failure=True) == "artifact_adapter_support"
+    assert classify(outcome="other", normalization_failure=True) == "normalization"
+    assert classify(outcome="impossible") == "disclosure_contradiction"
+    assert classify(outcome="nonfinite") == "SC_numeric"
+    assert classify(outcome="other", under_disclosure_ambiguous=True) == \
+        "expected_under_disclosure"
+    assert classify(outcome="other") == "SC_decision"
+    assert classify(outcome="other", unclassified_error=True) == "unattributed"
+    # precedence: support beats every later layer
+    assert classify(outcome="impossible", support_failure=True) == \
+        "artifact_adapter_support"
+    assert classify(outcome="nonfinite", normalization_failure=True) == "normalization"
+    for not_a_failure in ("exact", "resource_abort"):
+        assert_raises_match(ValueError, "attribution contract", classify,
+                            outcome=not_a_failure)
+
+
+def test_sb_soft_stop_bookkeeping_never_counts_exact():
+    p_b, p1 = _stageb_injected_tables()
+    with tempfile.TemporaryDirectory() as tmp:
+        out = Path(tmp) / "stageb_stop"
+        summary = ediag._run_stageb_from_tables(
+            rng=ech.make_rng(ech.P3_DIAG_SEED + 2), p_b=p_b, p1=p1,
+            seed=ech.P3_DIAG_SEED + 2, out=str(out), soft_cap_s=0.0)
+        for rec in summary["b1"]:
+            assert rec["n_resource_abort"] == rec["n_blocks_planned"]
+            assert rec["n_executed"] == 0 and rec["n_exact"] == 0
+            assert rec["oracle_rows"] == 0
+            assert rec["gates"]["coverage_complete"] is False
+        for rec in summary["b2"]["cases"] + summary["b3"]["cases"]:
+            assert rec["n_resource_abort"] == rec["n_blocks_planned"]
+            assert rec["n_executed"] == 0 and rec["n_exact"] == 0
+            assert sum(rec["attribution"].values()) == 0
+        planned = (
+            len(ediag.STAGEB_B1_N) * ediag.STAGEB_B1_BLOCKS
+            + len(ediag.STAGEB_B2_N) * len(ediag.STAGEB_MASK_NAMES)
+            * ediag.STAGEB_B2_BLOCKS
+            + len(ediag.STAGEB_MASK_NAMES) * ediag.STAGEB_B3_BLOCKS
+        )
+        assert summary["resource_abort_blocks"] == planned
+        assert summary["hard_gates_pass"] is False
+        assert sorted(p.name for p in out.iterdir()) == sorted(ediag.STAGEB_OUT_FILES)
 
 
 if __name__ == "__main__":

@@ -1,0 +1,68 @@
+{
+  "attempted": 300,
+  "average_key_dependent_bits_per_attempted_block": 289.0,
+  "candidate": "STATIC_PROTOCOL_DEVELOPMENT_CANDIDATE",
+  "claim_scope": "synthetic development signal only; this is not real-data FER, leakage efficiency, key rate, qualification or promotion evidence",
+  "coverage": 1.0,
+  "decode_error_types": {},
+  "epsilon": 0.05,
+  "hard_gates": {
+    "avg_key_dependent_below_input_bits": true,
+    "coverage_complete": true,
+    "nonfinite_zero": true,
+    "outcome_accounting_disjoint_exhaustive": true,
+    "per_block_disclosure_consistent": true,
+    "recount_zero_mismatch": true,
+    "resource_stop_preregistered": true,
+    "truth_leak_zero": true,
+    "undetected_zero": true,
+    "verification_universe_consistent": true,
+    "wilson_lower_ge_0_90": true
+  },
+  "k": 45,
+  "key_dependent_bits_total": 86700,
+  "mode": "dev-gate",
+  "n": 256,
+  "nonfinite_count": 0,
+  "outcome_totals": {
+    "decode_failed": 0,
+    "exact": 300,
+    "resource_abort": 0,
+    "undetected": 0,
+    "verify_failed": 0
+  },
+  "per_verification_key_dependent_bits": 289,
+  "planned_blocks": 300,
+  "protocol": "nbpolar-static-protocol",
+  "public_control_bits_total": 786900,
+  "resource_stop_fired": false,
+  "rss_bytes_peak": 111190016,
+  "run_seed": 2026091317,
+  "transcript": {
+    "event_count": 600,
+    "incremental": {
+      "key_dependent_bits": 86700,
+      "public_control_bits": 786900,
+      "verification_invocations": 300
+    },
+    "mismatch_count": 0,
+    "recount": {
+      "key_dependent_bits": 86700,
+      "public_control_bits": 786900,
+      "verification_invocations": 300
+    },
+    "transcript_sha256": "767418d2670fb1f7e36d71a23ab1afb4593ec6164aef62bce5d97f5b7903b048"
+  },
+  "truth_leak_count": 0,
+  "undetected": 0,
+  "verification_invocations": 300,
+  "verified": 300,
+  "wall_s": 4.998916,
+  "wilson": {
+    "confidence": "one-sided 95%",
+    "denominator": 300,
+    "lower_bound": 0.9910621278248719,
+    "successes": 300,
+    "z": 1.6448536269514722
+  }
+}

@@ -1,0 +1,17 @@
+task_id: NBPOLAR-X07-ENTROPY-CONTRACT-RECONCILIATION
+state: COMPLETE_DESCRIPTIVE_POPULATION_DIVERGENCE_ACCEPTED
+predecessor: X06_EMPIRICAL_CONSTRUCTION_ORDER_PROBE_COMPLETE_DESCRIPTIVE
+documentation_authorized: true
+probe_execution_authorized: true
+artifact_content_reads_allowed: 1
+artifact_content_reads_used: 1
+decoder_calls_allowed: 0
+rng_calls_allowed: 0
+tag_calls_allowed: 0
+production_edit_authorized: false
+real_data_authorized: false
+eval_authorized: false
+scientific_promotion: false
+result: X07_ENTROPY_CONTRACT_RECONCILIATION_COMPLETE_DESCRIPTIVE_ONLY
+independent_focused_review: PASS (focused review; single divergence POPULATION_SESSION_IDENTITY_1M; results.json carries one documented post-run auxiliary MI correction with no required quantity affected)
+next_gate: PHASE4_P7_TARGET_EMPIRICAL_CONSTRUCTION
