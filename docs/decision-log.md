@@ -4835,3 +4835,18 @@ hard-L2, oracle-L2 and pair endpoints unambiguous. P20A is injected-only and
 authorizes no protected read or scientific attempt. L1 SCL is conditional on
 evidence that true-L1 L2 is recoverable and a bounded list covers the missing
 candidate; it is not the default next route.
+
+## 2026-09-19 NB-Polar H2a–H2e adjudication accepted (descriptive; 56-row P20N+P20O+P20Q, X10-continuity, A4 recheck PASS)
+
+**Decision**: Record T8 main-thread verdicts as descriptive only from `workspace/h2/504e036a-f040-4d88-88ba-152702f92ffd/h2_final_adjudication.md` + `h2_summary.json` (git-ignored run root; durable plan `.workbuddy/queue/NBPOLAR-H2-ADJUDICATION-ANALYSIS/H2_ANALYSIS_PLAN.md` §§4/6 applied verbatim): H2a REFUTED (8/14 evaluable blocks anomalous, strongest P20N b3 gap 0.097058, X10 4/4 reproduced diff 0.0); H2b SUPPORTED (median r_fail 2.2835 n=37; IR-2 median 0.883 n=12, no vote-flip); H2c SUPPORTED (in-X 35/37=0.9459; 12/14+11/11+12/12; out-of-U given in-X 23/23 on 2M segments, no threshold vote); H2d SUPPORTED-flat (mean_abs_diff 0.002185 n=37 ≤0.05); H2e REFUTED-geometry-incoherent (evaluable 20/20+12/12+20/20; IR-4 pooled in-prefix 66/320=0.20625<0.50 despite IR-2 0.883≥0.50; truncated scope first-4096+top-16+histogram, never full-block order, never FER).
+
+**Context**: Analysis-only (zero decoder/RNG/tag/protected counters); 56-row join (P20N 16 + P20O 20 + P20Q 20); A4 recheck PASS 6/6 (session ses_f46181fa5ffe3gj5wry5EdHFGy); H2a–d X10-consistent, H2e NOT-DECIDABLE→evaluable-but-incoherent.
+
+**Observation (not verdict)**: Fail sites in-X + hazard-elevated yet top-16 hazard mass mostly outside-prefix — static top-k geometry does not mirror fail-site geometry; prime clue for next single-factor direction.
+
+**Alternatives considered**:
+- FER/reliability/efficiency/branch-selection readings: rejected — descriptive only, no threshold vote.
+- Recheck-transcript internals: rejected — not evidence.
+- Verbatim large tables: rejected — run root is git-ignored; durable plan + summary carry the record.
+
+**Consequences**: No rerun/retuning, no OpenSpec/AGENTS/troubleshooting change; next branch (L2-order-positions-under-raw-prior / L2-side-bounded-search-at-fixed-point / second-single-construction-form per P20Q §16) remains main-thread planning input — H2 selects nothing.
