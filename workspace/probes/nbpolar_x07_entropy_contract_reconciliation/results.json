@@ -1,0 +1,1086 @@
+{
+ "probe_id": "nbpolar_x07_entropy_contract_reconciliation",
+ "tier": "X",
+ "status": "X07_PROBE_COMPLETE_DESCRIPTIVE_ONLY",
+ "title": "Entropy-contract reconciliation: V49 1M TRAIN vs accepted Model-F/X06 vs raw-MLE provenance",
+ "prereg_sha256": "a7f225a828c8a51fb89f442387b8e747af30e97ccba63a10fed28d6760afc843",
+ "body_sha256": "dd070e884ad73643bb5240ea07bc975ac9ccc0cd0e47f50ceb0019a7b38c88d8",
+ "body_sha_match": true,
+ "artifact_open": {
+  "loader": "comparison_bench.formal_ir.nbpolar.prior_artifact.load_prior_artifact",
+  "npz_path": "/mnt/d/Code/HD-QKD_Polar_Comparison/workspace/v72p2d5_model_f_input/20260907_r1/model_f_input.npz",
+  "summary_path": "/mnt/d/Code/HD-QKD_Polar_Comparison/workspace/v72p2d5_model_f_input/20260907_r1/model_f_input_summary.json",
+  "npz_bytes": 208467,
+  "summary_bytes": 752,
+  "open_count": 1,
+  "opened_utc": "2026-09-13T17:46:11Z",
+  "artifact_content_reads_allowed": 1,
+  "artifact_content_reads_consumed": 1,
+  "reopen_attempted": false,
+  "retry_after_open": false,
+  "conditioning": "FULL_BOB_ONLY",
+  "provenance": "PRIOR_ONLY",
+  "summary_identity": {
+   "artifact_files": [
+    "model_f_input.npz",
+    "model_f_input_summary.json"
+   ],
+   "axis": [
+    "Alice",
+    "Bob"
+   ],
+   "cal_end": 1725,
+   "cal_only": true,
+   "cal_start": 702,
+   "cycle": "V72P2D5-GF32-RATE-MOTHER",
+   "decoder_calls": 0,
+   "dims": [
+    1024,
+    1024
+   ],
+   "field": {
+    "poly": 37,
+    "q": 32
+   },
+   "formal": false,
+   "lambda_star": 137.3823795883264,
+   "mapping": "symbol=low+32*high;high=U1;low=U2",
+   "n_frames": 1024,
+   "n_symbols": 262144,
+   "p0_calls": 0,
+   "pairs_per_frame": 256,
+   "schema": "v72p2d5_model_f_input_v1",
+   "selection": "D4R2 nested-CV refit",
+   "session": "20260123_1M_600k_0dB",
+   "source": "1M",
+   "status": "MODEL_F_INPUT_CANDIDATE",
+   "val_rows_read": 0
+  },
+  "summary_lambda_star": 137.3823795883264,
+  "module_lambda_star": 137.3823795883264,
+  "lambda_star_match": true,
+  "decoder_calls": 0,
+  "rng_calls": 0,
+  "tag_calls": 0,
+  "construction_calls": 0,
+  "sc_decode_calls": 0
+ },
+ "inputs": {
+  "v49_csv": {
+   "path": "/mnt/d/Code/HD-QKD_Polar_Comparison-nbpolar/docs/v49_distribution_tables/v49_train_val_hold_nll.csv",
+   "sha256": "9f24d4092730dbc883aee46da192861aa3019a9b0f2ecac93d2977991d5caff3",
+   "bytes": 2976
+  },
+  "v49_md": {
+   "path": "/mnt/d/Code/HD-QKD_Polar_Comparison-nbpolar/docs/v49-distribution-shift-diagnosis-20260827.md",
+   "sha256": "018409f1070833e8834573cb2eb3433060c18c556666c2bd620482e65d7419b9",
+   "bytes": 20655
+  },
+  "x06_results_json": {
+   "path": "/mnt/d/Code/HD-QKD_Polar_Comparison-nbpolar/workspace/probes/nbpolar_x06_empirical_construction_order/results.json",
+   "sha256": "8c5dc05a51ec4a58a8da4ea2a0e03711f9b3c089ff8d7f6609b052fe3bb025fb",
+   "bytes": 1730779
+  },
+  "p0_prior_contract_md": {
+   "path": "/mnt/d/Code/HD-QKD_Polar_Comparison-nbpolar/docs/nbpolar/PHASE4_P0_PRIOR_CONTRACT.md",
+   "sha256": "b15691dc7c5d24321e2d90957f4ab09917ff0c8d195241889d634eccb1a68fbd",
+   "bytes": 9554
+  },
+  "p2_cal_prior_summary_json": {
+   "path": "/mnt/d/Code/HD-QKD_Polar_Comparison-nbpolar/.workbuddy/queue/NBPOLAR-PHASE4-P2-CAL-DEV/cal_prior_validation/cal_prior_summary.json",
+   "sha256": "1f2d6300595d55dd42338d7c147ccf779cb72205204438784c3f14007da71de9",
+   "bytes": 3318
+  },
+  "v25_data_inventory_json": {
+   "path": "/mnt/d/Code/HD-QKD_Polar_Comparison-nbpolar/comparison_bench/outputs_comparison/nonbinary_diagnostics/nbldpc_v25_20260818/run_04/data_inventory.json",
+   "sha256": "24468cbe40db886d99cf366cbf52e6f8468e69379809d53951fbf00bbfa1c7f9",
+   "bytes": 16528
+  },
+  "d4r2_manifest_json": {
+   "path": "/mnt/d/Code/HD-QKD_Polar_Comparison-nbpolar/comparison_bench/outputs_comparison/v72p2d4r2_cal_gf32_model_rate_audit_20260905/manifest.json",
+   "sha256": "65c8223746783aba2fe1c624fb3e4983606fa7ece2642e0728280937f673d1e2",
+   "bytes": 780
+  },
+  "d4r2_report_md": {
+   "path": "/mnt/d/Code/HD-QKD_Polar_Comparison-nbpolar/comparison_bench/outputs_comparison/v72p2d4r2_cal_gf32_model_rate_audit_20260905/report.md",
+   "sha256": "d7c0f5097dd6dac3b84b6ecce0b02e3498598dc6691ecd31e94852a9f83a2395",
+   "bytes": 997
+  },
+  "g1_information_recovery_review_md": {
+   "path": "/mnt/d/Code/HD-QKD_Polar_Comparison-nbpolar/docs/research_cycles/V72P2D5-GF32-RATE-MOTHER/G1_INFORMATION_RECOVERY_R2_REVIEW_R1.md",
+   "sha256": "9ef83ca0030e5838c31d7e2440fc9664fef40c38ac99c7abb5fcaf99b140ee8c",
+   "bytes": 6220
+  }
+ },
+ "v49_record": {
+  "csv_row": {
+   "source": "1M",
+   "split": "TRAIN",
+   "n": 307200,
+   "nll_u1": 0.02428054681872374,
+   "nll_u2": 0.7767572780789994,
+   "nll_total": 0.8010378248977232,
+   "ent_u1_given_b": 0.024280546820265723,
+   "kl_sample": -1.5419903317178314e-12,
+   "ser": 0.23944010416666667,
+   "u1_err": 0.007275390625,
+   "u2_err": 0.23944010416666667,
+   "zero_B": 0.0,
+   "rare_B": 0.0
+  },
+  "doc_row": {
+   "n": 307200.0,
+   "nll_u1": 0.02428054681872374,
+   "nll_u2": 0.7767572780789994,
+   "nll_total": 0.8010378248977232,
+   "ent": 0.024280546820265723,
+   "kl_sample": -1.5419903317178314e-12,
+   "ser": 0.23944010416666667,
+   "u1_err": 0.007275390625,
+   "u2_err": 0.23944010416666667,
+   "zero_B": 0.0,
+   "rare_B": 0.0
+  },
+  "doc_vs_csv_max_abs_diff": 0.0,
+  "doc_vs_csv_tolerance": 1e-09,
+  "doc_vs_csv_match": true
+ },
+ "x06_record": {
+  "h1_bits_table": 4.286720430201375,
+  "h2_bits_table": 3.222719884634378,
+  "h1_h2_bits_table_sum": 7.509440314835753,
+  "epsilon1_raw": 0.857344086040275,
+  "epsilon2_raw": 0.6445439769268756,
+  "genie_l1_mean": 4.292009491411354,
+  "genie_l2_mean": 3.227443020023225,
+  "genie_total_mean": 7.5194525114345785,
+  "genie_l1_std_across_coords": 1.569102665296263,
+  "genie_l2_std_across_coords": 2.195984468919143,
+  "genie_l1_se_of_mean_approx": 0.09806891658101644,
+  "genie_l2_se_of_mean_approx": 0.13724902930744642,
+  "n_coords": 256,
+  "train_blocks_used_l1": 768,
+  "train_blocks_used_l2": 768,
+  "lambda_star": 137.3823795883264,
+  "summary_identity": {
+   "artifact_files": [
+    "model_f_input.npz",
+    "model_f_input_summary.json"
+   ],
+   "axis": [
+    "Alice",
+    "Bob"
+   ],
+   "cal_end": 1725,
+   "cal_only": true,
+   "cal_start": 702,
+   "cycle": "V72P2D5-GF32-RATE-MOTHER",
+   "decoder_calls": 0,
+   "dims": [
+    1024,
+    1024
+   ],
+   "field": {
+    "poly": 37,
+    "q": 32
+   },
+   "formal": false,
+   "lambda_star": 137.3823795883264,
+   "mapping": "symbol=low+32*high;high=U1;low=U2",
+   "n_frames": 1024,
+   "n_symbols": 262144,
+   "p0_calls": 0,
+   "pairs_per_frame": 256,
+   "schema": "v72p2d5_model_f_input_v1",
+   "selection": "D4R2 nested-CV refit",
+   "session": "20260123_1M_600k_0dB",
+   "source": "1M",
+   "status": "MODEL_F_INPUT_CANDIDATE",
+   "val_rows_read": 0
+  },
+  "table_checks": {
+   "counts_dtype": "int64",
+   "counts_shape": [
+    1024,
+    1024
+   ],
+   "counts_sum": 262144,
+   "f_column_dev_max": 2.930988785010413e-14,
+   "f_finite": true,
+   "f_max": 0.33915501602408454,
+   "f_min": 0.00021421586950382674,
+   "f_nonnegative": true,
+   "f_shape": [
+    1024,
+    1024
+   ],
+   "p1_column_dev_max": 6.661338147750939e-16,
+   "p1_shape": [
+    32,
+    1024
+   ],
+   "p2_shape": [
+    32,
+    1024,
+    32
+   ],
+   "p2_symbol_dev_max": 2.55351295663786e-15,
+   "p_b_shape": [
+    1024
+   ],
+   "p_b_sum": 1.0
+  },
+  "dev_pooled_L1_bec_k45": {
+   "decode_failed": 0,
+   "exact": 0,
+   "initial_error": 640,
+   "mismatch": 640,
+   "nonfinite": 0,
+   "records": 640
+  },
+  "dev_pooled_oracle_L2_bec_k140": {
+   "decode_failed": 0,
+   "exact": 0,
+   "initial_error": 640,
+   "mismatch": 640,
+   "nonfinite": 0,
+   "records": 640
+  }
+ },
+ "p2_record": {
+  "entropies_bits_per_symbol": {
+   "H_U1_given_B": 4.286720430201375,
+   "H_U2_given_U1B": 3.2227198846343783,
+   "H_chain": 7.509440314835754,
+   "H_direct_A_given_B": 7.5094403148357545,
+   "chain_discrepancy": 8.881784197001252e-16,
+   "chain_tol": 1e-10
+  },
+  "ce_resubstitution": 5.5985039618345835,
+  "ce_resubstitution_note": "CAL-only descriptive; never held-out performance; never threshold",
+  "fallbacks_support": {
+   "unseen_B_columns": 0,
+   "zero_U1B_slices": 0,
+   "exact_zero_f_cells": 0,
+   "n_b": 1024,
+   "K_nonzero_B": 1024,
+   "bad_empirical_zero_support": 0
+  },
+  "oracle_checks": {
+   "H1_abs_diff": 3.552713678800501e-15,
+   "H2_abs_diff": 6.217248937900877e-15,
+   "direct_abs_diff": 0.0,
+   "oracle_chain_discrepancy": 8.881784197001252e-16,
+   "tol": 1e-12
+  },
+  "gates": {
+   "schema": "PASS",
+   "transpose_sentinel_diff": 0.000209808349609375,
+   "packing_exhaustive_1024": "PASS",
+   "banned_imports": "PASS",
+   "no_truth_vector": "PASS"
+  },
+  "method": {
+   "f3_layout": "[U1,B,U2]",
+   "selection": "f3[u1,nz_b,:] -> (K,32)",
+   "weights": "p_b[nz_b,None] -> (K,1)",
+   "modules": [
+    "prior_artifact.load_prior_artifact",
+    "prior.smooth_joint_to_conditional/derive_p1/derive_p2",
+    "cal_diagnostic.select_bob_slice/weighted_conditional_entropy"
+   ]
+  }
+ },
+ "p0_record": {
+  "cal_lifecycle_session_present": true,
+  "cal_lifecycle_line": "CAL: `20260123_1M_600k_0dB`, 1M, frames 702..1725, 262144 symbols \u2014 fits",
+  "d5_cal_ce_l1_l2_joint": [
+   3.814742,
+   3.347605,
+   7.162347
+  ]
+ },
+ "v25_record": {
+  "source_id": "type2_1M_20260121_184040",
+  "pairs_parquet": "comparison_bench/outputs_comparison/nonbinary_diagnostics/v13r3fresh_pairs_20260816/type2_1M_20260121_184040/pairs.parquet",
+  "parquet_rows": 512000,
+  "acquisition_date": "2026.1.21",
+  "bin_width_ps": 200,
+  "frame_period_ps": 204800,
+  "delay_used_ps": -50,
+  "pairing_mode": "nearest",
+  "raw_ser": 0.23977303568674083,
+  "modular_delta_top": [
+   [
+    0,
+    0.7602269643132592
+   ],
+   [
+    1,
+    0.23843749206776907
+   ],
+   [
+    1023,
+    0.0013355436189717487
+   ]
+  ],
+  "joint_counts_sparse_nonzero": 2545,
+  "joint_counts_sparse_total_count": 512151,
+  "provenance_raw_ttbin": "D:\\Data\\Raw Data\\2026.1.21\\type2_1M_3s_2026-01-21_184040\\...ttbin (EXTERNAL, not read in P0)"
+ },
+ "d4r2_record": {
+  "session": "20260123_1M_600k_0dB",
+  "cal": [
+   702,
+   1725
+  ],
+  "selected": "F",
+  "route": "C",
+  "mapping": "low=bits0..4/high=bits5..9/bit0=LSB/symbol=low+32*high",
+  "F_mean_joint": 7.162347,
+  "G_mean_joint": 9.999677,
+  "L_mean_joint": 7.343949
+ },
+ "g1_record": {
+  "candidate_in_sample_ce_sum": 7.5094403148357545,
+  "candidate_in_sample_mi": 2.48306874956704,
+  "candidate_truth_mass": 0.25444987775455336,
+  "d4_heldout_ce_sum": 7.162347429958785
+ },
+ "quantities": {
+  "artifact": {
+   "raw_mle": {
+    "H_A_given_B": 5.0770952217115815,
+    "H1_U1_given_B": 3.595851491252375,
+    "H2_U2_given_U1_B": 1.4812437304592065,
+    "chain_residual": 0.0,
+    "CE_pmle_to_pmle_equals_H": true
+   },
+   "smoothed_accepted": {
+    "H_A_given_B": 7.5094403148357545,
+    "H1_U1_given_B": 4.286720430201375,
+    "H2_U2_given_U1_B": 3.222719884634378,
+    "chain_residual": -1.7763568394002505e-15,
+    "CE_pmle_to_f": 5.598503961834584,
+    "CE_pmle_to_f_chain_terms": {
+     "CE1": 3.690837406993693,
+     "CE2": 1.9076665548408909,
+     "sum": 5.598503961834584
+    },
+    "CE_f_to_pmle": {
+     "unbounded": true,
+     "value": null,
+     "label": "+inf (positive f mass on zero MLE support)",
+     "finite_part_over_mle_support": 3.675047649709877,
+     "mass_f_outside_mle_support": 0.3018197416014094
+    }
+   },
+   "lambda_zero_recompute": {
+    "label": "diagnostic attribution only: lambda=0 reproduces the item 1 raw MLE table; no lambda scan or tuning",
+    "smooth_joint_to_conditional_zero_vs_p_mle_max_abs_diff": 0.0,
+    "H_A_given_B": 5.0770952217115815,
+    "CE_pmle_to_model": 5.0770952217115815,
+    "equals_raw_mle_H": true
+   },
+   "marginals": {
+    "H_Alice_marginal": 9.992509064402794,
+    "MI_raw_mle": 4.915413842691213,
+    "MI_smoothed": 2.48306874956704,
+    "recorded_candidate_in_sample_MI": 2.48306874956704,
+    "corrected_from": {
+     "H_Alice_marginal": -9.99323966711963,
+     "MI_raw_mle": -15.070334888831212,
+     "MI_smoothed": -17.502679981955385
+    },
+    "correction_note": "H_Alice_marginal reconstructed as H_f + recorded candidate in-sample MI (G1 review, same accepted table), MI_raw_mle = H_Alice_marginal - H_mle, MI_smoothed = H_Alice_marginal - H_f; no artifact reopen, no rerun."
+   }
+  },
+  "v49": {
+   "source": "1M",
+   "split": "TRAIN",
+   "n": 307200,
+   "nll_u1": 0.02428054681872374,
+   "nll_u2": 0.7767572780789994,
+   "nll_total": 0.8010378248977232,
+   "ent_u1_given_b": 0.024280546820265723,
+   "kl_sample": -1.5419903317178314e-12,
+   "ser": 0.23944010416666667,
+   "u1_err": 0.007275390625,
+   "u2_err": 0.23944010416666667,
+   "zero_B": 0.0,
+   "rare_B": 0.0
+  },
+  "x06": {
+   "h1_bits_table": 4.286720430201375,
+   "h2_bits_table": 3.222719884634378,
+   "h1_h2_bits_table_sum": 7.509440314835753,
+   "epsilon1_raw": 0.857344086040275,
+   "epsilon2_raw": 0.6445439769268756,
+   "genie_l1_mean": 4.292009491411354,
+   "genie_l2_mean": 3.227443020023225,
+   "genie_total_mean": 7.5194525114345785,
+   "genie_l1_std_across_coords": 1.569102665296263,
+   "genie_l2_std_across_coords": 2.195984468919143,
+   "genie_l1_se_of_mean_approx": 0.09806891658101644,
+   "genie_l2_se_of_mean_approx": 0.13724902930744642,
+   "n_coords": 256,
+   "train_blocks_used_l1": 768,
+   "train_blocks_used_l2": 768,
+   "lambda_star": 137.3823795883264,
+   "summary_identity": {
+    "artifact_files": [
+     "model_f_input.npz",
+     "model_f_input_summary.json"
+    ],
+    "axis": [
+     "Alice",
+     "Bob"
+    ],
+    "cal_end": 1725,
+    "cal_only": true,
+    "cal_start": 702,
+    "cycle": "V72P2D5-GF32-RATE-MOTHER",
+    "decoder_calls": 0,
+    "dims": [
+     1024,
+     1024
+    ],
+    "field": {
+     "poly": 37,
+     "q": 32
+    },
+    "formal": false,
+    "lambda_star": 137.3823795883264,
+    "mapping": "symbol=low+32*high;high=U1;low=U2",
+    "n_frames": 1024,
+    "n_symbols": 262144,
+    "p0_calls": 0,
+    "pairs_per_frame": 256,
+    "schema": "v72p2d5_model_f_input_v1",
+    "selection": "D4R2 nested-CV refit",
+    "session": "20260123_1M_600k_0dB",
+    "source": "1M",
+    "status": "MODEL_F_INPUT_CANDIDATE",
+    "val_rows_read": 0
+   },
+   "table_checks": {
+    "counts_dtype": "int64",
+    "counts_shape": [
+     1024,
+     1024
+    ],
+    "counts_sum": 262144,
+    "f_column_dev_max": 2.930988785010413e-14,
+    "f_finite": true,
+    "f_max": 0.33915501602408454,
+    "f_min": 0.00021421586950382674,
+    "f_nonnegative": true,
+    "f_shape": [
+     1024,
+     1024
+    ],
+    "p1_column_dev_max": 6.661338147750939e-16,
+    "p1_shape": [
+     32,
+     1024
+    ],
+    "p2_shape": [
+     32,
+     1024,
+     32
+    ],
+    "p2_symbol_dev_max": 2.55351295663786e-15,
+    "p_b_shape": [
+     1024
+    ],
+    "p_b_sum": 1.0
+   },
+   "dev_pooled_L1_bec_k45": {
+    "decode_failed": 0,
+    "exact": 0,
+    "initial_error": 640,
+    "mismatch": 640,
+    "nonfinite": 0,
+    "records": 640
+   },
+   "dev_pooled_oracle_L2_bec_k140": {
+    "decode_failed": 0,
+    "exact": 0,
+    "initial_error": 640,
+    "mismatch": 640,
+    "nonfinite": 0,
+    "records": 640
+   }
+  },
+  "p2": {
+   "entropies_bits_per_symbol": {
+    "H_U1_given_B": 4.286720430201375,
+    "H_U2_given_U1B": 3.2227198846343783,
+    "H_chain": 7.509440314835754,
+    "H_direct_A_given_B": 7.5094403148357545,
+    "chain_discrepancy": 8.881784197001252e-16,
+    "chain_tol": 1e-10
+   },
+   "ce_resubstitution": 5.5985039618345835,
+   "ce_resubstitution_note": "CAL-only descriptive; never held-out performance; never threshold",
+   "fallbacks_support": {
+    "unseen_B_columns": 0,
+    "zero_U1B_slices": 0,
+    "exact_zero_f_cells": 0,
+    "n_b": 1024,
+    "K_nonzero_B": 1024,
+    "bad_empirical_zero_support": 0
+   },
+   "oracle_checks": {
+    "H1_abs_diff": 3.552713678800501e-15,
+    "H2_abs_diff": 6.217248937900877e-15,
+    "direct_abs_diff": 0.0,
+    "oracle_chain_discrepancy": 8.881784197001252e-16,
+    "tol": 1e-12
+   },
+   "gates": {
+    "schema": "PASS",
+    "transpose_sentinel_diff": 0.000209808349609375,
+    "packing_exhaustive_1024": "PASS",
+    "banned_imports": "PASS",
+    "no_truth_vector": "PASS"
+   },
+   "method": {
+    "f3_layout": "[U1,B,U2]",
+    "selection": "f3[u1,nz_b,:] -> (K,32)",
+    "weights": "p_b[nz_b,None] -> (K,1)",
+    "modules": [
+     "prior_artifact.load_prior_artifact",
+     "prior.smooth_joint_to_conditional/derive_p1/derive_p2",
+     "cal_diagnostic.select_bob_slice/weighted_conditional_entropy"
+    ]
+   }
+  },
+  "p0": {
+   "cal_lifecycle_session_present": true,
+   "cal_lifecycle_line": "CAL: `20260123_1M_600k_0dB`, 1M, frames 702..1725, 262144 symbols \u2014 fits",
+   "d5_cal_ce_l1_l2_joint": [
+    3.814742,
+    3.347605,
+    7.162347
+   ]
+  },
+  "v25": {
+   "source_id": "type2_1M_20260121_184040",
+   "pairs_parquet": "comparison_bench/outputs_comparison/nonbinary_diagnostics/v13r3fresh_pairs_20260816/type2_1M_20260121_184040/pairs.parquet",
+   "parquet_rows": 512000,
+   "acquisition_date": "2026.1.21",
+   "bin_width_ps": 200,
+   "frame_period_ps": 204800,
+   "delay_used_ps": -50,
+   "pairing_mode": "nearest",
+   "raw_ser": 0.23977303568674083,
+   "modular_delta_top": [
+    [
+     0,
+     0.7602269643132592
+    ],
+    [
+     1,
+     0.23843749206776907
+    ],
+    [
+     1023,
+     0.0013355436189717487
+    ]
+   ],
+   "joint_counts_sparse_nonzero": 2545,
+   "joint_counts_sparse_total_count": 512151,
+   "provenance_raw_ttbin": "D:\\Data\\Raw Data\\2026.1.21\\type2_1M_3s_2026-01-21_184040\\...ttbin (EXTERNAL, not read in P0)"
+  },
+  "d4r2": {
+   "session": "20260123_1M_600k_0dB",
+   "cal": [
+    702,
+    1725
+   ],
+   "selected": "F",
+   "route": "C",
+   "mapping": "low=bits0..4/high=bits5..9/bit0=LSB/symbol=low+32*high",
+   "F_mean_joint": 7.162347,
+   "G_mean_joint": 9.999677,
+   "L_mean_joint": 7.343949
+  },
+  "g1": {
+   "candidate_in_sample_ce_sum": 7.5094403148357545,
+   "candidate_in_sample_mi": 2.48306874956704,
+   "candidate_truth_mass": 0.25444987775455336,
+   "d4_heldout_ce_sum": 7.162347429958785
+  }
+ },
+ "provenance_table": [
+  {
+   "row_id": "v49_1M_TRAIN_nll_total_ce",
+   "value_bits_per_symbol": 0.8010378248977232,
+   "source_population": "session type2_1M_20260121_184040, TRAIN frames 0..1199, 307200 pairs (V25 channel_counts.npz TRAIN-only)",
+   "conditional_table": "TRAIN-only MLE P(U1|B), P(U2|U1,B) from joint counts, floor 1e-15 + renorm",
+   "bob_weights": "TRAIN pool empirical Bob frequency",
+   "smoothing": "floor 1e-15 only (no concentration/backoff)",
+   "functional_type": "cross-entropy of true symbols under the TRAIN MLE prior (= NLL_total; plug-in conditional entropy of the TRAIN population)",
+   "recorded_source": "docs/v49_distribution_tables/v49_train_val_hold_nll.csv row 1M/TRAIN"
+  },
+  {
+   "row_id": "v49_1M_TRAIN_H_u1_given_b",
+   "value_bits_per_symbol": 0.024280546820265723,
+   "source_population": "same V49 1M TRAIN",
+   "conditional_table": "same TRAIN MLE P(U1|B)",
+   "bob_weights": "TRAIN pool empirical Bob frequency",
+   "smoothing": "floor 1e-15 only",
+   "functional_type": "entropy H(U1|B) of the TRAIN MLE table",
+   "recorded_source": "same CSV row"
+  },
+  {
+   "row_id": "v49_1M_TRAIN_nll_u2",
+   "value_bits_per_symbol": 0.7767572780789994,
+   "source_population": "same V49 1M TRAIN",
+   "conditional_table": "same TRAIN MLE P(U2|U1,B)",
+   "bob_weights": "TRAIN pool empirical Bob frequency",
+   "smoothing": "floor 1e-15 only",
+   "functional_type": "cross-entropy NLL_U2 of true U2 under P(U2|U1,B)",
+   "recorded_source": "same CSV row"
+  },
+  {
+   "row_id": "artifact_raw_mle_H_A_given_B",
+   "value_bits_per_symbol": 5.0770952217115815,
+   "source_population": "session 20260123_1M_600k_0dB, CAL frames 702..1725, 262144 symbols (accepted Model-F artifact counts_ab)",
+   "conditional_table": "column-normalized raw counts P_mle(A|B)",
+   "bob_weights": "artifact p_b (validated equal to counts-derived Bob marginal within 1e-12)",
+   "smoothing": "none",
+   "functional_type": "plug-in conditional entropy H(A|B) of the counts",
+   "recorded_source": "computed (vectorized + literal); artifact-open 1/1"
+  },
+  {
+   "row_id": "artifact_raw_mle_H1",
+   "value_bits_per_symbol": 3.595851491252375,
+   "source_population": "same artifact counts",
+   "conditional_table": "p1_m = derive_p1(P_mle) [U1,B]",
+   "bob_weights": "artifact p_b",
+   "smoothing": "none",
+   "functional_type": "entropy H(U1|B)",
+   "recorded_source": "computed"
+  },
+  {
+   "row_id": "artifact_raw_mle_H2",
+   "value_bits_per_symbol": 1.4812437304592065,
+   "source_population": "same artifact counts",
+   "conditional_table": "p2_m = derive_p2(P_mle) [U1,B,U2]",
+   "bob_weights": "artifact p_b",
+   "smoothing": "none",
+   "functional_type": "entropy H(U2|U1,B)",
+   "recorded_source": "computed"
+  },
+  {
+   "row_id": "artifact_smoothed_H_A_given_B",
+   "value_bits_per_symbol": 7.5094403148357545,
+   "source_population": "same artifact counts",
+   "conditional_table": "f = smooth_joint_to_conditional(counts, LAMBDA_STAR) [A,B]",
+   "bob_weights": "artifact p_b",
+   "smoothing": "accepted concentration/backoff LAMBDA_STAR=137.3823795883264 (per-column weight lambda/(n_b+lambda))",
+   "functional_type": "entropy of the accepted smoothed model under p_b",
+   "recorded_source": "computed; must reproduce X06 h1+h2 and P2 H_chain within 1e-9"
+  },
+  {
+   "row_id": "artifact_smoothed_H1",
+   "value_bits_per_symbol": 4.286720430201375,
+   "source_population": "same artifact counts",
+   "conditional_table": "p1_f = derive_p1(f) [U1,B]",
+   "bob_weights": "artifact p_b",
+   "smoothing": "accepted LAMBDA_STAR",
+   "functional_type": "entropy H(U1|B) of the smoothed model",
+   "recorded_source": "computed; X06 entropy.h1_bits = 4.286720430201375"
+  },
+  {
+   "row_id": "artifact_smoothed_H2",
+   "value_bits_per_symbol": 3.222719884634378,
+   "source_population": "same artifact counts",
+   "conditional_table": "p2_f = derive_p2(f) [U1,B,U2]",
+   "bob_weights": "artifact p_b",
+   "smoothing": "accepted LAMBDA_STAR",
+   "functional_type": "entropy H(U2|U1,B) of the smoothed model",
+   "recorded_source": "computed; X06 entropy.h2_bits = 3.222719884634378"
+  },
+  {
+   "row_id": "artifact_CE_pmle_to_f",
+   "value_bits_per_symbol": 5.598503961834584,
+   "source_population": "same artifact counts",
+   "conditional_table": "source p_mle, evaluated under smoothed f",
+   "bob_weights": "artifact p_b",
+   "smoothing": "accepted LAMBDA_STAR",
+   "functional_type": "cross-entropy of raw counts under the smoothed model (CE1+CE2 = 3.690837406993693 + 1.907666554840891)",
+   "recorded_source": "computed; compare P2 CE_resubstitution=5.5985039618345835 and G1 candidate in-sample sum=7.5094403148357545"
+  },
+  {
+   "row_id": "artifact_CE_f_to_pmle",
+   "value_bits_per_symbol": null,
+   "source_population": "same artifact counts",
+   "conditional_table": "source f, evaluated under MLE p_mle",
+   "bob_weights": "artifact p_b",
+   "smoothing": "accepted LAMBDA_STAR",
+   "functional_type": "cross-entropy is +inf (f has positive mass on cells with zero MLE support); finite part over MLE support and out-of-support mass reported separately",
+   "recorded_source": "computed"
+  },
+  {
+   "row_id": "x06_sampled_law_expected_H",
+   "value_bits_per_symbol": 7.509440314835753,
+   "source_population": "X06 synthetic TRAIN/DEV sampling law: B~p_b, A~f(.,B) from the same artifact table",
+   "conditional_table": "f (accepted smoothed table)",
+   "bob_weights": "artifact p_b",
+   "smoothing": "accepted LAMBDA_STAR (source of the sampled law)",
+   "functional_type": "expected layer conditional entropies of the sampling model = smoothed-model entropies under p_b",
+   "recorded_source": "algebraic identity; X06 recorded h1_bits+h2_bits"
+  },
+  {
+   "row_id": "x06_recorded_genie_nll_means",
+   "value_bits_per_symbol": 7.5194525114345785,
+   "source_population": "X06 pooled TRAIN genie statistics, 768 blocks/3 streams, polar-transformed domain, full-true disclosure",
+   "conditional_table": "p1_f/p2_f metrics conditioned per coordinate with all previous coordinates disclosed true",
+   "bob_weights": "artifact p_b",
+   "smoothing": "accepted LAMBDA_STAR",
+   "functional_type": "empirical NLL means (sampling estimate), NOT a table entropy",
+   "recorded_source": "X06 results.json train.pooled.l1/l2.h_summary.mean"
+  },
+  {
+   "row_id": "d4r2_d5_heldout_CE_joint",
+   "value_bits_per_symbol": 7.162347,
+   "source_population": "same 0dB session, nested-CV held-out outer folds (702..1725 partitioned)",
+   "conditional_table": "F model (same smooth_joint_to_conditional family) fitted on training folds",
+   "bob_weights": "model p_b",
+   "smoothing": "accepted LAMBDA_STAR fitted per training fold",
+   "functional_type": "held-out cross-entropy (nested CV), not in-sample entropy",
+   "recorded_source": "D4R2 report F mean_joint; P0 contract cites D5 CE joint"
+  }
+ ],
+ "vectorized_vs_literal": {
+  "H_mle_direct": {
+   "vectorized": 5.0770952217115815,
+   "literal": 5.077095221711582,
+   "abs_diff": 8.881784197001252e-16
+  },
+  "H1_mle": {
+   "vectorized": 3.595851491252375,
+   "literal": 3.5958514912523754,
+   "abs_diff": 4.440892098500626e-16
+  },
+  "H2_mle": {
+   "vectorized": 1.4812437304592065,
+   "literal": 1.4812437304592068,
+   "abs_diff": 2.220446049250313e-16
+  },
+  "H_f_direct": {
+   "vectorized": 7.5094403148357545,
+   "literal": 7.509440314835757,
+   "abs_diff": 2.6645352591003757e-15
+  },
+  "H1_f": {
+   "vectorized": 4.286720430201375,
+   "literal": 4.286720430201371,
+   "abs_diff": 3.552713678800501e-15
+  },
+  "H2_f": {
+   "vectorized": 3.222719884634378,
+   "literal": 3.222719884634378,
+   "abs_diff": 0.0
+  },
+  "CE_pmle_to_f": {
+   "vectorized": 5.598503961834584,
+   "literal": 5.598503961834585,
+   "abs_diff": 8.881784197001252e-16
+  },
+  "H_lambda_zero": {
+   "vectorized": 5.0770952217115815,
+   "literal": 5.077095221711582,
+   "abs_diff": 8.881784197001252e-16
+  },
+  "max_abs_diff": 3.552713678800501e-15,
+  "tolerance": 1e-09,
+  "pass": true
+ },
+ "chain": {
+  "H_mle_chain_residual": 0.0,
+  "H_f_chain_residual": -1.7763568394002505e-15,
+  "tolerance": 1e-10,
+  "pass": true
+ },
+ "axis_packing_controls": {
+  "p_b_vs_counts_derived_bob_marginal_max_abs": 0.0,
+  "p_b_vs_counts_derived_bob_marginal_tol": 1e-12,
+  "p_b_sum": 1.0,
+  "p_b_equals_counts_marginal": true,
+  "transpose_sentinel_row_marginal_max_abs": 0.000209808349609375,
+  "transpose_sentinel_recorded_p2": 0.000209808349609375,
+  "transpose_sentinel_recorded_match": true,
+  "H_as_stored_Alice_Bob": 5.0770952217115815,
+  "H_transposed_with_own_p_b": 5.07950490837517,
+  "H_transposed_with_stored_p_b": 5.068674593920249,
+  "H_transposed_own_minus_stored": 0.0024096866635883174,
+  "packing_roundtrip_ok": true,
+  "packing_checked_symbols": 1024,
+  "mapping_contract": "symbol=low+32*high; high=U1; low=U2 (A=32*U1+U2)",
+  "packing_layout_max_abs_diff": 0.0,
+  "p1_from_f3_sentinel_max_abs_diff": 0.0,
+  "p2_from_f3_sentinel_max_abs_diff": 0.0,
+  "alternative_packing_H1": 4.342531743285223,
+  "alternative_packing_abs_diff_vs_frozen_H1": 0.05581131308384801,
+  "mle_column_sum_max_abs_dev": 7.105427357601002e-15,
+  "f_column_sum_max_abs_dev": 2.930988785010413e-14,
+  "p1_column_sum_max_abs_dev": 6.661338147750939e-16,
+  "p2_symbol_sum_max_abs_dev": 2.55351295663786e-15,
+  "normalization_tol": 1e-12,
+  "zero_mass_bob_columns": 0,
+  "rare_bob_columns_below_10": 0,
+  "mle_finite": true,
+  "f_finite": true,
+  "f_nonnegative": true,
+  "f_min": 0.00021421586950382674,
+  "f_max": 0.33915501602408454,
+  "x06_recorded_f_column_dev_max": 2.930988785010413e-14,
+  "x06_recorded_p1_column_dev_max": 6.661338147750939e-16,
+  "x06_recorded_p2_symbol_dev_max": 2.55351295663786e-15,
+  "x06_recorded_f_min": 0.00021421586950382674,
+  "x06_recorded_f_max": 0.33915501602408454,
+  "x06_recorded_counts_sum": 262144,
+  "recomputed_counts_sum": 262144
+ },
+ "support_aggregates": {
+  "nonzero_count_cells": 139766,
+  "cell_occupancy_fraction": 0.13329124450683594,
+  "P_A_equals_B": 0.4155006408691406,
+  "ser": 0.5844993591308594,
+  "top_modular_delta_b_minus_a": [
+   {
+    "delta": 0,
+    "count": 108921,
+    "fraction": 0.4155006408691406
+   },
+   {
+    "delta": 1023,
+    "count": 3299,
+    "fraction": 0.012584686279296875
+   },
+   {
+    "delta": 1,
+    "count": 3161,
+    "fraction": 0.012058258056640625
+   },
+   {
+    "delta": 726,
+    "count": 336,
+    "fraction": 0.00128173828125
+   },
+   {
+    "delta": 727,
+    "count": 221,
+    "fraction": 0.000843048095703125
+   }
+  ],
+  "v49_1m_raw_ser_recorded": 0.23977303568674083,
+  "v49_1m_delta_top_recorded": [
+   [
+    0,
+    0.7602269643132592
+   ],
+   [
+    1,
+    0.23843749206776907
+   ],
+   [
+    1023,
+    0.0013355436189717487
+   ]
+  ],
+  "v49_1m_nonzero_joint_cells_recorded": 2545
+ },
+ "smoothing_diagnostics": {
+  "lambda_star": 137.3823795883264,
+  "lambda_zero_semantics": "smooth_joint_to_conditional(counts, 0.0) equals column-normalized raw counts (item 1 MLE) when all n_b>0",
+  "n_b_quantiles": {
+   "0.00": 198.0,
+   "0.10": 230.0,
+   "0.25": 242.0,
+   "0.50": 257.0,
+   "0.75": 270.0,
+   "0.90": 280.0,
+   "1.00": 325.0
+  },
+  "n_b_mean": 256.0,
+  "n_b_sum": 262144.0,
+  "zero_mass_columns": 0,
+  "nonzero_columns": 1024,
+  "columns_below_10": 0,
+  "backoff_weight_lambda_over_nb_plus_lambda_quantiles": {
+   "0.00": 0.2971185444191067,
+   "0.10": 0.32915232244310294,
+   "0.25": 0.33723201216300985,
+   "0.50": 0.3483481684240866,
+   "0.75": 0.3621211394619911,
+   "0.90": 0.37394928886429296,
+   "1.00": 0.40962909189492863
+  },
+  "backoff_weight_pb_weighted_quantiles": {
+   "0.10": 0.3283611381635487,
+   "0.25": 0.33640623703406586,
+   "0.50": 0.347467127218389,
+   "0.75": 0.36022214696080174,
+   "0.90": 0.3729341770956948
+  },
+  "backoff_weight_pb_weighted_mean": 0.34875249645714346,
+  "backoff_weight_unweighted_mean": 0.35013034888052663,
+  "H_mle": 5.0770952217115815,
+  "H_f": 7.5094403148357545,
+  "H_increase_from_smoothing": 2.432345093124173,
+  "CE_pmle_to_f": 5.598503961834584,
+  "CE_pmle_to_f_minus_H_mle": 0.521408740123003,
+  "v49_min_n_b_recorded": 210,
+  "v49_w_max": 0.3954788373294425,
+  "v49_smoothing_upper_bound_bits": 5.724070566340433,
+  "v49_smoothing_bound_terms": {
+   "h2_w_max": 0.9682443681482853,
+   "v49_nll_total": 0.8010378248977232,
+   "w_max_times_log2N": 3.954788373294425,
+   "assumption": "V49 1M TRAIN per-column n_b >= 210 and H(p_global) <= log2(1024); sum p_b H(mle_b) = V49 H(A|B) = nll_total"
+  },
+  "global_entropy_needed_to_reach_x06_scale_with_w_max": 14.51445078718098,
+  "log2_N": 10.0,
+  "shrinkage_can_explain_v49_to_x06": false
+ },
+ "v49_comparisons": {
+  "v49_1M_TRAIN_nll_total": 0.8010378248977232,
+  "v49_1M_TRAIN_nll_u1": 0.02428054681872374,
+  "v49_1M_TRAIN_nll_u2": 0.7767572780789994,
+  "v49_1M_TRAIN_H_u1_given_b": 0.024280546820265723,
+  "v49_1M_TRAIN_kl_sample": -1.5419903317178314e-12,
+  "v49_functional_note": "V49 nll_total is the pair-mean NLL of the true symbol under the TRAIN-only MLE prior (= cross-entropy of the empirical TRAIN distribution under its own MLE table); for the TRAIN pool kl_sample ~ 0, so it equals the plug-in conditional entropy H(A|B) of that population. V49 u1/u2 split follows (A>>5, A&31) with floor 1e-15 + renorm.",
+  "differences_vs_computed": {
+   "v49_minus_artifact_raw_mle_H": -4.276057396813858,
+   "v49_minus_artifact_smoothed_H": -6.708402489938031,
+   "v49_minus_artifact_CE_pmle_to_f": -4.797466136936861,
+   "v49_minus_x06_table_total": -6.708402489938029,
+   "v49_minus_x06_genie_total": -6.718414686536855,
+   "artifact_raw_mle_H_minus_x06_genie_total": -2.442357289722997,
+   "artifact_smoothed_H_minus_x06_genie_total": -0.01001219659882402
+  },
+  "x06_table_total": 7.509440314835753,
+  "x06_genie_total": 7.5194525114345785,
+  "x06_recorded_h1_bits": 4.286720430201375,
+  "x06_recorded_h2_bits": 3.222719884634378,
+  "x06_genie_l1_mean": 4.292009491411354,
+  "x06_genie_l2_mean": 3.227443020023225,
+  "x06_assignment_quoted_total": 7.61,
+  "x06_quoted_note": "No X06 record equals 7.61. X06's recorded table-based total is h1_bits+h2_bits and its genie-NLL mean total is (l1_mean+l2_mean); the assignment's ~7.61 is an approximation of that scale, not a separately stored X06 quantity."
+ },
+ "x06_sampling_law": {
+  "law": "B ~ p_b (artifact Bob marginal = counts axis-1 marginal over Bob), then A | B ~ f(.,B) = smooth_joint_to_conditional(counts, LAMBDA_STAR)",
+  "source": "X06 prereg config.sampler empirical_channel.sample_full_block(rng, p_b, f, 32, 32, 256); high=Alice//32, low=Alice%32",
+  "algebraic_identity": "E_{B~p_b} E_{U1|B}[-log2 p1_f(U1|B)] = sum_b p_b H(p1_f(.,b)) = H1_f; E_{B,U1,U2}[-log2 p2_f(U2|U1,B)] = sum_b p_b sum_u1 p1_f H(p2_f(u1,b,.)) = H2_f; hence the expected X06 layer conditional entropies equal the accepted smoothed-model entropies under p_b (item 2). X06's recorded entropy.h1_bits/h2_bits are computed from exactly those p1/p2 tables (X06 prereg lines 648-651), so they are the same functional.",
+  "expected_H1_f": 4.286720430201375,
+  "expected_H2_f": 3.222719884634378,
+  "expected_total": 7.509440314835753,
+  "x06_recorded_table_H1": 4.286720430201375,
+  "x06_recorded_table_H2": 3.222719884634378,
+  "abs_diff_H1": 0.0,
+  "abs_diff_H2": 0.0,
+  "comparison_basis_note": "The genie means below are a DIFFERENT functional: per-coordinate NLL means over 768 pooled TRAIN blocks in the polar-transformed domain after full-true disclosure (construction.genie_conditionals -> sc_decode with all positions known). They are compared descriptively with an across-coordinate dispersion SE; coordinates are not independent.",
+  "x06_genie_l1_mean": 4.292009491411354,
+  "x06_genie_l2_mean": 3.227443020023225,
+  "x06_genie_total": 7.5194525114345785,
+  "x06_genie_l1_se_approx": 0.09806891658101644,
+  "x06_genie_l2_se_approx": 0.13724902930744642,
+  "genie_l1_minus_H1_f": 0.00528906120997874,
+  "genie_l2_minus_H2_f": 0.004723135388847055,
+  "genie_total_minus_H_f": 0.010012196598825795
+ },
+ "earliest_contract_divergence": {
+  "established": true,
+  "divergence_id": "POPULATION_SESSION_IDENTITY_1M",
+  "first_divergent_stage": "accepted Model-F artifact CAL population (session 20260123_1M_600k_0dB, frames 702..1725) vs the V49 1M TRAIN population (session type2_1M_20260121_184040, frames 0..1199)",
+  "explanation": "The accepted artifact counts_ab is built from the 20260123_1M_600k_0dB acquisition (P0 contract section 5; prepare registry check), whose accepted/recorded model scale is CE ~= 7.15-7.51 bits/symbol. The V49 CSV 1M TRAIN row is built from the 2026-01-21 type2_1M acquisition (V25 channel_counts.npz TRAIN-only; V25 inventory raw_ser 0.2398, delta support {0:0.760, 1:0.238}), whose plug-in conditional entropy is 0.801 bits/symbol. X06 sampled B~p_b, A~f from the artifact, so its expected layer entropies are the artifact's smoothed-model entropies (7.50944), not the V49 value. The X06 all-zero recovery point (0/640 pooled exact at K=45..140) was produced on the artifact-sampled channel.",
+  "not_the_cause": [
+   "axis/transpose: stored [Alice,Bob] is consistent; p_b equals the counts-derived Bob marginal (dev <= 1e-12); transpose sentinel reproduces the recorded 2.098e-4",
+   "packing: exhaustive split/combine round trip passes; derive_p1/derive_p2 match literal f3 layout to <= 1e-12",
+   "Bob weights: both sides use empirical Bob marginals of their own populations",
+   "column normalization: deviations <= 1e-12; zero/rare columns reported",
+   "smoothing: the accepted LAMBDA_STAR backoff can move the artifact's own in-sample entropy by 2.4323 bits and cannot by itself lift a 0.801-bit V49 channel to the 7.51-bit X06 scale (bound argument below)"
+  ],
+  "supporting_evidence": [
+   "P0 contract section 5 CAL lifecycle: 20260123_1M_600k_0dB, frames 702..1725, 262144 symbols",
+   "prepare registry check: session must be 20260123_1M_600k_0dB; CAL ids 702..1725; parquet columns [frame_id,pair_idx,alice_symbol,bob_symbol]",
+   "V49 report/CSV: 1M = type2_1M_20260121_184040, TRAIN 0..1199, n=307200, NLL_total=0.8010378248977232",
+   "V25 data inventory: source_id type2_1M_20260121_184040, raw_ser=0.23977303568674083, modular_delta_top {0:0.7602, 1:0.2384}, 2545 nonzero joint cells",
+   "D4R2 manifest session 20260123_1M_600k_0dB; report F mean_joint 7.162347, G mean_joint 9.999677",
+   "P2 CAL summary: H_chain=7.509440314835754 for the artifact; CE_resubstitution=5.5985039618345835",
+   "G1 review: candidate in-sample CE sum 7.5094403148357545, MI 2.48306874956704"
+  ],
+  "reported_values": {
+   "v49_1M_TRAIN_nll_total": 0.8010378248977232,
+   "artifact_raw_mle_H": 5.0770952217115815,
+   "artifact_smoothed_H": 7.5094403148357545,
+   "artifact_CE_pmle_to_f": 5.598503961834584,
+   "x06_table_total": 7.509440314835753,
+   "x06_genie_total": 7.5194525114345785,
+   "d4r2_heldout_CE_joint": 7.162347
+  },
+  "claim_boundary": "This is a descriptive provenance finding. It does not select an estimator, does not claim a channel or reconciliation performance, and does not modify any accepted artifact."
+ },
+ "resource": {
+  "wall_s": 2.7530274580058176,
+  "rss_bytes_peak": 232230912,
+  "rss_bytes_peak_rusage": 232230912,
+  "rss_bytes_peak_vmhwm": 232230912
+ },
+ "commands": [
+  {
+   "n": 1,
+   "text": "/mnt/d/Code/HD-QKD_Polar_Comparison/.venv/bin/python - < /tmp/x07_body.py",
+   "cwd": "/mnt/d/Code/HD-QKD_Polar_Comparison-nbpolar",
+   "kind": "frozen X07 Tier-X body (single artifact content read; no rerun)",
+   "exit_code": 0,
+   "stdout_lines": [
+    "X07 artifact open 1/1 at 2026-09-13T17:46:11Z",
+    "H_mle=5.077095221711581 H1_mle=3.595851491252375 H2_mle=1.481243730459207 chain_res=0.000e+00",
+    "H_f=7.509440314835754 H1_f=4.286720430201375 H2_f=3.222719884634378 chain_res=-1.776e-15",
+    "CE_pmle_to_f=5.598503961834584",
+    "vec_lit_max_abs_diff=3.553e-15 tol=1.0e-09",
+    "body_sha256=dd070e884ad73643bb5240ea07bc975ac9ccc0cd0e47f50ceb0019a7b38c88d8 match=True",
+    "results_path=/mnt/d/Code/HD-QKD_Polar_Comparison-nbpolar/workspace/probes/nbpolar_x07_entropy_contract_reconciliation/results.json"
+   ]
+  }
+ ],
+ "notes": [
+  "Tier-X non-claim probe: no threshold, pass/fail science verdict, winner, candidate/accepted token or qualification conclusion.",
+  "Exactly one Model-F artifact content read (open_count=1); no reopen, no retry after the content read; no sibling artifact or raw data read.",
+  "No decoder, RNG, tag, construction or sc_decode call was made; no lambda scan or tuning; no production/OpenSpec behavior edit; no commit/push; no ledger/memory/index update.",
+  "Only aggregates and quantiles are persisted: no 1024x1024 table, raw counts, samples or private vectors.",
+  "Writing scope: workspace/probes/nbpolar_x07_entropy_contract_reconciliation/{prereg.md,results.json} plus /tmp staging of the frozen body.",
+  "Post-run documented correction: auxiliary H(Alice)/MI block only (double-negation sign bug); reconstructed algebraically from H_f + recorded G1 MI; no artifact reopen, no rerun; all frozen required quantities (H, H1, H2, CE, chain, smoothing, V49 comparisons, axis controls) are unaffected."
+ ],
+ "post_run_arithmetic_correction": {
+  "applied_utc": "2026-09-13T17:47:15Z",
+  "scope": "quantities.artifact.marginals only (auxiliary MI block); no required frozen quantity changed",
+  "defect": "H(Alice marginal) was computed as -sum(xlog2x(p)) while xlog2x already returns the positive contribution; the result was negative (-9.99323966711963) and the two MI fields inherited the sign. Detected immediately after the run by the operator scan for negative entropy-like values.",
+  "method": "H_Alice_marginal = H_f + recorded_candidate_in_sample_MI (G1 review, same accepted artifact table; recorded = 2.48306874956704); MI_raw_mle = H_Alice_marginal - H_mle; MI_smoothed = H_Alice_marginal - H_f. Algebraic reconstruction from persisted quantities; no artifact content was read or re-read.",
+  "original_values": {
+   "H_Alice_marginal": -9.99323966711963,
+   "MI_raw_mle": -15.070334888831212,
+   "MI_smoothed": -17.502679981955385
+  },
+  "corrected_values": {
+   "H_Alice_marginal": 9.992509064402794,
+   "MI_raw_mle": 4.915413842691213,
+   "MI_smoothed": 2.48306874956704
+  },
+  "corroboration": {
+   "recorded_candidate_in_sample_MI": 2.48306874956704,
+   "corrected_MI_smoothed": 2.48306874956704,
+   "abs_diff_vs_recorded": 0.0,
+   "H_Alice_marginal_le_log2_1024": true
+  },
+  "artifact_reopen": false,
+  "rerun": false,
+  "required_quantities_affected": false
+ }
+}

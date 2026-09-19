@@ -1,0 +1,978 @@
+{
+ "probe_id": "NBPOLAR-X09-L2-ATTRIBUTION-R1",
+ "tier": "X",
+ "status": "X09R1_PROBE_COMPLETE_DESCRIPTIVE_ONLY",
+ "question": "Same-point correction of X09: clean per-arm/block H1 margins (single authoritative L2-NLL field each, keyed by block_index), shared-field H3 floor comparison, settled first_error_coord index space, grounded H2 NOT-DECIDABLE reason. No verdict on the next scientific factor.",
+ "delta_ref": ".workbuddy/queue/NBPOLAR-X09-L2-ATTRIBUTION/X09R1_DELTA.md (D1-D5)",
+ "delta_vs_X09": "D1 clean single-field margins keyed by block_index; D2 block_index fix; D3 shared-field floor comparison; D4 settled index space with exact lines; D5 grounded H2 reason + requirement. All else inherited from X09.",
+ "prereg_sha256": "d9b0c735e1822d5db0f0ab4b0f606e78f22db3df1d6a58aa6dba6792382edcbd",
+ "body_sha256": "0b3a69e8c28fe5b901fe4e32b5393a6ec41328896d76290397331c8aa5fb6bd2",
+ "body_sha_match": true,
+ "artifact_inventory": {
+  "files": [
+   {
+    "path": ".workbuddy/queue/NBPOLAR-PHASE4-P20M-RAW-PRIOR-VAL-1P5M/raw_prior_val_1p5m/per_block_arm_outcomes.jsonl",
+    "size": 15672,
+    "mtime_ns": 1789786428673827800
+   },
+   {
+    "path": ".workbuddy/queue/NBPOLAR-PHASE4-P20M-RAW-PRIOR-VAL-1P5M/raw_prior_val_1p5m/aggregate_summary.json",
+    "size": 7331,
+    "mtime_ns": 1789786428690864300
+   },
+   {
+    "path": ".workbuddy/queue/NBPOLAR-PHASE4-P20M-RAW-PRIOR-VAL-1P5M/raw_prior_val_1p5m/frozen_plan.json",
+    "size": 3600,
+    "mtime_ns": 1789786323831977300
+   },
+   {
+    "path": ".workbuddy/queue/NBPOLAR-PHASE4-P20M-RAW-PRIOR-VAL-1P5M/raw_prior_val_1p5m/input_and_predecessor_identity.json",
+    "size": 8281,
+    "mtime_ns": 1789786428687712200
+   },
+   {
+    "path": ".workbuddy/queue/NBPOLAR-PHASE4-P20M-RAW-PRIOR-VAL-1P5M/raw_prior_val_1p5m/report.md",
+    "size": 990,
+    "mtime_ns": 1789786428693955300
+   },
+   {
+    "path": ".workbuddy/queue/NBPOLAR-PHASE4-P20M-RAW-PRIOR-VAL-1P5M/raw_prior_1p5m.npz",
+    "size": 25438650,
+    "mtime_ns": 1789784782875097900
+   },
+   {
+    "path": ".workbuddy/queue/NBPOLAR-PHASE4-P20M-RAW-PRIOR-VAL-1P5M/raw_prior_orders_1p5m.json",
+    "size": 438141,
+    "mtime_ns": 1789784782881103400
+   },
+   {
+    "path": ".workbuddy/queue/NBPOLAR-PHASE4-P20I-L1-DISCLOSURE-1P5M/l1_disclosure_1p5m/per_block_arm_outcomes.jsonl",
+    "size": 14349,
+    "mtime_ns": 1789757420492667300
+   },
+   {
+    "path": ".workbuddy/queue/NBPOLAR-PHASE4-P20J-L1-DOSE-ESCALATION-1P5M/l1_dose_escalation_1p5m/per_block_arm_outcomes.jsonl",
+    "size": 14391,
+    "mtime_ns": 1789763299322277800
+   },
+   {
+    "path": ".workbuddy/queue/NBPOLAR-PHASE4-P20K-L1-DOSE-512-1P5M/l1_dose_512_1p5m/per_block_arm_outcomes.jsonl",
+    "size": 14362,
+    "mtime_ns": 1789769050033778600
+   },
+   {
+    "path": ".workbuddy/queue/NBPOLAR-PHASE4-P20H-PER-SESSION-CALIBRATION/per_session_confirmation/per_block_arm_outcomes.jsonl",
+    "size": 14400,
+    "mtime_ns": 1789749337493875300
+   },
+   {
+    "path": "comparison_bench/src/comparison_bench/formal_ir/nbpolar/raw_prior_val_1p5m.py",
+    "size": 122436,
+    "mtime_ns": 1789784810602423900
+   },
+   {
+    "path": "comparison_bench/src/comparison_bench/formal_ir/nbpolar/l1_order_1p5m.py",
+    "size": 146531,
+    "mtime_ns": 1789772700757403100
+   },
+   {
+    "path": "comparison_bench/src/comparison_bench/formal_ir/nbpolar/l1_disclosure_1p5m.py",
+    "size": 129349,
+    "mtime_ns": 1789751093016183300
+   },
+   {
+    "path": "comparison_bench/src/comparison_bench/formal_ir/nbpolar/l1_dose_escalation_1p5m.py",
+    "size": 131428,
+    "mtime_ns": 1789759213572613300
+   },
+   {
+    "path": "comparison_bench/src/comparison_bench/formal_ir/nbpolar/l1_dose_512_1p5m.py",
+    "size": 132814,
+    "mtime_ns": 1789766917361451200
+   }
+  ],
+  "protected_opens_attempted": false
+ },
+ "d1_h1_margins": {
+  "nll_field_inventory": [
+   "l2_nll_candidate_H_bits",
+   "l2_nll_true_H_bits",
+   "selected_total_nll_bits",
+   "true_l1_nll_bits",
+   "true_l2_nll_bits",
+   "true_total_nll_bits",
+   "true_total_nll_bits_per_pair"
+  ],
+  "writer_citations": {
+   "l2_nll_candidate_H_bits": [
+    {
+     "line": 1312,
+     "text": "\"l2_nll_candidate_H_bits\": None,"
+    },
+    {
+     "line": 1330,
+     "text": "diag[\"l2_nll_candidate_H_bits\"] = float(cand[\"l2_nll_bits\"])"
+    },
+    {
+     "line": 1377,
+     "text": "\"l2_nll_candidate_H_bits\": diag.get(\"l2_nll_candidate_H_bits\"),"
+    },
+    {
+     "line": 1427,
+     "text": "\"l2_nll_candidate_H_bits\": diag.get(\"l2_nll_candidate_H_bits\"),"
+    }
+   ],
+   "l2_nll_true_H_bits": [
+    {
+     "line": 1313,
+     "text": "\"l2_nll_true_H_bits\": None,"
+    },
+    {
+     "line": 1333,
+     "text": "diag[\"l2_nll_true_H_bits\"] = float(true_cond[\"l2_nll_bits\"])"
+    },
+    {
+     "line": 1378,
+     "text": "\"l2_nll_true_H_bits\": diag.get(\"l2_nll_true_H_bits\"),"
+    },
+    {
+     "line": 1428,
+     "text": "\"l2_nll_true_H_bits\": diag.get(\"l2_nll_true_H_bits\"),"
+    }
+   ],
+   "selected_total_nll_bits": [
+    {
+     "line": 1314,
+     "text": "\"selected_total_nll_bits\": None,"
+    },
+    {
+     "line": 1331,
+     "text": "diag[\"selected_total_nll_bits\"] = float(cand[\"total_nll_bits\"])"
+    },
+    {
+     "line": 1379,
+     "text": "\"selected_total_nll_bits\": diag.get(\"selected_total_nll_bits\"),"
+    },
+    {
+     "line": 1429,
+     "text": "\"selected_total_nll_bits\": diag.get(\"selected_total_nll_bits\"),"
+    }
+   ],
+   "true_l1_nll_bits": [
+    {
+     "line": 1299,
+     "text": "\"true_l1_nll_bits\": scoring.get(\"l1_nll_bits\"),"
+    }
+   ],
+   "true_l2_nll_bits": [
+    {
+     "line": 1300,
+     "text": "\"true_l2_nll_bits\": scoring.get(\"l2_nll_bits\"),"
+    }
+   ],
+   "true_total_nll_bits": [
+    {
+     "line": 1301,
+     "text": "\"true_total_nll_bits\": scoring.get(\"total_nll_bits\"),"
+    }
+   ],
+   "true_total_nll_bits_per_pair": [
+    {
+     "line": 1302,
+     "text": "\"true_total_nll_bits_per_pair\": scoring.get(\"total_nll_bits_per_pair\"),"
+    }
+   ]
+  },
+  "authoritative_rule": {
+   "G0_old_point_base": {
+    "primary": "l2_nll_candidate_H_bits",
+    "alternates": [
+     "true_l2_nll_bits",
+     "l2_nll_true_H_bits"
+    ]
+   },
+   "G1_raw_prior_session_budget": {
+    "primary": "l2_nll_candidate_H_bits",
+    "alternates": [
+     "true_l2_nll_bits",
+     "l2_nll_true_H_bits"
+    ]
+   },
+   "G2_true_l1_diagnostic": {
+    "primary": "true_l2_nll_bits",
+    "alternates": [
+     "l2_nll_true_H_bits",
+     "l2_nll_candidate_H_bits"
+    ]
+   }
+  },
+  "rule_basis": "G1 (raw-prior session budget) decodes the candidate path: l2_nll_candidate_H_bits. G2 (true-L1 oracle diagnostic) decodes the true/decided path: true_l2_nll_bits. G0 (lambda control) decodes the candidate path: l2_nll_candidate_H_bits.",
+  "per_record_margins": [
+   {
+    "arm": "G0_old_point_base",
+    "block_index": 0,
+    "first_error_layer": "L1",
+    "first_error_coord": 24,
+    "field_used": "l2_nll_candidate_H_bits",
+    "fallback_used": false,
+    "fallback_reason": "primary rule field numeric on this record",
+    "l2_nll_bits": 36195.93322382664,
+    "capacity_bits": 32524,
+    "margin_bits": -3671.9332238266434
+   },
+   {
+    "arm": "G1_raw_prior_session_budget",
+    "block_index": 0,
+    "first_error_layer": "L2",
+    "first_error_coord": 26,
+    "field_used": "l2_nll_candidate_H_bits",
+    "fallback_used": false,
+    "fallback_reason": "primary rule field numeric on this record",
+    "l2_nll_bits": 30529.94533974296,
+    "capacity_bits": 35164,
+    "margin_bits": 4634.054660257039
+   },
+   {
+    "arm": "G2_true_l1_diagnostic",
+    "block_index": 0,
+    "first_error_layer": "L2",
+    "first_error_coord": 26,
+    "field_used": "true_l2_nll_bits",
+    "fallback_used": false,
+    "fallback_reason": "primary rule field numeric on this record",
+    "l2_nll_bits": 27302.13437157509,
+    "capacity_bits": 33509,
+    "margin_bits": 6206.865628424908
+   },
+   {
+    "arm": "G0_old_point_base",
+    "block_index": 1,
+    "first_error_layer": "L1",
+    "first_error_coord": 5,
+    "field_used": "l2_nll_candidate_H_bits",
+    "fallback_used": false,
+    "fallback_reason": "primary rule field numeric on this record",
+    "l2_nll_bits": 36159.93259238907,
+    "capacity_bits": 32524,
+    "margin_bits": -3635.932592389072
+   },
+   {
+    "arm": "G1_raw_prior_session_budget",
+    "block_index": 1,
+    "first_error_layer": "L1",
+    "first_error_coord": 848,
+    "field_used": "l2_nll_candidate_H_bits",
+    "fallback_used": false,
+    "fallback_reason": "primary rule field numeric on this record",
+    "l2_nll_bits": 32807.08093907489,
+    "capacity_bits": 35164,
+    "margin_bits": 2356.919060925109
+   },
+   {
+    "arm": "G2_true_l1_diagnostic",
+    "block_index": 1,
+    "first_error_layer": "L2",
+    "first_error_coord": 3646,
+    "field_used": "true_l2_nll_bits",
+    "fallback_used": false,
+    "fallback_reason": "primary rule field numeric on this record",
+    "l2_nll_bits": 27490.63477307161,
+    "capacity_bits": 33509,
+    "margin_bits": 6018.365226928388
+   },
+   {
+    "arm": "G0_old_point_base",
+    "block_index": 2,
+    "first_error_layer": "L1",
+    "first_error_coord": 17,
+    "field_used": "l2_nll_candidate_H_bits",
+    "fallback_used": false,
+    "fallback_reason": "primary rule field numeric on this record",
+    "l2_nll_bits": 36279.1574828295,
+    "capacity_bits": 32524,
+    "margin_bits": -3755.157482829498
+   },
+   {
+    "arm": "G1_raw_prior_session_budget",
+    "block_index": 2,
+    "first_error_layer": "L2",
+    "first_error_coord": 31,
+    "field_used": "l2_nll_candidate_H_bits",
+    "fallback_used": false,
+    "fallback_reason": "primary rule field numeric on this record",
+    "l2_nll_bits": 28763.71395162848,
+    "capacity_bits": 35164,
+    "margin_bits": 6400.286048371519
+   },
+   {
+    "arm": "G2_true_l1_diagnostic",
+    "block_index": 2,
+    "first_error_layer": "L2",
+    "first_error_coord": 31,
+    "field_used": "true_l2_nll_bits",
+    "fallback_used": false,
+    "fallback_reason": "primary rule field numeric on this record",
+    "l2_nll_bits": 27444.383092534466,
+    "capacity_bits": 33509,
+    "margin_bits": 6064.616907465534
+   }
+  ],
+  "no_cross_field_sums": true,
+  "secondary_nll_fields_descriptive": [
+   {
+    "arm": "G0_old_point_base",
+    "block_index": 0,
+    "secondary_nll_fields": {
+     "l2_nll_true_H_bits": 56533.2636427481,
+     "selected_total_nll_bits": 69712.19534528145,
+     "true_l1_nll_bits": 13818.952444517714,
+     "true_l2_nll_bits": 26890.740047411407,
+     "true_total_nll_bits": 40709.69249192912,
+     "true_total_nll_bits_per_pair": 1.2423612210671728
+    }
+   },
+   {
+    "arm": "G1_raw_prior_session_budget",
+    "block_index": 0,
+    "secondary_nll_fields": {
+     "l2_nll_true_H_bits": 30529.94533974296,
+     "selected_total_nll_bits": 31353.875509597376,
+     "true_l1_nll_bits": 823.9301698544142,
+     "true_l2_nll_bits": 27302.13437157509,
+     "true_total_nll_bits": 28126.064541429507,
+     "true_total_nll_bits_per_pair": 0.8583393719918673
+    }
+   },
+   {
+    "arm": "G2_true_l1_diagnostic",
+    "block_index": 0,
+    "secondary_nll_fields": {
+     "l2_nll_candidate_H_bits": 30529.94533974296,
+     "l2_nll_true_H_bits": 30529.94533974296,
+     "selected_total_nll_bits": 31353.875509597376,
+     "true_l1_nll_bits": 823.9301698544142,
+     "true_total_nll_bits": 28126.064541429507,
+     "true_total_nll_bits_per_pair": 0.8583393719918673
+    }
+   },
+   {
+    "arm": "G0_old_point_base",
+    "block_index": 1,
+    "secondary_nll_fields": {
+     "l2_nll_true_H_bits": 55861.55182784022,
+     "selected_total_nll_bits": 68896.79235240859,
+     "true_l1_nll_bits": 13897.77904060197,
+     "true_l2_nll_bits": 26889.972298619796,
+     "true_total_nll_bits": 40787.751339221766,
+     "true_total_nll_bits_per_pair": 1.2447433880377736
+    }
+   },
+   {
+    "arm": "G1_raw_prior_session_budget",
+    "block_index": 1,
+    "secondary_nll_fields": {
+     "l2_nll_true_H_bits": 33175.97838739833,
+     "selected_total_nll_bits": 33840.86981623152,
+     "true_l1_nll_bits": 857.7730966886616,
+     "true_l2_nll_bits": 27490.63477307161,
+     "true_total_nll_bits": 28348.407869760274,
+     "true_total_nll_bits_per_pair": 0.865124751884774
+    }
+   },
+   {
+    "arm": "G2_true_l1_diagnostic",
+    "block_index": 1,
+    "secondary_nll_fields": {
+     "l2_nll_candidate_H_bits": 27611.013048181252,
+     "l2_nll_true_H_bits": 27611.013048181252,
+     "selected_total_nll_bits": 28468.786144869915,
+     "true_l1_nll_bits": 857.7730966886616,
+     "true_total_nll_bits": 28348.407869760274,
+     "true_total_nll_bits_per_pair": 0.865124751884774
+    }
+   },
+   {
+    "arm": "G0_old_point_base",
+    "block_index": 2,
+    "secondary_nll_fields": {
+     "l2_nll_true_H_bits": 56830.84708698941,
+     "selected_total_nll_bits": 70037.00025879107,
+     "true_l1_nll_bits": 13841.514194646643,
+     "true_l2_nll_bits": 27188.485264351548,
+     "true_total_nll_bits": 41029.999458998194,
+     "true_total_nll_bits_per_pair": 1.2521362139586851
+    }
+   },
+   {
+    "arm": "G1_raw_prior_session_budget",
+    "block_index": 2,
+    "secondary_nll_fields": {
+     "l2_nll_true_H_bits": 28763.71395162848,
+     "selected_total_nll_bits": 29565.160802552546,
+     "true_l1_nll_bits": 801.4468509240642,
+     "true_l2_nll_bits": 27444.383092534466,
+     "true_total_nll_bits": 28245.82994345853,
+     "true_total_nll_bits_per_pair": 0.8619943220049601
+    }
+   },
+   {
+    "arm": "G2_true_l1_diagnostic",
+    "block_index": 2,
+    "secondary_nll_fields": {
+     "l2_nll_candidate_H_bits": 28763.71395162848,
+     "l2_nll_true_H_bits": 28763.71395162848,
+     "selected_total_nll_bits": 29565.160802552546,
+     "true_l1_nll_bits": 801.4468509240642,
+     "true_total_nll_bits": 28245.82994345853,
+     "true_total_nll_bits_per_pair": 0.8619943220049601
+    }
+   }
+  ],
+  "budget": {
+   "N_H2_bits": 26226.411266033036,
+   "G2_capacity_bits": 33509,
+   "G1_capacity_bits": 35164,
+   "G0_capacity_bits": 32524,
+   "capacity_over_entropy_ratio_G2": 1.2776814814689863
+  }
+ },
+ "d2_block_key": "block_index (X09 defect of null block fixed; every margin keyed by arm + block_index)",
+ "d3_floor_comparison": {
+  "p20m_floor_keys": [
+   "floor_hit_log_loss_bits",
+   "floor_hit_rate",
+   "floor_hits_1e15",
+   "raw_zero_count_hits"
+  ],
+  "predecessor_floor_keys": {
+   ".workbuddy/queue/NBPOLAR-PHASE4-P20I-L1-DISCLOSURE-1P5M/l1_disclosure_1p5m/per_block_arm_outcomes.jsonl": [
+    "floor_hit_log_loss_bits",
+    "floor_hits_1e15",
+    "raw_zero_count_hits"
+   ],
+   ".workbuddy/queue/NBPOLAR-PHASE4-P20J-L1-DOSE-ESCALATION-1P5M/l1_dose_escalation_1p5m/per_block_arm_outcomes.jsonl": [
+    "floor_hit_log_loss_bits",
+    "floor_hits_1e15",
+    "raw_zero_count_hits"
+   ],
+   ".workbuddy/queue/NBPOLAR-PHASE4-P20K-L1-DOSE-512-1P5M/l1_dose_512_1p5m/per_block_arm_outcomes.jsonl": [
+    "floor_hit_log_loss_bits",
+    "floor_hits_1e15",
+    "raw_zero_count_hits"
+   ],
+   ".workbuddy/queue/NBPOLAR-PHASE4-P20H-PER-SESSION-CALIBRATION/per_session_confirmation/per_block_arm_outcomes.jsonl": [
+    "floor_hit_log_loss_bits",
+    "floor_hits_1e15",
+    "raw_zero_count_hits"
+   ]
+  },
+  "shared_fields": [
+   "floor_hit_log_loss_bits",
+   "floor_hits_1e15",
+   "raw_zero_count_hits"
+  ],
+  "p20m_only_fields": [
+   "floor_hit_rate"
+  ],
+  "shared_comparison": {
+   "floor_hit_log_loss_bits": {
+    "p20m": {
+     "n_present": 9,
+     "n_records": 9,
+     "sum": 76578.33453722738,
+     "mean": 8508.703837469708,
+     "max": 21829.904925072122,
+     "min": 1243.3513419546698
+    },
+    ".workbuddy/queue/NBPOLAR-PHASE4-P20I-L1-DISCLOSURE-1P5M/l1_disclosure_1p5m/per_block_arm_outcomes.jsonl": {
+     "n_present": 9,
+     "n_records": 9,
+     "sum": 125724.50419852127,
+     "mean": 13969.389355391253,
+     "max": 21403.79957634664,
+     "min": -0.0
+    },
+    ".workbuddy/queue/NBPOLAR-PHASE4-P20J-L1-DOSE-ESCALATION-1P5M/l1_dose_escalation_1p5m/per_block_arm_outcomes.jsonl": {
+     "n_present": 9,
+     "n_records": 9,
+     "sum": 127276.61928281237,
+     "mean": 14141.846586979153,
+     "max": 22316.05275417593,
+     "min": -0.0
+    },
+    ".workbuddy/queue/NBPOLAR-PHASE4-P20K-L1-DOSE-512-1P5M/l1_dose_512_1p5m/per_block_arm_outcomes.jsonl": {
+     "n_present": 9,
+     "n_records": 9,
+     "sum": 125208.06969582218,
+     "mean": 13912.007743980243,
+     "max": 22178.990890825946,
+     "min": -0.0
+    },
+    ".workbuddy/queue/NBPOLAR-PHASE4-P20H-PER-SESSION-CALIBRATION/per_session_confirmation/per_block_arm_outcomes.jsonl": {
+     "n_present": 9,
+     "n_records": 9,
+     "sum": 131688.38818951207,
+     "mean": 14632.043132168008,
+     "max": 23933.997857131304,
+     "min": -0.0
+    }
+   },
+   "floor_hits_1e15": {
+    "p20m": {
+     "n_present": 9,
+     "n_records": 9,
+     "sum": 9358.0,
+     "mean": 1039.7777777777778,
+     "max": 3100.0,
+     "min": 25.0
+    },
+    ".workbuddy/queue/NBPOLAR-PHASE4-P20I-L1-DISCLOSURE-1P5M/l1_disclosure_1p5m/per_block_arm_outcomes.jsonl": {
+     "n_present": 9,
+     "n_records": 9,
+     "sum": 17805.0,
+     "mean": 1978.3333333333333,
+     "max": 3035.0,
+     "min": 0.0
+    },
+    ".workbuddy/queue/NBPOLAR-PHASE4-P20J-L1-DOSE-ESCALATION-1P5M/l1_dose_escalation_1p5m/per_block_arm_outcomes.jsonl": {
+     "n_present": 9,
+     "n_records": 9,
+     "sum": 18024.0,
+     "mean": 2002.6666666666667,
+     "max": 3166.0,
+     "min": 0.0
+    },
+    ".workbuddy/queue/NBPOLAR-PHASE4-P20K-L1-DOSE-512-1P5M/l1_dose_512_1p5m/per_block_arm_outcomes.jsonl": {
+     "n_present": 9,
+     "n_records": 9,
+     "sum": 17713.0,
+     "mean": 1968.111111111111,
+     "max": 3149.0,
+     "min": 0.0
+    },
+    ".workbuddy/queue/NBPOLAR-PHASE4-P20H-PER-SESSION-CALIBRATION/per_session_confirmation/per_block_arm_outcomes.jsonl": {
+     "n_present": 9,
+     "n_records": 9,
+     "sum": 18205.0,
+     "mean": 2022.7777777777778,
+     "max": 3262.0,
+     "min": 0.0
+    }
+   },
+   "raw_zero_count_hits": {
+    "p20m": {
+     "n_present": 9,
+     "n_records": 9,
+     "sum": 9358.0,
+     "mean": 1039.7777777777778,
+     "max": 3100.0,
+     "min": 25.0
+    },
+    ".workbuddy/queue/NBPOLAR-PHASE4-P20I-L1-DISCLOSURE-1P5M/l1_disclosure_1p5m/per_block_arm_outcomes.jsonl": {
+     "n_present": 9,
+     "n_records": 9,
+     "sum": 17805.0,
+     "mean": 1978.3333333333333,
+     "max": 3035.0,
+     "min": 0.0
+    },
+    ".workbuddy/queue/NBPOLAR-PHASE4-P20J-L1-DOSE-ESCALATION-1P5M/l1_dose_escalation_1p5m/per_block_arm_outcomes.jsonl": {
+     "n_present": 9,
+     "n_records": 9,
+     "sum": 18024.0,
+     "mean": 2002.6666666666667,
+     "max": 3166.0,
+     "min": 0.0
+    },
+    ".workbuddy/queue/NBPOLAR-PHASE4-P20K-L1-DOSE-512-1P5M/l1_dose_512_1p5m/per_block_arm_outcomes.jsonl": {
+     "n_present": 9,
+     "n_records": 9,
+     "sum": 17713.0,
+     "mean": 1968.111111111111,
+     "max": 3149.0,
+     "min": 0.0
+    },
+    ".workbuddy/queue/NBPOLAR-PHASE4-P20H-PER-SESSION-CALIBRATION/per_session_confirmation/per_block_arm_outcomes.jsonl": {
+     "n_present": 9,
+     "n_records": 9,
+     "sum": 18205.0,
+     "mean": 2022.7777777777778,
+     "max": 3262.0,
+     "min": 0.0
+    }
+   }
+  },
+  "p20m_per_arm_detail": {
+   "G0_old_point_base": [
+    {
+     "floor_hit_log_loss_bits": 21608.30869857777,
+     "floor_hits_1e15": 3064,
+     "raw_zero_count_hits": 3064,
+     "first_error_layer": "L1",
+     "first_error_coord": 24,
+     "block_index": 0
+    },
+    {
+     "floor_hit_log_loss_bits": 20825.224832245454,
+     "floor_hits_1e15": 2946,
+     "raw_zero_count_hits": 2946,
+     "first_error_layer": "L1",
+     "first_error_coord": 5,
+     "block_index": 1
+    },
+    {
+     "floor_hit_log_loss_bits": 21829.904925072122,
+     "floor_hits_1e15": 3100,
+     "raw_zero_count_hits": 3100,
+     "first_error_layer": "L1",
+     "first_error_coord": 17,
+     "block_index": 2
+    }
+   ],
+   "G1_raw_prior_session_budget": [
+    {
+     "floor_hit_log_loss_bits": 2137.198438539453,
+     "floor_hits_1e15": 43,
+     "raw_zero_count_hits": 43,
+     "first_error_layer": "L2",
+     "first_error_coord": 26,
+     "block_index": 0
+    },
+    {
+     "floor_hit_log_loss_bits": 4059.775598921367,
+     "floor_hits_1e15": 82,
+     "raw_zero_count_hits": 82,
+     "first_error_layer": "L1",
+     "first_error_coord": 848,
+     "block_index": 1
+    },
+    {
+     "floor_hit_log_loss_bits": 1243.3513419546698,
+     "floor_hits_1e15": 25,
+     "raw_zero_count_hits": 25,
+     "first_error_layer": "L2",
+     "first_error_coord": 31,
+     "block_index": 2
+    }
+   ],
+   "G2_true_l1_diagnostic": [
+    {
+     "floor_hit_log_loss_bits": 2137.198438539453,
+     "floor_hits_1e15": 43,
+     "raw_zero_count_hits": 43,
+     "first_error_layer": "L2",
+     "first_error_coord": 26,
+     "block_index": 0
+    },
+    {
+     "floor_hit_log_loss_bits": 1494.0209214224205,
+     "floor_hits_1e15": 30,
+     "raw_zero_count_hits": 30,
+     "first_error_layer": "L2",
+     "first_error_coord": 3646,
+     "block_index": 1
+    },
+    {
+     "floor_hit_log_loss_bits": 1243.3513419546698,
+     "floor_hits_1e15": 25,
+     "raw_zero_count_hits": 25,
+     "first_error_layer": "L2",
+     "first_error_coord": 31,
+     "block_index": 2
+    }
+   ]
+  },
+  "one_sided_context": {
+   "floor_hit_rate": {
+    "p20m": {
+     "n_present": 9,
+     "n_records": 9,
+     "sum": 0.142791748046875,
+     "mean": 0.015865749782986112,
+     "max": 0.04730224609375,
+     "min": 0.0003814697265625
+    },
+    "note": "one-sided context; absent in-sample"
+   }
+  },
+  "descriptive": "P20M L2-failing blocks carry FEWER floor hits (43,43,30,25,25) than the in-sample per-block maximum (3262)"
+ },
+ "d4_index_space": {
+  "function_source": [
+   {
+    "line": 1399,
+    "text": "def first_error_coordinate(high_hat, low_hat, high_true, low_true) -> dict:"
+   },
+   {
+    "line": 1400,
+    "text": "\"\"\"First mismatch coordinate and layer for attribution (scoring only).\"\"\""
+   },
+   {
+    "line": 1401,
+    "text": "if high_hat is not None:"
+   },
+   {
+    "line": 1402,
+    "text": "diff = np.asarray(high_hat) != np.asarray(high_true)"
+   },
+   {
+    "line": 1403,
+    "text": "hits = np.flatnonzero(diff)"
+   },
+   {
+    "line": 1404,
+    "text": "if hits.size:"
+   },
+   {
+    "line": 1405,
+    "text": "return {\"first_error_layer\": \"L1\", \"first_error_coord\": int(hits[0])}"
+   },
+   {
+    "line": 1406,
+    "text": "if low_hat is not None:"
+   },
+   {
+    "line": 1407,
+    "text": "diff = np.asarray(low_hat) != np.asarray(low_true)"
+   },
+   {
+    "line": 1408,
+    "text": "hits = np.flatnonzero(diff)"
+   },
+   {
+    "line": 1409,
+    "text": "if hits.size:"
+   },
+   {
+    "line": 1410,
+    "text": "return {\"first_error_layer\": \"L2\", \"first_error_coord\": int(hits[0])}"
+   },
+   {
+    "line": 1411,
+    "text": "return {\"first_error_layer\": None, \"first_error_coord\": None}"
+   },
+   {
+    "line": 1412,
+    "text": ""
+   },
+   {
+    "line": 1413,
+    "text": ""
+   }
+  ],
+  "hits_lines": [
+   {
+    "line": 1403,
+    "text": "hits = np.flatnonzero(diff)"
+   },
+   {
+    "line": 1404,
+    "text": "if hits.size:"
+   },
+   {
+    "line": 1405,
+    "text": "return {\"first_error_layer\": \"L1\", \"first_error_coord\": int(hits[0])}"
+   },
+   {
+    "line": 1408,
+    "text": "hits = np.flatnonzero(diff)"
+   },
+   {
+    "line": 1409,
+    "text": "if hits.size:"
+   },
+   {
+    "line": 1410,
+    "text": "return {\"first_error_layer\": \"L2\", \"first_error_coord\": int(hits[0])}"
+   }
+  ],
+  "call_sites": [
+   {
+    "call_line": 1507,
+    "context": [
+     {
+      "line": 1499,
+      "text": "\"true_total_nll_bits_per_pair\": scoring.get(\"total_nll_bits_per_pair\"),"
+     },
+     {
+      "line": 1500,
+      "text": "}"
+     },
+     {
+      "line": 1501,
+      "text": ""
+     },
+     {
+      "line": 1502,
+      "text": ""
+     },
+     {
+      "line": 1503,
+      "text": "def _operational_record(result, *, spec, arm_index, block, scoring, resources,"
+     },
+     {
+      "line": 1504,
+      "text": "disclosure=None, diag=None, error=None) -> dict:"
+     },
+     {
+      "line": 1505,
+      "text": "record = _base_record_fields("
+     },
+     {
+      "line": 1506,
+      "text": "spec=spec, arm_index=arm_index, block=block, scoring=scoring, oracle=False)"
+     },
+     {
+      "line": 1507,
+      "text": "first_error = first_error_coordinate("
+     },
+     {
+      "line": 1508,
+      "text": "result.high_hat, result.low_hat, block[\"high\"], block[\"low\"])"
+     },
+     {
+      "line": 1509,
+      "text": "record.update({"
+     },
+     {
+      "line": 1510,
+      "text": "\"outcome\": result.outcome,"
+     },
+     {
+      "line": 1511,
+      "text": "\"exact\": bool(result.exact),"
+     },
+     {
+      "line": 1512,
+      "text": "\"label_match\": bool(result.label_match),"
+     },
+     {
+      "line": 1513,
+      "text": "\"tag_pass\": bool(result.tag_pass),"
+     },
+     {
+      "line": 1514,
+      "text": "\"l1_exact\": bool(result.l1_exact),"
+     },
+     {
+      "line": 1515,
+      "text": "\"hard_l2_exact\": bool(result.hard_l2_exact),"
+     }
+    ]
+   },
+   {
+    "call_line": 1560,
+    "context": [
+     {
+      "line": 1552,
+      "text": "})"
+     },
+     {
+      "line": 1553,
+      "text": "return record"
+     },
+     {
+      "line": 1554,
+      "text": ""
+     },
+     {
+      "line": 1555,
+      "text": ""
+     },
+     {
+      "line": 1556,
+      "text": "def _control_record(result, *, spec, arm_index, block, scoring, resources,"
+     },
+     {
+      "line": 1557,
+      "text": "diag=None, error=None) -> dict:"
+     },
+     {
+      "line": 1558,
+      "text": "record = _base_record_fields("
+     },
+     {
+      "line": 1559,
+      "text": "spec=spec, arm_index=arm_index, block=block, scoring=scoring, oracle=True)"
+     },
+     {
+      "line": 1560,
+      "text": "first_error = first_error_coordinate("
+     },
+     {
+      "line": 1561,
+      "text": "None, result.low_hat, None, block[\"low\"])"
+     },
+     {
+      "line": 1562,
+      "text": "record.update({"
+     },
+     {
+      "line": 1563,
+      "text": "\"outcome\": result.outcome,"
+     },
+     {
+      "line": 1564,
+      "text": "\"exact\": bool(result.exact),"
+     },
+     {
+      "line": 1565,
+      "text": "\"label_match\": bool(result.label_match),"
+     },
+     {
+      "line": 1566,
+      "text": "\"tag_pass\": bool(result.tag_pass),"
+     },
+     {
+      "line": 1567,
+      "text": "\"l1_exact\": None,"
+     },
+     {
+      "line": 1568,
+      "text": "\"hard_l2_exact\": None,"
+     }
+    ]
+   }
+  ],
+  "index_space": "natural block symbol index: hits = mismatch positions of full-block estimate vs truth arrays, returned directly as int(hits[0]) with no order/perm mapping and full (unsliced) call-site arrays"
+ },
+ "d5_h2": {
+  "label": "NOT DECIDABLE-FROM-PERSISTED-ARTIFACTS",
+  "reason": "order positions index per-block symbols (l2_order len 32768), but per-block Bob/truth sequences are not persisted (sequence-like record keys: oracle_truth_use,truth_leak_violation); the npz is a 1024x1024 TRAIN cell table (counts_ab shape [1024, 1024]), not per-block data, so a failure coordinate cannot be mapped to a hazard/covered cell from persisted artifacts",
+  "instrumentation_requirement": "a successor packet must persist, at decode time per block, per-position hazard scalars (e.g. floor-mass / zero-count flags) and disclosed-prefix membership for the frozen order, so each observed failure coordinate maps to hazard + coverage state"
+ },
+ "hypothesis_table": {
+  "H1_budget_insufficiency": {
+   "label": "NOT SUPPORTED",
+   "evidence": "some L2-failing block fits its capacity; max failing margin 6400.3 bits (G1_raw_prior_session_budget)"
+  },
+  "H2_order_metric_nongeneralization": {
+   "label": "NOT DECIDABLE-FROM-PERSISTED-ARTIFACTS",
+   "evidence": "order positions index per-block symbols (l2_order len 32768), but per-block Bob/truth sequences are not persisted (sequence-like record keys: oracle_truth_use,truth_leak_violation); the npz is a 1024x1024 TRAIN cell table (counts_ab shape [1024, 1024]), not per-block data, so a failure coordinate cannot be mapped to a hazard/covered cell from persisted artifacts"
+  },
+  "H3_floor_heavytail": {
+   "label": "NOT SUPPORTED",
+   "evidence": "failing-block floor hits (43,43,30,25,25) at/below in-sample per-block max (3262)"
+  }
+ },
+ "next_packet_requirements": [
+  "persist, at decode time per block, per-position hazard scalars and disclosed-prefix membership for the frozen order (closes H2)",
+  "persist failure-neighborhood floor stats restricted to the disclosed prefix and failing-coordinate neighborhoods (sharpens H3)"
+ ],
+ "command": "cd /mnt/d/Code/HD-QKD_Polar_Comparison-nbpolar && export OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1 MKL_NUM_THREADS=1 MALLOC_ARENA_MAX=2 && timeout 120 /mnt/d/Code/HD-QKD_Polar_Comparison/.venv/bin/python workspace/probes/nbpolar_x09_l2_attribution_r1/body.py",
+ "interpreter": "/mnt/d/Code/HD-QKD_Polar_Comparison/.venv/bin/python 3.12.3 (main, Aug 31 2026, 10:18:26) [GCC 13.3.0]",
+ "wall_s": 0.17989947000751272,
+ "rss_bytes": 54099968,
+ "decoder_calls": 0,
+ "rng_calls": 0,
+ "tag_calls": 0,
+ "writes": [
+  "workspace/probes/nbpolar_x09_l2_attribution_r1/results.json"
+ ],
+ "notes": [
+  "Descriptive only; no verdict on the next scientific factor.",
+  "run-1 crashed on tuple-unpack bug in budget finite-check (fixed name/v order); rerun-2 after identical prereg regeneration; frozen params, artifact list, command unchanged.",
+  "p20m_n_records=9 (expected 9).",
+  "G0 capacity 32524 = 5*6492+64 from frozen plan g0_k2."
+ ]
+}

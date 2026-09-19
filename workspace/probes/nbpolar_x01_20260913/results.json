@@ -1,0 +1,1165 @@
+{
+  "commands": [
+    {
+      "command_full_text": "S=$(date -u +%Y-%m-%dT%H:%M:%SZ); sed -n '33,179p' workspace/probes/nbpolar_x01_20260913/prereg.md | sed 's/^   //' > /tmp/x01_body.log; rc=$?; E=$(date -u +%Y-%m-%dT%H:%M:%SZ); { sha256sum workspace/probes/nbpolar_x01_20260913/prereg.md; sha256sum /tmp/x01_body.log; wc -l -c /tmp/x01_body.log; } | tee /tmp/x01_n1_extract.out; echo \"X01_START=$S X01_END=$E X01_RC=$rc\"",
+      "cwd": "/mnt/d/Code/HD-QKD_Polar_Comparison-nbpolar",
+      "ended_utc": "2026-09-13T07:55:48Z",
+      "error_fixed": null,
+      "exit_code": 0,
+      "kind": "extraction of the frozen heredoc body",
+      "n": 1,
+      "started_utc": "2026-09-13T07:55:48Z",
+      "stderr_tail": "",
+      "stdout_tail": "761821c3efeac12b2a14be2a4ecf4262d9e682ab5474d3a685bf0cf6e9b99662  workspace/probes/nbpolar_x01_20260913/prereg.md\nc1934200e5d5ff0ce2890d04cbe29044126c5658175f125019c09ee59a2d14d7  /tmp/x01_body.log\n 147 6232 /tmp/x01_body.log\n"
+    },
+    {
+      "command_full_text": "S=$(date -u +%Y-%m-%dT%H:%M:%SZ); /mnt/d/Code/HD-QKD_Polar_Comparison/.venv/bin/python - <<'X01PF' > /tmp/x01_n2_preflight.out 2> /tmp/x01_n2_preflight.err\nimport sys\nfrom pathlib import Path\nimport numpy as np\nfrom comparison_bench.src.comparison_bench.formal_ir import nbpolar as nb\n\nbody = Path(\"/tmp/x01_body.log\").read_text(encoding=\"utf-8\")\ncompile(body, \"<x01-frozen-body>\", \"exec\")  # parse-only, no execution\ntarget = Path(\"workspace/probes/nbpolar_x01_20260913/results.json\")\nassert not target.exists(), f\"target output already exists: {target}\"\nassert hasattr(nb, \"protocol\") and hasattr(nb, \"incremental\") and hasattr(nb, \"two_layer\")\nassert callable(nb.protocol.execute_blocks)\nassert callable(nb.incremental.run_three_arm_block)\nassert callable(nb.two_layer.run_two_layer_block)\nassert callable(nb.generate_erasure_block)\nprint(\"preflight_ok\", sys.executable, sys.version.split()[0], \"numpy\", np.__version__)\nprint(\"frozen_body_lines\", body.count(\"\\n\"), \"target_absent\", True)\nX01PF\nrc=$?; E=$(date -u +%Y-%m-%dT%H:%M:%SZ); echo \"X01_START=$S X01_END=$E X01_RC=$rc\"; cat /tmp/x01_n2_preflight.out; cat /tmp/x01_n2_preflight.err",
+      "cwd": "/mnt/d/Code/HD-QKD_Polar_Comparison-nbpolar",
+      "ended_utc": "2026-09-13T07:56:00Z",
+      "error_fixed": "AssertionError: nb.two_layer was missing. Root cause: nbpolar/__init__.py imports the protocol/incremental submodules but never the two_layer submodule, so the frozen body's nb.two_layer access would have raised AttributeError at the last family (after P5 and R1 completed). Fix: added one import line to the executed body (command n=3). No parameter/model/seed changed.",
+      "exit_code": 1,
+      "kind": "preflight (no decode, no writes)",
+      "n": 2,
+      "started_utc": "2026-09-13T07:55:58Z",
+      "stderr_tail": "Traceback (most recent call last):\n  File \"<stdin>\", line 10, in <module>\nAssertionError\n",
+      "stdout_tail": ""
+    },
+    {
+      "command_full_text": "S=$(date -u +%Y-%m-%dT%H:%M:%SZ); sed '4a from comparison_bench.src.comparison_bench.formal_ir.nbpolar import two_layer  # X01-FIX: register the two_layer submodule for nb.two_layer' /tmp/x01_body.log > /tmp/x01_body_fixed.log; rc=$?; E=$(date -u +%Y-%m-%dT%H:%M:%SZ); { echo \"--- diff (frozen body -> fixed body):\"; diff /tmp/x01_body.log /tmp/x01_body_fixed.log; echo \"--- hashes:\"; sha256sum /tmp/x01_body.log /tmp/x01_body_fixed.log; wc -l -c /tmp/x01_body_fixed.log; } | tee /tmp/x01_n3_fix.out; echo \"X01_START=$S X01_END=$E X01_RC=$rc\"",
+      "cwd": "/mnt/d/Code/HD-QKD_Polar_Comparison-nbpolar",
+      "ended_utc": "2026-09-13T07:56:46Z",
+      "error_fixed": null,
+      "exit_code": 0,
+      "kind": "execution fix (script only)",
+      "n": 3,
+      "started_utc": "2026-09-13T07:56:46Z",
+      "stderr_tail": "",
+      "stdout_tail": "diff (frozen body -> fixed body):\n4a5\n> from comparison_bench.src.comparison_bench.formal_ir.nbpolar import two_layer  # X01-FIX: register the two_layer submodule for nb.two_layer\n--- hashes:\nc1934200e5d5ff0ce2890d04cbe29044126c5658175f125019c09ee59a2d14d7  /tmp/x01_body.log\n420031ce6d8adfb4b24b0da236378dbf8fdb9c8b2618e2a847806a6ad33466d7  /tmp/x01_body_fixed.log\n 148 6372 /tmp/x01_body_fixed.log\n"
+    },
+    {
+      "command_full_text": "S=$(date -u +%Y-%m-%dT%H:%M:%SZ); /mnt/d/Code/HD-QKD_Polar_Comparison/.venv/bin/python - <<'X01PF2' > /tmp/x01_n4_preflight2.out 2> /tmp/x01_n4_preflight2.err\nimport sys\nfrom pathlib import Path\nimport numpy as np\nfrom comparison_bench.src.comparison_bench.formal_ir import nbpolar as nb\nfrom comparison_bench.src.comparison_bench.formal_ir.nbpolar import two_layer  # same fix line effect\n\nbody = Path(\"/tmp/x01_body_fixed.log\").read_text(encoding=\"utf-8\")\ncompile(body, \"<x01-fixed-body>\", \"exec\")  # parse only\ntarget = Path(\"workspace/probes/nbpolar_x01_20260913/results.json\")\nassert not target.exists(), f\"target output already exists: {target}\"\nfor mod, names in ((nb.protocol, (\"execute_blocks\", \"TOEPLITZ_MASTER_SEED\")),\n                   (nb.incremental, (\"run_three_arm_block\", \"build_nested_schedule\", \"FROZEN_K\", \"TOEPLITZ_MASTER_SEED\")),\n                   (nb.two_layer, (\"run_two_layer_block\", \"build_injected_joint_table\", \"layer_metric_tables\", \"frozen_disclosure_sets\", \"sample_two_layer_block\", \"layer_observation_matrix\", \"SEED_BITS\")),\n                   (nb, (\"make_gf32\", \"generate_erasure_block\"))):\n    for name in names:\n        assert hasattr(mod, name), f\"missing {mod}.{name}\"\n\n# decoder-free exercise of the exact P4 helper definitions extracted from the body\nblock = body.split(\"# P4 injected-table families\", 1)[1].split(\"def run_p4\", 1)[0]\nns = {\"np\": np, \"nb\": nb, \"N\": 256}\nexec(block, ns)\ndep = ns[\"dependent_table\"]()\ncol_dev = float(np.abs(dep.sum(axis=0) - 1.0).max())\nassert dep.shape == (1024, 1024) and col_dev <= 1e-12, col_dev\n_, p2_dep = nb.two_layer.layer_metric_tables(dep)\ngap_dep = float(ns[\"p2_gap\"](p2_dep))\nind = nb.two_layer.build_injected_joint_table(epsilon1=0.05, epsilon2=0.20)\n_, p2_ind = nb.two_layer.layer_metric_tables(ind)\ngap_ind = float(np.abs(p2_ind - p2_ind[0:1]).max())\nd1, d2 = nb.two_layer.frozen_disclosure_sets(n=256, k1=45, k2=110, epsilon1=0.05, epsilon2=0.20)\nassert d1.shape == (45,) and d2.shape == (110,)\nprint(\"preflight2_ok\", sys.executable, sys.version.split()[0], \"numpy\", np.__version__)\nprint(\"dependent_col_dev\", col_dev, \"dependent_gap_frozen_formula\", gap_dep, \"independent_gap\", gap_ind)\nX01PF2\nrc=$?; E=$(date -u +%Y-%m-%dT%H:%M:%SZ); echo \"X01_START=$S X01_END=$E X01_RC=$rc\"; cat /tmp/x01_n4_preflight2.out; cat /tmp/x01_n4_preflight2.err",
+      "cwd": "/mnt/d/Code/HD-QKD_Polar_Comparison-nbpolar",
+      "ended_utc": "2026-09-13T07:56:58Z",
+      "error_fixed": null,
+      "exit_code": 0,
+      "kind": "preflight 2 (no decode, no writes)",
+      "n": 4,
+      "started_utc": "2026-09-13T07:56:56Z",
+      "stderr_tail": "",
+      "stdout_tail": "preflight2_ok /mnt/d/Code/HD-QKD_Polar_Comparison/.venv/bin/python 3.12.3 numpy 2.5.3\ndependent_col_dev 3.3306690738754696e-15 dependent_gap_frozen_formula 0.2325000000000006 independent_gap 7.771561172376096e-16\n"
+    },
+    {
+      "command_full_text": "S=$(date -u +%Y-%m-%dT%H:%M:%SZ); /mnt/d/Code/HD-QKD_Polar_Comparison/.venv/bin/python - < /tmp/x01_body_fixed.log > /tmp/x01_n5_frozen.out 2> /tmp/x01_n5_frozen.err; rc=$?; E=$(date -u +%Y-%m-%dT%H:%M:%SZ); echo \"X01_START=$S X01_END=$E X01_RC=$rc\"; echo \"--- stdout:\"; cat /tmp/x01_n5_frozen.out; echo \"--- stderr:\"; cat /tmp/x01_n5_frozen.err; ls -la workspace/probes/nbpolar_x01_20260913/",
+      "cwd": "/mnt/d/Code/HD-QKD_Polar_Comparison-nbpolar",
+      "ended_utc": "2026-09-13T08:00:31Z",
+      "error_fixed": "ran the command-n3 fixed body; the frozen prereg body itself is preserved verbatim in executed_stdin_body_text minus the single X01-FIX line",
+      "executed_stdin_body_text": "import json, statistics\nfrom pathlib import Path\nimport numpy as np\nfrom comparison_bench.src.comparison_bench.formal_ir import nbpolar as nb\nfrom comparison_bench.src.comparison_bench.formal_ir.nbpolar import two_layer  # X01-FIX: register the two_layer submodule for nb.two_layer\n\nROOT = Path(\"workspace/probes/nbpolar_x01_20260913\")\nN = 256\nOFF = 10000\n\ndef agg(v):\n    v = [float(x) for x in v]\n    return {\"per_seed\": v, \"mean\": float(statistics.mean(v)),\n            \"sample_std\": float(statistics.stdev(v)),\n            \"range\": [float(min(v)), float(max(v))]}\n\ndef counts(rs):\n    return {\n        \"exact\": sum(1 for r in rs if r.exact),\n        \"decode_failed\": sum(1 for r in rs if r.outcome == \"decode_failed\"),\n        \"verify_failed\": sum(1 for r in rs if r.outcome == \"verify_failed\"),\n        \"undetected\": sum(1 for r in rs if r.outcome == \"undetected\"),\n        \"resource_abort\": sum(1 for r in rs if r.outcome == \"resource_abort\"),\n        \"failure\": sum(1 for r in rs if r.outcome in (\"decode_failed\", \"verify_failed\", \"resource_abort\")),\n        \"key_dependent_bits_total\": int(sum(r.key_dependent_bits for r in rs)),\n        \"public_control_bits_total\": int(sum(r.public_control_bits for r in rs)),\n    }\n\nfam = {}\n\n# P5 K45 family (accepted protocol.execute_blocks semantics)\nfam[\"p5_k45\"] = {}\nfor s in range(2026091400, 2026091405):\n    nb.protocol.TOEPLITZ_MASTER_SEED = s + OFF\n    sm = nb.protocol.execute_blocks(run_seed=s, blocks=300, n=N, k=45).summary\n    t = sm[\"outcome_totals\"]\n    fam[\"p5_k45\"][s] = {\n        \"exact\": t[\"exact\"], \"decode_failed\": t[\"decode_failed\"],\n        \"verify_failed\": t[\"verify_failed\"], \"undetected\": t[\"undetected\"],\n        \"resource_abort\": t[\"resource_abort\"],\n        \"failure\": t[\"decode_failed\"] + t[\"verify_failed\"] + t[\"resource_abort\"],\n        \"key_dependent_bits_total\": sm[\"key_dependent_bits_total\"],\n        \"public_control_bits_total\": sm[\"public_control_bits_total\"],\n    }\n\n# R1 three-arm family (static K45 / strict-stop / R1 advance)\nfam[\"r1_three_arm\"] = {}\nfor s in range(2026091410, 2026091415):\n    nb.incremental.TOEPLITZ_MASTER_SEED = s + OFF\n    field = nb.make_gf32()\n    nested = nb.incremental.build_nested_schedule(n=N, epsilon=0.05, sizes=nb.incremental.FROZEN_K)\n    rng = np.random.default_rng(s)\n    arms = {\"static\": [], \"strict_stop\": [], \"r1\": []}\n    for b in range(300):\n        x, _y, logp = nb.generate_erasure_block(rng, 32, N, 0.05)\n        three = nb.incremental.run_three_arm_block(b, x, logp, field=field, n=N,\n                    sizes=nb.incremental.FROZEN_K, nested=nested)\n        arms[\"static\"].append(three[\"static_result\"])\n        arms[\"strict_stop\"].append(three[\"strict_result\"])\n        arms[\"r1\"].append(three[\"r1_result\"])\n    flat = {}\n    for a, rs in arms.items():\n        for k, val in counts(rs).items():\n            flat[a + \"_\" + k] = val\n    fam[\"r1_three_arm\"][s] = flat\n\n# P4 injected-table families\ndef eps2_u1():\n    return 0.08 + 0.24 * np.arange(32) / 31.0\n\ndef dependent_table():\n    a = np.arange(1024); ah, al = a // 32, a % 32\n    b = np.arange(1024); bh, bl = b // 32, b % 32\n    ph = nb.two_layer.layer_observation_matrix(0.05)\n    tbl = np.zeros((1024, 1024))\n    e2 = eps2_u1()\n    for hi in range(32):\n        pl = nb.two_layer.layer_observation_matrix(float(e2[hi]))\n        idx = np.where(ah == hi)[0]\n        tbl[np.ix_(idx, b)] = ph[hi, bh][None, :] * pl[al[idx][:, None], bl[None, :]]\n    return tbl\n\ndef p2_gap(p2):\n    return float(np.abs(p2 - p2[0:1]).max())\n\ndef sample_dependent(rng):\n    e2 = eps2_u1()\n    high = rng.integers(0, 32, size=N).astype(np.int64)\n    low = rng.integers(0, 32, size=N).astype(np.int64)\n    b_high = high.copy(); er = rng.random(N) < 0.05\n    if er.any():\n        i = np.where(er)[0]; b_high[i] = rng.integers(0, 32, size=i.size)\n    b_low = low.copy(); er2 = rng.random(N) < e2[high]\n    if er2.any():\n        i = np.where(er2)[0]; b_low[i] = rng.integers(0, 32, size=i.size)\n    return high, low, (32 * b_high + b_low).astype(np.int64)\n\ndef run_p4(name, seeds, table, dependent):\n    p1, p2 = nb.two_layer.layer_metric_tables(table)\n    gap = p2_gap(p2)\n    fam[name] = {\"p2_cross_u1_max_abs_diff\": gap, \"seeds\": {}}\n    if dependent and gap < 0.10:\n        fam[name][\"proof_failed\"] = True\n        return\n    d1, d2 = nb.two_layer.frozen_disclosure_sets(n=N, k1=45, k2=110, epsilon1=0.05, epsilon2=0.20)\n    field = nb.make_gf32()\n    for s in seeds:\n        rng = np.random.default_rng(s)\n        op, orc = [], []\n        for b in range(96):\n            if dependent:\n                high, low, bob = sample_dependent(rng)\n            else:\n                smp = nb.two_layer.sample_two_layer_block(rng, n=N, epsilon1=0.05, epsilon2=0.20)\n                high, low, bob = smp.high, smp.low, smp.bob\n            r = nb.two_layer.run_two_layer_block(b, high, low, bob, field=field,\n                    p1_table=p1, p2_table=p2, d1=d1, d2=d2, n=N, k1=45, k2=110,\n                    toeplitz_master=s + OFF)\n            op.append(r.operational); orc.append(r.oracle)\n        flat = {}\n        for a, rs in ((\"operational\", op), (\"oracle\", orc)):\n            for k, val in counts(rs).items():\n                flat[a + \"_\" + k] = val\n        fam[name][\"seeds\"][s] = flat\n\nrun_p4(\"p4_independent\", range(2026091420, 2026091425),\n       nb.two_layer.build_injected_joint_table(epsilon1=0.05, epsilon2=0.20), False)\nrun_p4(\"p4_dependent_l2\", range(2026091430, 2026091435), dependent_table(), True)\n\nagg_fam = {}\nfor name, f in fam.items():\n    if \"seeds\" in f:\n        seeds = f[\"seeds\"]\n        entry = {\"p2_cross_u1_max_abs_diff\": f[\"p2_cross_u1_max_abs_diff\"], \"aggregate\": {}}\n        if seeds:\n            entry[\"aggregate\"] = {k: agg([seeds[s][k] for s in seeds])\n                                  for k in sorted(next(iter(seeds.values())).keys())}\n        if f.get(\"proof_failed\"):\n            entry[\"proof_failed\"] = True\n        agg_fam[name] = entry\n    else:\n        agg_fam[name] = {k: agg([f[s][k] for s in f]) for k in sorted(next(iter(f.values())).keys())}\n\nout = {\"probe\": \"nbpolar_x01_20260913\", \"tier\": \"X-non-claim\", \"n\": N,\n       \"master_offset\": OFF, \"per_seed\": fam, \"aggregate\": agg_fam}\nROOT.mkdir(parents=True, exist_ok=True)\n(ROOT / \"results.json\").write_text(json.dumps(out, indent=2, sort_keys=True) + \"\\n\", encoding=\"utf-8\")\nprint(\"wrote\", ROOT / \"results.json\")\n",
+      "exit_code": 0,
+      "fix_diff": "4a5\n> from comparison_bench.src.comparison_bench.formal_ir.nbpolar import two_layer  # X01-FIX: register the two_layer submodule for nb.two_layer",
+      "kind": "frozen five-seed execution (P5 K45, R1 three-arm, P4 independent, P4 dependent-L2)",
+      "n": 5,
+      "started_utc": "2026-09-13T07:57:08Z",
+      "stderr_tail": "",
+      "stdout_tail": "wrote workspace/probes/nbpolar_x01_20260913/results.json\n"
+    },
+    {
+      "command_full_text": "cat > /tmp/x01_n6_post_body.log <<'X01P'\nimport hashlib\nimport json\nimport statistics\nimport sys\nimport time\nfrom pathlib import Path\n\nimport numpy as np\n\nfrom comparison_bench.src.comparison_bench.formal_ir import nbpolar as nb\n\nT0 = time.strftime(\"%Y-%m-%dT%H:%M:%SZ\", time.gmtime())\nROOT = Path(\"workspace/probes/nbpolar_x01_20260913\")\nOFF = 10000\n\n# ---------- provenance / executed-body byte fidelity ----------\nprereg_text = (ROOT / \"prereg.md\").read_text(encoding=\"utf-8\")\nprereg_sha = hashlib.sha256(prereg_text.encode(\"utf-8\")).hexdigest()\nfrozen_body = Path(\"/tmp/x01_body.log\").read_text(encoding=\"utf-8\")\nfixed_body = Path(\"/tmp/x01_body_fixed.log\").read_text(encoding=\"utf-8\")\nFIX_LINE = (\"from comparison_bench.src.comparison_bench.formal_ir.nbpolar import two_layer\"\n            \"  # X01-FIX: register the two_layer submodule for nb.two_layer\")\nexpected_frozen = \"\\n\".join(\n    (line[3:] if line.startswith(\"   \") else line) for line in prereg_text.splitlines()[32:179]\n) + \"\\n\"\nfl = expected_frozen.splitlines()\nassert expected_frozen == frozen_body, \"executed frozen body differs from prereg code block\"\nassert fixed_body == \"\\n\".join(fl[:4] + [FIX_LINE] + fl[4:]) + \"\\n\", \"X01-FIX insert mismatch\"\n\n# ---------- build the required results schema from the raw frozen output ----------\nraw = json.loads((ROOT / \"results.json\").read_text(encoding=\"utf-8\"))\nps = raw[\"per_seed\"]\n\ndef stats(values):\n    v = [float(x) for x in values]\n    return {\"mean\": float(statistics.mean(v)), \"sample_std\": float(statistics.stdev(v)),\n            \"range\": [float(min(v)), float(max(v))]}\n\ndef family_from_mapping(mapping, config):\n    rows = [{\"seed\": int(s), **{k: mapping[s][k] for k in sorted(mapping[s])}}\n            for s in sorted(mapping, key=int)]\n    if rows:\n        keys = [k for k in sorted(rows[0]) if k != \"seed\"]\n        agg = {k: stats([r[k] for r in rows]) for k in keys}\n    else:\n        keys, agg = [], {}\n    return {\"config\": config, \"seeds\": rows,\n            \"mean\": {k: agg[k][\"mean\"] for k in keys},\n            \"sample_std\": {k: agg[k][\"sample_std\"] for k in keys},\n            \"range\": {k: agg[k][\"range\"] for k in keys}}\n\nCFG = {\n    \"p5_k45\": {\"n\": 256, \"blocks\": 300, \"k\": 45, \"epsilon\": 0.05,\n               \"semantics\": \"accepted protocol.execute_blocks (P5 static protocol), in-memory\",\n               \"toeplitz_master_rule\": \"run_seed + 10000 via protocol.TOEPLITZ_MASTER_SEED (in-process module constant)\"},\n    \"r1_three_arm\": {\"n\": 256, \"blocks\": 300, \"K\": [29, 33, 37, 41, 45], \"epsilon\": 0.05,\n                     \"semantics\": \"accepted three-arm semantics via incremental.run_three_arm_block + generate_erasure_block (static K45 / strict-stop / R1 advance), in-memory\",\n                     \"toeplitz_master_rule\": \"run_seed + 10000 via incremental.TOEPLITZ_MASTER_SEED (in-process module constant)\"},\n    \"p4_independent\": {\"n\": 256, \"blocks\": 96, \"epsilon1\": 0.05, \"epsilon2\": 0.20, \"k1\": 45, \"k2\": 110,\n                       \"model\": \"accepted independent injected joint table (build_injected_joint_table(0.05, 0.20)) + two_layer.run_two_layer_block, in-memory\",\n                       \"toeplitz_master_rule\": \"toeplitz_master = run_seed + 10000 parameter\"},\n    \"p4_dependent_l2\": {\"n\": 256, \"blocks\": 96, \"epsilon1\": 0.05,\n                        \"epsilon2\": \"0.08 + 0.24*u1/31 (mean 0.20)\", \"k1\": 45, \"k2\": 110,\n                        \"model\": \"dependent layer-2 kernel epsilon2(u1)=0.08+0.24*u1/31; injected joint table normalized to column-sum deviation <= 1e-12; two_layer.run_two_layer_block, in-memory\",\n                        \"predecode_proof\": \"max_{u1,u1',b,u2}|P2[u1,b,u2]-P2[u1',b,u2]| >= 0.10, evaluated before any decode\",\n                        \"toeplitz_master_rule\": \"toeplitz_master = run_seed + 10000 parameter\"},\n}\n\nfamilies = {}\nfamilies[\"p5_k45\"] = family_from_mapping(ps[\"p5_k45\"], CFG[\"p5_k45\"])\nfamilies[\"r1_three_arm\"] = family_from_mapping(ps[\"r1_three_arm\"], CFG[\"r1_three_arm\"])\nfor name in (\"p4_independent\", \"p4_dependent_l2\"):\n    entry = ps[name]\n    f = family_from_mapping(entry[\"seeds\"], CFG[name])\n    f[\"decoded\"] = bool(entry[\"seeds\"])\n    f[\"proof_failed\"] = bool(entry.get(\"proof_failed\", False))\n    f[\"p2_cross_u1_max_abs_diff\"] = float(entry[\"p2_cross_u1_max_abs_diff\"])\n    families[name] = f\n\n# ---------- master-parameterization verification (decoder-free) ----------\ndef expected_seed_bits(prefix, length):\n    buf = bytearray()\n    counter = 0\n    while len(buf) * 8 < length:\n        buf.extend(hashlib.sha256(f\"{prefix}:{counter}\".encode(\"ascii\")).digest())\n        counter += 1\n    return np.unpackbits(np.frombuffer(bytes(buf), dtype=np.uint8), bitorder=\"big\")[:length].astype(np.uint8)\n\np5_seeds = [r[\"seed\"] for r in families[\"p5_k45\"][\"seeds\"]]\nr1_seeds = [r[\"seed\"] for r in families[\"r1_three_arm\"][\"seeds\"]]\np4_seeds = [r[\"seed\"] for r in families[\"p4_independent\"][\"seeds\"]]\n\ndefault_p5 = nb.protocol.TOEPLITZ_MASTER_SEED\nnb.protocol.TOEPLITZ_MASTER_SEED = default_p5\np5_default_bits = nb.protocol.block_toeplitz_seed_bits(0)\np5_checks = []\nfor s in p5_seeds:\n    m = s + OFF\n    nb.protocol.TOEPLITZ_MASTER_SEED = m\n    got = nb.protocol.block_toeplitz_seed_bits(0)\n    exp = expected_seed_bits(f\"nbpolar-p5-toeplitz-seed:{m}:0\", nb.protocol.SEED_BITS)\n    p5_checks.append({\"seed\": s, \"master\": m,\n                      \"matches_expected_master_bits\": bool(np.array_equal(got, exp)),\n                      \"differs_from_default_master\": bool(not np.array_equal(got, p5_default_bits))})\nnb.protocol.TOEPLITZ_MASTER_SEED = default_p5\n\ndefault_inc = nb.incremental.TOEPLITZ_MASTER_SEED\nnb.incremental.TOEPLITZ_MASTER_SEED = default_inc\ninc_default = {arm: nb.incremental.block_toeplitz_seed_bits(arm, 0, 0) for arm in (\"static\", \"incremental\")}\nr1_checks = []\nfor s in r1_seeds:\n    m = s + OFF\n    nb.incremental.TOEPLITZ_MASTER_SEED = m\n    row = {\"seed\": s, \"master\": m}\n    for arm in (\"static\", \"incremental\"):\n        got = nb.incremental.block_toeplitz_seed_bits(arm, 0, 0)\n        exp = expected_seed_bits(f\"nbpolar-p6-toeplitz-seed:{m}:{arm}:0:0\", nb.incremental.SEED_BITS)\n        row[arm + \"_matches_expected_master_bits\"] = bool(np.array_equal(got, exp))\n        row[arm + \"_differs_from_default_master\"] = bool(not np.array_equal(got, inc_default[arm]))\n    r1_checks.append(row)\nnb.incremental.TOEPLITZ_MASTER_SEED = default_inc\n\np4_checks = []\nfor s in p4_seeds:\n    m = s + OFF\n    row = {\"seed\": s, \"master\": m}\n    for arm in (\"operational\", \"oracle\"):\n        got = nb.two_layer.block_toeplitz_seed_bits(arm, 0, master=m)\n        exp = expected_seed_bits(f\"nbpolar-p4-toeplitz-seed:{m}:{arm}:0\", nb.two_layer.SEED_BITS)\n        pristine = nb.two_layer.block_toeplitz_seed_bits(arm, 0)\n        row[arm + \"_matches_expected_master_bits\"] = bool(np.array_equal(got, exp))\n        row[arm + \"_differs_from_default_master\"] = bool(not np.array_equal(got, pristine))\n    p4_checks.append(row)\n\n# ---------- dependent-table pre-decode proof recomputation (decoder-free) ----------\ndef dep_table():\n    a = np.arange(1024)\n    ah, al = a // 32, a % 32\n    b = np.arange(1024)\n    bh, bl = b // 32, b % 32\n    ph = nb.two_layer.layer_observation_matrix(0.05)\n    tbl = np.zeros((1024, 1024))\n    e2 = 0.08 + 0.24 * np.arange(32) / 31.0\n    for hi in range(32):\n        pl = nb.two_layer.layer_observation_matrix(float(e2[hi]))\n        idx = np.where(ah == hi)[0]\n        tbl[np.ix_(idx, b)] = ph[hi, bh][None, :] * pl[al[idx][:, None], bl[None, :]]\n    return tbl\n\ndep = dep_table()\ncol_dev = float(np.abs(dep.sum(axis=0) - 1.0).max())\n_, p2_dep = nb.two_layer.layer_metric_tables(dep)\ngap_formula = float(np.abs(p2_dep - p2_dep[0:1]).max())\ngap_pairwise = float((p2_dep.max(axis=0) - p2_dep.min(axis=0)).max())\nrecorded_dep_gap = families[\"p4_dependent_l2\"][\"p2_cross_u1_max_abs_diff\"]\n\nind = nb.two_layer.build_injected_joint_table(epsilon1=0.05, epsilon2=0.20)\n_, p2_ind = nb.two_layer.layer_metric_tables(ind)\nind_gap = float(np.abs(p2_ind - p2_ind[0:1]).max())\nrecorded_ind_gap = families[\"p4_independent\"][\"p2_cross_u1_max_abs_diff\"]\n\ndep_proof = {\n    \"rule\": \"max_{u1,u1',b,u2}|P2[u1,b,u2]-P2[u1',b,u2]| >= 0.10 (checked before any decode)\",\n    \"threshold\": 0.10,\n    \"frozen_formula_p2_cross_u1_max_abs_diff\": gap_formula,\n    \"frozen_formula_matches_recorded\": bool(abs(gap_formula - recorded_dep_gap) <= 1e-15),\n    \"pairwise_sup_recomputed\": gap_pairwise,\n    \"pairwise_sup_ge_0.10\": bool(gap_pairwise >= 0.10),\n    \"frozen_formula_ge_0.10\": bool(gap_formula >= 0.10),\n    \"column_sum_max_deviation\": col_dev,\n    \"column_normalized_within_1e-12\": bool(col_dev <= 1e-12),\n    \"passed\": bool(gap_formula >= 0.10),\n    \"family_decoded\": bool(families[\"p4_dependent_l2\"][\"decoded\"]),\n}\n\n# ---------- commands (every execution attempt, timestamps as observed by the shell) ----------\nPREFLIGHT1_BODY = \"\"\"import sys\nfrom pathlib import Path\nimport numpy as np\nfrom comparison_bench.src.comparison_bench.formal_ir import nbpolar as nb\n\nbody = Path(\"/tmp/x01_body.log\").read_text(encoding=\"utf-8\")\ncompile(body, \"<x01-frozen-body>\", \"exec\")  # parse-only, no execution\ntarget = Path(\"workspace/probes/nbpolar_x01_20260913/results.json\")\nassert not target.exists(), f\"target output already exists: {target}\"\nassert hasattr(nb, \"protocol\") and hasattr(nb, \"incremental\") and hasattr(nb, \"two_layer\")\nassert callable(nb.protocol.execute_blocks)\nassert callable(nb.incremental.run_three_arm_block)\nassert callable(nb.two_layer.run_two_layer_block)\nassert callable(nb.generate_erasure_block)\nprint(\"preflight_ok\", sys.executable, sys.version.split()[0], \"numpy\", np.__version__)\nprint(\"frozen_body_lines\", body.count(\"\\\\n\"), \"target_absent\", True)\"\"\"\n\nPREFLIGHT2_BODY = \"\"\"import sys\nfrom pathlib import Path\nimport numpy as np\nfrom comparison_bench.src.comparison_bench.formal_ir import nbpolar as nb\nfrom comparison_bench.src.comparison_bench.formal_ir.nbpolar import two_layer  # same fix line effect\n\nbody = Path(\"/tmp/x01_body_fixed.log\").read_text(encoding=\"utf-8\")\ncompile(body, \"<x01-fixed-body>\", \"exec\")  # parse only\ntarget = Path(\"workspace/probes/nbpolar_x01_20260913/results.json\")\nassert not target.exists(), f\"target output already exists: {target}\"\nfor mod, names in ((nb.protocol, (\"execute_blocks\", \"TOEPLITZ_MASTER_SEED\")),\n                   (nb.incremental, (\"run_three_arm_block\", \"build_nested_schedule\", \"FROZEN_K\", \"TOEPLITZ_MASTER_SEED\")),\n                   (nb.two_layer, (\"run_two_layer_block\", \"build_injected_joint_table\", \"layer_metric_tables\", \"frozen_disclosure_sets\", \"sample_two_layer_block\", \"layer_observation_matrix\", \"SEED_BITS\")),\n                   (nb, (\"make_gf32\", \"generate_erasure_block\"))):\n    for name in names:\n        assert hasattr(mod, name), f\"missing {mod}.{name}\"\n\n# decoder-free exercise of the exact P4 helper definitions extracted from the body\nblock = body.split(\"# P4 injected-table families\", 1)[1].split(\"def run_p4\", 1)[0]\nns = {\"np\": np, \"nb\": nb, \"N\": 256}\nexec(block, ns)\ndep = ns[\"dependent_table\"]()\ncol_dev = float(np.abs(dep.sum(axis=0) - 1.0).max())\nassert dep.shape == (1024, 1024) and col_dev <= 1e-12, col_dev\n_, p2_dep = nb.two_layer.layer_metric_tables(dep)\ngap_dep = float(ns[\"p2_gap\"](p2_dep))\nind = nb.two_layer.build_injected_joint_table(epsilon1=0.05, epsilon2=0.20)\n_, p2_ind = nb.two_layer.layer_metric_tables(ind)\ngap_ind = float(np.abs(p2_ind - p2_ind[0:1]).max())\nd1, d2 = nb.two_layer.frozen_disclosure_sets(n=256, k1=45, k2=110, epsilon1=0.05, epsilon2=0.20)\nassert d1.shape == (45,) and d2.shape == (110,)\nprint(\"preflight2_ok\", sys.executable, sys.version.split()[0], \"numpy\", np.__version__)\nprint(\"dependent_col_dev\", col_dev, \"dependent_gap_frozen_formula\", gap_dep, \"independent_gap\", gap_ind)\"\"\"\n\nSELF_BODY = Path(\"/tmp/x01_n6_post_body.log\").read_text(encoding=\"utf-8\")\nSELF_CMD = (\"cat > /tmp/x01_n6_post_body.log <<'X01P'\\n\" + SELF_BODY + \"X01P\\n\"\n            \"/mnt/d/Code/HD-QKD_Polar_Comparison/.venv/bin/python -m py_compile /tmp/x01_n6_post_body.log || exit 9\\n\"\n            \"S=$(date -u +%Y-%m-%dT%H:%M:%SZ); /mnt/d/Code/HD-QKD_Polar_Comparison/.venv/bin/python - < /tmp/x01_n6_post_body.log \"\n            \"> /tmp/x01_n6_post.out 2> /tmp/x01_n6_post.err; rc=$?; E=$(date -u +%Y-%m-%dT%H:%M:%SZ); \"\n            \"echo \\\"X01_START=$S X01_END=$E X01_RC=$rc\\\"; cat /tmp/x01_n6_post.out; cat /tmp/x01_n6_post.err\")\n\ndef tail(path, n=400):\n    try:\n        text = Path(path).read_text(encoding=\"utf-8\", errors=\"replace\")\n    except OSError:\n        return None\n    return text[-n:] if text else \"\"\n\ncommands = [\n    {\"n\": 1, \"kind\": \"extraction of the frozen heredoc body\",\n     \"started_utc\": \"2026-09-13T07:55:48Z\", \"ended_utc\": \"2026-09-13T07:55:48Z\", \"exit_code\": 0,\n     \"cwd\": \"/mnt/d/Code/HD-QKD_Polar_Comparison-nbpolar\",\n     \"command_full_text\": \"S=$(date -u +%Y-%m-%dT%H:%M:%SZ); sed -n '33,179p' workspace/probes/nbpolar_x01_20260913/prereg.md | sed 's/^   //' > /tmp/x01_body.log; rc=$?; E=$(date -u +%Y-%m-%dT%H:%M:%SZ); { sha256sum workspace/probes/nbpolar_x01_20260913/prereg.md; sha256sum /tmp/x01_body.log; wc -l -c /tmp/x01_body.log; } | tee /tmp/x01_n1_extract.out; echo \\\"X01_START=$S X01_END=$E X01_RC=$rc\\\"\",\n     \"stdout_tail\": tail(\"/tmp/x01_n1_extract.out\"), \"stderr_tail\": \"\", \"error_fixed\": None},\n    {\"n\": 2, \"kind\": \"preflight (no decode, no writes)\",\n     \"started_utc\": \"2026-09-13T07:55:58Z\", \"ended_utc\": \"2026-09-13T07:56:00Z\", \"exit_code\": 1,\n     \"cwd\": \"/mnt/d/Code/HD-QKD_Polar_Comparison-nbpolar\",\n     \"command_full_text\": \"S=$(date -u +%Y-%m-%dT%H:%M:%SZ); /mnt/d/Code/HD-QKD_Polar_Comparison/.venv/bin/python - <<'X01PF' > /tmp/x01_n2_preflight.out 2> /tmp/x01_n2_preflight.err\\n\" + PREFLIGHT1_BODY + \"\\nX01PF\\nrc=$?; E=$(date -u +%Y-%m-%dT%H:%M:%SZ); echo \\\"X01_START=$S X01_END=$E X01_RC=$rc\\\"; cat /tmp/x01_n2_preflight.out; cat /tmp/x01_n2_preflight.err\",\n     \"stdout_tail\": tail(\"/tmp/x01_n2_preflight.out\"), \"stderr_tail\": tail(\"/tmp/x01_n2_preflight.err\"),\n     \"error_fixed\": \"AssertionError: nb.two_layer was missing. Root cause: nbpolar/__init__.py imports the protocol/incremental submodules but never the two_layer submodule, so the frozen body's nb.two_layer access would have raised AttributeError at the last family (after P5 and R1 completed). Fix: added one import line to the executed body (command n=3). No parameter/model/seed changed.\"},\n    {\"n\": 3, \"kind\": \"execution fix (script only)\",\n     \"started_utc\": \"2026-09-13T07:56:46Z\", \"ended_utc\": \"2026-09-13T07:56:46Z\", \"exit_code\": 0,\n     \"cwd\": \"/mnt/d/Code/HD-QKD_Polar_Comparison-nbpolar\",\n     \"command_full_text\": \"S=$(date -u +%Y-%m-%dT%H:%M:%SZ); sed '4a from comparison_bench.src.comparison_bench.formal_ir.nbpolar import two_layer  # X01-FIX: register the two_layer submodule for nb.two_layer' /tmp/x01_body.log > /tmp/x01_body_fixed.log; rc=$?; E=$(date -u +%Y-%m-%dT%H:%M:%SZ); { echo \\\"--- diff (frozen body -> fixed body):\\\"; diff /tmp/x01_body.log /tmp/x01_body_fixed.log; echo \\\"--- hashes:\\\"; sha256sum /tmp/x01_body.log /tmp/x01_body_fixed.log; wc -l -c /tmp/x01_body_fixed.log; } | tee /tmp/x01_n3_fix.out; echo \\\"X01_START=$S X01_END=$E X01_RC=$rc\\\"\",\n     \"stdout_tail\": tail(\"/tmp/x01_n3_fix.out\"), \"stderr_tail\": \"\", \"error_fixed\": None},\n    {\"n\": 4, \"kind\": \"preflight 2 (no decode, no writes)\",\n     \"started_utc\": \"2026-09-13T07:56:56Z\", \"ended_utc\": \"2026-09-13T07:56:58Z\", \"exit_code\": 0,\n     \"cwd\": \"/mnt/d/Code/HD-QKD_Polar_Comparison-nbpolar\",\n     \"command_full_text\": \"S=$(date -u +%Y-%m-%dT%H:%M:%SZ); /mnt/d/Code/HD-QKD_Polar_Comparison/.venv/bin/python - <<'X01PF2' > /tmp/x01_n4_preflight2.out 2> /tmp/x01_n4_preflight2.err\\n\" + PREFLIGHT2_BODY + \"\\nX01PF2\\nrc=$?; E=$(date -u +%Y-%m-%dT%H:%M:%SZ); echo \\\"X01_START=$S X01_END=$E X01_RC=$rc\\\"; cat /tmp/x01_n4_preflight2.out; cat /tmp/x01_n4_preflight2.err\",\n     \"stdout_tail\": tail(\"/tmp/x01_n4_preflight2.out\"), \"stderr_tail\": tail(\"/tmp/x01_n4_preflight2.err\"), \"error_fixed\": None},\n    {\"n\": 5, \"kind\": \"frozen five-seed execution (P5 K45, R1 three-arm, P4 independent, P4 dependent-L2)\",\n     \"started_utc\": \"2026-09-13T07:57:08Z\", \"ended_utc\": \"2026-09-13T08:00:31Z\", \"exit_code\": 0,\n     \"cwd\": \"/mnt/d/Code/HD-QKD_Polar_Comparison-nbpolar\",\n     \"command_full_text\": \"S=$(date -u +%Y-%m-%dT%H:%M:%SZ); /mnt/d/Code/HD-QKD_Polar_Comparison/.venv/bin/python - < /tmp/x01_body_fixed.log > /tmp/x01_n5_frozen.out 2> /tmp/x01_n5_frozen.err; rc=$?; E=$(date -u +%Y-%m-%dT%H:%M:%SZ); echo \\\"X01_START=$S X01_END=$E X01_RC=$rc\\\"; echo \\\"--- stdout:\\\"; cat /tmp/x01_n5_frozen.out; echo \\\"--- stderr:\\\"; cat /tmp/x01_n5_frozen.err; ls -la workspace/probes/nbpolar_x01_20260913/\",\n     \"executed_stdin_body_text\": fixed_body,\n     \"fix_diff\": \"4a5\\n> \" + FIX_LINE,\n     \"stdout_tail\": tail(\"/tmp/x01_n5_frozen.out\"), \"stderr_tail\": tail(\"/tmp/x01_n5_frozen.err\"),\n     \"error_fixed\": \"ran the command-n3 fixed body; the frozen prereg body itself is preserved verbatim in executed_stdin_body_text minus the single X01-FIX line\"},\n    {\"n\": 6, \"kind\": \"post-processing / verification writer (no decode, final results.json writer)\",\n     \"started_utc\": T0, \"ended_utc\": None, \"exit_code\": 0,\n     \"exit_code_note\": \"final writer; results.json existence + validity is the completion certificate (rc observed as 0 by the shell after the write)\",\n     \"stdout_tail\": None, \"stderr_tail\": None,\n     \"cwd\": \"/mnt/d/Code/HD-QKD_Polar_Comparison-nbpolar\",\n     \"command_full_text\": SELF_CMD, \"error_fixed\": None},\n]\n\nout = {\n    \"probe_id\": \"nbpolar_x01_20260913\",\n    \"tier\": \"X-non-claim\",\n    \"created_utc\": time.strftime(\"%Y-%m-%dT%H:%M:%SZ\", time.gmtime()),\n    \"prereg_sha256\": prereg_sha,\n    \"interpreter\": sys.executable,\n    \"python_version\": sys.version.split()[0],\n    \"numpy_version\": np.__version__,\n    \"n\": 256,\n    \"master_offset\": OFF,\n    \"families\": families,\n    \"dependent_model_p2_maxdiff\": recorded_dep_gap,\n    \"dependent_model_predecode_proof\": dep_proof,\n    \"master_parameterization\": {\n        \"rule\": \"public tag master = run_seed + 10000 for every family\",\n        \"method\": (\"for each seed the tag-seed bit vector was recomputed by calling the same module function with the patched/parameterized master and compared bit-for-bit (2623 bits) against an independently rebuilt SHA-256 counter stream; the same comparison against the pristine default master proves the value took effect\"),\n        \"p5_k45\": {\n            \"mechanism\": \"comparison_bench.src.comparison_bench.formal_ir.nbpolar.protocol.TOEPLITZ_MASTER_SEED set in-process before each seed's execute_blocks call; protocol.block_toeplitz_seed_bits() reads the module global at call time (protocol.py line 167)\",\n            \"default_master_python312_temporary\": default_p5,\n            \"checks\": p5_checks},\n        \"r1_three_arm\": {\n            \"mechanism\": \"comparison_bench.src.comparison_bench.formal_ir.nbpolar.incremental.TOEPLITZ_MASTER_SEED set in-process before each seed; both incremental arms and the static comparator read the module global via block_toeplitz_seed_bits(master=None) (incremental.py lines 251, 581, 735)\",\n            \"default_master_python312_temporary\": default_inc,\n            \"checks\": r1_checks},\n        \"p4\": {\n            \"mechanism\": \"toeplitz_master parameter passed to two_layer.run_two_layer_block, which forwards it to two_layer.block_toeplitz_seed_bits (two_layer.py lines 671-673 and 747-749)\",\n            \"default_master_python312_temporary\": int(nb.two_layer.FROZEN_TOEPLITZ_MASTER),\n            \"checks\": p4_checks},\n    },\n    \"commands\": commands,\n    \"notes\": {\n        \"purpose\": \"Tier-X non-claim seed-dispersion probe; per-seed values plus mean / sample std (n-1) / range only. No pass/fail, threshold verdict, candidate, attempt accounting or scientific status is computed.\",\n        \"executed_body_fidelity\": {\n            \"prereg_sha256\": prereg_sha,\n            \"frozen_body_sha256\": hashlib.sha256(frozen_body.encode(\"utf-8\")).hexdigest(),\n            \"executed_body_sha256\": hashlib.sha256(fixed_body.encode(\"utf-8\")).hexdigest(),\n            \"statement\": \"executed body == prereg.md code block (lines 33-179, uniform 3-space markdown indent stripped) plus the single X01-FIX import line; byte equality asserted by this writer at run time\",\n        },\n        \"deviations\": [\n            \"the frozen heredoc body was extracted byte-exactly from prereg.md and executed via stdin from a /tmp capture (no probe-script file was written; the probe directory contains only prereg.md and results.json)\",\n            \"one script-level fix was required and logged (command n=3): insert the two_layer submodule import because nbpolar/__init__.py does not register it; no frozen parameter, model, seed or semantics changed\",\n            \"command n=6 (this verification/formatting writer) is the final writer; its own ended_utc and stdout/stderr are only observable after the write, so ended_utc/stdout_tail/stderr_tail are null for that entry\",\n        ],\n        \"verification_notes\": {\n            \"dependent_table\": \"rebuilt with the frozen dependent kernel; column-sum deviation and P2 gap recomputed decoder-free and compared with the recorded values\",\n            \"independent_table\": {\"recomputed_gap\": ind_gap, \"recorded_gap\": recorded_ind_gap,\n                                  \"matches_recorded\": bool(abs(ind_gap - recorded_ind_gap) <= 1e-15)},\n            \"p4_accounting_identities\": \"per-seed P4 key_dependent_bits_total == 96*(5*(45+110)+64) = 80544 and public_control_bits_total == 96*2623 = 251808 for both arms of both families\",\n        },\n    },\n}\n\n(ROOT / \"results.json\").write_text(json.dumps(out, indent=2, sort_keys=True) + \"\\n\", encoding=\"utf-8\")\nprint(\"wrote\", ROOT / \"results.json\")\nprint(\"families:\", {k: {\"n_seeds\": len(v[\"seeds\"]), \"decoded\": v.get(\"decoded\")} for k, v in families.items()})\nprint(\"dep_proof:\", {k: dep_proof[k] for k in (\"frozen_formula_p2_cross_u1_max_abs_diff\", \"pairwise_sup_recomputed\",\n                                                \"column_sum_max_deviation\", \"passed\", \"family_decoded\")})\nX01P\n/mnt/d/Code/HD-QKD_Polar_Comparison/.venv/bin/python -m py_compile /tmp/x01_n6_post_body.log || exit 9\nS=$(date -u +%Y-%m-%dT%H:%M:%SZ); /mnt/d/Code/HD-QKD_Polar_Comparison/.venv/bin/python - < /tmp/x01_n6_post_body.log > /tmp/x01_n6_post.out 2> /tmp/x01_n6_post.err; rc=$?; E=$(date -u +%Y-%m-%dT%H:%M:%SZ); echo \"X01_START=$S X01_END=$E X01_RC=$rc\"; cat /tmp/x01_n6_post.out; cat /tmp/x01_n6_post.err",
+      "cwd": "/mnt/d/Code/HD-QKD_Polar_Comparison-nbpolar",
+      "ended_utc": "2026-09-13T08:01:57Z",
+      "error_fixed": "AttributeError at writer line 128 on nb.two_layer: the writer script also lacked the explicit two_layer submodule import (same root cause as n=2). Fixed in the n=7 writer body by adding 'from comparison_bench.src.comparison_bench.formal_ir.nbpolar import two_layer'. The failed attempt wrote nothing; results.json remained the raw n=5 output until n=7 overwrote it.",
+      "exit_code": 1,
+      "kind": "post-processing / verification writer attempt 1 (no decode) - FAILED",
+      "n": 6,
+      "started_utc": "2026-09-13T08:01:55Z",
+      "stderr_tail": "Traceback (most recent call last):\n  File \"<stdin>\", line 128, in <module>\nAttributeError: module 'comparison_bench.src.comparison_bench.formal_ir.nbpolar' has no attribute 'two_layer'\n",
+      "stdout_tail": ""
+    },
+    {
+      "command_full_text": "cat > /tmp/x01_n7_post_body.log <<'X01P'\nimport hashlib\nimport json\nimport statistics\nimport sys\nimport time\nfrom pathlib import Path\n\nimport numpy as np\n\nfrom comparison_bench.src.comparison_bench.formal_ir import nbpolar as nb\nfrom comparison_bench.src.comparison_bench.formal_ir.nbpolar import two_layer  # X01-FIX (see command n=6/n=7 note)\n\nT0 = time.strftime(\"%Y-%m-%dT%H:%M:%SZ\", time.gmtime())\nROOT = Path(\"workspace/probes/nbpolar_x01_20260913\")\nOFF = 10000\n\n# ---------- provenance / executed-body byte fidelity ----------\nprereg_text = (ROOT / \"prereg.md\").read_text(encoding=\"utf-8\")\nprereg_sha = hashlib.sha256(prereg_text.encode(\"utf-8\")).hexdigest()\nfrozen_body = Path(\"/tmp/x01_body.log\").read_text(encoding=\"utf-8\")\nfixed_body = Path(\"/tmp/x01_body_fixed.log\").read_text(encoding=\"utf-8\")\nFIX_LINE = (\"from comparison_bench.src.comparison_bench.formal_ir.nbpolar import two_layer\"\n            \"  # X01-FIX: register the two_layer submodule for nb.two_layer\")\nexpected_frozen = \"\\n\".join(\n    (line[3:] if line.startswith(\"   \") else line) for line in prereg_text.splitlines()[32:179]\n) + \"\\n\"\nfl = expected_frozen.splitlines()\nassert expected_frozen == frozen_body, \"executed frozen body differs from prereg code block\"\nassert fixed_body == \"\\n\".join(fl[:4] + [FIX_LINE] + fl[4:]) + \"\\n\", \"X01-FIX insert mismatch\"\n\n# ---------- build the required results schema from the raw frozen output ----------\nraw = json.loads((ROOT / \"results.json\").read_text(encoding=\"utf-8\"))\nps = raw[\"per_seed\"]\n\ndef stats(values):\n    v = [float(x) for x in values]\n    return {\"mean\": float(statistics.mean(v)), \"sample_std\": float(statistics.stdev(v)),\n            \"range\": [float(min(v)), float(max(v))]}\n\ndef family_from_mapping(mapping, config):\n    rows = [{\"seed\": int(s), **{k: mapping[s][k] for k in sorted(mapping[s])}}\n            for s in sorted(mapping, key=int)]\n    if rows:\n        keys = [k for k in sorted(rows[0]) if k != \"seed\"]\n        agg = {k: stats([r[k] for r in rows]) for k in keys}\n    else:\n        keys, agg = [], {}\n    return {\"config\": config, \"seeds\": rows,\n            \"mean\": {k: agg[k][\"mean\"] for k in keys},\n            \"sample_std\": {k: agg[k][\"sample_std\"] for k in keys},\n            \"range\": {k: agg[k][\"range\"] for k in keys}}\n\nCFG = {\n    \"p5_k45\": {\"n\": 256, \"blocks\": 300, \"k\": 45, \"epsilon\": 0.05,\n               \"semantics\": \"accepted protocol.execute_blocks (P5 static protocol), in-memory\",\n               \"toeplitz_master_rule\": \"run_seed + 10000 via protocol.TOEPLITZ_MASTER_SEED (in-process module constant)\"},\n    \"r1_three_arm\": {\"n\": 256, \"blocks\": 300, \"K\": [29, 33, 37, 41, 45], \"epsilon\": 0.05,\n                     \"semantics\": \"accepted three-arm semantics via incremental.run_three_arm_block + generate_erasure_block (static K45 / strict-stop / R1 advance), in-memory\",\n                     \"toeplitz_master_rule\": \"run_seed + 10000 via incremental.TOEPLITZ_MASTER_SEED (in-process module constant)\"},\n    \"p4_independent\": {\"n\": 256, \"blocks\": 96, \"epsilon1\": 0.05, \"epsilon2\": 0.20, \"k1\": 45, \"k2\": 110,\n                       \"model\": \"accepted independent injected joint table (build_injected_joint_table(0.05, 0.20)) + two_layer.run_two_layer_block, in-memory\",\n                       \"toeplitz_master_rule\": \"toeplitz_master = run_seed + 10000 parameter\"},\n    \"p4_dependent_l2\": {\"n\": 256, \"blocks\": 96, \"epsilon1\": 0.05,\n                        \"epsilon2\": \"0.08 + 0.24*u1/31 (mean 0.20)\", \"k1\": 45, \"k2\": 110,\n                        \"model\": \"dependent layer-2 kernel epsilon2(u1)=0.08+0.24*u1/31; injected joint table normalized to column-sum deviation <= 1e-12; two_layer.run_two_layer_block, in-memory\",\n                        \"predecode_proof\": \"max_{u1,u1',b,u2}|P2[u1,b,u2]-P2[u1',b,u2]| >= 0.10, evaluated before any decode\",\n                        \"toeplitz_master_rule\": \"toeplitz_master = run_seed + 10000 parameter\"},\n}\n\nfamilies = {}\nfamilies[\"p5_k45\"] = family_from_mapping(ps[\"p5_k45\"], CFG[\"p5_k45\"])\nfamilies[\"r1_three_arm\"] = family_from_mapping(ps[\"r1_three_arm\"], CFG[\"r1_three_arm\"])\nfor name in (\"p4_independent\", \"p4_dependent_l2\"):\n    entry = ps[name]\n    f = family_from_mapping(entry[\"seeds\"], CFG[name])\n    f[\"decoded\"] = bool(entry[\"seeds\"])\n    f[\"proof_failed\"] = bool(entry.get(\"proof_failed\", False))\n    f[\"p2_cross_u1_max_abs_diff\"] = float(entry[\"p2_cross_u1_max_abs_diff\"])\n    families[name] = f\n\n# ---------- master-parameterization verification (decoder-free) ----------\ndef expected_seed_bits(prefix, length):\n    buf = bytearray()\n    counter = 0\n    while len(buf) * 8 < length:\n        buf.extend(hashlib.sha256(f\"{prefix}:{counter}\".encode(\"ascii\")).digest())\n        counter += 1\n    return np.unpackbits(np.frombuffer(bytes(buf), dtype=np.uint8), bitorder=\"big\")[:length].astype(np.uint8)\n\np5_seeds = [r[\"seed\"] for r in families[\"p5_k45\"][\"seeds\"]]\nr1_seeds = [r[\"seed\"] for r in families[\"r1_three_arm\"][\"seeds\"]]\np4_seeds = sorted({r[\"seed\"] for r in families[\"p4_independent\"][\"seeds\"]}\n                  | {r[\"seed\"] for r in families[\"p4_dependent_l2\"][\"seeds\"]})\n\ndefault_p5 = nb.protocol.TOEPLITZ_MASTER_SEED\nnb.protocol.TOEPLITZ_MASTER_SEED = default_p5\np5_default_bits = nb.protocol.block_toeplitz_seed_bits(0)\np5_checks = []\nfor s in p5_seeds:\n    m = s + OFF\n    nb.protocol.TOEPLITZ_MASTER_SEED = m\n    got = nb.protocol.block_toeplitz_seed_bits(0)\n    exp = expected_seed_bits(f\"nbpolar-p5-toeplitz-seed:{m}:0\", nb.protocol.SEED_BITS)\n    p5_checks.append({\"seed\": s, \"master\": m,\n                      \"matches_expected_master_bits\": bool(np.array_equal(got, exp)),\n                      \"differs_from_default_master\": bool(not np.array_equal(got, p5_default_bits))})\nnb.protocol.TOEPLITZ_MASTER_SEED = default_p5\n\ndefault_inc = nb.incremental.TOEPLITZ_MASTER_SEED\nnb.incremental.TOEPLITZ_MASTER_SEED = default_inc\ninc_default = {arm: nb.incremental.block_toeplitz_seed_bits(arm, 0, 0) for arm in (\"static\", \"incremental\")}\nr1_checks = []\nfor s in r1_seeds:\n    m = s + OFF\n    nb.incremental.TOEPLITZ_MASTER_SEED = m\n    row = {\"seed\": s, \"master\": m}\n    for arm in (\"static\", \"incremental\"):\n        got = nb.incremental.block_toeplitz_seed_bits(arm, 0, 0)\n        exp = expected_seed_bits(f\"nbpolar-p6-toeplitz-seed:{m}:{arm}:0:0\", nb.incremental.SEED_BITS)\n        row[arm + \"_matches_expected_master_bits\"] = bool(np.array_equal(got, exp))\n        row[arm + \"_differs_from_default_master\"] = bool(not np.array_equal(got, inc_default[arm]))\n    r1_checks.append(row)\nnb.incremental.TOEPLITZ_MASTER_SEED = default_inc\n\np4_checks = []\nfor s in p4_seeds:\n    m = s + OFF\n    row = {\"seed\": s, \"master\": m}\n    for arm in (\"operational\", \"oracle\"):\n        got = nb.two_layer.block_toeplitz_seed_bits(arm, 0, master=m)\n        exp = expected_seed_bits(f\"nbpolar-p4-toeplitz-seed:{m}:{arm}:0\", nb.two_layer.SEED_BITS)\n        pristine = nb.two_layer.block_toeplitz_seed_bits(arm, 0)\n        row[arm + \"_matches_expected_master_bits\"] = bool(np.array_equal(got, exp))\n        row[arm + \"_differs_from_default_master\"] = bool(not np.array_equal(got, pristine))\n    p4_checks.append(row)\n\n# ---------- dependent-table pre-decode proof recomputation (decoder-free) ----------\ndef dep_table():\n    a = np.arange(1024)\n    ah, al = a // 32, a % 32\n    b = np.arange(1024)\n    bh, bl = b // 32, b % 32\n    ph = nb.two_layer.layer_observation_matrix(0.05)\n    tbl = np.zeros((1024, 1024))\n    e2 = 0.08 + 0.24 * np.arange(32) / 31.0\n    for hi in range(32):\n        pl = nb.two_layer.layer_observation_matrix(float(e2[hi]))\n        idx = np.where(ah == hi)[0]\n        tbl[np.ix_(idx, b)] = ph[hi, bh][None, :] * pl[al[idx][:, None], bl[None, :]]\n    return tbl\n\ndep = dep_table()\ncol_dev = float(np.abs(dep.sum(axis=0) - 1.0).max())\n_, p2_dep = nb.two_layer.layer_metric_tables(dep)\ngap_formula = float(np.abs(p2_dep - p2_dep[0:1]).max())\ngap_pairwise = float((p2_dep.max(axis=0) - p2_dep.min(axis=0)).max())\nrecorded_dep_gap = families[\"p4_dependent_l2\"][\"p2_cross_u1_max_abs_diff\"]\n\nind = nb.two_layer.build_injected_joint_table(epsilon1=0.05, epsilon2=0.20)\n_, p2_ind = nb.two_layer.layer_metric_tables(ind)\nind_gap = float(np.abs(p2_ind - p2_ind[0:1]).max())\nrecorded_ind_gap = families[\"p4_independent\"][\"p2_cross_u1_max_abs_diff\"]\n\ndep_proof = {\n    \"rule\": \"max_{u1,u1',b,u2}|P2[u1,b,u2]-P2[u1',b,u2]| >= 0.10 (checked before any decode)\",\n    \"threshold\": 0.10,\n    \"frozen_formula_p2_cross_u1_max_abs_diff\": gap_formula,\n    \"frozen_formula_matches_recorded\": bool(abs(gap_formula - recorded_dep_gap) <= 1e-15),\n    \"pairwise_sup_recomputed\": gap_pairwise,\n    \"pairwise_sup_ge_0.10\": bool(gap_pairwise >= 0.10),\n    \"frozen_formula_ge_0.10\": bool(gap_formula >= 0.10),\n    \"column_sum_max_deviation\": col_dev,\n    \"column_normalized_within_1e-12\": bool(col_dev <= 1e-12),\n    \"passed\": bool(gap_formula >= 0.10),\n    \"family_decoded\": bool(families[\"p4_dependent_l2\"][\"decoded\"]),\n}\n\n# ---------- commands (every execution attempt, timestamps as observed by the shell) ----------\nPREFLIGHT1_BODY = \"\"\"import sys\nfrom pathlib import Path\nimport numpy as np\nfrom comparison_bench.src.comparison_bench.formal_ir import nbpolar as nb\n\nbody = Path(\"/tmp/x01_body.log\").read_text(encoding=\"utf-8\")\ncompile(body, \"<x01-frozen-body>\", \"exec\")  # parse-only, no execution\ntarget = Path(\"workspace/probes/nbpolar_x01_20260913/results.json\")\nassert not target.exists(), f\"target output already exists: {target}\"\nassert hasattr(nb, \"protocol\") and hasattr(nb, \"incremental\") and hasattr(nb, \"two_layer\")\nassert callable(nb.protocol.execute_blocks)\nassert callable(nb.incremental.run_three_arm_block)\nassert callable(nb.two_layer.run_two_layer_block)\nassert callable(nb.generate_erasure_block)\nprint(\"preflight_ok\", sys.executable, sys.version.split()[0], \"numpy\", np.__version__)\nprint(\"frozen_body_lines\", body.count(\"\\\\n\"), \"target_absent\", True)\"\"\"\n\nPREFLIGHT2_BODY = \"\"\"import sys\nfrom pathlib import Path\nimport numpy as np\nfrom comparison_bench.src.comparison_bench.formal_ir import nbpolar as nb\nfrom comparison_bench.src.comparison_bench.formal_ir.nbpolar import two_layer  # same fix line effect\n\nbody = Path(\"/tmp/x01_body_fixed.log\").read_text(encoding=\"utf-8\")\ncompile(body, \"<x01-fixed-body>\", \"exec\")  # parse only\ntarget = Path(\"workspace/probes/nbpolar_x01_20260913/results.json\")\nassert not target.exists(), f\"target output already exists: {target}\"\nfor mod, names in ((nb.protocol, (\"execute_blocks\", \"TOEPLITZ_MASTER_SEED\")),\n                   (nb.incremental, (\"run_three_arm_block\", \"build_nested_schedule\", \"FROZEN_K\", \"TOEPLITZ_MASTER_SEED\")),\n                   (nb.two_layer, (\"run_two_layer_block\", \"build_injected_joint_table\", \"layer_metric_tables\", \"frozen_disclosure_sets\", \"sample_two_layer_block\", \"layer_observation_matrix\", \"SEED_BITS\")),\n                   (nb, (\"make_gf32\", \"generate_erasure_block\"))):\n    for name in names:\n        assert hasattr(mod, name), f\"missing {mod}.{name}\"\n\n# decoder-free exercise of the exact P4 helper definitions extracted from the body\nblock = body.split(\"# P4 injected-table families\", 1)[1].split(\"def run_p4\", 1)[0]\nns = {\"np\": np, \"nb\": nb, \"N\": 256}\nexec(block, ns)\ndep = ns[\"dependent_table\"]()\ncol_dev = float(np.abs(dep.sum(axis=0) - 1.0).max())\nassert dep.shape == (1024, 1024) and col_dev <= 1e-12, col_dev\n_, p2_dep = nb.two_layer.layer_metric_tables(dep)\ngap_dep = float(ns[\"p2_gap\"](p2_dep))\nind = nb.two_layer.build_injected_joint_table(epsilon1=0.05, epsilon2=0.20)\n_, p2_ind = nb.two_layer.layer_metric_tables(ind)\ngap_ind = float(np.abs(p2_ind - p2_ind[0:1]).max())\nd1, d2 = nb.two_layer.frozen_disclosure_sets(n=256, k1=45, k2=110, epsilon1=0.05, epsilon2=0.20)\nassert d1.shape == (45,) and d2.shape == (110,)\nprint(\"preflight2_ok\", sys.executable, sys.version.split()[0], \"numpy\", np.__version__)\nprint(\"dependent_col_dev\", col_dev, \"dependent_gap_frozen_formula\", gap_dep, \"independent_gap\", gap_ind)\"\"\"\n\nFAILED_BODY = Path(\"/tmp/x01_n6_post_body.log\").read_text(encoding=\"utf-8\")\nFAILED_CMD = (\"cat > /tmp/x01_n6_post_body.log <<'X01P'\\n\" + FAILED_BODY + \"X01P\\n\"\n              \"/mnt/d/Code/HD-QKD_Polar_Comparison/.venv/bin/python -m py_compile /tmp/x01_n6_post_body.log || exit 9\\n\"\n              \"S=$(date -u +%Y-%m-%dT%H:%M:%SZ); /mnt/d/Code/HD-QKD_Polar_Comparison/.venv/bin/python - < /tmp/x01_n6_post_body.log \"\n              \"> /tmp/x01_n6_post.out 2> /tmp/x01_n6_post.err; rc=$?; E=$(date -u +%Y-%m-%dT%H:%M:%SZ); \"\n              \"echo \\\"X01_START=$S X01_END=$E X01_RC=$rc\\\"; cat /tmp/x01_n6_post.out; cat /tmp/x01_n6_post.err\")\n\nSELF_BODY = Path(\"/tmp/x01_n7_post_body.log\").read_text(encoding=\"utf-8\")\nSELF_CMD = (\"cat > /tmp/x01_n7_post_body.log <<'X01P'\\n\" + SELF_BODY + \"X01P\\n\"\n            \"/mnt/d/Code/HD-QKD_Polar_Comparison/.venv/bin/python -m py_compile /tmp/x01_n7_post_body.log || exit 9\\n\"\n            \"S=$(date -u +%Y-%m-%dT%H:%M:%SZ); /mnt/d/Code/HD-QKD_Polar_Comparison/.venv/bin/python - < /tmp/x01_n7_post_body.log \"\n            \"> /tmp/x01_n7_post.out 2> /tmp/x01_n7_post.err; rc=$?; E=$(date -u +%Y-%m-%dT%H:%M:%SZ); \"\n            \"echo \\\"X01_START=$S X01_END=$E X01_RC=$rc\\\"; cat /tmp/x01_n7_post.out; cat /tmp/x01_n7_post.err\")\n\ndef tail(path, n=400):\n    try:\n        text = Path(path).read_text(encoding=\"utf-8\", errors=\"replace\")\n    except OSError:\n        return None\n    return text[-n:] if text else \"\"\n\ncommands = [\n    {\"n\": 1, \"kind\": \"extraction of the frozen heredoc body\",\n     \"started_utc\": \"2026-09-13T07:55:48Z\", \"ended_utc\": \"2026-09-13T07:55:48Z\", \"exit_code\": 0,\n     \"cwd\": \"/mnt/d/Code/HD-QKD_Polar_Comparison-nbpolar\",\n     \"command_full_text\": \"S=$(date -u +%Y-%m-%dT%H:%M:%SZ); sed -n '33,179p' workspace/probes/nbpolar_x01_20260913/prereg.md | sed 's/^   //' > /tmp/x01_body.log; rc=$?; E=$(date -u +%Y-%m-%dT%H:%M:%SZ); { sha256sum workspace/probes/nbpolar_x01_20260913/prereg.md; sha256sum /tmp/x01_body.log; wc -l -c /tmp/x01_body.log; } | tee /tmp/x01_n1_extract.out; echo \\\"X01_START=$S X01_END=$E X01_RC=$rc\\\"\",\n     \"stdout_tail\": tail(\"/tmp/x01_n1_extract.out\"), \"stderr_tail\": \"\", \"error_fixed\": None},\n    {\"n\": 2, \"kind\": \"preflight (no decode, no writes)\",\n     \"started_utc\": \"2026-09-13T07:55:58Z\", \"ended_utc\": \"2026-09-13T07:56:00Z\", \"exit_code\": 1,\n     \"cwd\": \"/mnt/d/Code/HD-QKD_Polar_Comparison-nbpolar\",\n     \"command_full_text\": \"S=$(date -u +%Y-%m-%dT%H:%M:%SZ); /mnt/d/Code/HD-QKD_Polar_Comparison/.venv/bin/python - <<'X01PF' > /tmp/x01_n2_preflight.out 2> /tmp/x01_n2_preflight.err\\n\" + PREFLIGHT1_BODY + \"\\nX01PF\\nrc=$?; E=$(date -u +%Y-%m-%dT%H:%M:%SZ); echo \\\"X01_START=$S X01_END=$E X01_RC=$rc\\\"; cat /tmp/x01_n2_preflight.out; cat /tmp/x01_n2_preflight.err\",\n     \"stdout_tail\": tail(\"/tmp/x01_n2_preflight.out\"), \"stderr_tail\": tail(\"/tmp/x01_n2_preflight.err\"),\n     \"error_fixed\": \"AssertionError: nb.two_layer was missing. Root cause: nbpolar/__init__.py imports the protocol/incremental submodules but never the two_layer submodule, so the frozen body's nb.two_layer access would have raised AttributeError at the last family (after P5 and R1 completed). Fix: added one import line to the executed body (command n=3). No parameter/model/seed changed.\"},\n    {\"n\": 3, \"kind\": \"execution fix (script only)\",\n     \"started_utc\": \"2026-09-13T07:56:46Z\", \"ended_utc\": \"2026-09-13T07:56:46Z\", \"exit_code\": 0,\n     \"cwd\": \"/mnt/d/Code/HD-QKD_Polar_Comparison-nbpolar\",\n     \"command_full_text\": \"S=$(date -u +%Y-%m-%dT%H:%M:%SZ); sed '4a from comparison_bench.src.comparison_bench.formal_ir.nbpolar import two_layer  # X01-FIX: register the two_layer submodule for nb.two_layer' /tmp/x01_body.log > /tmp/x01_body_fixed.log; rc=$?; E=$(date -u +%Y-%m-%dT%H:%M:%SZ); { echo \\\"--- diff (frozen body -> fixed body):\\\"; diff /tmp/x01_body.log /tmp/x01_body_fixed.log; echo \\\"--- hashes:\\\"; sha256sum /tmp/x01_body.log /tmp/x01_body_fixed.log; wc -l -c /tmp/x01_body_fixed.log; } | tee /tmp/x01_n3_fix.out; echo \\\"X01_START=$S X01_END=$E X01_RC=$rc\\\"\",\n     \"stdout_tail\": tail(\"/tmp/x01_n3_fix.out\"), \"stderr_tail\": \"\", \"error_fixed\": None},\n    {\"n\": 4, \"kind\": \"preflight 2 (no decode, no writes)\",\n     \"started_utc\": \"2026-09-13T07:56:56Z\", \"ended_utc\": \"2026-09-13T07:56:58Z\", \"exit_code\": 0,\n     \"cwd\": \"/mnt/d/Code/HD-QKD_Polar_Comparison-nbpolar\",\n     \"command_full_text\": \"S=$(date -u +%Y-%m-%dT%H:%M:%SZ); /mnt/d/Code/HD-QKD_Polar_Comparison/.venv/bin/python - <<'X01PF2' > /tmp/x01_n4_preflight2.out 2> /tmp/x01_n4_preflight2.err\\n\" + PREFLIGHT2_BODY + \"\\nX01PF2\\nrc=$?; E=$(date -u +%Y-%m-%dT%H:%M:%SZ); echo \\\"X01_START=$S X01_END=$E X01_RC=$rc\\\"; cat /tmp/x01_n4_preflight2.out; cat /tmp/x01_n4_preflight2.err\",\n     \"stdout_tail\": tail(\"/tmp/x01_n4_preflight2.out\"), \"stderr_tail\": tail(\"/tmp/x01_n4_preflight2.err\"), \"error_fixed\": None},\n    {\"n\": 5, \"kind\": \"frozen five-seed execution (P5 K45, R1 three-arm, P4 independent, P4 dependent-L2)\",\n     \"started_utc\": \"2026-09-13T07:57:08Z\", \"ended_utc\": \"2026-09-13T08:00:31Z\", \"exit_code\": 0,\n     \"cwd\": \"/mnt/d/Code/HD-QKD_Polar_Comparison-nbpolar\",\n     \"command_full_text\": \"S=$(date -u +%Y-%m-%dT%H:%M:%SZ); /mnt/d/Code/HD-QKD_Polar_Comparison/.venv/bin/python - < /tmp/x01_body_fixed.log > /tmp/x01_n5_frozen.out 2> /tmp/x01_n5_frozen.err; rc=$?; E=$(date -u +%Y-%m-%dT%H:%M:%SZ); echo \\\"X01_START=$S X01_END=$E X01_RC=$rc\\\"; echo \\\"--- stdout:\\\"; cat /tmp/x01_n5_frozen.out; echo \\\"--- stderr:\\\"; cat /tmp/x01_n5_frozen.err; ls -la workspace/probes/nbpolar_x01_20260913/\",\n     \"executed_stdin_body_text\": fixed_body,\n     \"fix_diff\": \"4a5\\n> \" + FIX_LINE,\n     \"stdout_tail\": tail(\"/tmp/x01_n5_frozen.out\"), \"stderr_tail\": tail(\"/tmp/x01_n5_frozen.err\"),\n     \"error_fixed\": \"ran the command-n3 fixed body; the frozen prereg body itself is preserved verbatim in executed_stdin_body_text minus the single X01-FIX line\"},\n    {\"n\": 6, \"kind\": \"post-processing / verification writer attempt 1 (no decode) - FAILED\",\n     \"started_utc\": \"2026-09-13T08:01:55Z\", \"ended_utc\": \"2026-09-13T08:01:57Z\", \"exit_code\": 1,\n     \"cwd\": \"/mnt/d/Code/HD-QKD_Polar_Comparison-nbpolar\",\n     \"command_full_text\": FAILED_CMD,\n     \"stdout_tail\": tail(\"/tmp/x01_n6_post.out\"), \"stderr_tail\": tail(\"/tmp/x01_n6_post.err\"),\n     \"error_fixed\": \"AttributeError at writer line 128 on nb.two_layer: the writer script also lacked the explicit two_layer submodule import (same root cause as n=2). Fixed in the n=7 writer body by adding 'from comparison_bench.src.comparison_bench.formal_ir.nbpolar import two_layer'. The failed attempt wrote nothing; results.json remained the raw n=5 output until n=7 overwrote it.\"},\n    {\"n\": 7, \"kind\": \"post-processing / verification writer attempt 2 (no decode, final results.json writer)\",\n     \"started_utc\": T0, \"ended_utc\": None, \"exit_code\": 0,\n     \"exit_code_note\": \"final writer; results.json existence + validity is the completion certificate (rc observed as 0 by the shell after the write)\",\n     \"stdout_tail\": None, \"stderr_tail\": None,\n     \"cwd\": \"/mnt/d/Code/HD-QKD_Polar_Comparison-nbpolar\",\n     \"command_full_text\": SELF_CMD, \"error_fixed\": None},\n]\n\nout = {\n    \"probe_id\": \"nbpolar_x01_20260913\",\n    \"tier\": \"X-non-claim\",\n    \"created_utc\": time.strftime(\"%Y-%m-%dT%H:%M:%SZ\", time.gmtime()),\n    \"prereg_sha256\": prereg_sha,\n    \"interpreter\": sys.executable,\n    \"python_version\": sys.version.split()[0],\n    \"numpy_version\": np.__version__,\n    \"n\": 256,\n    \"master_offset\": OFF,\n    \"families\": families,\n    \"dependent_model_p2_maxdiff\": recorded_dep_gap,\n    \"dependent_model_predecode_proof\": dep_proof,\n    \"master_parameterization\": {\n        \"rule\": \"public tag master = run_seed + 10000 for every family\",\n        \"method\": (\"for each seed the tag-seed bit vector was recomputed by calling the same module function with the patched/parameterized master and compared bit-for-bit (2623 bits) against an independently rebuilt SHA-256 counter stream; the same comparison against the pristine default master proves the value took effect\"),\n        \"p5_k45\": {\n            \"mechanism\": \"comparison_bench.src.comparison_bench.formal_ir.nbpolar.protocol.TOEPLITZ_MASTER_SEED set in-process before each seed's execute_blocks call; protocol.block_toeplitz_seed_bits() reads the module global at call time (protocol.py line 167)\",\n            \"default_master\": default_p5,\n            \"checks\": p5_checks},\n        \"r1_three_arm\": {\n            \"mechanism\": \"comparison_bench.src.comparison_bench.formal_ir.nbpolar.incremental.TOEPLITZ_MASTER_SEED set in-process before each seed; both incremental arms and the static comparator read the module global via block_toeplitz_seed_bits(master=None) (incremental.py lines 251, 581, 735)\",\n            \"default_master\": default_inc,\n            \"checks\": r1_checks},\n        \"p4\": {\n            \"mechanism\": \"toeplitz_master parameter passed to two_layer.run_two_layer_block, which forwards it to two_layer.block_toeplitz_seed_bits (two_layer.py lines 671-673 and 747-749)\",\n            \"default_master\": int(nb.two_layer.FROZEN_TOEPLITZ_MASTER),\n            \"checks\": p4_checks},\n    },\n    \"commands\": commands,\n    \"notes\": {\n        \"purpose\": \"Tier-X non-claim seed-dispersion probe; per-seed values plus mean / sample std (n-1) / range only. No pass/fail, threshold verdict, candidate, attempt accounting or scientific status is computed.\",\n        \"executed_body_fidelity\": {\n            \"prereg_sha256\": prereg_sha,\n            \"frozen_body_sha256\": hashlib.sha256(frozen_body.encode(\"utf-8\")).hexdigest(),\n            \"executed_body_sha256\": hashlib.sha256(fixed_body.encode(\"utf-8\")).hexdigest(),\n            \"statement\": \"executed body == prereg.md code block (lines 33-179, uniform 3-space markdown indent stripped) plus the single X01-FIX import line; byte equality asserted by this writer at run time\",\n        },\n        \"deviations\": [\n            \"the frozen heredoc body was extracted byte-exactly from prereg.md and executed via stdin from a /tmp capture (no probe-script file was written; the probe directory contains only prereg.md and results.json)\",\n            \"one script-level fix was required and logged (command n=3): insert the two_layer submodule import because nbpolar/__init__.py does not register it; no frozen parameter, model, seed or semantics changed\",\n            \"the verification writer itself failed once (command n=6, missing two_layer import) and was rerun as n=7; both attempts are listed\",\n            \"command n=7 (this verification/formatting writer) is the final writer; its own ended_utc and stdout/stderr are only observable after the write, so ended_utc/stdout_tail/stderr_tail are null for that entry\",\n        ],\n        \"verification_notes\": {\n            \"dependent_table\": \"rebuilt with the frozen dependent kernel; column-sum deviation and P2 gap recomputed decoder-free and compared with the recorded values\",\n            \"independent_table\": {\"recomputed_gap\": ind_gap, \"recorded_gap\": recorded_ind_gap,\n                                  \"matches_recorded\": bool(abs(ind_gap - recorded_ind_gap) <= 1e-15)},\n            \"p4_accounting_identities\": \"per-seed P4 key_dependent_bits_total == 96*(5*(45+110)+64) = 80544 and public_control_bits_total == 96*2623 = 251808 for both arms of both families\",\n        },\n    },\n}\n\n(ROOT / \"results.json\").write_text(json.dumps(out, indent=2, sort_keys=True) + \"\\n\", encoding=\"utf-8\")\nprint(\"wrote\", ROOT / \"results.json\")\nprint(\"families:\", {k: {\"n_seeds\": len(v[\"seeds\"]), \"decoded\": v.get(\"decoded\")} for k, v in families.items()})\nprint(\"dep_proof:\", {k: dep_proof[k] for k in (\"frozen_formula_p2_cross_u1_max_abs_diff\", \"pairwise_sup_recomputed\",\n                                                \"column_sum_max_deviation\", \"passed\", \"family_decoded\")})\nX01P\n/mnt/d/Code/HD-QKD_Polar_Comparison/.venv/bin/python -m py_compile /tmp/x01_n7_post_body.log || exit 9\nS=$(date -u +%Y-%m-%dT%H:%M:%SZ); /mnt/d/Code/HD-QKD_Polar_Comparison/.venv/bin/python - < /tmp/x01_n7_post_body.log > /tmp/x01_n7_post.out 2> /tmp/x01_n7_post.err; rc=$?; E=$(date -u +%Y-%m-%dT%H:%M:%SZ); echo \"X01_START=$S X01_END=$E X01_RC=$rc\"; cat /tmp/x01_n7_post.out; cat /tmp/x01_n7_post.err",
+      "cwd": "/mnt/d/Code/HD-QKD_Polar_Comparison-nbpolar",
+      "ended_utc": null,
+      "error_fixed": null,
+      "exit_code": 0,
+      "exit_code_note": "final writer; results.json existence + validity is the completion certificate (rc observed as 0 by the shell after the write)",
+      "kind": "post-processing / verification writer attempt 2 (no decode, final results.json writer)",
+      "n": 7,
+      "started_utc": "2026-09-13T08:02:36Z",
+      "stderr_tail": null,
+      "stdout_tail": null
+    }
+  ],
+  "created_utc": "2026-09-13T08:02:36Z",
+  "dependent_model_p2_maxdiff": 0.2325000000000006,
+  "dependent_model_predecode_proof": {
+    "column_normalized_within_1e-12": true,
+    "column_sum_max_deviation": 3.3306690738754696e-15,
+    "family_decoded": true,
+    "frozen_formula_ge_0.10": true,
+    "frozen_formula_matches_recorded": true,
+    "frozen_formula_p2_cross_u1_max_abs_diff": 0.2325000000000006,
+    "pairwise_sup_ge_0.10": true,
+    "pairwise_sup_recomputed": 0.2325000000000006,
+    "passed": true,
+    "rule": "max_{u1,u1',b,u2}|P2[u1,b,u2]-P2[u1',b,u2]| >= 0.10 (checked before any decode)",
+    "threshold": 0.1
+  },
+  "families": {
+    "p4_dependent_l2": {
+      "config": {
+        "blocks": 96,
+        "epsilon1": 0.05,
+        "epsilon2": "0.08 + 0.24*u1/31 (mean 0.20)",
+        "k1": 45,
+        "k2": 110,
+        "model": "dependent layer-2 kernel epsilon2(u1)=0.08+0.24*u1/31; injected joint table normalized to column-sum deviation <= 1e-12; two_layer.run_two_layer_block, in-memory",
+        "n": 256,
+        "predecode_proof": "max_{u1,u1',b,u2}|P2[u1,b,u2]-P2[u1',b,u2]| >= 0.10, evaluated before any decode",
+        "toeplitz_master_rule": "toeplitz_master = run_seed + 10000 parameter"
+      },
+      "decoded": true,
+      "mean": {
+        "operational_decode_failed": 0.0,
+        "operational_exact": 27.6,
+        "operational_failure": 68.4,
+        "operational_key_dependent_bits_total": 80544.0,
+        "operational_public_control_bits_total": 251808.0,
+        "operational_resource_abort": 0.0,
+        "operational_undetected": 0.0,
+        "operational_verify_failed": 68.4,
+        "oracle_decode_failed": 0.0,
+        "oracle_exact": 42.0,
+        "oracle_failure": 54.0,
+        "oracle_key_dependent_bits_total": 80544.0,
+        "oracle_public_control_bits_total": 251808.0,
+        "oracle_resource_abort": 0.0,
+        "oracle_undetected": 0.0,
+        "oracle_verify_failed": 54.0
+      },
+      "p2_cross_u1_max_abs_diff": 0.2325000000000006,
+      "proof_failed": false,
+      "range": {
+        "operational_decode_failed": [
+          0.0,
+          0.0
+        ],
+        "operational_exact": [
+          23.0,
+          33.0
+        ],
+        "operational_failure": [
+          63.0,
+          73.0
+        ],
+        "operational_key_dependent_bits_total": [
+          80544.0,
+          80544.0
+        ],
+        "operational_public_control_bits_total": [
+          251808.0,
+          251808.0
+        ],
+        "operational_resource_abort": [
+          0.0,
+          0.0
+        ],
+        "operational_undetected": [
+          0.0,
+          0.0
+        ],
+        "operational_verify_failed": [
+          63.0,
+          73.0
+        ],
+        "oracle_decode_failed": [
+          0.0,
+          0.0
+        ],
+        "oracle_exact": [
+          39.0,
+          46.0
+        ],
+        "oracle_failure": [
+          50.0,
+          57.0
+        ],
+        "oracle_key_dependent_bits_total": [
+          80544.0,
+          80544.0
+        ],
+        "oracle_public_control_bits_total": [
+          251808.0,
+          251808.0
+        ],
+        "oracle_resource_abort": [
+          0.0,
+          0.0
+        ],
+        "oracle_undetected": [
+          0.0,
+          0.0
+        ],
+        "oracle_verify_failed": [
+          50.0,
+          57.0
+        ]
+      },
+      "sample_std": {
+        "operational_decode_failed": 0.0,
+        "operational_exact": 4.61519230368573,
+        "operational_failure": 4.61519230368573,
+        "operational_key_dependent_bits_total": 0.0,
+        "operational_public_control_bits_total": 0.0,
+        "operational_resource_abort": 0.0,
+        "operational_undetected": 0.0,
+        "operational_verify_failed": 4.61519230368573,
+        "oracle_decode_failed": 0.0,
+        "oracle_exact": 2.5495097567963922,
+        "oracle_failure": 2.5495097567963922,
+        "oracle_key_dependent_bits_total": 0.0,
+        "oracle_public_control_bits_total": 0.0,
+        "oracle_resource_abort": 0.0,
+        "oracle_undetected": 0.0,
+        "oracle_verify_failed": 2.5495097567963922
+      },
+      "seeds": [
+        {
+          "operational_decode_failed": 0,
+          "operational_exact": 23,
+          "operational_failure": 73,
+          "operational_key_dependent_bits_total": 80544,
+          "operational_public_control_bits_total": 251808,
+          "operational_resource_abort": 0,
+          "operational_undetected": 0,
+          "operational_verify_failed": 73,
+          "oracle_decode_failed": 0,
+          "oracle_exact": 39,
+          "oracle_failure": 57,
+          "oracle_key_dependent_bits_total": 80544,
+          "oracle_public_control_bits_total": 251808,
+          "oracle_resource_abort": 0,
+          "oracle_undetected": 0,
+          "oracle_verify_failed": 57,
+          "seed": 2026091430
+        },
+        {
+          "operational_decode_failed": 0,
+          "operational_exact": 32,
+          "operational_failure": 64,
+          "operational_key_dependent_bits_total": 80544,
+          "operational_public_control_bits_total": 251808,
+          "operational_resource_abort": 0,
+          "operational_undetected": 0,
+          "operational_verify_failed": 64,
+          "oracle_decode_failed": 0,
+          "oracle_exact": 42,
+          "oracle_failure": 54,
+          "oracle_key_dependent_bits_total": 80544,
+          "oracle_public_control_bits_total": 251808,
+          "oracle_resource_abort": 0,
+          "oracle_undetected": 0,
+          "oracle_verify_failed": 54,
+          "seed": 2026091431
+        },
+        {
+          "operational_decode_failed": 0,
+          "operational_exact": 33,
+          "operational_failure": 63,
+          "operational_key_dependent_bits_total": 80544,
+          "operational_public_control_bits_total": 251808,
+          "operational_resource_abort": 0,
+          "operational_undetected": 0,
+          "operational_verify_failed": 63,
+          "oracle_decode_failed": 0,
+          "oracle_exact": 46,
+          "oracle_failure": 50,
+          "oracle_key_dependent_bits_total": 80544,
+          "oracle_public_control_bits_total": 251808,
+          "oracle_resource_abort": 0,
+          "oracle_undetected": 0,
+          "oracle_verify_failed": 50,
+          "seed": 2026091432
+        },
+        {
+          "operational_decode_failed": 0,
+          "operational_exact": 26,
+          "operational_failure": 70,
+          "operational_key_dependent_bits_total": 80544,
+          "operational_public_control_bits_total": 251808,
+          "operational_resource_abort": 0,
+          "operational_undetected": 0,
+          "operational_verify_failed": 70,
+          "oracle_decode_failed": 0,
+          "oracle_exact": 42,
+          "oracle_failure": 54,
+          "oracle_key_dependent_bits_total": 80544,
+          "oracle_public_control_bits_total": 251808,
+          "oracle_resource_abort": 0,
+          "oracle_undetected": 0,
+          "oracle_verify_failed": 54,
+          "seed": 2026091433
+        },
+        {
+          "operational_decode_failed": 0,
+          "operational_exact": 24,
+          "operational_failure": 72,
+          "operational_key_dependent_bits_total": 80544,
+          "operational_public_control_bits_total": 251808,
+          "operational_resource_abort": 0,
+          "operational_undetected": 0,
+          "operational_verify_failed": 72,
+          "oracle_decode_failed": 0,
+          "oracle_exact": 41,
+          "oracle_failure": 55,
+          "oracle_key_dependent_bits_total": 80544,
+          "oracle_public_control_bits_total": 251808,
+          "oracle_resource_abort": 0,
+          "oracle_undetected": 0,
+          "oracle_verify_failed": 55,
+          "seed": 2026091434
+        }
+      ]
+    },
+    "p4_independent": {
+      "config": {
+        "blocks": 96,
+        "epsilon1": 0.05,
+        "epsilon2": 0.2,
+        "k1": 45,
+        "k2": 110,
+        "model": "accepted independent injected joint table (build_injected_joint_table(0.05, 0.20)) + two_layer.run_two_layer_block, in-memory",
+        "n": 256,
+        "toeplitz_master_rule": "toeplitz_master = run_seed + 10000 parameter"
+      },
+      "decoded": true,
+      "mean": {
+        "operational_decode_failed": 0.0,
+        "operational_exact": 23.2,
+        "operational_failure": 72.8,
+        "operational_key_dependent_bits_total": 80544.0,
+        "operational_public_control_bits_total": 251808.0,
+        "operational_resource_abort": 0.0,
+        "operational_undetected": 0.0,
+        "operational_verify_failed": 72.8,
+        "oracle_decode_failed": 0.0,
+        "oracle_exact": 37.8,
+        "oracle_failure": 58.2,
+        "oracle_key_dependent_bits_total": 80544.0,
+        "oracle_public_control_bits_total": 251808.0,
+        "oracle_resource_abort": 0.0,
+        "oracle_undetected": 0.0,
+        "oracle_verify_failed": 58.2
+      },
+      "p2_cross_u1_max_abs_diff": 7.771561172376096e-16,
+      "proof_failed": false,
+      "range": {
+        "operational_decode_failed": [
+          0.0,
+          0.0
+        ],
+        "operational_exact": [
+          12.0,
+          29.0
+        ],
+        "operational_failure": [
+          67.0,
+          84.0
+        ],
+        "operational_key_dependent_bits_total": [
+          80544.0,
+          80544.0
+        ],
+        "operational_public_control_bits_total": [
+          251808.0,
+          251808.0
+        ],
+        "operational_resource_abort": [
+          0.0,
+          0.0
+        ],
+        "operational_undetected": [
+          0.0,
+          0.0
+        ],
+        "operational_verify_failed": [
+          67.0,
+          84.0
+        ],
+        "oracle_decode_failed": [
+          0.0,
+          0.0
+        ],
+        "oracle_exact": [
+          25.0,
+          44.0
+        ],
+        "oracle_failure": [
+          52.0,
+          71.0
+        ],
+        "oracle_key_dependent_bits_total": [
+          80544.0,
+          80544.0
+        ],
+        "oracle_public_control_bits_total": [
+          251808.0,
+          251808.0
+        ],
+        "oracle_resource_abort": [
+          0.0,
+          0.0
+        ],
+        "oracle_undetected": [
+          0.0,
+          0.0
+        ],
+        "oracle_verify_failed": [
+          52.0,
+          71.0
+        ]
+      },
+      "sample_std": {
+        "operational_decode_failed": 0.0,
+        "operational_exact": 6.6105975524153635,
+        "operational_failure": 6.6105975524153635,
+        "operational_key_dependent_bits_total": 0.0,
+        "operational_public_control_bits_total": 0.0,
+        "operational_resource_abort": 0.0,
+        "operational_undetected": 0.0,
+        "operational_verify_failed": 6.6105975524153635,
+        "oracle_decode_failed": 0.0,
+        "oracle_exact": 7.362064927722384,
+        "oracle_failure": 7.362064927722384,
+        "oracle_key_dependent_bits_total": 0.0,
+        "oracle_public_control_bits_total": 0.0,
+        "oracle_resource_abort": 0.0,
+        "oracle_undetected": 0.0,
+        "oracle_verify_failed": 7.362064927722384
+      },
+      "seeds": [
+        {
+          "operational_decode_failed": 0,
+          "operational_exact": 23,
+          "operational_failure": 73,
+          "operational_key_dependent_bits_total": 80544,
+          "operational_public_control_bits_total": 251808,
+          "operational_resource_abort": 0,
+          "operational_undetected": 0,
+          "operational_verify_failed": 73,
+          "oracle_decode_failed": 0,
+          "oracle_exact": 40,
+          "oracle_failure": 56,
+          "oracle_key_dependent_bits_total": 80544,
+          "oracle_public_control_bits_total": 251808,
+          "oracle_resource_abort": 0,
+          "oracle_undetected": 0,
+          "oracle_verify_failed": 56,
+          "seed": 2026091420
+        },
+        {
+          "operational_decode_failed": 0,
+          "operational_exact": 12,
+          "operational_failure": 84,
+          "operational_key_dependent_bits_total": 80544,
+          "operational_public_control_bits_total": 251808,
+          "operational_resource_abort": 0,
+          "operational_undetected": 0,
+          "operational_verify_failed": 84,
+          "oracle_decode_failed": 0,
+          "oracle_exact": 25,
+          "oracle_failure": 71,
+          "oracle_key_dependent_bits_total": 80544,
+          "oracle_public_control_bits_total": 251808,
+          "oracle_resource_abort": 0,
+          "oracle_undetected": 0,
+          "oracle_verify_failed": 71,
+          "seed": 2026091421
+        },
+        {
+          "operational_decode_failed": 0,
+          "operational_exact": 26,
+          "operational_failure": 70,
+          "operational_key_dependent_bits_total": 80544,
+          "operational_public_control_bits_total": 251808,
+          "operational_resource_abort": 0,
+          "operational_undetected": 0,
+          "operational_verify_failed": 70,
+          "oracle_decode_failed": 0,
+          "oracle_exact": 44,
+          "oracle_failure": 52,
+          "oracle_key_dependent_bits_total": 80544,
+          "oracle_public_control_bits_total": 251808,
+          "oracle_resource_abort": 0,
+          "oracle_undetected": 0,
+          "oracle_verify_failed": 52,
+          "seed": 2026091422
+        },
+        {
+          "operational_decode_failed": 0,
+          "operational_exact": 29,
+          "operational_failure": 67,
+          "operational_key_dependent_bits_total": 80544,
+          "operational_public_control_bits_total": 251808,
+          "operational_resource_abort": 0,
+          "operational_undetected": 0,
+          "operational_verify_failed": 67,
+          "oracle_decode_failed": 0,
+          "oracle_exact": 40,
+          "oracle_failure": 56,
+          "oracle_key_dependent_bits_total": 80544,
+          "oracle_public_control_bits_total": 251808,
+          "oracle_resource_abort": 0,
+          "oracle_undetected": 0,
+          "oracle_verify_failed": 56,
+          "seed": 2026091423
+        },
+        {
+          "operational_decode_failed": 0,
+          "operational_exact": 26,
+          "operational_failure": 70,
+          "operational_key_dependent_bits_total": 80544,
+          "operational_public_control_bits_total": 251808,
+          "operational_resource_abort": 0,
+          "operational_undetected": 0,
+          "operational_verify_failed": 70,
+          "oracle_decode_failed": 0,
+          "oracle_exact": 40,
+          "oracle_failure": 56,
+          "oracle_key_dependent_bits_total": 80544,
+          "oracle_public_control_bits_total": 251808,
+          "oracle_resource_abort": 0,
+          "oracle_undetected": 0,
+          "oracle_verify_failed": 56,
+          "seed": 2026091424
+        }
+      ]
+    },
+    "p5_k45": {
+      "config": {
+        "blocks": 300,
+        "epsilon": 0.05,
+        "k": 45,
+        "n": 256,
+        "semantics": "accepted protocol.execute_blocks (P5 static protocol), in-memory",
+        "toeplitz_master_rule": "run_seed + 10000 via protocol.TOEPLITZ_MASTER_SEED (in-process module constant)"
+      },
+      "mean": {
+        "decode_failed": 1.2,
+        "exact": 298.0,
+        "failure": 2.0,
+        "key_dependent_bits_total": 86623.2,
+        "public_control_bits_total": 783752.4,
+        "resource_abort": 0.0,
+        "undetected": 0.0,
+        "verify_failed": 0.8
+      },
+      "range": {
+        "decode_failed": [
+          0.0,
+          3.0
+        ],
+        "exact": [
+          296.0,
+          299.0
+        ],
+        "failure": [
+          1.0,
+          4.0
+        ],
+        "key_dependent_bits_total": [
+          86508.0,
+          86700.0
+        ],
+        "public_control_bits_total": [
+          779031.0,
+          786900.0
+        ],
+        "resource_abort": [
+          0.0,
+          0.0
+        ],
+        "undetected": [
+          0.0,
+          0.0
+        ],
+        "verify_failed": [
+          0.0,
+          2.0
+        ]
+      },
+      "sample_std": {
+        "decode_failed": 1.3038404810405297,
+        "exact": 1.224744871391589,
+        "failure": 1.224744871391589,
+        "key_dependent_bits_total": 83.4457907865939,
+        "public_control_bits_total": 3419.9735817693095,
+        "resource_abort": 0.0,
+        "undetected": 0.0,
+        "verify_failed": 0.8366600265340756
+      },
+      "seeds": [
+        {
+          "decode_failed": 3,
+          "exact": 296,
+          "failure": 4,
+          "key_dependent_bits_total": 86508,
+          "public_control_bits_total": 779031,
+          "resource_abort": 0,
+          "seed": 2026091400,
+          "undetected": 0,
+          "verify_failed": 1
+        },
+        {
+          "decode_failed": 2,
+          "exact": 298,
+          "failure": 2,
+          "key_dependent_bits_total": 86572,
+          "public_control_bits_total": 781654,
+          "resource_abort": 0,
+          "seed": 2026091401,
+          "undetected": 0,
+          "verify_failed": 0
+        },
+        {
+          "decode_failed": 0,
+          "exact": 298,
+          "failure": 2,
+          "key_dependent_bits_total": 86700,
+          "public_control_bits_total": 786900,
+          "resource_abort": 0,
+          "seed": 2026091402,
+          "undetected": 0,
+          "verify_failed": 2
+        },
+        {
+          "decode_failed": 1,
+          "exact": 299,
+          "failure": 1,
+          "key_dependent_bits_total": 86636,
+          "public_control_bits_total": 784277,
+          "resource_abort": 0,
+          "seed": 2026091403,
+          "undetected": 0,
+          "verify_failed": 0
+        },
+        {
+          "decode_failed": 0,
+          "exact": 299,
+          "failure": 1,
+          "key_dependent_bits_total": 86700,
+          "public_control_bits_total": 786900,
+          "resource_abort": 0,
+          "seed": 2026091404,
+          "undetected": 0,
+          "verify_failed": 1
+        }
+      ]
+    },
+    "r1_three_arm": {
+      "config": {
+        "K": [
+          29,
+          33,
+          37,
+          41,
+          45
+        ],
+        "blocks": 300,
+        "epsilon": 0.05,
+        "n": 256,
+        "semantics": "accepted three-arm semantics via incremental.run_three_arm_block + generate_erasure_block (static K45 / strict-stop / R1 advance), in-memory",
+        "toeplitz_master_rule": "run_seed + 10000 via incremental.TOEPLITZ_MASTER_SEED (in-process module constant)"
+      },
+      "mean": {
+        "r1_decode_failed": 0.6,
+        "r1_exact": 299.2,
+        "r1_failure": 0.8,
+        "r1_key_dependent_bits_total": 65830.4,
+        "r1_public_control_bits_total": 856743.2,
+        "r1_resource_abort": 0.0,
+        "r1_undetected": 0.0,
+        "r1_verify_failed": 0.2,
+        "static_decode_failed": 0.6,
+        "static_exact": 299.2,
+        "static_failure": 0.8,
+        "static_key_dependent_bits_total": 86661.6,
+        "static_public_control_bits_total": 785326.2,
+        "static_resource_abort": 0.0,
+        "static_undetected": 0.0,
+        "static_verify_failed": 0.2,
+        "strict_stop_decode_failed": 26.4,
+        "strict_stop_exact": 273.4,
+        "strict_stop_failure": 26.6,
+        "strict_stop_key_dependent_bits_total": 63228.0,
+        "strict_stop_public_control_bits_total": 786926.4,
+        "strict_stop_resource_abort": 0.0,
+        "strict_stop_undetected": 0.0,
+        "strict_stop_verify_failed": 0.2
+      },
+      "range": {
+        "r1_decode_failed": [
+          0.0,
+          2.0
+        ],
+        "r1_exact": [
+          298.0,
+          300.0
+        ],
+        "r1_failure": [
+          0.0,
+          2.0
+        ],
+        "r1_key_dependent_bits_total": [
+          64452.0,
+          66552.0
+        ],
+        "r1_public_control_bits_total": [
+          821045.0,
+          873546.0
+        ],
+        "r1_resource_abort": [
+          0.0,
+          0.0
+        ],
+        "r1_undetected": [
+          0.0,
+          0.0
+        ],
+        "r1_verify_failed": [
+          0.0,
+          1.0
+        ],
+        "static_decode_failed": [
+          0.0,
+          2.0
+        ],
+        "static_exact": [
+          298.0,
+          300.0
+        ],
+        "static_failure": [
+          0.0,
+          2.0
+        ],
+        "static_key_dependent_bits_total": [
+          86572.0,
+          86700.0
+        ],
+        "static_public_control_bits_total": [
+          781654.0,
+          786900.0
+        ],
+        "static_resource_abort": [
+          0.0,
+          0.0
+        ],
+        "static_undetected": [
+          0.0,
+          0.0
+        ],
+        "static_verify_failed": [
+          0.0,
+          1.0
+        ],
+        "strict_stop_decode_failed": [
+          20.0,
+          32.0
+        ],
+        "strict_stop_exact": [
+          267.0,
+          280.0
+        ],
+        "strict_stop_failure": [
+          20.0,
+          33.0
+        ],
+        "strict_stop_key_dependent_bits_total": [
+          62300.0,
+          64024.0
+        ],
+        "strict_stop_public_control_bits_total": [
+          760682.0,
+          815784.0
+        ],
+        "strict_stop_resource_abort": [
+          0.0,
+          0.0
+        ],
+        "strict_stop_undetected": [
+          0.0,
+          0.0
+        ],
+        "strict_stop_verify_failed": [
+          0.0,
+          1.0
+        ]
+      },
+      "sample_std": {
+        "r1_decode_failed": 0.8944271909999159,
+        "r1_exact": 1.0954451150103321,
+        "r1_failure": 1.0954451150103321,
+        "r1_key_dependent_bits_total": 847.3138733668887,
+        "r1_public_control_bits_total": 21211.110513124957,
+        "r1_resource_abort": 0.0,
+        "r1_undetected": 0.0,
+        "r1_verify_failed": 0.4472135954999579,
+        "static_decode_failed": 0.8944271909999159,
+        "static_exact": 1.0954451150103321,
+        "static_failure": 1.0954451150103321,
+        "static_key_dependent_bits_total": 57.243340223994615,
+        "static_public_control_bits_total": 2346.082521992779,
+        "static_resource_abort": 0.0,
+        "static_undetected": 0.0,
+        "static_verify_failed": 0.4472135954999579,
+        "strict_stop_decode_failed": 5.319774431308154,
+        "strict_stop_exact": 5.594640292279746,
+        "strict_stop_failure": 5.594640292279746,
+        "strict_stop_key_dependent_bits_total": 626.6418434799898,
+        "strict_stop_public_control_bits_total": 19896.509751712736,
+        "strict_stop_resource_abort": 0.0,
+        "strict_stop_undetected": 0.0,
+        "strict_stop_verify_failed": 0.4472135954999579
+      },
+      "seeds": [
+        {
+          "r1_decode_failed": 0,
+          "r1_exact": 300,
+          "r1_failure": 0,
+          "r1_key_dependent_bits_total": 64452,
+          "r1_public_control_bits_total": 821045,
+          "r1_resource_abort": 0,
+          "r1_undetected": 0,
+          "r1_verify_failed": 0,
+          "seed": 2026091410,
+          "static_decode_failed": 0,
+          "static_exact": 300,
+          "static_failure": 0,
+          "static_key_dependent_bits_total": 86700,
+          "static_public_control_bits_total": 786900,
+          "static_resource_abort": 0,
+          "static_undetected": 0,
+          "static_verify_failed": 0,
+          "strict_stop_decode_failed": 22,
+          "strict_stop_exact": 278,
+          "strict_stop_failure": 22,
+          "strict_stop_key_dependent_bits_total": 62300,
+          "strict_stop_public_control_bits_total": 760682,
+          "strict_stop_resource_abort": 0,
+          "strict_stop_undetected": 0,
+          "strict_stop_verify_failed": 0
+        },
+        {
+          "r1_decode_failed": 1,
+          "r1_exact": 298,
+          "r1_failure": 2,
+          "r1_key_dependent_bits_total": 66396,
+          "r1_public_control_bits_total": 863059,
+          "r1_resource_abort": 0,
+          "r1_undetected": 0,
+          "r1_verify_failed": 1,
+          "seed": 2026091411,
+          "static_decode_failed": 1,
+          "static_exact": 298,
+          "static_failure": 2,
+          "static_key_dependent_bits_total": 86636,
+          "static_public_control_bits_total": 784277,
+          "static_resource_abort": 0,
+          "static_undetected": 0,
+          "static_verify_failed": 1,
+          "strict_stop_decode_failed": 32,
+          "strict_stop_exact": 267,
+          "strict_stop_failure": 33,
+          "strict_stop_key_dependent_bits_total": 63172,
+          "strict_stop_public_control_bits_total": 781684,
+          "strict_stop_resource_abort": 0,
+          "strict_stop_undetected": 0,
+          "strict_stop_verify_failed": 1
+        },
+        {
+          "r1_decode_failed": 2,
+          "r1_exact": 298,
+          "r1_failure": 2,
+          "r1_key_dependent_bits_total": 66552,
+          "r1_public_control_bits_total": 873546,
+          "r1_resource_abort": 0,
+          "r1_undetected": 0,
+          "r1_verify_failed": 0,
+          "seed": 2026091412,
+          "static_decode_failed": 2,
+          "static_exact": 298,
+          "static_failure": 2,
+          "static_key_dependent_bits_total": 86572,
+          "static_public_control_bits_total": 781654,
+          "static_resource_abort": 0,
+          "static_undetected": 0,
+          "static_verify_failed": 0,
+          "strict_stop_decode_failed": 31,
+          "strict_stop_exact": 269,
+          "strict_stop_failure": 31,
+          "strict_stop_key_dependent_bits_total": 63488,
+          "strict_stop_public_control_bits_total": 792179,
+          "strict_stop_resource_abort": 0,
+          "strict_stop_undetected": 0,
+          "strict_stop_verify_failed": 0
+        },
+        {
+          "r1_decode_failed": 0,
+          "r1_exact": 300,
+          "r1_failure": 0,
+          "r1_key_dependent_bits_total": 66128,
+          "r1_public_control_bits_total": 870905,
+          "r1_resource_abort": 0,
+          "r1_undetected": 0,
+          "r1_verify_failed": 0,
+          "seed": 2026091413,
+          "static_decode_failed": 0,
+          "static_exact": 300,
+          "static_failure": 0,
+          "static_key_dependent_bits_total": 86700,
+          "static_public_control_bits_total": 786900,
+          "static_resource_abort": 0,
+          "static_undetected": 0,
+          "static_verify_failed": 0,
+          "strict_stop_decode_failed": 20,
+          "strict_stop_exact": 280,
+          "strict_stop_failure": 20,
+          "strict_stop_key_dependent_bits_total": 64024,
+          "strict_stop_public_control_bits_total": 815784,
+          "strict_stop_resource_abort": 0,
+          "strict_stop_undetected": 0,
+          "strict_stop_verify_failed": 0
+        },
+        {
+          "r1_decode_failed": 0,
+          "r1_exact": 300,
+          "r1_failure": 0,
+          "r1_key_dependent_bits_total": 65624,
+          "r1_public_control_bits_total": 855161,
+          "r1_resource_abort": 0,
+          "r1_undetected": 0,
+          "r1_verify_failed": 0,
+          "seed": 2026091414,
+          "static_decode_failed": 0,
+          "static_exact": 300,
+          "static_failure": 0,
+          "static_key_dependent_bits_total": 86700,
+          "static_public_control_bits_total": 786900,
+          "static_resource_abort": 0,
+          "static_undetected": 0,
+          "static_verify_failed": 0,
+          "strict_stop_decode_failed": 27,
+          "strict_stop_exact": 273,
+          "strict_stop_failure": 27,
+          "strict_stop_key_dependent_bits_total": 63156,
+          "strict_stop_public_control_bits_total": 784303,
+          "strict_stop_resource_abort": 0,
+          "strict_stop_undetected": 0,
+          "strict_stop_verify_failed": 0
+        }
+      ]
+    }
+  },
+  "interpreter": "/mnt/d/Code/HD-QKD_Polar_Comparison/.venv/bin/python",
+  "master_offset": 10000,
+  "master_parameterization": {
+    "method": "for each seed the tag-seed bit vector was recomputed by calling the same module function with the patched/parameterized master and compared bit-for-bit (2623 bits) against an independently rebuilt SHA-256 counter stream; the same comparison against the pristine default master proves the value took effect",
+    "p4": {
+      "checks": [
+        {
+          "master": 2026101420,
+          "operational_differs_from_default_master": true,
+          "operational_matches_expected_master_bits": true,
+          "oracle_differs_from_default_master": true,
+          "oracle_matches_expected_master_bits": true,
+          "seed": 2026091420
+        },
+        {
+          "master": 2026101421,
+          "operational_differs_from_default_master": true,
+          "operational_matches_expected_master_bits": true,
+          "oracle_differs_from_default_master": true,
+          "oracle_matches_expected_master_bits": true,
+          "seed": 2026091421
+        },
+        {
+          "master": 2026101422,
+          "operational_differs_from_default_master": true,
+          "operational_matches_expected_master_bits": true,
+          "oracle_differs_from_default_master": true,
+          "oracle_matches_expected_master_bits": true,
+          "seed": 2026091422
+        },
+        {
+          "master": 2026101423,
+          "operational_differs_from_default_master": true,
+          "operational_matches_expected_master_bits": true,
+          "oracle_differs_from_default_master": true,
+          "oracle_matches_expected_master_bits": true,
+          "seed": 2026091423
+        },
+        {
+          "master": 2026101424,
+          "operational_differs_from_default_master": true,
+          "operational_matches_expected_master_bits": true,
+          "oracle_differs_from_default_master": true,
+          "oracle_matches_expected_master_bits": true,
+          "seed": 2026091424
+        },
+        {
+          "master": 2026101430,
+          "operational_differs_from_default_master": true,
+          "operational_matches_expected_master_bits": true,
+          "oracle_differs_from_default_master": true,
+          "oracle_matches_expected_master_bits": true,
+          "seed": 2026091430
+        },
+        {
+          "master": 2026101431,
+          "operational_differs_from_default_master": true,
+          "operational_matches_expected_master_bits": true,
+          "oracle_differs_from_default_master": true,
+          "oracle_matches_expected_master_bits": true,
+          "seed": 2026091431
+        },
+        {
+          "master": 2026101432,
+          "operational_differs_from_default_master": true,
+          "operational_matches_expected_master_bits": true,
+          "oracle_differs_from_default_master": true,
+          "oracle_matches_expected_master_bits": true,
+          "seed": 2026091432
+        },
+        {
+          "master": 2026101433,
+          "operational_differs_from_default_master": true,
+          "operational_matches_expected_master_bits": true,
+          "oracle_differs_from_default_master": true,
+          "oracle_matches_expected_master_bits": true,
+          "seed": 2026091433
+        },
+        {
+          "master": 2026101434,
+          "operational_differs_from_default_master": true,
+          "operational_matches_expected_master_bits": true,
+          "oracle_differs_from_default_master": true,
+          "oracle_matches_expected_master_bits": true,
+          "seed": 2026091434
+        }
+      ],
+      "default_master": 2026091361,
+      "mechanism": "toeplitz_master parameter passed to two_layer.run_two_layer_block, which forwards it to two_layer.block_toeplitz_seed_bits (two_layer.py lines 671-673 and 747-749)"
+    },
+    "p5_k45": {
+      "checks": [
+        {
+          "differs_from_default_master": true,
+          "master": 2026101400,
+          "matches_expected_master_bits": true,
+          "seed": 2026091400
+        },
+        {
+          "differs_from_default_master": true,
+          "master": 2026101401,
+          "matches_expected_master_bits": true,
+          "seed": 2026091401
+        },
+        {
+          "differs_from_default_master": true,
+          "master": 2026101402,
+          "matches_expected_master_bits": true,
+          "seed": 2026091402
+        },
+        {
+          "differs_from_default_master": true,
+          "master": 2026101403,
+          "matches_expected_master_bits": true,
+          "seed": 2026091403
+        },
+        {
+          "differs_from_default_master": true,
+          "master": 2026101404,
+          "matches_expected_master_bits": true,
+          "seed": 2026091404
+        }
+      ],
+      "default_master": 2026091318,
+      "mechanism": "comparison_bench.src.comparison_bench.formal_ir.nbpolar.protocol.TOEPLITZ_MASTER_SEED set in-process before each seed's execute_blocks call; protocol.block_toeplitz_seed_bits() reads the module global at call time (protocol.py line 167)"
+    },
+    "r1_three_arm": {
+      "checks": [
+        {
+          "incremental_differs_from_default_master": true,
+          "incremental_matches_expected_master_bits": true,
+          "master": 2026101410,
+          "seed": 2026091410,
+          "static_differs_from_default_master": true,
+          "static_matches_expected_master_bits": true
+        },
+        {
+          "incremental_differs_from_default_master": true,
+          "incremental_matches_expected_master_bits": true,
+          "master": 2026101411,
+          "seed": 2026091411,
+          "static_differs_from_default_master": true,
+          "static_matches_expected_master_bits": true
+        },
+        {
+          "incremental_differs_from_default_master": true,
+          "incremental_matches_expected_master_bits": true,
+          "master": 2026101412,
+          "seed": 2026091412,
+          "static_differs_from_default_master": true,
+          "static_matches_expected_master_bits": true
+        },
+        {
+          "incremental_differs_from_default_master": true,
+          "incremental_matches_expected_master_bits": true,
+          "master": 2026101413,
+          "seed": 2026091413,
+          "static_differs_from_default_master": true,
+          "static_matches_expected_master_bits": true
+        },
+        {
+          "incremental_differs_from_default_master": true,
+          "incremental_matches_expected_master_bits": true,
+          "master": 2026101414,
+          "seed": 2026091414,
+          "static_differs_from_default_master": true,
+          "static_matches_expected_master_bits": true
+        }
+      ],
+      "default_master": 2026091341,
+      "mechanism": "comparison_bench.src.comparison_bench.formal_ir.nbpolar.incremental.TOEPLITZ_MASTER_SEED set in-process before each seed; both incremental arms and the static comparator read the module global via block_toeplitz_seed_bits(master=None) (incremental.py lines 251, 581, 735)"
+    },
+    "rule": "public tag master = run_seed + 10000 for every family"
+  },
+  "n": 256,
+  "notes": {
+    "deviations": [
+      "the frozen heredoc body was extracted byte-exactly from prereg.md and executed via stdin from a /tmp capture (no probe-script file was written; the probe directory contains only prereg.md and results.json)",
+      "one script-level fix was required and logged (command n=3): insert the two_layer submodule import because nbpolar/__init__.py does not register it; no frozen parameter, model, seed or semantics changed",
+      "the verification writer itself failed once (command n=6, missing two_layer import) and was rerun as n=7; both attempts are listed",
+      "command n=7 (this verification/formatting writer) is the final writer; its own ended_utc and stdout/stderr are only observable after the write, so ended_utc/stdout_tail/stderr_tail are null for that entry"
+    ],
+    "executed_body_fidelity": {
+      "executed_body_sha256": "420031ce6d8adfb4b24b0da236378dbf8fdb9c8b2618e2a847806a6ad33466d7",
+      "frozen_body_sha256": "c1934200e5d5ff0ce2890d04cbe29044126c5658175f125019c09ee59a2d14d7",
+      "prereg_sha256": "761821c3efeac12b2a14be2a4ecf4262d9e682ab5474d3a685bf0cf6e9b99662",
+      "statement": "executed body == prereg.md code block (lines 33-179, uniform 3-space markdown indent stripped) plus the single X01-FIX import line; byte equality asserted by this writer at run time"
+    },
+    "purpose": "Tier-X non-claim seed-dispersion probe; per-seed values plus mean / sample std (n-1) / range only. No pass/fail, threshold verdict, candidate, attempt accounting or scientific status is computed.",
+    "verification_notes": {
+      "dependent_table": "rebuilt with the frozen dependent kernel; column-sum deviation and P2 gap recomputed decoder-free and compared with the recorded values",
+      "independent_table": {
+        "matches_recorded": true,
+        "recomputed_gap": 7.771561172376096e-16,
+        "recorded_gap": 7.771561172376096e-16
+      },
+      "p4_accounting_identities": "per-seed P4 key_dependent_bits_total == 96*(5*(45+110)+64) = 80544 and public_control_bits_total == 96*2623 = 251808 for both arms of both families"
+    }
+  },
+  "numpy_version": "2.5.3",
+  "prereg_sha256": "761821c3efeac12b2a14be2a4ecf4262d9e682ab5474d3a685bf0cf6e9b99662",
+  "probe_id": "nbpolar_x01_20260913",
+  "python_version": "3.12.3",
+  "tier": "X-non-claim"
+}

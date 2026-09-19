@@ -1,0 +1,117 @@
+{
+ "probe_id": "nbpolar_x08_per_session_prior_entropy_audit",
+ "tier": "X",
+ "status": "X08_PROBE_COMPLETE_DESCRIPTIVE_ONLY",
+ "question": "Did the P20H per-session calibration's lambda=137.3823795883264 concentration smoothing inflate the 1.5M TRAIN prior entropy H1 relative to the P7-equivalent raw-count MLE + 1e-15 floor rule, and by how much? Descriptive decision input only.",
+ "prereg_sha256": "1fee0fb6d63b842d8d9285940ddd201da6ab6b3e9f90eb4710279d770d6843d4",
+ "body_sha256": "57f0354aa94ae35d194811049099ec4df3a36ced07355ee68f3822476436902a",
+ "body_sha_match": true,
+ "artifact_open": {
+  "path": "/mnt/d/Code/HD-QKD_Polar_Comparison-nbpolar/.workbuddy/queue/NBPOLAR-PHASE4-P20H-PER-SESSION-CALIBRATION/per_session_calibration/calibrated_prior.npz",
+  "size_bytes": 25438654,
+  "mtime_ns": 1789743468871262900,
+  "size_bytes_after": 25438654,
+  "mtime_ns_after": 1789743468871262900,
+  "stat_unchanged": true,
+  "keys": [
+   "counts_ab",
+   "f_prior",
+   "floor_value",
+   "h1",
+   "h2",
+   "h_total",
+   "lambda_star",
+   "p1",
+   "p2",
+   "p_b"
+  ],
+  "open_count": 1,
+  "reopen_attempted": false,
+  "canonical_digest_recomputed": "e8dd078a5367ba3af8eba91022d58aeffc114bc30b847b13cd4bb890e5dde43b",
+  "canonical_digest_pin": "e8dd078a5367ba3af8eba91022d58aeffc114bc30b847b13cd4bb890e5dde43b",
+  "digest_impl": "module:per_session_calibration.canonical_prior_digest",
+  "digest_match": true
+ },
+ "counts_stats": {
+  "shape": [
+   1024,
+   1024
+  ],
+  "total": 424960,
+  "total_float": 424960.0,
+  "zero_cells": 1046140,
+  "zero_columns": 0,
+  "nonzero_columns": 1024
+ },
+ "variant_lambda_control": {
+  "lambda": 137.3823795883264,
+  "h1": 2.006647056368773,
+  "h2": 1.9017235959286112,
+  "h_total": 3.908370652297384,
+  "floor_hits_cells": 0,
+  "floor_hits_fraction": 0.0,
+  "stored_h1": 2.006647056368773,
+  "stored_h2": 1.9017235959286112,
+  "stored_h_total": 3.908370652297384,
+  "stored_h_total_from_npz": 3.908370652297384,
+  "stored_lambda_star": 137.3823795883264,
+  "stored_floor_value": 1e-15,
+  "literal_abs_delta": {
+   "h1": 0.0,
+   "h2": 0.0,
+   "h_total": 0.0
+  },
+  "tolerance": 1e-12
+ },
+ "variant_raw_floor": {
+  "rule": "raw-count MLE + 1e-15 floor + column renormalize (lam=0.0; zero columns fall back to p_global)",
+  "lambda": 0.0,
+  "h1": 0.02519949692375297,
+  "h2": 0.8003665547495433,
+  "h_total": 0.8255660516732963,
+  "floor_hits_cells": 1046140,
+  "floor_hits_fraction": 0.9976768493652344,
+  "zero_column_fallback_columns": 0
+ },
+ "cross_checks": {
+  "lambda_f_prior_vs_stored_f_prior_max_abs": 0.0,
+  "raw_vs_independent_literal_max_abs": 0.0,
+  "raw_vs_independent_literal_h1_abs": 0.0,
+  "raw_vs_independent_literal_h2_abs": 0.0,
+  "tolerance": 1e-12,
+  "entropy_impl": "comparison_bench.formal_ir.nbpolar.target_construction.entropy_bits (-sum p log2 p, 0log0=0)"
+ },
+ "implied_budget": {
+  "N": 32768,
+  "formula": "floor((1.3*32768*H_total - 64)/5) clipped [0,65536]",
+  "k_total_lambda": 33285,
+  "k_total_raw": 7020,
+  "frozen_key_bits_reference": 34119,
+  "frozen_k1_levels": [
+   319,
+   447,
+   575,
+   831
+  ],
+  "l1_side_info_bits_at_H1": {
+   "formula": "N*H1",
+   "lambda_smoothing": 65753.81074309195,
+   "raw_floor": 825.7371151975374
+  }
+ },
+ "command": "cd /mnt/d/Code/HD-QKD_Polar_Comparison-nbpolar && export OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1 MKL_NUM_THREADS=1 MALLOC_ARENA_MAX=2 && timeout 120 /mnt/d/Code/HD-QKD_Polar_Comparison/.venv/bin/python workspace/probes/nbpolar_x08_per_session_prior_entropy_audit/body.py",
+ "interpreter": "/mnt/d/Code/HD-QKD_Polar_Comparison/.venv/bin/python",
+ "wall_s": 2.9810923719924176,
+ "rss_bytes": 237039616,
+ "decoder_calls": 0,
+ "rng_calls": 0,
+ "tag_calls": 0,
+ "writes": [
+  "/mnt/d/Code/HD-QKD_Polar_Comparison-nbpolar/workspace/probes/nbpolar_x08_per_session_prior_entropy_audit/results.json"
+ ],
+ "notes": [
+  "single npz content open; no reopen; no protected/parquet/sibling opens",
+  "Variant L must reproduce stored h1/h2 within 1e-12; abs deltas recorded descriptively",
+  "reruns_to_fix_execution_errors: none"
+ ]
+}

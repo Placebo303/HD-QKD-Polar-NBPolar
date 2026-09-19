@@ -1,0 +1,17 @@
+{
+ "probe_id": "nbpolar_x11_hybrid_fwht_endtoend",
+ "tier": "X",
+ "status": "STOPPED_EXCEPTION",
+ "stop_detail": {
+  "error": "unhandled"
+ },
+ "prereg_sha256": "a03a297ccdc6cc23241f0cceb9c2c9f2dd4ab78359d131764c9d749f71f77ce3",
+ "body_sha256": "d128447e2505c0c19d87dc95ccd6d1652803b47da7e75ab7178cc394d94acdad",
+ "body_sha_match": true,
+ "wall_s": 90.70487251000031,
+ "rss_peak": {
+  "ru_maxrss_bytes": 409673728,
+  "vmhwm_bytes": 409673728,
+  "peak_bytes": 409673728
+ }
+}

@@ -1,0 +1,5382 @@
+{
+  "blocks_per_config_per_seed": 32,
+  "commands": [
+    {
+      "command_full_text": "cd /mnt/d/Code/HD-QKD_Polar_Comparison-nbpolar\n/mnt/d/Code/HD-QKD_Polar_Comparison/.venv/bin/python - <<'X02'\nimport hashlib\nimport json\nimport re\nimport statistics\nimport sys\nimport traceback\nfrom datetime import datetime, timezone\nfrom pathlib import Path\n\nimport numpy as np\n\nfrom comparison_bench.src.comparison_bench.formal_ir import nbpolar as nb\nfrom comparison_bench.src.comparison_bench.formal_ir.nbpolar import two_layer as tl\n\nROOT = Path(\"workspace/probes/nbpolar_x02_dependent_l2_point_search\")\nPREREG = ROOT / \"prereg.md\"\nBODY_LOG = Path(\"/tmp/x02_body.log\")\nN = 256\nOFF = 10000\nSEEDS = (2026091450, 2026091451, 2026091452)\nK1S = (45, 64, 96, 128)\nK2S = (110, 140, 170, 200, 230)\nPROFILE_FORMULAS = {\n    \"weak\": \"0.14 + 0.12*u1/31\",\n    \"medium\": \"0.08 + 0.24*u1/31\",\n    \"strong\": \"0.02 + 0.36*u1/31\",\n}\nBLOCKS = 32\nSTARTED_UTC = datetime.now(timezone.utc).strftime(\"%Y-%m-%dT%H:%M:%SZ\")\nLOG = []\nprereg_sha = None\ncommand_text = \"\"\nprior = []\n\n\ndef log(message):\n    LOG.append(str(message))\n    print(message, flush=True)\n\n\ndef utcnow():\n    return datetime.now(timezone.utc).strftime(\"%Y-%m-%dT%H:%M:%SZ\")\n\n\ndef eps2_vector(profile):\n    u1 = np.arange(32, dtype=np.float64)\n    if profile == \"weak\":\n        e2 = 0.14 + 0.12 * u1 / 31.0\n    elif profile == \"medium\":\n        e2 = 0.08 + 0.24 * u1 / 31.0\n    elif profile == \"strong\":\n        e2 = 0.02 + 0.36 * u1 / 31.0\n    else:\n        raise ValueError(f\"unknown profile {profile}\")\n    if not np.isclose(float(e2.mean()), 0.20, atol=1e-12):\n        raise AssertionError(f\"profile {profile} mean epsilon2 != 0.20\")\n    return e2\n\n\ndef profile_table(profile):\n    e2 = eps2_vector(profile)\n    ph = tl.layer_observation_matrix(0.05)\n    a = np.arange(1024)\n    ah, al = a // 32, a % 32\n    b = np.arange(1024)\n    bh, bl = b // 32, b % 32\n    table = np.zeros((1024, 1024), dtype=np.float64)\n    for hi in range(32):\n        pl = tl.layer_observation_matrix(float(e2[hi]))\n        idx = np.where(ah == hi)[0]\n        table[np.ix_(idx, b)] = ph[hi, bh][None, :] * pl[al[idx][:, None], bl[None, :]]\n    deviation = float(np.abs(table.sum(axis=0) - 1.0).max())\n    if deviation > 1e-12:\n        raise AssertionError(f\"profile {profile} joint table norm deviation {deviation:.3e}\")\n    return table, deviation\n\n\ndef p2_cross_u1_maxdiff(p2):\n    return float((p2.max(axis=0) - p2.min(axis=0)).max())\n\n\ndef reference_seed_bits(master, arm, index, length):\n    prefix = f\"nbpolar-p4-toeplitz-seed:{master}:{arm}:{index}\"\n    buf = bytearray()\n    counter = 0\n    while len(buf) * 8 < length:\n        buf.extend(hashlib.sha256(f\"{prefix}:{counter}\".encode(\"ascii\")).digest())\n        counter += 1\n    out = np.empty(len(buf) * 8, dtype=np.uint8)\n    i = 0\n    for byte in buf:\n        for shift in range(7, -1, -1):\n            out[i] = (byte >> shift) & 1\n            i += 1\n    return out[:length]\n\n\ndef sample_stream(profile, seed):\n    e2 = eps2_vector(profile)\n    rng = np.random.default_rng(seed)\n    stream = []\n    for _ in range(BLOCKS):\n        high = rng.integers(0, 32, size=N).astype(np.int64)\n        low = rng.integers(0, 32, size=N).astype(np.int64)\n        b_high = high.copy()\n        erased = rng.random(N) < 0.05\n        if bool(erased.any()):\n            idx = np.where(erased)[0]\n            b_high[idx] = rng.integers(0, 32, size=idx.size)\n        b_low = low.copy()\n        erased2 = rng.random(N) < e2[high]\n        if bool(erased2.any()):\n            idx = np.where(erased2)[0]\n            b_low[idx] = rng.integers(0, 32, size=idx.size)\n        stream.append((high, low, (32 * b_high + b_low).astype(np.int64)))\n    return stream\n\n\ndef arm_counts(results):\n    exact = sum(1 for r in results if r.exact)\n    failures = sum(1 for r in results if r.outcome in (\"decode_failed\", \"verify_failed\", \"resource_abort\"))\n    undetected = sum(1 for r in results if r.outcome == \"undetected\")\n    disclosure = int(sum(r.key_dependent_bits for r in results))\n    return exact, failures, undetected, disclosure\n\n\ndef body_from_command(command):\n    lines = command.splitlines()\n    start = next(i for i, line in enumerate(lines) if line.rstrip().endswith(\"<<'X02'\"))\n    stop = next(i for i in range(start + 1, len(lines)) if lines[i].strip() == \"X02\")\n    return \"\\n\".join(lines[start + 1:stop]) + \"\\n\"\n\n\ndef build_output():\n    global prereg_sha, command_text, prior\n    ROOT.mkdir(parents=True, exist_ok=True)\n    text = PREREG.read_text(encoding=\"utf-8\")\n    prereg_sha = hashlib.sha256(text.encode(\"utf-8\")).hexdigest()\n    match = re.search(r\"```bash\\n(.*?)\\n```\", text, re.S)\n    if match is None:\n        raise RuntimeError(\"prereg bash command block not found\")\n    command_text = match.group(1)\n    expected_body = body_from_command(command_text)\n    executed_body = BODY_LOG.read_text(encoding=\"utf-8\") if BODY_LOG.exists() else \"\"\n    body_sha_match = hashlib.sha256(executed_body.encode(\"utf-8\")).hexdigest() == hashlib.sha256(expected_body.encode(\"utf-8\")).hexdigest()\n    log(f\"prereg_sha256={prereg_sha} body_sha_match={body_sha_match}\")\n    if (ROOT / \"results.json\").exists():\n        try:\n            prior = json.loads((ROOT / \"results.json\").read_text(encoding=\"utf-8\")).get(\"commands\", [])\n        except Exception:\n            prior = []\n\n    profile_data = {}\n    for profile in PROFILE_FORMULAS:\n        table, deviation = profile_table(profile)\n        p1, p2 = tl.layer_metric_tables(table)\n        profile_data[profile] = {\n            \"p1\": p1,\n            \"p2\": p2,\n            \"norm_dev\": deviation,\n            \"p2_maxdiff\": p2_cross_u1_maxdiff(p2),\n        }\n        log(f\"profile {profile}: p2_maxdiff={profile_data[profile]['p2_maxdiff']:.6f} norm_dev={deviation:.3e}\")\n\n    seed_bits = tl.seed_bits_for(N)\n    master_points = [(profile, s) for profile in PROFILE_FORMULAS for s in SEEDS]\n    master_checks = 0\n    for profile, s in master_points:\n        master = s + OFF\n        for arm in (\"operational\", \"oracle\"):\n            got = tl.block_toeplitz_seed_bits(arm, 0, master=master, bit_length=seed_bits)\n            ref = reference_seed_bits(master, arm, 0, seed_bits)\n            if not np.array_equal(got, ref):\n                raise AssertionError(f\"master tag-seed mismatch profile={profile} seed={s} arm={arm}\")\n            master_checks += 1\n    masters = [s + OFF for _, s in master_points]\n    if len(set(masters)) != len(masters):\n        raise AssertionError(\"master = seed + 10000 is not injective\")\n    log(f\"master check: {master_checks} tag seeds recomputed (independent MSB-first path), all match\")\n\n    streams = {}\n    for profile in PROFILE_FORMULAS:\n        for s in SEEDS:\n            streams[(profile, s)] = sample_stream(profile, s)\n    log(f\"streams sampled: {len(streams)} streams x {BLOCKS} blocks\")\n\n    d1_sets = {k: tl.disclosure_coordinates(n=N, k=k, epsilon=0.05) for k in K1S}\n    d2_sets = {k: tl.disclosure_coordinates(n=N, k=k, epsilon=0.20) for k in K2S}\n    for k, d in d1_sets.items():\n        if d.shape != (k,) or len(set(d.tolist())) != k:\n            raise AssertionError(f\"D1[{k}] contract violated\")\n    for k, d in d2_sets.items():\n        if d.shape != (k,) or len(set(d.tolist())) != k:\n            raise AssertionError(f\"D2[{k}] contract violated\")\n\n    field = nb.make_gf32()\n    configs = []\n    leak_violations = 0\n    nonfinite_arms = 0\n    total_block_calls = 0\n    for profile in PROFILE_FORMULAS:\n        pd = profile_data[profile]\n        for k1 in K1S:\n            for k2 in K2S:\n                seed_records = []\n                for s in SEEDS:\n                    op_results = []\n                    oracle_results = []\n                    for block_index, (high, low, bob) in enumerate(streams[(profile, s)]):\n                        result = tl.run_two_layer_block(\n                            block_index,\n                            high,\n                            low,\n                            bob,\n                            field=field,\n                            p1_table=pd[\"p1\"],\n                            p2_table=pd[\"p2\"],\n                            d1=d1_sets[k1],\n                            d2=d2_sets[k2],\n                            n=N,\n                            k1=k1,\n                            k2=k2,\n                            toeplitz_master=s + OFF,\n                        )\n                        op_results.append(result.operational)\n                        oracle_results.append(result.oracle)\n                        leak_violations += int(bool(result.operational.truth_leak_violation)) + int(bool(result.oracle.truth_leak_violation))\n                        nonfinite_arms += int(bool(result.operational.nonfinite)) + int(bool(result.oracle.nonfinite))\n                        total_block_calls += 1\n                    op_exact, op_failures, op_undetected, op_disclosure = arm_counts(op_results)\n                    or_exact, or_failures, or_undetected, or_disclosure = arm_counts(oracle_results)\n                    seed_records.append({\n                        \"seed\": s,\n                        \"op_exact\": op_exact,\n                        \"op_failures\": op_failures,\n                        \"op_undetected\": op_undetected,\n                        \"oracle_exact\": or_exact,\n                        \"oracle_failures\": or_failures,\n                        \"oracle_undetected\": or_undetected,\n                        \"paired_gap\": (or_exact - op_exact) / float(BLOCKS),\n                        \"disclosure_bits\": int(op_disclosure + or_disclosure),\n                        \"block_count\": BLOCKS,\n                    })\n                op_rates = [r[\"op_exact\"] / float(BLOCKS) for r in seed_records]\n                or_rates = [r[\"oracle_exact\"] / float(BLOCKS) for r in seed_records]\n                gaps = [r[\"paired_gap\"] for r in seed_records]\n                disclosures = [float(r[\"disclosure_bits\"]) for r in seed_records]\n                configs.append({\n                    \"profile\": profile,\n                    \"k1\": k1,\n                    \"k2\": k2,\n                    \"p2_maxdiff\": pd[\"p2_maxdiff\"],\n                    \"seeds\": seed_records,\n                    \"mean\": {\n                        \"op_exact_rate\": float(statistics.mean(op_rates)),\n                        \"oracle_exact_rate\": float(statistics.mean(or_rates)),\n                        \"gap\": float(statistics.mean(gaps)),\n                        \"disclosure_bits\": float(statistics.mean(disclosures)),\n                    },\n                    \"sample_std\": {\n                        \"op_exact_rate\": float(statistics.stdev(op_rates)),\n                        \"oracle_exact_rate\": float(statistics.stdev(or_rates)),\n                        \"gap\": float(statistics.stdev(gaps)),\n                        \"disclosure_bits\": float(statistics.stdev(disclosures)),\n                    },\n                    \"range\": {\n                        \"op_exact_rate\": [float(min(op_rates)), float(max(op_rates))],\n                        \"oracle_exact_rate\": [float(min(or_rates)), float(max(or_rates))],\n                        \"gap\": [float(min(gaps)), float(max(gaps))],\n                        \"disclosure_bits\": [float(min(disclosures)), float(max(disclosures))],\n                    },\n                })\n                log(f\"config {profile:6s} k1={k1:3d} k2={k2:3d}: oracle={statistics.mean(or_rates):.4f} op={statistics.mean(op_rates):.4f} gap={statistics.mean(gaps):+.4f}\")\n\n    if len(configs) != 60:\n        raise AssertionError(f\"expected 60 configurations, got {len(configs)}\")\n    if total_block_calls != 60 * len(SEEDS) * BLOCKS:\n        raise AssertionError(\"paired block count mismatch\")\n    if leak_violations != 0:\n        raise AssertionError(f\"truth isolation violated in {leak_violations} arms\")\n\n    ranking = []\n    for config in configs:\n        ranking.append({\n            \"profile\": config[\"profile\"],\n            \"k1\": config[\"k1\"],\n            \"k2\": config[\"k2\"],\n            \"oracle_exact_rate_mean\": config[\"mean\"][\"oracle_exact_rate\"],\n            \"op_exact_rate_mean\": config[\"mean\"][\"op_exact_rate\"],\n            \"gap_mean\": config[\"mean\"][\"gap\"],\n            \"disclosure_bits_total\": int(sum(r[\"disclosure_bits\"] for r in config[\"seeds\"])),\n            \"p2_maxdiff\": config[\"p2_maxdiff\"],\n        })\n    ranking.sort(key=lambda e: (\n        -e[\"oracle_exact_rate_mean\"],\n        -abs(e[\"gap_mean\"]),\n        e[\"disclosure_bits_total\"],\n        e[\"profile\"],\n        e[\"k1\"],\n        e[\"k2\"],\n    ))\n    for position, entry in enumerate(ranking, 1):\n        entry[\"rank\"] = position\n\n    region = [\n        c for c in configs\n        if c[\"mean\"][\"oracle_exact_rate\"] >= 0.90 and c[\"mean\"][\"gap\"] >= 0.05\n    ]\n    screening_region = {\n        \"criterion\": \"oracle mean exact rate >= 0.90 AND paired gap mean >= 0.05\",\n        \"label\": \"screening label only; not a pass/fail gate or verdict\",\n        \"count\": len(region),\n        \"found\": bool(region),\n        \"configs\": [\n            {\n                \"profile\": c[\"profile\"],\n                \"k1\": c[\"k1\"],\n                \"k2\": c[\"k2\"],\n                \"oracle_exact_rate_mean\": c[\"mean\"][\"oracle_exact_rate\"],\n                \"op_exact_rate_mean\": c[\"mean\"][\"op_exact_rate\"],\n                \"gap_mean\": c[\"mean\"][\"gap\"],\n                \"p2_maxdiff\": c[\"p2_maxdiff\"],\n            }\n            for c in region\n        ],\n    }\n\n    notes = {\n        \"pairing_choice\": (\n            \"one block stream per (profile, seed) sampled once and reused across all 20 \"\n            \"(K1, K2) configurations of that (profile, seed); operational and oracle arms \"\n            \"share each block and its disclosures by construction\"\n        ),\n        \"sampling_order\": (\n            \"per block: high uniform, low uniform, B_high erasure mask (epsilon1=0.05) plus \"\n            \"replacements, B_low erasure mask (epsilon2(high)) plus replacements; explicit \"\n            \"np.random.default_rng(seed) per (profile, seed), no global RNG\"\n        ),\n        \"p2_maxdiff_definition\": (\n            \"max over (b, u2) of (max_u1 P2[u1,b,u2] - min_u1 P2[u1,b,u2]) computed on the \"\n            \"injected profile joint table before any decode; equals the exact cross-u1 \"\n            \"all-pairs maximum absolute difference\"\n        ),\n        \"table_normalization_max_col_deviation\": {\n            profile: profile_data[profile][\"norm_dev\"] for profile in PROFILE_FORMULAS\n        },\n        \"disclosure_bits_definition\": (\n            \"per seed, sum of key_dependent_bits over all 32 paired blocks and both arms \"\n            \"(operational + oracle); each fully invoked arm discloses 5*(k1+k2)+64 bits\"\n        ),\n        \"master_verification\": {\n            \"scheme\": \"public tag master = seed + 10000\",\n            \"points_checked\": len(master_points),\n            \"tag_seeds_recomputed\": master_checks,\n            \"arms\": [\"operational\", \"oracle\"],\n            \"block_index\": 0,\n            \"independent_msb_first_sha256_match\": True,\n            \"distinct_masters\": len(set(masters)),\n        },\n        \"sanity\": {\n            \"paired_block_calls\": total_block_calls,\n            \"truth_leak_violations\": leak_violations,\n            \"nonfinite_arms\": nonfinite_arms,\n        },\n        \"execution_staging\": (\n            \"the executed decoder body is the byte-identical prereg heredoc body staged via \"\n            \"/tmp/x02_body.log; body_sha_match=\" + str(body_sha_match)\n        ),\n        \"scope\": (\n            \"Tier-X non-claim probe; screening labels only, no threshold verdict, candidate, \"\n            \"attempt accounting or scientific status\"\n        ),\n    }\n\n    failed_prior = any(entry.get(\"exit_code\") not in (0, None) for entry in prior)\n    execution_entry = {\n        \"n\": len(prior) + 1,\n        \"kind\": \"frozen 60-config grid execution (Tier-X, decoder calls)\",\n        \"started_utc\": STARTED_UTC,\n        \"ended_utc\": utcnow(),\n        \"exit_code\": 0,\n        \"command_full_text\": command_text,\n        \"stdout_tail\": \"\\n\".join(LOG[-30:]),\n        \"stderr_tail\": \"\",\n        \"error_fixed\": (\n            \"script-only fix applied after a failed prior attempt; see prior commands and notes\"\n            if failed_prior else None\n        ),\n    }\n\n    return {\n        \"probe_id\": \"nbpolar_x02_dependent_l2_point_search\",\n        \"tier\": \"X-non-claim\",\n        \"created_utc\": utcnow(),\n        \"prereg_sha256\": prereg_sha,\n        \"interpreter\": sys.executable,\n        \"python_version\": sys.version.split()[0],\n        \"numpy_version\": np.__version__,\n        \"n\": N,\n        \"epsilon1\": 0.05,\n        \"profile_epsilon2_formulas\": PROFILE_FORMULAS,\n        \"k1_values\": list(K1S),\n        \"k2_values\": list(K2S),\n        \"seeds\": list(SEEDS),\n        \"blocks_per_config_per_seed\": BLOCKS,\n        \"configs\": configs,\n        \"ranking\": ranking,\n        \"screening_region\": screening_region,\n        \"commands\": prior + [execution_entry],\n        \"notes\": notes,\n    }\n\n\ntry:\n    output = build_output()\n    (ROOT / \"results.json\").write_text(json.dumps(output, indent=2, sort_keys=True) + \"\\n\", encoding=\"utf-8\")\n    print(f\"wrote {ROOT / 'results.json'}\")\nexcept BaseException:\n    tb = traceback.format_exc()\n    print(tb, file=sys.stderr, flush=True)\n    try:\n        ROOT.mkdir(parents=True, exist_ok=True)\n        failure_entry = {\n            \"n\": len(prior) + 1,\n            \"kind\": \"frozen 60-config grid execution (Tier-X, decoder calls)\",\n            \"started_utc\": STARTED_UTC,\n            \"ended_utc\": utcnow(),\n            \"exit_code\": 1,\n            \"command_full_text\": command_text,\n            \"stdout_tail\": \"\\n\".join(LOG[-30:]),\n            \"stderr_tail\": \"\\n\".join(tb.splitlines()[-30:]),\n            \"error_fixed\": None,\n        }\n        partial = {\n            \"probe_id\": \"nbpolar_x02_dependent_l2_point_search\",\n            \"tier\": \"X-non-claim\",\n            \"created_utc\": utcnow(),\n            \"prereg_sha256\": prereg_sha,\n            \"status\": \"failed_attempt\",\n            \"commands\": prior + [failure_entry],\n            \"notes\": {\"failure\": \"see commands[-1].stderr_tail; frozen parameters unchanged\"},\n        }\n        (ROOT / \"results.json\").write_text(json.dumps(partial, indent=2, sort_keys=True) + \"\\n\", encoding=\"utf-8\")\n    except BaseException:\n        print(traceback.format_exc(), file=sys.stderr, flush=True)\n    raise\nX02",
+      "ended_utc": "2026-09-13T08:42:13Z",
+      "error_fixed": null,
+      "exit_code": 1,
+      "kind": "frozen 60-config grid execution (Tier-X, decoder calls)",
+      "n": 1,
+      "started_utc": "2026-09-13T08:42:13Z",
+      "stderr_tail": "Traceback (most recent call last):\n  File \"<stdin>\", line 415, in <module>\n  File \"<stdin>\", line 178, in build_output\nAssertionError: master = seed + 10000 is not injective",
+      "stdout_tail": "prereg_sha256=4a9320af61f1583bc457ae0af4bb6955df5087637ba88dbc651cc3da69d047e0 body_sha_match=True\nprofile weak: p2_maxdiff=0.116250 norm_dev=6.772e-15\nprofile medium: p2_maxdiff=0.232500 norm_dev=3.331e-15\nprofile strong: p2_maxdiff=0.348750 norm_dev=3.775e-15"
+    },
+    {
+      "command_full_text": "cd /mnt/d/Code/HD-QKD_Polar_Comparison-nbpolar\n/mnt/d/Code/HD-QKD_Polar_Comparison/.venv/bin/python - <<'X02'\nimport hashlib\nimport json\nimport re\nimport statistics\nimport sys\nimport traceback\nfrom datetime import datetime, timezone\nfrom pathlib import Path\n\nimport numpy as np\n\nfrom comparison_bench.src.comparison_bench.formal_ir import nbpolar as nb\nfrom comparison_bench.src.comparison_bench.formal_ir.nbpolar import two_layer as tl\n\nROOT = Path(\"workspace/probes/nbpolar_x02_dependent_l2_point_search\")\nPREREG = ROOT / \"prereg.md\"\nBODY_LOG = Path(\"/tmp/x02_body.log\")\nN = 256\nOFF = 10000\nSEEDS = (2026091450, 2026091451, 2026091452)\nK1S = (45, 64, 96, 128)\nK2S = (110, 140, 170, 200, 230)\nPROFILE_FORMULAS = {\n    \"weak\": \"0.14 + 0.12*u1/31\",\n    \"medium\": \"0.08 + 0.24*u1/31\",\n    \"strong\": \"0.02 + 0.36*u1/31\",\n}\nBLOCKS = 32\nSTARTED_UTC = datetime.now(timezone.utc).strftime(\"%Y-%m-%dT%H:%M:%SZ\")\nLOG = []\nprereg_sha = None\ncommand_text = \"\"\nprior = []\n\n\ndef log(message):\n    LOG.append(str(message))\n    print(message, flush=True)\n\n\ndef utcnow():\n    return datetime.now(timezone.utc).strftime(\"%Y-%m-%dT%H:%M:%SZ\")\n\n\ndef eps2_vector(profile):\n    u1 = np.arange(32, dtype=np.float64)\n    if profile == \"weak\":\n        e2 = 0.14 + 0.12 * u1 / 31.0\n    elif profile == \"medium\":\n        e2 = 0.08 + 0.24 * u1 / 31.0\n    elif profile == \"strong\":\n        e2 = 0.02 + 0.36 * u1 / 31.0\n    else:\n        raise ValueError(f\"unknown profile {profile}\")\n    if not np.isclose(float(e2.mean()), 0.20, atol=1e-12):\n        raise AssertionError(f\"profile {profile} mean epsilon2 != 0.20\")\n    return e2\n\n\ndef profile_table(profile):\n    e2 = eps2_vector(profile)\n    ph = tl.layer_observation_matrix(0.05)\n    a = np.arange(1024)\n    ah, al = a // 32, a % 32\n    b = np.arange(1024)\n    bh, bl = b // 32, b % 32\n    table = np.zeros((1024, 1024), dtype=np.float64)\n    for hi in range(32):\n        pl = tl.layer_observation_matrix(float(e2[hi]))\n        idx = np.where(ah == hi)[0]\n        table[np.ix_(idx, b)] = ph[hi, bh][None, :] * pl[al[idx][:, None], bl[None, :]]\n    deviation = float(np.abs(table.sum(axis=0) - 1.0).max())\n    if deviation > 1e-12:\n        raise AssertionError(f\"profile {profile} joint table norm deviation {deviation:.3e}\")\n    return table, deviation\n\n\ndef p2_cross_u1_maxdiff(p2):\n    return float((p2.max(axis=0) - p2.min(axis=0)).max())\n\n\ndef reference_seed_bits(master, arm, index, length):\n    prefix = f\"nbpolar-p4-toeplitz-seed:{master}:{arm}:{index}\"\n    buf = bytearray()\n    counter = 0\n    while len(buf) * 8 < length:\n        buf.extend(hashlib.sha256(f\"{prefix}:{counter}\".encode(\"ascii\")).digest())\n        counter += 1\n    out = np.empty(len(buf) * 8, dtype=np.uint8)\n    i = 0\n    for byte in buf:\n        for shift in range(7, -1, -1):\n            out[i] = (byte >> shift) & 1\n            i += 1\n    return out[:length]\n\n\ndef sample_stream(profile, seed):\n    e2 = eps2_vector(profile)\n    rng = np.random.default_rng(seed)\n    stream = []\n    for _ in range(BLOCKS):\n        high = rng.integers(0, 32, size=N).astype(np.int64)\n        low = rng.integers(0, 32, size=N).astype(np.int64)\n        b_high = high.copy()\n        erased = rng.random(N) < 0.05\n        if bool(erased.any()):\n            idx = np.where(erased)[0]\n            b_high[idx] = rng.integers(0, 32, size=idx.size)\n        b_low = low.copy()\n        erased2 = rng.random(N) < e2[high]\n        if bool(erased2.any()):\n            idx = np.where(erased2)[0]\n            b_low[idx] = rng.integers(0, 32, size=idx.size)\n        stream.append((high, low, (32 * b_high + b_low).astype(np.int64)))\n    return stream\n\n\ndef arm_counts(results):\n    exact = sum(1 for r in results if r.exact)\n    failures = sum(1 for r in results if r.outcome in (\"decode_failed\", \"verify_failed\", \"resource_abort\"))\n    undetected = sum(1 for r in results if r.outcome == \"undetected\")\n    disclosure = int(sum(r.key_dependent_bits for r in results))\n    return exact, failures, undetected, disclosure\n\n\ndef body_from_command(command):\n    lines = command.splitlines()\n    start = next(i for i, line in enumerate(lines) if line.rstrip().endswith(\"<<'X02'\"))\n    stop = next(i for i in range(start + 1, len(lines)) if lines[i].strip() == \"X02\")\n    return \"\\n\".join(lines[start + 1:stop]) + \"\\n\"\n\n\ndef build_output():\n    global prereg_sha, command_text, prior\n    ROOT.mkdir(parents=True, exist_ok=True)\n    text = PREREG.read_text(encoding=\"utf-8\")\n    prereg_sha = hashlib.sha256(text.encode(\"utf-8\")).hexdigest()\n    match = re.search(r\"```bash\\n(.*?)\\n```\", text, re.S)\n    if match is None:\n        raise RuntimeError(\"prereg bash command block not found\")\n    command_text = match.group(1)\n    expected_body = body_from_command(command_text)\n    executed_body = BODY_LOG.read_text(encoding=\"utf-8\") if BODY_LOG.exists() else \"\"\n    body_sha_match = hashlib.sha256(executed_body.encode(\"utf-8\")).hexdigest() == hashlib.sha256(expected_body.encode(\"utf-8\")).hexdigest()\n    log(f\"prereg_sha256={prereg_sha} body_sha_match={body_sha_match}\")\n    if (ROOT / \"results.json\").exists():\n        try:\n            prior = json.loads((ROOT / \"results.json\").read_text(encoding=\"utf-8\")).get(\"commands\", [])\n        except Exception:\n            prior = []\n\n    profile_data = {}\n    for profile in PROFILE_FORMULAS:\n        table, deviation = profile_table(profile)\n        p1, p2 = tl.layer_metric_tables(table)\n        profile_data[profile] = {\n            \"p1\": p1,\n            \"p2\": p2,\n            \"norm_dev\": deviation,\n            \"p2_maxdiff\": p2_cross_u1_maxdiff(p2),\n        }\n        log(f\"profile {profile}: p2_maxdiff={profile_data[profile]['p2_maxdiff']:.6f} norm_dev={deviation:.3e}\")\n\n    seed_bits = tl.seed_bits_for(N)\n    master_points = [(profile, s) for profile in PROFILE_FORMULAS for s in SEEDS]\n    master_checks = 0\n    for profile, s in master_points:\n        master = s + OFF\n        for arm in (\"operational\", \"oracle\"):\n            got = tl.block_toeplitz_seed_bits(arm, 0, master=master, bit_length=seed_bits)\n            ref = reference_seed_bits(master, arm, 0, seed_bits)\n            if not np.array_equal(got, ref):\n                raise AssertionError(f\"master tag-seed mismatch profile={profile} seed={s} arm={arm}\")\n            master_checks += 1\n    masters = [s + OFF for _, s in master_points]\n    if len(set(masters)) != len(masters):\n        raise AssertionError(\"master = seed + 10000 is not injective\")\n    log(f\"master check: {master_checks} tag seeds recomputed (independent MSB-first path), all match\")\n\n    streams = {}\n    for profile in PROFILE_FORMULAS:\n        for s in SEEDS:\n            streams[(profile, s)] = sample_stream(profile, s)\n    log(f\"streams sampled: {len(streams)} streams x {BLOCKS} blocks\")\n\n    d1_sets = {k: tl.disclosure_coordinates(n=N, k=k, epsilon=0.05) for k in K1S}\n    d2_sets = {k: tl.disclosure_coordinates(n=N, k=k, epsilon=0.20) for k in K2S}\n    for k, d in d1_sets.items():\n        if d.shape != (k,) or len(set(d.tolist())) != k:\n            raise AssertionError(f\"D1[{k}] contract violated\")\n    for k, d in d2_sets.items():\n        if d.shape != (k,) or len(set(d.tolist())) != k:\n            raise AssertionError(f\"D2[{k}] contract violated\")\n\n    field = nb.make_gf32()\n    configs = []\n    leak_violations = 0\n    nonfinite_arms = 0\n    total_block_calls = 0\n    for profile in PROFILE_FORMULAS:\n        pd = profile_data[profile]\n        for k1 in K1S:\n            for k2 in K2S:\n                seed_records = []\n                for s in SEEDS:\n                    op_results = []\n                    oracle_results = []\n                    for block_index, (high, low, bob) in enumerate(streams[(profile, s)]):\n                        result = tl.run_two_layer_block(\n                            block_index,\n                            high,\n                            low,\n                            bob,\n                            field=field,\n                            p1_table=pd[\"p1\"],\n                            p2_table=pd[\"p2\"],\n                            d1=d1_sets[k1],\n                            d2=d2_sets[k2],\n                            n=N,\n                            k1=k1,\n                            k2=k2,\n                            toeplitz_master=s + OFF,\n                        )\n                        op_results.append(result.operational)\n                        oracle_results.append(result.oracle)\n                        leak_violations += int(bool(result.operational.truth_leak_violation)) + int(bool(result.oracle.truth_leak_violation))\n                        nonfinite_arms += int(bool(result.operational.nonfinite)) + int(bool(result.oracle.nonfinite))\n                        total_block_calls += 1\n                    op_exact, op_failures, op_undetected, op_disclosure = arm_counts(op_results)\n                    or_exact, or_failures, or_undetected, or_disclosure = arm_counts(oracle_results)\n                    seed_records.append({\n                        \"seed\": s,\n                        \"op_exact\": op_exact,\n                        \"op_failures\": op_failures,\n                        \"op_undetected\": op_undetected,\n                        \"oracle_exact\": or_exact,\n                        \"oracle_failures\": or_failures,\n                        \"oracle_undetected\": or_undetected,\n                        \"paired_gap\": (or_exact - op_exact) / float(BLOCKS),\n                        \"disclosure_bits\": int(op_disclosure + or_disclosure),\n                        \"block_count\": BLOCKS,\n                    })\n                op_rates = [r[\"op_exact\"] / float(BLOCKS) for r in seed_records]\n                or_rates = [r[\"oracle_exact\"] / float(BLOCKS) for r in seed_records]\n                gaps = [r[\"paired_gap\"] for r in seed_records]\n                disclosures = [float(r[\"disclosure_bits\"]) for r in seed_records]\n                configs.append({\n                    \"profile\": profile,\n                    \"k1\": k1,\n                    \"k2\": k2,\n                    \"p2_maxdiff\": pd[\"p2_maxdiff\"],\n                    \"seeds\": seed_records,\n                    \"mean\": {\n                        \"op_exact_rate\": float(statistics.mean(op_rates)),\n                        \"oracle_exact_rate\": float(statistics.mean(or_rates)),\n                        \"gap\": float(statistics.mean(gaps)),\n                        \"disclosure_bits\": float(statistics.mean(disclosures)),\n                    },\n                    \"sample_std\": {\n                        \"op_exact_rate\": float(statistics.stdev(op_rates)),\n                        \"oracle_exact_rate\": float(statistics.stdev(or_rates)),\n                        \"gap\": float(statistics.stdev(gaps)),\n                        \"disclosure_bits\": float(statistics.stdev(disclosures)),\n                    },\n                    \"range\": {\n                        \"op_exact_rate\": [float(min(op_rates)), float(max(op_rates))],\n                        \"oracle_exact_rate\": [float(min(or_rates)), float(max(or_rates))],\n                        \"gap\": [float(min(gaps)), float(max(gaps))],\n                        \"disclosure_bits\": [float(min(disclosures)), float(max(disclosures))],\n                    },\n                })\n                log(f\"config {profile:6s} k1={k1:3d} k2={k2:3d}: oracle={statistics.mean(or_rates):.4f} op={statistics.mean(op_rates):.4f} gap={statistics.mean(gaps):+.4f}\")\n\n    if len(configs) != 60:\n        raise AssertionError(f\"expected 60 configurations, got {len(configs)}\")\n    if total_block_calls != 60 * len(SEEDS) * BLOCKS:\n        raise AssertionError(\"paired block count mismatch\")\n    if leak_violations != 0:\n        raise AssertionError(f\"truth isolation violated in {leak_violations} arms\")\n\n    ranking = []\n    for config in configs:\n        ranking.append({\n            \"profile\": config[\"profile\"],\n            \"k1\": config[\"k1\"],\n            \"k2\": config[\"k2\"],\n            \"oracle_exact_rate_mean\": config[\"mean\"][\"oracle_exact_rate\"],\n            \"op_exact_rate_mean\": config[\"mean\"][\"op_exact_rate\"],\n            \"gap_mean\": config[\"mean\"][\"gap\"],\n            \"disclosure_bits_total\": int(sum(r[\"disclosure_bits\"] for r in config[\"seeds\"])),\n            \"p2_maxdiff\": config[\"p2_maxdiff\"],\n        })\n    ranking.sort(key=lambda e: (\n        -e[\"oracle_exact_rate_mean\"],\n        -abs(e[\"gap_mean\"]),\n        e[\"disclosure_bits_total\"],\n        e[\"profile\"],\n        e[\"k1\"],\n        e[\"k2\"],\n    ))\n    for position, entry in enumerate(ranking, 1):\n        entry[\"rank\"] = position\n\n    region = [\n        c for c in configs\n        if c[\"mean\"][\"oracle_exact_rate\"] >= 0.90 and c[\"mean\"][\"gap\"] >= 0.05\n    ]\n    screening_region = {\n        \"criterion\": \"oracle mean exact rate >= 0.90 AND paired gap mean >= 0.05\",\n        \"label\": \"screening label only; not a pass/fail gate or verdict\",\n        \"count\": len(region),\n        \"found\": bool(region),\n        \"configs\": [\n            {\n                \"profile\": c[\"profile\"],\n                \"k1\": c[\"k1\"],\n                \"k2\": c[\"k2\"],\n                \"oracle_exact_rate_mean\": c[\"mean\"][\"oracle_exact_rate\"],\n                \"op_exact_rate_mean\": c[\"mean\"][\"op_exact_rate\"],\n                \"gap_mean\": c[\"mean\"][\"gap\"],\n                \"p2_maxdiff\": c[\"p2_maxdiff\"],\n            }\n            for c in region\n        ],\n    }\n\n    notes = {\n        \"pairing_choice\": (\n            \"one block stream per (profile, seed) sampled once and reused across all 20 \"\n            \"(K1, K2) configurations of that (profile, seed); operational and oracle arms \"\n            \"share each block and its disclosures by construction\"\n        ),\n        \"sampling_order\": (\n            \"per block: high uniform, low uniform, B_high erasure mask (epsilon1=0.05) plus \"\n            \"replacements, B_low erasure mask (epsilon2(high)) plus replacements; explicit \"\n            \"np.random.default_rng(seed) per (profile, seed), no global RNG\"\n        ),\n        \"p2_maxdiff_definition\": (\n            \"max over (b, u2) of (max_u1 P2[u1,b,u2] - min_u1 P2[u1,b,u2]) computed on the \"\n            \"injected profile joint table before any decode; equals the exact cross-u1 \"\n            \"all-pairs maximum absolute difference\"\n        ),\n        \"table_normalization_max_col_deviation\": {\n            profile: profile_data[profile][\"norm_dev\"] for profile in PROFILE_FORMULAS\n        },\n        \"disclosure_bits_definition\": (\n            \"per seed, sum of key_dependent_bits over all 32 paired blocks and both arms \"\n            \"(operational + oracle); each fully invoked arm discloses 5*(k1+k2)+64 bits\"\n        ),\n        \"master_verification\": {\n            \"scheme\": \"public tag master = seed + 10000\",\n            \"points_checked\": len(master_points),\n            \"tag_seeds_recomputed\": master_checks,\n            \"arms\": [\"operational\", \"oracle\"],\n            \"block_index\": 0,\n            \"independent_msb_first_sha256_match\": True,\n            \"distinct_masters\": len(set(masters)),\n        },\n        \"sanity\": {\n            \"paired_block_calls\": total_block_calls,\n            \"truth_leak_violations\": leak_violations,\n            \"nonfinite_arms\": nonfinite_arms,\n        },\n        \"execution_staging\": (\n            \"the executed decoder body is the byte-identical prereg heredoc body staged via \"\n            \"/tmp/x02_body.log; body_sha_match=\" + str(body_sha_match)\n        ),\n        \"scope\": (\n            \"Tier-X non-claim probe; screening labels only, no threshold verdict, candidate, \"\n            \"attempt accounting or scientific status\"\n        ),\n    }\n\n    failed_prior = any(entry.get(\"exit_code\") not in (0, None) for entry in prior)\n    execution_entry = {\n        \"n\": len(prior) + 1,\n        \"kind\": \"frozen 60-config grid execution (Tier-X, decoder calls)\",\n        \"started_utc\": STARTED_UTC,\n        \"ended_utc\": utcnow(),\n        \"exit_code\": 0,\n        \"command_full_text\": command_text,\n        \"stdout_tail\": \"\\n\".join(LOG[-30:]),\n        \"stderr_tail\": \"\",\n        \"error_fixed\": (\n            \"script-only fix applied after a failed prior attempt; see prior commands and notes\"\n            if failed_prior else None\n        ),\n    }\n\n    return {\n        \"probe_id\": \"nbpolar_x02_dependent_l2_point_search\",\n        \"tier\": \"X-non-claim\",\n        \"created_utc\": utcnow(),\n        \"prereg_sha256\": prereg_sha,\n        \"interpreter\": sys.executable,\n        \"python_version\": sys.version.split()[0],\n        \"numpy_version\": np.__version__,\n        \"n\": N,\n        \"epsilon1\": 0.05,\n        \"profile_epsilon2_formulas\": PROFILE_FORMULAS,\n        \"k1_values\": list(K1S),\n        \"k2_values\": list(K2S),\n        \"seeds\": list(SEEDS),\n        \"blocks_per_config_per_seed\": BLOCKS,\n        \"configs\": configs,\n        \"ranking\": ranking,\n        \"screening_region\": screening_region,\n        \"commands\": prior + [execution_entry],\n        \"notes\": notes,\n    }\n\n\ntry:\n    output = build_output()\n    (ROOT / \"results.json\").write_text(json.dumps(output, indent=2, sort_keys=True) + \"\\n\", encoding=\"utf-8\")\n    print(f\"wrote {ROOT / 'results.json'}\")\nexcept BaseException:\n    tb = traceback.format_exc()\n    print(tb, file=sys.stderr, flush=True)\n    try:\n        ROOT.mkdir(parents=True, exist_ok=True)\n        failure_entry = {\n            \"n\": len(prior) + 1,\n            \"kind\": \"frozen 60-config grid execution (Tier-X, decoder calls)\",\n            \"started_utc\": STARTED_UTC,\n            \"ended_utc\": utcnow(),\n            \"exit_code\": 1,\n            \"command_full_text\": command_text,\n            \"stdout_tail\": \"\\n\".join(LOG[-30:]),\n            \"stderr_tail\": \"\\n\".join(tb.splitlines()[-30:]),\n            \"error_fixed\": None,\n        }\n        partial = {\n            \"probe_id\": \"nbpolar_x02_dependent_l2_point_search\",\n            \"tier\": \"X-non-claim\",\n            \"created_utc\": utcnow(),\n            \"prereg_sha256\": prereg_sha,\n            \"status\": \"failed_attempt\",\n            \"commands\": prior + [failure_entry],\n            \"notes\": {\"failure\": \"see commands[-1].stderr_tail; frozen parameters unchanged\"},\n        }\n        (ROOT / \"results.json\").write_text(json.dumps(partial, indent=2, sort_keys=True) + \"\\n\", encoding=\"utf-8\")\n    except BaseException:\n        print(traceback.format_exc(), file=sys.stderr, flush=True)\n    raise\nX02",
+      "ended_utc": "2026-09-13T08:53:31Z",
+      "error_fixed": "script-only fix after failed n=1: master injectivity assertion compared profile-duplicated (profile, seed) points instead of the 3 distinct SEEDS; no frozen parameter, model or seed changed",
+      "exit_code": 0,
+      "kind": "frozen 60-config grid execution (Tier-X, decoder calls)",
+      "n": 2,
+      "started_utc": "2026-09-13T08:43:26Z",
+      "stderr_tail": "",
+      "stdout_tail": "config medium k1= 96 k2=110: oracle=0.5208 op=0.5208 gap=+0.0000\nconfig medium k1= 96 k2=140: oracle=0.9896 op=0.9896 gap=+0.0000\nconfig medium k1= 96 k2=170: oracle=1.0000 op=1.0000 gap=+0.0000\nconfig medium k1= 96 k2=200: oracle=1.0000 op=1.0000 gap=+0.0000\nconfig medium k1= 96 k2=230: oracle=1.0000 op=1.0000 gap=+0.0000\nconfig medium k1=128 k2=110: oracle=0.5208 op=0.5208 gap=+0.0000\nconfig medium k1=128 k2=140: oracle=0.9896 op=0.9896 gap=+0.0000\nconfig medium k1=128 k2=170: oracle=1.0000 op=1.0000 gap=+0.0000\nconfig medium k1=128 k2=200: oracle=1.0000 op=1.0000 gap=+0.0000\nconfig medium k1=128 k2=230: oracle=1.0000 op=1.0000 gap=+0.0000\nconfig strong k1= 45 k2=110: oracle=0.6042 op=0.3125 gap=+0.2917\nconfig strong k1= 45 k2=140: oracle=1.0000 op=0.4896 gap=+0.5104\nconfig strong k1= 45 k2=170: oracle=1.0000 op=0.4896 gap=+0.5104\nconfig strong k1= 45 k2=200: oracle=1.0000 op=0.4896 gap=+0.5104\nconfig strong k1= 45 k2=230: oracle=1.0000 op=0.4896 gap=+0.5104\nconfig strong k1= 64 k2=110: oracle=0.6042 op=0.5417 gap=+0.0625\nconfig strong k1= 64 k2=140: oracle=1.0000 op=0.8542 gap=+0.1458\nconfig strong k1= 64 k2=170: oracle=1.0000 op=0.8542 gap=+0.1458\nconfig strong k1= 64 k2=200: oracle=1.0000 op=0.8542 gap=+0.1458\nconfig strong k1= 64 k2=230: oracle=1.0000 op=0.8542 gap=+0.1458\nconfig strong k1= 96 k2=110: oracle=0.6042 op=0.6042 gap=+0.0000\nconfig strong k1= 96 k2=140: oracle=1.0000 op=1.0000 gap=+0.0000\nconfig strong k1= 96 k2=170: oracle=1.0000 op=1.0000 gap=+0.0000\nconfig strong k1= 96 k2=200: oracle=1.0000 op=1.0000 gap=+0.0000\nconfig strong k1= 96 k2=230: oracle=1.0000 op=1.0000 gap=+0.0000\nconfig strong k1=128 k2=110: oracle=0.6042 op=0.6042 gap=+0.0000\nconfig strong k1=128 k2=140: oracle=1.0000 op=1.0000 gap=+0.0000\nconfig strong k1=128 k2=170: oracle=1.0000 op=1.0000 gap=+0.0000\nconfig strong k1=128 k2=200: oracle=1.0000 op=1.0000 gap=+0.0000\nconfig strong k1=128 k2=230: oracle=1.0000 op=1.0000 gap=+0.0000"
+    }
+  ],
+  "configs": [
+    {
+      "k1": 45,
+      "k2": 110,
+      "mean": {
+        "disclosure_bits": 53696.0,
+        "gap": 0.16666666666666666,
+        "op_exact_rate": 0.23958333333333334,
+        "oracle_exact_rate": 0.40625
+      },
+      "p2_maxdiff": 0.11625000000000252,
+      "profile": "weak",
+      "range": {
+        "disclosure_bits": [
+          53696.0,
+          53696.0
+        ],
+        "gap": [
+          0.125,
+          0.1875
+        ],
+        "op_exact_rate": [
+          0.15625,
+          0.3125
+        ],
+        "oracle_exact_rate": [
+          0.34375,
+          0.4375
+        ]
+      },
+      "sample_std": {
+        "disclosure_bits": 0.0,
+        "gap": 0.03608439182435161,
+        "op_exact_rate": 0.07864410870073697,
+        "oracle_exact_rate": 0.05412658773652741
+      },
+      "seeds": [
+        {
+          "block_count": 32,
+          "disclosure_bits": 53696,
+          "op_exact": 8,
+          "op_failures": 24,
+          "op_undetected": 0,
+          "oracle_exact": 14,
+          "oracle_failures": 18,
+          "oracle_undetected": 0,
+          "paired_gap": 0.1875,
+          "seed": 2026091450
+        },
+        {
+          "block_count": 32,
+          "disclosure_bits": 53696,
+          "op_exact": 10,
+          "op_failures": 22,
+          "op_undetected": 0,
+          "oracle_exact": 14,
+          "oracle_failures": 18,
+          "oracle_undetected": 0,
+          "paired_gap": 0.125,
+          "seed": 2026091451
+        },
+        {
+          "block_count": 32,
+          "disclosure_bits": 53696,
+          "op_exact": 5,
+          "op_failures": 27,
+          "op_undetected": 0,
+          "oracle_exact": 11,
+          "oracle_failures": 21,
+          "oracle_undetected": 0,
+          "paired_gap": 0.1875,
+          "seed": 2026091452
+        }
+      ]
+    },
+    {
+      "k1": 45,
+      "k2": 140,
+      "mean": {
+        "disclosure_bits": 63296.0,
+        "gap": 0.40625,
+        "op_exact_rate": 0.5833333333333334,
+        "oracle_exact_rate": 0.9895833333333334
+      },
+      "p2_maxdiff": 0.11625000000000252,
+      "profile": "weak",
+      "range": {
+        "disclosure_bits": [
+          63296.0,
+          63296.0
+        ],
+        "gap": [
+          0.3125,
+          0.46875
+        ],
+        "op_exact_rate": [
+          0.53125,
+          0.65625
+        ],
+        "oracle_exact_rate": [
+          0.96875,
+          1.0
+        ]
+      },
+      "sample_std": {
+        "disclosure_bits": 0.0,
+        "gap": 0.08267972847076846,
+        "op_exact_rate": 0.06505206248331664,
+        "oracle_exact_rate": 0.018042195912175804
+      },
+      "seeds": [
+        {
+          "block_count": 32,
+          "disclosure_bits": 63296,
+          "op_exact": 18,
+          "op_failures": 14,
+          "op_undetected": 0,
+          "oracle_exact": 32,
+          "oracle_failures": 0,
+          "oracle_undetected": 0,
+          "paired_gap": 0.4375,
+          "seed": 2026091450
+        },
+        {
+          "block_count": 32,
+          "disclosure_bits": 63296,
+          "op_exact": 17,
+          "op_failures": 15,
+          "op_undetected": 0,
+          "oracle_exact": 32,
+          "oracle_failures": 0,
+          "oracle_undetected": 0,
+          "paired_gap": 0.46875,
+          "seed": 2026091451
+        },
+        {
+          "block_count": 32,
+          "disclosure_bits": 63296,
+          "op_exact": 21,
+          "op_failures": 11,
+          "op_undetected": 0,
+          "oracle_exact": 31,
+          "oracle_failures": 1,
+          "oracle_undetected": 0,
+          "paired_gap": 0.3125,
+          "seed": 2026091452
+        }
+      ]
+    },
+    {
+      "k1": 45,
+      "k2": 170,
+      "mean": {
+        "disclosure_bits": 72896.0,
+        "gap": 0.40625,
+        "op_exact_rate": 0.59375,
+        "oracle_exact_rate": 1.0
+      },
+      "p2_maxdiff": 0.11625000000000252,
+      "profile": "weak",
+      "range": {
+        "disclosure_bits": [
+          72896.0,
+          72896.0
+        ],
+        "gap": [
+          0.3125,
+          0.46875
+        ],
+        "op_exact_rate": [
+          0.53125,
+          0.6875
+        ],
+        "oracle_exact_rate": [
+          1.0,
+          1.0
+        ]
+      },
+      "sample_std": {
+        "disclosure_bits": 0.0,
+        "gap": 0.08267972847076846,
+        "op_exact_rate": 0.08267972847076846,
+        "oracle_exact_rate": 0.0
+      },
+      "seeds": [
+        {
+          "block_count": 32,
+          "disclosure_bits": 72896,
+          "op_exact": 18,
+          "op_failures": 14,
+          "op_undetected": 0,
+          "oracle_exact": 32,
+          "oracle_failures": 0,
+          "oracle_undetected": 0,
+          "paired_gap": 0.4375,
+          "seed": 2026091450
+        },
+        {
+          "block_count": 32,
+          "disclosure_bits": 72896,
+          "op_exact": 17,
+          "op_failures": 15,
+          "op_undetected": 0,
+          "oracle_exact": 32,
+          "oracle_failures": 0,
+          "oracle_undetected": 0,
+          "paired_gap": 0.46875,
+          "seed": 2026091451
+        },
+        {
+          "block_count": 32,
+          "disclosure_bits": 72896,
+          "op_exact": 22,
+          "op_failures": 10,
+          "op_undetected": 0,
+          "oracle_exact": 32,
+          "oracle_failures": 0,
+          "oracle_undetected": 0,
+          "paired_gap": 0.3125,
+          "seed": 2026091452
+        }
+      ]
+    },
+    {
+      "k1": 45,
+      "k2": 200,
+      "mean": {
+        "disclosure_bits": 82496.0,
+        "gap": 0.40625,
+        "op_exact_rate": 0.59375,
+        "oracle_exact_rate": 1.0
+      },
+      "p2_maxdiff": 0.11625000000000252,
+      "profile": "weak",
+      "range": {
+        "disclosure_bits": [
+          82496.0,
+          82496.0
+        ],
+        "gap": [
+          0.3125,
+          0.46875
+        ],
+        "op_exact_rate": [
+          0.53125,
+          0.6875
+        ],
+        "oracle_exact_rate": [
+          1.0,
+          1.0
+        ]
+      },
+      "sample_std": {
+        "disclosure_bits": 0.0,
+        "gap": 0.08267972847076846,
+        "op_exact_rate": 0.08267972847076846,
+        "oracle_exact_rate": 0.0
+      },
+      "seeds": [
+        {
+          "block_count": 32,
+          "disclosure_bits": 82496,
+          "op_exact": 18,
+          "op_failures": 14,
+          "op_undetected": 0,
+          "oracle_exact": 32,
+          "oracle_failures": 0,
+          "oracle_undetected": 0,
+          "paired_gap": 0.4375,
+          "seed": 2026091450
+        },
+        {
+          "block_count": 32,
+          "disclosure_bits": 82496,
+          "op_exact": 17,
+          "op_failures": 15,
+          "op_undetected": 0,
+          "oracle_exact": 32,
+          "oracle_failures": 0,
+          "oracle_undetected": 0,
+          "paired_gap": 0.46875,
+          "seed": 2026091451
+        },
+        {
+          "block_count": 32,
+          "disclosure_bits": 82496,
+          "op_exact": 22,
+          "op_failures": 10,
+          "op_undetected": 0,
+          "oracle_exact": 32,
+          "oracle_failures": 0,
+          "oracle_undetected": 0,
+          "paired_gap": 0.3125,
+          "seed": 2026091452
+        }
+      ]
+    },
+    {
+      "k1": 45,
+      "k2": 230,
+      "mean": {
+        "disclosure_bits": 92096.0,
+        "gap": 0.40625,
+        "op_exact_rate": 0.59375,
+        "oracle_exact_rate": 1.0
+      },
+      "p2_maxdiff": 0.11625000000000252,
+      "profile": "weak",
+      "range": {
+        "disclosure_bits": [
+          92096.0,
+          92096.0
+        ],
+        "gap": [
+          0.3125,
+          0.46875
+        ],
+        "op_exact_rate": [
+          0.53125,
+          0.6875
+        ],
+        "oracle_exact_rate": [
+          1.0,
+          1.0
+        ]
+      },
+      "sample_std": {
+        "disclosure_bits": 0.0,
+        "gap": 0.08267972847076846,
+        "op_exact_rate": 0.08267972847076846,
+        "oracle_exact_rate": 0.0
+      },
+      "seeds": [
+        {
+          "block_count": 32,
+          "disclosure_bits": 92096,
+          "op_exact": 18,
+          "op_failures": 14,
+          "op_undetected": 0,
+          "oracle_exact": 32,
+          "oracle_failures": 0,
+          "oracle_undetected": 0,
+          "paired_gap": 0.4375,
+          "seed": 2026091450
+        },
+        {
+          "block_count": 32,
+          "disclosure_bits": 92096,
+          "op_exact": 17,
+          "op_failures": 15,
+          "op_undetected": 0,
+          "oracle_exact": 32,
+          "oracle_failures": 0,
+          "oracle_undetected": 0,
+          "paired_gap": 0.46875,
+          "seed": 2026091451
+        },
+        {
+          "block_count": 32,
+          "disclosure_bits": 92096,
+          "op_exact": 22,
+          "op_failures": 10,
+          "op_undetected": 0,
+          "oracle_exact": 32,
+          "oracle_failures": 0,
+          "oracle_undetected": 0,
+          "paired_gap": 0.3125,
+          "seed": 2026091452
+        }
+      ]
+    },
+    {
+      "k1": 64,
+      "k2": 110,
+      "mean": {
+        "disclosure_bits": 59776.0,
+        "gap": 0.03125,
+        "op_exact_rate": 0.375,
+        "oracle_exact_rate": 0.40625
+      },
+      "p2_maxdiff": 0.11625000000000252,
+      "profile": "weak",
+      "range": {
+        "disclosure_bits": [
+          59776.0,
+          59776.0
+        ],
+        "gap": [
+          0.0,
+          0.0625
+        ],
+        "op_exact_rate": [
+          0.3125,
+          0.4375
+        ],
+        "oracle_exact_rate": [
+          0.34375,
+          0.4375
+        ]
+      },
+      "sample_std": {
+        "disclosure_bits": 0.0,
+        "gap": 0.03125,
+        "op_exact_rate": 0.0625,
+        "oracle_exact_rate": 0.05412658773652741
+      },
+      "seeds": [
+        {
+          "block_count": 32,
+          "disclosure_bits": 59776,
+          "op_exact": 12,
+          "op_failures": 20,
+          "op_undetected": 0,
+          "oracle_exact": 14,
+          "oracle_failures": 18,
+          "oracle_undetected": 0,
+          "paired_gap": 0.0625,
+          "seed": 2026091450
+        },
+        {
+          "block_count": 32,
+          "disclosure_bits": 59776,
+          "op_exact": 14,
+          "op_failures": 18,
+          "op_undetected": 0,
+          "oracle_exact": 14,
+          "oracle_failures": 18,
+          "oracle_undetected": 0,
+          "paired_gap": 0.0,
+          "seed": 2026091451
+        },
+        {
+          "block_count": 32,
+          "disclosure_bits": 59776,
+          "op_exact": 10,
+          "op_failures": 22,
+          "op_undetected": 0,
+          "oracle_exact": 11,
+          "oracle_failures": 21,
+          "oracle_undetected": 0,
+          "paired_gap": 0.03125,
+          "seed": 2026091452
+        }
+      ]
+    },
+    {
+      "k1": 64,
+      "k2": 140,
+      "mean": {
+        "disclosure_bits": 69376.0,
+        "gap": 0.09375,
+        "op_exact_rate": 0.8958333333333334,
+        "oracle_exact_rate": 0.9895833333333334
+      },
+      "p2_maxdiff": 0.11625000000000252,
+      "profile": "weak",
+      "range": {
+        "disclosure_bits": [
+          69376.0,
+          69376.0
+        ],
+        "gap": [
+          0.0625,
+          0.125
+        ],
+        "op_exact_rate": [
+          0.875,
+          0.9375
+        ],
+        "oracle_exact_rate": [
+          0.96875,
+          1.0
+        ]
+      },
+      "sample_std": {
+        "disclosure_bits": 0.0,
+        "gap": 0.03125,
+        "op_exact_rate": 0.03608439182435161,
+        "oracle_exact_rate": 0.018042195912175804
+      },
+      "seeds": [
+        {
+          "block_count": 32,
+          "disclosure_bits": 69376,
+          "op_exact": 28,
+          "op_failures": 4,
+          "op_undetected": 0,
+          "oracle_exact": 32,
+          "oracle_failures": 0,
+          "oracle_undetected": 0,
+          "paired_gap": 0.125,
+          "seed": 2026091450
+        },
+        {
+          "block_count": 32,
+          "disclosure_bits": 69376,
+          "op_exact": 30,
+          "op_failures": 2,
+          "op_undetected": 0,
+          "oracle_exact": 32,
+          "oracle_failures": 0,
+          "oracle_undetected": 0,
+          "paired_gap": 0.0625,
+          "seed": 2026091451
+        },
+        {
+          "block_count": 32,
+          "disclosure_bits": 69376,
+          "op_exact": 28,
+          "op_failures": 4,
+          "op_undetected": 0,
+          "oracle_exact": 31,
+          "oracle_failures": 1,
+          "oracle_undetected": 0,
+          "paired_gap": 0.09375,
+          "seed": 2026091452
+        }
+      ]
+    },
+    {
+      "k1": 64,
+      "k2": 170,
+      "mean": {
+        "disclosure_bits": 78976.0,
+        "gap": 0.09375,
+        "op_exact_rate": 0.90625,
+        "oracle_exact_rate": 1.0
+      },
+      "p2_maxdiff": 0.11625000000000252,
+      "profile": "weak",
+      "range": {
+        "disclosure_bits": [
+          78976.0,
+          78976.0
+        ],
+        "gap": [
+          0.0625,
+          0.125
+        ],
+        "op_exact_rate": [
+          0.875,
+          0.9375
+        ],
+        "oracle_exact_rate": [
+          1.0,
+          1.0
+        ]
+      },
+      "sample_std": {
+        "disclosure_bits": 0.0,
+        "gap": 0.03125,
+        "op_exact_rate": 0.03125,
+        "oracle_exact_rate": 0.0
+      },
+      "seeds": [
+        {
+          "block_count": 32,
+          "disclosure_bits": 78976,
+          "op_exact": 28,
+          "op_failures": 4,
+          "op_undetected": 0,
+          "oracle_exact": 32,
+          "oracle_failures": 0,
+          "oracle_undetected": 0,
+          "paired_gap": 0.125,
+          "seed": 2026091450
+        },
+        {
+          "block_count": 32,
+          "disclosure_bits": 78976,
+          "op_exact": 30,
+          "op_failures": 2,
+          "op_undetected": 0,
+          "oracle_exact": 32,
+          "oracle_failures": 0,
+          "oracle_undetected": 0,
+          "paired_gap": 0.0625,
+          "seed": 2026091451
+        },
+        {
+          "block_count": 32,
+          "disclosure_bits": 78976,
+          "op_exact": 29,
+          "op_failures": 3,
+          "op_undetected": 0,
+          "oracle_exact": 32,
+          "oracle_failures": 0,
+          "oracle_undetected": 0,
+          "paired_gap": 0.09375,
+          "seed": 2026091452
+        }
+      ]
+    },
+    {
+      "k1": 64,
+      "k2": 200,
+      "mean": {
+        "disclosure_bits": 88576.0,
+        "gap": 0.09375,
+        "op_exact_rate": 0.90625,
+        "oracle_exact_rate": 1.0
+      },
+      "p2_maxdiff": 0.11625000000000252,
+      "profile": "weak",
+      "range": {
+        "disclosure_bits": [
+          88576.0,
+          88576.0
+        ],
+        "gap": [
+          0.0625,
+          0.125
+        ],
+        "op_exact_rate": [
+          0.875,
+          0.9375
+        ],
+        "oracle_exact_rate": [
+          1.0,
+          1.0
+        ]
+      },
+      "sample_std": {
+        "disclosure_bits": 0.0,
+        "gap": 0.03125,
+        "op_exact_rate": 0.03125,
+        "oracle_exact_rate": 0.0
+      },
+      "seeds": [
+        {
+          "block_count": 32,
+          "disclosure_bits": 88576,
+          "op_exact": 28,
+          "op_failures": 4,
+          "op_undetected": 0,
+          "oracle_exact": 32,
+          "oracle_failures": 0,
+          "oracle_undetected": 0,
+          "paired_gap": 0.125,
+          "seed": 2026091450
+        },
+        {
+          "block_count": 32,
+          "disclosure_bits": 88576,
+          "op_exact": 30,
+          "op_failures": 2,
+          "op_undetected": 0,
+          "oracle_exact": 32,
+          "oracle_failures": 0,
+          "oracle_undetected": 0,
+          "paired_gap": 0.0625,
+          "seed": 2026091451
+        },
+        {
+          "block_count": 32,
+          "disclosure_bits": 88576,
+          "op_exact": 29,
+          "op_failures": 3,
+          "op_undetected": 0,
+          "oracle_exact": 32,
+          "oracle_failures": 0,
+          "oracle_undetected": 0,
+          "paired_gap": 0.09375,
+          "seed": 2026091452
+        }
+      ]
+    },
+    {
+      "k1": 64,
+      "k2": 230,
+      "mean": {
+        "disclosure_bits": 98176.0,
+        "gap": 0.09375,
+        "op_exact_rate": 0.90625,
+        "oracle_exact_rate": 1.0
+      },
+      "p2_maxdiff": 0.11625000000000252,
+      "profile": "weak",
+      "range": {
+        "disclosure_bits": [
+          98176.0,
+          98176.0
+        ],
+        "gap": [
+          0.0625,
+          0.125
+        ],
+        "op_exact_rate": [
+          0.875,
+          0.9375
+        ],
+        "oracle_exact_rate": [
+          1.0,
+          1.0
+        ]
+      },
+      "sample_std": {
+        "disclosure_bits": 0.0,
+        "gap": 0.03125,
+        "op_exact_rate": 0.03125,
+        "oracle_exact_rate": 0.0
+      },
+      "seeds": [
+        {
+          "block_count": 32,
+          "disclosure_bits": 98176,
+          "op_exact": 28,
+          "op_failures": 4,
+          "op_undetected": 0,
+          "oracle_exact": 32,
+          "oracle_failures": 0,
+          "oracle_undetected": 0,
+          "paired_gap": 0.125,
+          "seed": 2026091450
+        },
+        {
+          "block_count": 32,
+          "disclosure_bits": 98176,
+          "op_exact": 30,
+          "op_failures": 2,
+          "op_undetected": 0,
+          "oracle_exact": 32,
+          "oracle_failures": 0,
+          "oracle_undetected": 0,
+          "paired_gap": 0.0625,
+          "seed": 2026091451
+        },
+        {
+          "block_count": 32,
+          "disclosure_bits": 98176,
+          "op_exact": 29,
+          "op_failures": 3,
+          "op_undetected": 0,
+          "oracle_exact": 32,
+          "oracle_failures": 0,
+          "oracle_undetected": 0,
+          "paired_gap": 0.09375,
+          "seed": 2026091452
+        }
+      ]
+    },
+    {
+      "k1": 96,
+      "k2": 110,
+      "mean": {
+        "disclosure_bits": 70016.0,
+        "gap": 0.0,
+        "op_exact_rate": 0.40625,
+        "oracle_exact_rate": 0.40625
+      },
+      "p2_maxdiff": 0.11625000000000252,
+      "profile": "weak",
+      "range": {
+        "disclosure_bits": [
+          70016.0,
+          70016.0
+        ],
+        "gap": [
+          0.0,
+          0.0
+        ],
+        "op_exact_rate": [
+          0.34375,
+          0.4375
+        ],
+        "oracle_exact_rate": [
+          0.34375,
+          0.4375
+        ]
+      },
+      "sample_std": {
+        "disclosure_bits": 0.0,
+        "gap": 0.0,
+        "op_exact_rate": 0.05412658773652741,
+        "oracle_exact_rate": 0.05412658773652741
+      },
+      "seeds": [
+        {
+          "block_count": 32,
+          "disclosure_bits": 70016,
+          "op_exact": 14,
+          "op_failures": 18,
+          "op_undetected": 0,
+          "oracle_exact": 14,
+          "oracle_failures": 18,
+          "oracle_undetected": 0,
+          "paired_gap": 0.0,
+          "seed": 2026091450
+        },
+        {
+          "block_count": 32,
+          "disclosure_bits": 70016,
+          "op_exact": 14,
+          "op_failures": 18,
+          "op_undetected": 0,
+          "oracle_exact": 14,
+          "oracle_failures": 18,
+          "oracle_undetected": 0,
+          "paired_gap": 0.0,
+          "seed": 2026091451
+        },
+        {
+          "block_count": 32,
+          "disclosure_bits": 70016,
+          "op_exact": 11,
+          "op_failures": 21,
+          "op_undetected": 0,
+          "oracle_exact": 11,
+          "oracle_failures": 21,
+          "oracle_undetected": 0,
+          "paired_gap": 0.0,
+          "seed": 2026091452
+        }
+      ]
+    },
+    {
+      "k1": 96,
+      "k2": 140,
+      "mean": {
+        "disclosure_bits": 79616.0,
+        "gap": 0.0,
+        "op_exact_rate": 0.9895833333333334,
+        "oracle_exact_rate": 0.9895833333333334
+      },
+      "p2_maxdiff": 0.11625000000000252,
+      "profile": "weak",
+      "range": {
+        "disclosure_bits": [
+          79616.0,
+          79616.0
+        ],
+        "gap": [
+          0.0,
+          0.0
+        ],
+        "op_exact_rate": [
+          0.96875,
+          1.0
+        ],
+        "oracle_exact_rate": [
+          0.96875,
+          1.0
+        ]
+      },
+      "sample_std": {
+        "disclosure_bits": 0.0,
+        "gap": 0.0,
+        "op_exact_rate": 0.018042195912175804,
+        "oracle_exact_rate": 0.018042195912175804
+      },
+      "seeds": [
+        {
+          "block_count": 32,
+          "disclosure_bits": 79616,
+          "op_exact": 32,
+          "op_failures": 0,
+          "op_undetected": 0,
+          "oracle_exact": 32,
+          "oracle_failures": 0,
+          "oracle_undetected": 0,
+          "paired_gap": 0.0,
+          "seed": 2026091450
+        },
+        {
+          "block_count": 32,
+          "disclosure_bits": 79616,
+          "op_exact": 32,
+          "op_failures": 0,
+          "op_undetected": 0,
+          "oracle_exact": 32,
+          "oracle_failures": 0,
+          "oracle_undetected": 0,
+          "paired_gap": 0.0,
+          "seed": 2026091451
+        },
+        {
+          "block_count": 32,
+          "disclosure_bits": 79616,
+          "op_exact": 31,
+          "op_failures": 1,
+          "op_undetected": 0,
+          "oracle_exact": 31,
+          "oracle_failures": 1,
+          "oracle_undetected": 0,
+          "paired_gap": 0.0,
+          "seed": 2026091452
+        }
+      ]
+    },
+    {
+      "k1": 96,
+      "k2": 170,
+      "mean": {
+        "disclosure_bits": 89216.0,
+        "gap": 0.0,
+        "op_exact_rate": 1.0,
+        "oracle_exact_rate": 1.0
+      },
+      "p2_maxdiff": 0.11625000000000252,
+      "profile": "weak",
+      "range": {
+        "disclosure_bits": [
+          89216.0,
+          89216.0
+        ],
+        "gap": [
+          0.0,
+          0.0
+        ],
+        "op_exact_rate": [
+          1.0,
+          1.0
+        ],
+        "oracle_exact_rate": [
+          1.0,
+          1.0
+        ]
+      },
+      "sample_std": {
+        "disclosure_bits": 0.0,
+        "gap": 0.0,
+        "op_exact_rate": 0.0,
+        "oracle_exact_rate": 0.0
+      },
+      "seeds": [
+        {
+          "block_count": 32,
+          "disclosure_bits": 89216,
+          "op_exact": 32,
+          "op_failures": 0,
+          "op_undetected": 0,
+          "oracle_exact": 32,
+          "oracle_failures": 0,
+          "oracle_undetected": 0,
+          "paired_gap": 0.0,
+          "seed": 2026091450
+        },
+        {
+          "block_count": 32,
+          "disclosure_bits": 89216,
+          "op_exact": 32,
+          "op_failures": 0,
+          "op_undetected": 0,
+          "oracle_exact": 32,
+          "oracle_failures": 0,
+          "oracle_undetected": 0,
+          "paired_gap": 0.0,
+          "seed": 2026091451
+        },
+        {
+          "block_count": 32,
+          "disclosure_bits": 89216,
+          "op_exact": 32,
+          "op_failures": 0,
+          "op_undetected": 0,
+          "oracle_exact": 32,
+          "oracle_failures": 0,
+          "oracle_undetected": 0,
+          "paired_gap": 0.0,
+          "seed": 2026091452
+        }
+      ]
+    },
+    {
+      "k1": 96,
+      "k2": 200,
+      "mean": {
+        "disclosure_bits": 98816.0,
+        "gap": 0.0,
+        "op_exact_rate": 1.0,
+        "oracle_exact_rate": 1.0
+      },
+      "p2_maxdiff": 0.11625000000000252,
+      "profile": "weak",
+      "range": {
+        "disclosure_bits": [
+          98816.0,
+          98816.0
+        ],
+        "gap": [
+          0.0,
+          0.0
+        ],
+        "op_exact_rate": [
+          1.0,
+          1.0
+        ],
+        "oracle_exact_rate": [
+          1.0,
+          1.0
+        ]
+      },
+      "sample_std": {
+        "disclosure_bits": 0.0,
+        "gap": 0.0,
+        "op_exact_rate": 0.0,
+        "oracle_exact_rate": 0.0
+      },
+      "seeds": [
+        {
+          "block_count": 32,
+          "disclosure_bits": 98816,
+          "op_exact": 32,
+          "op_failures": 0,
+          "op_undetected": 0,
+          "oracle_exact": 32,
+          "oracle_failures": 0,
+          "oracle_undetected": 0,
+          "paired_gap": 0.0,
+          "seed": 2026091450
+        },
+        {
+          "block_count": 32,
+          "disclosure_bits": 98816,
+          "op_exact": 32,
+          "op_failures": 0,
+          "op_undetected": 0,
+          "oracle_exact": 32,
+          "oracle_failures": 0,
+          "oracle_undetected": 0,
+          "paired_gap": 0.0,
+          "seed": 2026091451
+        },
+        {
+          "block_count": 32,
+          "disclosure_bits": 98816,
+          "op_exact": 32,
+          "op_failures": 0,
+          "op_undetected": 0,
+          "oracle_exact": 32,
+          "oracle_failures": 0,
+          "oracle_undetected": 0,
+          "paired_gap": 0.0,
+          "seed": 2026091452
+        }
+      ]
+    },
+    {
+      "k1": 96,
+      "k2": 230,
+      "mean": {
+        "disclosure_bits": 108416.0,
+        "gap": 0.0,
+        "op_exact_rate": 1.0,
+        "oracle_exact_rate": 1.0
+      },
+      "p2_maxdiff": 0.11625000000000252,
+      "profile": "weak",
+      "range": {
+        "disclosure_bits": [
+          108416.0,
+          108416.0
+        ],
+        "gap": [
+          0.0,
+          0.0
+        ],
+        "op_exact_rate": [
+          1.0,
+          1.0
+        ],
+        "oracle_exact_rate": [
+          1.0,
+          1.0
+        ]
+      },
+      "sample_std": {
+        "disclosure_bits": 0.0,
+        "gap": 0.0,
+        "op_exact_rate": 0.0,
+        "oracle_exact_rate": 0.0
+      },
+      "seeds": [
+        {
+          "block_count": 32,
+          "disclosure_bits": 108416,
+          "op_exact": 32,
+          "op_failures": 0,
+          "op_undetected": 0,
+          "oracle_exact": 32,
+          "oracle_failures": 0,
+          "oracle_undetected": 0,
+          "paired_gap": 0.0,
+          "seed": 2026091450
+        },
+        {
+          "block_count": 32,
+          "disclosure_bits": 108416,
+          "op_exact": 32,
+          "op_failures": 0,
+          "op_undetected": 0,
+          "oracle_exact": 32,
+          "oracle_failures": 0,
+          "oracle_undetected": 0,
+          "paired_gap": 0.0,
+          "seed": 2026091451
+        },
+        {
+          "block_count": 32,
+          "disclosure_bits": 108416,
+          "op_exact": 32,
+          "op_failures": 0,
+          "op_undetected": 0,
+          "oracle_exact": 32,
+          "oracle_failures": 0,
+          "oracle_undetected": 0,
+          "paired_gap": 0.0,
+          "seed": 2026091452
+        }
+      ]
+    },
+    {
+      "k1": 128,
+      "k2": 110,
+      "mean": {
+        "disclosure_bits": 80256.0,
+        "gap": 0.0,
+        "op_exact_rate": 0.40625,
+        "oracle_exact_rate": 0.40625
+      },
+      "p2_maxdiff": 0.11625000000000252,
+      "profile": "weak",
+      "range": {
+        "disclosure_bits": [
+          80256.0,
+          80256.0
+        ],
+        "gap": [
+          0.0,
+          0.0
+        ],
+        "op_exact_rate": [
+          0.34375,
+          0.4375
+        ],
+        "oracle_exact_rate": [
+          0.34375,
+          0.4375
+        ]
+      },
+      "sample_std": {
+        "disclosure_bits": 0.0,
+        "gap": 0.0,
+        "op_exact_rate": 0.05412658773652741,
+        "oracle_exact_rate": 0.05412658773652741
+      },
+      "seeds": [
+        {
+          "block_count": 32,
+          "disclosure_bits": 80256,
+          "op_exact": 14,
+          "op_failures": 18,
+          "op_undetected": 0,
+          "oracle_exact": 14,
+          "oracle_failures": 18,
+          "oracle_undetected": 0,
+          "paired_gap": 0.0,
+          "seed": 2026091450
+        },
+        {
+          "block_count": 32,
+          "disclosure_bits": 80256,
+          "op_exact": 14,
+          "op_failures": 18,
+          "op_undetected": 0,
+          "oracle_exact": 14,
+          "oracle_failures": 18,
+          "oracle_undetected": 0,
+          "paired_gap": 0.0,
+          "seed": 2026091451
+        },
+        {
+          "block_count": 32,
+          "disclosure_bits": 80256,
+          "op_exact": 11,
+          "op_failures": 21,
+          "op_undetected": 0,
+          "oracle_exact": 11,
+          "oracle_failures": 21,
+          "oracle_undetected": 0,
+          "paired_gap": 0.0,
+          "seed": 2026091452
+        }
+      ]
+    },
+    {
+      "k1": 128,
+      "k2": 140,
+      "mean": {
+        "disclosure_bits": 89856.0,
+        "gap": 0.0,
+        "op_exact_rate": 0.9895833333333334,
+        "oracle_exact_rate": 0.9895833333333334
+      },
+      "p2_maxdiff": 0.11625000000000252,
+      "profile": "weak",
+      "range": {
+        "disclosure_bits": [
+          89856.0,
+          89856.0
+        ],
+        "gap": [
+          0.0,
+          0.0
+        ],
+        "op_exact_rate": [
+          0.96875,
+          1.0
+        ],
+        "oracle_exact_rate": [
+          0.96875,
+          1.0
+        ]
+      },
+      "sample_std": {
+        "disclosure_bits": 0.0,
+        "gap": 0.0,
+        "op_exact_rate": 0.018042195912175804,
+        "oracle_exact_rate": 0.018042195912175804
+      },
+      "seeds": [
+        {
+          "block_count": 32,
+          "disclosure_bits": 89856,
+          "op_exact": 32,
+          "op_failures": 0,
+          "op_undetected": 0,
+          "oracle_exact": 32,
+          "oracle_failures": 0,
+          "oracle_undetected": 0,
+          "paired_gap": 0.0,
+          "seed": 2026091450
+        },
+        {
+          "block_count": 32,
+          "disclosure_bits": 89856,
+          "op_exact": 32,
+          "op_failures": 0,
+          "op_undetected": 0,
+          "oracle_exact": 32,
+          "oracle_failures": 0,
+          "oracle_undetected": 0,
+          "paired_gap": 0.0,
+          "seed": 2026091451
+        },
+        {
+          "block_count": 32,
+          "disclosure_bits": 89856,
+          "op_exact": 31,
+          "op_failures": 1,
+          "op_undetected": 0,
+          "oracle_exact": 31,
+          "oracle_failures": 1,
+          "oracle_undetected": 0,
+          "paired_gap": 0.0,
+          "seed": 2026091452
+        }
+      ]
+    },
+    {
+      "k1": 128,
+      "k2": 170,
+      "mean": {
+        "disclosure_bits": 99456.0,
+        "gap": 0.0,
+        "op_exact_rate": 1.0,
+        "oracle_exact_rate": 1.0
+      },
+      "p2_maxdiff": 0.11625000000000252,
+      "profile": "weak",
+      "range": {
+        "disclosure_bits": [
+          99456.0,
+          99456.0
+        ],
+        "gap": [
+          0.0,
+          0.0
+        ],
+        "op_exact_rate": [
+          1.0,
+          1.0
+        ],
+        "oracle_exact_rate": [
+          1.0,
+          1.0
+        ]
+      },
+      "sample_std": {
+        "disclosure_bits": 0.0,
+        "gap": 0.0,
+        "op_exact_rate": 0.0,
+        "oracle_exact_rate": 0.0
+      },
+      "seeds": [
+        {
+          "block_count": 32,
+          "disclosure_bits": 99456,
+          "op_exact": 32,
+          "op_failures": 0,
+          "op_undetected": 0,
+          "oracle_exact": 32,
+          "oracle_failures": 0,
+          "oracle_undetected": 0,
+          "paired_gap": 0.0,
+          "seed": 2026091450
+        },
+        {
+          "block_count": 32,
+          "disclosure_bits": 99456,
+          "op_exact": 32,
+          "op_failures": 0,
+          "op_undetected": 0,
+          "oracle_exact": 32,
+          "oracle_failures": 0,
+          "oracle_undetected": 0,
+          "paired_gap": 0.0,
+          "seed": 2026091451
+        },
+        {
+          "block_count": 32,
+          "disclosure_bits": 99456,
+          "op_exact": 32,
+          "op_failures": 0,
+          "op_undetected": 0,
+          "oracle_exact": 32,
+          "oracle_failures": 0,
+          "oracle_undetected": 0,
+          "paired_gap": 0.0,
+          "seed": 2026091452
+        }
+      ]
+    },
+    {
+      "k1": 128,
+      "k2": 200,
+      "mean": {
+        "disclosure_bits": 109056.0,
+        "gap": 0.0,
+        "op_exact_rate": 1.0,
+        "oracle_exact_rate": 1.0
+      },
+      "p2_maxdiff": 0.11625000000000252,
+      "profile": "weak",
+      "range": {
+        "disclosure_bits": [
+          109056.0,
+          109056.0
+        ],
+        "gap": [
+          0.0,
+          0.0
+        ],
+        "op_exact_rate": [
+          1.0,
+          1.0
+        ],
+        "oracle_exact_rate": [
+          1.0,
+          1.0
+        ]
+      },
+      "sample_std": {
+        "disclosure_bits": 0.0,
+        "gap": 0.0,
+        "op_exact_rate": 0.0,
+        "oracle_exact_rate": 0.0
+      },
+      "seeds": [
+        {
+          "block_count": 32,
+          "disclosure_bits": 109056,
+          "op_exact": 32,
+          "op_failures": 0,
+          "op_undetected": 0,
+          "oracle_exact": 32,
+          "oracle_failures": 0,
+          "oracle_undetected": 0,
+          "paired_gap": 0.0,
+          "seed": 2026091450
+        },
+        {
+          "block_count": 32,
+          "disclosure_bits": 109056,
+          "op_exact": 32,
+          "op_failures": 0,
+          "op_undetected": 0,
+          "oracle_exact": 32,
+          "oracle_failures": 0,
+          "oracle_undetected": 0,
+          "paired_gap": 0.0,
+          "seed": 2026091451
+        },
+        {
+          "block_count": 32,
+          "disclosure_bits": 109056,
+          "op_exact": 32,
+          "op_failures": 0,
+          "op_undetected": 0,
+          "oracle_exact": 32,
+          "oracle_failures": 0,
+          "oracle_undetected": 0,
+          "paired_gap": 0.0,
+          "seed": 2026091452
+        }
+      ]
+    },
+    {
+      "k1": 128,
+      "k2": 230,
+      "mean": {
+        "disclosure_bits": 118656.0,
+        "gap": 0.0,
+        "op_exact_rate": 1.0,
+        "oracle_exact_rate": 1.0
+      },
+      "p2_maxdiff": 0.11625000000000252,
+      "profile": "weak",
+      "range": {
+        "disclosure_bits": [
+          118656.0,
+          118656.0
+        ],
+        "gap": [
+          0.0,
+          0.0
+        ],
+        "op_exact_rate": [
+          1.0,
+          1.0
+        ],
+        "oracle_exact_rate": [
+          1.0,
+          1.0
+        ]
+      },
+      "sample_std": {
+        "disclosure_bits": 0.0,
+        "gap": 0.0,
+        "op_exact_rate": 0.0,
+        "oracle_exact_rate": 0.0
+      },
+      "seeds": [
+        {
+          "block_count": 32,
+          "disclosure_bits": 118656,
+          "op_exact": 32,
+          "op_failures": 0,
+          "op_undetected": 0,
+          "oracle_exact": 32,
+          "oracle_failures": 0,
+          "oracle_undetected": 0,
+          "paired_gap": 0.0,
+          "seed": 2026091450
+        },
+        {
+          "block_count": 32,
+          "disclosure_bits": 118656,
+          "op_exact": 32,
+          "op_failures": 0,
+          "op_undetected": 0,
+          "oracle_exact": 32,
+          "oracle_failures": 0,
+          "oracle_undetected": 0,
+          "paired_gap": 0.0,
+          "seed": 2026091451
+        },
+        {
+          "block_count": 32,
+          "disclosure_bits": 118656,
+          "op_exact": 32,
+          "op_failures": 0,
+          "op_undetected": 0,
+          "oracle_exact": 32,
+          "oracle_failures": 0,
+          "oracle_undetected": 0,
+          "paired_gap": 0.0,
+          "seed": 2026091452
+        }
+      ]
+    },
+    {
+      "k1": 45,
+      "k2": 110,
+      "mean": {
+        "disclosure_bits": 53696.0,
+        "gap": 0.19791666666666666,
+        "op_exact_rate": 0.3229166666666667,
+        "oracle_exact_rate": 0.5208333333333334
+      },
+      "p2_maxdiff": 0.2325000000000006,
+      "profile": "medium",
+      "range": {
+        "disclosure_bits": [
+          53696.0,
+          53696.0
+        ],
+        "gap": [
+          0.125,
+          0.28125
+        ],
+        "op_exact_rate": [
+          0.25,
+          0.375
+        ],
+        "oracle_exact_rate": [
+          0.46875,
+          0.5625
+        ]
+      },
+      "sample_std": {
+        "disclosure_bits": 0.0,
+        "gap": 0.07864410870073697,
+        "op_exact_rate": 0.06505206248331664,
+        "oracle_exact_rate": 0.047735163489123336
+      },
+      "seeds": [
+        {
+          "block_count": 32,
+          "disclosure_bits": 53696,
+          "op_exact": 8,
+          "op_failures": 24,
+          "op_undetected": 0,
+          "oracle_exact": 17,
+          "oracle_failures": 15,
+          "oracle_undetected": 0,
+          "paired_gap": 0.28125,
+          "seed": 2026091450
+        },
+        {
+          "block_count": 32,
+          "disclosure_bits": 53696,
+          "op_exact": 11,
+          "op_failures": 21,
+          "op_undetected": 0,
+          "oracle_exact": 15,
+          "oracle_failures": 17,
+          "oracle_undetected": 0,
+          "paired_gap": 0.125,
+          "seed": 2026091451
+        },
+        {
+          "block_count": 32,
+          "disclosure_bits": 53696,
+          "op_exact": 12,
+          "op_failures": 20,
+          "op_undetected": 0,
+          "oracle_exact": 18,
+          "oracle_failures": 14,
+          "oracle_undetected": 0,
+          "paired_gap": 0.1875,
+          "seed": 2026091452
+        }
+      ]
+    },
+    {
+      "k1": 45,
+      "k2": 140,
+      "mean": {
+        "disclosure_bits": 63296.0,
+        "gap": 0.3958333333333333,
+        "op_exact_rate": 0.59375,
+        "oracle_exact_rate": 0.9895833333333334
+      },
+      "p2_maxdiff": 0.2325000000000006,
+      "profile": "medium",
+      "range": {
+        "disclosure_bits": [
+          63296.0,
+          63296.0
+        ],
+        "gap": [
+          0.28125,
+          0.5
+        ],
+        "op_exact_rate": [
+          0.5,
+          0.6875
+        ],
+        "oracle_exact_rate": [
+          0.96875,
+          1.0
+        ]
+      },
+      "sample_std": {
+        "disclosure_bits": 0.0,
+        "gap": 0.10974639325888269,
+        "op_exact_rate": 0.09375,
+        "oracle_exact_rate": 0.018042195912175804
+      },
+      "seeds": [
+        {
+          "block_count": 32,
+          "disclosure_bits": 63296,
+          "op_exact": 16,
+          "op_failures": 16,
+          "op_undetected": 0,
+          "oracle_exact": 32,
+          "oracle_failures": 0,
+          "oracle_undetected": 0,
+          "paired_gap": 0.5,
+          "seed": 2026091450
+        },
+        {
+          "block_count": 32,
+          "disclosure_bits": 63296,
+          "op_exact": 19,
+          "op_failures": 13,
+          "op_undetected": 0,
+          "oracle_exact": 32,
+          "oracle_failures": 0,
+          "oracle_undetected": 0,
+          "paired_gap": 0.40625,
+          "seed": 2026091451
+        },
+        {
+          "block_count": 32,
+          "disclosure_bits": 63296,
+          "op_exact": 22,
+          "op_failures": 10,
+          "op_undetected": 0,
+          "oracle_exact": 31,
+          "oracle_failures": 1,
+          "oracle_undetected": 0,
+          "paired_gap": 0.28125,
+          "seed": 2026091452
+        }
+      ]
+    },
+    {
+      "k1": 45,
+      "k2": 170,
+      "mean": {
+        "disclosure_bits": 72896.0,
+        "gap": 0.40625,
+        "op_exact_rate": 0.59375,
+        "oracle_exact_rate": 1.0
+      },
+      "p2_maxdiff": 0.2325000000000006,
+      "profile": "medium",
+      "range": {
+        "disclosure_bits": [
+          72896.0,
+          72896.0
+        ],
+        "gap": [
+          0.3125,
+          0.5
+        ],
+        "op_exact_rate": [
+          0.5,
+          0.6875
+        ],
+        "oracle_exact_rate": [
+          1.0,
+          1.0
+        ]
+      },
+      "sample_std": {
+        "disclosure_bits": 0.0,
+        "gap": 0.09375,
+        "op_exact_rate": 0.09375,
+        "oracle_exact_rate": 0.0
+      },
+      "seeds": [
+        {
+          "block_count": 32,
+          "disclosure_bits": 72896,
+          "op_exact": 16,
+          "op_failures": 16,
+          "op_undetected": 0,
+          "oracle_exact": 32,
+          "oracle_failures": 0,
+          "oracle_undetected": 0,
+          "paired_gap": 0.5,
+          "seed": 2026091450
+        },
+        {
+          "block_count": 32,
+          "disclosure_bits": 72896,
+          "op_exact": 19,
+          "op_failures": 13,
+          "op_undetected": 0,
+          "oracle_exact": 32,
+          "oracle_failures": 0,
+          "oracle_undetected": 0,
+          "paired_gap": 0.40625,
+          "seed": 2026091451
+        },
+        {
+          "block_count": 32,
+          "disclosure_bits": 72896,
+          "op_exact": 22,
+          "op_failures": 10,
+          "op_undetected": 0,
+          "oracle_exact": 32,
+          "oracle_failures": 0,
+          "oracle_undetected": 0,
+          "paired_gap": 0.3125,
+          "seed": 2026091452
+        }
+      ]
+    },
+    {
+      "k1": 45,
+      "k2": 200,
+      "mean": {
+        "disclosure_bits": 82496.0,
+        "gap": 0.40625,
+        "op_exact_rate": 0.59375,
+        "oracle_exact_rate": 1.0
+      },
+      "p2_maxdiff": 0.2325000000000006,
+      "profile": "medium",
+      "range": {
+        "disclosure_bits": [
+          82496.0,
+          82496.0
+        ],
+        "gap": [
+          0.3125,
+          0.5
+        ],
+        "op_exact_rate": [
+          0.5,
+          0.6875
+        ],
+        "oracle_exact_rate": [
+          1.0,
+          1.0
+        ]
+      },
+      "sample_std": {
+        "disclosure_bits": 0.0,
+        "gap": 0.09375,
+        "op_exact_rate": 0.09375,
+        "oracle_exact_rate": 0.0
+      },
+      "seeds": [
+        {
+          "block_count": 32,
+          "disclosure_bits": 82496,
+          "op_exact": 16,
+          "op_failures": 16,
+          "op_undetected": 0,
+          "oracle_exact": 32,
+          "oracle_failures": 0,
+          "oracle_undetected": 0,
+          "paired_gap": 0.5,
+          "seed": 2026091450
+        },
+        {
+          "block_count": 32,
+          "disclosure_bits": 82496,
+          "op_exact": 19,
+          "op_failures": 13,
+          "op_undetected": 0,
+          "oracle_exact": 32,
+          "oracle_failures": 0,
+          "oracle_undetected": 0,
+          "paired_gap": 0.40625,
+          "seed": 2026091451
+        },
+        {
+          "block_count": 32,
+          "disclosure_bits": 82496,
+          "op_exact": 22,
+          "op_failures": 10,
+          "op_undetected": 0,
+          "oracle_exact": 32,
+          "oracle_failures": 0,
+          "oracle_undetected": 0,
+          "paired_gap": 0.3125,
+          "seed": 2026091452
+        }
+      ]
+    },
+    {
+      "k1": 45,
+      "k2": 230,
+      "mean": {
+        "disclosure_bits": 92096.0,
+        "gap": 0.40625,
+        "op_exact_rate": 0.59375,
+        "oracle_exact_rate": 1.0
+      },
+      "p2_maxdiff": 0.2325000000000006,
+      "profile": "medium",
+      "range": {
+        "disclosure_bits": [
+          92096.0,
+          92096.0
+        ],
+        "gap": [
+          0.3125,
+          0.5
+        ],
+        "op_exact_rate": [
+          0.5,
+          0.6875
+        ],
+        "oracle_exact_rate": [
+          1.0,
+          1.0
+        ]
+      },
+      "sample_std": {
+        "disclosure_bits": 0.0,
+        "gap": 0.09375,
+        "op_exact_rate": 0.09375,
+        "oracle_exact_rate": 0.0
+      },
+      "seeds": [
+        {
+          "block_count": 32,
+          "disclosure_bits": 92096,
+          "op_exact": 16,
+          "op_failures": 16,
+          "op_undetected": 0,
+          "oracle_exact": 32,
+          "oracle_failures": 0,
+          "oracle_undetected": 0,
+          "paired_gap": 0.5,
+          "seed": 2026091450
+        },
+        {
+          "block_count": 32,
+          "disclosure_bits": 92096,
+          "op_exact": 19,
+          "op_failures": 13,
+          "op_undetected": 0,
+          "oracle_exact": 32,
+          "oracle_failures": 0,
+          "oracle_undetected": 0,
+          "paired_gap": 0.40625,
+          "seed": 2026091451
+        },
+        {
+          "block_count": 32,
+          "disclosure_bits": 92096,
+          "op_exact": 22,
+          "op_failures": 10,
+          "op_undetected": 0,
+          "oracle_exact": 32,
+          "oracle_failures": 0,
+          "oracle_undetected": 0,
+          "paired_gap": 0.3125,
+          "seed": 2026091452
+        }
+      ]
+    },
+    {
+      "k1": 64,
+      "k2": 110,
+      "mean": {
+        "disclosure_bits": 59776.0,
+        "gap": 0.020833333333333332,
+        "op_exact_rate": 0.5,
+        "oracle_exact_rate": 0.5208333333333334
+      },
+      "p2_maxdiff": 0.2325000000000006,
+      "profile": "medium",
+      "range": {
+        "disclosure_bits": [
+          59776.0,
+          59776.0
+        ],
+        "gap": [
+          0.0,
+          0.03125
+        ],
+        "op_exact_rate": [
+          0.4375,
+          0.5625
+        ],
+        "oracle_exact_rate": [
+          0.46875,
+          0.5625
+        ]
+      },
+      "sample_std": {
+        "disclosure_bits": 0.0,
+        "gap": 0.018042195912175804,
+        "op_exact_rate": 0.0625,
+        "oracle_exact_rate": 0.047735163489123336
+      },
+      "seeds": [
+        {
+          "block_count": 32,
+          "disclosure_bits": 59776,
+          "op_exact": 16,
+          "op_failures": 16,
+          "op_undetected": 0,
+          "oracle_exact": 17,
+          "oracle_failures": 15,
+          "oracle_undetected": 0,
+          "paired_gap": 0.03125,
+          "seed": 2026091450
+        },
+        {
+          "block_count": 32,
+          "disclosure_bits": 59776,
+          "op_exact": 14,
+          "op_failures": 18,
+          "op_undetected": 0,
+          "oracle_exact": 15,
+          "oracle_failures": 17,
+          "oracle_undetected": 0,
+          "paired_gap": 0.03125,
+          "seed": 2026091451
+        },
+        {
+          "block_count": 32,
+          "disclosure_bits": 59776,
+          "op_exact": 18,
+          "op_failures": 14,
+          "op_undetected": 0,
+          "oracle_exact": 18,
+          "oracle_failures": 14,
+          "oracle_undetected": 0,
+          "paired_gap": 0.0,
+          "seed": 2026091452
+        }
+      ]
+    },
+    {
+      "k1": 64,
+      "k2": 140,
+      "mean": {
+        "disclosure_bits": 69376.0,
+        "gap": 0.03125,
+        "op_exact_rate": 0.9583333333333334,
+        "oracle_exact_rate": 0.9895833333333334
+      },
+      "p2_maxdiff": 0.2325000000000006,
+      "profile": "medium",
+      "range": {
+        "disclosure_bits": [
+          69376.0,
+          69376.0
+        ],
+        "gap": [
+          0.0,
+          0.0625
+        ],
+        "op_exact_rate": [
+          0.9375,
+          0.96875
+        ],
+        "oracle_exact_rate": [
+          0.96875,
+          1.0
+        ]
+      },
+      "sample_std": {
+        "disclosure_bits": 0.0,
+        "gap": 0.03125,
+        "op_exact_rate": 0.018042195912175804,
+        "oracle_exact_rate": 0.018042195912175804
+      },
+      "seeds": [
+        {
+          "block_count": 32,
+          "disclosure_bits": 69376,
+          "op_exact": 31,
+          "op_failures": 1,
+          "op_undetected": 0,
+          "oracle_exact": 32,
+          "oracle_failures": 0,
+          "oracle_undetected": 0,
+          "paired_gap": 0.03125,
+          "seed": 2026091450
+        },
+        {
+          "block_count": 32,
+          "disclosure_bits": 69376,
+          "op_exact": 30,
+          "op_failures": 2,
+          "op_undetected": 0,
+          "oracle_exact": 32,
+          "oracle_failures": 0,
+          "oracle_undetected": 0,
+          "paired_gap": 0.0625,
+          "seed": 2026091451
+        },
+        {
+          "block_count": 32,
+          "disclosure_bits": 69376,
+          "op_exact": 31,
+          "op_failures": 1,
+          "op_undetected": 0,
+          "oracle_exact": 31,
+          "oracle_failures": 1,
+          "oracle_undetected": 0,
+          "paired_gap": 0.0,
+          "seed": 2026091452
+        }
+      ]
+    },
+    {
+      "k1": 64,
+      "k2": 170,
+      "mean": {
+        "disclosure_bits": 78976.0,
+        "gap": 0.041666666666666664,
+        "op_exact_rate": 0.9583333333333334,
+        "oracle_exact_rate": 1.0
+      },
+      "p2_maxdiff": 0.2325000000000006,
+      "profile": "medium",
+      "range": {
+        "disclosure_bits": [
+          78976.0,
+          78976.0
+        ],
+        "gap": [
+          0.03125,
+          0.0625
+        ],
+        "op_exact_rate": [
+          0.9375,
+          0.96875
+        ],
+        "oracle_exact_rate": [
+          1.0,
+          1.0
+        ]
+      },
+      "sample_std": {
+        "disclosure_bits": 0.0,
+        "gap": 0.018042195912175804,
+        "op_exact_rate": 0.018042195912175804,
+        "oracle_exact_rate": 0.0
+      },
+      "seeds": [
+        {
+          "block_count": 32,
+          "disclosure_bits": 78976,
+          "op_exact": 31,
+          "op_failures": 1,
+          "op_undetected": 0,
+          "oracle_exact": 32,
+          "oracle_failures": 0,
+          "oracle_undetected": 0,
+          "paired_gap": 0.03125,
+          "seed": 2026091450
+        },
+        {
+          "block_count": 32,
+          "disclosure_bits": 78976,
+          "op_exact": 30,
+          "op_failures": 2,
+          "op_undetected": 0,
+          "oracle_exact": 32,
+          "oracle_failures": 0,
+          "oracle_undetected": 0,
+          "paired_gap": 0.0625,
+          "seed": 2026091451
+        },
+        {
+          "block_count": 32,
+          "disclosure_bits": 78976,
+          "op_exact": 31,
+          "op_failures": 1,
+          "op_undetected": 0,
+          "oracle_exact": 32,
+          "oracle_failures": 0,
+          "oracle_undetected": 0,
+          "paired_gap": 0.03125,
+          "seed": 2026091452
+        }
+      ]
+    },
+    {
+      "k1": 64,
+      "k2": 200,
+      "mean": {
+        "disclosure_bits": 88576.0,
+        "gap": 0.041666666666666664,
+        "op_exact_rate": 0.9583333333333334,
+        "oracle_exact_rate": 1.0
+      },
+      "p2_maxdiff": 0.2325000000000006,
+      "profile": "medium",
+      "range": {
+        "disclosure_bits": [
+          88576.0,
+          88576.0
+        ],
+        "gap": [
+          0.03125,
+          0.0625
+        ],
+        "op_exact_rate": [
+          0.9375,
+          0.96875
+        ],
+        "oracle_exact_rate": [
+          1.0,
+          1.0
+        ]
+      },
+      "sample_std": {
+        "disclosure_bits": 0.0,
+        "gap": 0.018042195912175804,
+        "op_exact_rate": 0.018042195912175804,
+        "oracle_exact_rate": 0.0
+      },
+      "seeds": [
+        {
+          "block_count": 32,
+          "disclosure_bits": 88576,
+          "op_exact": 31,
+          "op_failures": 1,
+          "op_undetected": 0,
+          "oracle_exact": 32,
+          "oracle_failures": 0,
+          "oracle_undetected": 0,
+          "paired_gap": 0.03125,
+          "seed": 2026091450
+        },
+        {
+          "block_count": 32,
+          "disclosure_bits": 88576,
+          "op_exact": 30,
+          "op_failures": 2,
+          "op_undetected": 0,
+          "oracle_exact": 32,
+          "oracle_failures": 0,
+          "oracle_undetected": 0,
+          "paired_gap": 0.0625,
+          "seed": 2026091451
+        },
+        {
+          "block_count": 32,
+          "disclosure_bits": 88576,
+          "op_exact": 31,
+          "op_failures": 1,
+          "op_undetected": 0,
+          "oracle_exact": 32,
+          "oracle_failures": 0,
+          "oracle_undetected": 0,
+          "paired_gap": 0.03125,
+          "seed": 2026091452
+        }
+      ]
+    },
+    {
+      "k1": 64,
+      "k2": 230,
+      "mean": {
+        "disclosure_bits": 98176.0,
+        "gap": 0.041666666666666664,
+        "op_exact_rate": 0.9583333333333334,
+        "oracle_exact_rate": 1.0
+      },
+      "p2_maxdiff": 0.2325000000000006,
+      "profile": "medium",
+      "range": {
+        "disclosure_bits": [
+          98176.0,
+          98176.0
+        ],
+        "gap": [
+          0.03125,
+          0.0625
+        ],
+        "op_exact_rate": [
+          0.9375,
+          0.96875
+        ],
+        "oracle_exact_rate": [
+          1.0,
+          1.0
+        ]
+      },
+      "sample_std": {
+        "disclosure_bits": 0.0,
+        "gap": 0.018042195912175804,
+        "op_exact_rate": 0.018042195912175804,
+        "oracle_exact_rate": 0.0
+      },
+      "seeds": [
+        {
+          "block_count": 32,
+          "disclosure_bits": 98176,
+          "op_exact": 31,
+          "op_failures": 1,
+          "op_undetected": 0,
+          "oracle_exact": 32,
+          "oracle_failures": 0,
+          "oracle_undetected": 0,
+          "paired_gap": 0.03125,
+          "seed": 2026091450
+        },
+        {
+          "block_count": 32,
+          "disclosure_bits": 98176,
+          "op_exact": 30,
+          "op_failures": 2,
+          "op_undetected": 0,
+          "oracle_exact": 32,
+          "oracle_failures": 0,
+          "oracle_undetected": 0,
+          "paired_gap": 0.0625,
+          "seed": 2026091451
+        },
+        {
+          "block_count": 32,
+          "disclosure_bits": 98176,
+          "op_exact": 31,
+          "op_failures": 1,
+          "op_undetected": 0,
+          "oracle_exact": 32,
+          "oracle_failures": 0,
+          "oracle_undetected": 0,
+          "paired_gap": 0.03125,
+          "seed": 2026091452
+        }
+      ]
+    },
+    {
+      "k1": 96,
+      "k2": 110,
+      "mean": {
+        "disclosure_bits": 70016.0,
+        "gap": 0.0,
+        "op_exact_rate": 0.5208333333333334,
+        "oracle_exact_rate": 0.5208333333333334
+      },
+      "p2_maxdiff": 0.2325000000000006,
+      "profile": "medium",
+      "range": {
+        "disclosure_bits": [
+          70016.0,
+          70016.0
+        ],
+        "gap": [
+          0.0,
+          0.0
+        ],
+        "op_exact_rate": [
+          0.46875,
+          0.5625
+        ],
+        "oracle_exact_rate": [
+          0.46875,
+          0.5625
+        ]
+      },
+      "sample_std": {
+        "disclosure_bits": 0.0,
+        "gap": 0.0,
+        "op_exact_rate": 0.047735163489123336,
+        "oracle_exact_rate": 0.047735163489123336
+      },
+      "seeds": [
+        {
+          "block_count": 32,
+          "disclosure_bits": 70016,
+          "op_exact": 17,
+          "op_failures": 15,
+          "op_undetected": 0,
+          "oracle_exact": 17,
+          "oracle_failures": 15,
+          "oracle_undetected": 0,
+          "paired_gap": 0.0,
+          "seed": 2026091450
+        },
+        {
+          "block_count": 32,
+          "disclosure_bits": 70016,
+          "op_exact": 15,
+          "op_failures": 17,
+          "op_undetected": 0,
+          "oracle_exact": 15,
+          "oracle_failures": 17,
+          "oracle_undetected": 0,
+          "paired_gap": 0.0,
+          "seed": 2026091451
+        },
+        {
+          "block_count": 32,
+          "disclosure_bits": 70016,
+          "op_exact": 18,
+          "op_failures": 14,
+          "op_undetected": 0,
+          "oracle_exact": 18,
+          "oracle_failures": 14,
+          "oracle_undetected": 0,
+          "paired_gap": 0.0,
+          "seed": 2026091452
+        }
+      ]
+    },
+    {
+      "k1": 96,
+      "k2": 140,
+      "mean": {
+        "disclosure_bits": 79616.0,
+        "gap": 0.0,
+        "op_exact_rate": 0.9895833333333334,
+        "oracle_exact_rate": 0.9895833333333334
+      },
+      "p2_maxdiff": 0.2325000000000006,
+      "profile": "medium",
+      "range": {
+        "disclosure_bits": [
+          79616.0,
+          79616.0
+        ],
+        "gap": [
+          0.0,
+          0.0
+        ],
+        "op_exact_rate": [
+          0.96875,
+          1.0
+        ],
+        "oracle_exact_rate": [
+          0.96875,
+          1.0
+        ]
+      },
+      "sample_std": {
+        "disclosure_bits": 0.0,
+        "gap": 0.0,
+        "op_exact_rate": 0.018042195912175804,
+        "oracle_exact_rate": 0.018042195912175804
+      },
+      "seeds": [
+        {
+          "block_count": 32,
+          "disclosure_bits": 79616,
+          "op_exact": 32,
+          "op_failures": 0,
+          "op_undetected": 0,
+          "oracle_exact": 32,
+          "oracle_failures": 0,
+          "oracle_undetected": 0,
+          "paired_gap": 0.0,
+          "seed": 2026091450
+        },
+        {
+          "block_count": 32,
+          "disclosure_bits": 79616,
+          "op_exact": 32,
+          "op_failures": 0,
+          "op_undetected": 0,
+          "oracle_exact": 32,
+          "oracle_failures": 0,
+          "oracle_undetected": 0,
+          "paired_gap": 0.0,
+          "seed": 2026091451
+        },
+        {
+          "block_count": 32,
+          "disclosure_bits": 79616,
+          "op_exact": 31,
+          "op_failures": 1,
+          "op_undetected": 0,
+          "oracle_exact": 31,
+          "oracle_failures": 1,
+          "oracle_undetected": 0,
+          "paired_gap": 0.0,
+          "seed": 2026091452
+        }
+      ]
+    },
+    {
+      "k1": 96,
+      "k2": 170,
+      "mean": {
+        "disclosure_bits": 89216.0,
+        "gap": 0.0,
+        "op_exact_rate": 1.0,
+        "oracle_exact_rate": 1.0
+      },
+      "p2_maxdiff": 0.2325000000000006,
+      "profile": "medium",
+      "range": {
+        "disclosure_bits": [
+          89216.0,
+          89216.0
+        ],
+        "gap": [
+          0.0,
+          0.0
+        ],
+        "op_exact_rate": [
+          1.0,
+          1.0
+        ],
+        "oracle_exact_rate": [
+          1.0,
+          1.0
+        ]
+      },
+      "sample_std": {
+        "disclosure_bits": 0.0,
+        "gap": 0.0,
+        "op_exact_rate": 0.0,
+        "oracle_exact_rate": 0.0
+      },
+      "seeds": [
+        {
+          "block_count": 32,
+          "disclosure_bits": 89216,
+          "op_exact": 32,
+          "op_failures": 0,
+          "op_undetected": 0,
+          "oracle_exact": 32,
+          "oracle_failures": 0,
+          "oracle_undetected": 0,
+          "paired_gap": 0.0,
+          "seed": 2026091450
+        },
+        {
+          "block_count": 32,
+          "disclosure_bits": 89216,
+          "op_exact": 32,
+          "op_failures": 0,
+          "op_undetected": 0,
+          "oracle_exact": 32,
+          "oracle_failures": 0,
+          "oracle_undetected": 0,
+          "paired_gap": 0.0,
+          "seed": 2026091451
+        },
+        {
+          "block_count": 32,
+          "disclosure_bits": 89216,
+          "op_exact": 32,
+          "op_failures": 0,
+          "op_undetected": 0,
+          "oracle_exact": 32,
+          "oracle_failures": 0,
+          "oracle_undetected": 0,
+          "paired_gap": 0.0,
+          "seed": 2026091452
+        }
+      ]
+    },
+    {
+      "k1": 96,
+      "k2": 200,
+      "mean": {
+        "disclosure_bits": 98816.0,
+        "gap": 0.0,
+        "op_exact_rate": 1.0,
+        "oracle_exact_rate": 1.0
+      },
+      "p2_maxdiff": 0.2325000000000006,
+      "profile": "medium",
+      "range": {
+        "disclosure_bits": [
+          98816.0,
+          98816.0
+        ],
+        "gap": [
+          0.0,
+          0.0
+        ],
+        "op_exact_rate": [
+          1.0,
+          1.0
+        ],
+        "oracle_exact_rate": [
+          1.0,
+          1.0
+        ]
+      },
+      "sample_std": {
+        "disclosure_bits": 0.0,
+        "gap": 0.0,
+        "op_exact_rate": 0.0,
+        "oracle_exact_rate": 0.0
+      },
+      "seeds": [
+        {
+          "block_count": 32,
+          "disclosure_bits": 98816,
+          "op_exact": 32,
+          "op_failures": 0,
+          "op_undetected": 0,
+          "oracle_exact": 32,
+          "oracle_failures": 0,
+          "oracle_undetected": 0,
+          "paired_gap": 0.0,
+          "seed": 2026091450
+        },
+        {
+          "block_count": 32,
+          "disclosure_bits": 98816,
+          "op_exact": 32,
+          "op_failures": 0,
+          "op_undetected": 0,
+          "oracle_exact": 32,
+          "oracle_failures": 0,
+          "oracle_undetected": 0,
+          "paired_gap": 0.0,
+          "seed": 2026091451
+        },
+        {
+          "block_count": 32,
+          "disclosure_bits": 98816,
+          "op_exact": 32,
+          "op_failures": 0,
+          "op_undetected": 0,
+          "oracle_exact": 32,
+          "oracle_failures": 0,
+          "oracle_undetected": 0,
+          "paired_gap": 0.0,
+          "seed": 2026091452
+        }
+      ]
+    },
+    {
+      "k1": 96,
+      "k2": 230,
+      "mean": {
+        "disclosure_bits": 108416.0,
+        "gap": 0.0,
+        "op_exact_rate": 1.0,
+        "oracle_exact_rate": 1.0
+      },
+      "p2_maxdiff": 0.2325000000000006,
+      "profile": "medium",
+      "range": {
+        "disclosure_bits": [
+          108416.0,
+          108416.0
+        ],
+        "gap": [
+          0.0,
+          0.0
+        ],
+        "op_exact_rate": [
+          1.0,
+          1.0
+        ],
+        "oracle_exact_rate": [
+          1.0,
+          1.0
+        ]
+      },
+      "sample_std": {
+        "disclosure_bits": 0.0,
+        "gap": 0.0,
+        "op_exact_rate": 0.0,
+        "oracle_exact_rate": 0.0
+      },
+      "seeds": [
+        {
+          "block_count": 32,
+          "disclosure_bits": 108416,
+          "op_exact": 32,
+          "op_failures": 0,
+          "op_undetected": 0,
+          "oracle_exact": 32,
+          "oracle_failures": 0,
+          "oracle_undetected": 0,
+          "paired_gap": 0.0,
+          "seed": 2026091450
+        },
+        {
+          "block_count": 32,
+          "disclosure_bits": 108416,
+          "op_exact": 32,
+          "op_failures": 0,
+          "op_undetected": 0,
+          "oracle_exact": 32,
+          "oracle_failures": 0,
+          "oracle_undetected": 0,
+          "paired_gap": 0.0,
+          "seed": 2026091451
+        },
+        {
+          "block_count": 32,
+          "disclosure_bits": 108416,
+          "op_exact": 32,
+          "op_failures": 0,
+          "op_undetected": 0,
+          "oracle_exact": 32,
+          "oracle_failures": 0,
+          "oracle_undetected": 0,
+          "paired_gap": 0.0,
+          "seed": 2026091452
+        }
+      ]
+    },
+    {
+      "k1": 128,
+      "k2": 110,
+      "mean": {
+        "disclosure_bits": 80256.0,
+        "gap": 0.0,
+        "op_exact_rate": 0.5208333333333334,
+        "oracle_exact_rate": 0.5208333333333334
+      },
+      "p2_maxdiff": 0.2325000000000006,
+      "profile": "medium",
+      "range": {
+        "disclosure_bits": [
+          80256.0,
+          80256.0
+        ],
+        "gap": [
+          0.0,
+          0.0
+        ],
+        "op_exact_rate": [
+          0.46875,
+          0.5625
+        ],
+        "oracle_exact_rate": [
+          0.46875,
+          0.5625
+        ]
+      },
+      "sample_std": {
+        "disclosure_bits": 0.0,
+        "gap": 0.0,
+        "op_exact_rate": 0.047735163489123336,
+        "oracle_exact_rate": 0.047735163489123336
+      },
+      "seeds": [
+        {
+          "block_count": 32,
+          "disclosure_bits": 80256,
+          "op_exact": 17,
+          "op_failures": 15,
+          "op_undetected": 0,
+          "oracle_exact": 17,
+          "oracle_failures": 15,
+          "oracle_undetected": 0,
+          "paired_gap": 0.0,
+          "seed": 2026091450
+        },
+        {
+          "block_count": 32,
+          "disclosure_bits": 80256,
+          "op_exact": 15,
+          "op_failures": 17,
+          "op_undetected": 0,
+          "oracle_exact": 15,
+          "oracle_failures": 17,
+          "oracle_undetected": 0,
+          "paired_gap": 0.0,
+          "seed": 2026091451
+        },
+        {
+          "block_count": 32,
+          "disclosure_bits": 80256,
+          "op_exact": 18,
+          "op_failures": 14,
+          "op_undetected": 0,
+          "oracle_exact": 18,
+          "oracle_failures": 14,
+          "oracle_undetected": 0,
+          "paired_gap": 0.0,
+          "seed": 2026091452
+        }
+      ]
+    },
+    {
+      "k1": 128,
+      "k2": 140,
+      "mean": {
+        "disclosure_bits": 89856.0,
+        "gap": 0.0,
+        "op_exact_rate": 0.9895833333333334,
+        "oracle_exact_rate": 0.9895833333333334
+      },
+      "p2_maxdiff": 0.2325000000000006,
+      "profile": "medium",
+      "range": {
+        "disclosure_bits": [
+          89856.0,
+          89856.0
+        ],
+        "gap": [
+          0.0,
+          0.0
+        ],
+        "op_exact_rate": [
+          0.96875,
+          1.0
+        ],
+        "oracle_exact_rate": [
+          0.96875,
+          1.0
+        ]
+      },
+      "sample_std": {
+        "disclosure_bits": 0.0,
+        "gap": 0.0,
+        "op_exact_rate": 0.018042195912175804,
+        "oracle_exact_rate": 0.018042195912175804
+      },
+      "seeds": [
+        {
+          "block_count": 32,
+          "disclosure_bits": 89856,
+          "op_exact": 32,
+          "op_failures": 0,
+          "op_undetected": 0,
+          "oracle_exact": 32,
+          "oracle_failures": 0,
+          "oracle_undetected": 0,
+          "paired_gap": 0.0,
+          "seed": 2026091450
+        },
+        {
+          "block_count": 32,
+          "disclosure_bits": 89856,
+          "op_exact": 32,
+          "op_failures": 0,
+          "op_undetected": 0,
+          "oracle_exact": 32,
+          "oracle_failures": 0,
+          "oracle_undetected": 0,
+          "paired_gap": 0.0,
+          "seed": 2026091451
+        },
+        {
+          "block_count": 32,
+          "disclosure_bits": 89856,
+          "op_exact": 31,
+          "op_failures": 1,
+          "op_undetected": 0,
+          "oracle_exact": 31,
+          "oracle_failures": 1,
+          "oracle_undetected": 0,
+          "paired_gap": 0.0,
+          "seed": 2026091452
+        }
+      ]
+    },
+    {
+      "k1": 128,
+      "k2": 170,
+      "mean": {
+        "disclosure_bits": 99456.0,
+        "gap": 0.0,
+        "op_exact_rate": 1.0,
+        "oracle_exact_rate": 1.0
+      },
+      "p2_maxdiff": 0.2325000000000006,
+      "profile": "medium",
+      "range": {
+        "disclosure_bits": [
+          99456.0,
+          99456.0
+        ],
+        "gap": [
+          0.0,
+          0.0
+        ],
+        "op_exact_rate": [
+          1.0,
+          1.0
+        ],
+        "oracle_exact_rate": [
+          1.0,
+          1.0
+        ]
+      },
+      "sample_std": {
+        "disclosure_bits": 0.0,
+        "gap": 0.0,
+        "op_exact_rate": 0.0,
+        "oracle_exact_rate": 0.0
+      },
+      "seeds": [
+        {
+          "block_count": 32,
+          "disclosure_bits": 99456,
+          "op_exact": 32,
+          "op_failures": 0,
+          "op_undetected": 0,
+          "oracle_exact": 32,
+          "oracle_failures": 0,
+          "oracle_undetected": 0,
+          "paired_gap": 0.0,
+          "seed": 2026091450
+        },
+        {
+          "block_count": 32,
+          "disclosure_bits": 99456,
+          "op_exact": 32,
+          "op_failures": 0,
+          "op_undetected": 0,
+          "oracle_exact": 32,
+          "oracle_failures": 0,
+          "oracle_undetected": 0,
+          "paired_gap": 0.0,
+          "seed": 2026091451
+        },
+        {
+          "block_count": 32,
+          "disclosure_bits": 99456,
+          "op_exact": 32,
+          "op_failures": 0,
+          "op_undetected": 0,
+          "oracle_exact": 32,
+          "oracle_failures": 0,
+          "oracle_undetected": 0,
+          "paired_gap": 0.0,
+          "seed": 2026091452
+        }
+      ]
+    },
+    {
+      "k1": 128,
+      "k2": 200,
+      "mean": {
+        "disclosure_bits": 109056.0,
+        "gap": 0.0,
+        "op_exact_rate": 1.0,
+        "oracle_exact_rate": 1.0
+      },
+      "p2_maxdiff": 0.2325000000000006,
+      "profile": "medium",
+      "range": {
+        "disclosure_bits": [
+          109056.0,
+          109056.0
+        ],
+        "gap": [
+          0.0,
+          0.0
+        ],
+        "op_exact_rate": [
+          1.0,
+          1.0
+        ],
+        "oracle_exact_rate": [
+          1.0,
+          1.0
+        ]
+      },
+      "sample_std": {
+        "disclosure_bits": 0.0,
+        "gap": 0.0,
+        "op_exact_rate": 0.0,
+        "oracle_exact_rate": 0.0
+      },
+      "seeds": [
+        {
+          "block_count": 32,
+          "disclosure_bits": 109056,
+          "op_exact": 32,
+          "op_failures": 0,
+          "op_undetected": 0,
+          "oracle_exact": 32,
+          "oracle_failures": 0,
+          "oracle_undetected": 0,
+          "paired_gap": 0.0,
+          "seed": 2026091450
+        },
+        {
+          "block_count": 32,
+          "disclosure_bits": 109056,
+          "op_exact": 32,
+          "op_failures": 0,
+          "op_undetected": 0,
+          "oracle_exact": 32,
+          "oracle_failures": 0,
+          "oracle_undetected": 0,
+          "paired_gap": 0.0,
+          "seed": 2026091451
+        },
+        {
+          "block_count": 32,
+          "disclosure_bits": 109056,
+          "op_exact": 32,
+          "op_failures": 0,
+          "op_undetected": 0,
+          "oracle_exact": 32,
+          "oracle_failures": 0,
+          "oracle_undetected": 0,
+          "paired_gap": 0.0,
+          "seed": 2026091452
+        }
+      ]
+    },
+    {
+      "k1": 128,
+      "k2": 230,
+      "mean": {
+        "disclosure_bits": 118656.0,
+        "gap": 0.0,
+        "op_exact_rate": 1.0,
+        "oracle_exact_rate": 1.0
+      },
+      "p2_maxdiff": 0.2325000000000006,
+      "profile": "medium",
+      "range": {
+        "disclosure_bits": [
+          118656.0,
+          118656.0
+        ],
+        "gap": [
+          0.0,
+          0.0
+        ],
+        "op_exact_rate": [
+          1.0,
+          1.0
+        ],
+        "oracle_exact_rate": [
+          1.0,
+          1.0
+        ]
+      },
+      "sample_std": {
+        "disclosure_bits": 0.0,
+        "gap": 0.0,
+        "op_exact_rate": 0.0,
+        "oracle_exact_rate": 0.0
+      },
+      "seeds": [
+        {
+          "block_count": 32,
+          "disclosure_bits": 118656,
+          "op_exact": 32,
+          "op_failures": 0,
+          "op_undetected": 0,
+          "oracle_exact": 32,
+          "oracle_failures": 0,
+          "oracle_undetected": 0,
+          "paired_gap": 0.0,
+          "seed": 2026091450
+        },
+        {
+          "block_count": 32,
+          "disclosure_bits": 118656,
+          "op_exact": 32,
+          "op_failures": 0,
+          "op_undetected": 0,
+          "oracle_exact": 32,
+          "oracle_failures": 0,
+          "oracle_undetected": 0,
+          "paired_gap": 0.0,
+          "seed": 2026091451
+        },
+        {
+          "block_count": 32,
+          "disclosure_bits": 118656,
+          "op_exact": 32,
+          "op_failures": 0,
+          "op_undetected": 0,
+          "oracle_exact": 32,
+          "oracle_failures": 0,
+          "oracle_undetected": 0,
+          "paired_gap": 0.0,
+          "seed": 2026091452
+        }
+      ]
+    },
+    {
+      "k1": 45,
+      "k2": 110,
+      "mean": {
+        "disclosure_bits": 53696.0,
+        "gap": 0.2916666666666667,
+        "op_exact_rate": 0.3125,
+        "oracle_exact_rate": 0.6041666666666666
+      },
+      "p2_maxdiff": 0.34875000000000267,
+      "profile": "strong",
+      "range": {
+        "disclosure_bits": [
+          53696.0,
+          53696.0
+        ],
+        "gap": [
+          0.1875,
+          0.34375
+        ],
+        "op_exact_rate": [
+          0.25,
+          0.40625
+        ],
+        "oracle_exact_rate": [
+          0.59375,
+          0.625
+        ]
+      },
+      "sample_std": {
+        "disclosure_bits": 0.0,
+        "gap": 0.09021097956087902,
+        "op_exact_rate": 0.08267972847076846,
+        "oracle_exact_rate": 0.018042195912175804
+      },
+      "seeds": [
+        {
+          "block_count": 32,
+          "disclosure_bits": 53696,
+          "op_exact": 8,
+          "op_failures": 24,
+          "op_undetected": 0,
+          "oracle_exact": 19,
+          "oracle_failures": 13,
+          "oracle_undetected": 0,
+          "paired_gap": 0.34375,
+          "seed": 2026091450
+        },
+        {
+          "block_count": 32,
+          "disclosure_bits": 53696,
+          "op_exact": 9,
+          "op_failures": 23,
+          "op_undetected": 0,
+          "oracle_exact": 20,
+          "oracle_failures": 12,
+          "oracle_undetected": 0,
+          "paired_gap": 0.34375,
+          "seed": 2026091451
+        },
+        {
+          "block_count": 32,
+          "disclosure_bits": 53696,
+          "op_exact": 13,
+          "op_failures": 19,
+          "op_undetected": 0,
+          "oracle_exact": 19,
+          "oracle_failures": 13,
+          "oracle_undetected": 0,
+          "paired_gap": 0.1875,
+          "seed": 2026091452
+        }
+      ]
+    },
+    {
+      "k1": 45,
+      "k2": 140,
+      "mean": {
+        "disclosure_bits": 63296.0,
+        "gap": 0.5104166666666666,
+        "op_exact_rate": 0.4895833333333333,
+        "oracle_exact_rate": 1.0
+      },
+      "p2_maxdiff": 0.34875000000000267,
+      "profile": "strong",
+      "range": {
+        "disclosure_bits": [
+          63296.0,
+          63296.0
+        ],
+        "gap": [
+          0.375,
+          0.625
+        ],
+        "op_exact_rate": [
+          0.375,
+          0.625
+        ],
+        "oracle_exact_rate": [
+          1.0,
+          1.0
+        ]
+      },
+      "sample_std": {
+        "disclosure_bits": 0.0,
+        "gap": 0.12629537138523064,
+        "op_exact_rate": 0.12629537138523064,
+        "oracle_exact_rate": 0.0
+      },
+      "seeds": [
+        {
+          "block_count": 32,
+          "disclosure_bits": 63296,
+          "op_exact": 12,
+          "op_failures": 20,
+          "op_undetected": 0,
+          "oracle_exact": 32,
+          "oracle_failures": 0,
+          "oracle_undetected": 0,
+          "paired_gap": 0.625,
+          "seed": 2026091450
+        },
+        {
+          "block_count": 32,
+          "disclosure_bits": 63296,
+          "op_exact": 15,
+          "op_failures": 17,
+          "op_undetected": 0,
+          "oracle_exact": 32,
+          "oracle_failures": 0,
+          "oracle_undetected": 0,
+          "paired_gap": 0.53125,
+          "seed": 2026091451
+        },
+        {
+          "block_count": 32,
+          "disclosure_bits": 63296,
+          "op_exact": 20,
+          "op_failures": 12,
+          "op_undetected": 0,
+          "oracle_exact": 32,
+          "oracle_failures": 0,
+          "oracle_undetected": 0,
+          "paired_gap": 0.375,
+          "seed": 2026091452
+        }
+      ]
+    },
+    {
+      "k1": 45,
+      "k2": 170,
+      "mean": {
+        "disclosure_bits": 72896.0,
+        "gap": 0.5104166666666666,
+        "op_exact_rate": 0.4895833333333333,
+        "oracle_exact_rate": 1.0
+      },
+      "p2_maxdiff": 0.34875000000000267,
+      "profile": "strong",
+      "range": {
+        "disclosure_bits": [
+          72896.0,
+          72896.0
+        ],
+        "gap": [
+          0.375,
+          0.625
+        ],
+        "op_exact_rate": [
+          0.375,
+          0.625
+        ],
+        "oracle_exact_rate": [
+          1.0,
+          1.0
+        ]
+      },
+      "sample_std": {
+        "disclosure_bits": 0.0,
+        "gap": 0.12629537138523064,
+        "op_exact_rate": 0.12629537138523064,
+        "oracle_exact_rate": 0.0
+      },
+      "seeds": [
+        {
+          "block_count": 32,
+          "disclosure_bits": 72896,
+          "op_exact": 12,
+          "op_failures": 20,
+          "op_undetected": 0,
+          "oracle_exact": 32,
+          "oracle_failures": 0,
+          "oracle_undetected": 0,
+          "paired_gap": 0.625,
+          "seed": 2026091450
+        },
+        {
+          "block_count": 32,
+          "disclosure_bits": 72896,
+          "op_exact": 15,
+          "op_failures": 17,
+          "op_undetected": 0,
+          "oracle_exact": 32,
+          "oracle_failures": 0,
+          "oracle_undetected": 0,
+          "paired_gap": 0.53125,
+          "seed": 2026091451
+        },
+        {
+          "block_count": 32,
+          "disclosure_bits": 72896,
+          "op_exact": 20,
+          "op_failures": 12,
+          "op_undetected": 0,
+          "oracle_exact": 32,
+          "oracle_failures": 0,
+          "oracle_undetected": 0,
+          "paired_gap": 0.375,
+          "seed": 2026091452
+        }
+      ]
+    },
+    {
+      "k1": 45,
+      "k2": 200,
+      "mean": {
+        "disclosure_bits": 82496.0,
+        "gap": 0.5104166666666666,
+        "op_exact_rate": 0.4895833333333333,
+        "oracle_exact_rate": 1.0
+      },
+      "p2_maxdiff": 0.34875000000000267,
+      "profile": "strong",
+      "range": {
+        "disclosure_bits": [
+          82496.0,
+          82496.0
+        ],
+        "gap": [
+          0.375,
+          0.625
+        ],
+        "op_exact_rate": [
+          0.375,
+          0.625
+        ],
+        "oracle_exact_rate": [
+          1.0,
+          1.0
+        ]
+      },
+      "sample_std": {
+        "disclosure_bits": 0.0,
+        "gap": 0.12629537138523064,
+        "op_exact_rate": 0.12629537138523064,
+        "oracle_exact_rate": 0.0
+      },
+      "seeds": [
+        {
+          "block_count": 32,
+          "disclosure_bits": 82496,
+          "op_exact": 12,
+          "op_failures": 20,
+          "op_undetected": 0,
+          "oracle_exact": 32,
+          "oracle_failures": 0,
+          "oracle_undetected": 0,
+          "paired_gap": 0.625,
+          "seed": 2026091450
+        },
+        {
+          "block_count": 32,
+          "disclosure_bits": 82496,
+          "op_exact": 15,
+          "op_failures": 17,
+          "op_undetected": 0,
+          "oracle_exact": 32,
+          "oracle_failures": 0,
+          "oracle_undetected": 0,
+          "paired_gap": 0.53125,
+          "seed": 2026091451
+        },
+        {
+          "block_count": 32,
+          "disclosure_bits": 82496,
+          "op_exact": 20,
+          "op_failures": 12,
+          "op_undetected": 0,
+          "oracle_exact": 32,
+          "oracle_failures": 0,
+          "oracle_undetected": 0,
+          "paired_gap": 0.375,
+          "seed": 2026091452
+        }
+      ]
+    },
+    {
+      "k1": 45,
+      "k2": 230,
+      "mean": {
+        "disclosure_bits": 92096.0,
+        "gap": 0.5104166666666666,
+        "op_exact_rate": 0.4895833333333333,
+        "oracle_exact_rate": 1.0
+      },
+      "p2_maxdiff": 0.34875000000000267,
+      "profile": "strong",
+      "range": {
+        "disclosure_bits": [
+          92096.0,
+          92096.0
+        ],
+        "gap": [
+          0.375,
+          0.625
+        ],
+        "op_exact_rate": [
+          0.375,
+          0.625
+        ],
+        "oracle_exact_rate": [
+          1.0,
+          1.0
+        ]
+      },
+      "sample_std": {
+        "disclosure_bits": 0.0,
+        "gap": 0.12629537138523064,
+        "op_exact_rate": 0.12629537138523064,
+        "oracle_exact_rate": 0.0
+      },
+      "seeds": [
+        {
+          "block_count": 32,
+          "disclosure_bits": 92096,
+          "op_exact": 12,
+          "op_failures": 20,
+          "op_undetected": 0,
+          "oracle_exact": 32,
+          "oracle_failures": 0,
+          "oracle_undetected": 0,
+          "paired_gap": 0.625,
+          "seed": 2026091450
+        },
+        {
+          "block_count": 32,
+          "disclosure_bits": 92096,
+          "op_exact": 15,
+          "op_failures": 17,
+          "op_undetected": 0,
+          "oracle_exact": 32,
+          "oracle_failures": 0,
+          "oracle_undetected": 0,
+          "paired_gap": 0.53125,
+          "seed": 2026091451
+        },
+        {
+          "block_count": 32,
+          "disclosure_bits": 92096,
+          "op_exact": 20,
+          "op_failures": 12,
+          "op_undetected": 0,
+          "oracle_exact": 32,
+          "oracle_failures": 0,
+          "oracle_undetected": 0,
+          "paired_gap": 0.375,
+          "seed": 2026091452
+        }
+      ]
+    },
+    {
+      "k1": 64,
+      "k2": 110,
+      "mean": {
+        "disclosure_bits": 59776.0,
+        "gap": 0.0625,
+        "op_exact_rate": 0.5416666666666666,
+        "oracle_exact_rate": 0.6041666666666666
+      },
+      "p2_maxdiff": 0.34875000000000267,
+      "profile": "strong",
+      "range": {
+        "disclosure_bits": [
+          59776.0,
+          59776.0
+        ],
+        "gap": [
+          0.03125,
+          0.09375
+        ],
+        "op_exact_rate": [
+          0.53125,
+          0.5625
+        ],
+        "oracle_exact_rate": [
+          0.59375,
+          0.625
+        ]
+      },
+      "sample_std": {
+        "disclosure_bits": 0.0,
+        "gap": 0.03125,
+        "op_exact_rate": 0.018042195912175804,
+        "oracle_exact_rate": 0.018042195912175804
+      },
+      "seeds": [
+        {
+          "block_count": 32,
+          "disclosure_bits": 59776,
+          "op_exact": 17,
+          "op_failures": 15,
+          "op_undetected": 0,
+          "oracle_exact": 19,
+          "oracle_failures": 13,
+          "oracle_undetected": 0,
+          "paired_gap": 0.0625,
+          "seed": 2026091450
+        },
+        {
+          "block_count": 32,
+          "disclosure_bits": 59776,
+          "op_exact": 17,
+          "op_failures": 15,
+          "op_undetected": 0,
+          "oracle_exact": 20,
+          "oracle_failures": 12,
+          "oracle_undetected": 0,
+          "paired_gap": 0.09375,
+          "seed": 2026091451
+        },
+        {
+          "block_count": 32,
+          "disclosure_bits": 59776,
+          "op_exact": 18,
+          "op_failures": 14,
+          "op_undetected": 0,
+          "oracle_exact": 19,
+          "oracle_failures": 13,
+          "oracle_undetected": 0,
+          "paired_gap": 0.03125,
+          "seed": 2026091452
+        }
+      ]
+    },
+    {
+      "k1": 64,
+      "k2": 140,
+      "mean": {
+        "disclosure_bits": 69376.0,
+        "gap": 0.14583333333333334,
+        "op_exact_rate": 0.8541666666666666,
+        "oracle_exact_rate": 1.0
+      },
+      "p2_maxdiff": 0.34875000000000267,
+      "profile": "strong",
+      "range": {
+        "disclosure_bits": [
+          69376.0,
+          69376.0
+        ],
+        "gap": [
+          0.125,
+          0.15625
+        ],
+        "op_exact_rate": [
+          0.84375,
+          0.875
+        ],
+        "oracle_exact_rate": [
+          1.0,
+          1.0
+        ]
+      },
+      "sample_std": {
+        "disclosure_bits": 0.0,
+        "gap": 0.018042195912175804,
+        "op_exact_rate": 0.018042195912175804,
+        "oracle_exact_rate": 0.0
+      },
+      "seeds": [
+        {
+          "block_count": 32,
+          "disclosure_bits": 69376,
+          "op_exact": 27,
+          "op_failures": 5,
+          "op_undetected": 0,
+          "oracle_exact": 32,
+          "oracle_failures": 0,
+          "oracle_undetected": 0,
+          "paired_gap": 0.15625,
+          "seed": 2026091450
+        },
+        {
+          "block_count": 32,
+          "disclosure_bits": 69376,
+          "op_exact": 27,
+          "op_failures": 5,
+          "op_undetected": 0,
+          "oracle_exact": 32,
+          "oracle_failures": 0,
+          "oracle_undetected": 0,
+          "paired_gap": 0.15625,
+          "seed": 2026091451
+        },
+        {
+          "block_count": 32,
+          "disclosure_bits": 69376,
+          "op_exact": 28,
+          "op_failures": 4,
+          "op_undetected": 0,
+          "oracle_exact": 32,
+          "oracle_failures": 0,
+          "oracle_undetected": 0,
+          "paired_gap": 0.125,
+          "seed": 2026091452
+        }
+      ]
+    },
+    {
+      "k1": 64,
+      "k2": 170,
+      "mean": {
+        "disclosure_bits": 78976.0,
+        "gap": 0.14583333333333334,
+        "op_exact_rate": 0.8541666666666666,
+        "oracle_exact_rate": 1.0
+      },
+      "p2_maxdiff": 0.34875000000000267,
+      "profile": "strong",
+      "range": {
+        "disclosure_bits": [
+          78976.0,
+          78976.0
+        ],
+        "gap": [
+          0.125,
+          0.15625
+        ],
+        "op_exact_rate": [
+          0.84375,
+          0.875
+        ],
+        "oracle_exact_rate": [
+          1.0,
+          1.0
+        ]
+      },
+      "sample_std": {
+        "disclosure_bits": 0.0,
+        "gap": 0.018042195912175804,
+        "op_exact_rate": 0.018042195912175804,
+        "oracle_exact_rate": 0.0
+      },
+      "seeds": [
+        {
+          "block_count": 32,
+          "disclosure_bits": 78976,
+          "op_exact": 27,
+          "op_failures": 5,
+          "op_undetected": 0,
+          "oracle_exact": 32,
+          "oracle_failures": 0,
+          "oracle_undetected": 0,
+          "paired_gap": 0.15625,
+          "seed": 2026091450
+        },
+        {
+          "block_count": 32,
+          "disclosure_bits": 78976,
+          "op_exact": 27,
+          "op_failures": 5,
+          "op_undetected": 0,
+          "oracle_exact": 32,
+          "oracle_failures": 0,
+          "oracle_undetected": 0,
+          "paired_gap": 0.15625,
+          "seed": 2026091451
+        },
+        {
+          "block_count": 32,
+          "disclosure_bits": 78976,
+          "op_exact": 28,
+          "op_failures": 4,
+          "op_undetected": 0,
+          "oracle_exact": 32,
+          "oracle_failures": 0,
+          "oracle_undetected": 0,
+          "paired_gap": 0.125,
+          "seed": 2026091452
+        }
+      ]
+    },
+    {
+      "k1": 64,
+      "k2": 200,
+      "mean": {
+        "disclosure_bits": 88576.0,
+        "gap": 0.14583333333333334,
+        "op_exact_rate": 0.8541666666666666,
+        "oracle_exact_rate": 1.0
+      },
+      "p2_maxdiff": 0.34875000000000267,
+      "profile": "strong",
+      "range": {
+        "disclosure_bits": [
+          88576.0,
+          88576.0
+        ],
+        "gap": [
+          0.125,
+          0.15625
+        ],
+        "op_exact_rate": [
+          0.84375,
+          0.875
+        ],
+        "oracle_exact_rate": [
+          1.0,
+          1.0
+        ]
+      },
+      "sample_std": {
+        "disclosure_bits": 0.0,
+        "gap": 0.018042195912175804,
+        "op_exact_rate": 0.018042195912175804,
+        "oracle_exact_rate": 0.0
+      },
+      "seeds": [
+        {
+          "block_count": 32,
+          "disclosure_bits": 88576,
+          "op_exact": 27,
+          "op_failures": 5,
+          "op_undetected": 0,
+          "oracle_exact": 32,
+          "oracle_failures": 0,
+          "oracle_undetected": 0,
+          "paired_gap": 0.15625,
+          "seed": 2026091450
+        },
+        {
+          "block_count": 32,
+          "disclosure_bits": 88576,
+          "op_exact": 27,
+          "op_failures": 5,
+          "op_undetected": 0,
+          "oracle_exact": 32,
+          "oracle_failures": 0,
+          "oracle_undetected": 0,
+          "paired_gap": 0.15625,
+          "seed": 2026091451
+        },
+        {
+          "block_count": 32,
+          "disclosure_bits": 88576,
+          "op_exact": 28,
+          "op_failures": 4,
+          "op_undetected": 0,
+          "oracle_exact": 32,
+          "oracle_failures": 0,
+          "oracle_undetected": 0,
+          "paired_gap": 0.125,
+          "seed": 2026091452
+        }
+      ]
+    },
+    {
+      "k1": 64,
+      "k2": 230,
+      "mean": {
+        "disclosure_bits": 98176.0,
+        "gap": 0.14583333333333334,
+        "op_exact_rate": 0.8541666666666666,
+        "oracle_exact_rate": 1.0
+      },
+      "p2_maxdiff": 0.34875000000000267,
+      "profile": "strong",
+      "range": {
+        "disclosure_bits": [
+          98176.0,
+          98176.0
+        ],
+        "gap": [
+          0.125,
+          0.15625
+        ],
+        "op_exact_rate": [
+          0.84375,
+          0.875
+        ],
+        "oracle_exact_rate": [
+          1.0,
+          1.0
+        ]
+      },
+      "sample_std": {
+        "disclosure_bits": 0.0,
+        "gap": 0.018042195912175804,
+        "op_exact_rate": 0.018042195912175804,
+        "oracle_exact_rate": 0.0
+      },
+      "seeds": [
+        {
+          "block_count": 32,
+          "disclosure_bits": 98176,
+          "op_exact": 27,
+          "op_failures": 5,
+          "op_undetected": 0,
+          "oracle_exact": 32,
+          "oracle_failures": 0,
+          "oracle_undetected": 0,
+          "paired_gap": 0.15625,
+          "seed": 2026091450
+        },
+        {
+          "block_count": 32,
+          "disclosure_bits": 98176,
+          "op_exact": 27,
+          "op_failures": 5,
+          "op_undetected": 0,
+          "oracle_exact": 32,
+          "oracle_failures": 0,
+          "oracle_undetected": 0,
+          "paired_gap": 0.15625,
+          "seed": 2026091451
+        },
+        {
+          "block_count": 32,
+          "disclosure_bits": 98176,
+          "op_exact": 28,
+          "op_failures": 4,
+          "op_undetected": 0,
+          "oracle_exact": 32,
+          "oracle_failures": 0,
+          "oracle_undetected": 0,
+          "paired_gap": 0.125,
+          "seed": 2026091452
+        }
+      ]
+    },
+    {
+      "k1": 96,
+      "k2": 110,
+      "mean": {
+        "disclosure_bits": 70016.0,
+        "gap": 0.0,
+        "op_exact_rate": 0.6041666666666666,
+        "oracle_exact_rate": 0.6041666666666666
+      },
+      "p2_maxdiff": 0.34875000000000267,
+      "profile": "strong",
+      "range": {
+        "disclosure_bits": [
+          70016.0,
+          70016.0
+        ],
+        "gap": [
+          0.0,
+          0.0
+        ],
+        "op_exact_rate": [
+          0.59375,
+          0.625
+        ],
+        "oracle_exact_rate": [
+          0.59375,
+          0.625
+        ]
+      },
+      "sample_std": {
+        "disclosure_bits": 0.0,
+        "gap": 0.0,
+        "op_exact_rate": 0.018042195912175804,
+        "oracle_exact_rate": 0.018042195912175804
+      },
+      "seeds": [
+        {
+          "block_count": 32,
+          "disclosure_bits": 70016,
+          "op_exact": 19,
+          "op_failures": 13,
+          "op_undetected": 0,
+          "oracle_exact": 19,
+          "oracle_failures": 13,
+          "oracle_undetected": 0,
+          "paired_gap": 0.0,
+          "seed": 2026091450
+        },
+        {
+          "block_count": 32,
+          "disclosure_bits": 70016,
+          "op_exact": 20,
+          "op_failures": 12,
+          "op_undetected": 0,
+          "oracle_exact": 20,
+          "oracle_failures": 12,
+          "oracle_undetected": 0,
+          "paired_gap": 0.0,
+          "seed": 2026091451
+        },
+        {
+          "block_count": 32,
+          "disclosure_bits": 70016,
+          "op_exact": 19,
+          "op_failures": 13,
+          "op_undetected": 0,
+          "oracle_exact": 19,
+          "oracle_failures": 13,
+          "oracle_undetected": 0,
+          "paired_gap": 0.0,
+          "seed": 2026091452
+        }
+      ]
+    },
+    {
+      "k1": 96,
+      "k2": 140,
+      "mean": {
+        "disclosure_bits": 79616.0,
+        "gap": 0.0,
+        "op_exact_rate": 1.0,
+        "oracle_exact_rate": 1.0
+      },
+      "p2_maxdiff": 0.34875000000000267,
+      "profile": "strong",
+      "range": {
+        "disclosure_bits": [
+          79616.0,
+          79616.0
+        ],
+        "gap": [
+          0.0,
+          0.0
+        ],
+        "op_exact_rate": [
+          1.0,
+          1.0
+        ],
+        "oracle_exact_rate": [
+          1.0,
+          1.0
+        ]
+      },
+      "sample_std": {
+        "disclosure_bits": 0.0,
+        "gap": 0.0,
+        "op_exact_rate": 0.0,
+        "oracle_exact_rate": 0.0
+      },
+      "seeds": [
+        {
+          "block_count": 32,
+          "disclosure_bits": 79616,
+          "op_exact": 32,
+          "op_failures": 0,
+          "op_undetected": 0,
+          "oracle_exact": 32,
+          "oracle_failures": 0,
+          "oracle_undetected": 0,
+          "paired_gap": 0.0,
+          "seed": 2026091450
+        },
+        {
+          "block_count": 32,
+          "disclosure_bits": 79616,
+          "op_exact": 32,
+          "op_failures": 0,
+          "op_undetected": 0,
+          "oracle_exact": 32,
+          "oracle_failures": 0,
+          "oracle_undetected": 0,
+          "paired_gap": 0.0,
+          "seed": 2026091451
+        },
+        {
+          "block_count": 32,
+          "disclosure_bits": 79616,
+          "op_exact": 32,
+          "op_failures": 0,
+          "op_undetected": 0,
+          "oracle_exact": 32,
+          "oracle_failures": 0,
+          "oracle_undetected": 0,
+          "paired_gap": 0.0,
+          "seed": 2026091452
+        }
+      ]
+    },
+    {
+      "k1": 96,
+      "k2": 170,
+      "mean": {
+        "disclosure_bits": 89216.0,
+        "gap": 0.0,
+        "op_exact_rate": 1.0,
+        "oracle_exact_rate": 1.0
+      },
+      "p2_maxdiff": 0.34875000000000267,
+      "profile": "strong",
+      "range": {
+        "disclosure_bits": [
+          89216.0,
+          89216.0
+        ],
+        "gap": [
+          0.0,
+          0.0
+        ],
+        "op_exact_rate": [
+          1.0,
+          1.0
+        ],
+        "oracle_exact_rate": [
+          1.0,
+          1.0
+        ]
+      },
+      "sample_std": {
+        "disclosure_bits": 0.0,
+        "gap": 0.0,
+        "op_exact_rate": 0.0,
+        "oracle_exact_rate": 0.0
+      },
+      "seeds": [
+        {
+          "block_count": 32,
+          "disclosure_bits": 89216,
+          "op_exact": 32,
+          "op_failures": 0,
+          "op_undetected": 0,
+          "oracle_exact": 32,
+          "oracle_failures": 0,
+          "oracle_undetected": 0,
+          "paired_gap": 0.0,
+          "seed": 2026091450
+        },
+        {
+          "block_count": 32,
+          "disclosure_bits": 89216,
+          "op_exact": 32,
+          "op_failures": 0,
+          "op_undetected": 0,
+          "oracle_exact": 32,
+          "oracle_failures": 0,
+          "oracle_undetected": 0,
+          "paired_gap": 0.0,
+          "seed": 2026091451
+        },
+        {
+          "block_count": 32,
+          "disclosure_bits": 89216,
+          "op_exact": 32,
+          "op_failures": 0,
+          "op_undetected": 0,
+          "oracle_exact": 32,
+          "oracle_failures": 0,
+          "oracle_undetected": 0,
+          "paired_gap": 0.0,
+          "seed": 2026091452
+        }
+      ]
+    },
+    {
+      "k1": 96,
+      "k2": 200,
+      "mean": {
+        "disclosure_bits": 98816.0,
+        "gap": 0.0,
+        "op_exact_rate": 1.0,
+        "oracle_exact_rate": 1.0
+      },
+      "p2_maxdiff": 0.34875000000000267,
+      "profile": "strong",
+      "range": {
+        "disclosure_bits": [
+          98816.0,
+          98816.0
+        ],
+        "gap": [
+          0.0,
+          0.0
+        ],
+        "op_exact_rate": [
+          1.0,
+          1.0
+        ],
+        "oracle_exact_rate": [
+          1.0,
+          1.0
+        ]
+      },
+      "sample_std": {
+        "disclosure_bits": 0.0,
+        "gap": 0.0,
+        "op_exact_rate": 0.0,
+        "oracle_exact_rate": 0.0
+      },
+      "seeds": [
+        {
+          "block_count": 32,
+          "disclosure_bits": 98816,
+          "op_exact": 32,
+          "op_failures": 0,
+          "op_undetected": 0,
+          "oracle_exact": 32,
+          "oracle_failures": 0,
+          "oracle_undetected": 0,
+          "paired_gap": 0.0,
+          "seed": 2026091450
+        },
+        {
+          "block_count": 32,
+          "disclosure_bits": 98816,
+          "op_exact": 32,
+          "op_failures": 0,
+          "op_undetected": 0,
+          "oracle_exact": 32,
+          "oracle_failures": 0,
+          "oracle_undetected": 0,
+          "paired_gap": 0.0,
+          "seed": 2026091451
+        },
+        {
+          "block_count": 32,
+          "disclosure_bits": 98816,
+          "op_exact": 32,
+          "op_failures": 0,
+          "op_undetected": 0,
+          "oracle_exact": 32,
+          "oracle_failures": 0,
+          "oracle_undetected": 0,
+          "paired_gap": 0.0,
+          "seed": 2026091452
+        }
+      ]
+    },
+    {
+      "k1": 96,
+      "k2": 230,
+      "mean": {
+        "disclosure_bits": 108416.0,
+        "gap": 0.0,
+        "op_exact_rate": 1.0,
+        "oracle_exact_rate": 1.0
+      },
+      "p2_maxdiff": 0.34875000000000267,
+      "profile": "strong",
+      "range": {
+        "disclosure_bits": [
+          108416.0,
+          108416.0
+        ],
+        "gap": [
+          0.0,
+          0.0
+        ],
+        "op_exact_rate": [
+          1.0,
+          1.0
+        ],
+        "oracle_exact_rate": [
+          1.0,
+          1.0
+        ]
+      },
+      "sample_std": {
+        "disclosure_bits": 0.0,
+        "gap": 0.0,
+        "op_exact_rate": 0.0,
+        "oracle_exact_rate": 0.0
+      },
+      "seeds": [
+        {
+          "block_count": 32,
+          "disclosure_bits": 108416,
+          "op_exact": 32,
+          "op_failures": 0,
+          "op_undetected": 0,
+          "oracle_exact": 32,
+          "oracle_failures": 0,
+          "oracle_undetected": 0,
+          "paired_gap": 0.0,
+          "seed": 2026091450
+        },
+        {
+          "block_count": 32,
+          "disclosure_bits": 108416,
+          "op_exact": 32,
+          "op_failures": 0,
+          "op_undetected": 0,
+          "oracle_exact": 32,
+          "oracle_failures": 0,
+          "oracle_undetected": 0,
+          "paired_gap": 0.0,
+          "seed": 2026091451
+        },
+        {
+          "block_count": 32,
+          "disclosure_bits": 108416,
+          "op_exact": 32,
+          "op_failures": 0,
+          "op_undetected": 0,
+          "oracle_exact": 32,
+          "oracle_failures": 0,
+          "oracle_undetected": 0,
+          "paired_gap": 0.0,
+          "seed": 2026091452
+        }
+      ]
+    },
+    {
+      "k1": 128,
+      "k2": 110,
+      "mean": {
+        "disclosure_bits": 80256.0,
+        "gap": 0.0,
+        "op_exact_rate": 0.6041666666666666,
+        "oracle_exact_rate": 0.6041666666666666
+      },
+      "p2_maxdiff": 0.34875000000000267,
+      "profile": "strong",
+      "range": {
+        "disclosure_bits": [
+          80256.0,
+          80256.0
+        ],
+        "gap": [
+          0.0,
+          0.0
+        ],
+        "op_exact_rate": [
+          0.59375,
+          0.625
+        ],
+        "oracle_exact_rate": [
+          0.59375,
+          0.625
+        ]
+      },
+      "sample_std": {
+        "disclosure_bits": 0.0,
+        "gap": 0.0,
+        "op_exact_rate": 0.018042195912175804,
+        "oracle_exact_rate": 0.018042195912175804
+      },
+      "seeds": [
+        {
+          "block_count": 32,
+          "disclosure_bits": 80256,
+          "op_exact": 19,
+          "op_failures": 13,
+          "op_undetected": 0,
+          "oracle_exact": 19,
+          "oracle_failures": 13,
+          "oracle_undetected": 0,
+          "paired_gap": 0.0,
+          "seed": 2026091450
+        },
+        {
+          "block_count": 32,
+          "disclosure_bits": 80256,
+          "op_exact": 20,
+          "op_failures": 12,
+          "op_undetected": 0,
+          "oracle_exact": 20,
+          "oracle_failures": 12,
+          "oracle_undetected": 0,
+          "paired_gap": 0.0,
+          "seed": 2026091451
+        },
+        {
+          "block_count": 32,
+          "disclosure_bits": 80256,
+          "op_exact": 19,
+          "op_failures": 13,
+          "op_undetected": 0,
+          "oracle_exact": 19,
+          "oracle_failures": 13,
+          "oracle_undetected": 0,
+          "paired_gap": 0.0,
+          "seed": 2026091452
+        }
+      ]
+    },
+    {
+      "k1": 128,
+      "k2": 140,
+      "mean": {
+        "disclosure_bits": 89856.0,
+        "gap": 0.0,
+        "op_exact_rate": 1.0,
+        "oracle_exact_rate": 1.0
+      },
+      "p2_maxdiff": 0.34875000000000267,
+      "profile": "strong",
+      "range": {
+        "disclosure_bits": [
+          89856.0,
+          89856.0
+        ],
+        "gap": [
+          0.0,
+          0.0
+        ],
+        "op_exact_rate": [
+          1.0,
+          1.0
+        ],
+        "oracle_exact_rate": [
+          1.0,
+          1.0
+        ]
+      },
+      "sample_std": {
+        "disclosure_bits": 0.0,
+        "gap": 0.0,
+        "op_exact_rate": 0.0,
+        "oracle_exact_rate": 0.0
+      },
+      "seeds": [
+        {
+          "block_count": 32,
+          "disclosure_bits": 89856,
+          "op_exact": 32,
+          "op_failures": 0,
+          "op_undetected": 0,
+          "oracle_exact": 32,
+          "oracle_failures": 0,
+          "oracle_undetected": 0,
+          "paired_gap": 0.0,
+          "seed": 2026091450
+        },
+        {
+          "block_count": 32,
+          "disclosure_bits": 89856,
+          "op_exact": 32,
+          "op_failures": 0,
+          "op_undetected": 0,
+          "oracle_exact": 32,
+          "oracle_failures": 0,
+          "oracle_undetected": 0,
+          "paired_gap": 0.0,
+          "seed": 2026091451
+        },
+        {
+          "block_count": 32,
+          "disclosure_bits": 89856,
+          "op_exact": 32,
+          "op_failures": 0,
+          "op_undetected": 0,
+          "oracle_exact": 32,
+          "oracle_failures": 0,
+          "oracle_undetected": 0,
+          "paired_gap": 0.0,
+          "seed": 2026091452
+        }
+      ]
+    },
+    {
+      "k1": 128,
+      "k2": 170,
+      "mean": {
+        "disclosure_bits": 99456.0,
+        "gap": 0.0,
+        "op_exact_rate": 1.0,
+        "oracle_exact_rate": 1.0
+      },
+      "p2_maxdiff": 0.34875000000000267,
+      "profile": "strong",
+      "range": {
+        "disclosure_bits": [
+          99456.0,
+          99456.0
+        ],
+        "gap": [
+          0.0,
+          0.0
+        ],
+        "op_exact_rate": [
+          1.0,
+          1.0
+        ],
+        "oracle_exact_rate": [
+          1.0,
+          1.0
+        ]
+      },
+      "sample_std": {
+        "disclosure_bits": 0.0,
+        "gap": 0.0,
+        "op_exact_rate": 0.0,
+        "oracle_exact_rate": 0.0
+      },
+      "seeds": [
+        {
+          "block_count": 32,
+          "disclosure_bits": 99456,
+          "op_exact": 32,
+          "op_failures": 0,
+          "op_undetected": 0,
+          "oracle_exact": 32,
+          "oracle_failures": 0,
+          "oracle_undetected": 0,
+          "paired_gap": 0.0,
+          "seed": 2026091450
+        },
+        {
+          "block_count": 32,
+          "disclosure_bits": 99456,
+          "op_exact": 32,
+          "op_failures": 0,
+          "op_undetected": 0,
+          "oracle_exact": 32,
+          "oracle_failures": 0,
+          "oracle_undetected": 0,
+          "paired_gap": 0.0,
+          "seed": 2026091451
+        },
+        {
+          "block_count": 32,
+          "disclosure_bits": 99456,
+          "op_exact": 32,
+          "op_failures": 0,
+          "op_undetected": 0,
+          "oracle_exact": 32,
+          "oracle_failures": 0,
+          "oracle_undetected": 0,
+          "paired_gap": 0.0,
+          "seed": 2026091452
+        }
+      ]
+    },
+    {
+      "k1": 128,
+      "k2": 200,
+      "mean": {
+        "disclosure_bits": 109056.0,
+        "gap": 0.0,
+        "op_exact_rate": 1.0,
+        "oracle_exact_rate": 1.0
+      },
+      "p2_maxdiff": 0.34875000000000267,
+      "profile": "strong",
+      "range": {
+        "disclosure_bits": [
+          109056.0,
+          109056.0
+        ],
+        "gap": [
+          0.0,
+          0.0
+        ],
+        "op_exact_rate": [
+          1.0,
+          1.0
+        ],
+        "oracle_exact_rate": [
+          1.0,
+          1.0
+        ]
+      },
+      "sample_std": {
+        "disclosure_bits": 0.0,
+        "gap": 0.0,
+        "op_exact_rate": 0.0,
+        "oracle_exact_rate": 0.0
+      },
+      "seeds": [
+        {
+          "block_count": 32,
+          "disclosure_bits": 109056,
+          "op_exact": 32,
+          "op_failures": 0,
+          "op_undetected": 0,
+          "oracle_exact": 32,
+          "oracle_failures": 0,
+          "oracle_undetected": 0,
+          "paired_gap": 0.0,
+          "seed": 2026091450
+        },
+        {
+          "block_count": 32,
+          "disclosure_bits": 109056,
+          "op_exact": 32,
+          "op_failures": 0,
+          "op_undetected": 0,
+          "oracle_exact": 32,
+          "oracle_failures": 0,
+          "oracle_undetected": 0,
+          "paired_gap": 0.0,
+          "seed": 2026091451
+        },
+        {
+          "block_count": 32,
+          "disclosure_bits": 109056,
+          "op_exact": 32,
+          "op_failures": 0,
+          "op_undetected": 0,
+          "oracle_exact": 32,
+          "oracle_failures": 0,
+          "oracle_undetected": 0,
+          "paired_gap": 0.0,
+          "seed": 2026091452
+        }
+      ]
+    },
+    {
+      "k1": 128,
+      "k2": 230,
+      "mean": {
+        "disclosure_bits": 118656.0,
+        "gap": 0.0,
+        "op_exact_rate": 1.0,
+        "oracle_exact_rate": 1.0
+      },
+      "p2_maxdiff": 0.34875000000000267,
+      "profile": "strong",
+      "range": {
+        "disclosure_bits": [
+          118656.0,
+          118656.0
+        ],
+        "gap": [
+          0.0,
+          0.0
+        ],
+        "op_exact_rate": [
+          1.0,
+          1.0
+        ],
+        "oracle_exact_rate": [
+          1.0,
+          1.0
+        ]
+      },
+      "sample_std": {
+        "disclosure_bits": 0.0,
+        "gap": 0.0,
+        "op_exact_rate": 0.0,
+        "oracle_exact_rate": 0.0
+      },
+      "seeds": [
+        {
+          "block_count": 32,
+          "disclosure_bits": 118656,
+          "op_exact": 32,
+          "op_failures": 0,
+          "op_undetected": 0,
+          "oracle_exact": 32,
+          "oracle_failures": 0,
+          "oracle_undetected": 0,
+          "paired_gap": 0.0,
+          "seed": 2026091450
+        },
+        {
+          "block_count": 32,
+          "disclosure_bits": 118656,
+          "op_exact": 32,
+          "op_failures": 0,
+          "op_undetected": 0,
+          "oracle_exact": 32,
+          "oracle_failures": 0,
+          "oracle_undetected": 0,
+          "paired_gap": 0.0,
+          "seed": 2026091451
+        },
+        {
+          "block_count": 32,
+          "disclosure_bits": 118656,
+          "op_exact": 32,
+          "op_failures": 0,
+          "op_undetected": 0,
+          "oracle_exact": 32,
+          "oracle_failures": 0,
+          "oracle_undetected": 0,
+          "paired_gap": 0.0,
+          "seed": 2026091452
+        }
+      ]
+    }
+  ],
+  "created_utc": "2026-09-13T08:53:31Z",
+  "epsilon1": 0.05,
+  "interpreter": "/mnt/d/Code/HD-QKD_Polar_Comparison/.venv/bin/python",
+  "k1_values": [
+    45,
+    64,
+    96,
+    128
+  ],
+  "k2_values": [
+    110,
+    140,
+    170,
+    200,
+    230
+  ],
+  "n": 256,
+  "notes": {
+    "disclosure_bits_definition": "per seed, sum of key_dependent_bits over all 32 paired blocks and both arms (operational + oracle); each fully invoked arm discloses 5*(k1+k2)+64 bits",
+    "execution_staging": "executed decoder body staged via /tmp/x02_body.log and run as 'python - < /tmp/x02_body.log'; script_only_fix_applied=True; frozen_body_sha256=2047a51c230fadb92b0ac232df024d9689d1e2fdade66b01962bd6d438a56776; executed_body_sha256=db852a55828cb19c6056946619b0345118e7b28cf2cfad6e204b97e0d734a26e",
+    "master_verification": {
+      "arms": [
+        "operational",
+        "oracle"
+      ],
+      "block_index": 0,
+      "distinct_masters": 3,
+      "independent_msb_first_sha256_match": true,
+      "points_checked": 9,
+      "scheme": "public tag master = seed + 10000",
+      "tag_seeds_recomputed": 18
+    },
+    "p2_maxdiff_definition": "max over (b, u2) of (max_u1 P2[u1,b,u2] - min_u1 P2[u1,b,u2]) computed on the injected profile joint table before any decode; equals the exact cross-u1 all-pairs maximum absolute difference",
+    "pairing_choice": "one block stream per (profile, seed) sampled once and reused across all 20 (K1, K2) configurations of that (profile, seed); operational and oracle arms share each block and its disclosures by construction",
+    "sampling_order": "per block: high uniform, low uniform, B_high erasure mask (epsilon1=0.05) plus replacements, B_low erasure mask (epsilon2(high)) plus replacements; explicit np.random.default_rng(seed) per (profile, seed), no global RNG",
+    "sanity": {
+      "nonfinite_arms": 0,
+      "paired_block_calls": 5760,
+      "truth_leak_violations": 0
+    },
+    "scope": "Tier-X non-claim probe; screening labels only, no threshold verdict, candidate, attempt accounting or scientific status",
+    "script_only_fix": "n=1 failed before any decoder call at the master injectivity assertion, which wrongly compared the 9 profile-duplicated (profile, seed) points instead of the 3 distinct SEEDS; fixed with 'masters = [s + OFF for s in SEEDS]' in the staged body. No frozen parameter, model, seed, profile, K set, block count or decoding semantic changed. The pre-fix frozen prereg sha256 (4a9320af61f1583bc457ae0af4bb6955df5087637ba88dbc651cc3da69d047e0) and its verbatim command text are preserved in results.json commands[0].",
+    "table_normalization_max_col_deviation": {
+      "medium": 3.3306690738754696e-15,
+      "strong": 3.774758283725532e-15,
+      "weak": 6.772360450213455e-15
+    }
+  },
+  "numpy_version": "2.5.3",
+  "prereg_sha256": "4a9320af61f1583bc457ae0af4bb6955df5087637ba88dbc651cc3da69d047e0",
+  "probe_id": "nbpolar_x02_dependent_l2_point_search",
+  "profile_epsilon2_formulas": {
+    "medium": "0.08 + 0.24*u1/31",
+    "strong": "0.02 + 0.36*u1/31",
+    "weak": "0.14 + 0.12*u1/31"
+  },
+  "python_version": "3.12.3",
+  "ranking": [
+    {
+      "disclosure_bits_total": 189888,
+      "gap_mean": 0.5104166666666666,
+      "k1": 45,
+      "k2": 140,
+      "op_exact_rate_mean": 0.4895833333333333,
+      "oracle_exact_rate_mean": 1.0,
+      "p2_maxdiff": 0.34875000000000267,
+      "profile": "strong",
+      "rank": 1
+    },
+    {
+      "disclosure_bits_total": 218688,
+      "gap_mean": 0.5104166666666666,
+      "k1": 45,
+      "k2": 170,
+      "op_exact_rate_mean": 0.4895833333333333,
+      "oracle_exact_rate_mean": 1.0,
+      "p2_maxdiff": 0.34875000000000267,
+      "profile": "strong",
+      "rank": 2
+    },
+    {
+      "disclosure_bits_total": 247488,
+      "gap_mean": 0.5104166666666666,
+      "k1": 45,
+      "k2": 200,
+      "op_exact_rate_mean": 0.4895833333333333,
+      "oracle_exact_rate_mean": 1.0,
+      "p2_maxdiff": 0.34875000000000267,
+      "profile": "strong",
+      "rank": 3
+    },
+    {
+      "disclosure_bits_total": 276288,
+      "gap_mean": 0.5104166666666666,
+      "k1": 45,
+      "k2": 230,
+      "op_exact_rate_mean": 0.4895833333333333,
+      "oracle_exact_rate_mean": 1.0,
+      "p2_maxdiff": 0.34875000000000267,
+      "profile": "strong",
+      "rank": 4
+    },
+    {
+      "disclosure_bits_total": 218688,
+      "gap_mean": 0.40625,
+      "k1": 45,
+      "k2": 170,
+      "op_exact_rate_mean": 0.59375,
+      "oracle_exact_rate_mean": 1.0,
+      "p2_maxdiff": 0.2325000000000006,
+      "profile": "medium",
+      "rank": 5
+    },
+    {
+      "disclosure_bits_total": 218688,
+      "gap_mean": 0.40625,
+      "k1": 45,
+      "k2": 170,
+      "op_exact_rate_mean": 0.59375,
+      "oracle_exact_rate_mean": 1.0,
+      "p2_maxdiff": 0.11625000000000252,
+      "profile": "weak",
+      "rank": 6
+    },
+    {
+      "disclosure_bits_total": 247488,
+      "gap_mean": 0.40625,
+      "k1": 45,
+      "k2": 200,
+      "op_exact_rate_mean": 0.59375,
+      "oracle_exact_rate_mean": 1.0,
+      "p2_maxdiff": 0.2325000000000006,
+      "profile": "medium",
+      "rank": 7
+    },
+    {
+      "disclosure_bits_total": 247488,
+      "gap_mean": 0.40625,
+      "k1": 45,
+      "k2": 200,
+      "op_exact_rate_mean": 0.59375,
+      "oracle_exact_rate_mean": 1.0,
+      "p2_maxdiff": 0.11625000000000252,
+      "profile": "weak",
+      "rank": 8
+    },
+    {
+      "disclosure_bits_total": 276288,
+      "gap_mean": 0.40625,
+      "k1": 45,
+      "k2": 230,
+      "op_exact_rate_mean": 0.59375,
+      "oracle_exact_rate_mean": 1.0,
+      "p2_maxdiff": 0.2325000000000006,
+      "profile": "medium",
+      "rank": 9
+    },
+    {
+      "disclosure_bits_total": 276288,
+      "gap_mean": 0.40625,
+      "k1": 45,
+      "k2": 230,
+      "op_exact_rate_mean": 0.59375,
+      "oracle_exact_rate_mean": 1.0,
+      "p2_maxdiff": 0.11625000000000252,
+      "profile": "weak",
+      "rank": 10
+    },
+    {
+      "disclosure_bits_total": 208128,
+      "gap_mean": 0.14583333333333334,
+      "k1": 64,
+      "k2": 140,
+      "op_exact_rate_mean": 0.8541666666666666,
+      "oracle_exact_rate_mean": 1.0,
+      "p2_maxdiff": 0.34875000000000267,
+      "profile": "strong",
+      "rank": 11
+    },
+    {
+      "disclosure_bits_total": 236928,
+      "gap_mean": 0.14583333333333334,
+      "k1": 64,
+      "k2": 170,
+      "op_exact_rate_mean": 0.8541666666666666,
+      "oracle_exact_rate_mean": 1.0,
+      "p2_maxdiff": 0.34875000000000267,
+      "profile": "strong",
+      "rank": 12
+    },
+    {
+      "disclosure_bits_total": 265728,
+      "gap_mean": 0.14583333333333334,
+      "k1": 64,
+      "k2": 200,
+      "op_exact_rate_mean": 0.8541666666666666,
+      "oracle_exact_rate_mean": 1.0,
+      "p2_maxdiff": 0.34875000000000267,
+      "profile": "strong",
+      "rank": 13
+    },
+    {
+      "disclosure_bits_total": 294528,
+      "gap_mean": 0.14583333333333334,
+      "k1": 64,
+      "k2": 230,
+      "op_exact_rate_mean": 0.8541666666666666,
+      "oracle_exact_rate_mean": 1.0,
+      "p2_maxdiff": 0.34875000000000267,
+      "profile": "strong",
+      "rank": 14
+    },
+    {
+      "disclosure_bits_total": 236928,
+      "gap_mean": 0.09375,
+      "k1": 64,
+      "k2": 170,
+      "op_exact_rate_mean": 0.90625,
+      "oracle_exact_rate_mean": 1.0,
+      "p2_maxdiff": 0.11625000000000252,
+      "profile": "weak",
+      "rank": 15
+    },
+    {
+      "disclosure_bits_total": 265728,
+      "gap_mean": 0.09375,
+      "k1": 64,
+      "k2": 200,
+      "op_exact_rate_mean": 0.90625,
+      "oracle_exact_rate_mean": 1.0,
+      "p2_maxdiff": 0.11625000000000252,
+      "profile": "weak",
+      "rank": 16
+    },
+    {
+      "disclosure_bits_total": 294528,
+      "gap_mean": 0.09375,
+      "k1": 64,
+      "k2": 230,
+      "op_exact_rate_mean": 0.90625,
+      "oracle_exact_rate_mean": 1.0,
+      "p2_maxdiff": 0.11625000000000252,
+      "profile": "weak",
+      "rank": 17
+    },
+    {
+      "disclosure_bits_total": 236928,
+      "gap_mean": 0.041666666666666664,
+      "k1": 64,
+      "k2": 170,
+      "op_exact_rate_mean": 0.9583333333333334,
+      "oracle_exact_rate_mean": 1.0,
+      "p2_maxdiff": 0.2325000000000006,
+      "profile": "medium",
+      "rank": 18
+    },
+    {
+      "disclosure_bits_total": 265728,
+      "gap_mean": 0.041666666666666664,
+      "k1": 64,
+      "k2": 200,
+      "op_exact_rate_mean": 0.9583333333333334,
+      "oracle_exact_rate_mean": 1.0,
+      "p2_maxdiff": 0.2325000000000006,
+      "profile": "medium",
+      "rank": 19
+    },
+    {
+      "disclosure_bits_total": 294528,
+      "gap_mean": 0.041666666666666664,
+      "k1": 64,
+      "k2": 230,
+      "op_exact_rate_mean": 0.9583333333333334,
+      "oracle_exact_rate_mean": 1.0,
+      "p2_maxdiff": 0.2325000000000006,
+      "profile": "medium",
+      "rank": 20
+    },
+    {
+      "disclosure_bits_total": 238848,
+      "gap_mean": 0.0,
+      "k1": 96,
+      "k2": 140,
+      "op_exact_rate_mean": 1.0,
+      "oracle_exact_rate_mean": 1.0,
+      "p2_maxdiff": 0.34875000000000267,
+      "profile": "strong",
+      "rank": 21
+    },
+    {
+      "disclosure_bits_total": 267648,
+      "gap_mean": 0.0,
+      "k1": 96,
+      "k2": 170,
+      "op_exact_rate_mean": 1.0,
+      "oracle_exact_rate_mean": 1.0,
+      "p2_maxdiff": 0.2325000000000006,
+      "profile": "medium",
+      "rank": 22
+    },
+    {
+      "disclosure_bits_total": 267648,
+      "gap_mean": 0.0,
+      "k1": 96,
+      "k2": 170,
+      "op_exact_rate_mean": 1.0,
+      "oracle_exact_rate_mean": 1.0,
+      "p2_maxdiff": 0.34875000000000267,
+      "profile": "strong",
+      "rank": 23
+    },
+    {
+      "disclosure_bits_total": 267648,
+      "gap_mean": 0.0,
+      "k1": 96,
+      "k2": 170,
+      "op_exact_rate_mean": 1.0,
+      "oracle_exact_rate_mean": 1.0,
+      "p2_maxdiff": 0.11625000000000252,
+      "profile": "weak",
+      "rank": 24
+    },
+    {
+      "disclosure_bits_total": 269568,
+      "gap_mean": 0.0,
+      "k1": 128,
+      "k2": 140,
+      "op_exact_rate_mean": 1.0,
+      "oracle_exact_rate_mean": 1.0,
+      "p2_maxdiff": 0.34875000000000267,
+      "profile": "strong",
+      "rank": 25
+    },
+    {
+      "disclosure_bits_total": 296448,
+      "gap_mean": 0.0,
+      "k1": 96,
+      "k2": 200,
+      "op_exact_rate_mean": 1.0,
+      "oracle_exact_rate_mean": 1.0,
+      "p2_maxdiff": 0.2325000000000006,
+      "profile": "medium",
+      "rank": 26
+    },
+    {
+      "disclosure_bits_total": 296448,
+      "gap_mean": 0.0,
+      "k1": 96,
+      "k2": 200,
+      "op_exact_rate_mean": 1.0,
+      "oracle_exact_rate_mean": 1.0,
+      "p2_maxdiff": 0.34875000000000267,
+      "profile": "strong",
+      "rank": 27
+    },
+    {
+      "disclosure_bits_total": 296448,
+      "gap_mean": 0.0,
+      "k1": 96,
+      "k2": 200,
+      "op_exact_rate_mean": 1.0,
+      "oracle_exact_rate_mean": 1.0,
+      "p2_maxdiff": 0.11625000000000252,
+      "profile": "weak",
+      "rank": 28
+    },
+    {
+      "disclosure_bits_total": 298368,
+      "gap_mean": 0.0,
+      "k1": 128,
+      "k2": 170,
+      "op_exact_rate_mean": 1.0,
+      "oracle_exact_rate_mean": 1.0,
+      "p2_maxdiff": 0.2325000000000006,
+      "profile": "medium",
+      "rank": 29
+    },
+    {
+      "disclosure_bits_total": 298368,
+      "gap_mean": 0.0,
+      "k1": 128,
+      "k2": 170,
+      "op_exact_rate_mean": 1.0,
+      "oracle_exact_rate_mean": 1.0,
+      "p2_maxdiff": 0.34875000000000267,
+      "profile": "strong",
+      "rank": 30
+    },
+    {
+      "disclosure_bits_total": 298368,
+      "gap_mean": 0.0,
+      "k1": 128,
+      "k2": 170,
+      "op_exact_rate_mean": 1.0,
+      "oracle_exact_rate_mean": 1.0,
+      "p2_maxdiff": 0.11625000000000252,
+      "profile": "weak",
+      "rank": 31
+    },
+    {
+      "disclosure_bits_total": 325248,
+      "gap_mean": 0.0,
+      "k1": 96,
+      "k2": 230,
+      "op_exact_rate_mean": 1.0,
+      "oracle_exact_rate_mean": 1.0,
+      "p2_maxdiff": 0.2325000000000006,
+      "profile": "medium",
+      "rank": 32
+    },
+    {
+      "disclosure_bits_total": 325248,
+      "gap_mean": 0.0,
+      "k1": 96,
+      "k2": 230,
+      "op_exact_rate_mean": 1.0,
+      "oracle_exact_rate_mean": 1.0,
+      "p2_maxdiff": 0.34875000000000267,
+      "profile": "strong",
+      "rank": 33
+    },
+    {
+      "disclosure_bits_total": 325248,
+      "gap_mean": 0.0,
+      "k1": 96,
+      "k2": 230,
+      "op_exact_rate_mean": 1.0,
+      "oracle_exact_rate_mean": 1.0,
+      "p2_maxdiff": 0.11625000000000252,
+      "profile": "weak",
+      "rank": 34
+    },
+    {
+      "disclosure_bits_total": 327168,
+      "gap_mean": 0.0,
+      "k1": 128,
+      "k2": 200,
+      "op_exact_rate_mean": 1.0,
+      "oracle_exact_rate_mean": 1.0,
+      "p2_maxdiff": 0.2325000000000006,
+      "profile": "medium",
+      "rank": 35
+    },
+    {
+      "disclosure_bits_total": 327168,
+      "gap_mean": 0.0,
+      "k1": 128,
+      "k2": 200,
+      "op_exact_rate_mean": 1.0,
+      "oracle_exact_rate_mean": 1.0,
+      "p2_maxdiff": 0.34875000000000267,
+      "profile": "strong",
+      "rank": 36
+    },
+    {
+      "disclosure_bits_total": 327168,
+      "gap_mean": 0.0,
+      "k1": 128,
+      "k2": 200,
+      "op_exact_rate_mean": 1.0,
+      "oracle_exact_rate_mean": 1.0,
+      "p2_maxdiff": 0.11625000000000252,
+      "profile": "weak",
+      "rank": 37
+    },
+    {
+      "disclosure_bits_total": 355968,
+      "gap_mean": 0.0,
+      "k1": 128,
+      "k2": 230,
+      "op_exact_rate_mean": 1.0,
+      "oracle_exact_rate_mean": 1.0,
+      "p2_maxdiff": 0.2325000000000006,
+      "profile": "medium",
+      "rank": 38
+    },
+    {
+      "disclosure_bits_total": 355968,
+      "gap_mean": 0.0,
+      "k1": 128,
+      "k2": 230,
+      "op_exact_rate_mean": 1.0,
+      "oracle_exact_rate_mean": 1.0,
+      "p2_maxdiff": 0.34875000000000267,
+      "profile": "strong",
+      "rank": 39
+    },
+    {
+      "disclosure_bits_total": 355968,
+      "gap_mean": 0.0,
+      "k1": 128,
+      "k2": 230,
+      "op_exact_rate_mean": 1.0,
+      "oracle_exact_rate_mean": 1.0,
+      "p2_maxdiff": 0.11625000000000252,
+      "profile": "weak",
+      "rank": 40
+    },
+    {
+      "disclosure_bits_total": 189888,
+      "gap_mean": 0.40625,
+      "k1": 45,
+      "k2": 140,
+      "op_exact_rate_mean": 0.5833333333333334,
+      "oracle_exact_rate_mean": 0.9895833333333334,
+      "p2_maxdiff": 0.11625000000000252,
+      "profile": "weak",
+      "rank": 41
+    },
+    {
+      "disclosure_bits_total": 189888,
+      "gap_mean": 0.3958333333333333,
+      "k1": 45,
+      "k2": 140,
+      "op_exact_rate_mean": 0.59375,
+      "oracle_exact_rate_mean": 0.9895833333333334,
+      "p2_maxdiff": 0.2325000000000006,
+      "profile": "medium",
+      "rank": 42
+    },
+    {
+      "disclosure_bits_total": 208128,
+      "gap_mean": 0.09375,
+      "k1": 64,
+      "k2": 140,
+      "op_exact_rate_mean": 0.8958333333333334,
+      "oracle_exact_rate_mean": 0.9895833333333334,
+      "p2_maxdiff": 0.11625000000000252,
+      "profile": "weak",
+      "rank": 43
+    },
+    {
+      "disclosure_bits_total": 208128,
+      "gap_mean": 0.03125,
+      "k1": 64,
+      "k2": 140,
+      "op_exact_rate_mean": 0.9583333333333334,
+      "oracle_exact_rate_mean": 0.9895833333333334,
+      "p2_maxdiff": 0.2325000000000006,
+      "profile": "medium",
+      "rank": 44
+    },
+    {
+      "disclosure_bits_total": 238848,
+      "gap_mean": 0.0,
+      "k1": 96,
+      "k2": 140,
+      "op_exact_rate_mean": 0.9895833333333334,
+      "oracle_exact_rate_mean": 0.9895833333333334,
+      "p2_maxdiff": 0.2325000000000006,
+      "profile": "medium",
+      "rank": 45
+    },
+    {
+      "disclosure_bits_total": 238848,
+      "gap_mean": 0.0,
+      "k1": 96,
+      "k2": 140,
+      "op_exact_rate_mean": 0.9895833333333334,
+      "oracle_exact_rate_mean": 0.9895833333333334,
+      "p2_maxdiff": 0.11625000000000252,
+      "profile": "weak",
+      "rank": 46
+    },
+    {
+      "disclosure_bits_total": 269568,
+      "gap_mean": 0.0,
+      "k1": 128,
+      "k2": 140,
+      "op_exact_rate_mean": 0.9895833333333334,
+      "oracle_exact_rate_mean": 0.9895833333333334,
+      "p2_maxdiff": 0.2325000000000006,
+      "profile": "medium",
+      "rank": 47
+    },
+    {
+      "disclosure_bits_total": 269568,
+      "gap_mean": 0.0,
+      "k1": 128,
+      "k2": 140,
+      "op_exact_rate_mean": 0.9895833333333334,
+      "oracle_exact_rate_mean": 0.9895833333333334,
+      "p2_maxdiff": 0.11625000000000252,
+      "profile": "weak",
+      "rank": 48
+    },
+    {
+      "disclosure_bits_total": 161088,
+      "gap_mean": 0.2916666666666667,
+      "k1": 45,
+      "k2": 110,
+      "op_exact_rate_mean": 0.3125,
+      "oracle_exact_rate_mean": 0.6041666666666666,
+      "p2_maxdiff": 0.34875000000000267,
+      "profile": "strong",
+      "rank": 49
+    },
+    {
+      "disclosure_bits_total": 179328,
+      "gap_mean": 0.0625,
+      "k1": 64,
+      "k2": 110,
+      "op_exact_rate_mean": 0.5416666666666666,
+      "oracle_exact_rate_mean": 0.6041666666666666,
+      "p2_maxdiff": 0.34875000000000267,
+      "profile": "strong",
+      "rank": 50
+    },
+    {
+      "disclosure_bits_total": 210048,
+      "gap_mean": 0.0,
+      "k1": 96,
+      "k2": 110,
+      "op_exact_rate_mean": 0.6041666666666666,
+      "oracle_exact_rate_mean": 0.6041666666666666,
+      "p2_maxdiff": 0.34875000000000267,
+      "profile": "strong",
+      "rank": 51
+    },
+    {
+      "disclosure_bits_total": 240768,
+      "gap_mean": 0.0,
+      "k1": 128,
+      "k2": 110,
+      "op_exact_rate_mean": 0.6041666666666666,
+      "oracle_exact_rate_mean": 0.6041666666666666,
+      "p2_maxdiff": 0.34875000000000267,
+      "profile": "strong",
+      "rank": 52
+    },
+    {
+      "disclosure_bits_total": 161088,
+      "gap_mean": 0.19791666666666666,
+      "k1": 45,
+      "k2": 110,
+      "op_exact_rate_mean": 0.3229166666666667,
+      "oracle_exact_rate_mean": 0.5208333333333334,
+      "p2_maxdiff": 0.2325000000000006,
+      "profile": "medium",
+      "rank": 53
+    },
+    {
+      "disclosure_bits_total": 179328,
+      "gap_mean": 0.020833333333333332,
+      "k1": 64,
+      "k2": 110,
+      "op_exact_rate_mean": 0.5,
+      "oracle_exact_rate_mean": 0.5208333333333334,
+      "p2_maxdiff": 0.2325000000000006,
+      "profile": "medium",
+      "rank": 54
+    },
+    {
+      "disclosure_bits_total": 210048,
+      "gap_mean": 0.0,
+      "k1": 96,
+      "k2": 110,
+      "op_exact_rate_mean": 0.5208333333333334,
+      "oracle_exact_rate_mean": 0.5208333333333334,
+      "p2_maxdiff": 0.2325000000000006,
+      "profile": "medium",
+      "rank": 55
+    },
+    {
+      "disclosure_bits_total": 240768,
+      "gap_mean": 0.0,
+      "k1": 128,
+      "k2": 110,
+      "op_exact_rate_mean": 0.5208333333333334,
+      "oracle_exact_rate_mean": 0.5208333333333334,
+      "p2_maxdiff": 0.2325000000000006,
+      "profile": "medium",
+      "rank": 56
+    },
+    {
+      "disclosure_bits_total": 161088,
+      "gap_mean": 0.16666666666666666,
+      "k1": 45,
+      "k2": 110,
+      "op_exact_rate_mean": 0.23958333333333334,
+      "oracle_exact_rate_mean": 0.40625,
+      "p2_maxdiff": 0.11625000000000252,
+      "profile": "weak",
+      "rank": 57
+    },
+    {
+      "disclosure_bits_total": 179328,
+      "gap_mean": 0.03125,
+      "k1": 64,
+      "k2": 110,
+      "op_exact_rate_mean": 0.375,
+      "oracle_exact_rate_mean": 0.40625,
+      "p2_maxdiff": 0.11625000000000252,
+      "profile": "weak",
+      "rank": 58
+    },
+    {
+      "disclosure_bits_total": 210048,
+      "gap_mean": 0.0,
+      "k1": 96,
+      "k2": 110,
+      "op_exact_rate_mean": 0.40625,
+      "oracle_exact_rate_mean": 0.40625,
+      "p2_maxdiff": 0.11625000000000252,
+      "profile": "weak",
+      "rank": 59
+    },
+    {
+      "disclosure_bits_total": 240768,
+      "gap_mean": 0.0,
+      "k1": 128,
+      "k2": 110,
+      "op_exact_rate_mean": 0.40625,
+      "oracle_exact_rate_mean": 0.40625,
+      "p2_maxdiff": 0.11625000000000252,
+      "profile": "weak",
+      "rank": 60
+    }
+  ],
+  "screening_region": {
+    "configs": [
+      {
+        "gap_mean": 0.40625,
+        "k1": 45,
+        "k2": 140,
+        "op_exact_rate_mean": 0.5833333333333334,
+        "oracle_exact_rate_mean": 0.9895833333333334,
+        "p2_maxdiff": 0.11625000000000252,
+        "profile": "weak"
+      },
+      {
+        "gap_mean": 0.40625,
+        "k1": 45,
+        "k2": 170,
+        "op_exact_rate_mean": 0.59375,
+        "oracle_exact_rate_mean": 1.0,
+        "p2_maxdiff": 0.11625000000000252,
+        "profile": "weak"
+      },
+      {
+        "gap_mean": 0.40625,
+        "k1": 45,
+        "k2": 200,
+        "op_exact_rate_mean": 0.59375,
+        "oracle_exact_rate_mean": 1.0,
+        "p2_maxdiff": 0.11625000000000252,
+        "profile": "weak"
+      },
+      {
+        "gap_mean": 0.40625,
+        "k1": 45,
+        "k2": 230,
+        "op_exact_rate_mean": 0.59375,
+        "oracle_exact_rate_mean": 1.0,
+        "p2_maxdiff": 0.11625000000000252,
+        "profile": "weak"
+      },
+      {
+        "gap_mean": 0.09375,
+        "k1": 64,
+        "k2": 140,
+        "op_exact_rate_mean": 0.8958333333333334,
+        "oracle_exact_rate_mean": 0.9895833333333334,
+        "p2_maxdiff": 0.11625000000000252,
+        "profile": "weak"
+      },
+      {
+        "gap_mean": 0.09375,
+        "k1": 64,
+        "k2": 170,
+        "op_exact_rate_mean": 0.90625,
+        "oracle_exact_rate_mean": 1.0,
+        "p2_maxdiff": 0.11625000000000252,
+        "profile": "weak"
+      },
+      {
+        "gap_mean": 0.09375,
+        "k1": 64,
+        "k2": 200,
+        "op_exact_rate_mean": 0.90625,
+        "oracle_exact_rate_mean": 1.0,
+        "p2_maxdiff": 0.11625000000000252,
+        "profile": "weak"
+      },
+      {
+        "gap_mean": 0.09375,
+        "k1": 64,
+        "k2": 230,
+        "op_exact_rate_mean": 0.90625,
+        "oracle_exact_rate_mean": 1.0,
+        "p2_maxdiff": 0.11625000000000252,
+        "profile": "weak"
+      },
+      {
+        "gap_mean": 0.3958333333333333,
+        "k1": 45,
+        "k2": 140,
+        "op_exact_rate_mean": 0.59375,
+        "oracle_exact_rate_mean": 0.9895833333333334,
+        "p2_maxdiff": 0.2325000000000006,
+        "profile": "medium"
+      },
+      {
+        "gap_mean": 0.40625,
+        "k1": 45,
+        "k2": 170,
+        "op_exact_rate_mean": 0.59375,
+        "oracle_exact_rate_mean": 1.0,
+        "p2_maxdiff": 0.2325000000000006,
+        "profile": "medium"
+      },
+      {
+        "gap_mean": 0.40625,
+        "k1": 45,
+        "k2": 200,
+        "op_exact_rate_mean": 0.59375,
+        "oracle_exact_rate_mean": 1.0,
+        "p2_maxdiff": 0.2325000000000006,
+        "profile": "medium"
+      },
+      {
+        "gap_mean": 0.40625,
+        "k1": 45,
+        "k2": 230,
+        "op_exact_rate_mean": 0.59375,
+        "oracle_exact_rate_mean": 1.0,
+        "p2_maxdiff": 0.2325000000000006,
+        "profile": "medium"
+      },
+      {
+        "gap_mean": 0.5104166666666666,
+        "k1": 45,
+        "k2": 140,
+        "op_exact_rate_mean": 0.4895833333333333,
+        "oracle_exact_rate_mean": 1.0,
+        "p2_maxdiff": 0.34875000000000267,
+        "profile": "strong"
+      },
+      {
+        "gap_mean": 0.5104166666666666,
+        "k1": 45,
+        "k2": 170,
+        "op_exact_rate_mean": 0.4895833333333333,
+        "oracle_exact_rate_mean": 1.0,
+        "p2_maxdiff": 0.34875000000000267,
+        "profile": "strong"
+      },
+      {
+        "gap_mean": 0.5104166666666666,
+        "k1": 45,
+        "k2": 200,
+        "op_exact_rate_mean": 0.4895833333333333,
+        "oracle_exact_rate_mean": 1.0,
+        "p2_maxdiff": 0.34875000000000267,
+        "profile": "strong"
+      },
+      {
+        "gap_mean": 0.5104166666666666,
+        "k1": 45,
+        "k2": 230,
+        "op_exact_rate_mean": 0.4895833333333333,
+        "oracle_exact_rate_mean": 1.0,
+        "p2_maxdiff": 0.34875000000000267,
+        "profile": "strong"
+      },
+      {
+        "gap_mean": 0.14583333333333334,
+        "k1": 64,
+        "k2": 140,
+        "op_exact_rate_mean": 0.8541666666666666,
+        "oracle_exact_rate_mean": 1.0,
+        "p2_maxdiff": 0.34875000000000267,
+        "profile": "strong"
+      },
+      {
+        "gap_mean": 0.14583333333333334,
+        "k1": 64,
+        "k2": 170,
+        "op_exact_rate_mean": 0.8541666666666666,
+        "oracle_exact_rate_mean": 1.0,
+        "p2_maxdiff": 0.34875000000000267,
+        "profile": "strong"
+      },
+      {
+        "gap_mean": 0.14583333333333334,
+        "k1": 64,
+        "k2": 200,
+        "op_exact_rate_mean": 0.8541666666666666,
+        "oracle_exact_rate_mean": 1.0,
+        "p2_maxdiff": 0.34875000000000267,
+        "profile": "strong"
+      },
+      {
+        "gap_mean": 0.14583333333333334,
+        "k1": 64,
+        "k2": 230,
+        "op_exact_rate_mean": 0.8541666666666666,
+        "oracle_exact_rate_mean": 1.0,
+        "p2_maxdiff": 0.34875000000000267,
+        "profile": "strong"
+      }
+    ],
+    "count": 20,
+    "criterion": "oracle mean exact rate >= 0.90 AND paired gap mean >= 0.05",
+    "found": true,
+    "label": "screening label only; not a pass/fail gate or verdict"
+  },
+  "seeds": [
+    2026091450,
+    2026091451,
+    2026091452
+  ],
+  "tier": "X-non-claim"
+}

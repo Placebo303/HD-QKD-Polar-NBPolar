@@ -1,0 +1,2253 @@
+{
+ "probe_id": "NBPOLAR-X09-L2-ATTRIBUTION",
+ "tier": "X",
+ "status": "X09_PROBE_COMPLETE_DESCRIPTIVE_ONLY",
+ "question": "Which mechanism explains the out-of-sample L2 failure at K2=6689 (P20M G1/G2 0/3 while TRAIN-segment oracle arms were 3/3 exact): (H1) K2 disclosure-budget insufficiency out-of-sample, (H2) L2 order/metric non-generalization, or (H3) floor/heavy-tail (TRAIN zero-count cell) exposure, using ONLY already-persisted worktree artifacts?",
+ "prereg_sha256": "5ddaed7e97f7c33ade9142a1fdd563481fa76b64f346851b360d46d46a5b9456",
+ "body_sha256": "ed62a764bab4af580e38d6ff442dcf679ba4ff1a9c58e67bab986842eb4cd8d4",
+ "body_sha_match": true,
+ "artifact_inventory": {
+  "files": [
+   {
+    "path": ".workbuddy/queue/NBPOLAR-PHASE4-P20M-RAW-PRIOR-VAL-1P5M/raw_prior_val_1p5m/per_block_arm_outcomes.jsonl",
+    "size": 15672,
+    "mtime_ns": 1789786428673827800
+   },
+   {
+    "path": ".workbuddy/queue/NBPOLAR-PHASE4-P20M-RAW-PRIOR-VAL-1P5M/raw_prior_val_1p5m/aggregate_summary.json",
+    "size": 7331,
+    "mtime_ns": 1789786428690864300
+   },
+   {
+    "path": ".workbuddy/queue/NBPOLAR-PHASE4-P20M-RAW-PRIOR-VAL-1P5M/raw_prior_val_1p5m/frozen_plan.json",
+    "size": 3600,
+    "mtime_ns": 1789786323831977300
+   },
+   {
+    "path": ".workbuddy/queue/NBPOLAR-PHASE4-P20M-RAW-PRIOR-VAL-1P5M/raw_prior_val_1p5m/input_and_predecessor_identity.json",
+    "size": 8281,
+    "mtime_ns": 1789786428687712200
+   },
+   {
+    "path": ".workbuddy/queue/NBPOLAR-PHASE4-P20M-RAW-PRIOR-VAL-1P5M/raw_prior_val_1p5m/report.md",
+    "size": 990,
+    "mtime_ns": 1789786428693955300
+   },
+   {
+    "path": ".workbuddy/queue/NBPOLAR-PHASE4-P20M-RAW-PRIOR-VAL-1P5M/raw_prior_1p5m.npz",
+    "size": 25438650,
+    "mtime_ns": 1789784782875097900
+   },
+   {
+    "path": ".workbuddy/queue/NBPOLAR-PHASE4-P20M-RAW-PRIOR-VAL-1P5M/raw_prior_orders_1p5m.json",
+    "size": 438141,
+    "mtime_ns": 1789784782881103400
+   },
+   {
+    "path": ".workbuddy/queue/NBPOLAR-PHASE4-P20I-L1-DISCLOSURE-1P5M/l1_disclosure_1p5m/per_block_arm_outcomes.jsonl",
+    "size": 14349,
+    "mtime_ns": 1789757420492667300
+   },
+   {
+    "path": ".workbuddy/queue/NBPOLAR-PHASE4-P20J-L1-DOSE-ESCALATION-1P5M/l1_dose_escalation_1p5m/per_block_arm_outcomes.jsonl",
+    "size": 14391,
+    "mtime_ns": 1789763299322277800
+   },
+   {
+    "path": ".workbuddy/queue/NBPOLAR-PHASE4-P20K-L1-DOSE-512-1P5M/l1_dose_512_1p5m/per_block_arm_outcomes.jsonl",
+    "size": 14362,
+    "mtime_ns": 1789769050033778600
+   },
+   {
+    "path": ".workbuddy/queue/NBPOLAR-PHASE4-P20H-PER-SESSION-CALIBRATION/per_session_confirmation/per_block_arm_outcomes.jsonl",
+    "size": 14400,
+    "mtime_ns": 1789749337493875300
+   },
+   {
+    "path": "comparison_bench/src/comparison_bench/formal_ir/nbpolar/raw_prior_val_1p5m.py",
+    "size": 122436,
+    "mtime_ns": 1789784810602423900
+   },
+   {
+    "path": "comparison_bench/src/comparison_bench/formal_ir/nbpolar/l1_order_1p5m.py",
+    "size": 146531,
+    "mtime_ns": 1789772700757403100
+   },
+   {
+    "path": "comparison_bench/src/comparison_bench/formal_ir/nbpolar/l1_disclosure_1p5m.py",
+    "size": 129349,
+    "mtime_ns": 1789751093016183300
+   },
+   {
+    "path": "comparison_bench/src/comparison_bench/formal_ir/nbpolar/l1_dose_escalation_1p5m.py",
+    "size": 131428,
+    "mtime_ns": 1789759213572613300
+   },
+   {
+    "path": "comparison_bench/src/comparison_bench/formal_ir/nbpolar/l1_dose_512_1p5m.py",
+    "size": 132814,
+    "mtime_ns": 1789766917361451200
+   }
+  ],
+  "protected_opens_attempted": false
+ },
+ "field_semantics": {
+  "first_error_layer": [
+   {
+    "file": "comparison_bench/src/comparison_bench/formal_ir/nbpolar/raw_prior_val_1p5m.py",
+    "line": 1354,
+    "text": "\"first_error_layer\": first_error[\"first_error_layer\"],"
+   },
+   {
+    "file": "comparison_bench/src/comparison_bench/formal_ir/nbpolar/raw_prior_val_1p5m.py",
+    "line": 1404,
+    "text": "\"first_error_layer\": first_error[\"first_error_layer\"],"
+   },
+   {
+    "file": "comparison_bench/src/comparison_bench/formal_ir/nbpolar/raw_prior_val_1p5m.py",
+    "line": 1526,
+    "text": "\"g0_first_error_layer\": g0.get(\"first_error_layer\"),"
+   },
+   {
+    "file": "comparison_bench/src/comparison_bench/formal_ir/nbpolar/raw_prior_val_1p5m.py",
+    "line": 1527,
+    "text": "\"g1_first_error_layer\": g1.get(\"first_error_layer\"),"
+   },
+   {
+    "file": "comparison_bench/src/comparison_bench/formal_ir/nbpolar/l1_order_1p5m.py",
+    "line": 1405,
+    "text": "return {\"first_error_layer\": \"L1\", \"first_error_coord\": int(hits[0])}"
+   },
+   {
+    "file": "comparison_bench/src/comparison_bench/formal_ir/nbpolar/l1_order_1p5m.py",
+    "line": 1410,
+    "text": "return {\"first_error_layer\": \"L2\", \"first_error_coord\": int(hits[0])}"
+   },
+   {
+    "file": "comparison_bench/src/comparison_bench/formal_ir/nbpolar/l1_order_1p5m.py",
+    "line": 1411,
+    "text": "return {\"first_error_layer\": None, \"first_error_coord\": None}"
+   },
+   {
+    "file": "comparison_bench/src/comparison_bench/formal_ir/nbpolar/l1_order_1p5m.py",
+    "line": 1518,
+    "text": "\"first_error_layer\": first_error[\"first_error_layer\"],"
+   },
+   {
+    "file": "comparison_bench/src/comparison_bench/formal_ir/nbpolar/l1_order_1p5m.py",
+    "line": 1571,
+    "text": "\"first_error_layer\": first_error[\"first_error_layer\"],"
+   },
+   {
+    "file": "comparison_bench/src/comparison_bench/formal_ir/nbpolar/l1_order_1p5m.py",
+    "line": 1636,
+    "text": "\"first_error_layer\": None,"
+   },
+   {
+    "file": "comparison_bench/src/comparison_bench/formal_ir/nbpolar/l1_disclosure_1p5m.py",
+    "line": 1176,
+    "text": "return {\"first_error_layer\": \"L1\", \"first_error_coord\": int(hits[0])}"
+   },
+   {
+    "file": "comparison_bench/src/comparison_bench/formal_ir/nbpolar/l1_disclosure_1p5m.py",
+    "line": 1181,
+    "text": "return {\"first_error_layer\": \"L2\", \"first_error_coord\": int(hits[0])}"
+   },
+   {
+    "file": "comparison_bench/src/comparison_bench/formal_ir/nbpolar/l1_disclosure_1p5m.py",
+    "line": 1182,
+    "text": "return {\"first_error_layer\": None, \"first_error_coord\": None}"
+   },
+   {
+    "file": "comparison_bench/src/comparison_bench/formal_ir/nbpolar/l1_disclosure_1p5m.py",
+    "line": 1287,
+    "text": "\"first_error_layer\": first_error[\"first_error_layer\"],"
+   },
+   {
+    "file": "comparison_bench/src/comparison_bench/formal_ir/nbpolar/l1_disclosure_1p5m.py",
+    "line": 1339,
+    "text": "\"first_error_layer\": first_error[\"first_error_layer\"],"
+   },
+   {
+    "file": "comparison_bench/src/comparison_bench/formal_ir/nbpolar/l1_disclosure_1p5m.py",
+    "line": 1404,
+    "text": "\"first_error_layer\": None,"
+   },
+   {
+    "file": "comparison_bench/src/comparison_bench/formal_ir/nbpolar/l1_dose_escalation_1p5m.py",
+    "line": 1202,
+    "text": "return {\"first_error_layer\": \"L1\", \"first_error_coord\": int(hits[0])}"
+   },
+   {
+    "file": "comparison_bench/src/comparison_bench/formal_ir/nbpolar/l1_dose_escalation_1p5m.py",
+    "line": 1207,
+    "text": "return {\"first_error_layer\": \"L2\", \"first_error_coord\": int(hits[0])}"
+   },
+   {
+    "file": "comparison_bench/src/comparison_bench/formal_ir/nbpolar/l1_dose_escalation_1p5m.py",
+    "line": 1208,
+    "text": "return {\"first_error_layer\": None, \"first_error_coord\": None}"
+   },
+   {
+    "file": "comparison_bench/src/comparison_bench/formal_ir/nbpolar/l1_dose_escalation_1p5m.py",
+    "line": 1313,
+    "text": "\"first_error_layer\": first_error[\"first_error_layer\"],"
+   },
+   {
+    "file": "comparison_bench/src/comparison_bench/formal_ir/nbpolar/l1_dose_escalation_1p5m.py",
+    "line": 1365,
+    "text": "\"first_error_layer\": first_error[\"first_error_layer\"],"
+   },
+   {
+    "file": "comparison_bench/src/comparison_bench/formal_ir/nbpolar/l1_dose_escalation_1p5m.py",
+    "line": 1430,
+    "text": "\"first_error_layer\": None,"
+   },
+   {
+    "file": "comparison_bench/src/comparison_bench/formal_ir/nbpolar/l1_dose_512_1p5m.py",
+    "line": 1232,
+    "text": "return {\"first_error_layer\": \"L1\", \"first_error_coord\": int(hits[0])}"
+   },
+   {
+    "file": "comparison_bench/src/comparison_bench/formal_ir/nbpolar/l1_dose_512_1p5m.py",
+    "line": 1237,
+    "text": "return {\"first_error_layer\": \"L2\", \"first_error_coord\": int(hits[0])}"
+   },
+   {
+    "file": "comparison_bench/src/comparison_bench/formal_ir/nbpolar/l1_dose_512_1p5m.py",
+    "line": 1238,
+    "text": "return {\"first_error_layer\": None, \"first_error_coord\": None}"
+   },
+   {
+    "file": "comparison_bench/src/comparison_bench/formal_ir/nbpolar/l1_dose_512_1p5m.py",
+    "line": 1344,
+    "text": "\"first_error_layer\": first_error[\"first_error_layer\"],"
+   },
+   {
+    "file": "comparison_bench/src/comparison_bench/formal_ir/nbpolar/l1_dose_512_1p5m.py",
+    "line": 1396,
+    "text": "\"first_error_layer\": first_error[\"first_error_layer\"],"
+   },
+   {
+    "file": "comparison_bench/src/comparison_bench/formal_ir/nbpolar/l1_dose_512_1p5m.py",
+    "line": 1461,
+    "text": "\"first_error_layer\": None,"
+   }
+  ],
+  "first_error_coord": [
+   {
+    "file": "comparison_bench/src/comparison_bench/formal_ir/nbpolar/raw_prior_val_1p5m.py",
+    "line": 77,
+    "text": "first_error_coordinate = p20l.first_error_coordinate"
+   },
+   {
+    "file": "comparison_bench/src/comparison_bench/formal_ir/nbpolar/raw_prior_val_1p5m.py",
+    "line": 1343,
+    "text": "first_error = first_error_coordinate("
+   },
+   {
+    "file": "comparison_bench/src/comparison_bench/formal_ir/nbpolar/raw_prior_val_1p5m.py",
+    "line": 1355,
+    "text": "\"first_error_coord\": first_error[\"first_error_coord\"],"
+   },
+   {
+    "file": "comparison_bench/src/comparison_bench/formal_ir/nbpolar/raw_prior_val_1p5m.py",
+    "line": 1393,
+    "text": "first_error = first_error_coordinate("
+   },
+   {
+    "file": "comparison_bench/src/comparison_bench/formal_ir/nbpolar/raw_prior_val_1p5m.py",
+    "line": 1405,
+    "text": "\"first_error_coord\": first_error[\"first_error_coord\"],"
+   },
+   {
+    "file": "comparison_bench/src/comparison_bench/formal_ir/nbpolar/raw_prior_val_1p5m.py",
+    "line": 2662,
+    "text": "\"first_error_coordinate\", \"l1_prefix_positions\", \"l2_prefix_positions\","
+   },
+   {
+    "file": "comparison_bench/src/comparison_bench/formal_ir/nbpolar/l1_order_1p5m.py",
+    "line": 1399,
+    "text": "def first_error_coordinate(high_hat, low_hat, high_true, low_true) -> dict:"
+   },
+   {
+    "file": "comparison_bench/src/comparison_bench/formal_ir/nbpolar/l1_order_1p5m.py",
+    "line": 1405,
+    "text": "return {\"first_error_layer\": \"L1\", \"first_error_coord\": int(hits[0])}"
+   },
+   {
+    "file": "comparison_bench/src/comparison_bench/formal_ir/nbpolar/l1_order_1p5m.py",
+    "line": 1410,
+    "text": "return {\"first_error_layer\": \"L2\", \"first_error_coord\": int(hits[0])}"
+   },
+   {
+    "file": "comparison_bench/src/comparison_bench/formal_ir/nbpolar/l1_order_1p5m.py",
+    "line": 1411,
+    "text": "return {\"first_error_layer\": None, \"first_error_coord\": None}"
+   },
+   {
+    "file": "comparison_bench/src/comparison_bench/formal_ir/nbpolar/l1_order_1p5m.py",
+    "line": 1507,
+    "text": "first_error = first_error_coordinate("
+   },
+   {
+    "file": "comparison_bench/src/comparison_bench/formal_ir/nbpolar/l1_order_1p5m.py",
+    "line": 1519,
+    "text": "\"first_error_coord\": first_error[\"first_error_coord\"],"
+   },
+   {
+    "file": "comparison_bench/src/comparison_bench/formal_ir/nbpolar/l1_disclosure_1p5m.py",
+    "line": 1170,
+    "text": "def first_error_coordinate(high_hat, low_hat, high_true, low_true) -> dict:"
+   },
+   {
+    "file": "comparison_bench/src/comparison_bench/formal_ir/nbpolar/l1_disclosure_1p5m.py",
+    "line": 1176,
+    "text": "return {\"first_error_layer\": \"L1\", \"first_error_coord\": int(hits[0])}"
+   },
+   {
+    "file": "comparison_bench/src/comparison_bench/formal_ir/nbpolar/l1_disclosure_1p5m.py",
+    "line": 1181,
+    "text": "return {\"first_error_layer\": \"L2\", \"first_error_coord\": int(hits[0])}"
+   },
+   {
+    "file": "comparison_bench/src/comparison_bench/formal_ir/nbpolar/l1_disclosure_1p5m.py",
+    "line": 1182,
+    "text": "return {\"first_error_layer\": None, \"first_error_coord\": None}"
+   },
+   {
+    "file": "comparison_bench/src/comparison_bench/formal_ir/nbpolar/l1_disclosure_1p5m.py",
+    "line": 1276,
+    "text": "first_error = first_error_coordinate("
+   },
+   {
+    "file": "comparison_bench/src/comparison_bench/formal_ir/nbpolar/l1_disclosure_1p5m.py",
+    "line": 1288,
+    "text": "\"first_error_coord\": first_error[\"first_error_coord\"],"
+   },
+   {
+    "file": "comparison_bench/src/comparison_bench/formal_ir/nbpolar/l1_dose_escalation_1p5m.py",
+    "line": 1196,
+    "text": "def first_error_coordinate(high_hat, low_hat, high_true, low_true) -> dict:"
+   },
+   {
+    "file": "comparison_bench/src/comparison_bench/formal_ir/nbpolar/l1_dose_escalation_1p5m.py",
+    "line": 1202,
+    "text": "return {\"first_error_layer\": \"L1\", \"first_error_coord\": int(hits[0])}"
+   },
+   {
+    "file": "comparison_bench/src/comparison_bench/formal_ir/nbpolar/l1_dose_escalation_1p5m.py",
+    "line": 1207,
+    "text": "return {\"first_error_layer\": \"L2\", \"first_error_coord\": int(hits[0])}"
+   },
+   {
+    "file": "comparison_bench/src/comparison_bench/formal_ir/nbpolar/l1_dose_escalation_1p5m.py",
+    "line": 1208,
+    "text": "return {\"first_error_layer\": None, \"first_error_coord\": None}"
+   },
+   {
+    "file": "comparison_bench/src/comparison_bench/formal_ir/nbpolar/l1_dose_escalation_1p5m.py",
+    "line": 1302,
+    "text": "first_error = first_error_coordinate("
+   },
+   {
+    "file": "comparison_bench/src/comparison_bench/formal_ir/nbpolar/l1_dose_escalation_1p5m.py",
+    "line": 1314,
+    "text": "\"first_error_coord\": first_error[\"first_error_coord\"],"
+   },
+   {
+    "file": "comparison_bench/src/comparison_bench/formal_ir/nbpolar/l1_dose_512_1p5m.py",
+    "line": 1226,
+    "text": "def first_error_coordinate(high_hat, low_hat, high_true, low_true) -> dict:"
+   },
+   {
+    "file": "comparison_bench/src/comparison_bench/formal_ir/nbpolar/l1_dose_512_1p5m.py",
+    "line": 1232,
+    "text": "return {\"first_error_layer\": \"L1\", \"first_error_coord\": int(hits[0])}"
+   },
+   {
+    "file": "comparison_bench/src/comparison_bench/formal_ir/nbpolar/l1_dose_512_1p5m.py",
+    "line": 1237,
+    "text": "return {\"first_error_layer\": \"L2\", \"first_error_coord\": int(hits[0])}"
+   },
+   {
+    "file": "comparison_bench/src/comparison_bench/formal_ir/nbpolar/l1_dose_512_1p5m.py",
+    "line": 1238,
+    "text": "return {\"first_error_layer\": None, \"first_error_coord\": None}"
+   },
+   {
+    "file": "comparison_bench/src/comparison_bench/formal_ir/nbpolar/l1_dose_512_1p5m.py",
+    "line": 1333,
+    "text": "first_error = first_error_coordinate("
+   },
+   {
+    "file": "comparison_bench/src/comparison_bench/formal_ir/nbpolar/l1_dose_512_1p5m.py",
+    "line": 1345,
+    "text": "\"first_error_coord\": first_error[\"first_error_coord\"],"
+   }
+  ],
+  "l1_exact": [
+   {
+    "file": "comparison_bench/src/comparison_bench/formal_ir/nbpolar/raw_prior_val_1p5m.py",
+    "line": 1350,
+    "text": "\"l1_exact\": bool(result.l1_exact),"
+   },
+   {
+    "file": "comparison_bench/src/comparison_bench/formal_ir/nbpolar/raw_prior_val_1p5m.py",
+    "line": 1400,
+    "text": "\"l1_exact\": None,"
+   },
+   {
+    "file": "comparison_bench/src/comparison_bench/formal_ir/nbpolar/l1_order_1p5m.py",
+    "line": 1514,
+    "text": "\"l1_exact\": bool(result.l1_exact),"
+   },
+   {
+    "file": "comparison_bench/src/comparison_bench/formal_ir/nbpolar/l1_order_1p5m.py",
+    "line": 1567,
+    "text": "\"l1_exact\": None,"
+   },
+   {
+    "file": "comparison_bench/src/comparison_bench/formal_ir/nbpolar/l1_order_1p5m.py",
+    "line": 1632,
+    "text": "\"l1_exact\": False if spec.kind == \"operational\" else None,"
+   },
+   {
+    "file": "comparison_bench/src/comparison_bench/formal_ir/nbpolar/l1_order_1p5m.py",
+    "line": 1693,
+    "text": "for key in (\"l1_exact\", \"hard_l2_exact\", \"pair_exact\", \"exact\","
+   },
+   {
+    "file": "comparison_bench/src/comparison_bench/formal_ir/nbpolar/l1_order_1p5m.py",
+    "line": 1720,
+    "text": "if record.get(\"l1_exact\") is not None or record.get(\"hard_l2_exact\") is not None:"
+   },
+   {
+    "file": "comparison_bench/src/comparison_bench/formal_ir/nbpolar/l1_disclosure_1p5m.py",
+    "line": 1283,
+    "text": "\"l1_exact\": bool(result.l1_exact),"
+   },
+   {
+    "file": "comparison_bench/src/comparison_bench/formal_ir/nbpolar/l1_disclosure_1p5m.py",
+    "line": 1335,
+    "text": "\"l1_exact\": None,"
+   },
+   {
+    "file": "comparison_bench/src/comparison_bench/formal_ir/nbpolar/l1_disclosure_1p5m.py",
+    "line": 1400,
+    "text": "\"l1_exact\": False if spec.kind == \"operational\" else None,"
+   },
+   {
+    "file": "comparison_bench/src/comparison_bench/formal_ir/nbpolar/l1_disclosure_1p5m.py",
+    "line": 1461,
+    "text": "for key in (\"l1_exact\", \"hard_l2_exact\", \"pair_exact\", \"exact\","
+   },
+   {
+    "file": "comparison_bench/src/comparison_bench/formal_ir/nbpolar/l1_disclosure_1p5m.py",
+    "line": 1488,
+    "text": "if record.get(\"l1_exact\") is not None or record.get(\"hard_l2_exact\") is not None:"
+   },
+   {
+    "file": "comparison_bench/src/comparison_bench/formal_ir/nbpolar/l1_dose_escalation_1p5m.py",
+    "line": 1309,
+    "text": "\"l1_exact\": bool(result.l1_exact),"
+   },
+   {
+    "file": "comparison_bench/src/comparison_bench/formal_ir/nbpolar/l1_dose_escalation_1p5m.py",
+    "line": 1361,
+    "text": "\"l1_exact\": None,"
+   },
+   {
+    "file": "comparison_bench/src/comparison_bench/formal_ir/nbpolar/l1_dose_escalation_1p5m.py",
+    "line": 1426,
+    "text": "\"l1_exact\": False if spec.kind == \"operational\" else None,"
+   },
+   {
+    "file": "comparison_bench/src/comparison_bench/formal_ir/nbpolar/l1_dose_escalation_1p5m.py",
+    "line": 1487,
+    "text": "for key in (\"l1_exact\", \"hard_l2_exact\", \"pair_exact\", \"exact\","
+   },
+   {
+    "file": "comparison_bench/src/comparison_bench/formal_ir/nbpolar/l1_dose_escalation_1p5m.py",
+    "line": 1514,
+    "text": "if record.get(\"l1_exact\") is not None or record.get(\"hard_l2_exact\") is not None:"
+   },
+   {
+    "file": "comparison_bench/src/comparison_bench/formal_ir/nbpolar/l1_dose_512_1p5m.py",
+    "line": 1340,
+    "text": "\"l1_exact\": bool(result.l1_exact),"
+   },
+   {
+    "file": "comparison_bench/src/comparison_bench/formal_ir/nbpolar/l1_dose_512_1p5m.py",
+    "line": 1392,
+    "text": "\"l1_exact\": None,"
+   },
+   {
+    "file": "comparison_bench/src/comparison_bench/formal_ir/nbpolar/l1_dose_512_1p5m.py",
+    "line": 1457,
+    "text": "\"l1_exact\": False if spec.kind == \"operational\" else None,"
+   },
+   {
+    "file": "comparison_bench/src/comparison_bench/formal_ir/nbpolar/l1_dose_512_1p5m.py",
+    "line": 1518,
+    "text": "for key in (\"l1_exact\", \"hard_l2_exact\", \"pair_exact\", \"exact\","
+   },
+   {
+    "file": "comparison_bench/src/comparison_bench/formal_ir/nbpolar/l1_dose_512_1p5m.py",
+    "line": 1545,
+    "text": "if record.get(\"l1_exact\") is not None or record.get(\"hard_l2_exact\") is not None:"
+   }
+  ],
+  "hard_l2_exact": [
+   {
+    "file": "comparison_bench/src/comparison_bench/formal_ir/nbpolar/raw_prior_val_1p5m.py",
+    "line": 1351,
+    "text": "\"hard_l2_exact\": bool(result.hard_l2_exact),"
+   },
+   {
+    "file": "comparison_bench/src/comparison_bench/formal_ir/nbpolar/raw_prior_val_1p5m.py",
+    "line": 1401,
+    "text": "\"hard_l2_exact\": None,"
+   },
+   {
+    "file": "comparison_bench/src/comparison_bench/formal_ir/nbpolar/l1_order_1p5m.py",
+    "line": 1515,
+    "text": "\"hard_l2_exact\": bool(result.hard_l2_exact),"
+   },
+   {
+    "file": "comparison_bench/src/comparison_bench/formal_ir/nbpolar/l1_order_1p5m.py",
+    "line": 1568,
+    "text": "\"hard_l2_exact\": None,"
+   },
+   {
+    "file": "comparison_bench/src/comparison_bench/formal_ir/nbpolar/l1_order_1p5m.py",
+    "line": 1633,
+    "text": "\"hard_l2_exact\": False if spec.kind == \"operational\" else None,"
+   },
+   {
+    "file": "comparison_bench/src/comparison_bench/formal_ir/nbpolar/l1_order_1p5m.py",
+    "line": 1693,
+    "text": "for key in (\"l1_exact\", \"hard_l2_exact\", \"pair_exact\", \"exact\","
+   },
+   {
+    "file": "comparison_bench/src/comparison_bench/formal_ir/nbpolar/l1_order_1p5m.py",
+    "line": 1720,
+    "text": "if record.get(\"l1_exact\") is not None or record.get(\"hard_l2_exact\") is not None:"
+   },
+   {
+    "file": "comparison_bench/src/comparison_bench/formal_ir/nbpolar/l1_disclosure_1p5m.py",
+    "line": 1284,
+    "text": "\"hard_l2_exact\": bool(result.hard_l2_exact),"
+   },
+   {
+    "file": "comparison_bench/src/comparison_bench/formal_ir/nbpolar/l1_disclosure_1p5m.py",
+    "line": 1336,
+    "text": "\"hard_l2_exact\": None,"
+   },
+   {
+    "file": "comparison_bench/src/comparison_bench/formal_ir/nbpolar/l1_disclosure_1p5m.py",
+    "line": 1401,
+    "text": "\"hard_l2_exact\": False if spec.kind == \"operational\" else None,"
+   },
+   {
+    "file": "comparison_bench/src/comparison_bench/formal_ir/nbpolar/l1_disclosure_1p5m.py",
+    "line": 1461,
+    "text": "for key in (\"l1_exact\", \"hard_l2_exact\", \"pair_exact\", \"exact\","
+   },
+   {
+    "file": "comparison_bench/src/comparison_bench/formal_ir/nbpolar/l1_disclosure_1p5m.py",
+    "line": 1488,
+    "text": "if record.get(\"l1_exact\") is not None or record.get(\"hard_l2_exact\") is not None:"
+   },
+   {
+    "file": "comparison_bench/src/comparison_bench/formal_ir/nbpolar/l1_dose_escalation_1p5m.py",
+    "line": 1310,
+    "text": "\"hard_l2_exact\": bool(result.hard_l2_exact),"
+   },
+   {
+    "file": "comparison_bench/src/comparison_bench/formal_ir/nbpolar/l1_dose_escalation_1p5m.py",
+    "line": 1362,
+    "text": "\"hard_l2_exact\": None,"
+   },
+   {
+    "file": "comparison_bench/src/comparison_bench/formal_ir/nbpolar/l1_dose_escalation_1p5m.py",
+    "line": 1427,
+    "text": "\"hard_l2_exact\": False if spec.kind == \"operational\" else None,"
+   },
+   {
+    "file": "comparison_bench/src/comparison_bench/formal_ir/nbpolar/l1_dose_escalation_1p5m.py",
+    "line": 1487,
+    "text": "for key in (\"l1_exact\", \"hard_l2_exact\", \"pair_exact\", \"exact\","
+   },
+   {
+    "file": "comparison_bench/src/comparison_bench/formal_ir/nbpolar/l1_dose_escalation_1p5m.py",
+    "line": 1514,
+    "text": "if record.get(\"l1_exact\") is not None or record.get(\"hard_l2_exact\") is not None:"
+   },
+   {
+    "file": "comparison_bench/src/comparison_bench/formal_ir/nbpolar/l1_dose_512_1p5m.py",
+    "line": 1341,
+    "text": "\"hard_l2_exact\": bool(result.hard_l2_exact),"
+   },
+   {
+    "file": "comparison_bench/src/comparison_bench/formal_ir/nbpolar/l1_dose_512_1p5m.py",
+    "line": 1393,
+    "text": "\"hard_l2_exact\": None,"
+   },
+   {
+    "file": "comparison_bench/src/comparison_bench/formal_ir/nbpolar/l1_dose_512_1p5m.py",
+    "line": 1458,
+    "text": "\"hard_l2_exact\": False if spec.kind == \"operational\" else None,"
+   },
+   {
+    "file": "comparison_bench/src/comparison_bench/formal_ir/nbpolar/l1_dose_512_1p5m.py",
+    "line": 1518,
+    "text": "for key in (\"l1_exact\", \"hard_l2_exact\", \"pair_exact\", \"exact\","
+   },
+   {
+    "file": "comparison_bench/src/comparison_bench/formal_ir/nbpolar/l1_dose_512_1p5m.py",
+    "line": 1545,
+    "text": "if record.get(\"l1_exact\") is not None or record.get(\"hard_l2_exact\") is not None:"
+   }
+  ],
+  "pair_exact": [
+   {
+    "file": "comparison_bench/src/comparison_bench/formal_ir/nbpolar/raw_prior_val_1p5m.py",
+    "line": 1353,
+    "text": "\"pair_exact\": bool(result.pair_exact),"
+   },
+   {
+    "file": "comparison_bench/src/comparison_bench/formal_ir/nbpolar/raw_prior_val_1p5m.py",
+    "line": 1403,
+    "text": "\"pair_exact\": None,"
+   },
+   {
+    "file": "comparison_bench/src/comparison_bench/formal_ir/nbpolar/l1_order_1p5m.py",
+    "line": 1517,
+    "text": "\"pair_exact\": bool(result.pair_exact),"
+   },
+   {
+    "file": "comparison_bench/src/comparison_bench/formal_ir/nbpolar/l1_order_1p5m.py",
+    "line": 1570,
+    "text": "\"pair_exact\": None,"
+   },
+   {
+    "file": "comparison_bench/src/comparison_bench/formal_ir/nbpolar/l1_order_1p5m.py",
+    "line": 1635,
+    "text": "\"pair_exact\": False if spec.kind == \"operational\" else None,"
+   },
+   {
+    "file": "comparison_bench/src/comparison_bench/formal_ir/nbpolar/l1_order_1p5m.py",
+    "line": 1693,
+    "text": "for key in (\"l1_exact\", \"hard_l2_exact\", \"pair_exact\", \"exact\","
+   },
+   {
+    "file": "comparison_bench/src/comparison_bench/formal_ir/nbpolar/l1_order_1p5m.py",
+    "line": 1722,
+    "text": "if record.get(\"pair_exact\") is not None:"
+   },
+   {
+    "file": "comparison_bench/src/comparison_bench/formal_ir/nbpolar/l1_disclosure_1p5m.py",
+    "line": 1286,
+    "text": "\"pair_exact\": bool(result.pair_exact),"
+   },
+   {
+    "file": "comparison_bench/src/comparison_bench/formal_ir/nbpolar/l1_disclosure_1p5m.py",
+    "line": 1338,
+    "text": "\"pair_exact\": None,"
+   },
+   {
+    "file": "comparison_bench/src/comparison_bench/formal_ir/nbpolar/l1_disclosure_1p5m.py",
+    "line": 1403,
+    "text": "\"pair_exact\": False if spec.kind == \"operational\" else None,"
+   },
+   {
+    "file": "comparison_bench/src/comparison_bench/formal_ir/nbpolar/l1_disclosure_1p5m.py",
+    "line": 1461,
+    "text": "for key in (\"l1_exact\", \"hard_l2_exact\", \"pair_exact\", \"exact\","
+   },
+   {
+    "file": "comparison_bench/src/comparison_bench/formal_ir/nbpolar/l1_disclosure_1p5m.py",
+    "line": 1490,
+    "text": "if record.get(\"pair_exact\") is not None:"
+   },
+   {
+    "file": "comparison_bench/src/comparison_bench/formal_ir/nbpolar/l1_dose_escalation_1p5m.py",
+    "line": 1312,
+    "text": "\"pair_exact\": bool(result.pair_exact),"
+   },
+   {
+    "file": "comparison_bench/src/comparison_bench/formal_ir/nbpolar/l1_dose_escalation_1p5m.py",
+    "line": 1364,
+    "text": "\"pair_exact\": None,"
+   },
+   {
+    "file": "comparison_bench/src/comparison_bench/formal_ir/nbpolar/l1_dose_escalation_1p5m.py",
+    "line": 1429,
+    "text": "\"pair_exact\": False if spec.kind == \"operational\" else None,"
+   },
+   {
+    "file": "comparison_bench/src/comparison_bench/formal_ir/nbpolar/l1_dose_escalation_1p5m.py",
+    "line": 1487,
+    "text": "for key in (\"l1_exact\", \"hard_l2_exact\", \"pair_exact\", \"exact\","
+   },
+   {
+    "file": "comparison_bench/src/comparison_bench/formal_ir/nbpolar/l1_dose_escalation_1p5m.py",
+    "line": 1516,
+    "text": "if record.get(\"pair_exact\") is not None:"
+   },
+   {
+    "file": "comparison_bench/src/comparison_bench/formal_ir/nbpolar/l1_dose_512_1p5m.py",
+    "line": 1343,
+    "text": "\"pair_exact\": bool(result.pair_exact),"
+   },
+   {
+    "file": "comparison_bench/src/comparison_bench/formal_ir/nbpolar/l1_dose_512_1p5m.py",
+    "line": 1395,
+    "text": "\"pair_exact\": None,"
+   },
+   {
+    "file": "comparison_bench/src/comparison_bench/formal_ir/nbpolar/l1_dose_512_1p5m.py",
+    "line": 1460,
+    "text": "\"pair_exact\": False if spec.kind == \"operational\" else None,"
+   },
+   {
+    "file": "comparison_bench/src/comparison_bench/formal_ir/nbpolar/l1_dose_512_1p5m.py",
+    "line": 1518,
+    "text": "for key in (\"l1_exact\", \"hard_l2_exact\", \"pair_exact\", \"exact\","
+   },
+   {
+    "file": "comparison_bench/src/comparison_bench/formal_ir/nbpolar/l1_dose_512_1p5m.py",
+    "line": 1547,
+    "text": "if record.get(\"pair_exact\") is not None:"
+   }
+  ],
+  "oracle_l2_exact": [
+   {
+    "file": "comparison_bench/src/comparison_bench/formal_ir/nbpolar/raw_prior_val_1p5m.py",
+    "line": 1352,
+    "text": "\"oracle_l2_exact\": None,"
+   },
+   {
+    "file": "comparison_bench/src/comparison_bench/formal_ir/nbpolar/raw_prior_val_1p5m.py",
+    "line": 1402,
+    "text": "\"oracle_l2_exact\": bool(result.oracle_l2_exact),"
+   },
+   {
+    "file": "comparison_bench/src/comparison_bench/formal_ir/nbpolar/l1_order_1p5m.py",
+    "line": 1516,
+    "text": "\"oracle_l2_exact\": None,"
+   },
+   {
+    "file": "comparison_bench/src/comparison_bench/formal_ir/nbpolar/l1_order_1p5m.py",
+    "line": 1569,
+    "text": "\"oracle_l2_exact\": bool(result.oracle_l2_exact),"
+   },
+   {
+    "file": "comparison_bench/src/comparison_bench/formal_ir/nbpolar/l1_order_1p5m.py",
+    "line": 1634,
+    "text": "\"oracle_l2_exact\": None if spec.kind == \"operational\" else False,"
+   },
+   {
+    "file": "comparison_bench/src/comparison_bench/formal_ir/nbpolar/l1_order_1p5m.py",
+    "line": 1677,
+    "text": "if record.get(\"oracle_l2_exact\") is not None:"
+   },
+   {
+    "file": "comparison_bench/src/comparison_bench/formal_ir/nbpolar/l1_order_1p5m.py",
+    "line": 1724,
+    "text": "if not isinstance(record.get(\"oracle_l2_exact\"), bool):"
+   },
+   {
+    "file": "comparison_bench/src/comparison_bench/formal_ir/nbpolar/l1_disclosure_1p5m.py",
+    "line": 1285,
+    "text": "\"oracle_l2_exact\": None,"
+   },
+   {
+    "file": "comparison_bench/src/comparison_bench/formal_ir/nbpolar/l1_disclosure_1p5m.py",
+    "line": 1337,
+    "text": "\"oracle_l2_exact\": bool(result.oracle_l2_exact),"
+   },
+   {
+    "file": "comparison_bench/src/comparison_bench/formal_ir/nbpolar/l1_disclosure_1p5m.py",
+    "line": 1402,
+    "text": "\"oracle_l2_exact\": None if spec.kind == \"operational\" else False,"
+   },
+   {
+    "file": "comparison_bench/src/comparison_bench/formal_ir/nbpolar/l1_disclosure_1p5m.py",
+    "line": 1445,
+    "text": "if record.get(\"oracle_l2_exact\") is not None:"
+   },
+   {
+    "file": "comparison_bench/src/comparison_bench/formal_ir/nbpolar/l1_disclosure_1p5m.py",
+    "line": 1492,
+    "text": "if not isinstance(record.get(\"oracle_l2_exact\"), bool):"
+   },
+   {
+    "file": "comparison_bench/src/comparison_bench/formal_ir/nbpolar/l1_dose_escalation_1p5m.py",
+    "line": 1311,
+    "text": "\"oracle_l2_exact\": None,"
+   },
+   {
+    "file": "comparison_bench/src/comparison_bench/formal_ir/nbpolar/l1_dose_escalation_1p5m.py",
+    "line": 1363,
+    "text": "\"oracle_l2_exact\": bool(result.oracle_l2_exact),"
+   },
+   {
+    "file": "comparison_bench/src/comparison_bench/formal_ir/nbpolar/l1_dose_escalation_1p5m.py",
+    "line": 1428,
+    "text": "\"oracle_l2_exact\": None if spec.kind == \"operational\" else False,"
+   },
+   {
+    "file": "comparison_bench/src/comparison_bench/formal_ir/nbpolar/l1_dose_escalation_1p5m.py",
+    "line": 1471,
+    "text": "if record.get(\"oracle_l2_exact\") is not None:"
+   },
+   {
+    "file": "comparison_bench/src/comparison_bench/formal_ir/nbpolar/l1_dose_escalation_1p5m.py",
+    "line": 1518,
+    "text": "if not isinstance(record.get(\"oracle_l2_exact\"), bool):"
+   },
+   {
+    "file": "comparison_bench/src/comparison_bench/formal_ir/nbpolar/l1_dose_512_1p5m.py",
+    "line": 1342,
+    "text": "\"oracle_l2_exact\": None,"
+   },
+   {
+    "file": "comparison_bench/src/comparison_bench/formal_ir/nbpolar/l1_dose_512_1p5m.py",
+    "line": 1394,
+    "text": "\"oracle_l2_exact\": bool(result.oracle_l2_exact),"
+   },
+   {
+    "file": "comparison_bench/src/comparison_bench/formal_ir/nbpolar/l1_dose_512_1p5m.py",
+    "line": 1459,
+    "text": "\"oracle_l2_exact\": None if spec.kind == \"operational\" else False,"
+   },
+   {
+    "file": "comparison_bench/src/comparison_bench/formal_ir/nbpolar/l1_dose_512_1p5m.py",
+    "line": 1502,
+    "text": "if record.get(\"oracle_l2_exact\") is not None:"
+   },
+   {
+    "file": "comparison_bench/src/comparison_bench/formal_ir/nbpolar/l1_dose_512_1p5m.py",
+    "line": 1549,
+    "text": "if not isinstance(record.get(\"oracle_l2_exact\"), bool):"
+   }
+  ],
+  "floor_hits_1e15": [
+   {
+    "file": "comparison_bench/src/comparison_bench/formal_ir/nbpolar/raw_prior_val_1p5m.py",
+    "line": 1309,
+    "text": "\"floor_hits_1e15\": None,"
+   },
+   {
+    "file": "comparison_bench/src/comparison_bench/formal_ir/nbpolar/raw_prior_val_1p5m.py",
+    "line": 1322,
+    "text": "hits = {\"raw_zero_count_hits\": None, \"floor_hits_1e15\": None,"
+   },
+   {
+    "file": "comparison_bench/src/comparison_bench/formal_ir/nbpolar/raw_prior_val_1p5m.py",
+    "line": 1325,
+    "text": "floor_hits = hits.get(\"floor_hits_1e15\")"
+   },
+   {
+    "file": "comparison_bench/src/comparison_bench/formal_ir/nbpolar/raw_prior_val_1p5m.py",
+    "line": 1374,
+    "text": "\"floor_hits_1e15\": diag.get(\"floor_hits_1e15\"),"
+   },
+   {
+    "file": "comparison_bench/src/comparison_bench/formal_ir/nbpolar/raw_prior_val_1p5m.py",
+    "line": 1424,
+    "text": "\"floor_hits_1e15\": diag.get(\"floor_hits_1e15\"),"
+   },
+   {
+    "file": "comparison_bench/src/comparison_bench/formal_ir/nbpolar/l1_order_1p5m.py",
+    "line": 1394,
+    "text": "\"floor_hits_1e15\": floor_hits,"
+   },
+   {
+    "file": "comparison_bench/src/comparison_bench/formal_ir/nbpolar/l1_order_1p5m.py",
+    "line": 1538,
+    "text": "\"floor_hits_1e15\": diag.get(\"floor_hits_1e15\"),"
+   },
+   {
+    "file": "comparison_bench/src/comparison_bench/formal_ir/nbpolar/l1_order_1p5m.py",
+    "line": 1590,
+    "text": "\"floor_hits_1e15\": diag.get(\"floor_hits_1e15\"),"
+   },
+   {
+    "file": "comparison_bench/src/comparison_bench/formal_ir/nbpolar/l1_order_1p5m.py",
+    "line": 1650,
+    "text": "\"floor_hits_1e15\": None,"
+   },
+   {
+    "file": "comparison_bench/src/comparison_bench/formal_ir/nbpolar/l1_order_1p5m.py",
+    "line": 2776,
+    "text": "\"floor_hits_1e15\": None,"
+   },
+   {
+    "file": "comparison_bench/src/comparison_bench/formal_ir/nbpolar/l1_order_1p5m.py",
+    "line": 2788,
+    "text": "hits = {\"raw_zero_count_hits\": None, \"floor_hits_1e15\": None,"
+   },
+   {
+    "file": "comparison_bench/src/comparison_bench/formal_ir/nbpolar/l1_disclosure_1p5m.py",
+    "line": 1165,
+    "text": "\"floor_hits_1e15\": floor_hits,"
+   },
+   {
+    "file": "comparison_bench/src/comparison_bench/formal_ir/nbpolar/l1_disclosure_1p5m.py",
+    "line": 1307,
+    "text": "\"floor_hits_1e15\": diag.get(\"floor_hits_1e15\"),"
+   },
+   {
+    "file": "comparison_bench/src/comparison_bench/formal_ir/nbpolar/l1_disclosure_1p5m.py",
+    "line": 1358,
+    "text": "\"floor_hits_1e15\": diag.get(\"floor_hits_1e15\"),"
+   },
+   {
+    "file": "comparison_bench/src/comparison_bench/formal_ir/nbpolar/l1_disclosure_1p5m.py",
+    "line": 1418,
+    "text": "\"floor_hits_1e15\": None,"
+   },
+   {
+    "file": "comparison_bench/src/comparison_bench/formal_ir/nbpolar/l1_disclosure_1p5m.py",
+    "line": 2489,
+    "text": "\"floor_hits_1e15\": None,"
+   },
+   {
+    "file": "comparison_bench/src/comparison_bench/formal_ir/nbpolar/l1_disclosure_1p5m.py",
+    "line": 2501,
+    "text": "hits = {\"raw_zero_count_hits\": None, \"floor_hits_1e15\": None,"
+   },
+   {
+    "file": "comparison_bench/src/comparison_bench/formal_ir/nbpolar/l1_dose_escalation_1p5m.py",
+    "line": 1191,
+    "text": "\"floor_hits_1e15\": floor_hits,"
+   },
+   {
+    "file": "comparison_bench/src/comparison_bench/formal_ir/nbpolar/l1_dose_escalation_1p5m.py",
+    "line": 1333,
+    "text": "\"floor_hits_1e15\": diag.get(\"floor_hits_1e15\"),"
+   },
+   {
+    "file": "comparison_bench/src/comparison_bench/formal_ir/nbpolar/l1_dose_escalation_1p5m.py",
+    "line": 1384,
+    "text": "\"floor_hits_1e15\": diag.get(\"floor_hits_1e15\"),"
+   },
+   {
+    "file": "comparison_bench/src/comparison_bench/formal_ir/nbpolar/l1_dose_escalation_1p5m.py",
+    "line": 1444,
+    "text": "\"floor_hits_1e15\": None,"
+   },
+   {
+    "file": "comparison_bench/src/comparison_bench/formal_ir/nbpolar/l1_dose_escalation_1p5m.py",
+    "line": 2516,
+    "text": "\"floor_hits_1e15\": None,"
+   },
+   {
+    "file": "comparison_bench/src/comparison_bench/formal_ir/nbpolar/l1_dose_escalation_1p5m.py",
+    "line": 2528,
+    "text": "hits = {\"raw_zero_count_hits\": None, \"floor_hits_1e15\": None,"
+   },
+   {
+    "file": "comparison_bench/src/comparison_bench/formal_ir/nbpolar/l1_dose_512_1p5m.py",
+    "line": 1221,
+    "text": "\"floor_hits_1e15\": floor_hits,"
+   },
+   {
+    "file": "comparison_bench/src/comparison_bench/formal_ir/nbpolar/l1_dose_512_1p5m.py",
+    "line": 1364,
+    "text": "\"floor_hits_1e15\": diag.get(\"floor_hits_1e15\"),"
+   },
+   {
+    "file": "comparison_bench/src/comparison_bench/formal_ir/nbpolar/l1_dose_512_1p5m.py",
+    "line": 1415,
+    "text": "\"floor_hits_1e15\": diag.get(\"floor_hits_1e15\"),"
+   },
+   {
+    "file": "comparison_bench/src/comparison_bench/formal_ir/nbpolar/l1_dose_512_1p5m.py",
+    "line": 1475,
+    "text": "\"floor_hits_1e15\": None,"
+   },
+   {
+    "file": "comparison_bench/src/comparison_bench/formal_ir/nbpolar/l1_dose_512_1p5m.py",
+    "line": 2548,
+    "text": "\"floor_hits_1e15\": None,"
+   },
+   {
+    "file": "comparison_bench/src/comparison_bench/formal_ir/nbpolar/l1_dose_512_1p5m.py",
+    "line": 2560,
+    "text": "hits = {\"raw_zero_count_hits\": None, \"floor_hits_1e15\": None,"
+   }
+  ],
+  "floor_hit_rate": [
+   {
+    "file": "comparison_bench/src/comparison_bench/formal_ir/nbpolar/raw_prior_val_1p5m.py",
+    "line": 20,
+    "text": "- (d6) per-record floor-hit fields + the S2 ``floor_hit_rate_reported`` gate;"
+   },
+   {
+    "file": "comparison_bench/src/comparison_bench/formal_ir/nbpolar/raw_prior_val_1p5m.py",
+    "line": 258,
+    "text": "\"construction_floor_hit_rate\": FROZEN_CONSTRUCTION_FLOOR_HIT_RATE,"
+   },
+   {
+    "file": "comparison_bench/src/comparison_bench/formal_ir/nbpolar/raw_prior_val_1p5m.py",
+    "line": 299,
+    "text": "\"floor_hit_rate_reported\","
+   },
+   {
+    "file": "comparison_bench/src/comparison_bench/formal_ir/nbpolar/raw_prior_val_1p5m.py",
+    "line": 645,
+    "text": "\"floor_hit_rate\": float(floor_hits) / float(cells),"
+   },
+   {
+    "file": "comparison_bench/src/comparison_bench/formal_ir/nbpolar/raw_prior_val_1p5m.py",
+    "line": 805,
+    "text": "\"floor_hit_rate\": float(floor_hits) / float(pre.size),"
+   },
+   {
+    "file": "comparison_bench/src/comparison_bench/formal_ir/nbpolar/raw_prior_val_1p5m.py",
+    "line": 1181,
+    "text": "\"floor_hit_rate\": float(cal[\"floor_hit_rate\"]),"
+   }
+  ],
+  "floor_hit_log_loss_bits": [
+   {
+    "file": "comparison_bench/src/comparison_bench/formal_ir/nbpolar/raw_prior_val_1p5m.py",
+    "line": 1310,
+    "text": "\"floor_hit_log_loss_bits\": None,"
+   },
+   {
+    "file": "comparison_bench/src/comparison_bench/formal_ir/nbpolar/raw_prior_val_1p5m.py",
+    "line": 1323,
+    "text": "\"floor_hit_log_loss_bits\": None}"
+   },
+   {
+    "file": "comparison_bench/src/comparison_bench/formal_ir/nbpolar/raw_prior_val_1p5m.py",
+    "line": 1375,
+    "text": "\"floor_hit_log_loss_bits\": diag.get(\"floor_hit_log_loss_bits\"),"
+   },
+   {
+    "file": "comparison_bench/src/comparison_bench/formal_ir/nbpolar/raw_prior_val_1p5m.py",
+    "line": 1425,
+    "text": "\"floor_hit_log_loss_bits\": diag.get(\"floor_hit_log_loss_bits\"),"
+   },
+   {
+    "file": "comparison_bench/src/comparison_bench/formal_ir/nbpolar/l1_order_1p5m.py",
+    "line": 1366,
+    "text": "floor, and ``floor_hit_log_loss_bits`` is their ``-log2`` contribution"
+   },
+   {
+    "file": "comparison_bench/src/comparison_bench/formal_ir/nbpolar/l1_order_1p5m.py",
+    "line": 1395,
+    "text": "\"floor_hit_log_loss_bits\": loss,"
+   },
+   {
+    "file": "comparison_bench/src/comparison_bench/formal_ir/nbpolar/l1_order_1p5m.py",
+    "line": 1539,
+    "text": "\"floor_hit_log_loss_bits\": diag.get(\"floor_hit_log_loss_bits\"),"
+   },
+   {
+    "file": "comparison_bench/src/comparison_bench/formal_ir/nbpolar/l1_order_1p5m.py",
+    "line": 1591,
+    "text": "\"floor_hit_log_loss_bits\": diag.get(\"floor_hit_log_loss_bits\"),"
+   },
+   {
+    "file": "comparison_bench/src/comparison_bench/formal_ir/nbpolar/l1_order_1p5m.py",
+    "line": 1651,
+    "text": "\"floor_hit_log_loss_bits\": None,"
+   },
+   {
+    "file": "comparison_bench/src/comparison_bench/formal_ir/nbpolar/l1_order_1p5m.py",
+    "line": 2777,
+    "text": "\"floor_hit_log_loss_bits\": None,"
+   },
+   {
+    "file": "comparison_bench/src/comparison_bench/formal_ir/nbpolar/l1_disclosure_1p5m.py",
+    "line": 1137,
+    "text": "floor, and ``floor_hit_log_loss_bits`` is their ``-log2`` contribution"
+   },
+   {
+    "file": "comparison_bench/src/comparison_bench/formal_ir/nbpolar/l1_disclosure_1p5m.py",
+    "line": 1166,
+    "text": "\"floor_hit_log_loss_bits\": loss,"
+   },
+   {
+    "file": "comparison_bench/src/comparison_bench/formal_ir/nbpolar/l1_disclosure_1p5m.py",
+    "line": 1308,
+    "text": "\"floor_hit_log_loss_bits\": diag.get(\"floor_hit_log_loss_bits\"),"
+   },
+   {
+    "file": "comparison_bench/src/comparison_bench/formal_ir/nbpolar/l1_disclosure_1p5m.py",
+    "line": 1359,
+    "text": "\"floor_hit_log_loss_bits\": diag.get(\"floor_hit_log_loss_bits\"),"
+   },
+   {
+    "file": "comparison_bench/src/comparison_bench/formal_ir/nbpolar/l1_disclosure_1p5m.py",
+    "line": 1419,
+    "text": "\"floor_hit_log_loss_bits\": None,"
+   },
+   {
+    "file": "comparison_bench/src/comparison_bench/formal_ir/nbpolar/l1_disclosure_1p5m.py",
+    "line": 2490,
+    "text": "\"floor_hit_log_loss_bits\": None,"
+   },
+   {
+    "file": "comparison_bench/src/comparison_bench/formal_ir/nbpolar/l1_dose_escalation_1p5m.py",
+    "line": 1163,
+    "text": "floor, and ``floor_hit_log_loss_bits`` is their ``-log2`` contribution"
+   },
+   {
+    "file": "comparison_bench/src/comparison_bench/formal_ir/nbpolar/l1_dose_escalation_1p5m.py",
+    "line": 1192,
+    "text": "\"floor_hit_log_loss_bits\": loss,"
+   },
+   {
+    "file": "comparison_bench/src/comparison_bench/formal_ir/nbpolar/l1_dose_escalation_1p5m.py",
+    "line": 1334,
+    "text": "\"floor_hit_log_loss_bits\": diag.get(\"floor_hit_log_loss_bits\"),"
+   },
+   {
+    "file": "comparison_bench/src/comparison_bench/formal_ir/nbpolar/l1_dose_escalation_1p5m.py",
+    "line": 1385,
+    "text": "\"floor_hit_log_loss_bits\": diag.get(\"floor_hit_log_loss_bits\"),"
+   },
+   {
+    "file": "comparison_bench/src/comparison_bench/formal_ir/nbpolar/l1_dose_escalation_1p5m.py",
+    "line": 1445,
+    "text": "\"floor_hit_log_loss_bits\": None,"
+   },
+   {
+    "file": "comparison_bench/src/comparison_bench/formal_ir/nbpolar/l1_dose_escalation_1p5m.py",
+    "line": 2517,
+    "text": "\"floor_hit_log_loss_bits\": None,"
+   },
+   {
+    "file": "comparison_bench/src/comparison_bench/formal_ir/nbpolar/l1_dose_512_1p5m.py",
+    "line": 1193,
+    "text": "floor, and ``floor_hit_log_loss_bits`` is their ``-log2`` contribution"
+   },
+   {
+    "file": "comparison_bench/src/comparison_bench/formal_ir/nbpolar/l1_dose_512_1p5m.py",
+    "line": 1222,
+    "text": "\"floor_hit_log_loss_bits\": loss,"
+   },
+   {
+    "file": "comparison_bench/src/comparison_bench/formal_ir/nbpolar/l1_dose_512_1p5m.py",
+    "line": 1365,
+    "text": "\"floor_hit_log_loss_bits\": diag.get(\"floor_hit_log_loss_bits\"),"
+   },
+   {
+    "file": "comparison_bench/src/comparison_bench/formal_ir/nbpolar/l1_dose_512_1p5m.py",
+    "line": 1416,
+    "text": "\"floor_hit_log_loss_bits\": diag.get(\"floor_hit_log_loss_bits\"),"
+   },
+   {
+    "file": "comparison_bench/src/comparison_bench/formal_ir/nbpolar/l1_dose_512_1p5m.py",
+    "line": 1476,
+    "text": "\"floor_hit_log_loss_bits\": None,"
+   },
+   {
+    "file": "comparison_bench/src/comparison_bench/formal_ir/nbpolar/l1_dose_512_1p5m.py",
+    "line": 2549,
+    "text": "\"floor_hit_log_loss_bits\": None,"
+   }
+  ],
+  "raw_zero_count_hits": [
+   {
+    "file": "comparison_bench/src/comparison_bench/formal_ir/nbpolar/raw_prior_val_1p5m.py",
+    "line": 1308,
+    "text": "\"raw_zero_count_hits\": None,"
+   },
+   {
+    "file": "comparison_bench/src/comparison_bench/formal_ir/nbpolar/raw_prior_val_1p5m.py",
+    "line": 1322,
+    "text": "hits = {\"raw_zero_count_hits\": None, \"floor_hits_1e15\": None,"
+   },
+   {
+    "file": "comparison_bench/src/comparison_bench/formal_ir/nbpolar/raw_prior_val_1p5m.py",
+    "line": 1373,
+    "text": "\"raw_zero_count_hits\": diag.get(\"raw_zero_count_hits\"),"
+   },
+   {
+    "file": "comparison_bench/src/comparison_bench/formal_ir/nbpolar/raw_prior_val_1p5m.py",
+    "line": 1423,
+    "text": "\"raw_zero_count_hits\": diag.get(\"raw_zero_count_hits\"),"
+   },
+   {
+    "file": "comparison_bench/src/comparison_bench/formal_ir/nbpolar/l1_order_1p5m.py",
+    "line": 1393,
+    "text": "\"raw_zero_count_hits\": zero_hits,"
+   },
+   {
+    "file": "comparison_bench/src/comparison_bench/formal_ir/nbpolar/l1_order_1p5m.py",
+    "line": 1537,
+    "text": "\"raw_zero_count_hits\": diag.get(\"raw_zero_count_hits\"),"
+   },
+   {
+    "file": "comparison_bench/src/comparison_bench/formal_ir/nbpolar/l1_order_1p5m.py",
+    "line": 1589,
+    "text": "\"raw_zero_count_hits\": diag.get(\"raw_zero_count_hits\"),"
+   },
+   {
+    "file": "comparison_bench/src/comparison_bench/formal_ir/nbpolar/l1_order_1p5m.py",
+    "line": 1649,
+    "text": "\"raw_zero_count_hits\": None,"
+   },
+   {
+    "file": "comparison_bench/src/comparison_bench/formal_ir/nbpolar/l1_order_1p5m.py",
+    "line": 2775,
+    "text": "\"raw_zero_count_hits\": None,"
+   },
+   {
+    "file": "comparison_bench/src/comparison_bench/formal_ir/nbpolar/l1_order_1p5m.py",
+    "line": 2788,
+    "text": "hits = {\"raw_zero_count_hits\": None, \"floor_hits_1e15\": None,"
+   },
+   {
+    "file": "comparison_bench/src/comparison_bench/formal_ir/nbpolar/l1_disclosure_1p5m.py",
+    "line": 1164,
+    "text": "\"raw_zero_count_hits\": zero_hits,"
+   },
+   {
+    "file": "comparison_bench/src/comparison_bench/formal_ir/nbpolar/l1_disclosure_1p5m.py",
+    "line": 1306,
+    "text": "\"raw_zero_count_hits\": diag.get(\"raw_zero_count_hits\"),"
+   },
+   {
+    "file": "comparison_bench/src/comparison_bench/formal_ir/nbpolar/l1_disclosure_1p5m.py",
+    "line": 1357,
+    "text": "\"raw_zero_count_hits\": diag.get(\"raw_zero_count_hits\"),"
+   },
+   {
+    "file": "comparison_bench/src/comparison_bench/formal_ir/nbpolar/l1_disclosure_1p5m.py",
+    "line": 1417,
+    "text": "\"raw_zero_count_hits\": None,"
+   },
+   {
+    "file": "comparison_bench/src/comparison_bench/formal_ir/nbpolar/l1_disclosure_1p5m.py",
+    "line": 2488,
+    "text": "\"raw_zero_count_hits\": None,"
+   },
+   {
+    "file": "comparison_bench/src/comparison_bench/formal_ir/nbpolar/l1_disclosure_1p5m.py",
+    "line": 2501,
+    "text": "hits = {\"raw_zero_count_hits\": None, \"floor_hits_1e15\": None,"
+   },
+   {
+    "file": "comparison_bench/src/comparison_bench/formal_ir/nbpolar/l1_dose_escalation_1p5m.py",
+    "line": 1190,
+    "text": "\"raw_zero_count_hits\": zero_hits,"
+   },
+   {
+    "file": "comparison_bench/src/comparison_bench/formal_ir/nbpolar/l1_dose_escalation_1p5m.py",
+    "line": 1332,
+    "text": "\"raw_zero_count_hits\": diag.get(\"raw_zero_count_hits\"),"
+   },
+   {
+    "file": "comparison_bench/src/comparison_bench/formal_ir/nbpolar/l1_dose_escalation_1p5m.py",
+    "line": 1383,
+    "text": "\"raw_zero_count_hits\": diag.get(\"raw_zero_count_hits\"),"
+   },
+   {
+    "file": "comparison_bench/src/comparison_bench/formal_ir/nbpolar/l1_dose_escalation_1p5m.py",
+    "line": 1443,
+    "text": "\"raw_zero_count_hits\": None,"
+   },
+   {
+    "file": "comparison_bench/src/comparison_bench/formal_ir/nbpolar/l1_dose_escalation_1p5m.py",
+    "line": 2515,
+    "text": "\"raw_zero_count_hits\": None,"
+   },
+   {
+    "file": "comparison_bench/src/comparison_bench/formal_ir/nbpolar/l1_dose_escalation_1p5m.py",
+    "line": 2528,
+    "text": "hits = {\"raw_zero_count_hits\": None, \"floor_hits_1e15\": None,"
+   },
+   {
+    "file": "comparison_bench/src/comparison_bench/formal_ir/nbpolar/l1_dose_512_1p5m.py",
+    "line": 1220,
+    "text": "\"raw_zero_count_hits\": zero_hits,"
+   },
+   {
+    "file": "comparison_bench/src/comparison_bench/formal_ir/nbpolar/l1_dose_512_1p5m.py",
+    "line": 1363,
+    "text": "\"raw_zero_count_hits\": diag.get(\"raw_zero_count_hits\"),"
+   },
+   {
+    "file": "comparison_bench/src/comparison_bench/formal_ir/nbpolar/l1_dose_512_1p5m.py",
+    "line": 1414,
+    "text": "\"raw_zero_count_hits\": diag.get(\"raw_zero_count_hits\"),"
+   },
+   {
+    "file": "comparison_bench/src/comparison_bench/formal_ir/nbpolar/l1_dose_512_1p5m.py",
+    "line": 1474,
+    "text": "\"raw_zero_count_hits\": None,"
+   },
+   {
+    "file": "comparison_bench/src/comparison_bench/formal_ir/nbpolar/l1_dose_512_1p5m.py",
+    "line": 2547,
+    "text": "\"raw_zero_count_hits\": None,"
+   },
+   {
+    "file": "comparison_bench/src/comparison_bench/formal_ir/nbpolar/l1_dose_512_1p5m.py",
+    "line": 2560,
+    "text": "hits = {\"raw_zero_count_hits\": None, \"floor_hits_1e15\": None,"
+   }
+  ],
+  "_first_error_coord_index_space": {
+   "statement": "AMBIGUOUS_FROM_GREP: quote lines above decide; both readings carried in order_geometry",
+   "writer_file": "comparison_bench/src/comparison_bench/formal_ir/nbpolar/raw_prior_val_1p5m.py",
+   "context": [
+    {
+     "line": 71,
+     "text": "verify_dev_block_identity = p20l.verify_dev_block_identity"
+    },
+    {
+     "line": 72,
+     "text": "verify_dev_manifest = p20l.verify_dev_manifest"
+    },
+    {
+     "line": 73,
+     "text": "verify_lambda_prior = p20l.verify_stage_b_prior"
+    },
+    {
+     "line": 74,
+     "text": "form_dev_blocks = p20l.form_dev_blocks"
+    },
+    {
+     "line": 75,
+     "text": "candidate_nll_bits = p20l.candidate_nll_bits"
+    },
+    {
+     "line": 76,
+     "text": "raw_floor_diagnostics = p20l.raw_floor_diagnostics"
+    },
+    {
+     "line": 77,
+     "text": "first_error_coordinate = p20l.first_error_coordinate"
+    },
+    {
+     "line": 78,
+     "text": "l1_prefix_positions = p20l.l1_prefix_positions"
+    },
+    {
+     "line": 79,
+     "text": "l2_prefix_positions = p20l.l2_prefix_positions"
+    },
+    {
+     "line": 80,
+     "text": "holdout_nll_bits = p20l.holdout_nll_bits"
+    },
+    {
+     "line": 81,
+     "text": "raw_symbol_error_rate = p20l.raw_symbol_error_rate"
+    },
+    {
+     "line": 82,
+     "text": "polar_transform_fn = polar_transform"
+    },
+    {
+     "line": 83,
+     "text": "make_gf32_fn = make_gf32"
+    }
+   ]
+  },
+  "_endpoint_boolean_meaning": "Per-record exact-reconstruction flags (True = that layer/pair matches reference exactly on that block/arm); writer citations above give exact definitions.",
+  "_floor_field_meaning": "floor_hits_1e15 = count of likelihood evaluations that hit the 1e-15 probability floor; floor_hit_rate = hits / evaluations; floor_hit_log_loss_bits = bits of log-loss attributable to floor hits; raw_zero_count_hits = hits on TRAIN zero-count cells; verified against writer citations above."
+ },
+ "available_fields": {
+  "p20m_n_records": 9,
+  "p20m_union_keys": [
+   "actual_key_dependent_bits",
+   "actual_public_control_bits",
+   "arm",
+   "arm_index",
+   "arm_kind",
+   "arm_provenance",
+   "block_index",
+   "budget_literal",
+   "deployable",
+   "disclosure_ce_ratio",
+   "error",
+   "exact",
+   "first_error_coord",
+   "first_error_layer",
+   "floor_hit_log_loss_bits",
+   "floor_hit_rate",
+   "floor_hits_1e15",
+   "frame_count",
+   "frame_end",
+   "frame_start",
+   "full_block_key_dependent_bits",
+   "hard_l2_exact",
+   "k1",
+   "k2",
+   "k_total",
+   "key_bit_delta_vs_G0",
+   "l1_exact",
+   "l1_executed",
+   "l1_order_digest",
+   "l2_invoked",
+   "l2_nll_candidate_H_bits",
+   "l2_nll_true_H_bits",
+   "label_match",
+   "nonfinite",
+   "oracle_control",
+   "oracle_l2_exact",
+   "oracle_truth_use",
+   "outcome",
+   "pair_exact",
+   "prior_source",
+   "protocol",
+   "public_control_bits_per_tag",
+   "raw_ser",
+   "raw_zero_count_hits",
+   "resources",
+   "sc_calls_this_record",
+   "selected_total_nll_bits",
+   "tag_invoked",
+   "tag_pass",
+   "true_l1_nll_bits",
+   "true_l2_nll_bits",
+   "true_total_nll_bits",
+   "true_total_nll_bits_per_pair",
+   "truth_leak_violation",
+   "wall_s"
+  ],
+  "predecessors": {
+   ".workbuddy/queue/NBPOLAR-PHASE4-P20I-L1-DISCLOSURE-1P5M/l1_disclosure_1p5m/per_block_arm_outcomes.jsonl": {
+    "n_records": 9,
+    "union_keys": [
+     "actual_key_dependent_bits",
+     "actual_public_control_bits",
+     "arm",
+     "arm_index",
+     "arm_kind",
+     "arm_provenance",
+     "block_index",
+     "deployable",
+     "disclosure_ce_ratio",
+     "error",
+     "exact",
+     "first_error_coord",
+     "first_error_layer",
+     "floor_hit_log_loss_bits",
+     "floor_hits_1e15",
+     "frame_count",
+     "frame_end",
+     "frame_start",
+     "full_block_key_dependent_bits",
+     "hard_l2_exact",
+     "k1",
+     "k2",
+     "key_bit_delta_vs_base",
+     "l1_delta_k1_applied",
+     "l1_disclosure_rule",
+     "l1_exact",
+     "l1_executed",
+     "l1_prefix_len",
+     "l2_invoked",
+     "l2_nll_candidate_H_bits",
+     "l2_nll_true_H_bits",
+     "l2_prefix_len",
+     "label_match",
+     "nonfinite",
+     "oracle_control",
+     "oracle_l2_exact",
+     "oracle_truth_use",
+     "outcome",
+     "pair_exact",
+     "protocol",
+     "public_control_bits_per_tag",
+     "raw_ser",
+     "raw_zero_count_hits",
+     "resources",
+     "sc_calls_this_record",
+     "selected_total_nll_bits",
+     "tag_invoked",
+     "tag_pass",
+     "true_l1_nll_bits",
+     "true_l2_nll_bits",
+     "true_total_nll_bits",
+     "true_total_nll_bits_per_pair",
+     "truth_leak_violation",
+     "wall_s"
+    ]
+   },
+   ".workbuddy/queue/NBPOLAR-PHASE4-P20J-L1-DOSE-ESCALATION-1P5M/l1_dose_escalation_1p5m/per_block_arm_outcomes.jsonl": {
+    "n_records": 9,
+    "union_keys": [
+     "actual_key_dependent_bits",
+     "actual_public_control_bits",
+     "arm",
+     "arm_index",
+     "arm_kind",
+     "arm_provenance",
+     "block_index",
+     "deployable",
+     "disclosure_ce_ratio",
+     "error",
+     "exact",
+     "first_error_coord",
+     "first_error_layer",
+     "floor_hit_log_loss_bits",
+     "floor_hits_1e15",
+     "frame_count",
+     "frame_end",
+     "frame_start",
+     "full_block_key_dependent_bits",
+     "hard_l2_exact",
+     "k1",
+     "k2",
+     "key_bit_delta_vs_base",
+     "l1_delta_k1_applied",
+     "l1_disclosure_rule",
+     "l1_exact",
+     "l1_executed",
+     "l1_prefix_len",
+     "l2_invoked",
+     "l2_nll_candidate_H_bits",
+     "l2_nll_true_H_bits",
+     "l2_prefix_len",
+     "label_match",
+     "nonfinite",
+     "oracle_control",
+     "oracle_l2_exact",
+     "oracle_truth_use",
+     "outcome",
+     "pair_exact",
+     "protocol",
+     "public_control_bits_per_tag",
+     "raw_ser",
+     "raw_zero_count_hits",
+     "resources",
+     "sc_calls_this_record",
+     "selected_total_nll_bits",
+     "tag_invoked",
+     "tag_pass",
+     "true_l1_nll_bits",
+     "true_l2_nll_bits",
+     "true_total_nll_bits",
+     "true_total_nll_bits_per_pair",
+     "truth_leak_violation",
+     "wall_s"
+    ]
+   },
+   ".workbuddy/queue/NBPOLAR-PHASE4-P20K-L1-DOSE-512-1P5M/l1_dose_512_1p5m/per_block_arm_outcomes.jsonl": {
+    "n_records": 9,
+    "union_keys": [
+     "actual_key_dependent_bits",
+     "actual_public_control_bits",
+     "arm",
+     "arm_index",
+     "arm_kind",
+     "arm_provenance",
+     "block_index",
+     "deployable",
+     "disclosure_ce_ratio",
+     "error",
+     "exact",
+     "first_error_coord",
+     "first_error_layer",
+     "floor_hit_log_loss_bits",
+     "floor_hits_1e15",
+     "frame_count",
+     "frame_end",
+     "frame_start",
+     "full_block_key_dependent_bits",
+     "hard_l2_exact",
+     "k1",
+     "k2",
+     "key_bit_delta_vs_base",
+     "l1_delta_k1_applied",
+     "l1_disclosure_rule",
+     "l1_exact",
+     "l1_executed",
+     "l1_prefix_len",
+     "l2_invoked",
+     "l2_nll_candidate_H_bits",
+     "l2_nll_true_H_bits",
+     "l2_prefix_len",
+     "label_match",
+     "nonfinite",
+     "oracle_control",
+     "oracle_l2_exact",
+     "oracle_truth_use",
+     "outcome",
+     "pair_exact",
+     "protocol",
+     "public_control_bits_per_tag",
+     "raw_ser",
+     "raw_zero_count_hits",
+     "resources",
+     "sc_calls_this_record",
+     "selected_total_nll_bits",
+     "tag_invoked",
+     "tag_pass",
+     "true_l1_nll_bits",
+     "true_l2_nll_bits",
+     "true_total_nll_bits",
+     "true_total_nll_bits_per_pair",
+     "truth_leak_violation",
+     "wall_s"
+    ]
+   },
+   ".workbuddy/queue/NBPOLAR-PHASE4-P20H-PER-SESSION-CALIBRATION/per_session_confirmation/per_block_arm_outcomes.jsonl": {
+    "n_records": 9,
+    "union_keys": [
+     "actual_key_dependent_bits",
+     "actual_public_control_bits",
+     "arm",
+     "arm_index",
+     "arm_kind",
+     "arm_provenance",
+     "block_index",
+     "deployable",
+     "disclosure_ce_ratio",
+     "error",
+     "exact",
+     "first_error_coord",
+     "first_error_layer",
+     "floor_hit_log_loss_bits",
+     "floor_hits_1e15",
+     "frame_count",
+     "frame_end",
+     "frame_start",
+     "full_block_key_dependent_bits",
+     "hard_l2_exact",
+     "k1",
+     "k2",
+     "key_bit_delta_vs_base",
+     "l1_exact",
+     "l1_executed",
+     "l1_prefix_len",
+     "l2_delta_k2_applied",
+     "l2_disclosure_rule",
+     "l2_invoked",
+     "l2_nll_candidate_H_bits",
+     "l2_nll_true_H_bits",
+     "l2_prefix_len",
+     "label_match",
+     "nonfinite",
+     "oracle_control",
+     "oracle_l2_exact",
+     "oracle_truth_use",
+     "outcome",
+     "pair_exact",
+     "protocol",
+     "public_control_bits_per_tag",
+     "raw_ser",
+     "raw_zero_count_hits",
+     "resources",
+     "sc_calls_this_record",
+     "selected_total_nll_bits",
+     "tag_invoked",
+     "tag_pass",
+     "true_l1_nll_bits",
+     "true_l2_nll_bits",
+     "true_total_nll_bits",
+     "true_total_nll_bits_per_pair",
+     "truth_leak_violation",
+     "wall_s"
+    ]
+   }
+  },
+  "p20m_l2_nll_like_keys": [
+   "l2_nll_candidate_H_bits",
+   "l2_nll_true_H_bits",
+   "selected_total_nll_bits",
+   "true_l1_nll_bits",
+   "true_l2_nll_bits",
+   "true_total_nll_bits",
+   "true_total_nll_bits_per_pair"
+  ],
+  "predecessor_l2_nll_like_keys": {
+   ".workbuddy/queue/NBPOLAR-PHASE4-P20I-L1-DISCLOSURE-1P5M/l1_disclosure_1p5m/per_block_arm_outcomes.jsonl": [
+    "l2_nll_candidate_H_bits",
+    "l2_nll_true_H_bits",
+    "selected_total_nll_bits",
+    "true_l1_nll_bits",
+    "true_l2_nll_bits",
+    "true_total_nll_bits",
+    "true_total_nll_bits_per_pair"
+   ],
+   ".workbuddy/queue/NBPOLAR-PHASE4-P20J-L1-DOSE-ESCALATION-1P5M/l1_dose_escalation_1p5m/per_block_arm_outcomes.jsonl": [
+    "l2_nll_candidate_H_bits",
+    "l2_nll_true_H_bits",
+    "selected_total_nll_bits",
+    "true_l1_nll_bits",
+    "true_l2_nll_bits",
+    "true_total_nll_bits",
+    "true_total_nll_bits_per_pair"
+   ],
+   ".workbuddy/queue/NBPOLAR-PHASE4-P20K-L1-DOSE-512-1P5M/l1_dose_512_1p5m/per_block_arm_outcomes.jsonl": [
+    "l2_nll_candidate_H_bits",
+    "l2_nll_true_H_bits",
+    "selected_total_nll_bits",
+    "true_l1_nll_bits",
+    "true_l2_nll_bits",
+    "true_total_nll_bits",
+    "true_total_nll_bits_per_pair"
+   ],
+   ".workbuddy/queue/NBPOLAR-PHASE4-P20H-PER-SESSION-CALIBRATION/per_session_confirmation/per_block_arm_outcomes.jsonl": [
+    "l2_nll_candidate_H_bits",
+    "l2_nll_true_H_bits",
+    "selected_total_nll_bits",
+    "true_l1_nll_bits",
+    "true_l2_nll_bits",
+    "true_total_nll_bits",
+    "true_total_nll_bits_per_pair"
+   ]
+  },
+  "p20m_log_loss_like_keys": [
+   "floor_hit_log_loss_bits"
+  ],
+  "l2_nll_bits_status": "PRESENT: l2_nll_candidate_H_bits,l2_nll_true_H_bits,selected_total_nll_bits,true_l1_nll_bits,true_l2_nll_bits,true_total_nll_bits,true_total_nll_bits_per_pair"
+ },
+ "budget_attribution": {
+  "K2": 6689,
+  "N": 32768,
+  "H2": 0.8003665547495433,
+  "capacity_5K2_plus_64_G2": 33509,
+  "capacity_G2_expected_33509": true,
+  "capacity_G1_expected_35164": true,
+  "capacity_G1": 35164,
+  "in_sample_conditional_entropy_N_H2_bits": 26226.411266033036,
+  "capacity_over_entropy_ratio_G2": 1.2776814814689863,
+  "frozen_plan_literal_hits": [
+   {
+    "path": "$/budget_literal",
+    "value": "1.3*32768*0.8255660516732963-64 over 5, floored, clipped [0,65536] = 7020"
+   },
+   {
+    "path": "$/g0_k1",
+    "value": "319"
+   },
+   {
+    "path": "$/g0_k2",
+    "value": "6492"
+   },
+   {
+    "path": "$/k1",
+    "value": "331"
+   },
+   {
+    "path": "$/k2",
+    "value": "6689"
+   },
+   {
+    "path": "$/lambda_control/k1",
+    "value": "319"
+   },
+   {
+    "path": "$/lambda_control/k2",
+    "value": "6492"
+   },
+   {
+    "path": "$/order_k1",
+    "value": "331"
+   },
+   {
+    "path": "$/order_k2",
+    "value": "6689"
+   }
+  ],
+  "per_block_margins": [
+   {
+    "arm": "G0_old_point_base",
+    "block": null,
+    "l2_nll_bits": 243862.01955693553,
+    "capacity": 33509,
+    "margin_bits": -210353.01955693553
+   },
+   {
+    "arm": "G1_raw_prior_session_budget",
+    "block": null,
+    "l2_nll_bits": 148666.7536113143,
+    "capacity": 35164,
+    "margin_bits": -113502.75361131431
+   },
+   {
+    "arm": "G2_true_l1_diagnostic",
+    "block": null,
+    "l2_nll_bits": 148666.7536113143,
+    "capacity": 33509,
+    "margin_bits": -115157.75361131431
+   },
+   {
+    "arm": "G0_old_point_base",
+    "block": null,
+    "l2_nll_bits": 242495.0241944695,
+    "capacity": 33509,
+    "margin_bits": -208986.0241944695
+   },
+   {
+    "arm": "G1_raw_prior_session_budget",
+    "block": null,
+    "l2_nll_bits": 156521.61000697713,
+    "capacity": 35164,
+    "margin_bits": -121357.61000697713
+   },
+   {
+    "arm": "G2_true_l1_diagnostic",
+    "block": null,
+    "l2_nll_bits": 140388.49310550484,
+    "capacity": 33509,
+    "margin_bits": -106879.49310550484
+   },
+   {
+    "arm": "G0_old_point_base",
+    "block": null,
+    "l2_nll_bits": 245208.25588282038,
+    "capacity": 33509,
+    "margin_bits": -211699.25588282038
+   },
+   {
+    "arm": "G1_raw_prior_session_budget",
+    "block": null,
+    "l2_nll_bits": 143585.11058704858,
+    "capacity": 35164,
+    "margin_bits": -108421.11058704858
+   },
+   {
+    "arm": "G2_true_l1_diagnostic",
+    "block": null,
+    "l2_nll_bits": 143585.11058704858,
+    "capacity": 33509,
+    "margin_bits": -110076.11058704858
+   }
+  ],
+  "H1_from_persisted": "compare margin_bits: negative = shortfall on that block"
+ },
+ "floor_attribution": {
+  "arm_key": "arm",
+  "p20m_per_record": [
+   {
+    "idx": 0,
+    "arm": "G0_old_point_base",
+    "first_error_layer": "L1",
+    "first_error_coord": 24,
+    "floor_hits_1e15": 3064,
+    "floor_hit_rate": 0.0467529296875,
+    "floor_hit_log_loss_bits": 21608.30869857777,
+    "raw_zero_count_hits": 3064
+   },
+   {
+    "idx": 1,
+    "arm": "G1_raw_prior_session_budget",
+    "first_error_layer": "L2",
+    "first_error_coord": 26,
+    "floor_hits_1e15": 43,
+    "floor_hit_rate": 0.0006561279296875,
+    "floor_hit_log_loss_bits": 2137.198438539453,
+    "raw_zero_count_hits": 43
+   },
+   {
+    "idx": 2,
+    "arm": "G2_true_l1_diagnostic",
+    "first_error_layer": "L2",
+    "first_error_coord": 26,
+    "floor_hits_1e15": 43,
+    "floor_hit_rate": 0.0006561279296875,
+    "floor_hit_log_loss_bits": 2137.198438539453,
+    "raw_zero_count_hits": 43
+   },
+   {
+    "idx": 3,
+    "arm": "G0_old_point_base",
+    "first_error_layer": "L1",
+    "first_error_coord": 5,
+    "floor_hits_1e15": 2946,
+    "floor_hit_rate": 0.044952392578125,
+    "floor_hit_log_loss_bits": 20825.224832245454,
+    "raw_zero_count_hits": 2946
+   },
+   {
+    "idx": 4,
+    "arm": "G1_raw_prior_session_budget",
+    "first_error_layer": "L1",
+    "first_error_coord": 848,
+    "floor_hits_1e15": 82,
+    "floor_hit_rate": 0.001251220703125,
+    "floor_hit_log_loss_bits": 4059.775598921367,
+    "raw_zero_count_hits": 82
+   },
+   {
+    "idx": 5,
+    "arm": "G2_true_l1_diagnostic",
+    "first_error_layer": "L2",
+    "first_error_coord": 3646,
+    "floor_hits_1e15": 30,
+    "floor_hit_rate": 0.000457763671875,
+    "floor_hit_log_loss_bits": 1494.0209214224205,
+    "raw_zero_count_hits": 30
+   },
+   {
+    "idx": 6,
+    "arm": "G0_old_point_base",
+    "first_error_layer": "L1",
+    "first_error_coord": 17,
+    "floor_hits_1e15": 3100,
+    "floor_hit_rate": 0.04730224609375,
+    "floor_hit_log_loss_bits": 21829.904925072122,
+    "raw_zero_count_hits": 3100
+   },
+   {
+    "idx": 7,
+    "arm": "G1_raw_prior_session_budget",
+    "first_error_layer": "L2",
+    "first_error_coord": 31,
+    "floor_hits_1e15": 25,
+    "floor_hit_rate": 0.0003814697265625,
+    "floor_hit_log_loss_bits": 1243.3513419546698,
+    "raw_zero_count_hits": 25
+   },
+   {
+    "idx": 8,
+    "arm": "G2_true_l1_diagnostic",
+    "first_error_layer": "L2",
+    "first_error_coord": 31,
+    "floor_hits_1e15": 25,
+    "floor_hit_rate": 0.0003814697265625,
+    "floor_hit_log_loss_bits": 1243.3513419546698,
+    "raw_zero_count_hits": 25
+   }
+  ],
+  "p20m_totals": {
+   "floor_hits_1e15": {
+    "n_present": 9,
+    "n_records": 9,
+    "sum": 9358.0,
+    "mean": 1039.7777777777778,
+    "max": 3100.0
+   },
+   "floor_hit_rate": {
+    "n_present": 9,
+    "n_records": 9,
+    "sum": 0.142791748046875,
+    "mean": 0.015865749782986112,
+    "max": 0.04730224609375
+   },
+   "floor_hit_log_loss_bits": {
+    "n_present": 9,
+    "n_records": 9,
+    "sum": 76578.33453722738,
+    "mean": 8508.703837469708,
+    "max": 21829.904925072122
+   },
+   "raw_zero_count_hits": {
+    "n_present": 9,
+    "n_records": 9,
+    "sum": 9358.0,
+    "mean": 1039.7777777777778,
+    "max": 3100.0
+   }
+  },
+  "predecessors": {
+   ".workbuddy/queue/NBPOLAR-PHASE4-P20I-L1-DISCLOSURE-1P5M/l1_disclosure_1p5m/per_block_arm_outcomes.jsonl": {
+    "n_records": 9,
+    "totals": {
+     "floor_hits_1e15": {
+      "n_present": 9,
+      "n_records": 9,
+      "sum": 17805.0,
+      "mean": 1978.3333333333333,
+      "max": 3035.0
+     },
+     "floor_hit_rate": {
+      "n_present": 0,
+      "n_records": 9,
+      "sum": null,
+      "mean": null,
+      "max": null
+     },
+     "floor_hit_log_loss_bits": {
+      "n_present": 9,
+      "n_records": 9,
+      "sum": 125724.50419852127,
+      "mean": 13969.389355391253,
+      "max": 21403.79957634664
+     },
+     "raw_zero_count_hits": {
+      "n_present": 9,
+      "n_records": 9,
+      "sum": 17805.0,
+      "mean": 1978.3333333333333,
+      "max": 3035.0
+     }
+    }
+   },
+   ".workbuddy/queue/NBPOLAR-PHASE4-P20J-L1-DOSE-ESCALATION-1P5M/l1_dose_escalation_1p5m/per_block_arm_outcomes.jsonl": {
+    "n_records": 9,
+    "totals": {
+     "floor_hits_1e15": {
+      "n_present": 9,
+      "n_records": 9,
+      "sum": 18024.0,
+      "mean": 2002.6666666666667,
+      "max": 3166.0
+     },
+     "floor_hit_rate": {
+      "n_present": 0,
+      "n_records": 9,
+      "sum": null,
+      "mean": null,
+      "max": null
+     },
+     "floor_hit_log_loss_bits": {
+      "n_present": 9,
+      "n_records": 9,
+      "sum": 127276.61928281236,
+      "mean": 14141.84658697915,
+      "max": 22316.05275417593
+     },
+     "raw_zero_count_hits": {
+      "n_present": 9,
+      "n_records": 9,
+      "sum": 18024.0,
+      "mean": 2002.6666666666667,
+      "max": 3166.0
+     }
+    }
+   },
+   ".workbuddy/queue/NBPOLAR-PHASE4-P20K-L1-DOSE-512-1P5M/l1_dose_512_1p5m/per_block_arm_outcomes.jsonl": {
+    "n_records": 9,
+    "totals": {
+     "floor_hits_1e15": {
+      "n_present": 9,
+      "n_records": 9,
+      "sum": 17713.0,
+      "mean": 1968.111111111111,
+      "max": 3149.0
+     },
+     "floor_hit_rate": {
+      "n_present": 0,
+      "n_records": 9,
+      "sum": null,
+      "mean": null,
+      "max": null
+     },
+     "floor_hit_log_loss_bits": {
+      "n_present": 9,
+      "n_records": 9,
+      "sum": 125208.0696958222,
+      "mean": 13912.007743980244,
+      "max": 22178.990890825946
+     },
+     "raw_zero_count_hits": {
+      "n_present": 9,
+      "n_records": 9,
+      "sum": 17713.0,
+      "mean": 1968.111111111111,
+      "max": 3149.0
+     }
+    }
+   },
+   ".workbuddy/queue/NBPOLAR-PHASE4-P20H-PER-SESSION-CALIBRATION/per_session_confirmation/per_block_arm_outcomes.jsonl": {
+    "n_records": 9,
+    "totals": {
+     "floor_hits_1e15": {
+      "n_present": 9,
+      "n_records": 9,
+      "sum": 18205.0,
+      "mean": 2022.7777777777778,
+      "max": 3262.0
+     },
+     "floor_hit_rate": {
+      "n_present": 0,
+      "n_records": 9,
+      "sum": null,
+      "mean": null,
+      "max": null
+     },
+     "floor_hit_log_loss_bits": {
+      "n_present": 9,
+      "n_records": 9,
+      "sum": 131688.38818951207,
+      "mean": 14632.043132168008,
+      "max": 23933.997857131304
+     },
+     "raw_zero_count_hits": {
+      "n_present": 9,
+      "n_records": 9,
+      "sum": 18205.0,
+      "mean": 2022.7777777777778,
+      "max": 3262.0
+     }
+    }
+   }
+  },
+  "comparison": {
+   "descriptive": "UNAVAILABLE: floor_hit_rate missing on failing or in-sample blocks",
+   "p20m_l2_failing_n": 5,
+   "predecessor_mean_rates": {}
+  },
+  "floor_attributable_bits_note": "If a persisted per-record L2 log-loss field existed, floor-attributable bits = floor_hit_log_loss_bits on that record; else UNAVAILABLE (see available_fields)."
+ },
+ "order_geometry": {
+  "orders_keys": [
+   "derivation",
+   "k1",
+   "k2",
+   "k_total",
+   "kind",
+   "l1_order",
+   "l2_order",
+   "n",
+   "protocol"
+  ],
+  "perm_info": {
+   "l1_order": {
+    "len": 32768,
+    "is_full_perm": true,
+    "head10": [
+     0,
+     1,
+     2,
+     3,
+     4,
+     5,
+     6,
+     8,
+     9,
+     10
+    ]
+   },
+   "l2_order": {
+    "len": 32768,
+    "is_full_perm": true,
+    "head10": [
+     2453,
+     3348,
+     1746,
+     2410,
+     2948,
+     2952,
+     4880,
+     51,
+     253,
+     619
+    ]
+   }
+  },
+  "l2_perm_key": "l2_order",
+  "n_cells": 1048576,
+  "n_train_zero_cells": 1046140,
+  "frac_zero_cells": 0.9976768493652344,
+  "floor_mass_values": [
+   9.999999999988655e-16,
+   9.999999999988657e-16,
+   9.999999999988659e-16,
+   9.99999999998866e-16,
+   9.999999999988663e-16,
+   9.999999999988665e-16,
+   9.999999999988667e-16,
+   9.99999999998867e-16
+  ],
+  "p_b_weighted_floor_prob": null,
+  "npz_extra_keys": [
+   "floor_value",
+   "h1",
+   "h2",
+   "h_total",
+   "lambda_star"
+  ],
+  "npz_desc": {
+   "counts_ab": {
+    "shape": [
+     1024,
+     1024
+    ],
+    "dtype": "float64",
+    "size": 1048576,
+    "min": 0.0,
+    "max": 364.0,
+    "sum": 424960.0
+   },
+   "f_raw": {
+    "shape": [
+     1024,
+     1024
+    ],
+    "dtype": "float64",
+    "size": 1048576,
+    "min": 9.999999999988655e-16,
+    "max": 0.999999999998977,
+    "sum": 1023.9999999999424
+   },
+   "p1": {
+    "shape": [
+     32,
+     1024
+    ],
+    "dtype": "float64",
+    "size": 32768,
+    "min": 3.199999999996371e-14,
+    "max": 0.9999999999990081,
+    "sum": 1023.9999999999424
+   },
+   "p2": {
+    "shape": [
+     32,
+     1024,
+     32
+    ],
+    "dtype": "float64",
+    "size": 1048576,
+    "min": 9.999999999999691e-16,
+    "max": 0.999999999999969,
+    "sum": 32768.0
+   },
+   "p_b": {
+    "shape": [
+     1024
+    ],
+    "dtype": "float64",
+    "size": 1024,
+    "min": 0.0007647778614457831,
+    "max": 0.0011271649096385543,
+    "sum": 1.0
+   }
+  },
+  "topK2_floor_hazard_overlap": "UNAVAILABLE",
+  "note": "L2 perm length != n_cells or perm not found; no geometry beyond key inventory"
+ },
+ "hypothesis_table": {
+  "H1_budget_insufficiency": {
+   "label": "DECIDABLE-IN-RESULTS (see margins)",
+   "evidence": "per-record L2 NLL persisted; margins decide shortfall/surplus"
+  },
+  "H2_order_metric_nongeneralization": {
+   "label": "NOT DECIDABLE-FROM-PERSISTED-ARTIFACTS",
+   "evidence": "L2 permutation or cell geometry unavailable from persisted data"
+  },
+  "H3_floor_heavytail": {
+   "label": "NOT DECIDABLE-FROM-PERSISTED-ARTIFACTS",
+   "evidence": "floor fields missing: UNAVAILABLE: floor_hit_rate missing on failing or in-sample blocks"
+  }
+ },
+ "next_packet_requirements": [
+  "persist failure-neighborhood floor stats: floor-hit counts/rates/bits restricted to disclosed prefix and to failing-coordinate neighborhoods",
+  "persist disclosed-prefix membership flags + L2 order ranks for the observed failure coordinates (26, 3646, 31) under the frozen order"
+ ],
+ "command": "cd /mnt/d/Code/HD-QKD_Polar_Comparison-nbpolar && export OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1 MKL_NUM_THREADS=1 MALLOC_ARENA_MAX=2 && timeout 120 /mnt/d/Code/HD-QKD_Polar_Comparison/.venv/bin/python workspace/probes/nbpolar_x09_l2_attribution/body.py",
+ "interpreter": "/mnt/d/Code/HD-QKD_Polar_Comparison/.venv/bin/python 3.12.3 (main, Aug 31 2026, 10:18:26) [GCC 13.3.0]",
+ "wall_s": 0.2565000449976651,
+ "rss_bytes": 114130944,
+ "decoder_calls": 0,
+ "rng_calls": 0,
+ "tag_calls": 0,
+ "writes": [
+  "workspace/probes/nbpolar_x09_l2_attribution/results.json"
+ ],
+ "notes": [
+  "Descriptive only; no verdict about the next scientific factor.",
+  "rerun-2: fixed repo_root() off-by-one (4 dirname levels -> 3) after run-1 false X09_STOP_MISSING_FILE (wall 0.006s, empty inventory); prereg fenced block updated identically before run-2; frozen params, artifact list, and command unchanged",
+  "p20m_n_records=9 (expected 9).",
+  "aggregate_summary top-level keys: aggregates,analysis,attempt_read_accounting,block_ranges,budget_literal,claim_scope,dev_source,failing_integrity_gates,g0_k1,g0_k2,g0_leakage_bits,g1_leakage_bits,integrity,integrity_all_pass,intra_file_hold_frame_range,intra_file_val_frame_range,k1,k2,k_total,key_dependent_bits,mode,n,order_digest,outcome_label,planned_records,planned_sc_calls,planned_tag_invocations,public_control_bits,raw_input_bits_per_block,records_completed,recount_mismatch,remainder_frames,resource_stop_fired,resource_stop_reason,rss_bytes_peak,sc_calls,source,stage_b_sampling_calls,tag_invocations,wall_s",
+  "report.md chars: 990"
+ ]
+}

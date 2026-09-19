@@ -1,0 +1,985 @@
+{
+  "accounting": {
+    "expected_all_fully_invoked": {
+      "grand_total_key_dependent_bits": 1898880,
+      "grand_total_public_control_bits": 5036160,
+      "per_arm_key_dependent_bits": 632960,
+      "per_arm_public_control_bits": 1678720,
+      "per_arm_tag_invocations": 640
+    },
+    "fully_invoked_arm_bits": 989,
+    "grand_total_key_dependent_bits": 1898880,
+    "grand_total_public_control_bits": 5036160,
+    "grand_total_tag_invocations": 1920,
+    "l1_disclosure_bits": 225,
+    "l2_disclosure_bits": 700,
+    "observed_equals_full_invocation": true,
+    "per_arm": {
+      "marginal": {
+        "key_dependent_bits": 632960,
+        "public_control_bits": 1678720,
+        "tag_invocations": 640
+      },
+      "operational": {
+        "key_dependent_bits": 632960,
+        "public_control_bits": 1678720,
+        "tag_invocations": 640
+      },
+      "oracle": {
+        "key_dependent_bits": 632960,
+        "public_control_bits": 1678720,
+        "tag_invocations": 640
+      }
+    },
+    "public_control_bits_per_tag": 2623,
+    "tag_bits": 64
+  },
+  "aggregate": {
+    "gap_closure_fraction": null,
+    "gap_closure_fraction_defined_seeds": 0,
+    "l1_shared_decode_failures": 0,
+    "marginal_minus_hard_exact": {
+      "mean": 0.0,
+      "range": [
+        0.0,
+        0.0
+      ],
+      "sample_std": 0.0
+    },
+    "oracle_minus_hard_exact": {
+      "mean": 0.0,
+      "range": [
+        0.0,
+        0.0
+      ],
+      "sample_std": 0.0
+    },
+    "per_arm": {
+      "marginal": {
+        "decode_failed": {
+          "mean": 0.0,
+          "range": [
+            0.0,
+            0.0
+          ],
+          "sample_std": 0.0
+        },
+        "exact": {
+          "mean": 84.8,
+          "range": [
+            81.0,
+            88.0
+          ],
+          "sample_std": 3.2710854467592254
+        },
+        "undetected": {
+          "mean": 0.0,
+          "range": [
+            0.0,
+            0.0
+          ],
+          "sample_std": 0.0
+        },
+        "verify_failed": {
+          "mean": 43.2,
+          "range": [
+            40.0,
+            47.0
+          ],
+          "sample_std": 3.2710854467592254
+        }
+      },
+      "operational": {
+        "decode_failed": {
+          "mean": 0.0,
+          "range": [
+            0.0,
+            0.0
+          ],
+          "sample_std": 0.0
+        },
+        "exact": {
+          "mean": 84.8,
+          "range": [
+            81.0,
+            88.0
+          ],
+          "sample_std": 3.2710854467592254
+        },
+        "undetected": {
+          "mean": 0.0,
+          "range": [
+            0.0,
+            0.0
+          ],
+          "sample_std": 0.0
+        },
+        "verify_failed": {
+          "mean": 43.2,
+          "range": [
+            40.0,
+            47.0
+          ],
+          "sample_std": 3.2710854467592254
+        }
+      },
+      "oracle": {
+        "decode_failed": {
+          "mean": 0.0,
+          "range": [
+            0.0,
+            0.0
+          ],
+          "sample_std": 0.0
+        },
+        "exact": {
+          "mean": 84.8,
+          "range": [
+            81.0,
+            88.0
+          ],
+          "sample_std": 3.2710854467592254
+        },
+        "undetected": {
+          "mean": 0.0,
+          "range": [
+            0.0,
+            0.0
+          ],
+          "sample_std": 0.0
+        },
+        "verify_failed": {
+          "mean": 43.2,
+          "range": [
+            40.0,
+            47.0
+          ],
+          "sample_std": 3.2710854467592254
+        }
+      }
+    },
+    "per_arm_failures": {
+      "marginal": {
+        "mean": 43.2,
+        "range": [
+          40.0,
+          47.0
+        ],
+        "sample_std": 3.2710854467592254
+      },
+      "operational": {
+        "mean": 43.2,
+        "range": [
+          40.0,
+          47.0
+        ],
+        "sample_std": 3.2710854467592254
+      },
+      "oracle": {
+        "mean": 43.2,
+        "range": [
+          40.0,
+          47.0
+        ],
+        "sample_std": 3.2710854467592254
+      }
+    },
+    "per_arm_key_dependent_bits": {
+      "marginal": {
+        "mean": 126592.0,
+        "range": [
+          126592.0,
+          126592.0
+        ],
+        "sample_std": 0.0
+      },
+      "operational": {
+        "mean": 126592.0,
+        "range": [
+          126592.0,
+          126592.0
+        ],
+        "sample_std": 0.0
+      },
+      "oracle": {
+        "mean": 126592.0,
+        "range": [
+          126592.0,
+          126592.0
+        ],
+        "sample_std": 0.0
+      }
+    },
+    "per_arm_public_control_bits": {
+      "marginal": {
+        "mean": 335744.0,
+        "range": [
+          335744.0,
+          335744.0
+        ],
+        "sample_std": 0.0
+      },
+      "operational": {
+        "mean": 335744.0,
+        "range": [
+          335744.0,
+          335744.0
+        ],
+        "sample_std": 0.0
+      },
+      "oracle": {
+        "mean": 335744.0,
+        "range": [
+          335744.0,
+          335744.0
+        ],
+        "sample_std": 0.0
+      }
+    },
+    "per_arm_tag_invocations": {
+      "marginal": {
+        "mean": 128.0,
+        "range": [
+          128.0,
+          128.0
+        ],
+        "sample_std": 0.0
+      },
+      "operational": {
+        "mean": 128.0,
+        "range": [
+          128.0,
+          128.0
+        ],
+        "sample_std": 0.0
+      },
+      "oracle": {
+        "mean": 128.0,
+        "range": [
+          128.0,
+          128.0
+        ],
+        "sample_std": 0.0
+      }
+    },
+    "pooled": {
+      "arms": {
+        "marginal": {
+          "key_dependent_bits": 632960,
+          "outcome_counts": {
+            "decode_failed": 0,
+            "exact": 424,
+            "undetected": 0,
+            "verify_failed": 216
+          },
+          "public_control_bits": 1678720,
+          "tag_invocations": 640
+        },
+        "operational": {
+          "key_dependent_bits": 632960,
+          "outcome_counts": {
+            "decode_failed": 0,
+            "exact": 424,
+            "undetected": 0,
+            "verify_failed": 216
+          },
+          "public_control_bits": 1678720,
+          "tag_invocations": 640
+        },
+        "oracle": {
+          "key_dependent_bits": 632960,
+          "outcome_counts": {
+            "decode_failed": 0,
+            "exact": 424,
+            "undetected": 0,
+            "verify_failed": 216
+          },
+          "public_control_bits": 1678720,
+          "tag_invocations": 640
+        }
+      },
+      "blocks": 640,
+      "four_cell_tables": {
+        "hard_vs_marginal": {
+          "both_exact": 424,
+          "hard_only": 0,
+          "marginal_only": 0,
+          "neither": 216
+        },
+        "marginal_vs_oracle": {
+          "both_exact": 424,
+          "marginal_only": 0,
+          "neither": 216,
+          "oracle_only": 0
+        }
+      },
+      "gap_closure_fraction": null,
+      "hard_exact": 424,
+      "marginal_exact": 424,
+      "oracle_exact": 424
+    }
+  },
+  "body_sha_match": true,
+  "commands": [
+    {
+      "command_full_text": "cd /mnt/d/Code/HD-QKD_Polar_Comparison-nbpolar\n/mnt/d/Code/HD-QKD_Polar_Comparison/.venv/bin/python - <<'X03'\nimport hashlib\nimport json\nimport re\nimport statistics\nimport sys\nimport traceback\nfrom datetime import datetime, timezone\nfrom pathlib import Path\n\nimport numpy as np\n\nfrom comparison_bench.src.comparison_bench.formal_ir import nbpolar as nb\nfrom comparison_bench.src.comparison_bench.formal_ir.nbpolar import penalty_gate as pg\nfrom comparison_bench.src.comparison_bench.formal_ir.nbpolar import two_layer as tl\nfrom comparison_bench.src.comparison_bench.formal_ir.nbpolar.prior import (\n    Provenance,\n    build_p1_metrics,\n    gather_p2_metrics,\n    probs_to_symbol_metric,\n)\nfrom comparison_bench.src.comparison_bench.formal_ir.nbpolar.sc import sc_decode\nfrom comparison_bench.src.comparison_bench.formal_ir.nbpolar.transform import polar_transform\nfrom comparison_bench.src.comparison_bench.formal_ir.shared import toeplitz_tag\n\nROOT = Path(\"workspace/probes/nbpolar_x03_bob_marginal_l2\")\nPREREG = ROOT / \"prereg.md\"\nBODY_LOG = Path(\"/tmp/x03_body.log\")\nN = 256\nQ = 32\nK1 = 45\nK2 = 140\nEPS1 = 0.05\nEPS2_MEAN = 0.20\nPROFILE = \"strong\"\nPROFILE_FORMULA = \"0.02 + 0.36*u1/31\"\nSEEDS = (2026091490, 2026091491, 2026091492, 2026091493, 2026091494)\nBLOCKS = 128\nMASTER_OFFSET = 10000\nTAG_BITS = 64\nBITS_PER_COORD = 5\nALPHA = 2\nARMS = (\"operational\", \"marginal\", \"oracle\")\nPROVENANCE = {\n    \"operational\": Provenance.CANDIDATE_CONDITIONED,\n    \"marginal\": Provenance.PRIOR_ONLY,\n    \"oracle\": Provenance.ORACLE_CONDITIONED,\n}\nOUTCOMES = (\"exact\", \"undetected\", \"verify_failed\", \"decode_failed\")\nSTARTED_UTC = datetime.now(timezone.utc).strftime(\"%Y-%m-%dT%H:%M:%SZ\")\nLOG = []\nprereg_sha = None\ncommand_text = \"\"\nbody_sha_match = None\nprior = []\nif (ROOT / \"results.json\").exists():\n    try:\n        prior = json.loads((ROOT / \"results.json\").read_text(encoding=\"utf-8\")).get(\"commands\", [])\n    except Exception:\n        prior = []\n\n\ndef log(message):\n    LOG.append(str(message))\n    print(message, flush=True)\n\n\ndef utcnow():\n    return datetime.now(timezone.utc).strftime(\"%Y-%m-%dT%H:%M:%SZ\")\n\n\ndef arm_seed_bits(arm, block_index, master):\n    length = tl.seed_bits_for(N)\n    prefix = f\"{tl.SEED_PREFIX}:{int(master)}:{arm}:{int(block_index)}\"\n    buf = bytearray()\n    counter = 0\n    while len(buf) * 8 < length:\n        buf.extend(hashlib.sha256(f\"{prefix}:{counter}\".encode(\"ascii\")).digest())\n        counter += 1\n    bits = np.unpackbits(np.frombuffer(bytes(buf), dtype=np.uint8), bitorder=\"big\")\n    return bits[:length].astype(np.uint8)\n\n\ndef direct_marginal_table(table):\n    joint = table.reshape(Q, Q, table.shape[1])\n    colsum = table.sum(axis=0)\n    return (joint.sum(axis=0) / colsum[None, :]).T\n\n\ndef decode_layer(logp, positions, disclosed, field):\n    result = sc_decode(logp, field=field, alpha=ALPHA, known_positions=positions, known_values=disclosed)\n    if bool(np.isnan(result.decision_metrics).any()) or bool(np.isposinf(result.decision_metrics).any()):\n        raise RuntimeError(\"numeric nonfinite failure: invalid decision marginals\")\n    return result\n\n\ndef cell4(first_exact, second_exact, first_key, second_key):\n    if first_exact and second_exact:\n        return \"both_exact\"\n    if first_exact:\n        return first_key\n    if second_exact:\n        return second_key\n    return \"neither\"\n\n\ndef body_from_command(command):\n    lines = command.splitlines()\n    start = next(i for i, line in enumerate(lines) if line.rstrip().endswith(\"<<'X03'\"))\n    stop = next(i for i in range(start + 1, len(lines)) if lines[i].strip() == \"X03\")\n    return \"\\n\".join(lines[start + 1:stop]) + \"\\n\"\n\n\ndef stage_prereg():\n    global prereg_sha, command_text, body_sha_match\n    text = PREREG.read_text(encoding=\"utf-8\")\n    prereg_sha = hashlib.sha256(text.encode(\"utf-8\")).hexdigest()\n    match = re.search(r\"```bash\\n(.*?)\\n```\", text, re.S)\n    if match is None:\n        raise RuntimeError(\"prereg bash command block not found\")\n    command_text = match.group(1)\n    executed = BODY_LOG.read_text(encoding=\"utf-8\") if BODY_LOG.exists() else \"\"\n    body_sha_match = hashlib.sha256(executed.encode(\"utf-8\")).hexdigest() == hashlib.sha256(\n        body_from_command(command_text).encode(\"utf-8\")\n    ).hexdigest()\n    log(f\"prereg_sha256={prereg_sha} body_sha_match={body_sha_match}\")\n    if not body_sha_match:\n        raise RuntimeError(\"staged body is not byte-identical to the prereg heredoc body\")\n\n\ndef aggregate(values):\n    vals = [float(v) for v in values]\n    return {\n        \"mean\": statistics.mean(vals),\n        \"sample_std\": statistics.stdev(vals) if len(vals) > 1 else 0.0,\n        \"range\": [min(vals), max(vals)],\n    }\n\n\ndef build_output():\n    ROOT.mkdir(parents=True, exist_ok=True)\n    stage_prereg()\n\n    table = pg.build_dependent_joint_table(profile=PROFILE, epsilon1=EPS1)\n    table_dev = float(np.abs(table.sum(axis=0) - 1.0).max())\n    if table_dev > 1e-12:\n        raise AssertionError(f\"injected table column deviation {table_dev:.3e} > 1e-12\")\n    p1_table, p2_table = tl.layer_metric_tables(table)\n    p2_marginal_table = np.einsum(\"vb,vbw->bw\", p1_table, p2_table)\n    direct = direct_marginal_table(table)\n    formula_err = float(np.abs(p2_marginal_table - direct).max())\n    formula_pass = bool(formula_err <= 1e-12)\n    if not formula_pass:\n        raise AssertionError(f\"marginal formula max abs error {formula_err:.3e} > 1e-12\")\n    log(f\"formula_max_abs_error={formula_err:.3e} pass={formula_pass} table_col_dev={table_dev:.3e}\")\n\n    d1, d2 = tl.frozen_disclosure_sets(n=N, k1=K1, k2=K2, epsilon1=EPS1, epsilon2=EPS2_MEAN)\n    if d1.shape != (K1,) or d2.shape != (K2,):\n        raise AssertionError(f\"disclosure shapes D1={d1.shape} D2={d2.shape}\")\n    if any(s in pg.BANNED_SEEDS for s in SEEDS):\n        raise AssertionError(\"a frozen seed is banned by the accepted modules\")\n    field = nb.make_gf32()\n\n    seed_checks = 0\n    for s in SEEDS:\n        for arm in (\"operational\", \"oracle\"):\n            got = arm_seed_bits(arm, 0, s + MASTER_OFFSET)\n            ref = tl.block_toeplitz_seed_bits(arm, 0, master=s + MASTER_OFFSET, bit_length=tl.seed_bits_for(N))\n            if not np.array_equal(got, ref):\n                raise AssertionError(f\"seed derivation mismatch seed={s} arm={arm}\")\n            seed_checks += 1\n    log(f\"seed convention checks={seed_checks}; marginal uses the same derivation with arm='marginal'\")\n\n    full_arm_bits = BITS_PER_COORD * (K1 + K2) + TAG_BITS\n    seed_bits = tl.seed_bits_for(N)\n    per_seed = []\n    truth_isolation = {\n        int(s): {\n            \"sentinel_run\": False,\n            \"block_index\": None,\n            \"protected_arrays\": 0,\n            \"marginal_metric_bitwise_unchanged\": False,\n        }\n        for s in SEEDS\n    }\n    pooled_arms = {arm: {name: 0 for name in OUTCOMES} for arm in ARMS}\n    pooled_kdb = {arm: 0 for arm in ARMS}\n    pooled_public = {arm: 0 for arm in ARMS}\n    pooled_tags = {arm: 0 for arm in ARMS}\n    pooled_hm = {\"both_exact\": 0, \"hard_only\": 0, \"marginal_only\": 0, \"neither\": 0}\n    pooled_mo = {\"both_exact\": 0, \"marginal_only\": 0, \"oracle_only\": 0, \"neither\": 0}\n    pooled_hard_exact = 0\n    pooled_marg_exact = 0\n    pooled_oracle_exact = 0\n    l1_failure_total = 0\n\n    for s in SEEDS:\n        master = s + MASTER_OFFSET\n        rng = np.random.default_rng(s)\n        arm_stats = {arm: {name: 0 for name in OUTCOMES} for arm in ARMS}\n        arm_kdb = {arm: 0 for arm in ARMS}\n        arm_public = {arm: 0 for arm in ARMS}\n        arm_tags = {arm: 0 for arm in ARMS}\n        cells_hm = {\"both_exact\": 0, \"hard_only\": 0, \"marginal_only\": 0, \"neither\": 0}\n        cells_mo = {\"both_exact\": 0, \"marginal_only\": 0, \"oracle_only\": 0, \"neither\": 0}\n        sentinel_done = False\n        l1_failures = 0\n\n        for block_index in range(BLOCKS):\n            block = pg.sample_dependent_block(rng, n=N, epsilon1=EPS1, profile=PROFILE)\n            high, low, bob = block.high, block.low, block.bob\n            u1_true = polar_transform(high, field=field, alpha=ALPHA)\n            u2_true = polar_transform(low, field=field, alpha=ALPHA)\n            u1_disclosed = np.array(u1_true[d1], copy=True)\n            u2_disclosed = np.array(u2_true[d2], copy=True)\n            labels_true = (low + 32 * high).astype(np.int64)\n            labels_true_bits = tl.labels_to_bits(labels_true)\n\n            high_hat = None\n            try:\n                p1_probs = build_p1_metrics(bob[None, :], p1_table)[0]\n                p1_metric = probs_to_symbol_metric(p1_probs, provenance=Provenance.PRIOR_ONLY)\n                sc1 = decode_layer(p1_metric.logp, d1, u1_disclosed, field)\n                high_hat = np.array(sc1.x_hat, copy=True)\n            except Exception:\n                l1_failures += 1\n\n            outcomes = {}\n            protected = []\n            marginal_low_hat = None\n            marginal_label_hat = None\n            if high_hat is None:\n                for arm in ARMS:\n                    outcomes[arm] = \"decode_failed\"\n                    arm_stats[arm][\"decode_failed\"] += 1\n                    arm_kdb[arm] += BITS_PER_COORD * K1\n            else:\n                p2_operational = gather_p2_metrics(bob[None, :], high_hat[None, :], p2_table)[0]\n                p2_marginal = p2_marginal_table[bob]\n                p2_oracle = gather_p2_metrics(bob[None, :], high[None, :], p2_table)[0]\n                p2_by_arm = {\"operational\": p2_operational, \"marginal\": p2_marginal, \"oracle\": p2_oracle}\n                for arm in ARMS:\n                    metric = probs_to_symbol_metric(p2_by_arm[arm], provenance=PROVENANCE[arm])\n                    if arm == \"marginal\":\n                        protected.extend([p2_marginal, metric.logp])\n                    try:\n                        sc2 = decode_layer(metric.logp, d2, u2_disclosed, field)\n                        low_hat = np.array(sc2.x_hat, copy=True)\n                        label_hat = (low_hat + 32 * high_hat).astype(np.int64)\n                        label_match = bool(np.array_equal(label_hat, labels_true))\n                        seed_vec = arm_seed_bits(arm, block_index, master)\n                        tag_pass = toeplitz_tag(labels_true_bits, seed_vec, TAG_BITS) == toeplitz_tag(\n                            tl.labels_to_bits(label_hat), seed_vec, TAG_BITS\n                        )\n                        if tag_pass and label_match:\n                            outcomes[arm] = \"exact\"\n                        elif tag_pass:\n                            outcomes[arm] = \"undetected\"\n                        else:\n                            outcomes[arm] = \"verify_failed\"\n                        arm_kdb[arm] += full_arm_bits\n                        arm_public[arm] += seed_bits\n                        arm_tags[arm] += 1\n                        if arm == \"marginal\":\n                            marginal_low_hat = low_hat\n                            marginal_label_hat = label_hat\n                    except Exception:\n                        outcomes[arm] = \"decode_failed\"\n                        arm_kdb[arm] += BITS_PER_COORD * (K1 + K2)\n                    arm_stats[arm][outcomes[arm]] += 1\n\n            hard_exact = outcomes[\"operational\"] == \"exact\"\n            marg_exact = outcomes[\"marginal\"] == \"exact\"\n            oracle_exact = outcomes[\"oracle\"] == \"exact\"\n            cells_hm[cell4(hard_exact, marg_exact, \"hard_only\", \"marginal_only\")] += 1\n            cells_mo[cell4(marg_exact, oracle_exact, \"marginal_only\", \"oracle_only\")] += 1\n\n            if (not sentinel_done) and high_hat is not None:\n                protected.extend([high_hat, u1_disclosed, u2_disclosed])\n                if marginal_low_hat is not None:\n                    protected.extend([marginal_low_hat, marginal_label_hat])\n                snapshots = [np.array(item, copy=True) for item in protected]\n                for arr, modulus in ((high, Q), (low, Q), (u1_true, Q), (u2_true, Q), (labels_true, 1024)):\n                    arr[...] = (arr + 1) % modulus\n                unchanged = all(\n                    np.array_equal(np.asarray(item), snap) for item, snap in zip(protected, snapshots)\n                )\n                truth_isolation[int(s)] = {\n                    \"sentinel_run\": True,\n                    \"block_index\": int(block_index),\n                    \"protected_arrays\": len(protected),\n                    \"marginal_metric_bitwise_unchanged\": bool(unchanged),\n                }\n                sentinel_done = True\n\n        hard_exact_count = arm_stats[\"operational\"][\"exact\"]\n        marg_exact_count = arm_stats[\"marginal\"][\"exact\"]\n        oracle_exact_count = arm_stats[\"oracle\"][\"exact\"]\n        denominator = oracle_exact_count - hard_exact_count\n        closure = None\n        if denominator > 0:\n            closure = (marg_exact_count - hard_exact_count) / float(denominator)\n\n        per_seed.append({\n            \"seed\": int(s),\n            \"master\": int(master),\n            \"blocks\": BLOCKS,\n            \"l1_shared_decode_failures\": int(l1_failures),\n            \"arms\": {\n                arm: {\n                    \"outcome_counts\": {name: int(arm_stats[arm][name]) for name in OUTCOMES},\n                    \"failures\": int(arm_stats[arm][\"verify_failed\"] + arm_stats[arm][\"decode_failed\"]),\n                    \"key_dependent_bits\": int(arm_kdb[arm]),\n                    \"public_control_bits\": int(arm_public[arm]),\n                    \"tag_invocations\": int(arm_tags[arm]),\n                }\n                for arm in ARMS\n            },\n            \"four_cell_tables\": {\n                \"hard_vs_marginal\": dict(cells_hm),\n                \"marginal_vs_oracle\": dict(cells_mo),\n            },\n            \"exact_gaps\": {\n                \"marginal_minus_hard\": int(marg_exact_count - hard_exact_count),\n                \"oracle_minus_hard\": int(denominator),\n            },\n            \"gap_closure_fraction\": closure,\n            \"truth_isolation\": truth_isolation[int(s)],\n        })\n\n        for arm in ARMS:\n            for name in OUTCOMES:\n                pooled_arms[arm][name] += arm_stats[arm][name]\n            pooled_kdb[arm] += arm_kdb[arm]\n            pooled_public[arm] += arm_public[arm]\n            pooled_tags[arm] += arm_tags[arm]\n        for name in cells_hm:\n            pooled_hm[name] += cells_hm[name]\n        for name in cells_mo:\n            pooled_mo[name] += cells_mo[name]\n        pooled_hard_exact += hard_exact_count\n        pooled_marg_exact += marg_exact_count\n        pooled_oracle_exact += oracle_exact_count\n        l1_failure_total += l1_failures\n        log(\n            f\"seed {s}: hard={hard_exact_count}/{BLOCKS} marginal={marg_exact_count}/{BLOCKS} \"\n            f\"oracle={oracle_exact_count}/{BLOCKS} closure={closure} l1_fail={l1_failures}\"\n        )\n\n    pooled_denominator = pooled_oracle_exact - pooled_hard_exact\n    pooled_closure = None\n    if pooled_denominator > 0:\n        pooled_closure = (pooled_marg_exact - pooled_hard_exact) / float(pooled_denominator)\n\n    closure_seeds = [r[\"gap_closure_fraction\"] for r in per_seed if r[\"gap_closure_fraction\"] is not None]\n    aggregate_block = {\n        \"per_arm\": {\n            arm: {\n                name: aggregate([r[\"arms\"][arm][\"outcome_counts\"][name] for r in per_seed])\n                for name in OUTCOMES\n            }\n            for arm in ARMS\n        },\n        \"per_arm_failures\": {\n            arm: aggregate([r[\"arms\"][arm][\"failures\"] for r in per_seed]) for arm in ARMS\n        },\n        \"per_arm_key_dependent_bits\": {\n            arm: aggregate([r[\"arms\"][arm][\"key_dependent_bits\"] for r in per_seed]) for arm in ARMS\n        },\n        \"per_arm_public_control_bits\": {\n            arm: aggregate([r[\"arms\"][arm][\"public_control_bits\"] for r in per_seed]) for arm in ARMS\n        },\n        \"per_arm_tag_invocations\": {\n            arm: aggregate([r[\"arms\"][arm][\"tag_invocations\"] for r in per_seed]) for arm in ARMS\n        },\n        \"marginal_minus_hard_exact\": aggregate([r[\"exact_gaps\"][\"marginal_minus_hard\"] for r in per_seed]),\n        \"oracle_minus_hard_exact\": aggregate([r[\"exact_gaps\"][\"oracle_minus_hard\"] for r in per_seed]),\n        \"gap_closure_fraction_defined_seeds\": len(closure_seeds),\n        \"gap_closure_fraction\": aggregate(closure_seeds) if closure_seeds else None,\n        \"pooled\": {\n            \"hard_exact\": int(pooled_hard_exact),\n            \"marginal_exact\": int(pooled_marg_exact),\n            \"oracle_exact\": int(pooled_oracle_exact),\n            \"blocks\": int(BLOCKS * len(SEEDS)),\n            \"gap_closure_fraction\": pooled_closure,\n            \"four_cell_tables\": {\n                \"hard_vs_marginal\": dict(pooled_hm),\n                \"marginal_vs_oracle\": dict(pooled_mo),\n            },\n            \"arms\": {\n                arm: {\n                    \"outcome_counts\": {name: int(pooled_arms[arm][name]) for name in OUTCOMES},\n                    \"key_dependent_bits\": int(pooled_kdb[arm]),\n                    \"public_control_bits\": int(pooled_public[arm]),\n                    \"tag_invocations\": int(pooled_tags[arm]),\n                }\n                for arm in ARMS\n            },\n        },\n        \"l1_shared_decode_failures\": int(l1_failure_total),\n    }\n\n    accounting = {\n        \"fully_invoked_arm_bits\": int(full_arm_bits),\n        \"l1_disclosure_bits\": int(BITS_PER_COORD * K1),\n        \"l2_disclosure_bits\": int(BITS_PER_COORD * K2),\n        \"tag_bits\": TAG_BITS,\n        \"public_control_bits_per_tag\": int(seed_bits),\n        \"per_arm\": {\n            arm: {\n                \"key_dependent_bits\": int(pooled_kdb[arm]),\n                \"public_control_bits\": int(pooled_public[arm]),\n                \"tag_invocations\": int(pooled_tags[arm]),\n            }\n            for arm in ARMS\n        },\n        \"grand_total_key_dependent_bits\": int(sum(pooled_kdb.values())),\n        \"grand_total_public_control_bits\": int(sum(pooled_public.values())),\n        \"grand_total_tag_invocations\": int(sum(pooled_tags.values())),\n        \"expected_all_fully_invoked\": {\n            \"per_arm_key_dependent_bits\": int(BLOCKS * len(SEEDS) * full_arm_bits),\n            \"per_arm_public_control_bits\": int(BLOCKS * len(SEEDS) * seed_bits),\n            \"per_arm_tag_invocations\": int(BLOCKS * len(SEEDS)),\n            \"grand_total_key_dependent_bits\": int(len(ARMS) * BLOCKS * len(SEEDS) * full_arm_bits),\n            \"grand_total_public_control_bits\": int(len(ARMS) * BLOCKS * len(SEEDS) * seed_bits),\n        },\n        \"observed_equals_full_invocation\": bool(\n            all(pooled_tags[arm] == BLOCKS * len(SEEDS) for arm in ARMS)\n        ),\n    }\n\n    truth_all = all(\n        truth_isolation[int(s)][\"sentinel_run\"]\n        and truth_isolation[int(s)][\"marginal_metric_bitwise_unchanged\"]\n        for s in SEEDS\n    )\n\n    failed_prior = any(entry.get(\"exit_code\") not in (0, None) for entry in prior)\n    execution_entry = {\n        \"n\": len(prior) + 1,\n        \"kind\": \"frozen three-arm per-block execution (Tier-X, decoder calls)\",\n        \"started_utc\": STARTED_UTC,\n        \"ended_utc\": utcnow(),\n        \"exit_code\": 0,\n        \"command_full_text\": command_text,\n        \"stdout_tail\": \"\\n\".join(LOG[-30:]),\n        \"stderr_tail\": \"\",\n        \"error_fixed\": (\n            \"script-only fix after a failed prior attempt; frozen parameters unchanged; see notes.deviation\"\n            if failed_prior else None\n        ),\n    }\n\n    return {\n        \"probe_id\": \"nbpolar_x03_bob_marginal_l2\",\n        \"tier\": \"X-non-claim\",\n        \"created_utc\": utcnow(),\n        \"prereg_sha256\": prereg_sha,\n        \"body_sha_match\": bool(body_sha_match),\n        \"interpreter\": sys.executable,\n        \"python_version\": sys.version.split()[0],\n        \"numpy_version\": np.__version__,\n        \"config\": {\n            \"q\": Q,\n            \"n\": N,\n            \"field\": {\n                \"name\": \"GF32 polynomial basis\",\n                \"primitive_polynomial\": 37,\n                \"alpha\": ALPHA,\n                \"index_order\": \"natural\",\n            },\n            \"epsilon1\": EPS1,\n            \"profile\": PROFILE,\n            \"epsilon2_formula\": PROFILE_FORMULA,\n            \"epsilon2_mean\": EPS2_MEAN,\n            \"profile_table_max_column_deviation\": float(table_dev),\n            \"k1\": K1,\n            \"k2\": K2,\n            \"seeds\": [int(s) for s in SEEDS],\n            \"masters\": [int(s) + MASTER_OFFSET for s in SEEDS],\n            \"blocks_per_seed\": BLOCKS,\n            \"arms\": list(ARMS),\n            \"arm_seed_namespaces\": list(ARMS),\n            \"provenance\": {arm: PROVENANCE[arm].value for arm in ARMS},\n            \"p2_marginal_formula\": \"P2_marginal[b,u2] = sum_u1 P1[u1,b] * P2[u1,b,u2]\",\n            \"p2_direct_marginal\": \"sum_high f[32*high+u2,b] / sum_A f[A,b]\",\n            \"label_assembly\": (\n                \"label_arm = low_hat_arm + 32*high_hat; the shared L1 hard candidate high_hat \"\n                \"supplies the high half for all three arms\"\n            ),\n            \"d1\": [int(v) for v in d1],\n            \"d2\": [int(v) for v in d2],\n            \"tag_bits\": TAG_BITS,\n            \"fully_invoked_arm_bits\": int(full_arm_bits),\n            \"public_control_bits_per_tag\": int(seed_bits),\n            \"sampler\": (\n                \"penalty_gate.sample_dependent_block(profile='strong', epsilon1=0.05) with one \"\n                \"np.random.default_rng(seed) per seed; 128 shared blocks per seed\"\n            ),\n            \"seed_convention\": (\n                \"SHA-256('nbpolar-p4-toeplitz-seed:<master>:<arm>:<block>:<counter>') MSB-first, \"\n                \"arm namespaces operational/marginal/oracle; accepted block_toeplitz_seed_bits \"\n                \"covers operational/oracle and is equality-checked; the marginal namespace uses \"\n                \"the identical local derivation because the accepted function is restricted to \"\n                \"its two arms\"\n            ),\n        },\n        \"formula_max_abs_error\": formula_err,\n        \"formula_max_abs_error_pass\": formula_pass,\n        \"seed_convention_checks\": int(seed_checks),\n        \"per_seed\": per_seed,\n        \"aggregate\": aggregate_block,\n        \"accounting\": accounting,\n        \"truth_isolation\": {\n            \"per_seed\": {str(s): truth_isolation[int(s)] for s in SEEDS},\n            \"all_seeds_marginal_metric_bitwise_unchanged\": bool(truth_all),\n            \"violations\": int(\n                sum(1 for s in SEEDS if not truth_isolation[int(s)][\"marginal_metric_bitwise_unchanged\"])\n            ),\n        },\n        \"commands\": prior + [execution_entry],\n        \"notes\": {\n            \"label_assembly_convention\": (\n                \"FROZEN: all three arms use the same shared L1 source-domain hard candidate \"\n                \"high_hat for the high half; label_arm = low_hat_arm + 32*high_hat. The candidate \"\n                \"enters only label assembly/scoring, never the marginal metric or its decoder; \"\n                \"the marginal metric (PRIOR_ONLY) receives Bob only.\"\n            ),\n            \"arm_metrics\": {\n                \"operational\": \"P2_hard = gather_p2_metrics(bob, high_hat, p2_table), CANDIDATE_CONDITIONED\",\n                \"marginal\": \"P2_marginal_table[b,u2] = sum_u1 P1[u1,b]*P2[u1,b,u2] gathered at bob, PRIOR_ONLY\",\n                \"oracle\": \"P2_true = gather_p2_metrics(bob, high_true, p2_table), ORACLE_CONDITIONED\",\n            },\n            \"scope\": (\n                \"Tier-X non-claim probe; descriptive numbers only, no threshold verdict, candidate, \"\n                \"accepted token, attempt accounting, ledger update, commit or push\"\n            ),\n            \"writes\": (\n                \"exactly workspace/probes/nbpolar_x03_bob_marginal_l2/{prereg.md,results.json} \"\n                \"plus /tmp logs\"\n            ),\n            \"execution_staging\": (\n                \"the executed decoder body is the byte-identical prereg heredoc body staged via \"\n                \"/tmp/x03_body.log; body_sha_match=\" + str(bool(body_sha_match))\n            ),\n            \"deviation\": (\n                \"none\" if not failed_prior else\n                \"script-only fixes after failed attempts; frozen parameters unchanged\"\n            ),\n        },\n    }\n\n\ntry:\n    output = build_output()\n    (ROOT / \"results.json\").write_text(\n        json.dumps(output, indent=2, sort_keys=True) + \"\\n\", encoding=\"utf-8\"\n    )\n    print(f\"wrote {ROOT / 'results.json'}\")\nexcept BaseException:\n    tb = traceback.format_exc()\n    print(tb, file=sys.stderr, flush=True)\n    try:\n        ROOT.mkdir(parents=True, exist_ok=True)\n        failure_entry = {\n            \"n\": len(prior) + 1,\n            \"kind\": \"frozen three-arm per-block execution (Tier-X, decoder calls)\",\n            \"started_utc\": STARTED_UTC,\n            \"ended_utc\": utcnow(),\n            \"exit_code\": 1,\n            \"command_full_text\": command_text,\n            \"stdout_tail\": \"\\n\".join(LOG[-30:]),\n            \"stderr_tail\": \"\\n\".join(tb.splitlines()[-30:]),\n            \"error_fixed\": None,\n        }\n        partial = {\n            \"probe_id\": \"nbpolar_x03_bob_marginal_l2\",\n            \"tier\": \"X-non-claim\",\n            \"created_utc\": utcnow(),\n            \"prereg_sha256\": prereg_sha,\n            \"body_sha_match\": body_sha_match,\n            \"status\": \"failed_attempt\",\n            \"commands\": prior + [failure_entry],\n            \"notes\": {\"failure\": \"see commands[-1].stderr_tail; frozen parameters unchanged\"},\n        }\n        (ROOT / \"results.json\").write_text(\n            json.dumps(partial, indent=2, sort_keys=True) + \"\\n\", encoding=\"utf-8\"\n        )\n    except BaseException:\n        print(traceback.format_exc(), file=sys.stderr, flush=True)\n    raise\nX03",
+      "ended_utc": "2026-09-13T10:34:48Z",
+      "error_fixed": null,
+      "exit_code": 0,
+      "kind": "frozen three-arm per-block execution (Tier-X, decoder calls)",
+      "n": 1,
+      "started_utc": "2026-09-13T10:33:17Z",
+      "stderr_tail": "",
+      "stdout_tail": "prereg_sha256=d55745d41d9a8cbde95319aa6c743ad4b762526bebbe4f0a3f2e49881a23ce28 body_sha_match=True\nformula_max_abs_error=2.998e-15 pass=True table_col_dev=3.775e-15\nseed convention checks=10; marginal uses the same derivation with arm='marginal'\nseed 2026091490: hard=82/128 marginal=82/128 oracle=82/128 closure=None l1_fail=0\nseed 2026091491: hard=81/128 marginal=81/128 oracle=81/128 closure=None l1_fail=0\nseed 2026091492: hard=88/128 marginal=88/128 oracle=88/128 closure=None l1_fail=0\nseed 2026091493: hard=88/128 marginal=88/128 oracle=88/128 closure=None l1_fail=0\nseed 2026091494: hard=85/128 marginal=85/128 oracle=85/128 closure=None l1_fail=0"
+    }
+  ],
+  "config": {
+    "arm_seed_namespaces": [
+      "operational",
+      "marginal",
+      "oracle"
+    ],
+    "arms": [
+      "operational",
+      "marginal",
+      "oracle"
+    ],
+    "blocks_per_seed": 128,
+    "d1": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      16,
+      17,
+      18,
+      19,
+      20,
+      21,
+      22,
+      24,
+      25,
+      26,
+      32,
+      33,
+      34,
+      35,
+      36,
+      40,
+      48,
+      64,
+      65,
+      66,
+      68,
+      72,
+      80,
+      96,
+      128,
+      129,
+      130,
+      132,
+      136,
+      144
+    ],
+    "d2": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17,
+      18,
+      19,
+      20,
+      21,
+      22,
+      23,
+      24,
+      25,
+      26,
+      27,
+      28,
+      29,
+      30,
+      31,
+      32,
+      33,
+      34,
+      35,
+      36,
+      37,
+      38,
+      39,
+      40,
+      41,
+      42,
+      43,
+      44,
+      45,
+      46,
+      47,
+      48,
+      49,
+      50,
+      51,
+      52,
+      53,
+      54,
+      55,
+      56,
+      57,
+      58,
+      60,
+      64,
+      65,
+      66,
+      67,
+      68,
+      69,
+      70,
+      71,
+      72,
+      73,
+      74,
+      75,
+      76,
+      77,
+      78,
+      80,
+      81,
+      82,
+      83,
+      84,
+      85,
+      86,
+      88,
+      89,
+      90,
+      92,
+      96,
+      97,
+      98,
+      99,
+      100,
+      101,
+      102,
+      104,
+      105,
+      106,
+      108,
+      112,
+      113,
+      114,
+      128,
+      129,
+      130,
+      131,
+      132,
+      133,
+      134,
+      135,
+      136,
+      137,
+      138,
+      139,
+      140,
+      141,
+      142,
+      144,
+      145,
+      146,
+      147,
+      148,
+      149,
+      150,
+      152,
+      153,
+      154,
+      160,
+      161,
+      162,
+      163,
+      164,
+      165,
+      168,
+      176,
+      192,
+      193,
+      194,
+      196,
+      200,
+      208,
+      224
+    ],
+    "epsilon1": 0.05,
+    "epsilon2_formula": "0.02 + 0.36*u1/31",
+    "epsilon2_mean": 0.2,
+    "field": {
+      "alpha": 2,
+      "index_order": "natural",
+      "name": "GF32 polynomial basis",
+      "primitive_polynomial": 37
+    },
+    "fully_invoked_arm_bits": 989,
+    "k1": 45,
+    "k2": 140,
+    "label_assembly": "label_arm = low_hat_arm + 32*high_hat; the shared L1 hard candidate high_hat supplies the high half for all three arms",
+    "masters": [
+      2026101490,
+      2026101491,
+      2026101492,
+      2026101493,
+      2026101494
+    ],
+    "n": 256,
+    "p2_direct_marginal": "sum_high f[32*high+u2,b] / sum_A f[A,b]",
+    "p2_marginal_formula": "P2_marginal[b,u2] = sum_u1 P1[u1,b] * P2[u1,b,u2]",
+    "profile": "strong",
+    "profile_table_max_column_deviation": 3.774758283725532e-15,
+    "provenance": {
+      "marginal": "PRIOR_ONLY",
+      "operational": "CANDIDATE_CONDITIONED",
+      "oracle": "ORACLE_CONDITIONED"
+    },
+    "public_control_bits_per_tag": 2623,
+    "q": 32,
+    "sampler": "penalty_gate.sample_dependent_block(profile='strong', epsilon1=0.05) with one np.random.default_rng(seed) per seed; 128 shared blocks per seed",
+    "seed_convention": "SHA-256('nbpolar-p4-toeplitz-seed:<master>:<arm>:<block>:<counter>') MSB-first, arm namespaces operational/marginal/oracle; accepted block_toeplitz_seed_bits covers operational/oracle and is equality-checked; the marginal namespace uses the identical local derivation because the accepted function is restricted to its two arms",
+    "seeds": [
+      2026091490,
+      2026091491,
+      2026091492,
+      2026091493,
+      2026091494
+    ],
+    "tag_bits": 64
+  },
+  "created_utc": "2026-09-13T10:34:48Z",
+  "formula_max_abs_error": 2.9976021664879227e-15,
+  "formula_max_abs_error_pass": true,
+  "interpreter": "/mnt/d/Code/HD-QKD_Polar_Comparison/.venv/bin/python",
+  "notes": {
+    "arm_metrics": {
+      "marginal": "P2_marginal_table[b,u2] = sum_u1 P1[u1,b]*P2[u1,b,u2] gathered at bob, PRIOR_ONLY",
+      "operational": "P2_hard = gather_p2_metrics(bob, high_hat, p2_table), CANDIDATE_CONDITIONED",
+      "oracle": "P2_true = gather_p2_metrics(bob, high_true, p2_table), ORACLE_CONDITIONED"
+    },
+    "deviation": "none",
+    "execution_staging": "the executed decoder body is the byte-identical prereg heredoc body staged via /tmp/x03_body.log; body_sha_match=True",
+    "label_assembly_convention": "FROZEN: all three arms use the same shared L1 source-domain hard candidate high_hat for the high half; label_arm = low_hat_arm + 32*high_hat. The candidate enters only label assembly/scoring, never the marginal metric or its decoder; the marginal metric (PRIOR_ONLY) receives Bob only.",
+    "scope": "Tier-X non-claim probe; descriptive numbers only, no threshold verdict, candidate, accepted token, attempt accounting, ledger update, commit or push",
+    "writes": "exactly workspace/probes/nbpolar_x03_bob_marginal_l2/{prereg.md,results.json} plus /tmp logs"
+  },
+  "numpy_version": "2.5.3",
+  "per_seed": [
+    {
+      "arms": {
+        "marginal": {
+          "failures": 46,
+          "key_dependent_bits": 126592,
+          "outcome_counts": {
+            "decode_failed": 0,
+            "exact": 82,
+            "undetected": 0,
+            "verify_failed": 46
+          },
+          "public_control_bits": 335744,
+          "tag_invocations": 128
+        },
+        "operational": {
+          "failures": 46,
+          "key_dependent_bits": 126592,
+          "outcome_counts": {
+            "decode_failed": 0,
+            "exact": 82,
+            "undetected": 0,
+            "verify_failed": 46
+          },
+          "public_control_bits": 335744,
+          "tag_invocations": 128
+        },
+        "oracle": {
+          "failures": 46,
+          "key_dependent_bits": 126592,
+          "outcome_counts": {
+            "decode_failed": 0,
+            "exact": 82,
+            "undetected": 0,
+            "verify_failed": 46
+          },
+          "public_control_bits": 335744,
+          "tag_invocations": 128
+        }
+      },
+      "blocks": 128,
+      "exact_gaps": {
+        "marginal_minus_hard": 0,
+        "oracle_minus_hard": 0
+      },
+      "four_cell_tables": {
+        "hard_vs_marginal": {
+          "both_exact": 82,
+          "hard_only": 0,
+          "marginal_only": 0,
+          "neither": 46
+        },
+        "marginal_vs_oracle": {
+          "both_exact": 82,
+          "marginal_only": 0,
+          "neither": 46,
+          "oracle_only": 0
+        }
+      },
+      "gap_closure_fraction": null,
+      "l1_shared_decode_failures": 0,
+      "master": 2026101490,
+      "seed": 2026091490,
+      "truth_isolation": {
+        "block_index": 0,
+        "marginal_metric_bitwise_unchanged": true,
+        "protected_arrays": 7,
+        "sentinel_run": true
+      }
+    },
+    {
+      "arms": {
+        "marginal": {
+          "failures": 47,
+          "key_dependent_bits": 126592,
+          "outcome_counts": {
+            "decode_failed": 0,
+            "exact": 81,
+            "undetected": 0,
+            "verify_failed": 47
+          },
+          "public_control_bits": 335744,
+          "tag_invocations": 128
+        },
+        "operational": {
+          "failures": 47,
+          "key_dependent_bits": 126592,
+          "outcome_counts": {
+            "decode_failed": 0,
+            "exact": 81,
+            "undetected": 0,
+            "verify_failed": 47
+          },
+          "public_control_bits": 335744,
+          "tag_invocations": 128
+        },
+        "oracle": {
+          "failures": 47,
+          "key_dependent_bits": 126592,
+          "outcome_counts": {
+            "decode_failed": 0,
+            "exact": 81,
+            "undetected": 0,
+            "verify_failed": 47
+          },
+          "public_control_bits": 335744,
+          "tag_invocations": 128
+        }
+      },
+      "blocks": 128,
+      "exact_gaps": {
+        "marginal_minus_hard": 0,
+        "oracle_minus_hard": 0
+      },
+      "four_cell_tables": {
+        "hard_vs_marginal": {
+          "both_exact": 81,
+          "hard_only": 0,
+          "marginal_only": 0,
+          "neither": 47
+        },
+        "marginal_vs_oracle": {
+          "both_exact": 81,
+          "marginal_only": 0,
+          "neither": 47,
+          "oracle_only": 0
+        }
+      },
+      "gap_closure_fraction": null,
+      "l1_shared_decode_failures": 0,
+      "master": 2026101491,
+      "seed": 2026091491,
+      "truth_isolation": {
+        "block_index": 0,
+        "marginal_metric_bitwise_unchanged": true,
+        "protected_arrays": 7,
+        "sentinel_run": true
+      }
+    },
+    {
+      "arms": {
+        "marginal": {
+          "failures": 40,
+          "key_dependent_bits": 126592,
+          "outcome_counts": {
+            "decode_failed": 0,
+            "exact": 88,
+            "undetected": 0,
+            "verify_failed": 40
+          },
+          "public_control_bits": 335744,
+          "tag_invocations": 128
+        },
+        "operational": {
+          "failures": 40,
+          "key_dependent_bits": 126592,
+          "outcome_counts": {
+            "decode_failed": 0,
+            "exact": 88,
+            "undetected": 0,
+            "verify_failed": 40
+          },
+          "public_control_bits": 335744,
+          "tag_invocations": 128
+        },
+        "oracle": {
+          "failures": 40,
+          "key_dependent_bits": 126592,
+          "outcome_counts": {
+            "decode_failed": 0,
+            "exact": 88,
+            "undetected": 0,
+            "verify_failed": 40
+          },
+          "public_control_bits": 335744,
+          "tag_invocations": 128
+        }
+      },
+      "blocks": 128,
+      "exact_gaps": {
+        "marginal_minus_hard": 0,
+        "oracle_minus_hard": 0
+      },
+      "four_cell_tables": {
+        "hard_vs_marginal": {
+          "both_exact": 88,
+          "hard_only": 0,
+          "marginal_only": 0,
+          "neither": 40
+        },
+        "marginal_vs_oracle": {
+          "both_exact": 88,
+          "marginal_only": 0,
+          "neither": 40,
+          "oracle_only": 0
+        }
+      },
+      "gap_closure_fraction": null,
+      "l1_shared_decode_failures": 0,
+      "master": 2026101492,
+      "seed": 2026091492,
+      "truth_isolation": {
+        "block_index": 0,
+        "marginal_metric_bitwise_unchanged": true,
+        "protected_arrays": 7,
+        "sentinel_run": true
+      }
+    },
+    {
+      "arms": {
+        "marginal": {
+          "failures": 40,
+          "key_dependent_bits": 126592,
+          "outcome_counts": {
+            "decode_failed": 0,
+            "exact": 88,
+            "undetected": 0,
+            "verify_failed": 40
+          },
+          "public_control_bits": 335744,
+          "tag_invocations": 128
+        },
+        "operational": {
+          "failures": 40,
+          "key_dependent_bits": 126592,
+          "outcome_counts": {
+            "decode_failed": 0,
+            "exact": 88,
+            "undetected": 0,
+            "verify_failed": 40
+          },
+          "public_control_bits": 335744,
+          "tag_invocations": 128
+        },
+        "oracle": {
+          "failures": 40,
+          "key_dependent_bits": 126592,
+          "outcome_counts": {
+            "decode_failed": 0,
+            "exact": 88,
+            "undetected": 0,
+            "verify_failed": 40
+          },
+          "public_control_bits": 335744,
+          "tag_invocations": 128
+        }
+      },
+      "blocks": 128,
+      "exact_gaps": {
+        "marginal_minus_hard": 0,
+        "oracle_minus_hard": 0
+      },
+      "four_cell_tables": {
+        "hard_vs_marginal": {
+          "both_exact": 88,
+          "hard_only": 0,
+          "marginal_only": 0,
+          "neither": 40
+        },
+        "marginal_vs_oracle": {
+          "both_exact": 88,
+          "marginal_only": 0,
+          "neither": 40,
+          "oracle_only": 0
+        }
+      },
+      "gap_closure_fraction": null,
+      "l1_shared_decode_failures": 0,
+      "master": 2026101493,
+      "seed": 2026091493,
+      "truth_isolation": {
+        "block_index": 0,
+        "marginal_metric_bitwise_unchanged": true,
+        "protected_arrays": 7,
+        "sentinel_run": true
+      }
+    },
+    {
+      "arms": {
+        "marginal": {
+          "failures": 43,
+          "key_dependent_bits": 126592,
+          "outcome_counts": {
+            "decode_failed": 0,
+            "exact": 85,
+            "undetected": 0,
+            "verify_failed": 43
+          },
+          "public_control_bits": 335744,
+          "tag_invocations": 128
+        },
+        "operational": {
+          "failures": 43,
+          "key_dependent_bits": 126592,
+          "outcome_counts": {
+            "decode_failed": 0,
+            "exact": 85,
+            "undetected": 0,
+            "verify_failed": 43
+          },
+          "public_control_bits": 335744,
+          "tag_invocations": 128
+        },
+        "oracle": {
+          "failures": 43,
+          "key_dependent_bits": 126592,
+          "outcome_counts": {
+            "decode_failed": 0,
+            "exact": 85,
+            "undetected": 0,
+            "verify_failed": 43
+          },
+          "public_control_bits": 335744,
+          "tag_invocations": 128
+        }
+      },
+      "blocks": 128,
+      "exact_gaps": {
+        "marginal_minus_hard": 0,
+        "oracle_minus_hard": 0
+      },
+      "four_cell_tables": {
+        "hard_vs_marginal": {
+          "both_exact": 85,
+          "hard_only": 0,
+          "marginal_only": 0,
+          "neither": 43
+        },
+        "marginal_vs_oracle": {
+          "both_exact": 85,
+          "marginal_only": 0,
+          "neither": 43,
+          "oracle_only": 0
+        }
+      },
+      "gap_closure_fraction": null,
+      "l1_shared_decode_failures": 0,
+      "master": 2026101494,
+      "seed": 2026091494,
+      "truth_isolation": {
+        "block_index": 0,
+        "marginal_metric_bitwise_unchanged": true,
+        "protected_arrays": 7,
+        "sentinel_run": true
+      }
+    }
+  ],
+  "prereg_sha256": "d55745d41d9a8cbde95319aa6c743ad4b762526bebbe4f0a3f2e49881a23ce28",
+  "probe_id": "nbpolar_x03_bob_marginal_l2",
+  "python_version": "3.12.3",
+  "seed_convention_checks": 10,
+  "tier": "X-non-claim",
+  "truth_isolation": {
+    "all_seeds_marginal_metric_bitwise_unchanged": true,
+    "per_seed": {
+      "2026091490": {
+        "block_index": 0,
+        "marginal_metric_bitwise_unchanged": true,
+        "protected_arrays": 7,
+        "sentinel_run": true
+      },
+      "2026091491": {
+        "block_index": 0,
+        "marginal_metric_bitwise_unchanged": true,
+        "protected_arrays": 7,
+        "sentinel_run": true
+      },
+      "2026091492": {
+        "block_index": 0,
+        "marginal_metric_bitwise_unchanged": true,
+        "protected_arrays": 7,
+        "sentinel_run": true
+      },
+      "2026091493": {
+        "block_index": 0,
+        "marginal_metric_bitwise_unchanged": true,
+        "protected_arrays": 7,
+        "sentinel_run": true
+      },
+      "2026091494": {
+        "block_index": 0,
+        "marginal_metric_bitwise_unchanged": true,
+        "protected_arrays": 7,
+        "sentinel_run": true
+      }
+    },
+    "violations": 0
+  }
+}
