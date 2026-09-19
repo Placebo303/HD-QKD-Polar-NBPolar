@@ -1,0 +1,228 @@
+{
+ "run_uuid": "497eecf4-d060-42a2-a862-49e8059590b7",
+ "command": "python3 /tmp/opencode/h2v2_operator.py",
+ "workdir": "/mnt/d/Code/HD-QKD_Polar_Comparison-nbpolar",
+ "interpreter": "/usr/bin/python3 (.venv absent in this environment; stdlib only so no dependency delta)",
+ "wall_s": 0.1840099619985267,
+ "rss_bytes": 607805440,
+ "decoder_calls": 0,
+ "rng_calls": 0,
+ "tag_calls": 0,
+ "protected_opens": 0,
+ "execution_error_reruns": 0,
+ "stop_status": null,
+ "scope_ruling_bin_files": "main-thread SCOPE RULING (binding): opening the 9 IR-5 .bin byte contents counts as a PROTECTED OPEN. This operator never opened, stated, hashed, or byte-counted the .bin files. IR-5 evidence used here is manifest/sha-level only: ir5_full_manifest.json digests, sizes, shapes, ir5full-v1 linkage, plus the scalar/IR-1..IR-4 fields already persisted in per_block_arm_outcomes.jsonl and aggregate_summary.json.",
+ "arm_mapping_P20S": {
+  "A_anchor_frozen_order": "A_operational",
+  "B_spike_local_order": "B_operational",
+  "O_true_l1_oracle": "O_oracle_diagnostic_only"
+ },
+ "p20r_join_exclusion": "P20R jsonl/summary read for inventory + IR-2 attribution context only; NOT joined (frozen instruction: 59-row table = 56 + 3 P20S rows; all per-H2 deltas 8->9 / 37->38 verified consistent with P20R exclusion)",
+ "preregistered_h2e_v2_rule": {
+  "note": "frozen before computation; threshold application happens ONLY in the final adjudication file",
+  "C1": "in-scope IR-4 top-16 in-prefix fraction >= 0.50",
+  "C2": "IR-2 median over in-scope L2-fails >= 0.50",
+  "conjunction": "C1 AND C2 applied per scope separately",
+  "truncated_inputs_unchanged_from_v1": true
+ },
+ "threshold_literals": {
+  "eps": 1e-12,
+  "H2b_cutoff": 1.1,
+  "H2c_cutoff": 0.5,
+  "H2d_cutoff": 0.05,
+  "H2e_C1": 0.5,
+  "H2e_C2": 0.5
+ },
+ "inputs": [
+  {
+   "id": "P20N-jsonl",
+   "path": ".workbuddy/queue/NBPOLAR-PHASE4-P20N-L2-ALT-CONSTRUCTION-HOLD-1P5M/l2_alt_hold_1p5m/per_block_arm_outcomes.jsonl",
+   "size_bytes": 35817,
+   "mtime_epoch": 1789817788.894947
+  },
+  {
+   "id": "P20N-sum",
+   "path": ".workbuddy/queue/NBPOLAR-PHASE4-P20N-L2-ALT-CONSTRUCTION-HOLD-1P5M/l2_alt_hold_1p5m/aggregate_summary.json",
+   "size_bytes": 8925,
+   "mtime_epoch": 1789817788.8704598
+  },
+  {
+   "id": "P20O-jsonl",
+   "path": ".workbuddy/queue/NBPOLAR-PHASE4-P20O-2M-MAINTAIN-CONFIRMATION/l2_alt_maintain_2m/per_block_arm_outcomes.jsonl",
+   "size_bytes": 48091,
+   "mtime_epoch": 1789817788.9917407
+  },
+  {
+   "id": "P20O-sum",
+   "path": ".workbuddy/queue/NBPOLAR-PHASE4-P20O-2M-MAINTAIN-CONFIRMATION/l2_alt_maintain_2m/aggregate_summary.json",
+   "size_bytes": 10653,
+   "mtime_epoch": 1789817788.9669735
+  },
+  {
+   "id": "P20Q-jsonl",
+   "path": ".workbuddy/queue/NBPOLAR-PHASE4-P20Q-HOLD-IR-CONFIRMATION-2M/l2_alt_hold_ir_2m/per_block_arm_outcomes.jsonl",
+   "size_bytes": 2248515,
+   "mtime_epoch": 1789822918.9752
+  },
+  {
+   "id": "P20Q-sum",
+   "path": ".workbuddy/queue/NBPOLAR-PHASE4-P20Q-HOLD-IR-CONFIRMATION-2M/l2_alt_hold_ir_2m/aggregate_summary.json",
+   "size_bytes": 31145,
+   "mtime_epoch": 1789822918.990216
+  },
+  {
+   "id": "P20Q-report",
+   "path": ".workbuddy/queue/NBPOLAR-PHASE4-P20Q-HOLD-IR-CONFIRMATION-2M/l2_alt_hold_ir_2m/report.md",
+   "size_bytes": 1818,
+   "mtime_epoch": 1789822918.9922168
+  },
+  {
+   "id": "P20S-jsonl",
+   "path": ".workbuddy/queue/NBPOLAR-PHASE4-P20S-R1-GATE-FIX/l2_mechanism_probe_2m/per_block_arm_outcomes.jsonl",
+   "size_bytes": 17287,
+   "mtime_epoch": 1789847267.4486716
+  },
+  {
+   "id": "P20S-sum",
+   "path": ".workbuddy/queue/NBPOLAR-PHASE4-P20S-R1-GATE-FIX/l2_mechanism_probe_2m/aggregate_summary.json",
+   "size_bytes": 95489,
+   "mtime_epoch": 1789847267.544362
+  },
+  {
+   "id": "P20S-ir5manifest",
+   "path": ".workbuddy/queue/NBPOLAR-PHASE4-P20S-R1-GATE-FIX/l2_mechanism_probe_2m/ir5_full_manifest.json",
+   "size_bytes": 3966,
+   "mtime_epoch": 1789847267.4864588
+  },
+  {
+   "id": "P20S-report",
+   "path": ".workbuddy/queue/NBPOLAR-PHASE4-P20S-R1-GATE-FIX/l2_mechanism_probe_2m/report.md",
+   "size_bytes": 2465,
+   "mtime_epoch": 1789847267.5463629
+  },
+  {
+   "id": "P20S-frozen",
+   "path": ".workbuddy/queue/NBPOLAR-PHASE4-P20S-R1-GATE-FIX/l2_mechanism_probe_2m/frozen_plan.json",
+   "size_bytes": 93701,
+   "mtime_epoch": 1789847232.18738
+  },
+  {
+   "id": "P20S-identity",
+   "path": ".workbuddy/queue/NBPOLAR-PHASE4-P20S-R1-GATE-FIX/l2_mechanism_probe_2m/input_and_predecessor_identity.json",
+   "size_bytes": 90763,
+   "mtime_epoch": 1789847267.5413623
+  },
+  {
+   "id": "P20R-jsonl",
+   "path": ".workbuddy/queue/NBPOLAR-PHASE4-P20R-ORDER-POSITION-1P5M/l2_order_position_1p5m/per_block_arm_outcomes.jsonl",
+   "size_bytes": 452774,
+   "mtime_epoch": 1789831406.2450087
+  },
+  {
+   "id": "P20R-sum",
+   "path": ".workbuddy/queue/NBPOLAR-PHASE4-P20R-ORDER-POSITION-1P5M/l2_order_position_1p5m/aggregate_summary.json",
+   "size_bytes": 292664,
+   "mtime_epoch": 1789831406.268993
+  },
+  {
+   "id": "X10-results",
+   "path": "workspace/probes/nbpolar_x10_h2_scalar_adjudication/results.json",
+   "size_bytes": 59015,
+   "mtime_epoch": 1789817813.738152
+  },
+  {
+   "id": "V1-h2a_table.json",
+   "path": "workspace/h2/504e036a-f040-4d88-88ba-152702f92ffd/h2a_table.json",
+   "size_bytes": 18811,
+   "mtime_epoch": 1789825230.9299319
+  },
+  {
+   "id": "V1-h2b_table.json",
+   "path": "workspace/h2/504e036a-f040-4d88-88ba-152702f92ffd/h2b_table.json",
+   "size_bytes": 4527,
+   "mtime_epoch": 1789825230.935558
+  },
+  {
+   "id": "V1-h2c_table.json",
+   "path": "workspace/h2/504e036a-f040-4d88-88ba-152702f92ffd/h2c_table.json",
+   "size_bytes": 7991,
+   "mtime_epoch": 1789825230.9415567
+  },
+  {
+   "id": "V1-h2d_table.json",
+   "path": "workspace/h2/504e036a-f040-4d88-88ba-152702f92ffd/h2d_table.json",
+   "size_bytes": 4864,
+   "mtime_epoch": 1789825230.9445786
+  },
+  {
+   "id": "V1-h2e_table.json",
+   "path": "workspace/h2/504e036a-f040-4d88-88ba-152702f92ffd/h2e_table.json",
+   "size_bytes": 7162,
+   "mtime_epoch": 1789825230.9490826
+  },
+  {
+   "id": "V1-h2_final_adjudication.md",
+   "path": "workspace/h2/504e036a-f040-4d88-88ba-152702f92ffd/h2_final_adjudication.md",
+   "size_bytes": 1893,
+   "mtime_epoch": 1789825344.819713
+  }
+ ],
+ "outputs": [
+  {
+   "path": "workspace/h2/497eecf4-d060-42a2-a862-49e8059590b7/h2v2_input_inventory.json",
+   "size_bytes": 10244
+  },
+  {
+   "path": "workspace/h2/497eecf4-d060-42a2-a862-49e8059590b7/h2v2_record_table.json",
+   "size_bytes": 2973931
+  },
+  {
+   "path": "workspace/h2/497eecf4-d060-42a2-a862-49e8059590b7/h2a_table.json",
+   "size_bytes": 15678
+  },
+  {
+   "path": "workspace/h2/497eecf4-d060-42a2-a862-49e8059590b7/h2a_table.md",
+   "size_bytes": 2255
+  },
+  {
+   "path": "workspace/h2/497eecf4-d060-42a2-a862-49e8059590b7/h2b_table.json",
+   "size_bytes": 3468
+  },
+  {
+   "path": "workspace/h2/497eecf4-d060-42a2-a862-49e8059590b7/h2b_table.md",
+   "size_bytes": 2074
+  },
+  {
+   "path": "workspace/h2/497eecf4-d060-42a2-a862-49e8059590b7/h2c_table.json",
+   "size_bytes": 4035
+  },
+  {
+   "path": "workspace/h2/497eecf4-d060-42a2-a862-49e8059590b7/h2c_table.md",
+   "size_bytes": 2007
+  },
+  {
+   "path": "workspace/h2/497eecf4-d060-42a2-a862-49e8059590b7/h2d_table.json",
+   "size_bytes": 4894
+  },
+  {
+   "path": "workspace/h2/497eecf4-d060-42a2-a862-49e8059590b7/h2d_table.md",
+   "size_bytes": 561
+  },
+  {
+   "path": "workspace/h2/497eecf4-d060-42a2-a862-49e8059590b7/h2e_table.json",
+   "size_bytes": 3778
+  },
+  {
+   "path": "workspace/h2/497eecf4-d060-42a2-a862-49e8059590b7/h2e_table.md",
+   "size_bytes": 2048
+  },
+  {
+   "path": "workspace/h2/497eecf4-d060-42a2-a862-49e8059590b7/h2v2_final_adjudication.md",
+   "size_bytes": 3571
+  },
+  {
+   "path": "workspace/h2/497eecf4-d060-42a2-a862-49e8059590b7/h2v2_summary.json",
+   "size_bytes": 1093
+  }
+ ]
+}

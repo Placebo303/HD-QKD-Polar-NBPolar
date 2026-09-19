@@ -4897,3 +4897,16 @@ candidate; it is not the default next route.
 - Changing production decoder/feed modules on the H-a finding: rejected — production runner already correct; confusion was probe-body only.
 
 **Consequences**: R1 packet closed (`PACKET_CLOSED_AWAITING_NEXT_PLANNING`); X17 `COMPLETE_AWAITING_FOCUSED_REVIEW` (focused numerical review milestone-batched); no rerun/retuning; no OpenSpec/AGENTS.md change in this batch.
+
+## 2026-09-20 H2 v2 accepted (full-block geometry join; synthetic SCL line closed)
+
+**Decision**: (i) H2 v2 re-adjudication on 59 rows (56 archive + 3 P20S/R1) — verdicts H2a REFUTED (evaluable 8→9, new gap −0.00277 non-anomalous), H2b SUPPORTED (n 37→38, new r_fail 0.5853, median 2.2835→2.2651), H2c SUPPORTED (35/38 = 0.921; new datum = 3rd out-of-X L2 fail archive-wide, first on spike-local order, coord 0, out under both domain flags), H2d SUPPORTED-flat (new d=0, mean 0.002128), H2e-truncated REFUTED-geometry-incoherent (unchanged) + H2e-full-block-n1 REFUTED-geometry-incoherent (IR-4 0/48 vs IR-2 0.4322, conjunction not met, n=1 caveat); (ii) IR-5 `.bin` bytes ruled protected → manifest/sha-level evidence only (hazard sha identical across A/B/O ⇒ hazard values order-independent under frozen α1; A≡O masks; B differs); (iii) synthetic SCL line X14→X17 closed as non-informative at this operating point (positive control P=0.000 rules out feed defect; corrected full-scale C ≈ chance ⇒ sub-threshold, not wiring); (iv) consequence: no further synthetic survival re-asks at this operating point; any SCL work needs an operating-point change (new top-level OpenSpec change) and separate authorization; (v) ledger: 0 full N=32768 blocks remain (133 frames / 34,048 pairs never-decoded).
+
+**Recheck**: independent reviewer-go recheck `H2V2_RECHECK: PASS_WITH_FINDINGS` (2026-09-20, session `ses_f44aa4832ffeidyigKTYTP3ucx`); record `.workbuddy/queue/NBPOLAR-H2-ADJUDICATION-ANALYSIS/H2V2_RECHECK.md`; run root `workspace/h2/497eecf4-d060-42a2-a862-49e8059590b7/`; one doc typo fixed in `h2a_table.md` (P20S operational-only `n_exact` 2→1; JSON already correct); `h2v2_record_table.json` (2,973,931 bytes) excluded from commit per the evidence-size rule — sha256 `74be86226f18c5f64c4e43a3d11fed2688cdff067711b3a0da95b1e5d450743a`, 59 rows recorded in the recheck file instead.
+
+**Alternatives considered**:
+- Pooling truncated vs full-block scopes: rejected — scope labels load-bearing, pooling forbidden.
+- FER/efficiency/leakage/key-rate/reliability/deployment readings from v2: rejected — descriptive only.
+- Opening IR-5 `.bin` bytes for value-level evidence: rejected — protected per the binding scope ruling.
+
+**Consequences**: H2 v2 accepted descriptive; synthetic SCL line closed at this operating point; no rerun/retuning; no OpenSpec/AGENTS.md change in this batch.

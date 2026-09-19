@@ -1,0 +1,255 @@
+{
+ "run_uuid": "497eecf4-d060-42a2-a862-49e8059590b7",
+ "scope": "L2-fail in-X concentration plus U-domain split; oracle rows separate",
+ "n_fails_all_packets": 42,
+ "inX_overall": {
+  "known": 38,
+  "true": 35,
+  "frac": {
+   "numerator": 35,
+   "denominator": 38,
+   "value": 0.9210526315789473
+  }
+ },
+ "inX_per_packet": {
+  "P20N": {
+   "known": 14,
+   "true": 12,
+   "frac": {
+    "numerator": 12,
+    "denominator": 14,
+    "value": 0.8571428571428571
+   }
+  },
+  "P20O": {
+   "known": 11,
+   "true": 11,
+   "frac": {
+    "numerator": 11,
+    "denominator": 11,
+    "value": 1.0
+   }
+  },
+  "P20Q": {
+   "known": 12,
+   "true": 12,
+   "frac": {
+    "numerator": 12,
+    "denominator": 12,
+    "value": 1.0
+   }
+  },
+  "P20S": {
+   "known": 1,
+   "true": 0,
+   "frac": {
+    "numerator": 0,
+    "denominator": 1,
+    "value": 0.0
+   }
+  }
+ },
+ "outU_given_inX": {
+  "P20O": {
+   "inX_with_u_known": 11,
+   "outside_u_count": 11,
+   "frac": {
+    "numerator": 11,
+    "denominator": 11,
+    "value": 1.0
+   }
+  },
+  "P20Q": {
+   "inX_with_u_known": 12,
+   "outside_u_count": 12,
+   "frac": {
+    "numerator": 12,
+    "denominator": 12,
+    "value": 1.0
+   }
+  },
+  "P20O_P20Q": {
+   "inX_with_u_known": 23,
+   "outside_u_count": 23,
+   "frac": {
+    "numerator": 23,
+    "denominator": 23,
+    "value": 1.0
+   }
+  }
+ },
+ "p20s_new_datum": {
+  "arm": "B_spike_local_order",
+  "first_error_coord": 0,
+  "l2_fail_in_prefix": false,
+  "l2_fail_in_prefix_u_domain": false,
+  "note": "fail site outside disclosed prefix under both domain flags at boundary coord 0; out-of-X so excluded from the out-of-U-given-in-X conditioning"
+ },
+ "coord_distributions": {
+  "P20N/A": {
+   "n": 4,
+   "min": 3,
+   "p50": 78.5,
+   "max": 111,
+   "mean": 67.75
+  },
+  "P20N/B": {
+   "n": 3,
+   "min": 20,
+   "p50": 1009,
+   "max": 5823,
+   "mean": 2284.0
+  },
+  "P20N/C": {
+   "n": 4,
+   "min": 3,
+   "p50": 78.5,
+   "max": 111,
+   "mean": 67.75
+  },
+  "P20N/D": {
+   "n": 3,
+   "min": 20,
+   "p50": 1009,
+   "max": 5823,
+   "mean": 2284.0
+  },
+  "P20N/operational": {
+   "n": 7,
+   "min": 3,
+   "p50": 81,
+   "max": 5823,
+   "mean": 1017.5714285714286
+  },
+  "P20N/oracle": {
+   "n": 7,
+   "min": 3,
+   "p50": 81,
+   "max": 5823,
+   "mean": 1017.5714285714286
+  },
+  "P20O/A": {
+   "n": 3,
+   "min": 14,
+   "p50": 45,
+   "max": 153,
+   "mean": 70.66666666666667
+  },
+  "P20O/B": {
+   "n": 1,
+   "min": 35,
+   "p50": 35,
+   "max": 35,
+   "mean": 35.0
+  },
+  "P20O/C": {
+   "n": 5,
+   "min": 14,
+   "p50": 78,
+   "max": 274,
+   "mean": 112.8
+  },
+  "P20O/D": {
+   "n": 2,
+   "min": 35,
+   "p50": 78.0,
+   "max": 121,
+   "mean": 78.0
+  },
+  "P20O/operational": {
+   "n": 4,
+   "min": 14,
+   "p50": 40.0,
+   "max": 153,
+   "mean": 61.75
+  },
+  "P20O/oracle": {
+   "n": 7,
+   "min": 14,
+   "p50": 78,
+   "max": 274,
+   "mean": 102.85714285714286
+  },
+  "P20Q/A": {
+   "n": 5,
+   "min": 163,
+   "p50": 411,
+   "max": 1906,
+   "mean": 637.4
+  },
+  "P20Q/B": {
+   "n": 1,
+   "min": 5,
+   "p50": 5,
+   "max": 5,
+   "mean": 5.0
+  },
+  "P20Q/C": {
+   "n": 5,
+   "min": 163,
+   "p50": 411,
+   "max": 1906,
+   "mean": 637.4
+  },
+  "P20Q/D": {
+   "n": 1,
+   "min": 5,
+   "p50": 5,
+   "max": 5,
+   "mean": 5.0
+  },
+  "P20Q/operational": {
+   "n": 6,
+   "min": 5,
+   "p50": 320.5,
+   "max": 1906,
+   "mean": 532.0
+  },
+  "P20Q/oracle": {
+   "n": 6,
+   "min": 5,
+   "p50": 320.5,
+   "max": 1906,
+   "mean": 532.0
+  },
+  "P20S/B": {
+   "n": 1,
+   "min": 0,
+   "p50": 0,
+   "max": 0,
+   "mean": 0.0
+  },
+  "P20S/operational": {
+   "n": 1,
+   "min": 0,
+   "p50": 0,
+   "max": 0,
+   "mean": 0.0
+  }
+ },
+ "ir_corroboration": {
+  "ir2_median_p20q_truncated": 0.8830413818359375,
+  "ir2_n_p20q": 12,
+  "ir2_value_p20s_full_block": [
+   0.432220458984375
+  ],
+  "ir4_pooled_p20q_truncated": {
+   "true": 66,
+   "denominator": 320,
+   "frac": {
+    "numerator": 66,
+    "denominator": 320,
+    "value": 0.20625
+   }
+  },
+  "ir4_pooled_p20s_full_block": {
+   "true": 0,
+   "denominator": 48,
+   "frac": {
+    "numerator": 0,
+    "denominator": 48,
+    "value": 0.0
+   }
+  }
+ }
+}

@@ -1,0 +1,738 @@
+{
+ "run_uuid": "497eecf4-d060-42a2-a862-49e8059590b7",
+ "scope": "per (packet, block_index) pm-ordering over 59 rows; descriptives only",
+ "eps": 1e-12,
+ "arm_mapping_P20S": {
+  "A_anchor_frozen_order": "A_operational",
+  "B_spike_local_order": "B_operational",
+  "O_true_l1_oracle": "O_oracle_diagnostic_only"
+ },
+ "pooled": {
+  "n_blocks": 15,
+  "n_evaluable": 9,
+  "n_anomaly": 8
+ },
+ "per_block": [
+  {
+   "packet": "P20N",
+   "block_index": 0,
+   "n_arms": 4,
+   "n_exact": 0,
+   "n_nonexact": 4,
+   "evaluable": false,
+   "fail_min_pm": null,
+   "exact_max_pm": null,
+   "gap": null,
+   "gap_exceeds_eps": false,
+   "arm_pm": [
+    {
+     "arm": "A",
+     "arm_raw": "A_incumbent_L2_operational",
+     "broad_group": "operational",
+     "exact": false,
+     "pm": 0.8555589542988179
+    },
+    {
+     "arm": "B",
+     "arm_raw": "B_alt_L2_operational",
+     "broad_group": "operational",
+     "exact": false,
+     "pm": 0.9029491952400781
+    },
+    {
+     "arm": "C",
+     "arm_raw": "C_incumbent_L2_oracle",
+     "broad_group": "oracle",
+     "exact": false,
+     "pm": 0.8555589542988179
+    },
+    {
+     "arm": "D",
+     "arm_raw": "D_alt_L2_oracle",
+     "broad_group": "oracle",
+     "exact": false,
+     "pm": 0.9029491952400781
+    }
+   ]
+  },
+  {
+   "packet": "P20N",
+   "block_index": 1,
+   "n_arms": 4,
+   "n_exact": 0,
+   "n_nonexact": 4,
+   "evaluable": false,
+   "fail_min_pm": null,
+   "exact_max_pm": null,
+   "gap": null,
+   "gap_exceeds_eps": false,
+   "arm_pm": [
+    {
+     "arm": "A",
+     "arm_raw": "A_incumbent_L2_operational",
+     "broad_group": "operational",
+     "exact": false,
+     "pm": 0.8187260346827915
+    },
+    {
+     "arm": "B",
+     "arm_raw": "B_alt_L2_operational",
+     "broad_group": "operational",
+     "exact": false,
+     "pm": 0.9031615266395793
+    },
+    {
+     "arm": "C",
+     "arm_raw": "C_incumbent_L2_oracle",
+     "broad_group": "oracle",
+     "exact": false,
+     "pm": 0.8187260346827915
+    },
+    {
+     "arm": "D",
+     "arm_raw": "D_alt_L2_oracle",
+     "broad_group": "oracle",
+     "exact": false,
+     "pm": 0.9031615266395793
+    }
+   ]
+  },
+  {
+   "packet": "P20N",
+   "block_index": 2,
+   "n_arms": 4,
+   "n_exact": 0,
+   "n_nonexact": 4,
+   "evaluable": false,
+   "fail_min_pm": null,
+   "exact_max_pm": null,
+   "gap": null,
+   "gap_exceeds_eps": false,
+   "arm_pm": [
+    {
+     "arm": "A",
+     "arm_raw": "A_incumbent_L2_operational",
+     "broad_group": "operational",
+     "exact": false,
+     "pm": 0.8248133729522927
+    },
+    {
+     "arm": "B",
+     "arm_raw": "B_alt_L2_operational",
+     "broad_group": "operational",
+     "exact": false,
+     "pm": 0.9035428418886212
+    },
+    {
+     "arm": "C",
+     "arm_raw": "C_incumbent_L2_oracle",
+     "broad_group": "oracle",
+     "exact": false,
+     "pm": 0.8248133729522927
+    },
+    {
+     "arm": "D",
+     "arm_raw": "D_alt_L2_oracle",
+     "broad_group": "oracle",
+     "exact": false,
+     "pm": 0.9035428418886212
+    }
+   ]
+  },
+  {
+   "packet": "P20N",
+   "block_index": 3,
+   "n_arms": 4,
+   "n_exact": 2,
+   "n_nonexact": 2,
+   "evaluable": true,
+   "fail_min_pm": 0.7954019295969416,
+   "exact_max_pm": 0.8924603616627651,
+   "gap": 0.09705843206582354,
+   "gap_exceeds_eps": true,
+   "arm_pm": [
+    {
+     "arm": "A",
+     "arm_raw": "A_incumbent_L2_operational",
+     "broad_group": "operational",
+     "exact": false,
+     "pm": 0.7954019295969416
+    },
+    {
+     "arm": "B",
+     "arm_raw": "B_alt_L2_operational",
+     "broad_group": "operational",
+     "exact": true,
+     "pm": 0.8924603616627651
+    },
+    {
+     "arm": "C",
+     "arm_raw": "C_incumbent_L2_oracle",
+     "broad_group": "oracle",
+     "exact": false,
+     "pm": 0.7954019295969416
+    },
+    {
+     "arm": "D",
+     "arm_raw": "D_alt_L2_oracle",
+     "broad_group": "oracle",
+     "exact": true,
+     "pm": 0.8924603616627651
+    }
+   ]
+  },
+  {
+   "packet": "P20O",
+   "block_index": 0,
+   "n_arms": 4,
+   "n_exact": 0,
+   "n_nonexact": 4,
+   "evaluable": false,
+   "fail_min_pm": null,
+   "exact_max_pm": null,
+   "gap": null,
+   "gap_exceeds_eps": false,
+   "arm_pm": [
+    {
+     "arm": "A",
+     "arm_raw": "A_incumbent_L2_operational",
+     "broad_group": "operational",
+     "exact": false,
+     "pm": 0.8395938049232039
+    },
+    {
+     "arm": "B",
+     "arm_raw": "B_alt_L2_operational",
+     "broad_group": "operational",
+     "exact": false,
+     "pm": 0.887628196724165
+    },
+    {
+     "arm": "C",
+     "arm_raw": "C_incumbent_L2_oracle",
+     "broad_group": "oracle",
+     "exact": false,
+     "pm": 0.8395938049232039
+    },
+    {
+     "arm": "D",
+     "arm_raw": "D_alt_L2_oracle",
+     "broad_group": "oracle",
+     "exact": false,
+     "pm": 0.887628196724165
+    }
+   ]
+  },
+  {
+   "packet": "P20O",
+   "block_index": 1,
+   "n_arms": 4,
+   "n_exact": 2,
+   "n_nonexact": 2,
+   "evaluable": true,
+   "fail_min_pm": 0.8551898630718846,
+   "exact_max_pm": 0.8855957136697814,
+   "gap": 0.0304058505978968,
+   "gap_exceeds_eps": true,
+   "arm_pm": [
+    {
+     "arm": "A",
+     "arm_raw": "A_incumbent_L2_operational",
+     "broad_group": "operational",
+     "exact": false,
+     "pm": 0.8551898630718846
+    },
+    {
+     "arm": "B",
+     "arm_raw": "B_alt_L2_operational",
+     "broad_group": "operational",
+     "exact": true,
+     "pm": 0.8855957136697814
+    },
+    {
+     "arm": "C",
+     "arm_raw": "C_incumbent_L2_oracle",
+     "broad_group": "oracle",
+     "exact": false,
+     "pm": 0.8551898630718846
+    },
+    {
+     "arm": "D",
+     "arm_raw": "D_alt_L2_oracle",
+     "broad_group": "oracle",
+     "exact": true,
+     "pm": 0.8855957136697814
+    }
+   ]
+  },
+  {
+   "packet": "P20O",
+   "block_index": 2,
+   "n_arms": 4,
+   "n_exact": 2,
+   "n_nonexact": 2,
+   "evaluable": true,
+   "fail_min_pm": 0.8507799362778862,
+   "exact_max_pm": 0.8938879980233024,
+   "gap": 0.04310806174541626,
+   "gap_exceeds_eps": true,
+   "arm_pm": [
+    {
+     "arm": "A",
+     "arm_raw": "A_incumbent_L2_operational",
+     "broad_group": "operational",
+     "exact": false,
+     "pm": 0.8507799362778862
+    },
+    {
+     "arm": "B",
+     "arm_raw": "B_alt_L2_operational",
+     "broad_group": "operational",
+     "exact": true,
+     "pm": 0.8938879980233024
+    },
+    {
+     "arm": "C",
+     "arm_raw": "C_incumbent_L2_oracle",
+     "broad_group": "oracle",
+     "exact": false,
+     "pm": 0.8507799362778862
+    },
+    {
+     "arm": "D",
+     "arm_raw": "D_alt_L2_oracle",
+     "broad_group": "oracle",
+     "exact": true,
+     "pm": 0.8938879980233024
+    }
+   ]
+  },
+  {
+   "packet": "P20O",
+   "block_index": 3,
+   "n_arms": 4,
+   "n_exact": 0,
+   "n_nonexact": 4,
+   "evaluable": false,
+   "fail_min_pm": null,
+   "exact_max_pm": null,
+   "gap": null,
+   "gap_exceeds_eps": false,
+   "arm_pm": [
+    {
+     "arm": "A",
+     "arm_raw": "A_incumbent_L2_operational",
+     "broad_group": "operational",
+     "exact": false,
+     "pm": 0.8313387524259714
+    },
+    {
+     "arm": "B",
+     "arm_raw": "B_alt_L2_operational",
+     "broad_group": "operational",
+     "exact": false,
+     "pm": 0.8854401750501355
+    },
+    {
+     "arm": "C",
+     "arm_raw": "C_incumbent_L2_oracle",
+     "broad_group": "oracle",
+     "exact": false,
+     "pm": 0.8313387524259714
+    },
+    {
+     "arm": "D",
+     "arm_raw": "D_alt_L2_oracle",
+     "broad_group": "oracle",
+     "exact": false,
+     "pm": 0.8854401750501355
+    }
+   ]
+  },
+  {
+   "packet": "P20O",
+   "block_index": 4,
+   "n_arms": 4,
+   "n_exact": 1,
+   "n_nonexact": 3,
+   "evaluable": true,
+   "fail_min_pm": 0.8020323236246235,
+   "exact_max_pm": 0.8704057305978118,
+   "gap": 0.06837340697318828,
+   "gap_exceeds_eps": true,
+   "arm_pm": [
+    {
+     "arm": "A",
+     "arm_raw": "A_incumbent_L2_operational",
+     "broad_group": "operational",
+     "exact": false,
+     "pm": 0.8020323236246235
+    },
+    {
+     "arm": "B",
+     "arm_raw": "B_alt_L2_operational",
+     "broad_group": "operational",
+     "exact": false,
+     "pm": 0.8704057305978118
+    },
+    {
+     "arm": "C",
+     "arm_raw": "C_incumbent_L2_oracle",
+     "broad_group": "oracle",
+     "exact": false,
+     "pm": 0.8020323236246235
+    },
+    {
+     "arm": "D",
+     "arm_raw": "D_alt_L2_oracle",
+     "broad_group": "oracle",
+     "exact": true,
+     "pm": 0.8704057305978118
+    }
+   ]
+  },
+  {
+   "packet": "P20Q",
+   "block_index": 0,
+   "n_arms": 4,
+   "n_exact": 2,
+   "n_nonexact": 2,
+   "evaluable": true,
+   "fail_min_pm": 0.8174777632576917,
+   "exact_max_pm": 0.8786631755228653,
+   "gap": 0.0611854122651736,
+   "gap_exceeds_eps": true,
+   "arm_pm": [
+    {
+     "arm": "A",
+     "arm_raw": "A_incumbent_L2_operational",
+     "broad_group": "operational",
+     "exact": false,
+     "pm": 0.8174777632576917
+    },
+    {
+     "arm": "B",
+     "arm_raw": "B_alt_L2_operational",
+     "broad_group": "operational",
+     "exact": true,
+     "pm": 0.8786631755228653
+    },
+    {
+     "arm": "C",
+     "arm_raw": "C_incumbent_L2_oracle",
+     "broad_group": "oracle",
+     "exact": false,
+     "pm": 0.8174777632576917
+    },
+    {
+     "arm": "D",
+     "arm_raw": "D_alt_L2_oracle",
+     "broad_group": "oracle",
+     "exact": true,
+     "pm": 0.8786631755228653
+    }
+   ]
+  },
+  {
+   "packet": "P20Q",
+   "block_index": 1,
+   "n_arms": 4,
+   "n_exact": 2,
+   "n_nonexact": 2,
+   "evaluable": true,
+   "fail_min_pm": 0.843433382262791,
+   "exact_max_pm": 0.8921689975200733,
+   "gap": 0.048735615257282316,
+   "gap_exceeds_eps": true,
+   "arm_pm": [
+    {
+     "arm": "A",
+     "arm_raw": "A_incumbent_L2_operational",
+     "broad_group": "operational",
+     "exact": false,
+     "pm": 0.843433382262791
+    },
+    {
+     "arm": "B",
+     "arm_raw": "B_alt_L2_operational",
+     "broad_group": "operational",
+     "exact": true,
+     "pm": 0.8921689975200733
+    },
+    {
+     "arm": "C",
+     "arm_raw": "C_incumbent_L2_oracle",
+     "broad_group": "oracle",
+     "exact": false,
+     "pm": 0.843433382262791
+    },
+    {
+     "arm": "D",
+     "arm_raw": "D_alt_L2_oracle",
+     "broad_group": "oracle",
+     "exact": true,
+     "pm": 0.8921689975200733
+    }
+   ]
+  },
+  {
+   "packet": "P20Q",
+   "block_index": 2,
+   "n_arms": 4,
+   "n_exact": 2,
+   "n_nonexact": 2,
+   "evaluable": true,
+   "fail_min_pm": 0.8162702812301864,
+   "exact_max_pm": 0.8765952135597158,
+   "gap": 0.0603249323295294,
+   "gap_exceeds_eps": true,
+   "arm_pm": [
+    {
+     "arm": "A",
+     "arm_raw": "A_incumbent_L2_operational",
+     "broad_group": "operational",
+     "exact": false,
+     "pm": 0.8162702812301864
+    },
+    {
+     "arm": "B",
+     "arm_raw": "B_alt_L2_operational",
+     "broad_group": "operational",
+     "exact": true,
+     "pm": 0.8765952135597158
+    },
+    {
+     "arm": "C",
+     "arm_raw": "C_incumbent_L2_oracle",
+     "broad_group": "oracle",
+     "exact": false,
+     "pm": 0.8162702812301864
+    },
+    {
+     "arm": "D",
+     "arm_raw": "D_alt_L2_oracle",
+     "broad_group": "oracle",
+     "exact": true,
+     "pm": 0.8765952135597158
+    }
+   ]
+  },
+  {
+   "packet": "P20Q",
+   "block_index": 3,
+   "n_arms": 4,
+   "n_exact": 2,
+   "n_nonexact": 2,
+   "evaluable": true,
+   "fail_min_pm": 0.8409936190420514,
+   "exact_max_pm": 0.8894356161876981,
+   "gap": 0.048441997145646676,
+   "gap_exceeds_eps": true,
+   "arm_pm": [
+    {
+     "arm": "A",
+     "arm_raw": "A_incumbent_L2_operational",
+     "broad_group": "operational",
+     "exact": false,
+     "pm": 0.8409936190420514
+    },
+    {
+     "arm": "B",
+     "arm_raw": "B_alt_L2_operational",
+     "broad_group": "operational",
+     "exact": true,
+     "pm": 0.8894356161876981
+    },
+    {
+     "arm": "C",
+     "arm_raw": "C_incumbent_L2_oracle",
+     "broad_group": "oracle",
+     "exact": false,
+     "pm": 0.8409936190420514
+    },
+    {
+     "arm": "D",
+     "arm_raw": "D_alt_L2_oracle",
+     "broad_group": "oracle",
+     "exact": true,
+     "pm": 0.8894356161876981
+    }
+   ]
+  },
+  {
+   "packet": "P20Q",
+   "block_index": 4,
+   "n_arms": 4,
+   "n_exact": 0,
+   "n_nonexact": 4,
+   "evaluable": false,
+   "fail_min_pm": null,
+   "exact_max_pm": null,
+   "gap": null,
+   "gap_exceeds_eps": false,
+   "arm_pm": [
+    {
+     "arm": "A",
+     "arm_raw": "A_incumbent_L2_operational",
+     "broad_group": "operational",
+     "exact": false,
+     "pm": 0.8005057950657783
+    },
+    {
+     "arm": "B",
+     "arm_raw": "B_alt_L2_operational",
+     "broad_group": "operational",
+     "exact": false,
+     "pm": 0.8735498744174732
+    },
+    {
+     "arm": "C",
+     "arm_raw": "C_incumbent_L2_oracle",
+     "broad_group": "oracle",
+     "exact": false,
+     "pm": 0.8005057950657783
+    },
+    {
+     "arm": "D",
+     "arm_raw": "D_alt_L2_oracle",
+     "broad_group": "oracle",
+     "exact": false,
+     "pm": 0.8735498744174732
+    }
+   ]
+  },
+  {
+   "packet": "P20S",
+   "block_index": 0,
+   "n_arms": 3,
+   "n_exact": 2,
+   "n_nonexact": 1,
+   "evaluable": true,
+   "fail_min_pm": 0.8768295338061611,
+   "exact_max_pm": 0.8740592319509212,
+   "gap": -0.002770301855239965,
+   "gap_exceeds_eps": false,
+   "arm_pm": [
+    {
+     "arm": "A",
+     "arm_raw": "A_anchor_frozen_order",
+     "broad_group": "operational",
+     "exact": true,
+     "pm": 0.8740592319509212
+    },
+    {
+     "arm": "B",
+     "arm_raw": "B_spike_local_order",
+     "broad_group": "operational",
+     "exact": false,
+     "pm": 0.8768295338061611
+    },
+    {
+     "arm": "O",
+     "arm_raw": "O_true_l1_oracle",
+     "broad_group": "oracle",
+     "exact": true,
+     "pm": 0.8740592319509212
+    }
+   ]
+  }
+ ],
+ "strongest_gap_order": [
+  {
+   "packet": "P20N",
+   "block_index": 3,
+   "gap": 0.09705843206582354,
+   "fail_min_pm": 0.7954019295969416,
+   "exact_max_pm": 0.8924603616627651
+  },
+  {
+   "packet": "P20O",
+   "block_index": 4,
+   "gap": 0.06837340697318828,
+   "fail_min_pm": 0.8020323236246235,
+   "exact_max_pm": 0.8704057305978118
+  },
+  {
+   "packet": "P20Q",
+   "block_index": 0,
+   "gap": 0.0611854122651736,
+   "fail_min_pm": 0.8174777632576917,
+   "exact_max_pm": 0.8786631755228653
+  },
+  {
+   "packet": "P20Q",
+   "block_index": 2,
+   "gap": 0.0603249323295294,
+   "fail_min_pm": 0.8162702812301864,
+   "exact_max_pm": 0.8765952135597158
+  },
+  {
+   "packet": "P20Q",
+   "block_index": 1,
+   "gap": 0.048735615257282316,
+   "fail_min_pm": 0.843433382262791,
+   "exact_max_pm": 0.8921689975200733
+  },
+  {
+   "packet": "P20Q",
+   "block_index": 3,
+   "gap": 0.048441997145646676,
+   "fail_min_pm": 0.8409936190420514,
+   "exact_max_pm": 0.8894356161876981
+  },
+  {
+   "packet": "P20O",
+   "block_index": 2,
+   "gap": 0.04310806174541626,
+   "fail_min_pm": 0.8507799362778862,
+   "exact_max_pm": 0.8938879980233024
+  },
+  {
+   "packet": "P20O",
+   "block_index": 1,
+   "gap": 0.0304058505978968,
+   "fail_min_pm": 0.8551898630718846,
+   "exact_max_pm": 0.8855957136697814
+  }
+ ],
+ "p20s_block_operational_only": {
+  "n_exact": 1,
+  "n_nonexact": 1,
+  "gap": -0.002770301855239965,
+  "gap_exceeds_eps": false,
+  "note": "O oracle excluded; same outcome as all-arm row"
+ },
+ "x10_continuity_subset": {
+  "note": "P20N+P20O subset recomputed; diff vs v1 literals",
+  "per_block": [
+   {
+    "packet": "P20N",
+    "block_index": 3,
+    "recomputed_gap": 0.09705843206582354,
+    "v1_gap_literal": 0.09705843206582354,
+    "abs_diff": 0.0
+   },
+   {
+    "packet": "P20O",
+    "block_index": 1,
+    "recomputed_gap": 0.0304058505978968,
+    "v1_gap_literal": 0.0304058505978968,
+    "abs_diff": 0.0
+   },
+   {
+    "packet": "P20O",
+    "block_index": 2,
+    "recomputed_gap": 0.04310806174541626,
+    "v1_gap_literal": 0.04310806174541626,
+    "abs_diff": 0.0
+   },
+   {
+    "packet": "P20O",
+    "block_index": 4,
+    "recomputed_gap": 0.06837340697318828,
+    "v1_gap_literal": 0.06837340697318828,
+    "abs_diff": 0.0
+   }
+  ]
+ }
+}

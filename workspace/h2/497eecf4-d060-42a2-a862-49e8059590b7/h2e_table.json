@@ -1,0 +1,142 @@
+{
+ "run_uuid": "497eecf4-d060-42a2-a862-49e8059590b7",
+ "scope": "geometry descriptives STRATIFIED by scope (truncated P20Q vs full-block P20S); cross-scope pooling forbidden; n=1 block at full-block scope",
+ "preregistered_rule": {
+  "note": "frozen before computation; threshold application happens ONLY in the final adjudication file",
+  "C1": "in-scope IR-4 top-16 in-prefix fraction >= 0.50",
+  "C2": "IR-2 median over in-scope L2-fails >= 0.50",
+  "conjunction": "C1 AND C2 applied per scope separately",
+  "truncated_inputs_unchanged_from_v1": true
+ },
+ "truncated_scope_p20q": {
+  "ir4_pooled_true": 66,
+  "ir4_pooled_denominator": 320,
+  "ir4_pooled_frac": {
+   "numerator": 66,
+   "denominator": 320,
+   "value": 0.20625
+  },
+  "ir2_n": 12,
+  "ir2_median": 0.8830413818359375,
+  "ir5_truncated_true_count": 20,
+  "ir5_total_len_32768_count": 20,
+  "ir1_mass": "6746/26022/32768 on 20/20 rows",
+  "v1_continuity_ok": true
+ },
+ "full_block_scope_p20s": {
+  "n_blocks": 1,
+  "ir4_per_arm": [
+   {
+    "block_index": 0,
+    "arm": "A",
+    "arm_raw": "A_anchor_frozen_order",
+    "broad_group": "operational",
+    "in_prefix_count": 0,
+    "ranks_ok_1_to_16": true
+   },
+   {
+    "block_index": 0,
+    "arm": "B",
+    "arm_raw": "B_spike_local_order",
+    "broad_group": "operational",
+    "in_prefix_count": 0,
+    "ranks_ok_1_to_16": true
+   },
+   {
+    "block_index": 0,
+    "arm": "O",
+    "arm_raw": "O_true_l1_oracle",
+    "broad_group": "oracle",
+    "in_prefix_count": 0,
+    "ranks_ok_1_to_16": true
+   }
+  ],
+  "ir4_pooled_true": 0,
+  "ir4_pooled_denominator": 48,
+  "ir4_pooled_frac": {
+   "numerator": 0,
+   "denominator": 48,
+   "value": 0.0
+  },
+  "ir2_n_over_full_block_l2_fails": 1,
+  "ir2_values": [
+   0.432220458984375
+  ],
+  "ir2_median": 0.432220458984375,
+  "ir5_format_version": "ir5full-v1",
+  "ir5_total_len": 32768,
+  "ir5_uncapped_per_summary": true,
+  "ir5_bins": "3 arms x 3 bins (hazard/inprefix/inu)",
+  "ir5_series_bytes": "manifest/sha-level only; series byte contents never opened",
+  "ir3_rows": [
+   {
+    "arm": "A",
+    "arm_raw": "A_anchor_frozen_order",
+    "thresh_lo_bits": 0.8740592319509212,
+    "thresh_hi_bits": 1.7481184639018423,
+    "above_lo_count": 1641,
+    "above_lo_frac": 0.2432552623777053,
+    "above_hi_count": 1641,
+    "above_hi_frac": 0.2432552623777053
+   },
+   {
+    "arm": "B",
+    "arm_raw": "B_spike_local_order",
+    "thresh_lo_bits": 0.8768295338061611,
+    "thresh_hi_bits": 1.7536590676123223,
+    "above_lo_count": 1651,
+    "above_lo_frac": 0.24473762229469315,
+    "above_hi_count": 1651,
+    "above_hi_frac": 0.24473762229469315
+   },
+   {
+    "arm": "O",
+    "arm_raw": "O_true_l1_oracle",
+    "thresh_lo_bits": 0.8740592319509212,
+    "thresh_hi_bits": 1.7481184639018423,
+    "above_lo_count": 1641,
+    "above_lo_frac": 0.2432552623777053,
+    "above_hi_count": 1641,
+    "above_hi_frac": 0.2432552623777053
+   }
+  ],
+  "ir1_rows": [
+   {
+    "arm": "A",
+    "prefix_mass": 6746,
+    "outside_mass": 26022,
+    "total": 32768
+   },
+   {
+    "arm": "B",
+    "prefix_mass": 6746,
+    "outside_mass": 26022,
+    "total": 32768
+   },
+   {
+    "arm": "O",
+    "prefix_mass": 6746,
+    "outside_mass": 26022,
+    "total": 32768
+   }
+  ],
+  "ir1_tail8": [
+   0,
+   0,
+   0
+  ],
+  "evaluability": {
+   "ir4_present_3_of_3": true,
+   "ir2_present_on_1_of_1_full_block_l2_fails": true,
+   "ir5_present_3_of_3": true
+  },
+  "n_equals_1_caveat": "full-block scope rests on a single block; quantities reported as observed values with no sampling claim"
+ },
+ "sharpest_contrast": {
+  "ir4_top16_in_prefix_full_block": "0/48 pooled (0 on A, B, O)",
+  "ir2_mid_rank_full_block": [
+   0.432220458984375
+  ],
+  "note": "fail site is mid-rank while the entire top-16 sits outside-prefix at full-block scope"
+ }
+}

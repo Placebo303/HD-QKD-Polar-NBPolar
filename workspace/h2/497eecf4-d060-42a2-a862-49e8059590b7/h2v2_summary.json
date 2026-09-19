@@ -1,0 +1,42 @@
+{
+ "packet": "H2 v2 (P20S/R1 full-block evidence added)",
+ "plan": "NEXT-PHASE-PLAN \u00a71 + H2_ANALYSIS_PLAN.md \u00a74 verbatim (H2a-H2d) + preregistered H2e v2 AND-conjunction",
+ "run_root": "workspace/h2/497eecf4-d060-42a2-a862-49e8059590b7/",
+ "n_rows": 59,
+ "verdicts": {
+  "H2a": "REFUTED",
+  "H2b": "SUPPORTED",
+  "H2c": "SUPPORTED",
+  "H2d": "SUPPORTED-flat",
+  "H2e_truncated_scope": "REFUTED-geometry-incoherent",
+  "H2e_full_block_scope_n1": "REFUTED-geometry-incoherent"
+ },
+ "key_numbers": {
+  "H2a_n_evaluable": 9,
+  "H2a_n_anomaly": 8,
+  "H2a_p20s_gap": -0.002770301855239965,
+  "H2b_n": 38,
+  "H2b_median": 2.2650675840331176,
+  "H2b_new_r_fail": 0.5852583630772091,
+  "H2b_ir2_p20s": [
+   0.432220458984375
+  ],
+  "H2b_ir2_p20q_median": 0.8830413818359375,
+  "H2c_inX": [
+   35,
+   38
+  ],
+  "H2d_n": 38,
+  "H2d_mean": 0.002127521749022724,
+  "H2e_truncated_ir4": [
+   66,
+   320
+  ],
+  "H2e_fullblock_ir4": [
+   0,
+   48
+  ],
+  "H2e_fullblock_ir2_median": 0.432220458984375
+ },
+ "scope": "descriptive only; no FER/efficiency/leakage/key-rate/reliability/promotion claim"
+}
