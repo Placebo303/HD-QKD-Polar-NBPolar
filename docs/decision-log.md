@@ -4881,4 +4881,6 @@ candidate; it is not the default next route.
 - Consuming the 1.5M stub or 1.5M HOLD remainder: rejected — treated as unusable.
 - Changing α/floor/K/decoder this round, or starting (b)/(c): rejected — not in this round.
 
-**Consequences**: P20R stays accepted descriptive with narrowed interpretive scope; D1 gating and D3 synthetic work proceed on separate tracks; D2 waits on D1-A; no AGENTS.md edit in this batch.
+**Update (2026-09-20, user decision)**: **D1-A AUTHORIZED** — the user authorized the 2M same-session cross-split merge (VAL remainder `2827..2915` + HOLD remainder first 39 frames `3556..3594` = exactly one 128-frame N=32768 block) to re-place the final real-data block on the high-information 2M population; D2 (mechanism probe on that block, no recovery-rate reading) is thereby unblocked and its packet `NBPOLAR-PHASE4-P20S-MECHANISM-PROBE-2M-MERGED` is in freeze at this writing. Never-decoded after P20S: 2M HOLD `3595..3644` (50 frames) + 1.5M remainder 83 frames.
+
+**Consequences**: P20R stays accepted descriptive with narrowed interpretive scope; D1-A authorized and D2 packet in freeze; D3 synthetic work proceeds on a separate track; no AGENTS.md edit in this batch.
