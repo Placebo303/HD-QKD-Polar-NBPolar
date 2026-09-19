@@ -4910,3 +4910,14 @@ candidate; it is not the default next route.
 - Opening IR-5 `.bin` bytes for value-level evidence: rejected — protected per the binding scope ruling.
 
 **Consequences**: H2 v2 accepted descriptive; synthetic SCL line closed at this operating point; no rerun/retuning; no OpenSpec/AGENTS.md change in this batch.
+
+## 2026-09-20 Geometry mining: §3 trigger met (Q-G1/Q-G2); reduced-N held pending gates
+
+**Decision**: (i) Order-independence confirmed at manifest level — hazard sha `ef4398d3…` identical across A/B/O; A≡O masks; B differs; |A−B|=|B−A|=1599 = 23.70% swapped, size-delta 0 — ⇒ hazard is a property of the frozen α1 table and orders only choose disclosed positions. (ii) Disclosed prefix covers the low-hazard fifth (IR-1 6746/26022; IR-3 A/O 1641 vs B 1651 above-threshold; IR-4 top-16 in-prefix 0/48 on ALL arms with hazards 9.0768–9.2784 bits ≈ 10.4–10.6× prefix mean) ⇒ 100% of the top-16 tail is undisclosed under both orders. (iii) The single B failure (L2 @ coord 0, 0.513 bits, IR-2 0.43222, outside prefix under both flags, floor 0.3717) is the 3rd operational out-of-prefix fail archive-wide and the 1st on a spike-local order — existence case only, n=1 no discrimination (P20R-B is a descriptive parallel, different session/K/alt/order, never pooled). (iv) §3 trigger = YES with named questions Q-G1 (does the spike-local fail pattern recur at N=8192 on the 2M HOLD tail, within-N paired) and Q-G2 (does spike-local disclose more tail mass than frozen at the same N). (v) DECISION (main thread, recommend path): proceed with (iii) analysis-only AND authorize (iv) SCOPING ONLY (OpenSpec delta + freeze, NO execution, NO tail contact) — (iv) remains one N=8192 block = persistence probe, not statistical discrimination, and still needs its own Stage-A/Stage-B authorizations + independent reviews. (vi) Confirm 0 full N=32768 blocks remain (133 frames / 34,048 pairs never-decoded; N=8192 would use 3595..3626 with remainder 3627..3644).
+
+**Alternatives considered**:
+- Authorizing (iv) execution now: rejected — no freeze, no Stage-A/Stage-B authorizations, no independent reviews yet.
+- Pooling P20R-B with P20S-B for order discrimination: rejected — different session/K/alt/order; descriptive parallel only.
+- Disclosing tail positions or list decoding on this evidence: rejected — neither executed; L2 tail-decodability needs option (i), not (iv).
+
+**Consequences**: geometry run root `workspace/geometry/58503bc3-0306-45b0-b70c-2599aaf82820/` committed (commit `e7600347`); feasibility study `.workbuddy/queue/NBPOLAR-REDUCED-N-FEASIBILITY.md` committed; (iv) scoping gated on OpenSpec delta + freeze + explicit authorizations; no tail contact; no rerun/retuning.
