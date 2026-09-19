@@ -1,0 +1,223 @@
+{
+  "aggregates": {
+    "arms": {
+      "B0_sc_base": {
+        "arm": "B0_sc_base",
+        "exact_count": 3,
+        "key_dependent_bits": 102357,
+        "public_control_bits": 983229,
+        "records": 3
+      },
+      "B1_L2plus": {
+        "arm": "B1_L2plus",
+        "exact_count": 3,
+        "key_dependent_bits": 117717,
+        "public_control_bits": 983229,
+        "records": 3
+      },
+      "B2_true_l1_diagnostic": {
+        "arm": "B2_true_l1_diagnostic",
+        "exact_count": 3,
+        "key_dependent_bits": 97572,
+        "public_control_bits": 983229,
+        "records": 3
+      }
+    },
+    "operational": {
+      "exact_count": 6,
+      "key_dependent_bits": 220074,
+      "public_control_bits": 1966458,
+      "records": 6
+    },
+    "oracle_control": {
+      "exact_count": 3,
+      "records": 3
+    },
+    "recovery": {
+      "b1_restored_count": 0,
+      "disclosure_blocks": [
+        {
+          "b0_exact": true,
+          "b0_outcome": "exact",
+          "b1_exact": true,
+          "b1_outcome": "exact",
+          "b1_restored_given_b0_failed": false,
+          "block_index": 0,
+          "l2_delta_k2_applied": 1024
+        },
+        {
+          "b0_exact": true,
+          "b0_outcome": "exact",
+          "b1_exact": true,
+          "b1_outcome": "exact",
+          "b1_restored_given_b0_failed": false,
+          "block_index": 1,
+          "l2_delta_k2_applied": 1024
+        },
+        {
+          "b0_exact": true,
+          "b0_outcome": "exact",
+          "b1_exact": true,
+          "b1_outcome": "exact",
+          "b1_restored_given_b0_failed": false,
+          "block_index": 2,
+          "l2_delta_k2_applied": 1024
+        }
+      ],
+      "per_arm": {
+        "B0_sc_base": {
+          "exact_count": 3,
+          "outcomes": {
+            "decode_failed": 0,
+            "exact": 3,
+            "nonfinite": 0,
+            "resource_abort": 0,
+            "undetected": 0,
+            "verify_failed": 0
+          },
+          "records": 3
+        },
+        "B1_L2plus": {
+          "exact_count": 3,
+          "outcomes": {
+            "decode_failed": 0,
+            "exact": 3,
+            "nonfinite": 0,
+            "resource_abort": 0,
+            "undetected": 0,
+            "verify_failed": 0
+          },
+          "records": 3
+        },
+        "B2_true_l1_diagnostic": {
+          "exact_count": 3,
+          "outcomes": {
+            "decode_failed": 0,
+            "exact": 3,
+            "nonfinite": 0,
+            "resource_abort": 0,
+            "undetected": 0,
+            "verify_failed": 0
+          },
+          "records": 3
+        }
+      }
+    }
+  },
+  "analysis": "nbpolar-p20e-plus1024-confirmation",
+  "attempt_read_accounting": {
+    "artifact_content_reads_allowed_per_input": 1,
+    "attempts_allowed": 1,
+    "attempts_consumed_by_this_run": 1,
+    "construction_path": ".workbuddy/queue/NBPOLAR-PHASE4-P16-N32768-OPERATIONAL-F13/operational_f13_gate/construction_and_allocation.json",
+    "counts_content_opens": 1,
+    "counts_input_mode": "v25_npz",
+    "counts_path": "/mnt/d/Code/HD-QKD_Polar_Comparison/comparison_bench/outputs_comparison/nonbinary_diagnostics/nbldpc_v25_20260818/run_04/channel_counts.npz",
+    "dev_content_opens": 1,
+    "dev_input_mode": "pairs_parquet",
+    "dev_pairs_path": "comparison_bench/outputs_comparison/nonbinary_diagnostics/v13r3fresh_pairs_20260816/type2_1M_20260121_184040/pairs.parquet",
+    "input_mode": "real",
+    "manifest_path": "comparison_bench/outputs_comparison/nonbinary_diagnostics/nbldpc_v25_20260818/run_04/split_manifest.json",
+    "npz_loader": "comparison_bench.src.comparison_bench.formal_ir.v35_algorithm_development.load_v25_channel_counts",
+    "opened_content_paths": [
+      "/mnt/d/Code/HD-QKD_Polar_Comparison/comparison_bench/outputs_comparison/nonbinary_diagnostics/nbldpc_v25_20260818/run_04/channel_counts.npz",
+      "/mnt/d/Code/HD-QKD_Polar_Comparison-nbpolar/comparison_bench/outputs_comparison/nonbinary_diagnostics/v13r3fresh_pairs_20260816/type2_1M_20260121_184040/pairs.parquet"
+    ],
+    "pairs_loader": "comparison_bench.src.comparison_bench.io.pairs_loader.load_pairs_table+normalize_pair_columns",
+    "registered_content_paths": [
+      "/mnt/d/Code/HD-QKD_Polar_Comparison/comparison_bench/outputs_comparison/nonbinary_diagnostics/nbldpc_v25_20260818/run_04/channel_counts.npz",
+      "/mnt/d/Code/HD-QKD_Polar_Comparison-nbpolar/comparison_bench/outputs_comparison/nonbinary_diagnostics/v13r3fresh_pairs_20260816/type2_1M_20260121_184040/pairs.parquet"
+    ],
+    "reopen_attempted": false,
+    "retries": 0,
+    "retry_after_open": false
+  },
+  "b1_cap_vs_raw_ratio": 0.1197479248046875,
+  "b1_k2": 7516,
+  "b1_k_total": 7835,
+  "b1_key_bit_delta_vs_base": 5120,
+  "b1_leakage_bits": 39239,
+  "base_leakage_bits": 34119,
+  "block_ranges": [
+    [
+      384,
+      511
+    ],
+    [
+      512,
+      639
+    ],
+    [
+      640,
+      767
+    ]
+  ],
+  "cap_vs_raw_ratio": 0.1041229248046875,
+  "claim_scope": "descriptive zero-tuning +1024 confirmation on NEW real development blocks (same-file TRAIN subrange, N=32768, three new DEV blocks); B2 is an oracle-labelled diagnostic control, never an operational protocol or deployable rate; not real-frame FER, reconciliation efficiency, leakage, key rate, scaling superiority, qualification or promotion evidence; the CE-normalized disclosure ratio is not qualification efficiency; undetected is never success",
+  "closed_hold_frame_range": [
+    1600,
+    1983
+  ],
+  "consumed_p20c_dev_frame_range": [
+    0,
+    383
+  ],
+  "consumed_val_frame_range": [
+    1200,
+    1599
+  ],
+  "failing_integrity_gates": [],
+  "integrity": {
+    "blocks_exact_with_declared_remainder": true,
+    "buckets_disjoint_exhaustive": true,
+    "dev_block_range_identity": true,
+    "dev_population_exact": true,
+    "dev_split_manifest_identity": true,
+    "disclosure_recount_exact": true,
+    "input_stat_unchanged": true,
+    "nine_records_exact": true,
+    "no_unregistered_access": true,
+    "nonfinite_zero": true,
+    "one_open_per_protected_input": true,
+    "oracle_isolation": true,
+    "orders_valid_k_prefixes_within_registered_arms": true,
+    "predecessor_construction_identity": true,
+    "resource_limits_met_and_no_abort": true,
+    "sc_calls_exact": true,
+    "tags_exact": true,
+    "target_population_contract": true,
+    "truth_isolation": true,
+    "undetected_zero": true
+  },
+  "integrity_all_pass": true,
+  "k1": 319,
+  "k2": 6492,
+  "l2_delta_k2": 1024,
+  "mode": "dev-plus1024-confirmation",
+  "n": 32768,
+  "outcome_counts": {
+    "decode_failed": 0,
+    "exact": 9,
+    "nonfinite": 0,
+    "resource_abort": 0,
+    "undetected": 0,
+    "verify_failed": 0
+  },
+  "outcome_label": "TARGET_EMPIRICAL_N32768_DEV_PLUS1024_CONFIRMATION_COMPLETE",
+  "planned_records": 9,
+  "planned_sc_calls": 15,
+  "planned_tag_invocations": 9,
+  "raw_input_bits_per_block": 327680,
+  "records_completed": 9,
+  "remainder_frames": [
+    768,
+    1199
+  ],
+  "resource_stop_fired": false,
+  "resource_stop_reason": null,
+  "rss_bytes_peak": 581156864,
+  "sc_calls": 15,
+  "source": "1M",
+  "tag_invocations": 9,
+  "wall_s": 100.121085
+}

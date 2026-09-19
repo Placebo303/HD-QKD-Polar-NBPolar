@@ -86,6 +86,7 @@
     "counts_content_opens": 1,
     "counts_input_mode": "v25_npz",
     "counts_path": "/mnt/d/Code/HD-QKD_Polar_Comparison/comparison_bench/outputs_comparison/nonbinary_diagnostics/nbldpc_v25_20260818/run_04/channel_counts.npz",
+    "finalized": true,
     "hold_content_opens": 1,
     "hold_input_mode": "pairs_parquet",
     "hold_pairs_path": "comparison_bench/outputs_comparison/nonbinary_diagnostics/v13r3fresh_pairs_20260816/type2_1M_20260121_184040/pairs.parquet",
@@ -108,7 +109,7 @@
   "chunk_rows": 512,
   "claim_scope": "descriptive real-input layer/backoff diagnostic of the frozen V25 1M HOLD split at N=32768 only (three accepted P18 chronological blocks, frames 1600..1983); the true-L1 arm is an oracle-labelled diagnostic control, never an operational protocol or deployable rate; not real-frame FER, reconciliation efficiency, leakage, key rate, scaling superiority, qualification or promotion evidence; the CE-normalized disclosure ratio is not qualification efficiency; undetected is never success",
   "counts_path": "/mnt/d/Code/HD-QKD_Polar_Comparison/comparison_bench/outputs_comparison/nonbinary_diagnostics/nbldpc_v25_20260818/run_04/channel_counts.npz",
-  "created_utc": "2026-09-16T13:13:21Z",
+  "created_utc": "2026-09-16T13:13:55Z",
   "decision": {
     "blocked": "BLOCKED(<earliest gate>)",
     "complete": "TARGET_EMPIRICAL_N32768_HOLD_BACKOFF_DIAGNOSTIC_COMPLETE",
@@ -117,24 +118,24 @@
     "zero_recovery_is_complete": true
   },
   "disclosure": {
-    "key_dependent_bits": 391309,
+    "key_dependent_bits": 526200,
     "mismatches": [],
     "planned_total_key_dependent_bits": 526200,
     "planned_total_public_control_bits": 4916145,
-    "public_control_bits": 3605173,
+    "public_control_bits": 4916145,
     "public_control_bits_per_tag": 327743,
     "ratio_note": "sample cross-entropy-normalized descriptive disclosure ratios, explicitly NOT qualification reconciliation efficiency",
     "recount": {
       "event_types": {
-        "l1_disclosure": 11,
-        "l2_disclosure": 11,
-        "verification_tag": 11
+        "l1_disclosure": 12,
+        "l2_disclosure": 15,
+        "verification_tag": 15
       },
-      "key_dependent_bits": 391309,
-      "public_control_bits": 3605173,
-      "tag_invocations": 11
+      "key_dependent_bits": 526200,
+      "public_control_bits": 4916145,
+      "tag_invocations": 15
     },
-    "tag_invocations": 11
+    "tag_invocations": 15
   },
   "entropy": {
     "checks": {
@@ -157,10 +158,7 @@
     "p_b_sum": 1.0,
     "total": 0.8010378248976782
   },
-  "failing_integrity_gates": [
-    "sc_calls_exact",
-    "tags_exact"
-  ],
+  "failing_integrity_gates": [],
   "hold": {
     "block_count": 3,
     "block_ranges": [
@@ -279,13 +277,13 @@
     "p18_block_range_identity": true,
     "predecessor_construction_identity": true,
     "resource_limits_met_and_no_abort": true,
-    "sc_calls_exact": false,
-    "tags_exact": false,
+    "sc_calls_exact": true,
+    "tags_exact": true,
     "target_population_contract": true,
     "truth_isolation": true,
     "undetected_zero": true
   },
-  "integrity_all_pass": false,
+  "integrity_all_pass": true,
   "k1": 319,
   "k2": 6492,
   "manifest": {
@@ -331,12 +329,12 @@
       },
       "both_plus": {
         "arm": "both_plus",
-        "blocks": 2,
-        "ce_normalized_disclosure_ratio": 1.3454710004617068,
+        "blocks": 3,
+        "ce_normalized_disclosure_ratio": 1.3462583766121001,
         "exact_count": 0,
         "k1": 447,
         "k2": 7004,
-        "key_dependent_bits": 74638,
+        "key_dependent_bits": 111957,
         "kind": "operational",
         "leakage_bits_full_block": 37319,
         "outcome_counts": {
@@ -345,12 +343,12 @@
           "nonfinite": 0,
           "resource_abort": 0,
           "undetected": 0,
-          "verify_failed": 2
+          "verify_failed": 3
         },
         "provenance": "OPERATIONAL",
-        "public_control_bits": 655486,
+        "public_control_bits": 983229,
         "ratio_note": "sample cross-entropy-normalized descriptive disclosure ratio, explicitly NOT qualification reconciliation efficiency",
-        "total_nll_bits": 55473.51074410931
+        "total_nll_bits": 83161.59954506146
       },
       "l1_plus": {
         "arm": "l1_plus",
@@ -400,7 +398,7 @@
       }
     },
     "exact_count": 0,
-    "key_dependent_bits": 391309,
+    "key_dependent_bits": 428628,
     "oracle_control_excluded": true,
     "outcome_counts": {
       "decode_failed": 0,
@@ -408,22 +406,22 @@
       "nonfinite": 0,
       "resource_abort": 0,
       "undetected": 0,
-      "verify_failed": 11
+      "verify_failed": 12
     },
-    "public_control_bits": 3605173,
-    "record_count": 11,
-    "total_nll_bits": 304958.3093792937
+    "public_control_bits": 3932916,
+    "record_count": 12,
+    "total_nll_bits": 332646.39818024583
   },
   "oracle_control": {
     "arms": {
       "true_l1_control": {
         "arm": "true_l1_control",
-        "blocks": 0,
-        "ce_normalized_disclosure_ratio": null,
+        "blocks": 3,
+        "ce_normalized_disclosure_ratio": 1.1732819057566373,
         "exact_count": 0,
         "k1": 0,
         "k2": 6492,
-        "key_dependent_bits": 0,
+        "key_dependent_bits": 97572,
         "kind": "oracle_control",
         "leakage_bits_full_block": 32524,
         "outcome_counts": {
@@ -432,21 +430,21 @@
           "nonfinite": 0,
           "resource_abort": 0,
           "undetected": 0,
-          "verify_failed": 0
+          "verify_failed": 3
         },
         "provenance": "ORACLE_TRUE_L1_CONTROL",
-        "public_control_bits": 0,
+        "public_control_bits": 983229,
         "ratio_note": "sample cross-entropy-normalized descriptive disclosure ratio, explicitly NOT qualification reconciliation efficiency",
-        "total_nll_bits": 0.0
+        "total_nll_bits": 83161.59954506146
       }
     },
     "deployable": false,
     "excluded_from_operational_aggregates": true,
     "notice": "oracle-labelled true-L1 diagnostic control: never an operational protocol or deployable rate",
     "provenance": "ORACLE_TRUE_L1_CONTROL",
-    "record_count": 0
+    "record_count": 3
   },
-  "outcome_label": "RUNNING(record 11/15)",
+  "outcome_label": "TARGET_EMPIRICAL_N32768_HOLD_BACKOFF_DIAGNOSTIC_COMPLETE",
   "p18_block_range_identity": {
     "block_ranges": [
       [
@@ -491,16 +489,16 @@
     "verified": true
   },
   "partition": {
-    "operational": 11,
-    "oracle_control": 0,
-    "total": 11,
+    "operational": 12,
+    "oracle_control": 3,
+    "total": 15,
     "unassigned": 0
   },
   "planned_sc_calls": 27,
   "planned_tag_invocations": 15,
   "provenance_violations": 0,
   "q": 32,
-  "records_completed": 11,
+  "records_completed": 15,
   "records_expected": 15,
   "recovery": {
     "base_arm": "base",
@@ -525,10 +523,10 @@
       "both_plus": {
         "lost_vs_base": 0,
         "pair_counts": {
-          "verify_failed->verify_failed": 2
+          "verify_failed->verify_failed": 3
         },
         "recovered_vs_base": 0,
-        "same_outcome": 2
+        "same_outcome": 3
       },
       "l1_plus": {
         "lost_vs_base": 0,
@@ -548,15 +546,16 @@
       }
     }
   },
+  "rejected_after_resource_stop": false,
   "repository": "HD-QKD_Polar_Comparison-nbpolar",
   "resource_stop_fired": false,
   "resource_stop_reason": null,
   "rss_bytes_peak": 615960576,
-  "sc_calls": 22,
+  "sc_calls": 27,
   "source": "1M",
   "tag_bits": 64,
-  "tag_invocations": 11,
+  "tag_invocations": 15,
   "tag_master": 2026092060,
   "target_f": 1.3,
-  "wall_s": 151.108289
+  "wall_s": 186.421779
 }

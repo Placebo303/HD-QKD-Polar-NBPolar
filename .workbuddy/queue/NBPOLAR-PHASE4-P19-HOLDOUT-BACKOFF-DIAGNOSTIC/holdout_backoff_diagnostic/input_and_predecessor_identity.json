@@ -1,6 +1,7 @@
 {
   "attempt_read_accounting": {
     "artifact_content_reads_allowed_per_input": 1,
+    "attempt_read_accounting_finalized": true,
     "attempts_allowed": 1,
     "attempts_consumed_by_this_run": 1,
     "construction_path": ".workbuddy/queue/NBPOLAR-PHASE4-P16-N32768-OPERATIONAL-F13/operational_f13_gate/construction_and_allocation.json",

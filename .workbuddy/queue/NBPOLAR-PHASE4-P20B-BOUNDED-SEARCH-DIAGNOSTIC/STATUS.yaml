@@ -1,0 +1,28 @@
+task_id: NBPOLAR-PHASE4-P20B-BOUNDED-SEARCH-DIAGNOSTIC
+state: TARGET_EMPIRICAL_N32768_DEV_BOUNDED_SEARCH_COMPLETE_ACCEPTED_DESCRIPTIVE
+tier: Y
+planning_stage: PACKET_REVIEWED_STAGE_A_AUTHORIZED
+predecessor: TARGET_EMPIRICAL_N32768_HOLD_BACKOFF_DIAGNOSTIC_COMPLETE_ACCEPTED_DESCRIPTIVE
+p20a_dependency: IMPLEMENTATION_ACCEPTED
+selected_factor: bounded_search_diagnostic_fixed_prior_construction_disclosure
+deferred_options:
+  - P20C_candidate_fixed_order_L2_disclosure_backoff
+  - P20D_candidate_fixed_disclosure_alternative_L2_construction
+implementation_authorized: true
+protected_data_read_authorized: true
+decoder_execution_authorized: true
+train_artifact_reads_allowed: 1
+train_artifact_reads_used: 1
+hold_data_reads_allowed: 1
+hold_data_reads_used: 1
+attempts_allowed: 1
+attempts_used: 1
+result: TARGET_EMPIRICAL_N32768_DEV_BOUNDED_SEARCH_COMPLETE
+pre_execute_review: PASS_INDEPENDENT_6_OF_7_EXCEPT_AUTH_PLUS_PASTED_STAGE_B_AUTH
+pre_result_review: PASS
+main_thread_acceptance: TARGET_EMPIRICAL_N32768_DEV_BOUNDED_SEARCH_COMPLETE_ACCEPTED_DESCRIPTIVE
+next_gate: P20C_L2_DISCLOSURE_BACKOFF_AWAITING_PLANNING
+openspec_delta_expected: openspec/changes/formal-ir-nbpolar-phase4-p0/specs/nbpolar-phase4-p20b/spec.md
+notes: Planner draft only. No implementation, protected read, execution, or commit/push
+  authorized. Planner does not accept its own packet; Stage B needs a separate freeze,
+  independent Pre-EXECUTE PASS, and a separate pasted authorization.

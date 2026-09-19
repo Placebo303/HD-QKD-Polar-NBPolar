@@ -1,0 +1,157 @@
+{
+  "attempt_consumption_point": "first protected content open (load_v25_channel_counts)",
+  "attempt_read_accounting": {
+    "artifact_content_reads_allowed_per_input": 1,
+    "attempts_allowed": 1,
+    "attempts_consumed_by_this_run": 1,
+    "construction_path": ".workbuddy/queue/NBPOLAR-PHASE4-P16-N32768-OPERATIONAL-F13/operational_f13_gate/construction_and_allocation.json",
+    "counts_content_opens": 1,
+    "counts_input_mode": "v25_npz",
+    "counts_path": "/mnt/d/Code/HD-QKD_Polar_Comparison/comparison_bench/outputs_comparison/nonbinary_diagnostics/nbldpc_v25_20260818/run_04/channel_counts.npz",
+    "dev_content_opens": 1,
+    "dev_input_mode": "pairs_parquet",
+    "dev_pairs_path": "comparison_bench/outputs_comparison/nonbinary_diagnostics/v13r3fresh_pairs_20260816/type2_1M_20260121_184040/pairs.parquet",
+    "input_mode": "real",
+    "manifest_path": "comparison_bench/outputs_comparison/nonbinary_diagnostics/nbldpc_v25_20260818/run_04/split_manifest.json",
+    "npz_loader": "comparison_bench.src.comparison_bench.formal_ir.v35_algorithm_development.load_v25_channel_counts",
+    "opened_content_paths": [
+      "/mnt/d/Code/HD-QKD_Polar_Comparison/comparison_bench/outputs_comparison/nonbinary_diagnostics/nbldpc_v25_20260818/run_04/channel_counts.npz",
+      "/mnt/d/Code/HD-QKD_Polar_Comparison-nbpolar/comparison_bench/outputs_comparison/nonbinary_diagnostics/v13r3fresh_pairs_20260816/type2_1M_20260121_184040/pairs.parquet"
+    ],
+    "pairs_loader": "comparison_bench.src.comparison_bench.io.pairs_loader.load_pairs_table+normalize_pair_columns",
+    "registered_content_paths": [
+      "/mnt/d/Code/HD-QKD_Polar_Comparison/comparison_bench/outputs_comparison/nonbinary_diagnostics/nbldpc_v25_20260818/run_04/channel_counts.npz",
+      "/mnt/d/Code/HD-QKD_Polar_Comparison-nbpolar/comparison_bench/outputs_comparison/nonbinary_diagnostics/v13r3fresh_pairs_20260816/type2_1M_20260121_184040/pairs.parquet"
+    ],
+    "reopen_attempted": false,
+    "retries": 0,
+    "retry_after_open": false
+  },
+  "dev_block_pin": {
+    "block_ranges": [
+      [
+        768,
+        895
+      ],
+      [
+        896,
+        1023
+      ],
+      [
+        1024,
+        1151
+      ]
+    ],
+    "closed_disjoint": true,
+    "closed_hold_frame_range": [
+      1600,
+      1983
+    ],
+    "consumed_disjoint": true,
+    "consumed_p20c_dev_frame_range": [
+      0,
+      383
+    ],
+    "consumed_p20c_disjoint": true,
+    "consumed_p20e_dev_frame_range": [
+      384,
+      767
+    ],
+    "consumed_val_frame_range": [
+      1200,
+      1599
+    ],
+    "dev_frame_range": [
+      768,
+      1151
+    ],
+    "remainder_frame_range": [
+      1152,
+      1199
+    ],
+    "verified": true
+  },
+  "dev_stat_after": {
+    "mtime_ns": 1789701618714738200,
+    "path": "comparison_bench/outputs_comparison/nonbinary_diagnostics/v13r3fresh_pairs_20260816/type2_1M_20260121_184040/pairs.parquet",
+    "size_bytes": 1354289
+  },
+  "dev_stat_before": {
+    "mtime_ns": 1789701618714738200,
+    "path": "comparison_bench/outputs_comparison/nonbinary_diagnostics/v13r3fresh_pairs_20260816/type2_1M_20260121_184040/pairs.parquet",
+    "size_bytes": 1354289
+  },
+  "expected_npz_bytes": 25166822,
+  "npz_stat_after": {
+    "mtime_ns": 1787074449691122000,
+    "path": "/mnt/d/Code/HD-QKD_Polar_Comparison/comparison_bench/outputs_comparison/nonbinary_diagnostics/nbldpc_v25_20260818/run_04/channel_counts.npz",
+    "size_bytes": 25166822
+  },
+  "npz_stat_before": {
+    "mtime_ns": 1787074449691122000,
+    "path": "/mnt/d/Code/HD-QKD_Polar_Comparison/comparison_bench/outputs_comparison/nonbinary_diagnostics/nbldpc_v25_20260818/run_04/channel_counts.npz",
+    "size_bytes": 25166822
+  },
+  "predecessor_construction": {
+    "construction_path": ".workbuddy/queue/NBPOLAR-PHASE4-P16-N32768-OPERATIONAL-F13/operational_f13_gate/construction_and_allocation.json",
+    "digest_expected": "055c906472dd2a09761761b18aceb5f31d8b5db19bac658721f8dc49c3faea1b",
+    "digest_match": true,
+    "digest_recomputed": "055c906472dd2a09761761b18aceb5f31d8b5db19bac658721f8dc49c3faea1b",
+    "f": 1.2998502888172847,
+    "k1": 319,
+    "k2": 6492,
+    "k_total": 6811,
+    "l1_head8": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      6,
+      8,
+      9
+    ],
+    "l1_len": 32768,
+    "l2_head8": [
+      2296,
+      1706,
+      3456,
+      1708,
+      1745,
+      2282,
+      4630,
+      4868
+    ],
+    "l2_len": 32768,
+    "leakage_bits": 34119,
+    "n": 32768,
+    "predecessor_dev_seeds": [
+      2026092010,
+      2026092011,
+      2026092012,
+      2026092013,
+      2026092014,
+      2026092015,
+      2026092016,
+      2026092017
+    ],
+    "predecessor_protocol": "nbpolar-p16-operational-f13-gate",
+    "protocol": "nbpolar-p17-operational-replication-gate"
+  },
+  "split_manifest": {
+    "dev_frames": 1200,
+    "dev_pairs": 307200,
+    "expected_hold_frames": 400,
+    "expected_hold_pairs": 102400,
+    "hold_frames": 400,
+    "hold_pairs": 102400,
+    "manifest_path": "comparison_bench/outputs_comparison/nonbinary_diagnostics/nbldpc_v25_20260818/run_04/split_manifest.json",
+    "schema": "nbldpc_v25_split_manifest_v1",
+    "source": "1M",
+    "source_tag": "type2_1M_20260121_184040",
+    "train_frames": 1200,
+    "train_pairs": 307200,
+    "val_frames": 400,
+    "val_pairs": 102400
+  }
+}

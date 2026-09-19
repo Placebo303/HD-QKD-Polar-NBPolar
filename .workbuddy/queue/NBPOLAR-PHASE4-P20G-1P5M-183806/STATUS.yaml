@@ -1,0 +1,43 @@
+task_id: NBPOLAR-PHASE4-P20G-1P5M-183806
+state: BLOCKED_TARGET_POPULATION_CONTRACT_ACCEPTED_TERMINAL_DESCRIPTIVE
+tier: Y
+planning_stage: PACKET_REVIEWED_STAGE_A_AUTHORIZED
+predecessor: TARGET_EMPIRICAL_N32768_DEV_PLUS1024_EXTENSION_COMPLETE_ACCEPTED_DESCRIPTIVE
+p20a_dependency: IMPLEMENTATION_ACCEPTED
+selected_session: type2_1p5M_20260121_183806
+reserved_session: type2_2M_20260121_183657
+selected_factor: frozen_plus1024_on_independent_session_zero_tuning
+deferred_options:
+  - positive_branch_efficiency_optimization_round
+  - negative_branch_P20D_candidate_fixed_disclosure_alternative_L2_construction
+  - maintain_branch_rediscuss_reserved_2M_vs_minimality_probe
+  - disclosure_minimality_probe_plus512_vs_plus1024
+  - second_independent_session_on_reserved_2M
+implementation_authorized: true
+protected_data_read_authorized: true
+decoder_execution_authorized: true
+train_artifact_reads_allowed: 1
+train_artifact_reads_used: 1
+hold_data_reads_allowed: 1
+hold_data_reads_used: 0
+attempts_allowed: 1
+attempts_used: 1
+result: BLOCKED_target_population_contract
+pre_execute_review: PRE_EXECUTE_PASS_CONDITIONAL_STANDING_AUTH_DISSENT_RECORDED
+pre_result_review: PASS
+main_thread_acceptance: BLOCKED_TARGET_POPULATION_CONTRACT_ACCEPTED_TERMINAL_DESCRIPTIVE
+next_gate: P20H_PER_SESSION_CALIBRATION_AWAITING_PLANNING
+notes: Frozen planner draft only. No implementation, protected read, decoder execution,
+  or commit/push authorized. Stage A and Stage B each need separate pasted authorization
+  plus independent reviews. 1M same-file TRAIN geometrically exhausted (P20C 0..383 +
+  P20E 384..767 + P20F 768..1151; remainder 1152..1199 is 48 frames < one 128-frame
+  N=32768 block). 2M file reserved pristine, never opened/statted under this packet.
+  Stage-B single attempt EXECUTED 2026-09-18 22:22:32 +0800 (verbatim FREEZE §10,
+  CONSISTENCY_TRUE): fail-closed BLOCKED(target_population_contract), failing
+  h1_matches_literal,h2_matches_literal,total_matches_literal on the 1p5M counts
+  array vs carried-over 1M literals (0.02428054681872374/0.7767572780789994/
+  0.8010378248977232). NPZ content open consumed (attempt 1/1, train read 1/1);
+  1.5M DEV parquet content NEVER opened (dev_content_opens=0, stat-size pre-check
+  only); 0 SC / 0 tags / 0 records; five-file root preserved in RUNNING stub
+  state. No rerun per one-shot rule. Awaiting Pre-RESULT review; no acceptance.
+openspec_delta_expected: openspec/changes/formal-ir-nbpolar-phase4-p0/specs/nbpolar-phase4-p20g/spec.md

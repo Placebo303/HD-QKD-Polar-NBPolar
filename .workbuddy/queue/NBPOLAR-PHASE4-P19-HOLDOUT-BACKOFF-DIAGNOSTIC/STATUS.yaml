@@ -1,15 +1,20 @@
 task_id: NBPOLAR-PHASE4-P19-HOLDOUT-BACKOFF-DIAGNOSTIC
-state: IMPLEMENTATION_COMPLETE_PENDING_PRE_EXECUTE
+state: TARGET_EMPIRICAL_N32768_HOLD_BACKOFF_DIAGNOSTIC_COMPLETE_ACCEPTED_DESCRIPTIVE
 tier: Y
 predecessor: TARGET_EMPIRICAL_OPERATIONAL_F13_N32768_HOLD_MICROCHECK_COMPLETE_ACCEPTED_DESCRIPTIVE
 execution_authorized: true
 train_artifact_reads_allowed: 1
-train_artifact_reads_used: 0
+train_artifact_reads_used: 1
 hold_data_reads_allowed: 1
-hold_data_reads_used: 0
+hold_data_reads_used: 1
 attempts_allowed: 1
-attempts_used: 0
-result: null
-pre_execute_review: pending
-pre_result_review: pending
-next_gate: INDEPENDENT_PRE_EXECUTE
+attempts_used: 1
+result: TARGET_EMPIRICAL_N32768_HOLD_BACKOFF_DIAGNOSTIC_COMPLETE
+pre_execute_review: PASS_WITH_COMMENTS
+pre_result_review: PASS_WITH_COMMENTS
+main_thread_acceptance: TARGET_EMPIRICAL_N32768_HOLD_BACKOFF_DIAGNOSTIC_COMPLETE_ACCEPTED_DESCRIPTIVE
+next_gate: P20A_RESOURCE_ENDPOINT_INSTRUMENTATION_AWAITING_EXPLICIT_AUTHORIZATION
+# Provenance anomaly (external, non-blocking): concurrent external commit
+# faac0411684819f5a9055cd71fc1b4bae6955287 captured a mid-run snapshot; acceptance
+# must read the finalized WORKTREE files only (never `git show HEAD:` for the four
+# modified paths) and must not git-restore them. See OPERATOR_RETURN.md section 15.

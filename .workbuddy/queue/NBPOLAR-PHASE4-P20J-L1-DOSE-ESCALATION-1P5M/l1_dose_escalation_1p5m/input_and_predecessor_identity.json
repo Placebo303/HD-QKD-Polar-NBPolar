@@ -1,0 +1,172 @@
+{
+  "attempt_consumption_point": "first protected content open (DEV pairs parquet)",
+  "attempt_read_accounting": {
+    "artifact_content_reads_allowed_per_input": 1,
+    "attempts_allowed": 1,
+    "attempts_consumed_by_this_run": 1,
+    "construction_path": ".workbuddy/queue/NBPOLAR-PHASE4-P16-N32768-OPERATIONAL-F13/operational_f13_gate/construction_and_allocation.json",
+    "counts_content_opens": 0,
+    "dev_content_opens": 1,
+    "dev_input_mode": "pairs_parquet",
+    "dev_pairs_path": "comparison_bench/outputs_comparison/nonbinary_diagnostics/v13r3fresh_pairs_20260816/type2_1p5M_20260121_183806/pairs.parquet",
+    "input_mode": "real",
+    "manifest_path": "comparison_bench/outputs_comparison/nonbinary_diagnostics/nbldpc_v25_20260818/run_04/split_manifest.json",
+    "opened_content_paths": [
+      "/mnt/d/Code/HD-QKD_Polar_Comparison-nbpolar/.workbuddy/queue/NBPOLAR-PHASE4-P20H-PER-SESSION-CALIBRATION/per_session_calibration/calibrated_prior.npz",
+      "/mnt/d/Code/HD-QKD_Polar_Comparison-nbpolar/comparison_bench/outputs_comparison/nonbinary_diagnostics/v13r3fresh_pairs_20260816/type2_1p5M_20260121_183806/pairs.parquet"
+    ],
+    "pairs_loader": "comparison_bench.src.comparison_bench.io.pairs_loader.load_pairs_table+normalize_pair_columns",
+    "prior_content_loads": 1,
+    "prior_input_mode": "frozen_prior_file",
+    "prior_loader": "comparison_bench.src.comparison_bench.formal_ir.nbpolar.per_session_calibration.load_calibrated_prior",
+    "prior_path": ".workbuddy/queue/NBPOLAR-PHASE4-P20H-PER-SESSION-CALIBRATION/per_session_calibration/calibrated_prior.npz",
+    "registered_content_paths": [
+      "/mnt/d/Code/HD-QKD_Polar_Comparison-nbpolar/.workbuddy/queue/NBPOLAR-PHASE4-P20H-PER-SESSION-CALIBRATION/per_session_calibration/calibrated_prior.npz",
+      "/mnt/d/Code/HD-QKD_Polar_Comparison-nbpolar/comparison_bench/outputs_comparison/nonbinary_diagnostics/v13r3fresh_pairs_20260816/type2_1p5M_20260121_183806/pairs.parquet"
+    ],
+    "reopen_attempted": false,
+    "retries": 0,
+    "retry_after_open": false
+  },
+  "dev_block_pin": {
+    "block_ranges": [
+      [
+        768,
+        895
+      ],
+      [
+        896,
+        1023
+      ],
+      [
+        1024,
+        1151
+      ]
+    ],
+    "dev_frame_range": [
+      768,
+      1151
+    ],
+    "intra_file_hold_frame_range": [
+      2213,
+      2766
+    ],
+    "intra_file_val_frame_range": [
+      1660,
+      2212
+    ],
+    "intra_hold_disjoint": true,
+    "intra_val_disjoint": true,
+    "p20h_dev_disjoint": true,
+    "p20h_dev_frame_range": [
+      0,
+      383
+    ],
+    "p20i_dev_disjoint": true,
+    "p20i_dev_frame_range": [
+      384,
+      767
+    ],
+    "remainder_frame_range": [
+      1152,
+      1659
+    ],
+    "verified": true
+  },
+  "dev_source_pin": {
+    "dev_pairs_path": "comparison_bench/outputs_comparison/nonbinary_diagnostics/v13r3fresh_pairs_20260816/type2_1p5M_20260121_183806/pairs.parquet",
+    "dev_pairs_sha256": "ca351e5205e76600530121066af4e0e1e5278061745c0797368a49443570a06b",
+    "dev_pairs_size_bytes": 1869178,
+    "refused_1m_path": "comparison_bench/outputs_comparison/nonbinary_diagnostics/v13r3fresh_pairs_20260816/type2_1M_20260121_184040/pairs.parquet",
+    "refused_2m_path": "comparison_bench/outputs_comparison/nonbinary_diagnostics/v13r3fresh_pairs_20260816/type2_2M_20260121_183657/pairs.parquet",
+    "source": "1p5M",
+    "source_tag": "type2_1p5M_20260121_183806",
+    "verified": true
+  },
+  "dev_stat_after": {
+    "mtime_ns": 1789701618753157200,
+    "path": "comparison_bench/outputs_comparison/nonbinary_diagnostics/v13r3fresh_pairs_20260816/type2_1p5M_20260121_183806/pairs.parquet",
+    "size_bytes": 1869178
+  },
+  "dev_stat_before": {
+    "mtime_ns": 1789701618753157200,
+    "path": "comparison_bench/outputs_comparison/nonbinary_diagnostics/v13r3fresh_pairs_20260816/type2_1p5M_20260121_183806/pairs.parquet",
+    "size_bytes": 1869178
+  },
+  "expected_prior_digest": "e8dd078a5367ba3af8eba91022d58aeffc114bc30b847b13cd4bb890e5dde43b",
+  "predecessor_construction": {
+    "construction_path": ".workbuddy/queue/NBPOLAR-PHASE4-P16-N32768-OPERATIONAL-F13/operational_f13_gate/construction_and_allocation.json",
+    "digest_expected": "055c906472dd2a09761761b18aceb5f31d8b5db19bac658721f8dc49c3faea1b",
+    "digest_match": true,
+    "digest_recomputed": "055c906472dd2a09761761b18aceb5f31d8b5db19bac658721f8dc49c3faea1b",
+    "f": 1.2998502888172847,
+    "k1": 319,
+    "k2": 6492,
+    "k_total": 6811,
+    "l1_head8": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      6,
+      8,
+      9
+    ],
+    "l1_len": 32768,
+    "l2_head8": [
+      2296,
+      1706,
+      3456,
+      1708,
+      1745,
+      2282,
+      4630,
+      4868
+    ],
+    "l2_len": 32768,
+    "leakage_bits": 34119,
+    "n": 32768,
+    "predecessor_dev_seeds": [
+      2026092010,
+      2026092011,
+      2026092012,
+      2026092013,
+      2026092014,
+      2026092015,
+      2026092016,
+      2026092017
+    ],
+    "predecessor_protocol": "nbpolar-p16-operational-f13-gate",
+    "protocol": "nbpolar-p17-operational-replication-gate"
+  },
+  "prior_stat_after": {
+    "mtime_ns": 1789743468871262900,
+    "path": ".workbuddy/queue/NBPOLAR-PHASE4-P20H-PER-SESSION-CALIBRATION/per_session_calibration/calibrated_prior.npz",
+    "size_bytes": 25438654
+  },
+  "prior_stat_before": {
+    "mtime_ns": 1789743468871262900,
+    "path": ".workbuddy/queue/NBPOLAR-PHASE4-P20H-PER-SESSION-CALIBRATION/per_session_calibration/calibrated_prior.npz",
+    "size_bytes": 25438654
+  },
+  "recalibrated_literals": {
+    "h1": 2.006647056368773,
+    "h2": 1.9017235959286112,
+    "h_total": 3.908370652297384
+  },
+  "split_manifest": {
+    "dev_frames": 1660,
+    "dev_pairs": 424960,
+    "hold_frames": 554,
+    "hold_pairs": 141824,
+    "manifest_path": "comparison_bench/outputs_comparison/nonbinary_diagnostics/nbldpc_v25_20260818/run_04/split_manifest.json",
+    "schema": "nbldpc_v25_split_manifest_v1",
+    "source": "1p5M",
+    "source_tag": "type2_1p5M_20260121_183806",
+    "train_frames": 1660,
+    "train_pairs": 424960,
+    "val_frames": 553,
+    "val_pairs": 141568
+  }
+}

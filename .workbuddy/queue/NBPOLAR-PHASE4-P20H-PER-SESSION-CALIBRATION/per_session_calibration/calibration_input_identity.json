@@ -1,0 +1,20 @@
+{
+  "attempts_consumed_by_this_run": 1,
+  "counts_content_opens": 1,
+  "counts_dtype": "float64",
+  "counts_path": "/mnt/d/Code/HD-QKD_Polar_Comparison/comparison_bench/outputs_comparison/nonbinary_diagnostics/nbldpc_v25_20260818/run_04/channel_counts.npz",
+  "counts_sha256": "e5e99cc89a09ec913b82af7d061cc462af7bf57404c6d97c06537de9c3a2d59c",
+  "counts_shape": [
+    1024,
+    1024
+  ],
+  "counts_total": 424960,
+  "manifest_cross_check": true,
+  "manifest_train_pairs": 424960,
+  "npz_loader": "comparison_bench.src.comparison_bench.formal_ir.v35_algorithm_development.load_v25_channel_counts",
+  "npz_size_bytes": 25166822,
+  "prior_digest": "e8dd078a5367ba3af8eba91022d58aeffc114bc30b847b13cd4bb890e5dde43b",
+  "protocol": "nbpolar-p20h-per-session-calibration",
+  "source": "1p5M",
+  "source_tag": "type2_1p5M_20260121_183806"
+}

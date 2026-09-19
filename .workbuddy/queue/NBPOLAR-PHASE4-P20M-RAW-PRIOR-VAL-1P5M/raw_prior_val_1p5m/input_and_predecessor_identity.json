@@ -1,0 +1,234 @@
+{
+  "attempt_consumption_point": "first protected content open (DEV pairs parquet)",
+  "attempt_read_accounting": {
+    "artifact_content_reads_allowed_per_input": 1,
+    "attempts_allowed": 1,
+    "attempts_consumed_by_this_run": 1,
+    "construction_path": ".workbuddy/queue/NBPOLAR-PHASE4-P16-N32768-OPERATIONAL-F13/operational_f13_gate/construction_and_allocation.json",
+    "counts_content_opens": 0,
+    "dev_content_opens": 1,
+    "dev_input_mode": "pairs_parquet",
+    "dev_pairs_path": "comparison_bench/outputs_comparison/nonbinary_diagnostics/v13r3fresh_pairs_20260816/type2_1p5M_20260121_183806/pairs.parquet",
+    "input_mode": "real",
+    "lambda_prior_content_loads": 1,
+    "lambda_prior_path": ".workbuddy/queue/NBPOLAR-PHASE4-P20H-PER-SESSION-CALIBRATION/per_session_calibration/calibrated_prior.npz",
+    "manifest_path": "comparison_bench/outputs_comparison/nonbinary_diagnostics/nbldpc_v25_20260818/run_04/split_manifest.json",
+    "opened_content_paths": [
+      "/mnt/d/Code/HD-QKD_Polar_Comparison-nbpolar/.workbuddy/queue/NBPOLAR-PHASE4-P20M-RAW-PRIOR-VAL-1P5M/raw_prior_1p5m.npz",
+      "/mnt/d/Code/HD-QKD_Polar_Comparison-nbpolar/.workbuddy/queue/NBPOLAR-PHASE4-P20H-PER-SESSION-CALIBRATION/per_session_calibration/calibrated_prior.npz",
+      "/mnt/d/Code/HD-QKD_Polar_Comparison-nbpolar/comparison_bench/outputs_comparison/nonbinary_diagnostics/v13r3fresh_pairs_20260816/type2_1p5M_20260121_183806/pairs.parquet"
+    ],
+    "pairs_loader": "comparison_bench.src.comparison_bench.io.pairs_loader.load_pairs_table+normalize_pair_columns",
+    "prior_input_mode": "frozen_prior_file",
+    "prior_loader": "per_session_calibration.raw_prior(read-only)",
+    "prior_path": ".workbuddy/queue/NBPOLAR-PHASE4-P20M-RAW-PRIOR-VAL-1P5M/raw_prior_1p5m.npz",
+    "raw_prior_content_loads": 1,
+    "registered_content_paths": [
+      "/mnt/d/Code/HD-QKD_Polar_Comparison-nbpolar/.workbuddy/queue/NBPOLAR-PHASE4-P20M-RAW-PRIOR-VAL-1P5M/raw_prior_1p5m.npz",
+      "/mnt/d/Code/HD-QKD_Polar_Comparison-nbpolar/.workbuddy/queue/NBPOLAR-PHASE4-P20H-PER-SESSION-CALIBRATION/per_session_calibration/calibrated_prior.npz",
+      "/mnt/d/Code/HD-QKD_Polar_Comparison-nbpolar/comparison_bench/outputs_comparison/nonbinary_diagnostics/v13r3fresh_pairs_20260816/type2_1p5M_20260121_183806/pairs.parquet"
+    ],
+    "reopen_attempted": false,
+    "retries": 0,
+    "retry_after_open": false
+  },
+  "budget_literal": "1.3*32768*0.8255660516732961-64 over 5, floored, clipped [0,65536] = 7020",
+  "build_dev_disjointness_s2_ii": {
+    "build_frames": [
+      0,
+      1659
+    ],
+    "dev_frames": [
+      1660,
+      2043
+    ],
+    "disjoint": true
+  },
+  "corrected_prior_digest": "372dcc1cedbace1e699f60787d10eb298bb4bb3290519d2e6b19964ecf7d46ac",
+  "derivation_seeds_provenance": [
+    2026092291,
+    2026092292,
+    2026092293,
+    2026092294
+  ],
+  "dev_block_pin": {
+    "block_ranges": [
+      [
+        1660,
+        1787
+      ],
+      [
+        1788,
+        1915
+      ],
+      [
+        1916,
+        2043
+      ]
+    ],
+    "dev_frame_range": [
+      1660,
+      2043
+    ],
+    "intra_file_hold_frame_range": [
+      2213,
+      2766
+    ],
+    "intra_file_val_frame_range": [
+      1660,
+      2212
+    ],
+    "intra_hold_disjoint": true,
+    "intra_val_contained": true,
+    "p20h_dev_disjoint": true,
+    "p20h_dev_frame_range": [
+      0,
+      383
+    ],
+    "p20i_dev_disjoint": true,
+    "p20i_dev_frame_range": [
+      384,
+      767
+    ],
+    "p20j_dev_disjoint": true,
+    "p20j_dev_frame_range": [
+      768,
+      1151
+    ],
+    "p20k_dev_remainder_disjoint": true,
+    "p20k_dev_remainder_frame_range": [
+      1152,
+      1659
+    ],
+    "remainder_frame_range": [
+      2044,
+      2212
+    ],
+    "verified": true
+  },
+  "dev_source_pin": {
+    "dev_pairs_path": "comparison_bench/outputs_comparison/nonbinary_diagnostics/v13r3fresh_pairs_20260816/type2_1p5M_20260121_183806/pairs.parquet",
+    "dev_pairs_sha256": "ca351e5205e76600530121066af4e0e1e5278061745c0797368a49443570a06b",
+    "dev_pairs_size_bytes": 1869178,
+    "refused_1m_path": "comparison_bench/outputs_comparison/nonbinary_diagnostics/v13r3fresh_pairs_20260816/type2_1M_20260121_184040/pairs.parquet",
+    "refused_2m_path": "comparison_bench/outputs_comparison/nonbinary_diagnostics/v13r3fresh_pairs_20260816/type2_2M_20260121_183657/pairs.parquet",
+    "source": "1p5M",
+    "source_tag": "type2_1p5M_20260121_183806",
+    "verified": true
+  },
+  "dev_stat_after": {
+    "mtime_ns": 1789701618753157200,
+    "path": "comparison_bench/outputs_comparison/nonbinary_diagnostics/v13r3fresh_pairs_20260816/type2_1p5M_20260121_183806/pairs.parquet",
+    "size_bytes": 1869178
+  },
+  "dev_stat_before": {
+    "mtime_ns": 1789701618753157200,
+    "path": "comparison_bench/outputs_comparison/nonbinary_diagnostics/v13r3fresh_pairs_20260816/type2_1p5M_20260121_183806/pairs.parquet",
+    "size_bytes": 1869178
+  },
+  "expected_corrected_prior_digest": "372dcc1cedbace1e699f60787d10eb298bb4bb3290519d2e6b19964ecf7d46ac",
+  "expected_old_l1_order_digest": "e3aea072eb3e9454afb59a97028fb968bb9f52a155a82e6a4022e5adb13dec21",
+  "expected_order_digest": "a9f18a9fdad37c2cdf6e540c11d7ffede9b260275a7eae6a3a40a21da11bc638",
+  "lambda_prior_digest": "e8dd078a5367ba3af8eba91022d58aeffc114bc30b847b13cd4bb890e5dde43b",
+  "lambda_stat_after": {
+    "mtime_ns": 1789743468871262900,
+    "path": ".workbuddy/queue/NBPOLAR-PHASE4-P20H-PER-SESSION-CALIBRATION/per_session_calibration/calibrated_prior.npz",
+    "size_bytes": 25438654
+  },
+  "lambda_stat_before": {
+    "mtime_ns": 1789743468871262900,
+    "path": ".workbuddy/queue/NBPOLAR-PHASE4-P20H-PER-SESSION-CALIBRATION/per_session_calibration/calibrated_prior.npz",
+    "size_bytes": 25438654
+  },
+  "order_file_pin": {
+    "k1": 331,
+    "k2": 6689,
+    "n": 32768,
+    "order_digest": "a9f18a9fdad37c2cdf6e540c11d7ffede9b260275a7eae6a3a40a21da11bc638",
+    "order_file": ".workbuddy/queue/NBPOLAR-PHASE4-P20M-RAW-PRIOR-VAL-1P5M/raw_prior_orders_1p5m.json",
+    "prior_digest": "372dcc1cedbace1e699f60787d10eb298bb4bb3290519d2e6b19964ecf7d46ac",
+    "train_seeds": [
+      2026092291,
+      2026092292,
+      2026092293,
+      2026092294
+    ],
+    "verified": true
+  },
+  "predecessor_construction": {
+    "construction_path": ".workbuddy/queue/NBPOLAR-PHASE4-P16-N32768-OPERATIONAL-F13/operational_f13_gate/construction_and_allocation.json",
+    "digest_expected": "055c906472dd2a09761761b18aceb5f31d8b5db19bac658721f8dc49c3faea1b",
+    "digest_match": true,
+    "digest_recomputed": "055c906472dd2a09761761b18aceb5f31d8b5db19bac658721f8dc49c3faea1b",
+    "f": 1.2998502888172847,
+    "k1": 319,
+    "k2": 6492,
+    "k_total": 6811,
+    "l1_head8": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      6,
+      8,
+      9
+    ],
+    "l1_len": 32768,
+    "l2_head8": [
+      2296,
+      1706,
+      3456,
+      1708,
+      1745,
+      2282,
+      4630,
+      4868
+    ],
+    "l2_len": 32768,
+    "leakage_bits": 34119,
+    "n": 32768,
+    "predecessor_dev_seeds": [
+      2026092010,
+      2026092011,
+      2026092012,
+      2026092013,
+      2026092014,
+      2026092015,
+      2026092016,
+      2026092017
+    ],
+    "predecessor_protocol": "nbpolar-p16-operational-f13-gate",
+    "protocol": "nbpolar-p17-operational-replication-gate"
+  },
+  "prior_stat_after": {
+    "mtime_ns": 1789784782875097900,
+    "path": ".workbuddy/queue/NBPOLAR-PHASE4-P20M-RAW-PRIOR-VAL-1P5M/raw_prior_1p5m.npz",
+    "size_bytes": 25438650
+  },
+  "prior_stat_before": {
+    "mtime_ns": 1789784782875097900,
+    "path": ".workbuddy/queue/NBPOLAR-PHASE4-P20M-RAW-PRIOR-VAL-1P5M/raw_prior_1p5m.npz",
+    "size_bytes": 25438650
+  },
+  "recomputed_literals": {
+    "h1": 0.02519949692375297,
+    "h2": 0.8003665547495431,
+    "h_total": 0.8255660516732961
+  },
+  "split_manifest": {
+    "dev_frames": 553,
+    "dev_pairs": 141568,
+    "hold_frames": 554,
+    "hold_pairs": 141824,
+    "manifest_path": "comparison_bench/outputs_comparison/nonbinary_diagnostics/nbldpc_v25_20260818/run_04/split_manifest.json",
+    "schema": "nbldpc_v25_split_manifest_v1",
+    "source": "1p5M",
+    "source_tag": "type2_1p5M_20260121_183806",
+    "train_frames": 1660,
+    "train_pairs": 424960,
+    "val_frames": 553,
+    "val_pairs": 141568
+  },
+  "stage_b_sampling_calls": 0
+}

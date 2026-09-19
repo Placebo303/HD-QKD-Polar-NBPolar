@@ -1,0 +1,132 @@
+{
+  "analysis": "nbpolar-p20k-l1-dose-512-1p5m",
+  "arm_rule": "three frozen arms in block-major order E0_sc_base / E1_L1plus512 / E2_true_l1_diagnostic per block; E0 and E1 run the frozen greedy SC (2 SC + 1 tag per block) with identical prior/floor/order/kernel/ representation/SC; E0 discloses the frozen base K1=319/K2=6492 while E1 discloses K1=831/K2=6492 (the single +512 L1 order-prefix step on the SAME frozen P16 L1 order); E2 discloses K2 only and runs one oracle-conditioned L2 SC; 15 SC calls and 9 tags total; E2 carries ORACLE_TRUE_L1_CONTROL provenance, deployable=false, and is excluded from every operational aggregate; arms are constants, never CLI-tunable",
+  "arms": [
+    {
+      "k1": 319,
+      "k2": 6492,
+      "kind": "operational",
+      "leakage_bits": 34119,
+      "name": "E0_sc_base",
+      "provenance": "OPERATIONAL"
+    },
+    {
+      "k1": 831,
+      "k2": 6492,
+      "kind": "operational",
+      "leakage_bits": 36679,
+      "name": "E1_L1plus512",
+      "provenance": "OPERATIONAL"
+    },
+    {
+      "k1": 0,
+      "k2": 6492,
+      "kind": "oracle_control",
+      "leakage_bits": 32524,
+      "name": "E2_true_l1_diagnostic",
+      "provenance": "ORACLE_TRUE_L1_CONTROL"
+    }
+  ],
+  "base_leakage_bits": 34119,
+  "block_frames": 128,
+  "block_ranges": [
+    [
+      1152,
+      1279
+    ],
+    [
+      1280,
+      1407
+    ],
+    [
+      1408,
+      1535
+    ]
+  ],
+  "calibration_floor": 1e-15,
+  "calibration_lambda": 137.3823795883264,
+  "chunk_rows": 512,
+  "claim_scope": "descriptive +512 L1-dose-512 diagnostic on new-segment 1.5M TRAIN blocks (N=32768, three DEV blocks 1152..1535) under the frozen per-session-calibrated prior; E2 is an oracle-labelled diagnostic control, never an operational protocol or deployable rate; not real-frame FER, reconciliation efficiency, leakage, key rate, scaling superiority, qualification or promotion evidence; the CE-normalized disclosure ratio is not qualification efficiency; undetected is never success",
+  "construction": ".workbuddy/queue/NBPOLAR-PHASE4-P16-N32768-OPERATIONAL-F13/operational_f13_gate/construction_and_allocation.json",
+  "construction_digest": "055c906472dd2a09761761b18aceb5f31d8b5db19bac658721f8dc49c3faea1b",
+  "control_leakage_bits": 32524,
+  "deferred": [
+    "e1-restoration maintain-confirmation round",
+    "e1-zero-restoration P20D fixed-disclosure alternative L2 construction",
+    "disclosure-minimality probe (+128/+256/+512 chain complete)",
+    "efficiency optimization round",
+    "second independent session on the reserved 2M file"
+  ],
+  "dev_block_rule": "TRAIN development formation (P18 pattern, P20K ranges): sort TRAIN rows by (frame_id, pair_idx); require exactly 384 frames 1152..1535, 256 rows per frame, pair_idx 0..255 and symbols 0..1023; blocks 1152..1279 / 1280..1407 / 1408..1535 (128 frames = 32768 pairs each); frames 1536..1659 are the declared never-used remainder; the 1M full pool and the reserved 2M file never selected (cross-file gate first); 1.5M VAL 1660..2212 and 1.5M HOLD 2213..2766 never selected (intra-file gate second); consumed P20H DEV 0..383 never selected (P20H-DEV exclusion gate third); consumed P20I DEV 384..767 never selected (P20I-DEV exclusion gate fourth); consumed P20J DEV 768..1151 never selected (P20J-DEV exclusion gate fifth); no shuffle, resampling, overlap, padding, pooling or fitting",
+  "dev_frames": [
+    1152,
+    1535
+  ],
+  "dev_pairs": "comparison_bench/outputs_comparison/nonbinary_diagnostics/v13r3fresh_pairs_20260816/type2_1p5M_20260121_183806/pairs.parquet",
+  "dev_source": {
+    "dev_pairs_path": "comparison_bench/outputs_comparison/nonbinary_diagnostics/v13r3fresh_pairs_20260816/type2_1p5M_20260121_183806/pairs.parquet",
+    "dev_pairs_sha256": "ca351e5205e76600530121066af4e0e1e5278061745c0797368a49443570a06b",
+    "dev_pairs_size_bytes": 1869178,
+    "refused_1m_path": "comparison_bench/outputs_comparison/nonbinary_diagnostics/v13r3fresh_pairs_20260816/type2_1M_20260121_184040/pairs.parquet",
+    "refused_2m_path": "comparison_bench/outputs_comparison/nonbinary_diagnostics/v13r3fresh_pairs_20260816/type2_2M_20260121_183657/pairs.parquet",
+    "source": "1p5M",
+    "source_tag": "type2_1p5M_20260121_183806",
+    "verified": true
+  },
+  "disclosure_rule": "single preregistered L1 disclosure step: E1_L1plus512 discloses FROZEN_L1_DELTA_K1 = +512 L1 symbols beyond the frozen base (K1 319 -> 831; K_total 6811 -> 7323) by FROZEN-ORDER-PREFIX EXTENSION -- the disclosed L1 set is the first 831 positions of the frozen P16 L1 order (positions fixed by the construction file, never selected on closed blocks, the consumed 1M pool, P20H DEV 0..383, P20I DEV 384..767, P20J DEV 768..1151, or new DEV data); E0 and E2 stay at base disclosure; the step doubles the P20J +256 L1 dose (K1 575 -> 831), completing the +128/+256/+512 chain; no second tier (no E1b) without a new packet",
+  "e1_k1": 831,
+  "e1_k_total": 7323,
+  "e1_key_bit_delta_vs_base": 2560,
+  "e1_leakage_bits": 36679,
+  "floor": 1e-15,
+  "intra_file_hold_frame_range": [
+    2213,
+    2766
+  ],
+  "intra_file_val_frame_range": [
+    1660,
+    2212
+  ],
+  "k1": 319,
+  "k2": 6492,
+  "k_total": 6811,
+  "l1_delta_k1": 512,
+  "manifest_path": "comparison_bench/outputs_comparison/nonbinary_diagnostics/nbldpc_v25_20260818/run_04/split_manifest.json",
+  "mode": "dev-l1-dose-512-1p5m",
+  "n": 32768,
+  "nll_rule": "per block under the fixed floor-1e-15 TRAIN prior: l1_nll_bits = sum_i -log2 p1[high_i, bob_i]; l2_nll_bits = sum_i -log2 p2[high_i, bob_i, low_i]; total_nll_bits = l1 + l2 (bits per 32768-pair block); tags and truth never enter selection (there is no selection in this packet)",
+  "no_threshold_rule": "there is no exact-count, FER, winner, monotonicity, superiority or qualification threshold and no recovery gate of any kind; any exact count (including 0/9 and any partial restoration) is descriptive COMPLETE when integrity holds; only integrity/resource failures produce BLOCKED(<earliest gate>)",
+  "outcome_precedence": [
+    "resource_abort: arm not executed (preregistered budget stop)",
+    "nonfinite: numeric nonfinite failure in L1/L2 SC; no tag",
+    "decode_failed: other L1/L2 SC exception; no tag",
+    "verify_failed: tag mismatch",
+    "exact: tag pass and label == true label",
+    "undetected: tag pass and not exact (never success)"
+  ],
+  "planned_records": 9,
+  "planned_sc_calls": 15,
+  "planned_tag_invocations": 9,
+  "prior_digest": "e8dd078a5367ba3af8eba91022d58aeffc114bc30b847b13cd4bb890e5dde43b",
+  "prior_path": ".workbuddy/queue/NBPOLAR-PHASE4-P20H-PER-SESSION-CALIBRATION/per_session_calibration/calibrated_prior.npz",
+  "protocol": "nbpolar-p20k-l1-dose-512-1p5m",
+  "public_control_bits_per_tag": 327743,
+  "ratio_rule": "disclosure_ce_ratio = design leakage / true block total NLL bits is a sample cross-entropy-normalized disclosure ratio and is explicitly NOT qualification reconciliation efficiency",
+  "raw_input_bits_per_block": 327680,
+  "recalibrated_h1": 2.006647056368773,
+  "recalibrated_h2": 1.9017235959286112,
+  "recalibrated_h_total": 3.908370652297384,
+  "remainder_frames": [
+    1536,
+    1659
+  ],
+  "single_factor": "ONE preregistered change vs P20H/P20I/P20J: L1 disclosure +512 via the frozen order-prefix rule (Stage-A frozen, read-only in Stage B); per-session prior digest-pinned read-only, K2 base, floor, construction-order, kernel, representation and SC carried over from P20H; only the +512 L1 step and the new P20K tag domain differ",
+  "source": "1p5M",
+  "support_rule": "per-session TRAIN calibration (\u00a73 program, Stage-A frozen): f = (counts + lambda*p_global)/(n_b + lambda) with the frozen lambda 137.3823795883264 on the 1.5M TRAIN counts array; every cell below 1e-15 replaced by 1e-15; columns renormalized; p_b = column totals / total count; P1/P2 = accepted derive_p1/derive_p2(f) under A=32*U1+U2; Stage B loads the digest-pinned calibrated_prior.npz read-only (no NPZ open, no refit, no relambda, no DEV contact before the freeze)",
+  "tag_bits": 64,
+  "tag_master": 2026092250,
+  "tag_seed_domain": "nbpolar-p20k-l1-dose-512-1p5m-seed:<master>:<n>:<arm>:<block_index>",
+  "total_key_dependent_bits_if_all_invoked": 309966,
+  "total_public_control_bits_if_all_tags": 2949687,
+  "truth_boundary": "Alice truth enters operational arms only through disclosed U values, tag construction and scoring (accepted run_operational_block boundary and sentinel, identical for E0 and E1); E2 additionally conditions its L2 metric on the true high layer and is provenance-isolated"
+}

@@ -1,0 +1,16 @@
+{
+  "column_dev": 7.327471962526033e-15,
+  "counts_sha256": "e5e99cc89a09ec913b82af7d061cc462af7bf57404c6d97c06537de9c3a2d59c",
+  "counts_total": 424960,
+  "derivation": "floor-table entropy functionals on the calibrated prior: H1 = sum_b p_b[b] H(p1[:,b]); H2 = sum_{b,u1} p_b[b] p1[u1,b] H(p2[u1,b,:]); p_b from 1.5M TRAIN column totals; replaces the 1M literals for the target_population_contract gate",
+  "floor": 1e-15,
+  "floor_change": 4.440892098500626e-16,
+  "h1": 2.006647056368773,
+  "h2": 1.9017235959286112,
+  "h_total": 3.908370652297384,
+  "lambda": 137.3823795883264,
+  "prior_digest": "e8dd078a5367ba3af8eba91022d58aeffc114bc30b847b13cd4bb890e5dde43b",
+  "protocol": "nbpolar-p20h-per-session-calibration",
+  "source": "1p5M",
+  "unfloored_h_total": 3.9083706522973833
+}

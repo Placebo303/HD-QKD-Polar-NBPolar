@@ -1,0 +1,196 @@
+{
+  "aggregates": {
+    "arms": {
+      "G0_old_point_base": {
+        "arm": "G0_old_point_base",
+        "exact_count": 0,
+        "floor_hit_rate_mean": 0.046335856119791664,
+        "outcomes": {
+          "verify_failed": 3
+        },
+        "records": 3
+      },
+      "G1_raw_prior_session_budget": {
+        "arm": "G1_raw_prior_session_budget",
+        "exact_count": 0,
+        "floor_hit_rate_mean": 0.000762939453125,
+        "outcomes": {
+          "verify_failed": 3
+        },
+        "records": 3
+      },
+      "G2_true_l1_diagnostic": {
+        "arm": "G2_true_l1_diagnostic",
+        "exact_count": 0,
+        "floor_hit_rate_mean": 0.0004984537760416666,
+        "outcomes": {
+          "verify_failed": 3
+        },
+        "records": 3
+      }
+    },
+    "nonfinite_count": 0,
+    "operational": {
+      "exact_count": 0,
+      "outcomes": {
+        "verify_failed": 6
+      },
+      "records": 6
+    },
+    "oracle": {
+      "exact_count": 0,
+      "records": 3
+    },
+    "recovery": {
+      "first_error_moves": [
+        {
+          "block_index": 0,
+          "g0_first_error_layer": "L1",
+          "g1_first_error_layer": "L2"
+        },
+        {
+          "block_index": 1,
+          "g0_first_error_layer": "L1",
+          "g1_first_error_layer": "L1"
+        },
+        {
+          "block_index": 2,
+          "g0_first_error_layer": "L1",
+          "g1_first_error_layer": "L2"
+        }
+      ],
+      "g0_exact_blocks": 0,
+      "g1_exact_blocks": 0,
+      "g1_maintain_count": 0,
+      "g1_restored_count": 0
+    },
+    "undetected_count": 0
+  },
+  "analysis": "nbpolar-p20m-raw-prior-val-1p5m",
+  "attempt_read_accounting": {
+    "artifact_content_reads_allowed_per_input": 1,
+    "attempts_allowed": 1,
+    "attempts_consumed_by_this_run": 1,
+    "construction_path": ".workbuddy/queue/NBPOLAR-PHASE4-P16-N32768-OPERATIONAL-F13/operational_f13_gate/construction_and_allocation.json",
+    "counts_content_opens": 0,
+    "dev_content_opens": 1,
+    "dev_input_mode": "pairs_parquet",
+    "dev_pairs_path": "comparison_bench/outputs_comparison/nonbinary_diagnostics/v13r3fresh_pairs_20260816/type2_1p5M_20260121_183806/pairs.parquet",
+    "input_mode": "real",
+    "lambda_prior_content_loads": 1,
+    "lambda_prior_path": ".workbuddy/queue/NBPOLAR-PHASE4-P20H-PER-SESSION-CALIBRATION/per_session_calibration/calibrated_prior.npz",
+    "manifest_path": "comparison_bench/outputs_comparison/nonbinary_diagnostics/nbldpc_v25_20260818/run_04/split_manifest.json",
+    "opened_content_paths": [
+      "/mnt/d/Code/HD-QKD_Polar_Comparison-nbpolar/.workbuddy/queue/NBPOLAR-PHASE4-P20M-RAW-PRIOR-VAL-1P5M/raw_prior_1p5m.npz",
+      "/mnt/d/Code/HD-QKD_Polar_Comparison-nbpolar/.workbuddy/queue/NBPOLAR-PHASE4-P20H-PER-SESSION-CALIBRATION/per_session_calibration/calibrated_prior.npz",
+      "/mnt/d/Code/HD-QKD_Polar_Comparison-nbpolar/comparison_bench/outputs_comparison/nonbinary_diagnostics/v13r3fresh_pairs_20260816/type2_1p5M_20260121_183806/pairs.parquet"
+    ],
+    "pairs_loader": "comparison_bench.src.comparison_bench.io.pairs_loader.load_pairs_table+normalize_pair_columns",
+    "prior_input_mode": "frozen_prior_file",
+    "prior_loader": "per_session_calibration.raw_prior(read-only)",
+    "prior_path": ".workbuddy/queue/NBPOLAR-PHASE4-P20M-RAW-PRIOR-VAL-1P5M/raw_prior_1p5m.npz",
+    "raw_prior_content_loads": 1,
+    "registered_content_paths": [
+      "/mnt/d/Code/HD-QKD_Polar_Comparison-nbpolar/.workbuddy/queue/NBPOLAR-PHASE4-P20M-RAW-PRIOR-VAL-1P5M/raw_prior_1p5m.npz",
+      "/mnt/d/Code/HD-QKD_Polar_Comparison-nbpolar/.workbuddy/queue/NBPOLAR-PHASE4-P20H-PER-SESSION-CALIBRATION/per_session_calibration/calibrated_prior.npz",
+      "/mnt/d/Code/HD-QKD_Polar_Comparison-nbpolar/comparison_bench/outputs_comparison/nonbinary_diagnostics/v13r3fresh_pairs_20260816/type2_1p5M_20260121_183806/pairs.parquet"
+    ],
+    "reopen_attempted": false,
+    "retries": 0,
+    "retry_after_open": false
+  },
+  "block_ranges": [
+    [
+      1660,
+      1787
+    ],
+    [
+      1788,
+      1915
+    ],
+    [
+      1916,
+      2043
+    ]
+  ],
+  "budget_literal": "1.3*32768*0.8255660516732961-64 over 5, floored, clipped [0,65536] = 7020",
+  "claim_scope": "descriptive raw-prior operating-point diagnostic on new-segment 1.5M VAL blocks (N=32768, three DEV blocks 1660..2043) under the frozen corrected prior; G2 is an oracle-labelled diagnostic control, never an operational protocol or deployable rate; not real-frame FER, reconciliation efficiency, leakage, key rate, scaling superiority, qualification or promotion evidence; the CE-normalized disclosure ratio is not qualification efficiency; undetected is never success",
+  "dev_source": {
+    "dev_pairs_path": "comparison_bench/outputs_comparison/nonbinary_diagnostics/v13r3fresh_pairs_20260816/type2_1p5M_20260121_183806/pairs.parquet",
+    "dev_pairs_sha256": "ca351e5205e76600530121066af4e0e1e5278061745c0797368a49443570a06b",
+    "dev_pairs_size_bytes": 1869178,
+    "refused_1m_path": "comparison_bench/outputs_comparison/nonbinary_diagnostics/v13r3fresh_pairs_20260816/type2_1M_20260121_184040/pairs.parquet",
+    "refused_2m_path": "comparison_bench/outputs_comparison/nonbinary_diagnostics/v13r3fresh_pairs_20260816/type2_2M_20260121_183657/pairs.parquet",
+    "source": "1p5M",
+    "source_tag": "type2_1p5M_20260121_183806",
+    "verified": true
+  },
+  "failing_integrity_gates": [],
+  "g0_k1": 319,
+  "g0_k2": 6492,
+  "g0_leakage_bits": 34119,
+  "g1_leakage_bits": 35164,
+  "integrity": {
+    "blocks_exact_with_declared_remainder": true,
+    "buckets_disjoint_exhaustive": true,
+    "budget_literal_recomputed": true,
+    "corrected_prior_identity": true,
+    "dev_block_range_identity": true,
+    "dev_population_exact": true,
+    "dev_split_manifest_identity": true,
+    "disclosure_recount_exact": true,
+    "floor_hit_rate_reported": true,
+    "genie_calls_exact": true,
+    "input_stat_unchanged": true,
+    "nine_records_exact": true,
+    "no_unregistered_access": true,
+    "nonfinite_zero": true,
+    "one_open_per_protected_input": true,
+    "oracle_isolation": true,
+    "order_derivation_identity": true,
+    "orders_valid_k_prefixes_within_registered_arms": true,
+    "predecessor_construction_identity": true,
+    "resource_limits_met_and_no_abort": true,
+    "sc_calls_exact": true,
+    "tags_exact": true,
+    "target_population_contract": true,
+    "truth_isolation": true,
+    "undetected_zero": true
+  },
+  "integrity_all_pass": true,
+  "intra_file_hold_frame_range": [
+    2213,
+    2766
+  ],
+  "intra_file_val_frame_range": [
+    1660,
+    2212
+  ],
+  "k1": 331,
+  "k2": 6689,
+  "k_total": 7020,
+  "key_dependent_bits": 308376,
+  "mode": "dev-raw-prior-val-1p5m",
+  "n": 32768,
+  "order_digest": "a9f18a9fdad37c2cdf6e540c11d7ffede9b260275a7eae6a3a40a21da11bc638",
+  "outcome_label": "TARGET_EMPIRICAL_N32768_VAL_RAW_PRIOR_1P5M_COMPLETE",
+  "planned_records": 9,
+  "planned_sc_calls": 15,
+  "planned_tag_invocations": 9,
+  "public_control_bits": 2949687,
+  "raw_input_bits_per_block": 327680,
+  "records_completed": 9,
+  "recount_mismatch": 0,
+  "remainder_frames": [
+    2044,
+    2212
+  ],
+  "resource_stop_fired": false,
+  "resource_stop_reason": null,
+  "rss_bytes_peak": 556785664,
+  "sc_calls": 15,
+  "source": "1p5M",
+  "stage_b_sampling_calls": 0,
+  "tag_invocations": 9,
+  "wall_s": 104.848503
+}

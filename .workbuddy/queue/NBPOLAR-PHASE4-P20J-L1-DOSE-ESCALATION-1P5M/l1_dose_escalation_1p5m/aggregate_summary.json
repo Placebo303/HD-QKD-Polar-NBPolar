@@ -1,0 +1,231 @@
+{
+  "aggregates": {
+    "arms": {
+      "D0_sc_base": {
+        "arm": "D0_sc_base",
+        "exact_count": 0,
+        "key_dependent_bits": 102357,
+        "public_control_bits": 983229,
+        "records": 3
+      },
+      "D1_L1plus": {
+        "arm": "D1_L1plus",
+        "exact_count": 0,
+        "key_dependent_bits": 106197,
+        "public_control_bits": 983229,
+        "records": 3
+      },
+      "D2_true_l1_diagnostic": {
+        "arm": "D2_true_l1_diagnostic",
+        "exact_count": 3,
+        "key_dependent_bits": 97572,
+        "public_control_bits": 983229,
+        "records": 3
+      }
+    },
+    "operational": {
+      "exact_count": 0,
+      "key_dependent_bits": 208554,
+      "public_control_bits": 1966458,
+      "records": 6
+    },
+    "oracle_control": {
+      "exact_count": 3,
+      "records": 3
+    },
+    "recovery": {
+      "d1_restored_count": 0,
+      "disclosure_blocks": [
+        {
+          "block_index": 0,
+          "d0_exact": false,
+          "d0_outcome": "verify_failed",
+          "d1_exact": false,
+          "d1_outcome": "verify_failed",
+          "d1_restored_given_d0_failed": false,
+          "l1_delta_k1_applied": 256
+        },
+        {
+          "block_index": 1,
+          "d0_exact": false,
+          "d0_outcome": "verify_failed",
+          "d1_exact": false,
+          "d1_outcome": "verify_failed",
+          "d1_restored_given_d0_failed": false,
+          "l1_delta_k1_applied": 256
+        },
+        {
+          "block_index": 2,
+          "d0_exact": false,
+          "d0_outcome": "verify_failed",
+          "d1_exact": false,
+          "d1_outcome": "verify_failed",
+          "d1_restored_given_d0_failed": false,
+          "l1_delta_k1_applied": 256
+        }
+      ],
+      "per_arm": {
+        "D0_sc_base": {
+          "exact_count": 0,
+          "outcomes": {
+            "decode_failed": 0,
+            "exact": 0,
+            "nonfinite": 0,
+            "resource_abort": 0,
+            "undetected": 0,
+            "verify_failed": 3
+          },
+          "records": 3
+        },
+        "D1_L1plus": {
+          "exact_count": 0,
+          "outcomes": {
+            "decode_failed": 0,
+            "exact": 0,
+            "nonfinite": 0,
+            "resource_abort": 0,
+            "undetected": 0,
+            "verify_failed": 3
+          },
+          "records": 3
+        },
+        "D2_true_l1_diagnostic": {
+          "exact_count": 3,
+          "outcomes": {
+            "decode_failed": 0,
+            "exact": 3,
+            "nonfinite": 0,
+            "resource_abort": 0,
+            "undetected": 0,
+            "verify_failed": 0
+          },
+          "records": 3
+        }
+      }
+    }
+  },
+  "analysis": "nbpolar-p20j-l1-dose-escalation-1p5m",
+  "attempt_read_accounting": {
+    "artifact_content_reads_allowed_per_input": 1,
+    "attempts_allowed": 1,
+    "attempts_consumed_by_this_run": 1,
+    "construction_path": ".workbuddy/queue/NBPOLAR-PHASE4-P16-N32768-OPERATIONAL-F13/operational_f13_gate/construction_and_allocation.json",
+    "counts_content_opens": 0,
+    "dev_content_opens": 1,
+    "dev_input_mode": "pairs_parquet",
+    "dev_pairs_path": "comparison_bench/outputs_comparison/nonbinary_diagnostics/v13r3fresh_pairs_20260816/type2_1p5M_20260121_183806/pairs.parquet",
+    "input_mode": "real",
+    "manifest_path": "comparison_bench/outputs_comparison/nonbinary_diagnostics/nbldpc_v25_20260818/run_04/split_manifest.json",
+    "opened_content_paths": [
+      "/mnt/d/Code/HD-QKD_Polar_Comparison-nbpolar/.workbuddy/queue/NBPOLAR-PHASE4-P20H-PER-SESSION-CALIBRATION/per_session_calibration/calibrated_prior.npz",
+      "/mnt/d/Code/HD-QKD_Polar_Comparison-nbpolar/comparison_bench/outputs_comparison/nonbinary_diagnostics/v13r3fresh_pairs_20260816/type2_1p5M_20260121_183806/pairs.parquet"
+    ],
+    "pairs_loader": "comparison_bench.src.comparison_bench.io.pairs_loader.load_pairs_table+normalize_pair_columns",
+    "prior_content_loads": 1,
+    "prior_input_mode": "frozen_prior_file",
+    "prior_loader": "comparison_bench.src.comparison_bench.formal_ir.nbpolar.per_session_calibration.load_calibrated_prior",
+    "prior_path": ".workbuddy/queue/NBPOLAR-PHASE4-P20H-PER-SESSION-CALIBRATION/per_session_calibration/calibrated_prior.npz",
+    "registered_content_paths": [
+      "/mnt/d/Code/HD-QKD_Polar_Comparison-nbpolar/.workbuddy/queue/NBPOLAR-PHASE4-P20H-PER-SESSION-CALIBRATION/per_session_calibration/calibrated_prior.npz",
+      "/mnt/d/Code/HD-QKD_Polar_Comparison-nbpolar/comparison_bench/outputs_comparison/nonbinary_diagnostics/v13r3fresh_pairs_20260816/type2_1p5M_20260121_183806/pairs.parquet"
+    ],
+    "reopen_attempted": false,
+    "retries": 0,
+    "retry_after_open": false
+  },
+  "base_leakage_bits": 34119,
+  "block_ranges": [
+    [
+      768,
+      895
+    ],
+    [
+      896,
+      1023
+    ],
+    [
+      1024,
+      1151
+    ]
+  ],
+  "cap_vs_raw_ratio": 0.1041229248046875,
+  "claim_scope": "descriptive +256 L1-dose-escalation diagnostic on new-segment 1.5M TRAIN blocks (N=32768, three DEV blocks 768..1151) under the frozen per-session-calibrated prior; C2 is an oracle-labelled diagnostic control, never an operational protocol or deployable rate; not real-frame FER, reconciliation efficiency, leakage, key rate, scaling superiority, qualification or promotion evidence; the CE-normalized disclosure ratio is not qualification efficiency; undetected is never success",
+  "d1_cap_vs_raw_ratio": 0.1080291748046875,
+  "d1_k1": 575,
+  "d1_k_total": 7067,
+  "d1_key_bit_delta_vs_base": 1280,
+  "d1_leakage_bits": 35399,
+  "dev_source": {
+    "dev_pairs_path": "comparison_bench/outputs_comparison/nonbinary_diagnostics/v13r3fresh_pairs_20260816/type2_1p5M_20260121_183806/pairs.parquet",
+    "dev_pairs_sha256": "ca351e5205e76600530121066af4e0e1e5278061745c0797368a49443570a06b",
+    "dev_pairs_size_bytes": 1869178,
+    "refused_1m_path": "comparison_bench/outputs_comparison/nonbinary_diagnostics/v13r3fresh_pairs_20260816/type2_1M_20260121_184040/pairs.parquet",
+    "refused_2m_path": "comparison_bench/outputs_comparison/nonbinary_diagnostics/v13r3fresh_pairs_20260816/type2_2M_20260121_183657/pairs.parquet",
+    "source": "1p5M",
+    "source_tag": "type2_1p5M_20260121_183806",
+    "verified": true
+  },
+  "failing_integrity_gates": [],
+  "integrity": {
+    "blocks_exact_with_declared_remainder": true,
+    "buckets_disjoint_exhaustive": true,
+    "calibration_identity": true,
+    "dev_block_range_identity": true,
+    "dev_population_exact": true,
+    "dev_split_manifest_identity": true,
+    "disclosure_recount_exact": true,
+    "input_stat_unchanged": true,
+    "nine_records_exact": true,
+    "no_unregistered_access": true,
+    "nonfinite_zero": true,
+    "one_open_per_protected_input": true,
+    "oracle_isolation": true,
+    "orders_valid_k_prefixes_within_registered_arms": true,
+    "predecessor_construction_identity": true,
+    "resource_limits_met_and_no_abort": true,
+    "sc_calls_exact": true,
+    "tags_exact": true,
+    "target_population_contract": true,
+    "truth_isolation": true,
+    "undetected_zero": true
+  },
+  "integrity_all_pass": true,
+  "intra_file_hold_frame_range": [
+    2213,
+    2766
+  ],
+  "intra_file_val_frame_range": [
+    1660,
+    2212
+  ],
+  "k1": 319,
+  "k2": 6492,
+  "l1_delta_k1": 256,
+  "mode": "dev-l1-dose-escalation-1p5m",
+  "n": 32768,
+  "outcome_counts": {
+    "decode_failed": 0,
+    "exact": 3,
+    "nonfinite": 0,
+    "resource_abort": 0,
+    "undetected": 0,
+    "verify_failed": 6
+  },
+  "outcome_label": "TARGET_EMPIRICAL_N32768_DEV_L1_DOSE_ESCALATION_1P5M_COMPLETE",
+  "planned_records": 9,
+  "planned_sc_calls": 15,
+  "planned_tag_invocations": 9,
+  "raw_input_bits_per_block": 327680,
+  "records_completed": 9,
+  "remainder_frames": [
+    1152,
+    1659
+  ],
+  "resource_stop_fired": false,
+  "resource_stop_reason": null,
+  "rss_bytes_peak": 558669824,
+  "sc_calls": 15,
+  "source": "1p5M",
+  "tag_invocations": 9,
+  "wall_s": 107.752468
+}

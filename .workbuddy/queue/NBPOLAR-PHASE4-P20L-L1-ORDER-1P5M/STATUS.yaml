@@ -1,0 +1,89 @@
+task_id: NBPOLAR-PHASE4-P20L-L1-ORDER-1P5M
+state: SUPERSEDED-BY-P20M
+tier: Y
+planning_stage: PACKET_REVIEWED_STAGE_A_AUTHORIZED
+predecessor: TARGET_EMPIRICAL_N32768_DEV_L1_DOSE_512_1P5M_COMPLETE_ACCEPTED_DESCRIPTIVE
+predecessor_packet: NBPOLAR-PHASE4-P20K-L1-DOSE-512-1P5M
+p20a_dependency: IMPLEMENTATION_ACCEPTED
+selected_session: type2_1p5M_20260121_183806
+reserved_session: type2_2M_20260121_183657
+selected_factor: l1_order_positions_same_budget_swap_old_1M_vs_new_1p5M_L1_only_K_frozen_L2_frozen_zero_further_tuning
+frozen_delta_k1: 0
+frozen_k1_f0: 319
+frozen_k1_f1: 319
+frozen_k2: 6492
+frozen_key_delta_f1_vs_f0: 0
+frozen_prior_digest: e8dd078a5367ba3af8eba91022d58aeffc114bc30b847b13cd4bb890e5dde43b
+frozen_construction_digest: 055c906472dd2a09761761b18aceb5f31d8b5db19bac658721f8dc49c3faea1b
+frozen_train_seeds: 2026092271 2026092272 2026092273 2026092274
+frozen_dev_frames: 1660 2043
+frozen_dev_blocks: 1660..1787/1788..1915/1916..2043
+frozen_remainder_frames: 2044 2212
+frozen_tag_master: 2026092260
+deferred_options:
+  - f1_restoration_branch_maintain_confirmation_round
+  - f1_zero_restoration_all_L1_branch_L1_bounded_search_diagnostic_1p5m
+  - l2_implication_branch_p20d_candidate_fixed_disclosure_alternative_L2_construction
+  - maintain_only_branch_further_planning
+  - prior_form_lambda_work_branch
+  - disclosure_minimality_probe
+  - efficiency_optimization_round
+  - second_independent_session_on_reserved_2M
+implementation_authorized: false
+protected_data_read_authorized: false
+decoder_execution_authorized: false
+counts_calibration_reads_allowed: 0
+counts_calibration_reads_used: 0
+dev_reads_allowed: 1
+dev_reads_used: 0
+hold_data_reads_allowed: 1
+hold_data_reads_used: 0
+attempts_allowed: 1
+attempts_used: 0
+result: NONE_STAGE_A_NOT_RUN
+pre_execute_review: NONE_REQUIRED_BEFORE_STAGE_A
+pre_result_review: NONE_STAGE_B_NOT_RUN
+main_thread_acceptance: NONE_PACKET_FROZEN_ONLY
+next_gate: SUPERSEDED_BY_P20M
+stage_b_execution:
+  exit_code: null
+  records_completed: 0
+  outcome_label: NONE
+  integrity_all_pass: null
+  out_root: .workbuddy/queue/NBPOLAR-PHASE4-P20L-L1-ORDER-1P5M/l1_order_1p5m
+notes: Stage-true notes (P20K stale-copy lesson applied; this text is rewritten at
+  every gate, never copied). 2026-09-19 planner freeze + P20L-R1delta doc
+  revision: TASK_PACKET.md + PROMPT.md + AUTHORIZATION_PROMPT.md + STATUS.yaml
+  (this file) revised in place under the new P20L packet directory; no runner,
+  no tests, no freeze, no OpenSpec delta, no order file, no evidence root
+  exist. State STAGE_A_AUTHORIZED is TRUE: Stage A IS authorized
+  (implementation_authorized true, main-thread pasted Stage-A authorization;
+  the AUTHORIZATION_PROMPT.md beside it records that authorization text).
+  Stage B NOT authorized. P20L-R1delta (planner-only, no K/prior/construction/
+  population/cap/tag/budget/gate change): order-derivation creation point
+  moved from Stage-B in-run pre-DEV to Stage-A synthetic-only derivation
+  producing the frozen order file `new_l1_order_1p5m.json` with Stage-B
+  digest-gated read-only use and zero Stage-B sampling; reason reviewability
+  over in-run creation (single factor freezable + independently reviewable —
+  difference degree / overlap coordinates / digest pin vs old order — before
+  the one-shot attempt). Reads: counts 0/0 + DEV 0/1 + HOLD 0/1 + attempt
+  0/1 — zero protected opens or stats by the planner (packet/doc reads only;
+  no NPZ/parquet content; 2M never touched in any form). P20H DEV 0..383,
+  P20I DEV 384..767, P20J DEV 768..1151, P20K DEV 1152..1535 CONSUMED/CLOSED;
+  TRAIN remainder 1536..1659 (124 frames, sub-block) documented insufficient;
+  1M full pool fail-closed; 1.5M VAL 1660..2212 first-use declared (DEV
+  1660..2043, remainder 2044..2212 undecoded); HOLD 2213..2766 untouched; 2M
+   pristine by non-access. No self-acceptance; no Stage-B execution authorization.
+  SUPERSESSION RECORD (2026-09-19 user decision): state SUPERSEDED-BY-P20M.
+  Stage B NEVER executed under this packet — zero consumption: counts 0/0 +
+  DEV 0/1 + HOLD 0/1 + attempt 0/1 (all unused). Its declared VAL DEV segment
+  1660..2043 is RELEASED (not consumed) to successor
+  NBPOLAR-PHASE4-P20M-RAW-PRIOR-VAL-1P5M. All P20L files in this directory are
+  preserved as-is; nothing deleted, nothing moved. Stage A authorization above
+  is void for future execution.
+  ORDER-FILE CORRECTION (2026-09-19 main thread): the earlier sentence "no
+  order file ... exist" is stale. `derive_l1_order_1p5m.py` and
+  `new_l1_order_1p5m.json` are present in this directory (Stage-A derivation
+  artifacts; zero protected reads / attempts per the accounting above).
+  Preserved as-is; not reviewed or accepted; no effect on P20M.
+openspec_delta_expected: openspec/changes/formal-ir-nbpolar-phase4-p0/specs/nbpolar-phase4-p20l/spec.md

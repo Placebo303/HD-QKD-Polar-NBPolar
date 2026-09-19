@@ -1,0 +1,171 @@
+task_id: NBPOLAR-PHASE4-P20N-L2-ALT-CONSTRUCTION-HOLD-1P5M
+state: TARGET_EMPIRICAL_N32768_HOLD_L2_ALT_CONSTRUCTION_1P5M_COMPLETE_ACCEPTED_DESCRIPTIVE
+tier: Y
+planning_stage: STAGE_B_ACCEPTED_DESCRIPTIVE
+predecessor: TARGET_EMPIRICAL_N32768_VAL_RAW_PRIOR_1P5M_COMPLETE_ACCEPTED_DESCRIPTIVE
+predecessor_packet: NBPOLAR-PHASE4-P20M-RAW-PRIOR-VAL-1P5M
+x08_probe: workspace/probes/nbpolar_x08_per_session_prior_entropy_audit/results.json
+x09_probe: workspace/probes/nbpolar_x09_l2_attribution_r1/results.json
+p20a_dependency: IMPLEMENTATION_ACCEPTED
+selected_session: type2_1p5M_20260121_183806
+reserved_session: type2_2M_20260121_183657
+selected_factor: alt_l2_laplace_alpha1_fixed_disclosure_zero_further_tuning
+frozen_alt_rule: f_alt_eq_(counts_plus_1)_over_(col_total_plus_1024)_plus_1e-15_floor_plus_column_renorm_L2_only_L1_fixed
+frozen_counts_source_digest: 372dcc1cedbace1e699f60787d10eb298bb4bb3290519d2e6b19964ecf7d46ac
+frozen_alpha: 1.0
+frozen_floor: 1e-15
+frozen_k1: 331
+frozen_k2: 6689
+frozen_k_total: 7020
+frozen_incumbent_prior_digest: 372dcc1cedbace1e699f60787d10eb298bb4bb3290519d2e6b19964ecf7d46ac
+frozen_order_digest: a9f18a9fdad37c2cdf6e540c11d7ffede9b260275a7eae6a3a40a21da11bc638
+frozen_alt_digest: 6f4a4f7689d87e2c0a6c73617fdc9d79751a226661177a9bc6193feba2333e78
+frozen_alt_table_path: .workbuddy/queue/NBPOLAR-PHASE4-P20N-L2-ALT-CONSTRUCTION-HOLD-1P5M/alt_l2_tables_1p5m.npz
+frozen_alt_table_size_bytes: 25430240
+frozen_alt_floor_hits: 0
+frozen_alt_floor_hit_rate: 0.0
+frozen_alt_zero_columns: 0
+frozen_alt_f_alt_min: 0.000665335994677302
+frozen_alt_f_alt_max: 0.24762550881953543
+frozen_alt_p1_equality_max_abs_diff: 0.0
+frozen_alt_h1_inc: 0.02519949692375297
+frozen_alt_h2_alt: 1.4447543021770293
+frozen_alt_h_total_alt: 1.4699537991007823
+frozen_alt_ce_insample: 0.9027311772313849
+frozen_incumbent_ce_insample: 0.8003665547439149
+frozen_alt_ideal_length_bits: 29580.69521551802
+alt_construction_budget_feasibility: FEASIBLE
+hazard_window_R: 8
+frozen_hazard_window_R: 8
+frozen_hold_dev_frames: 2213 2724
+frozen_hold_dev_blocks: 2213..2340/2341..2468/2469..2596/2597..2724
+frozen_hold_remainder_frames: 2725 2766
+frozen_tag_master: 2026092300
+deferred_options:
+  - b_restoration_branch_maintain_confirmation_round
+  - b_zero_restoration_l2_persistence_branch_next_upstream_single_factor
+  - b_zero_restoration_l1_return_branch_prior_l1_reevaluation
+  - maintain_only_branch_further_planning
+  - disclosure_minimality_probe
+  - efficiency_optimization_round
+  - second_independent_session_on_reserved_2M
+  - closure_of_1M_HOLD_thread_out_of_scope
+implementation_authorized: true
+stage_a_authorized_step1_pasted: true
+stage_a_complete: true
+stage_b_authorized: true
+protected_data_read_authorized: true
+decoder_execution_authorized: true
+counts_calibration_reads_allowed: 0
+counts_calibration_reads_used: 0
+hold_data_reads_allowed: 1
+hold_data_reads_used: 1
+val_remainder_reads_allowed: 0
+val_remainder_reads_used: 0
+worktree_npz_reads_used: 1
+stage_b_out_root: PRESENT_FIVE_FROZEN_FILES
+attempts_allowed: 1
+attempts_used: 1
+result: TARGET_EMPIRICAL_N32768_HOLD_L2_ALT_CONSTRUCTION_1P5M_COMPLETE
+stage_b_execution:
+  start_utc: 2026-09-19T05:20:01Z
+  end_utc: 2026-09-19T05:22:45Z
+  exit_code: 0
+  wall_s_external: 164.37
+  wall_s_in_runner: 162.174854
+  peak_rss_kb_external: 646324
+  peak_rss_bytes_in_runner: 661835776
+  records_completed: 16
+  operational_exact: 1
+  oracle_exact: 1
+  b_restored_count: 1
+  d_restored_count: 1
+  undetected_count: 0
+  nonfinite_count: 0
+  recount_mismatch: 0
+  sc_calls: 24
+  tag_invocations: 16
+  key_dependent_bits: 549384
+  public_control_bits: 5243888
+  integrity_all_pass: true
+pre_execute_review: PRE_EXECUTE_PASS
+pre_result_review: PASS
+main_thread_acceptance: TARGET_EMPIRICAL_N32768_HOLD_L2_ALT_CONSTRUCTION_1P5M_COMPLETE_ACCEPTED_DESCRIPTIVE
+next_gate: P20N_ACCEPTED_MAINTAIN_CONFIRMATION_PLANNING_AWAITING
+notes: |
+  Stage A complete 2026-09-19. Derivation executed EXACTLY once (exit 0,
+  in-process wall 0.572503 s) with the frozen Stage-A argv; alt_l2_tables_1p5m.npz
+  frozen (file-bytes sha256 6f4a4f7689d87e2c0a6c73617fdc9d79751a226661177a9bc6193feba2333e78,
+  exact 9-key set, alpha 1.0, floor 1e-15, counts total 424960, floor hits 0,
+  zero columns 0, f_alt range 0.000665335994677302..0.24762550881953543,
+  p1-equality 0.0, descriptive alt-H h1_inc 0.02519949692375297 / h2_alt
+  1.4447543021770293 / h_total_alt 1.4699537991007823). D1 literals:
+  ce_alt 0.9027311772313849, ce_incumbent 0.8003665547439149, ceilings
+  33509/35164, alt_ideal_length_bits 29580.69521551802. D2
+  alt_construction_budget_feasibility = FEASIBLE (margin 3928.304784481981
+  bits), evaluated BEFORE any HOLD contact. K literals 331/6689/7020 and the
+  P20M order digest replayed, never recomputed; FROZEN_COMMAND verified
+  byte-identical to the filled STEP-2 block. Focused tests 16/16 green
+  (30.34 s) with fresh workspace/p20n/<uuid>/ roots; predecessor P20M suite
+  16 passed / 3 pre-existing environment failures (its own accepted Stage-B
+  root exists; AGENT_PROJECT_MEMORY.md records its master) documented in
+  P20N_IMPLEMENTATION_NOTES.md. No accepted file edited. Stage-B root ABSENT;
+  protected opens 0 (counts 0/0 + HOLD 0/1 + VAL-remainder 0 + 2M pristine
+  by non-access); no decoder execution; no commit/push. Stage B remains
+  unauthorized: needs independent Pre-EXECUTE PASS (adjudicating §3
+  derivation + D2 outcome + §5 K-literal + §4 gate family + §2 runner-delta
+  design + §7 instrumentation boundary) plus the filled STEP-2 pasted text
+  and target-output absence. Operator does not self-accept.
+  MAIN-THREAD ADJUDICATION (2026-09-19): independent Pre-EXECUTE review PASS
+  (reviewer-go session ses_f480b89c3ffeF7kAH133WfZ4lf; record in
+  PRE_EXECUTE_REVIEW.md) — §3 derivation independently recomputed (f_alt/p2
+  max-abs-diff 0.0; 9-key set; alt sha 6f4a4f76…; p1-equality 0.0), D1/D2
+  reproduced exactly (ce_alt 0.9027311772313849, alt_ideal 29580.69521551802,
+  FEASIBLE margin 3928.304784481981, frozen before any HOLD contact), gates
+  (a)→(g) fail-closed before any protected open, runner delta + 8-field
+  instrumentation boundary verified, P20N suite 16/16 green, predecessor
+  3 failures root-caused pre-existing (P20M accepted root 10:53 + memory doc
+  11:01), scope clean. Non-blocking caveats: (1) P20N_FREEZE.md §5 `cd` typo
+  corrected by the main thread (doc-only; argv unchanged); (2)
+  implementation-notes wording re the P20M master literal (the only hit is the
+   test's intentional refusal probe). Stage B NOT authorized yet: needs the
+   filled STEP-2 pasted text + target-output absence at execution time.
+   STAGE-B EXECUTION (2026-09-19, single Tier-Y attempt, exit 0):
+   preconditions all PASS (out-root ABSENT; alt sha 6f4a4f76…; order sha
+   a9f18a9f…; user command == freeze §5 == module FROZEN_COMMAND byte-identical;
+   branch codex/nbpolar-phase0; Pre-EXECUTE PASS + filled STEP-2 pasted).
+   Start 05:20:01Z / end 05:22:45Z UTC; external wall 164.37 s (ceiling 900 s);
+   in-runner wall 162.174854 s; peak RSS 646324 kB (631.2 MB, marginally above
+   the ≲600 MB expectation; 2 GiB cap never hit; resource gates PASS).
+   Result TARGET_EMPIRICAL_N32768_HOLD_L2_ALT_CONSTRUCTION_1P5M_COMPLETE:
+   16/16 records; A 0/4 exact (L2 fails 111/76/3/81) / B 1/4 (L2 fails
+   1009/20/5823 + b3 exact) / C 0/4 / D 1/4; b_restored 1 (descriptive),
+   d_restored 1 (diagnostic only); undetected 0; nonfinite 0; decode_failed 0;
+   recount 0 (key 549384 = 8x35164+8x33509; public 5243888 = 16x327743);
+   SC 24/24; tags 16/16; Stage-B sampling 0; integrity 26/26 PASS.
+   Eight instrumentation scalars per record with correct nullability (order
+   digest a9f18a9f… on 16/16; prefix_len 6689; fail-neighbourhood floor frac
+   0.0 on all 14 failing records). HOLD 0/1→1/1 SPENT; attempts 0/1→1/1 SPENT;
+   counts 0/0; VAL-remainder 0; 2M/1M untouched; no_unregistered_access +
+   input_stat_unchanged true. Full evidence in OPERATOR_RETURN.md. Operator
+   marks nothing accepted; pre_result_review PENDING_INDEPENDENT_ADJUDICATION.
+  MAIN-THREAD ACCEPTANCE (2026-09-19): independent Pre-RESULT review PASS
+  (reviewer-go session ses_f47de58a6ffeXDdb5E69vrIfzx; record in
+  PRE_RESULT_REVIEW.md). Accepted as DESCRIPTIVE under label
+  TARGET_EMPIRICAL_N32768_HOLD_L2_ALT_CONSTRUCTION_1P5M_COMPLETE: A 0/4
+  (@111/76/3/81), B 1/4 (b3 2597..2724 exact; fails @1009/20/5823), C 0/4,
+  D 1/4 (b3 exact); b_restored_count 1, d_restored_count 1, b_maintain_count
+  0; all 14 failures L2-layer; undetected 0 isolated; integrity 28/28 gate
+  keys true (operator return recorded "26/26" — count slip only);
+  key 549384, public 5243888, SC 24, tags 16, recount 0. Instrumentation:
+  nbhd floor frac 0.0 on all 14 fails; prefix floor frac 0.0001495..0.0013455;
+  alt prefix-hazard means 0.8925..0.9035 vs incumbent 0.7954..0.8556;
+  l2_fail_in_prefix true 12/14 (B-b2/D-b2 @5823 false) — reviewer-adjudicated
+  as a frozen-definition domain artifact (X-domain error index vs U-domain
+  disclosure set), not a pinning violation. Reads: counts 0/0, HOLD 1/1,
+  attempts 1/1, VAL-remainder 0, 2M pristine, input stats unchanged. The b3
+  restoration event activates the deferred maintain-confirmation branch; no
+  reliability/recovery claim. Next gate: main-thread planning for the
+  maintain-confirmation round (population choice: VAL remainder 2044..2212
+  one-block micro vs reserved 2M first-use); nothing auto-triggered.
+openspec_delta_expected: openspec/changes/formal-ir-nbpolar-phase4-p0/specs/nbpolar-phase4-p20n/spec.md

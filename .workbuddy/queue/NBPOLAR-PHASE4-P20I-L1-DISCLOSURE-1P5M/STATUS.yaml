@@ -1,0 +1,52 @@
+task_id: NBPOLAR-PHASE4-P20I-L1-DISCLOSURE-1P5M
+state: TARGET_EMPIRICAL_N32768_DEV_L1_DISCLOSURE_1P5M_COMPLETE_ACCEPTED_DESCRIPTIVE
+tier: Y
+planning_stage: PACKET_REVIEWED_STAGE_A_AUTHORIZED
+predecessor: TARGET_EMPIRICAL_N32768_DEV_PLUS1024_PER_SESSION_CALIBRATION_COMPLETE_ACCEPTED_DESCRIPTIVE
+predecessor_packet: NBPOLAR-PHASE4-P20H-PER-SESSION-CALIBRATION
+p20a_dependency: IMPLEMENTATION_ACCEPTED
+selected_session: type2_1p5M_20260121_183806
+reserved_session: type2_2M_20260121_183657
+selected_factor: l1_disclosure_plus128_order_prefix_single_tier_zero_further_tuning
+frozen_delta_k1: 128
+frozen_k1_c1: 447
+frozen_k1_c0: 319
+frozen_k2: 6492
+frozen_prior_digest: e8dd078a5367ba3af8eba91022d58aeffc114bc30b847b13cd4bb890e5dde43b
+frozen_construction_digest: 055c906472dd2a09761761b18aceb5f31d8b5db19bac658721f8dc49c3faea1b
+frozen_dev_frames: 384 767
+frozen_remainder_frames: 768 1659
+frozen_tag_master: 2026092230
+deferred_options:
+  - c1_restoration_branch_maintain_confirmation_round
+  - c1_zero_restoration_branch_P20D_candidate_fixed_disclosure_alternative_L2_construction
+  - maintain_only_branch_further_planning
+  - disclosure_minimality_probe_plus64_vs_plus128_vs_plus256
+  - efficiency_optimization_round
+  - second_independent_session_on_reserved_2M
+implementation_authorized: true
+protected_data_read_authorized: true
+decoder_execution_authorized: true
+counts_calibration_reads_allowed: 0
+counts_calibration_reads_used: 0
+dev_reads_allowed: 1
+dev_reads_used: 1
+hold_data_reads_allowed: 1
+hold_data_reads_used: 0
+attempts_allowed: 1
+attempts_used: 1
+result: TARGET_EMPIRICAL_N32768_DEV_L1_DISCLOSURE_1P5M_COMPLETE_DESCRIPTIVE_PENDING_PRE_RESULT
+pre_execute_review: PRE_EXECUTE_PASS_CONDITIONAL_STANDING_AUTH
+pre_result_review: PASS_WITH_COMMENTS
+main_thread_acceptance: TARGET_EMPIRICAL_N32768_DEV_L1_DISCLOSURE_1P5M_COMPLETE_ACCEPTED_DESCRIPTIVE
+next_gate: P20J_L1_DOSE_ESCALATION_AWAITING_PLANNING
+notes: FROZEN planning packet only. No implementation, calibration open, protected read,
+  decoder execution, or commit/push authorized. Two-step gate retained: Stage A and
+  Stage B each need their own explicit pasted authorization; this packet authorizes
+  neither. Reads are split-counted continuing P20H mode: counts-calibration 0/0 (prior
+  reuse only via worktree-file digest check, never an NPZ open) + DEV 1/1 reserved for
+  Stage B + HOLD 0/1 untouched. P20H DEV 0..383 CONSUMED/CLOSED; P20I DEV is the next
+  segment 384..767 (blocks 384..511/512..639/640..767, remainder 768..1659 never used).
+  1M full pool fail-closed; 2M pristine by non-access. No self-acceptance; no execution
+  authorization.
+openspec_delta_expected: openspec/changes/formal-ir-nbpolar-phase4-p0/specs/nbpolar-phase4-p20i/spec.md

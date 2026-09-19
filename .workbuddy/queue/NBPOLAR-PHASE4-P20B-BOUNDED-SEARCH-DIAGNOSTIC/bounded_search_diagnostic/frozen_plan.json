@@ -1,0 +1,105 @@
+{
+  "analysis": "nbpolar-p20b-bounded-search-diagnostic",
+  "arm_rule": "three frozen arms in block-major order S0_sc_base / S1_bounded_search / S2_true_l1_diagnostic per block; S0 and S1 disclose the frozen base K1=319/K2=6492 and run 2 SC each (S1 adds rescore-only search over <=M=8 candidates, no extra SC, one final tag); S2 discloses K2 only and runs one oracle-conditioned L2 SC; 15 SC calls and 9 tags total; S2 carries ORACLE_TRUE_L1_CONTROL provenance, deployable=false, and is excluded from every operational aggregate; arms are constants, never CLI-tunable",
+  "arms": [
+    {
+      "k1": 319,
+      "k2": 6492,
+      "kind": "operational",
+      "leakage_bits": 34119,
+      "name": "S0_sc_base",
+      "provenance": "OPERATIONAL"
+    },
+    {
+      "k1": 319,
+      "k2": 6492,
+      "kind": "operational",
+      "leakage_bits": 34119,
+      "name": "S1_bounded_search",
+      "provenance": "OPERATIONAL"
+    },
+    {
+      "k1": 0,
+      "k2": 6492,
+      "kind": "oracle_control",
+      "leakage_bits": 32524,
+      "name": "S2_true_l1_diagnostic",
+      "provenance": "ORACLE_TRUE_L1_CONTROL"
+    }
+  ],
+  "base_leakage_bits": 34119,
+  "block_frames": 128,
+  "block_ranges": [
+    [
+      1200,
+      1327
+    ],
+    [
+      1328,
+      1455
+    ],
+    [
+      1456,
+      1583
+    ]
+  ],
+  "chunk_rows": 512,
+  "claim_scope": "descriptive single-factor bounded-search diagnostic on independent real development data (VAL split, N=32768, three DEV blocks); S2 is an oracle-labelled diagnostic control, never an operational protocol or deployable rate; not real-frame FER, reconciliation efficiency, leakage, key rate, scaling superiority, qualification or promotion evidence; the CE-normalized disclosure ratio is not qualification efficiency; undetected is never success",
+  "closed_hold_frame_range": [
+    1600,
+    1983
+  ],
+  "construction": ".workbuddy/queue/NBPOLAR-PHASE4-P16-N32768-OPERATIONAL-F13/operational_f13_gate/construction_and_allocation.json",
+  "construction_digest": "055c906472dd2a09761761b18aceb5f31d8b5db19bac658721f8dc49c3faea1b",
+  "control_leakage_bits": 32524,
+  "deferred": [
+    "P20C fixed-order L2 disclosure backoff",
+    "P20D fixed-disclosure alternative L2 construction"
+  ],
+  "dev_block_rule": "VAL development formation (P18 pattern, P20B ranges): sort VAL rows by (frame_id, pair_idx); require exactly 400 frames 1200..1599, 256 rows per frame, pair_idx 0..255 and symbols 0..1023; blocks 1200..1327 / 1328..1455 / 1456..1583 (128 frames = 32768 pairs each); frames 1584..1599 are the declared unused remainder; closed HOLD 1600..1983 never selected; no shuffle, resampling, overlap, padding, pooling or fitting",
+  "dev_frames": [
+    1200,
+    1599
+  ],
+  "dev_pairs": "comparison_bench/outputs_comparison/nonbinary_diagnostics/v13r3fresh_pairs_20260816/type2_1M_20260121_184040/pairs.parquet",
+  "floor": 1e-15,
+  "k1": 319,
+  "k2": 6492,
+  "k_total": 6811,
+  "manifest_path": "comparison_bench/outputs_comparison/nonbinary_diagnostics/nbldpc_v25_20260818/run_04/split_manifest.json",
+  "mode": "dev-bounded-search-diagnostic",
+  "n": 32768,
+  "neighborhood": "P20B-NBHD-1-hamming1-u-domain-margin-ranked",
+  "nll_rule": "per block under the fixed floor-1e-15 TRAIN prior: l1_nll_bits = sum_i -log2 p1[high_i, bob_i]; l2_nll_bits = sum_i -log2 p2[high_i, bob_i, low_i]; total_nll_bits = l1 + l2 (bits per 32768-pair block); search selection uses the same tables (inf-tolerant argmin, greedy wins ties); tags and truth never enter selection",
+  "no_threshold_rule": "there is no exact-count, FER, winner, monotonicity, superiority or qualification threshold and no recovery gate of any kind; found-count 0 and found-count >0 are both descriptive COMPLETE when integrity holds; only integrity/resource failures produce BLOCKED(<earliest gate>)",
+  "outcome_precedence": [
+    "resource_abort: arm not executed (preregistered budget stop)",
+    "nonfinite: numeric nonfinite failure in L1/L2 SC; no tag",
+    "decode_failed: other L1/L2 SC exception; no tag",
+    "verify_failed: tag mismatch",
+    "exact: tag pass and label == true label",
+    "undetected: tag pass and not exact (never success)"
+  ],
+  "planned_records": 9,
+  "planned_sc_calls": 15,
+  "planned_tag_invocations": 9,
+  "protocol": "nbpolar-p20b-bounded-search-diagnostic",
+  "public_control_bits_per_tag": 327743,
+  "ratio_rule": "disclosure_ce_ratio = design leakage / true block total NLL bits is a sample cross-entropy-normalized disclosure ratio and is explicitly NOT qualification reconciliation efficiency",
+  "raw_input_bits_per_block": 327680,
+  "remainder_frames": [
+    1584,
+    1599
+  ],
+  "search_bound_m": 8,
+  "search_rule": "neighborhood P20B-NBHD-1: the greedy hard path plus single-symbol U-domain divergent alternates at undisclosed coordinates only (frozen/disclosed positions never varied); alternates ranked by ascending SC margin gap (best minus runner-up, ln units) with deterministic tie-break (layer L1 < L2, coordinate ascending); at most M-1 alternates rescored (M=8 total including greedy); each alternate re-encoded with the frozen polar_transform; rescore-only (no extra SC calls, L2 never re-decoded under L1 alternates); selection is argmin total NLL bits under the frozen floored p1/p2 (greedy wins ties); no tag and no truth enter selection; one final tag verifies the selected label after search",
+  "single_factor": "bounded search only; prior/floor/construction/disclosure/kernel/representation/SC frozen",
+  "source": "1M",
+  "support_rule": "f = counts / column totals; every cell below 1e-15 replaced by 1e-15; columns renormalized; p_b = column totals / total count; P1/P2 = accepted derive_p1/derive_p2(f) under A=32*U1+U2; no lambda, backoff, tuning, floor scan or fitting (exact P7 rule)",
+  "tag_bits": 64,
+  "tag_master": 2026092080,
+  "tag_seed_domain": "nbpolar-p20b-bounded-search-diagnostic-seed:<master>:<n>:<arm>:<block_index>",
+  "total_key_dependent_bits_if_all_invoked": 302286,
+  "total_public_control_bits_if_all_tags": 2949687,
+  "truth_boundary": "Alice truth enters operational arms only through disclosed U values, tag construction and scoring (accepted run_operational_block boundary and sentinel, mirrored by run_search_block); S2 additionally conditions its L2 metric on the true high layer and is provenance-isolated"
+}

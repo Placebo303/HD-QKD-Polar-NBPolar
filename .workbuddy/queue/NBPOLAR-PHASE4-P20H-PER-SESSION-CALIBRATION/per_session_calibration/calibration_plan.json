@@ -1,0 +1,19 @@
+{
+  "banned_twin": "v72p2d5 build_f_model per-cell counts+lam (never called, never imported)",
+  "conditioning": "FULL_BOB_ONLY",
+  "counts_path": "/mnt/d/Code/HD-QKD_Polar_Comparison/comparison_bench/outputs_comparison/nonbinary_diagnostics/nbldpc_v25_20260818/run_04/channel_counts.npz",
+  "counts_shape": [
+    1024,
+    1024
+  ],
+  "floor": 1e-15,
+  "formula": "p_global[a] = sum_b counts[a,b]/sum counts; n_b[b] = sum_a counts[a,b]; f[a,b] = (counts[a,b] + lambda*p_global[a])/(n_b[b]+lambda)",
+  "lambda": 137.3823795883264,
+  "lambda_provenance": "D4R2 nested-CV refit constant carried via formal_ir.nbpolar.prior_artifact.LAMBDA_STAR; frozen procedure output, no DEV influence, no per-session search, no floor search",
+  "manifest_path": "comparison_bench/outputs_comparison/nonbinary_diagnostics/nbldpc_v25_20260818/run_04/split_manifest.json",
+  "mode": "train-calibration-freeze",
+  "packing": "A = 32*U1 + U2 (low = s&31 = U2, high = (s>>5)&31 = U1)",
+  "protocol": "nbpolar-p20h-per-session-calibration",
+  "source": "1p5M",
+  "source_tag": "type2_1p5M_20260121_183806"
+}

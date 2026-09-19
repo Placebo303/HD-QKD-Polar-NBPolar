@@ -1,0 +1,30 @@
+task_id: NBPOLAR-PHASE4-P20C-L2-DISCLOSURE-BACKOFF
+state: TARGET_EMPIRICAL_N32768_DEV_L2_DISCLOSURE_BACKOFF_COMPLETE_ACCEPTED_DESCRIPTIVE
+tier: Y
+planning_stage: PACKET_REVIEWED_STAGE_A_AUTHORIZED
+predecessor: TARGET_EMPIRICAL_N32768_DEV_BOUNDED_SEARCH_COMPLETE_ACCEPTED_DESCRIPTIVE
+p20a_dependency: IMPLEMENTATION_ACCEPTED
+selected_factor: fixed_order_preregistered_L2_disclosure_backoff_plus1024
+deferred_options:
+  - P20D_candidate_fixed_disclosure_alternative_L2_construction
+implementation_authorized: true
+protected_data_read_authorized: true
+decoder_execution_authorized: true
+train_artifact_reads_allowed: 1
+train_artifact_reads_used: 1
+hold_data_reads_allowed: 1
+hold_data_reads_used: 0
+attempts_allowed: 1
+attempts_used: 1
+result: TARGET_EMPIRICAL_N32768_DEV_L2_DISCLOSURE_BACKOFF_COMPLETE
+pre_execute_review: PRE_EXECUTE_PASS_CONDITIONAL_STANDING_AUTH
+pre_result_review: PASS
+main_thread_acceptance: TARGET_EMPIRICAL_N32768_DEV_L2_DISCLOSURE_BACKOFF_COMPLETE_ACCEPTED_DESCRIPTIVE
+next_gate: P20E_PLUS1024_CONFIRMATION_AWAITING_PLANNING
+notes: Stage B single attempt executed 2026-09-18 (verbatim FREEZE §10 command,
+  exit 0, 9 records, 20/20 integrity gates PASS, descriptive COMPLETE). Counts
+  NPZ content open 1/1 + DEV TRAIN pairs content open 1/1, no reopen/retry. No
+  HOLD read (hold 0/1). No rerun permitted (attempt 1/1 consumed). Awaiting
+  independent Pre-RESULT review + main-thread acceptance; operator does not
+  self-accept.
+openspec_delta_expected: openspec/changes/formal-ir-nbpolar-phase4-p0/specs/nbpolar-phase4-p20c/spec.md

@@ -1,0 +1,13 @@
+task_id: NBPOLAR-PHASE4-P20A-RESOURCE-ENDPOINT-INSTRUMENTATION
+state: IMPLEMENTATION_ACCEPTED
+tier: implementation_accounting_only
+predecessor: TARGET_EMPIRICAL_N32768_HOLD_BACKOFF_DIAGNOSTIC_COMPLETE_ACCEPTED_DESCRIPTIVE
+implementation_authorized: true
+protected_data_read_authorized: false
+decoder_execution_authorized: false
+attempts_allowed: 0
+attempts_used: 0
+result: null
+main_thread_acceptance: IMPLEMENTATION_ACCEPTED
+next_gate: P20B_PLANNING_AWAITING_PROPOSAL
+

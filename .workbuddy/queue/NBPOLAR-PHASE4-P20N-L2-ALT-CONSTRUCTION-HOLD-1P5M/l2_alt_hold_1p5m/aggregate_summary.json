@@ -1,0 +1,242 @@
+{
+  "aggregates": {
+    "arms": {
+      "A_incumbent_L2_operational": {
+        "arm": "A_incumbent_L2_operational",
+        "exact_count": 0,
+        "floor_hit_rate_mean": 0.000732421875,
+        "l2_construction": "incumbent",
+        "l2_prefix_hazard_mean_bits_mean": 0.8236250728827109,
+        "outcomes": {
+          "verify_failed": 4
+        },
+        "records": 4
+      },
+      "B_alt_L2_operational": {
+        "arm": "B_alt_L2_operational",
+        "exact_count": 1,
+        "floor_hit_rate_mean": 0.00084686279296875,
+        "l2_construction": "alt",
+        "l2_prefix_hazard_mean_bits_mean": 0.900528481357761,
+        "outcomes": {
+          "exact": 1,
+          "verify_failed": 3
+        },
+        "records": 4
+      },
+      "C_incumbent_L2_oracle": {
+        "arm": "C_incumbent_L2_oracle",
+        "exact_count": 0,
+        "floor_hit_rate_mean": 0.000732421875,
+        "l2_construction": "incumbent",
+        "l2_prefix_hazard_mean_bits_mean": 0.8236250728827109,
+        "outcomes": {
+          "verify_failed": 4
+        },
+        "records": 4
+      },
+      "D_alt_L2_oracle": {
+        "arm": "D_alt_L2_oracle",
+        "exact_count": 1,
+        "floor_hit_rate_mean": 0.00084686279296875,
+        "l2_construction": "alt",
+        "l2_prefix_hazard_mean_bits_mean": 0.900528481357761,
+        "outcomes": {
+          "exact": 1,
+          "verify_failed": 3
+        },
+        "records": 4
+      }
+    },
+    "nonfinite_count": 0,
+    "operational": {
+      "exact_count": 1,
+      "outcomes": {
+        "exact": 1,
+        "verify_failed": 7
+      },
+      "records": 8
+    },
+    "oracle": {
+      "exact_count": 1,
+      "records": 8
+    },
+    "restoration": {
+      "a_exact_blocks": 0,
+      "b_exact_blocks": 1,
+      "b_maintain_count": 0,
+      "b_restored_count": 1,
+      "c_exact_blocks": 0,
+      "d_exact_blocks": 1,
+      "d_restored_count": 1,
+      "first_error_moves": [
+        {
+          "a_first_error_layer": "L2",
+          "b_first_error_layer": "L2",
+          "block_index": 0,
+          "c_first_error_layer": "L2",
+          "d_first_error_layer": "L2"
+        },
+        {
+          "a_first_error_layer": "L2",
+          "b_first_error_layer": "L2",
+          "block_index": 1,
+          "c_first_error_layer": "L2",
+          "d_first_error_layer": "L2"
+        },
+        {
+          "a_first_error_layer": "L2",
+          "b_first_error_layer": "L2",
+          "block_index": 2,
+          "c_first_error_layer": "L2",
+          "d_first_error_layer": "L2"
+        },
+        {
+          "a_first_error_layer": "L2",
+          "b_first_error_layer": null,
+          "block_index": 3,
+          "c_first_error_layer": "L2",
+          "d_first_error_layer": null
+        }
+      ]
+    },
+    "undetected_count": 0
+  },
+  "alt_digest": "6f4a4f7689d87e2c0a6c73617fdc9d79751a226661177a9bc6193feba2333e78",
+  "alt_h_literals": {
+    "h1_inc": 0.02519949692375297,
+    "h2_alt": 1.4447543021770293,
+    "h_total_alt": 1.4699537991007823
+  },
+  "analysis": "nbpolar-p20n-l2-alt-hold-1p5m",
+  "attempt_read_accounting": {
+    "alt_content_loads": 1,
+    "alt_input_mode": "frozen_alt_file",
+    "alt_prior_path": ".workbuddy/queue/NBPOLAR-PHASE4-P20N-L2-ALT-CONSTRUCTION-HOLD-1P5M/alt_l2_tables_1p5m.npz",
+    "artifact_content_reads_allowed_per_input": 1,
+    "attempts_allowed": 1,
+    "attempts_consumed_by_this_run": 1,
+    "construction_path": ".workbuddy/queue/NBPOLAR-PHASE4-P16-N32768-OPERATIONAL-F13/operational_f13_gate/construction_and_allocation.json",
+    "counts_content_opens": 0,
+    "dev_content_opens": 1,
+    "dev_input_mode": "pairs_parquet",
+    "dev_pairs_path": "comparison_bench/outputs_comparison/nonbinary_diagnostics/v13r3fresh_pairs_20260816/type2_1p5M_20260121_183806/pairs.parquet",
+    "incumbent_content_loads": 1,
+    "incumbent_input_mode": "frozen_prior_file",
+    "input_mode": "real",
+    "manifest_path": "comparison_bench/outputs_comparison/nonbinary_diagnostics/nbldpc_v25_20260818/run_04/split_manifest.json",
+    "opened_content_paths": [
+      "/mnt/d/Code/HD-QKD_Polar_Comparison-nbpolar/.workbuddy/queue/NBPOLAR-PHASE4-P20M-RAW-PRIOR-VAL-1P5M/raw_prior_1p5m.npz",
+      "/mnt/d/Code/HD-QKD_Polar_Comparison-nbpolar/.workbuddy/queue/NBPOLAR-PHASE4-P20N-L2-ALT-CONSTRUCTION-HOLD-1P5M/alt_l2_tables_1p5m.npz",
+      "/mnt/d/Code/HD-QKD_Polar_Comparison-nbpolar/comparison_bench/outputs_comparison/nonbinary_diagnostics/v13r3fresh_pairs_20260816/type2_1p5M_20260121_183806/pairs.parquet"
+    ],
+    "pairs_loader": "comparison_bench.src.comparison_bench.io.pairs_loader.load_pairs_table+normalize_pair_columns",
+    "prior_loader": "per_session_calibration.raw_prior(read-only seam)",
+    "prior_path": ".workbuddy/queue/NBPOLAR-PHASE4-P20M-RAW-PRIOR-VAL-1P5M/raw_prior_1p5m.npz",
+    "registered_content_paths": [
+      "/mnt/d/Code/HD-QKD_Polar_Comparison-nbpolar/.workbuddy/queue/NBPOLAR-PHASE4-P20M-RAW-PRIOR-VAL-1P5M/raw_prior_1p5m.npz",
+      "/mnt/d/Code/HD-QKD_Polar_Comparison-nbpolar/.workbuddy/queue/NBPOLAR-PHASE4-P20N-L2-ALT-CONSTRUCTION-HOLD-1P5M/alt_l2_tables_1p5m.npz",
+      "/mnt/d/Code/HD-QKD_Polar_Comparison-nbpolar/comparison_bench/outputs_comparison/nonbinary_diagnostics/v13r3fresh_pairs_20260816/type2_1p5M_20260121_183806/pairs.parquet"
+    ],
+    "reopen_attempted": false,
+    "retries": 0,
+    "retry_after_open": false
+  },
+  "block_ranges": [
+    [
+      2213,
+      2340
+    ],
+    [
+      2341,
+      2468
+    ],
+    [
+      2469,
+      2596
+    ],
+    [
+      2597,
+      2724
+    ]
+  ],
+  "budget_literal": "1.3*32768*0.8255660516732963-64 over 5, floored, clipped [0,65536] = 7020",
+  "claim_scope": "descriptive fixed-disclosure alternative-L2-construction diagnostic on new-segment 1.5M HOLD blocks (N=32768, four HOLD blocks 2213..2724) under the frozen incumbent prior and the single preregistered alt-L2 conditional; C/D are oracle-labelled diagnostic controls, never an operational protocol or deployable result; not real-frame FER, reconciliation efficiency, leakage, key rate, scaling superiority, qualification or promotion evidence; the CE-normalized disclosure ratio is not qualification efficiency; undetected is never success; no reliability or recovery claim is licensed",
+  "dev_source": {
+    "dev_pairs_path": "comparison_bench/outputs_comparison/nonbinary_diagnostics/v13r3fresh_pairs_20260816/type2_1p5M_20260121_183806/pairs.parquet",
+    "dev_pairs_sha256": "ca351e5205e76600530121066af4e0e1e5278061745c0797368a49443570a06b",
+    "dev_pairs_size_bytes": 1869178,
+    "refused_1m_path": "comparison_bench/outputs_comparison/nonbinary_diagnostics/v13r3fresh_pairs_20260816/type2_1M_20260121_184040/pairs.parquet",
+    "refused_2m_path": "comparison_bench/outputs_comparison/nonbinary_diagnostics/v13r3fresh_pairs_20260816/type2_2M_20260121_183657/pairs.parquet",
+    "source": "1p5M",
+    "source_tag": "type2_1p5M_20260121_183806",
+    "verified": true
+  },
+  "failing_integrity_gates": [],
+  "integrity": {
+    "alt_construction_budget_feasibility": true,
+    "alt_l2_identity": true,
+    "blocks_exact_with_declared_remainder": true,
+    "buckets_disjoint_exhaustive": true,
+    "dev_block_range_identity": true,
+    "dev_population_exact": true,
+    "dev_split_manifest_identity": true,
+    "disclosure_recount_exact": true,
+    "floor_hit_rate_reported": true,
+    "genie_calls_exact": true,
+    "hazard_instrumentation_complete": true,
+    "incumbent_prior_identity": true,
+    "input_stat_unchanged": true,
+    "k_literal_exact": true,
+    "no_unregistered_access": true,
+    "nonfinite_zero": true,
+    "one_open_per_protected_input": true,
+    "oracle_isolation": true,
+    "order_derivation_identity": true,
+    "orders_valid_k_prefixes_within_registered_arms": true,
+    "predecessor_construction_identity": true,
+    "resource_limits_met_and_no_abort": true,
+    "sc_calls_exact": true,
+    "sixteen_records_exact": true,
+    "tags_exact": true,
+    "target_population_contract": true,
+    "truth_isolation": true,
+    "undetected_zero": true
+  },
+  "integrity_all_pass": true,
+  "intra_file_hold_frame_range": [
+    2213,
+    2766
+  ],
+  "intra_file_val_frame_range": [
+    1660,
+    2212
+  ],
+  "k1": 331,
+  "k2": 6689,
+  "k_total": 7020,
+  "key_dependent_bits": 549384,
+  "mode": "hold-l2-alt-1p5m",
+  "n": 32768,
+  "order_digest": "a9f18a9fdad37c2cdf6e540c11d7ffede9b260275a7eae6a3a40a21da11bc638",
+  "outcome_label": "TARGET_EMPIRICAL_N32768_HOLD_L2_ALT_CONSTRUCTION_1P5M_COMPLETE",
+  "planned_records": 16,
+  "planned_sc_calls": 24,
+  "planned_tag_invocations": 16,
+  "public_control_bits": 5243888,
+  "raw_input_bits_per_block": 327680,
+  "records_completed": 16,
+  "recount_mismatch": 0,
+  "remainder_frames": [
+    2725,
+    2766
+  ],
+  "resource_stop_fired": false,
+  "resource_stop_reason": null,
+  "rss_bytes_peak": 661835776,
+  "sc_calls": 24,
+  "source": "1p5M",
+  "stage_b_sampling_calls": 0,
+  "tag_invocations": 16,
+  "wall_s": 162.174854
+}

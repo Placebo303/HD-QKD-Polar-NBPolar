@@ -1,0 +1,76 @@
+task_id: NBPOLAR-PHASE4-P20Q-HOLD-IR-CONFIRMATION-2M
+state: FROZEN_AWAITING_EXPLICIT_AUTHORIZATION
+tier: Y
+planning_stage: STAGE_A_AWAITING_AUTHORIZATION
+predecessor: TARGET_EMPIRICAL_N32768_VAL_MAINTAIN_ALT_CONSTRUCTION_2M_COMPLETE_ACCEPTED_DESCRIPTIVE
+predecessor_packet: NBPOLAR-PHASE4-P20O-2M-MAINTAIN-CONFIRMATION
+h2_probe: X10_PROBE_COMPLETE_DESCRIPTIVE_ONLY
+h2_probe_packet: NBPOLAR-X10-H2-SCALAR-ADJUDICATION
+selected_session: type2_2M_20260121_183657
+selected_factor: alt_l2_laplace_alpha1_at_frozen_disclosure_hold_ir_confirmation
+frozen_reuse_prior_path: .workbuddy/queue/NBPOLAR-PHASE4-P20O-2M-MAINTAIN-CONFIRMATION/raw_prior_2m.npz
+frozen_reuse_prior_digest: b16f52165d9f7ef28884df270f921ce07c2a743f4f4b39c3435838809ae1c587
+frozen_reuse_orders_path: .workbuddy/queue/NBPOLAR-PHASE4-P20O-2M-MAINTAIN-CONFIRMATION/raw_prior_orders_2m.json
+frozen_reuse_order_digest: b2255449d2422b8f9cd08ee6bdf1e1c40ce7787a0e9107c7819da8acf3bd0906
+frozen_reuse_alt_path: .workbuddy/queue/NBPOLAR-PHASE4-P20O-2M-MAINTAIN-CONFIRMATION/alt_l2_tables_2m.npz
+frozen_reuse_alt_digest: 98e25495d2e7adcc3332f48279f6f1c824b3f129c3e2cbca93a718c0d1ae5fb5
+frozen_alpha: 1.0
+frozen_floor: 1e-15
+frozen_target_f: 1.3
+frozen_h1: 0.02566204884275839
+frozen_h2: 0.8069006731309893
+frozen_h_total: 0.8325627219737477
+frozen_budget_literal: '1.3*32768*0.8325627219737477-64 over 5, floored, clipped [0,65536] = 7080 (REPLAYED, never recomputed)'
+frozen_k1: 334
+frozen_k2: 6746
+frozen_k_total: 7080
+frozen_hold_dev_frames: 2916 3555
+frozen_hold_dev_blocks: 2916..3043/3044..3171/3172..3299/3300..3427/3428..3555
+frozen_hold_remainder_frames: 3556 3644
+frozen_tag_master: 2026092330
+frozen_tag_prefix: nbpolar-p20q-hold-ir-2m-seed
+frozen_test_seeds: 2026092331..2026092337
+frozen_derivation_seeds: NONE_REUSE_ZERO_SAMPLING
+hazard_window_R: 8
+hazard_fields: 9 (eight X09-R1 scalars + ninth U-domain scalar l2_fail_in_prefix_u_domain CARRIED_PRESENT)
+ir_payload: IR-1..IR-5 ALL_FROZEN_PRESENT_CAPPED
+ir3_threshold_multipliers: 1.0x_and_2.0x_prefix_mean
+ir4_topk: 16
+ir5_cap: 4096x2_float32_plus_truncation_flag
+alt_construction_budget_feasibility_replay: FEASIBLE_REPLAY_PENDING_STAGE_A
+d2_margin_bits_replay: 4791.09652735766
+implementation_authorized: false
+stage_a_authorized_step1_pasted: false
+stage_a_complete: false
+stage_b_authorized: false
+protected_data_read_authorized: false
+decoder_execution_authorized: false
+counts_calibration_reads_allowed: 0
+counts_calibration_reads_used: 0
+hold_dev_reads_allowed: 1
+hold_dev_reads_used: 0
+val_dev_reads_allowed: 0
+val_dev_reads_used: 0
+val_remainder_reads_allowed: 0
+val_remainder_reads_used: 0
+attempts_allowed: 1
+attempts_used: 0
+stage_b_out_root: ABSENT
+pre_execute_review: PENDING
+pre_result_review: PENDING
+main_thread_acceptance: PENDING
+next_gate: STAGE_A_AUTHORIZATION_AWAITING
+openspec_delta_expected: openspec/changes/formal-ir-nbpolar-phase4-p0/specs/nbpolar-phase4-p20q/spec.md
+notes: |
+  Planner freeze 2026-09-19 (branch codex/nbpolar-phase0). Reuse pins replay P20O
+  (prior/orders/alt digests, K 334/6746/7080, H literals). Stage A performs ZERO
+  protected opens (counts 0 + HOLD-DEV 0 at close; zero sampling/genie at every
+  stage). HOLD base 2916 by TRAIN 2187 + VAL 729 manifest-count arithmetic (same
+  arithmetic P20O used); DEV FIRST 640 HOLD frames 2916..3555; remainder 3556..3644
+  (89 frames) counted never decoded. Tag master 2026092330 + test seeds
+  2026092331..2026092337 fresh relative to all frozen masters (Stage A grep-verifies).
+  IR-1..IR-5 all frozen PRESENT, bounded, recording-only, post-decode,
+  truth-isolation sentinel. Stage B needs Stage-A return + independent Pre-EXECUTE
+  PASS + filled STEP-2 + target-output absence. Operator never self-accepts.
+  No commit/push. H2 decision is main-thread analysis after acceptance, never an
+  in-packet verdict.

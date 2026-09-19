@@ -1,0 +1,116 @@
+{
+  "analysis": "nbpolar-p20e-plus1024-confirmation",
+  "arm_rule": "three frozen arms in block-major order B0_sc_base / B1_L2plus / B2_true_l1_diagnostic per block; B0 and B1 run the frozen greedy SC (2 SC + 1 tag per block) with identical prior/floor/order/kernel/ representation/SC; B0 discloses the frozen base K1=319/K2=6492 while B1 discloses K1=319/K2=7516 (the single +1024 L2 order-prefix step); B2 discloses K2 only and runs one oracle-conditioned L2 SC; 15 SC calls and 9 tags total; B2 carries ORACLE_TRUE_L1_CONTROL provenance, deployable=false, and is excluded from every operational aggregate; arms are constants, never CLI-tunable",
+  "arms": [
+    {
+      "k1": 319,
+      "k2": 6492,
+      "kind": "operational",
+      "leakage_bits": 34119,
+      "name": "B0_sc_base",
+      "provenance": "OPERATIONAL"
+    },
+    {
+      "k1": 319,
+      "k2": 7516,
+      "kind": "operational",
+      "leakage_bits": 39239,
+      "name": "B1_L2plus",
+      "provenance": "OPERATIONAL"
+    },
+    {
+      "k1": 0,
+      "k2": 6492,
+      "kind": "oracle_control",
+      "leakage_bits": 32524,
+      "name": "B2_true_l1_diagnostic",
+      "provenance": "ORACLE_TRUE_L1_CONTROL"
+    }
+  ],
+  "b1_k2": 7516,
+  "b1_k_total": 7835,
+  "b1_key_bit_delta_vs_base": 5120,
+  "b1_leakage_bits": 39239,
+  "base_leakage_bits": 34119,
+  "block_frames": 128,
+  "block_ranges": [
+    [
+      384,
+      511
+    ],
+    [
+      512,
+      639
+    ],
+    [
+      640,
+      767
+    ]
+  ],
+  "chunk_rows": 512,
+  "claim_scope": "descriptive zero-tuning +1024 confirmation on NEW real development blocks (same-file TRAIN subrange, N=32768, three new DEV blocks); B2 is an oracle-labelled diagnostic control, never an operational protocol or deployable rate; not real-frame FER, reconciliation efficiency, leakage, key rate, scaling superiority, qualification or promotion evidence; the CE-normalized disclosure ratio is not qualification efficiency; undetected is never success",
+  "closed_hold_frame_range": [
+    1600,
+    1983
+  ],
+  "construction": ".workbuddy/queue/NBPOLAR-PHASE4-P16-N32768-OPERATIONAL-F13/operational_f13_gate/construction_and_allocation.json",
+  "construction_digest": "055c906472dd2a09761761b18aceb5f31d8b5db19bac658721f8dc49c3faea1b",
+  "consumed_p20c_dev_frame_range": [
+    0,
+    383
+  ],
+  "consumed_val_frame_range": [
+    1200,
+    1599
+  ],
+  "control_leakage_bits": 32524,
+  "deferred": [
+    "positive-branch efficiency-optimization round",
+    "negative-branch P20D fixed-disclosure alternative L2 construction"
+  ],
+  "dev_block_rule": "TRAIN development formation (P18 pattern, P20E ranges): sort TRAIN rows by (frame_id, pair_idx); require exactly 384 frames 384..767, 256 rows per frame, pair_idx 0..255 and symbols 0..1023; blocks 384..511 / 512..639 / 640..767 (128 frames = 32768 pairs each); frames 768..1199 are the declared never-used remainder; closed HOLD 1600..1983, consumed VAL 1200..1599 and consumed P20C DEV 0..383 never selected; no shuffle, resampling, overlap, padding, pooling or fitting",
+  "dev_frames": [
+    384,
+    767
+  ],
+  "dev_pairs": "comparison_bench/outputs_comparison/nonbinary_diagnostics/v13r3fresh_pairs_20260816/type2_1M_20260121_184040/pairs.parquet",
+  "disclosure_rule": "single preregistered L2 disclosure step: B1_L2plus discloses FROZEN_L2_DELTA_K2 = +1024 L2 symbols beyond the frozen base (K2 6492 -> 7516; K_total 6811 -> 7835) by FROZEN-ORDER-PREFIX EXTENSION -- the disclosed L2 set is the first 7516 positions of the frozen P16 L2 order (positions fixed by the construction file, never selected on closed blocks, the consumed VAL pool, or DEV data); B0 and B2 stay at base disclosure; the step doubles P19's probed +512 increment; no second step (no B1b) without a new packet",
+  "floor": 1e-15,
+  "k1": 319,
+  "k2": 6492,
+  "k_total": 6811,
+  "l2_delta_k2": 1024,
+  "manifest_path": "comparison_bench/outputs_comparison/nonbinary_diagnostics/nbldpc_v25_20260818/run_04/split_manifest.json",
+  "mode": "dev-plus1024-confirmation",
+  "n": 32768,
+  "nll_rule": "per block under the fixed floor-1e-15 TRAIN prior: l1_nll_bits = sum_i -log2 p1[high_i, bob_i]; l2_nll_bits = sum_i -log2 p2[high_i, bob_i, low_i]; total_nll_bits = l1 + l2 (bits per 32768-pair block); tags and truth never enter selection (there is no selection in this packet)",
+  "no_threshold_rule": "there is no exact-count, FER, winner, monotonicity, superiority or qualification threshold and no recovery gate of any kind; any exact count (including 0/9 and any partial restoration) is descriptive COMPLETE when integrity holds; only integrity/resource failures produce BLOCKED(<earliest gate>)",
+  "outcome_precedence": [
+    "resource_abort: arm not executed (preregistered budget stop)",
+    "nonfinite: numeric nonfinite failure in L1/L2 SC; no tag",
+    "decode_failed: other L1/L2 SC exception; no tag",
+    "verify_failed: tag mismatch",
+    "exact: tag pass and label == true label",
+    "undetected: tag pass and not exact (never success)"
+  ],
+  "planned_records": 9,
+  "planned_sc_calls": 15,
+  "planned_tag_invocations": 9,
+  "protocol": "nbpolar-p20e-plus1024-confirmation",
+  "public_control_bits_per_tag": 327743,
+  "ratio_rule": "disclosure_ce_ratio = design leakage / true block total NLL bits is a sample cross-entropy-normalized disclosure ratio and is explicitly NOT qualification reconciliation efficiency",
+  "raw_input_bits_per_block": 327680,
+  "remainder_frames": [
+    768,
+    1199
+  ],
+  "single_factor": "NOTHING varied: carried-over +1024 order-prefix step on B1; prior/floor/construction-order/kernel/representation/SC identical across arms; only the new-block population and new P20E tag domain differ",
+  "source": "1M",
+  "support_rule": "f = counts / column totals; every cell below 1e-15 replaced by 1e-15; columns renormalized; p_b = column totals / total count; P1/P2 = accepted derive_p1/derive_p2(f) under A=32*U1+U2; no lambda, backoff, tuning, floor scan or fitting (exact P7 rule)",
+  "tag_bits": 64,
+  "tag_master": 2026092100,
+  "tag_seed_domain": "nbpolar-p20e-plus1024-confirmation-seed:<master>:<n>:<arm>:<block_index>",
+  "total_key_dependent_bits_if_all_invoked": 317646,
+  "total_public_control_bits_if_all_tags": 2949687,
+  "truth_boundary": "Alice truth enters operational arms only through disclosed U values, tag construction and scoring (accepted run_operational_block boundary and sentinel, identical for B0 and B1); B2 additionally conditions its L2 metric on the true high layer and is provenance-isolated"
+}
