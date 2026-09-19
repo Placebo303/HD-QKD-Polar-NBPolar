@@ -4,7 +4,7 @@
 - Chain [decision, descriptive only]: four single factors now tested descriptively — P20N/P20O/P20Q construction-side (B 1/4→2/5→4/5) + P20R order-side 0/1 negative (even the true-L1 oracle pair failed on this block). §16 next-branch candidates (L2-side bounded search at fixed point / second single construction form / further order refinement) eligible for planning selection; NO selection made.
 - H2 input [observation, no verdict]: IR-2 rank shift joins the archive for main-thread H2 analysis.
 - Process [procedure]: derive-once + pin digest + reviewer recompute worked (Stage-A 21/21 green, zero protected opens).
-- Scope [decision]: descriptive negative only — no FER/reliability/efficiency reading, no branch selection. 2044..2171 CONSUMED; stub 2172..2212 + 2M HOLD remainder 3556..3644 never-decoded. No push.
+- Scope [decision]: descriptive negative only — no FER/reliability/efficiency reading, no branch selection. 2044..2171 CONSUMED. Never-used ledger (corrected per `.workbuddy/queue/NBPOLAR-PHASE4-NEXT-BRANCH-DECISION.md` §2(ii)): 1.5M VAL 2172..2212 (41 frames / 10,496 pairs), 1.5M HOLD 2725..2766 (42 / 10,752), 2M VAL 2827..2915 (89 / 22,784), 2M HOLD 3556..3644 (89 / 22,784) — total 261 frames / 66,816 pairs; under the current same-split rule = 0 full N=32768 blocks; the two 2M segments combine to 178 frames = 1 block + 50-frame stub; 1.5M remainder (83 frames) is low-information (oracle 1/8) and treated as unusable per the decision record §3. No push.
 
 ## 2026-09-19 NB-Polar Phase 4 P20Q HOLD IR confirmation on 2M accepted (descriptive complete; strongest restoration signal, still no reliability claim)
 
@@ -2190,6 +2190,7 @@ diagnostic replay is not an official verifier pass. Preserve all seven artifacts
   - original Polar outputs imported by `polar_existing` bridge. [repo-observed]
 - preferred new-output naming convention:
   - new comparison outputs should stay under `comparison_bench/outputs_comparison/` and use additive names consistent with current patterns such as `*_results.csv`, `*_frame_results.parquet`, `*_diagnostics.csv`, `*_manifest.json`, or nested subdirectories like `report_tables_v3/`. [repo-observed]
+- Evidence-size rule (effective 2026-09-20) [decision]: a single committed evidence file must stay ≤ ~2 MB (2 MiB); larger frozen artifacts go under `workspace/` (git-ignored) and only their digest + summary line are committed. Per-packet size exceptions end (P20Q's 2.25 MB exception was the last). AGENTS.md formalization to ride the next OpenSpec change.
 
 ## 6. Schema and Interface Contract
 - CSV columns that must not silently change:

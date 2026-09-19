@@ -4864,3 +4864,21 @@ candidate; it is not the default next route.
 - Branch selection in this packet: rejected — §16 candidates remain main-thread planning input.
 
 **Consequences**: No rerun/retuning of P20R; P19 roots untouched; no push. 2044..2171 CONSUMED; stub 2172..2212 + 2M HOLD remainder 3556..3644 never-decoded.
+
+**Limitation**: The A anchor (α1 + frozen order) and the true-L1 oracle pair also recorded non-exact on this block; the result is block-dominated and does NOT discriminate the order factor.
+
+## 2026-09-20 Next-branch decision record adopted (corrections + D4 hygiene; D1 pending; D3 launched)
+
+**Decision**: Adopt `.workbuddy/queue/NBPOLAR-PHASE4-NEXT-BRANCH-DECISION.md` (main-thread review 2026-09-19; non-packet, non-freeze, no execution authorization) as the binding next-branch record: (i) P20R block-dominated qualifier applied to the P20R decision-log entry — the A anchor (α1 + frozen order) and the true-L1 oracle pair also recorded non-exact on block 2044..2171, so the 0/1 negative is block-dominated and does NOT discriminate the order factor; (ii) 4-segment never-used ledger correction applied to `AGENT_PROJECT_MEMORY.md` top P20R scope and the `DOCUMENT_INDEX.md` P20R row — 1.5M VAL 2172..2212 (41 frames / 10,496 pairs), 1.5M HOLD 2725..2766 (42 / 10,752), 2M VAL 2827..2915 (89 / 22,784), 2M HOLD 3556..3644 (89 / 22,784), total 261 frames / 66,816 pairs; under the current same-split rule = 0 full N=32768 blocks, while the two 2M segments combine to 178 frames = 1 block + 50-frame stub and the 1.5M remainder (83 frames) is low-information (oracle 1/8) treated as unusable per the record §3; (iii) evidence-size standing rule in force — single committed evidence file ≤ ~2 MB, larger frozen artifacts under git-ignored `workspace/` with digest + summary line committed, per-packet exceptions ended (P20Q's 2.25 MB was the last), AGENTS.md formalization deferred to the next OpenSpec change; (iv) P20R commit `f0e87f4` pushed with this batch (branch-private, evidence double-reviewed); (v) D1 (2M cross-split merge authorization, D1-A vs D1-B) awaits explicit user decision — NO merge authorized here; (vi) D3 synthetic SCL list-survival probe (`NBPOLAR-X11-SCL-LIST-SURVIVAL`) launched per the record (synthetic-only, zero protected-data cost); (vii) D2 (max-information mechanism probe on the single block) contingent on D1-A.
+
+**Context**: Docs-only adoption batch; no decoder execution, no protected-data opens, no consumed-block revisits. Binding constraint per the record is population first, factors second: any real-data evaluation must land on 2M (high-information, oracle ~70%), never the 1.5M remainder.
+
+**Alternatives considered**:
+- Deciding D1-A vs D1-B in this batch: rejected — pending explicit user decision.
+- FER/reliability/efficiency/branch-superiority readings: rejected — descriptive only, no threshold vote.
+- Cross-session merge (1.5M with 2M): rejected — never mixed per the record §5.
+- P20R rerun/retuning or revisiting consumed blocks: rejected.
+- Consuming the 1.5M stub or 1.5M HOLD remainder: rejected — treated as unusable.
+- Changing α/floor/K/decoder this round, or starting (b)/(c): rejected — not in this round.
+
+**Consequences**: P20R stays accepted descriptive with narrowed interpretive scope; D1 gating and D3 synthetic work proceed on separate tracks; D2 waits on D1-A; no AGENTS.md edit in this batch.
