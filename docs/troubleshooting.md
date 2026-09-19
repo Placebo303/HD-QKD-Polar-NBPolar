@@ -640,3 +640,19 @@ on test runs — move it out again, and never `git add` the tree.
 
 **Prevention**: never hardcode a Windows drive-letter path as a test output dir;
 use a repo-relative path or tmp dir so WSL cannot reinterpret it as relative.
+
+### `git diff --numstat` empty but file flagged `M` on a DrvFs/NTFS checkout (stat-dirty)
+
+**Observed** (2026-09-19, P20Q acceptance): `git status --short` flags
+`M comparison_bench/outputs_comparison/test_fixtures/real_polar_max_pie_grid.csv`
+while `git diff --numstat` is empty (blob hash == index).
+
+**Root cause**: DrvFs/NTFS stat-info invalidation — mtime/size metadata changes
+without a content change, so git reports the file modified on stat while the
+content diff is empty.
+
+**Fix**: confirm with `git diff --numstat` (empty) plus a blob-vs-index hash
+comparison; never stage/commit on the lone `M` flag.
+
+**Prevention**: treat a lone `M` on known fixture paths as stat-dirty until a
+non-empty diff proves otherwise.

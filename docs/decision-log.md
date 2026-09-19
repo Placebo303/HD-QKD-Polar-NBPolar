@@ -24,6 +24,20 @@ Durable decisions and rejected alternatives for the HD-QKD_Polar_Comparison-nbpo
 
 ## Decisions
 
+## 2026-09-19 NB-Polar Phase 4 P20Q HOLD IR confirmation accepted (descriptive; B 4/5 restoration, IR-1..IR-5 complete)
+
+**Decision**: Record the single P20Q Tier-Y execution as `TARGET_EMPIRICAL_N32768_HOLD_IR_ALT_CONSTRUCTION_2M_COMPLETE_ACCEPTED_DESCRIPTIVE`, accepted descriptive only. The accepted IR-1..IR-5 payload tables + nine carried scalars are the pre-registered inputs for main-thread H2a–H2e analysis AFTER this acceptance; the follow-on efficiency/disclosure-minimality vs next-upstream-factor branch decision comes after that analysis. Nothing auto-triggers.
+
+**Context**: Reuse-only α1-confirmation packet `.workbuddy/queue/NBPOLAR-PHASE4-P20Q-HOLD-IR-CONFIRMATION-2M/` (`MAIN_THREAD_ACCEPTANCE.md` / `PRE_EXECUTE_REVIEW.md` / `OPERATOR_RETURN.md` on disk; Pre-RESULT PASS session `ses_f463b6cdaffeISG0o1eh7nP79u` in `STATUS.yaml`; acceptance commit `d5c0afb`). First use of 2M HOLD DEV 2916..3555 (5 × 128, remainder 3556..3644 declared never-decoded), K1/K2 334/6746, tag master 2026092330, single authorized attempt (exit 0, HOLD-DEV 1/1, counts 0/0, SC 30/30, tags 20/20, wall 198.39 s / RSS ~620 MiB). Outcomes: A 0/5, B 4/5 (`b_restored` 4, `b_maintained` 0 vacuous), C 0/5, D 4/5 (`d_restored` 4 diagnostic); 12 L2-fail records all natural-in-prefix but U-domain-out (P20N/P20O pattern continuity on a third segment); `undetected` 0; integrity 30/30; key 692580 / public 6554860 / recount 0; zero B−A / D−C disclosure delta. Chain P20N B 1/4 → P20O B 2/5 → P20Q B 4/5, all descriptive. One-packet evidence-size exception: 2.25 MB `per_block_arm_outcomes.jsonl` committed as frozen evidence.
+
+**Alternatives considered**:
+- Treat B 4/5 (or the P20N→P20O→P20Q chain) as reliability/FER/recovery evidence: rejected — descriptive only by freeze; three construction events across three segments do not license a reliability claim.
+- Render an H2a–H2e verdict in this packet: rejected by design — H2 analysis is main-thread work on the accepted payload after acceptance, never an in-packet verdict.
+- Adopt a standing pre-freeze evidence-size rule now: deferred — the 2.25 MB commit is a one-packet exception; a standing rule needs an explicit main-thread decision.
+- Treat the absent `b_maintained` (strict-sense maintain 0) as evidence against the construction: rejected — A is never exact anywhere, so maintain is vacuous; restoration 4/5 at zero disclosure delta is the planning input.
+
+**Consequences**: No rerun/retuning of P20Q; P19 roots untouched; no push. 2M HOLD DEV 2916..3555 CONSUMED; HOLD remainder 3556..3644 and 1.5M VAL remainder 2044..2212 stay never-decoded.
+
 ## 2026-09-19 X10 H2 scalar adjudication probe disposition (H2a refuted; local-spike reading; IR-1..IR-5; P20Q frozen next)
 
 **Decision**: Record the Tier-X probe `workspace/probes/nbpolar_x10_h2_scalar_adjudication/` (packet `.workbuddy/queue/NBPOLAR-X10-H2-SCALAR-ADJUDICATION/`, reviewed PASS, decoder-free, zero protected opens) as: H2a **REFUTED**, H2b **SUPPORTED**, H2c **SUPPORTED**, H2d flat, H2e static-geometry **NOT-DECIDABLE** → bounded recording-only instrumentation requirements IR-1..IR-5. Freeze `NBPOLAR-PHASE4-P20Q-HOLD-IR-CONFIRMATION-2M` (reuse-only α1 confirmation on 2M HOLD 2916..3555, 5 blocks, IR-1..IR-5 PRESENT, zero new counts read) as the next planning input; nothing auto-triggers — Stage-A authorization paste still required.
