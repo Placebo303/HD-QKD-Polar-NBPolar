@@ -1,7 +1,7 @@
 task_id: NBPOLAR-PHASE4-P20Q-HOLD-IR-CONFIRMATION-2M
-state: FROZEN_AWAITING_EXPLICIT_AUTHORIZATION
+state: TARGET_EMPIRICAL_N32768_HOLD_IR_ALT_CONSTRUCTION_2M_COMPLETE_ACCEPTED_DESCRIPTIVE
 tier: Y
-planning_stage: STAGE_A_AWAITING_AUTHORIZATION
+planning_stage: PACKET_COMPLETE_ACCEPTED
 predecessor: TARGET_EMPIRICAL_N32768_VAL_MAINTAIN_ALT_CONSTRUCTION_2M_COMPLETE_ACCEPTED_DESCRIPTIVE
 predecessor_packet: NBPOLAR-PHASE4-P20O-2M-MAINTAIN-CONFIRMATION
 h2_probe: X10_PROBE_COMPLETE_DESCRIPTIVE_ONLY
@@ -40,26 +40,26 @@ ir5_cap: 4096x2_float32_plus_truncation_flag
 alt_construction_budget_feasibility_replay: FEASIBLE_REPLAY_PENDING_STAGE_A
 d2_margin_bits_replay: 4791.09652735766
 implementation_authorized: false
-stage_a_authorized_step1_pasted: false
-stage_a_complete: false
-stage_b_authorized: false
-protected_data_read_authorized: false
-decoder_execution_authorized: false
+stage_a_authorized_step1_pasted: true
+stage_a_complete: true
+stage_b_authorized: true
+protected_data_read_authorized: true
+decoder_execution_authorized: true
 counts_calibration_reads_allowed: 0
 counts_calibration_reads_used: 0
 hold_dev_reads_allowed: 1
-hold_dev_reads_used: 0
+hold_dev_reads_used: 1
 val_dev_reads_allowed: 0
 val_dev_reads_used: 0
 val_remainder_reads_allowed: 0
 val_remainder_reads_used: 0
 attempts_allowed: 1
-attempts_used: 0
-stage_b_out_root: ABSENT
-pre_execute_review: PENDING
-pre_result_review: PENDING
-main_thread_acceptance: PENDING
-next_gate: STAGE_A_AUTHORIZATION_AWAITING
+attempts_used: 1
+stage_b_out_root: PRESENT
+pre_execute_review: PASS (2026-09-19, independent reviewer-go, session ses_f464e5e60ffeSkW4ABf8w0kRoM)
+pre_result_review: PASS (2026-09-19, independent reviewer-go, session ses_f463b6cdaffeISG0o1eh7nP79u)
+main_thread_acceptance: ACCEPTED (2026-09-19, descriptive-only)
+next_gate: PACKET_CLOSED_AWAITING_NEXT_PLANNING
 openspec_delta_expected: openspec/changes/formal-ir-nbpolar-phase4-p0/specs/nbpolar-phase4-p20q/spec.md
 notes: |
   Planner freeze 2026-09-19 (branch codex/nbpolar-phase0). Reuse pins replay P20O
