@@ -3145,3 +3145,83 @@ the P20S queue dir; reuse paths point at the P20O queue dir);
 `.workbuddy/queue/NBPOLAR-PHASE4-P20S-MECHANISM-PROBE-2M-MERGED/l2_mechanism_probe_2m/`
 is absent and must remain absent until an authorized Stage-B execution. No
 box above is checked by the implementing session.
+
+## Reduced-N (N=8192) persistence probe — SCOPING ONLY (no authorization)
+
+Delta spec:
+`specs/nbpolar-reduced-n-persistence/spec.md` (+ supporting
+`design.md` / `proposal.md` in the same directory) under this umbrella
+change. Packet skeleton:
+`.workbuddy/queue/NBPOLAR-REDUCED-N-PERSISTENCE/` (`STATUS.yaml` state
+`SCOPING_ONLY_NO_EXECUTION_AUTHORIZED`, all counters 0, attempts 0/1
+reserved; `SCOPING_NOTES.md`). Predecessor: P20S-R1
+`TARGET_EMPIRICAL_N32768_MERGED_MECHANISM_PROBE_2M_COMPLETE_ACCEPTED_DESCRIPTIVE`.
+Population: ONE N=8192 block on the 2M HOLD tail — DEV 3595..3626 (32
+frames / 8192 pairs), remainder 3627..3644 (18 frames / 4608 pairs);
+1.5M stubs (41 + 42) never used, never pooled. Arms: A newly derived
+N=8192 frozen-order-equivalent anchor (α1) / B spike-local order at
+identical K (carried F-median8 formula-id, R=8 re-frozen) / O true-L1
+oracle diagnostic (deployable=false). N-pins: tag `10·8192+63` = 81983
+bits/tag (new domain); SC stages 13; K via
+`floor((1.3·8192·H−64)/5)` derived in-packet (≈1760 estimate only, never
+hand-filled); (K1,K2) by TRAIN residual, never carried from 334/6746.
+Honest scope: descriptive persistence probe (Q-G1/Q-G2, within-N only);
+n=1; no FER/reliability/efficiency claim; no cross-N inference; no H2
+input. Comparability boundary: the 1/4→2/5→4/5 chain, H2 verdicts, IR-5
+32768 geometry, and all leakage literals do NOT transfer.
+
+Status/acceptance of every item below is owned by the main thread; the
+implementing session reports evidence only and never checks its own
+boxes. THIS SCOPING AUTHORIZES NOTHING — every gate below marked
+`[GATE — NOT AUTHORIZED]` needs its own future explicit authorization.
+
+- [ ] RN-1: freeze review of the delta spec + design + this task section
+  by the main thread (population arithmetic 32/18, arm rule, K
+  estimate-only rule, comparability boundary, gate markers).
+  `[GATE — NOT AUTHORIZED by this scoping; future freeze review]`.
+- [ ] RN-2: Stage-A freeze — N=8192 construction/allocation derivation
+  program + derivation seeds, fresh L1/L2/spike orders, K derivation
+  from recomputed 2M H, new tag domain (master/prefix + grep proof),
+  DEV 3595..3626 + remainder 3627..3644 + S2-ii declaration, IR-5
+  8192-sizing, budgets. `[GATE — NOT AUTHORIZED; needs Stage-A
+  implementation authorization with explicit pasted text]`.
+- [ ] RN-3: implement the new `FROZEN_N = 8192` runner (or thin-importer
+  + new frozen constants) + focused injected tests + full accepted
+  NB-Polar predecessor suite green (injected/tiny inputs, temporary
+  roots, fresh test seeds only; never the pairs parquet, never the
+  counts NPZ, never production paths). `[GATE — NOT AUTHORIZED; same
+  Stage-A authorization as RN-2]`.
+- [ ] RN-4: independent Pre-EXECUTE review of the frozen command,
+  population, caps, derivation, budgets, tag/domain separation,
+  truth/accounting gates, tests and target absence (main thread +
+  reviewer-go). `[GATE — NOT AUTHORIZED; needs independent Pre-EXECUTE
+  PASS]`.
+- [ ] RN-5: exactly one authorized single-block three-arm attempt with
+  the frozen command; the single DEV attempt is consumed at the first
+  DEV content open with no rerun/reopen/seed/parameter/arm change.
+  `[GATE — NOT AUTHORIZED; needs separate Stage-B execution
+  authorization with explicit pasted text]`.
+- [ ] RN-6: independent Pre-RESULT review recomputing the identities,
+  population, 3 records, per-arm outcomes, Q-G1/Q-G2 geometry tables
+  (checked present, never decided), oracle isolation, gates, input
+  stats, resources and the file inventory from the artifacts.
+  `[GATE — NOT AUTHORIZED; needs independent Pre-RESULT review]`.
+- [ ] RN-7: main-thread adjudication to
+  `TARGET_EMPIRICAL_N8192_TAIL_PERSISTENCE_PROBE_COMPLETE` or
+  `BLOCKED(<earliest gate>)`; descriptive only — no recovery-rate
+  reading, no H2 verdict, no cross-N inference; HOLD remainder
+  3627..3644 and all 1.5M remainders stay untouched.
+  `[GATE — NOT AUTHORIZED; needs main-thread acceptance]`.
+- [ ] RN-8: memory triage (mandatory per AGENTS.md §3) after the user
+  decision: record the scoping, the ledger restatement (Block R1 =
+  3595..3626 consumed only upon authorized execution; until then the
+  full 50-frame tail stays never-decoded), and the comparability
+  boundary in durable memory; batch with the milestone.
+
+Evidence (scoping only; nothing derived or executed): `spec.md`,
+`design.md`, `proposal.md` in
+`specs/nbpolar-reduced-n-persistence/`; skeleton
+`.workbuddy/queue/NBPOLAR-REDUCED-N-PERSISTENCE/` (`STATUS.yaml` +
+`SCOPING_NOTES.md`); output root absent and must remain absent until
+authorizations RN-2 through RN-5 are each granted. No box above is
+checked by the scoping session.
