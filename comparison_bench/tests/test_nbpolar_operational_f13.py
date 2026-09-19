@@ -555,7 +555,9 @@ def test_full_run_construction_gates_and_accounting():
                               "key_dependent_bits", "public_control_bits",
                               "nonfinite", "truth_leak_violation",
                               "l1_error_type", "l2_error_type", "error",
-                              "k1", "k2", "wall_s", "resources"}
+                              "k1", "k2", "l1_exact", "hard_l2_exact",
+                              "oracle_l2_exact", "pair_exact",
+                              "wall_s", "resources"}
         assert set(first["resources"]) == {"wall_s", "rss_bytes_hwm",
                                            "vm_peak_kb", "vm_size_kb"}
         for record in records:
@@ -830,6 +832,195 @@ def test_memory_error_classification_path():
         assert sorted(p.name for p in root.iterdir()) == sorted(opf.OUTPUT_FILES)
         blocked = json.loads((root / "aggregate_summary.json").read_text())
         assert blocked["outcome_label"] == "BLOCKED(resource_limits_met_and_no_abort)"
+        assert opf._NPZ_CONTENT_OPENED is False
+
+
+def tiny_block_kwargs(data, n=8, **over):
+    kw = dict(
+        n=n, stream_seed=2026091753, block_index=0,
+        bob=data["bob"], high_true=data["high"], low_true=data["low"],
+        u1_true=data["u1"], u2_true=data["u2"],
+        labels_true=data["labels"], labels_true_bits=data["bits"],
+        field=data["field"], p1_table=data["p1"], p2_table=data["p2"],
+        l1_order=np.arange(n), l2_order=np.arange(n),
+        k1=2, k2=3, master=2026091753 + 10000,
+    )
+    kw.update(over)
+    return kw
+
+
+def test_l1_memory_error_escapes_sc_catch():
+    n = 8
+    data = tiny_inputs(n)
+    calls = {"sc": 0}
+
+    def oom(logp, *, field, positions, disclosed):
+        raise MemoryError("injected L1 exhaustion")
+
+    with patched(opf, "_decode_layer", oom):
+        assert_raises_match(
+            MemoryError, "injected L1 exhaustion",
+            opf.run_operational_block, calls=calls,
+            **tiny_block_kwargs(data, n=n),
+        )
+    # The real call accounting counted the attempted L1 SC; L2 never ran,
+    # and no decode bucket was assigned (the exception escaped, not a result).
+    assert calls == {"sc": 1}
+
+
+def test_l2_memory_error_escapes_sc_catch():
+    n = 8
+    data = tiny_inputs(n)
+    calls = {"sc": 0}
+    real_layer = opf._decode_layer
+    seen = {"n": 0}
+
+    def flaky(logp, *, field, positions, disclosed):
+        seen["n"] += 1
+        if seen["n"] >= 2:
+            raise MemoryError("injected L2 exhaustion")
+        return real_layer(logp, field=field, positions=positions,
+                          disclosed=disclosed)
+
+    with patched(opf, "_decode_layer", flaky):
+        assert_raises_match(
+            MemoryError, "injected L2 exhaustion",
+            opf.run_operational_block, calls=calls,
+            **tiny_block_kwargs(data, n=n),
+        )
+    # L1 really decoded (one real SC), then the L2 SC raised; both attempts
+    # are counted and the failure is a resource stop, not decode_failed.
+    assert seen == {"n": 2}
+    assert calls == {"sc": 2}
+
+
+def test_ordinary_sc_failures_keep_decode_buckets():
+    from comparison_bench.src.comparison_bench.formal_ir.nbpolar.sc import (
+        NumericNonfiniteError,
+    )
+
+    n = 8
+    data = tiny_inputs(n)
+
+    def boom(logp, *, field, positions, disclosed):
+        raise RuntimeError("injected ordinary decode fault")
+
+    with patched(opf, "_decode_layer", boom):
+        result = opf.run_operational_block(
+            calls={"sc": 0}, **tiny_block_kwargs(data, n=n))
+    assert result.outcome == "decode_failed"
+    assert result.l1_error_type == "RuntimeError"
+    assert result.nonfinite is False
+    assert result.tag_invoked is False
+    assert result.key_dependent_bits == 5 * 2
+    assert result.public_control_bits == 0
+
+    def bad_marginal(logp, *, field, positions, disclosed):
+        raise NumericNonfiniteError("injected nan marginals")
+
+    with patched(opf, "_decode_layer", bad_marginal):
+        result = opf.run_operational_block(
+            calls={"sc": 0}, **tiny_block_kwargs(data, n=n))
+    assert result.outcome == "nonfinite"
+    assert result.nonfinite is True
+    assert result.tag_invoked is False
+
+
+def test_layer_endpoints_on_tiny_real_blocks():
+    n = 8
+    data = tiny_inputs(n)
+    full = opf.run_operational_block(
+        calls={"sc": 0},
+        **tiny_block_kwargs(data, n=n, k1=n, k2=n),
+    )
+    assert full.outcome == "exact"
+    assert full.l1_exact is True
+    assert full.hard_l2_exact is True
+    assert full.oracle_l2_exact is None
+    assert full.pair_exact is True
+    assert full.pair_exact == full.label_match
+    record = opf._block_record(
+        full,
+        resources={"wall_s": 0.0, "rss_bytes_hwm": None,
+                   "vm_peak_kb": None, "vm_size_kb": None},
+    )
+    assert record["l1_exact"] is True
+    assert record["hard_l2_exact"] is True
+    assert record["oracle_l2_exact"] is None
+    assert record["pair_exact"] is True
+
+    wrong = ((data["high"] + 1) % 32).astype(np.int64)
+    partial = opf.run_operational_block(
+        calls={"sc": 0},
+        **tiny_block_kwargs(data, n=n, l1_candidate_override=wrong),
+    )
+    assert partial.l1_exact is False
+    assert partial.oracle_l2_exact is None
+    assert partial.pair_exact == partial.label_match
+
+
+def test_runner_finalizes_l1_site_resource_stop():
+    genie = FakeGenie()
+    seen = {"sc": 0}
+
+    def oom(logp, *, field, positions, disclosed):
+        seen["sc"] += 1
+        raise MemoryError("injected L1 exhaustion")
+
+    with tempfile.TemporaryDirectory() as tmp:
+        root = Path(tmp) / "out"
+        with patched(opf, "sample_full_block", fake_sample):
+            with patched(opf, "block_genie_risks", genie):
+                with patched(opf, "_decode_layer", oom):
+                    assert_raises_match(
+                        opf.OperationalF13ResourceError,
+                        "BLOCKED(resource_limits_met_and_no_abort)",
+                        full_run, root,
+                    )
+        assert sorted(p.name for p in root.iterdir()) == sorted(opf.OUTPUT_FILES)
+        blocked = json.loads((root / "aggregate_summary.json").read_text())
+        assert blocked["outcome_label"] == "BLOCKED(resource_limits_met_and_no_abort)"
+        # Partial accounting is preserved: TRAIN froze and checkpointed, the
+        # faulted DEV block wrote no record and no disclosure event.
+        assert (root / "per_block_outcomes.jsonl").read_text() == ""
+        cell = json.loads(
+            (root / "construction_and_allocation.json").read_text())["cell"]
+        assert cell["k_total"] > 0
+        assert seen == {"sc": 1}
+        assert opf._NPZ_CONTENT_OPENED is False
+
+
+def test_runner_finalizes_l2_site_resource_stop():
+    import types
+
+    genie = FakeGenie()
+    seen = {"sc": 0}
+
+    def flaky(logp, *, field, positions, disclosed):
+        seen["sc"] += 1
+        if seen["sc"] >= 2:
+            raise MemoryError("injected L2 exhaustion")
+        rows = int(np.asarray(logp).shape[0])
+        return types.SimpleNamespace(
+            x_hat=np.zeros(rows, dtype=np.int64),
+            decision_metrics=np.zeros((rows, 32), dtype=np.float64),
+        )
+
+    with tempfile.TemporaryDirectory() as tmp:
+        root = Path(tmp) / "out"
+        with patched(opf, "sample_full_block", fake_sample):
+            with patched(opf, "block_genie_risks", genie):
+                with patched(opf, "_decode_layer", flaky):
+                    assert_raises_match(
+                        opf.OperationalF13ResourceError,
+                        "BLOCKED(resource_limits_met_and_no_abort)",
+                        full_run, root,
+                    )
+        assert sorted(p.name for p in root.iterdir()) == sorted(opf.OUTPUT_FILES)
+        blocked = json.loads((root / "aggregate_summary.json").read_text())
+        assert blocked["outcome_label"] == "BLOCKED(resource_limits_met_and_no_abort)"
+        assert (root / "per_block_outcomes.jsonl").read_text() == ""
+        assert seen == {"sc": 2}
         assert opf._NPZ_CONTENT_OPENED is False
 
 

@@ -1181,6 +1181,7 @@ def test_five_file_scalar_only_inventory_and_resources():
             "total_nll_bits", "total_nll_bits_per_pair", "l1_correct",
             "full_block_key_dependent_bits", "public_control_bits_per_tag",
             "disclosure_ce_ratio", "oracle_truth_use", "oracle_control",
+            "l1_exact", "hard_l2_exact", "oracle_l2_exact", "pair_exact",
             "l1_provenance", "l2_provenance", "error", "wall_s", "resources",
         }
         assert required <= set(records[0])
@@ -1630,3 +1631,121 @@ def test_tiny_real_operational_block_via_p19_closure():
     assert result.truth_leak_violation is False
     for arr, snapshot in zip((bob, high, low, u1, u2, labels), before):
         assert np.array_equal(arr, snapshot)
+
+
+# ---- P20A resource classification and oracle-L2 endpoint instrumentation ----
+
+def tiny_oracle_inputs(n=8):
+    from comparison_bench.src.comparison_bench.formal_ir.nbpolar.algebra import (
+        make_gf32,
+    )
+    from comparison_bench.src.comparison_bench.formal_ir.nbpolar.prior import (
+        derive_p2,
+    )
+    from comparison_bench.src.comparison_bench.formal_ir.nbpolar.transform import (
+        polar_transform,
+    )
+    from comparison_bench.src.comparison_bench.formal_ir.nbpolar.two_layer import (
+        build_injected_joint_table,
+        labels_to_bits,
+    )
+
+    table = build_injected_joint_table(epsilon1=0.05, epsilon2=0.2)
+    rng = np.random.default_rng(TEST_SEEDS[3])
+    bob, _, high, low = opf.sample_full_block(
+        rng, np.full(1024, 1.0 / 1024), table, 32, 32, n
+    )
+    field = make_gf32()
+    u1 = polar_transform(high, field=field, alpha=2)
+    u2 = polar_transform(low, field=field, alpha=2)
+    labels = (low + 32 * high).astype(np.int64)
+    return {
+        "bob": bob, "high": high, "low": low, "u1": u1, "u2": u2,
+        "labels": labels, "bits": labels_to_bits(labels),
+        "field": field, "p2": derive_p2(table),
+    }
+
+
+def tiny_oracle_kwargs(data, n=8, **over):
+    kw = dict(
+        n=n, block_index=2, frame_start=1600,
+        bob=data["bob"], high_true=data["high"], low_true=data["low"],
+        u1_true=data["u1"], u2_true=data["u2"],
+        labels_true=data["labels"], labels_true_bits=data["bits"],
+        field=data["field"], p2_table=data["p2"],
+        l2_order=np.arange(n), k2=n, master=TEST_MASTER,
+    )
+    kw.update(over)
+    return kw
+
+
+def test_oracle_l2_memory_error_escapes_to_resource_path():
+    data = tiny_oracle_inputs()
+    calls = {"sc": 0}
+
+    def oom(logp, *, field, positions, disclosed):
+        raise MemoryError("injected oracle-L2 exhaustion")
+
+    with patched(hb, "_decode_layer", oom):
+        assert_raises_match(
+            MemoryError, "injected oracle-L2 exhaustion",
+            hb.run_oracle_control_block, calls=calls,
+            **tiny_oracle_kwargs(data),
+        )
+    # The single oracle L2 attempt is counted; the failure is a resource
+    # stop, never decode_failed/nonfinite.
+    assert calls == {"sc": 1}
+
+
+def test_oracle_ordinary_failure_keeps_decode_bucket():
+    data = tiny_oracle_inputs()
+
+    def boom(logp, *, field, positions, disclosed):
+        raise RuntimeError("injected ordinary oracle fault")
+
+    with patched(hb, "_decode_layer", boom):
+        result = hb.run_oracle_control_block(
+            calls={"sc": 0}, **tiny_oracle_kwargs(data))
+    assert result.outcome == "decode_failed"
+    assert result.l2_error_type == "RuntimeError"
+    assert result.nonfinite is False
+    assert result.tag_invoked is False
+    # The K2 disclosure happened before the L2 SC; only the tag is uncounted.
+    assert result.key_dependent_bits == 5 * 8
+    assert result.public_control_bits == 0
+
+
+def test_oracle_layer_endpoints_on_tiny_real_block():
+    from comparison_bench.src.comparison_bench.formal_ir.shared import (
+        toeplitz_tag as real_tag,
+    )
+    from comparison_bench.src.comparison_bench.formal_ir.nbpolar.two_layer import (
+        seed_bits_for,
+    )
+
+    n = 8
+    data = tiny_oracle_inputs(n)
+    p19_seed = hb.backoff_seed_bits(TEST_MASTER, n, hb.ORACLE_ARM_NAME, 2,
+                                    bit_length=seed_bits_for(n))
+
+    def closure(bits_in, _seed, tag_bits, _fixed=p19_seed):
+        return real_tag(bits_in, _fixed, tag_bits)
+
+    result = hb.run_oracle_control_block(
+        calls={"sc": 0}, tag_fn=closure, **tiny_oracle_kwargs(data, n=n))
+    assert result.outcome == "exact"
+    assert result.oracle_l2_exact is True
+    assert result.l1_exact is None
+    assert result.hard_l2_exact is None
+    # The control label mixes true H: never an operational pair endpoint.
+    assert result.pair_exact is None
+    record = hb._control_record(
+        result, spec=hb.ARM_BY_NAME[hb.ORACLE_ARM_NAME], arm_index=4,
+        block={"frame_start": 1600, "frame_end": 1727},
+        scoring=hb._scoring_absent(), resources={},
+    )
+    assert record["oracle_l2_exact"] is True
+    assert record["l1_exact"] is None
+    assert record["hard_l2_exact"] is None
+    assert record["pair_exact"] is None
+    assert record["provenance"] == hb.ORACLE_PROVENANCE

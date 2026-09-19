@@ -647,7 +647,15 @@ def _truth_isolation_sentinel(protected, truth_arrays) -> bool:
 
 @dataclass(frozen=True, eq=False)
 class OperationalBlockResult:
-    """One attempted operational DEV block.  Arrays are in-memory only."""
+    """One attempted operational DEV block.  Arrays are in-memory only.
+
+    Layer endpoints (P20A instrumentation for future mechanism runners):
+    ``l1_exact`` is L1-layer truth equality; ``hard_l2_exact`` is L2-layer
+    truth equality under hard-L1-candidate conditioning; ``pair_exact`` is
+    tag-independent complete-label equality (``exact`` stays the
+    tag-verified recovery); ``oracle_l2_exact`` stays None on this path
+    since no oracle conditioning occurs on it.
+    """
 
     stream_seed: int
     block_index: int
@@ -672,6 +680,10 @@ class OperationalBlockResult:
     wall_s: float
     k1: int
     k2: int
+    l1_exact: bool = False
+    hard_l2_exact: bool = False
+    oracle_l2_exact: bool | None = None
+    pair_exact: bool = False
     high_hat: np.ndarray | None = None
     low_hat: np.ndarray | None = None
     label_hat: np.ndarray | None = None
@@ -702,6 +714,10 @@ def _abort_block(stream_seed: int, block_index: int, *, k1: int, k2: int) -> Ope
         wall_s=0.0,
         k1=int(k1),
         k2=int(k2),
+        l1_exact=False,
+        hard_l2_exact=False,
+        oracle_l2_exact=None,
+        pair_exact=False,
     )
 
 
@@ -785,6 +801,8 @@ def run_operational_block(
             op_p1_metric.logp, field=field, positions=l1_positions, disclosed=u1_disclosed
         )
         high_hat = np.array(sc1.x_hat, copy=True)
+    except MemoryError:
+        raise  # resource stop owns MemoryError; never decode_failed/nonfinite
     except Exception as exc:  # SC failure contract: decode_failed/nonfinite, no tag
         l1_failed = True
         l1_error = type(exc).__name__
@@ -820,6 +838,8 @@ def run_operational_block(
             tag_hat = tag_fn(label_hat_bits, seed, TAG_BITS)
             tag_pass = tag_hat == tag_true
             tag_invoked = True
+        except MemoryError:
+            raise  # resource stop owns MemoryError; never decode_failed/nonfinite
         except Exception as exc:  # SC failure contract: decode_failed/nonfinite, no tag
             l2_error = type(exc).__name__
             nonfinite = nonfinite or _nonfinite_flag(exc)
@@ -833,6 +853,11 @@ def run_operational_block(
         tag_pass=tag_pass,
         label_match=label_match,
     )
+    # Layer endpoints are scored against the truth copies BEFORE the sentinel
+    # below mutates them; hats are never mutated by the sentinel.
+    l1_exact = bool(high_hat is not None and np.array_equal(high_hat, high_arr))
+    hard_l2_exact = bool(low_hat is not None and np.array_equal(low_hat, low_arr))
+    pair_exact = bool(label_match)
     l2_invoked = high_hat is not None
     protected = [op_p1_metric.logp, u1_disclosed, u2_disclosed]
     if p2_metric is not None:
@@ -878,6 +903,10 @@ def run_operational_block(
         wall_s=time.perf_counter() - arm_start,
         k1=int(k1),
         k2=int(k2),
+        l1_exact=bool(l1_exact),
+        hard_l2_exact=bool(hard_l2_exact),
+        oracle_l2_exact=None,
+        pair_exact=bool(pair_exact),
         high_hat=high_hat,
         low_hat=low_hat,
         label_hat=label_hat,
@@ -910,6 +939,12 @@ def _block_record(result: OperationalBlockResult, *, resources: dict, error=None
         "error": error,
         "k1": int(result.k1),
         "k2": int(result.k2),
+        "l1_exact": bool(result.l1_exact),
+        "hard_l2_exact": bool(result.hard_l2_exact),
+        "oracle_l2_exact": (
+            None if result.oracle_l2_exact is None else bool(result.oracle_l2_exact)
+        ),
+        "pair_exact": bool(result.pair_exact),
         "wall_s": round(float(result.wall_s), 6),
         "resources": dict(resources),
     }

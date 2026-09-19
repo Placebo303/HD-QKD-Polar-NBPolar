@@ -597,7 +597,9 @@ def test_full_run_128_exact_gates_and_accounting():
                               "key_dependent_bits", "public_control_bits",
                               "nonfinite", "truth_leak_violation",
                               "l1_error_type", "l2_error_type", "error",
-                              "k1", "k2", "wall_s", "resources"}
+                              "k1", "k2", "l1_exact", "hard_l2_exact",
+                              "oracle_l2_exact", "pair_exact",
+                              "wall_s", "resources"}
         assert set(first["resources"]) == {"wall_s", "rss_bytes_hwm",
                                            "vm_peak_kb", "vm_size_kb"}
         for record in records:

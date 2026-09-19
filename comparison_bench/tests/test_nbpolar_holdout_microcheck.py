@@ -871,6 +871,7 @@ def test_five_file_scalar_only_inventory_and_resources():
             "key_dependent_bits", "public_control_bits",
             "full_block_key_dependent_bits", "public_control_bits_per_tag",
             "disclosure_ce_ratio", "l1_provenance", "l2_provenance", "k1", "k2",
+            "l1_exact", "hard_l2_exact", "oracle_l2_exact", "pair_exact",
             "error", "wall_s", "resources",
         }
         assert required <= set(records[0])

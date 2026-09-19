@@ -611,7 +611,14 @@ def backoff_seed_bits(
 
 @dataclass(frozen=True, eq=False)
 class OracleControlResult:
-    """One oracle-labelled true-L1 control attempt (in-memory only)."""
+    """One oracle-labelled true-L1 control attempt (in-memory only).
+
+    Layer endpoints (P20A instrumentation): ``oracle_l2_exact`` is L2-layer
+    truth equality under oracle conditioning; ``l1_exact``/``hard_l2_exact``
+    stay None here (no L1 decode and no hard-conditioned L2 happen on
+    this arm); ``pair_exact`` stays None since the control label mixes
+    true H and is never an operational pair endpoint.
+    """
 
     frame_start: int
     block_index: int
@@ -631,6 +638,10 @@ class OracleControlResult:
     k2: int
     provenance: str
     oracle_truth_use: bool
+    l1_exact: bool | None = None
+    hard_l2_exact: bool | None = None
+    oracle_l2_exact: bool = False
+    pair_exact: bool | None = None
     low_hat: np.ndarray | None = None
 
 
@@ -714,6 +725,8 @@ def run_oracle_control_block(
         tag_hat = tag_fn(label_hat_bits, seed, TAG_BITS)
         tag_pass = tag_hat == tag_true
         tag_invoked = True
+    except MemoryError:
+        raise  # resource stop owns MemoryError; never decode_failed/nonfinite
     except Exception as exc:  # SC failure contract: decode_failed/nonfinite, no tag
         l2_error = type(exc).__name__
         nonfinite = opf._nonfinite_flag(exc)
@@ -724,6 +737,9 @@ def run_oracle_control_block(
         tag_pass=tag_pass,
         label_match=label_match,
     )
+    # Oracle-L2 endpoint scored against the truth copy BEFORE the sentinel
+    # below mutates it; low_hat is never mutated by the sentinel.
+    oracle_l2_exact = bool(low_hat is not None and np.array_equal(low_hat, low_arr))
     protected = [metric.logp, u2_disclosed]
     for item in (low_hat, label_hat, label_hat_bits):
         if item is not None:
@@ -753,6 +769,10 @@ def run_oracle_control_block(
         k2=int(k2),
         provenance=ORACLE_PROVENANCE,
         oracle_truth_use=True,
+        l1_exact=None,
+        hard_l2_exact=None,
+        oracle_l2_exact=bool(oracle_l2_exact),
+        pair_exact=None,
         low_hat=low_hat,
     )
 
@@ -848,6 +868,12 @@ def _control_record(result, *, spec, arm_index, block, scoring, resources, error
         "error": error,
         "k1": int(spec.k1),
         "k2": int(spec.k2),
+        "l1_exact": None if result.l1_exact is None else bool(result.l1_exact),
+        "hard_l2_exact": (
+            None if result.hard_l2_exact is None else bool(result.hard_l2_exact)
+        ),
+        "oracle_l2_exact": bool(result.oracle_l2_exact),
+        "pair_exact": None if result.pair_exact is None else bool(result.pair_exact),
         "l1_correct": None,
         "wall_s": round(float(result.wall_s), 6),
         "resources": dict(resources),
@@ -884,6 +910,10 @@ def _abort_record(*, spec, arm_index, block, resources) -> dict:
         "error": None,
         "k1": int(spec.k1),
         "k2": int(spec.k2),
+        "l1_exact": False if spec.kind == "operational" else None,
+        "hard_l2_exact": False if spec.kind == "operational" else None,
+        "oracle_l2_exact": None if spec.kind == "operational" else False,
+        "pair_exact": False if spec.kind == "operational" else None,
         "l1_correct": False if spec.kind == "operational" else None,
         "wall_s": 0.0,
         "resources": dict(resources),
