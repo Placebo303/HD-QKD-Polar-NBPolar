@@ -4886,3 +4886,14 @@ candidate; it is not the default next route.
 **Consequences**: P20R stays accepted descriptive with narrowed interpretive scope; D1-A authorized and D2 packet in freeze; D3 synthetic work proceeds on a separate track; no AGENTS.md edit in this batch.
 
 **Addendum (2026-09-20, user decision)**: local-spike formula FROZEN = **F-median8** (`score[i] = h[i] − median(W8(i))`, tie-break ascending; deterministic zero-sampling; feeds P20S arm B + X14 Q2 alignment).
+
+## 2026-09-20 Milestone: P20S mechanism probe accepted; synthetic SCL line (X14→X17) closed as non-informative
+
+**Decision**: (i) P20S-R1 (`NBPOLAR-PHASE4-P20S-R1-GATE-FIX`) accepted as `TARGET_EMPIRICAL_N32768_MERGED_MECHANISM_PROBE_2M_COMPLETE_ACCEPTED_DESCRIPTIVE` — independent Pre-RESULT PASS 9/9 (reviewer-go session ses_f44c186afffej4IC26000cx8cB), 36/36 integrity gates, geometry only: A exact prefix-mean 0.87406; B L2 fail @coord 0, hazard 0.513, IR-2 0.4322, fail site outside the disclosed prefix, floor 0.3717, prefix-mean 0.87683; O oracle exact; A△B 1599/1599; IR-4 top-16 in-prefix 0; IR-5 uncapped full-block series. (ii) Synthetic probe chain X14 (near-random flat) → X15 (0.75 diagonal, mismatch unchanged 0.9686) → X16 (exact N=32768 + real disclosure ratios, 0.76902 ≈ derived no-information ceiling 0.76931, G2 0.999 informative tables) → X17 (H-a U/X truth confusion confirmed and localized to probe bodies; positive control P=0.000 rules out a feed/decoder defect; corrected full-scale C still ≈ chance at 0.763/0.961). (iii) CONSEQUENCE: the SCL-unlock question cannot be answered on synthetic data at this operating point — re-asking survival there is proven pointless; any future SCL work must change the operating point (disclosure placement/amount, channel strength, or the list-decoding question itself) and be separately gated; SCL stays locked. (iv) No production module was changed in this chain. (v) D3's synthetic line is recorded as non-informative with a four-probe capability record, not as a scientific negative about SCL.
+
+**Alternatives considered**:
+- Promoting the X17 corrected-feed numbers to an SCL verdict: rejected — descriptive Tier-X probe, operating point sub-threshold, SCL stays locked.
+- Rerunning R1 to remove telemetry-only jsonl variance: rejected — 9/9 IR-5 bins identical, scientific fields identical; future delta successors freeze-exclude `wall_s`/`resources.*` up front.
+- Changing production decoder/feed modules on the H-a finding: rejected — production runner already correct; confusion was probe-body only.
+
+**Consequences**: R1 packet closed (`PACKET_CLOSED_AWAITING_NEXT_PLANNING`); X17 `COMPLETE_AWAITING_FOCUSED_REVIEW` (focused numerical review milestone-batched); no rerun/retuning; no OpenSpec/AGENTS.md change in this batch.

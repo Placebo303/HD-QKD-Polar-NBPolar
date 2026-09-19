@@ -1,0 +1,99 @@
+task_id: NBPOLAR-PHASE4-P20S-MECHANISM-PROBE-2M-MERGED
+state: FROZEN_AWAITING_EXPLICIT_AUTHORIZATION
+tier: Y
+planning_stage: STAGE_B_COMPLETE_AWAITING_PRE_RESULT
+predecessor: TARGET_EMPIRICAL_N32768_VAL_REMAINDER_ORDER_POSITION_1P5M_COMPLETE_ACCEPTED_DESCRIPTIVE
+predecessor_packet: NBPOLAR-PHASE4-P20R-ORDER-POSITION-1P5M
+decision_parent: NBPOLAR-PHASE4-NEXT-BRANCH-DECISION_D1A_D2
+selected_session: type2_2M_20260121_183657
+selected_factor: l2_spike_order_positions_under_frozen_alpha1_merged_final_block_mechanism_probe
+frozen_reuse_prior_path: .workbuddy/queue/NBPOLAR-PHASE4-P20O-2M-MAINTAIN-CONFIRMATION/raw_prior_2m.npz
+frozen_reuse_prior_digest: b16f52165d9f7ef28884df270f921ce07c2a743f4f4b39c3435838809ae1c587
+frozen_reuse_orders_path: .workbuddy/queue/NBPOLAR-PHASE4-P20O-2M-MAINTAIN-CONFIRMATION/raw_prior_orders_2m.json
+frozen_reuse_order_digest_A: b2255449d2422b8f9cd08ee6bdf1e1c40ce7787a0e9107c7819da8acf3bd0906
+frozen_reuse_alt_path: .workbuddy/queue/NBPOLAR-PHASE4-P20O-2M-MAINTAIN-CONFIRMATION/alt_l2_tables_2m.npz
+frozen_reuse_alt_digest: 98e25495d2e7adcc3332f48279f6f1c824b3f129c3e2cbca93a718c0d1ae5fb5
+frozen_spike_order_path: .workbuddy/queue/NBPOLAR-PHASE4-P20S-MECHANISM-PROBE-2M-MERGED/new_spike_order_2m.json
+frozen_spike_order_digest_B: 139f34c3152dfd5c7389c860b4f52ce23e5b6759465714fdb86ab5c605de1864
+frozen_spike_formula_id: F_MEDIAN8_DECIDED_20260920_H_MINUS_LOCAL_MEDIAN_W8
+frozen_derivation_program: comparison_bench.src.comparison_bench.formal_ir.nbpolar.l2_mechanism_probe_2m:derive_spike_l2_order (worktree-prior-only deterministic zero sampling; formula-id pinned at Stage A)
+frozen_alpha: 1.0
+frozen_floor: 1e-15
+frozen_target_f: 1.3
+frozen_h1: 0.02566204884275839
+frozen_h2: 0.8069006731309893
+frozen_h_total: 0.8325627219737477
+frozen_budget_literal: '1.3*32768*0.8325627219737477-64 over 5, floored, clipped [0,65536] = 7080 (REPLAYED, never recomputed, never from 1.5M, never from alt-H)'
+frozen_k1: 334
+frozen_k2: 6746
+frozen_k_total: 7080
+frozen_dev_frames_val_tail: 2827 2915
+frozen_dev_frames_hold_head: 3556 3594
+frozen_dev_block: 2827..2915_THEN_3556..3594
+frozen_tail_frames: 3595 3644
+frozen_1p5m_stub_frames: 2172 2212
+frozen_1p5m_hold_remainder_frames: 2725 2766
+frozen_tag_master: 2026092360
+frozen_tag_prefix: nbpolar-p20s-mechanism-probe-2m-seed
+frozen_test_seeds: 2026092361..2026092367
+frozen_derivation_seeds: NONE_DETERMINISTIC_ZERO_SAMPLING
+hazard_window_R: 8
+hazard_fields: 9 (eight X09-R1 scalars + ninth U-domain scalar CARRIED_PRESENT arm-specific-order-digest)
+ir_payload: IR-1..IR-4 ALL_FROZEN_PRESENT_P20Q_IDENTICAL
+ir3_threshold_multipliers: 1.0x_and_2.0x_prefix_mean
+ir4_topk: 16
+ir5_mode: UNCAPPED_FULL_BLOCK_32768_BINARY_LE_BIN_PLUS_MANIFEST
+ir5_encoding: ir5full-v1 (f32le hazard + u8 inprefix + u8 inu per record; NO text-JSON floats; NO npz/npy/parquet)
+ir5_size_budget: per_record_LE_400KB_total_LE_1p5MB_every_file_LE_2MB
+alt_construction_budget_feasibility_replay: FEASIBLE_MARGIN_4791.09652735766_STAGE_A_FEASIBLE_DEV_UNTOUCHED
+d1_ce_alt_replay: 0.8850983725781965
+d1_ce_incumbent_replay: 0.8069006731253678
+d1_ceilings_replay: 33794_35464
+d1_alt_ideal_length_bits_replay: 29002.90347264234
+d2_margin_bits_replay: 4791.09652735766
+implementation_authorized: false
+stage_a_authorized_step1_pasted: PRE_AUTHORIZED_BY_USER_20260920_STANDING
+stage_a_complete: false
+stage_b_authorized: true
+protected_data_read_authorized: true
+decoder_execution_authorized: true
+counts_calibration_reads_allowed: 0
+counts_calibration_reads_used: 0
+merged_dev_reads_allowed: 1
+merged_dev_reads_used: 1
+one_m_reads_allowed: 0
+one_m_reads_used: 0
+onep5_m_reads_allowed: 0
+onep5_m_reads_used: 0
+two_m_nondev_reads_allowed: 0
+two_m_nondev_reads_used: 0
+attempts_allowed: 1
+attempts_used: 1
+stage_a_genie_calls: 0
+stage_b_sampling_calls: 0
+stage_b_sc_budget: 5
+stage_b_tag_budget: 3
+stage_b_record_budget: 3
+stage_b_out_root: PRESENT
+pre_execute_review: PASS_REVIEWER_GO_20260920_12_12
+pre_result_review: PENDING
+main_thread_acceptance: PENDING
+next_gate: PRE_RESULT_REVIEW_THEN_MAIN_THREAD_ACCEPTANCE
+openspec_delta_expected: openspec/changes/formal-ir-nbpolar-phase4-p0/specs/nbpolar-phase4-p20s/spec.md
+notes: |
+  Planner freeze 2026-09-20 (branch codex/nbpolar-phase0). User decision 2026-09-20:
+  D1-A authorized (2M same-session cross-split merge for the final block);
+  D2 mechanism-probe form frozen. Reuse pins replay P20O 2M
+  (prior b16f5216…/orders b2255449…/alt 98e25495…, K 334/6746/7080, 2M H literals).
+  Merged DEV = VAL tail 2827..2915 (89) + HOLD head 3556..3594 (39) = 128 frames,
+  ONE N=32768 block; HOLD tail 3595..3644 (50) + 1.5M stub/remainder (41+42)
+  never-decoded. Arms A anchor / B spike / O true-L1 oracle (D-continuity:
+  frozen order + alt tables). Spike formula FROZEN 2026-09-20 user decision =
+  F-median8 (F_MEDIAN8_DECIDED_20260920_H_MINUS_LOCAL_MEDIAN_W8; score[i] = h[i]
+  minus local R=8 median, K2=6746 disclosed, ascending tie-break, deterministic
+  zero-sampling; B-1 RESOLVED; guard retained only as consistency check);
+  F-mean8 / F-multi8_32 rejected, retained as historical context only.
+  STEP-1 copyable now with the frozen formula (derivation permitted under
+  F-median8; no re-ask, no alteration). IR-5 UNCAPPED full-block binary
+  (ir5full-v1). All counters 0; attempts 0/1; merged-DEV reads 0/1.
+  No implementation, execution, commit or push authorized by this packet.

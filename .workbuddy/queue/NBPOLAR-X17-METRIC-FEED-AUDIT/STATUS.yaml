@@ -1,0 +1,37 @@
+# STATUS.yaml — NBPOLAR-X17-METRIC-FEED-AUDIT (proposal only)
+
+probe: NBPOLAR-X17-METRIC-FEED-AUDIT
+tier: X
+status: COMPLETE_AWAITING_FOCUSED_REVIEW
+state: COMPLETE_AWAITING_FOCUSED_REVIEW
+focused_review: PENDING
+branch: codex/nbpolar-phase0
+authorizing_record: NBPOLAR-X16-SYNTHETIC-SCALE-DISCLOSURE TASK_PACKET.md §5 branch rule (G1-high WITH G2-pass -> metric-feed audit) + NBPOLAR-PHASE4-NEXT-BRANCH-DECISION.md §4 D3
+
+# No execution, no commit/push authorized by this packet. Freeze (seed re-grep +
+# prereg write + body embed + T0/T1 green) requires main-thread approval (§7 decision).
+
+frozen_N_small: 256
+frozen_N_confirm: 32768
+frozen_k1_small: 3
+frozen_k2_small: 53
+frozen_k1_confirm: 334
+frozen_k2_confirm: 6746
+seeds_arms: [2026092391, 2026092392, 2026092393, 2026092394]
+seeds_positive: [2026092395, 2026092396, 2026092397, 2026092398]
+seeds_confirm: [2026092399]
+seeds_reserved_range: 2026092390..2026092399
+blocks_per_seed: 1
+predictions_descriptive_only:
+  A0_baseline: "~chance 0.96875 (bug replay)"
+  A2_corrected_smallN: "[0.05, 0.45]"
+  P_positive: "[0.00, 0.05]"
+gates:
+  g1_X16_retired: "mismatch is the measured variable; no stop"
+  g2_q1b_nonspike_l8_floor: 0.50
+  g3_spike_fraction_band: [0.02, 0.70]
+scl_lock: UNCHANGED
+prime_suspect: "H-a probe-side U/X truth confusion (X16 body.py:420-421,448-449,465); production runner correct (two_layer.py:629-634)"
+scope_rule: "accepted modules read-only; no in-probe fix; remediation is a separate main-thread decision"
+recommendation: X17-proceed
+closeout_trigger: "P decodes AND corrected full-scale C still at chance -> synthetic line non-informative (four-probe record), redirect"

@@ -1,0 +1,23 @@
+# STATUS stub — NBPOLAR-PHASE4-P20S-R1-GATE-FIX (PREPARE ONLY, not executed)
+
+task_id: NBPOLAR-PHASE4-P20S-R1-GATE-FIX
+state: TARGET_EMPIRICAL_N32768_MERGED_MECHANISM_PROBE_2M_COMPLETE_ACCEPTED_DESCRIPTIVE
+predecessor: NBPOLAR-PHASE4-P20S-MECHANISM-PROBE-2M-MERGED
+delta_scope: single gate-expression fix
+delta_document: .workbuddy/queue/NBPOLAR-PHASE4-P20S-R1-GATE-FIX/DELTA.md
+code_delta: comparison_bench/src/comparison_bench/formal_ir/nbpolar/l2_mechanism_probe_2m.py::_integrity_gates/blocks_exact_with_declared_remainder (one conjunct; list() on scalar-int frame_start -> int() comparison; nothing else touched)
+attempts_allowed: 1
+attempts_used: 1
+execution_authorized: standing-preauth-2026-09-20-plus-main-thread-proceed
+execution_record: exit-0-wall-37s-single-attempt-consumed-2026-09-20
+out_root: PRESENT
+planning_stage: PACKET_COMPLETE_ACCEPTED
+determinism_check: JSONL_BYTE_MISMATCH_TELEMETRY_ONLY__IR5_9_OF_9_MATCH__STOP_PENDING_ADJUDICATION
+main_thread_determinism_adjudication: TELEMETRY_ONLY_NONBLOCKING_20260920
+pre_result_review: PASS (2026-09-20, independent reviewer-go, session ses_f44c186afffej4IC26000cx8cB)
+main_thread_acceptance: ACCEPTED (2026-09-20, descriptive geometry-only)
+next_gate: PACKET_CLOSED_AWAITING_NEXT_PLANNING
+p20s_root_policy: NEVER_OVERWRITTEN_OR_MODIFIED
+determinism_rule: R1 per-record outputs MUST equal P20S byte-for-byte (per_block_arm_outcomes.jsonl records + nine IR-5 .bin digests); any difference is a STOP-level non-determinism finding, not to be repaired
+next_gate: PRE_RESULT_REVIEW
+operator_rule: operator never self-accepts; no commit or push
