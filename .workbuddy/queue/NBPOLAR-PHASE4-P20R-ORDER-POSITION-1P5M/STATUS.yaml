@@ -1,0 +1,99 @@
+task_id: NBPOLAR-PHASE4-P20R-ORDER-POSITION-1P5M
+state: TARGET_EMPIRICAL_N32768_VAL_REMAINDER_ORDER_POSITION_1P5M_COMPLETE_ACCEPTED_DESCRIPTIVE
+tier: Y
+planning_stage: PACKET_COMPLETE_ACCEPTED
+predecessor: TARGET_EMPIRICAL_N32768_HOLD_IR_ALT_CONSTRUCTION_2M_COMPLETE_ACCEPTED_DESCRIPTIVE
+predecessor_packet: NBPOLAR-PHASE4-P20Q-HOLD-IR-CONFIRMATION-2M
+h2_predecessor: H2_FINAL_ADJUDICATION_DESCRIPTIVE_ONLY
+h2_run_root: workspace/h2/504e036a-f040-4d88-88ba-152702f92ffd
+proposal_predecessor: NBPOLAR-PHASE4-NEXT-BRANCH-PROPOSAL_DRAFT
+selected_session: type2_1p5M_20260121_183806
+selected_factor: l2_order_positions_under_raw_prior_at_frozen_alpha1_single_block
+frozen_reuse_prior_path: .workbuddy/queue/NBPOLAR-PHASE4-P20M-RAW-PRIOR-VAL-1P5M/raw_prior_1p5m.npz
+frozen_reuse_prior_digest: 372dcc1cedbace1e699f60787d10eb298bb4bb3290519d2e6b19964ecf7d46ac
+frozen_reuse_orders_path: .workbuddy/queue/NBPOLAR-PHASE4-P20M-RAW-PRIOR-VAL-1P5M/raw_prior_orders_1p5m.json
+frozen_reuse_order_digest_A: a9f18a9fdad37c2cdf6e540c11d7ffede9b260275a7eae6a3a40a21da11bc638
+frozen_reuse_alt_path: .workbuddy/queue/NBPOLAR-PHASE4-P20N-L2-ALT-CONSTRUCTION-HOLD-1P5M/alt_l2_tables_1p5m.npz
+frozen_reuse_alt_digest: 6f4a4f7689d87e2c0a6c73617fdc9d79751a226661177a9bc6193feba2333e78
+frozen_new_order_path: .workbuddy/queue/NBPOLAR-PHASE4-P20R-ORDER-POSITION-1P5M/new_l2_order_1p5m.json
+frozen_new_order_digest_B: c78532860d74512046a1a53224bc6643de0e495614103774df67ba7e5203e751
+frozen_derivation_program: comparison_bench.src.comparison_bench.formal_ir.nbpolar.l2_order_position_1p5m:derive_new_l2_order (frozen alpha=1 recompute + hard-L1 argmax + C-order worst-first stable argsort; deterministic zero sampling)
+frozen_ranking_functional_B1: DECIDED_20260919_ALT_TABLE_WORST_FIRST_RERANK
+frozen_alpha: 1.0
+frozen_floor: 1e-15
+frozen_target_f: 1.3
+frozen_h1: 0.02519949692375297
+frozen_h2: 0.8003665547495433
+frozen_h_total: 0.8255660516732963
+frozen_budget_literal: '1.3*32768*0.8255660516732963-64 over 5, floored, clipped [0,65536] = 7020 (REPLAYED, never recomputed, never from 2M, never from alt-H)'
+frozen_k1: 331
+frozen_k2: 6689
+frozen_k_total: 7020
+frozen_dev_frames: 2044 2171
+frozen_dev_blocks: 2044..2171
+frozen_stub_frames: 2172 2212
+frozen_hold_remainder_2m_frames: 3556 3644
+frozen_tag_master: 2026092340
+frozen_tag_prefix: nbpolar-p20r-order-position-1p5m-seed
+frozen_test_seeds: 2026092341..2026092347
+frozen_derivation_seeds: NONE_DETERMINISTIC_ZERO_SAMPLING
+hazard_window_R: 8
+hazard_fields: 9 (eight X09-R1 scalars + ninth U-domain scalar CARRIED_PRESENT arm-specific-order-digest)
+ir_payload: IR-1..IR-5 ALL_FROZEN_PRESENT_CAPPED_SAME_AS_P20Q
+ir3_threshold_multipliers: 1.0x_and_2.0x_prefix_mean
+ir4_topk: 16
+ir5_cap: 4096x2_float32_plus_truncation_flag
+alt_construction_budget_feasibility_replay: FEASIBLE_MARGIN_3928.304784481981_STAGE_A
+d2_margin_bits_replay: 3928.304784481981
+implementation_authorized: false
+stage_a_authorized_step1_pasted: true
+stage_a_complete: true
+stage_b_authorized: true
+protected_data_read_authorized: true
+decoder_execution_authorized: true
+counts_calibration_reads_allowed: 0
+counts_calibration_reads_used: 0
+val_remainder_dev_reads_allowed: 1
+val_remainder_dev_reads_used: 1
+val_dev_reads_allowed: 0
+val_dev_reads_used: 0
+hold_reads_allowed: 0
+hold_reads_used: 0
+one_m_reads_allowed: 0
+one_m_reads_used: 0
+two_m_reads_allowed: 0
+two_m_reads_used: 0
+attempts_allowed: 1
+attempts_used: 1
+stage_a_genie_calls: 0
+stage_b_sampling_calls: 0
+stage_b_sc_budget: 6
+stage_b_tag_budget: 4
+stage_b_record_budget: 4
+stage_b_out_root: PRESENT
+pre_execute_review: PASS (2026-09-19, independent reviewer-go, session ses_f45c56468ffe7FaiatcEtO4oN6)
+pre_result_review: PASS (2026-09-19, independent reviewer-go, session ses_f45ba5f5effeyrswF6FwH2Yq1Q)
+main_thread_acceptance: ACCEPTED (2026-09-19, descriptive-only)
+next_gate: PACKET_CLOSED_AWAITING_NEXT_PLANNING
+openspec_delta_expected: openspec/changes/formal-ir-nbpolar-phase4-p0/specs/nbpolar-phase4-p20r/spec.md
+notes: |
+  Planner freeze 2026-09-19 (branch codex/nbpolar-phase0). Reuse pins replay P20M/P20N
+  (prior 372dcc1c…/orders a9f18a9f…/alt 6f4a4f76…, K 331/6689/7020, H literals).
+  New-B order + derivation-program pin filled at Stage A (see return note below);
+  ranking functional B-1
+  DECIDED 2026-09-19 (alt-table worst-first re-rank; full text TASK_PACKET §3;
+  Stage A must not invent or alter it). Stage A performs ZERO protected opens (counts 0/0 +
+  DEV 0/1 + VAL-DEV 0 + HOLD 0 + 1M 0 + 2M 0 at close; zero sampling/genie at every
+  stage). DEV FIRST 128 VAL-remainder frames 2044..2171 (ONE N=32768 block); stub
+  2172..2212 (41 frames) + 2M HOLD remainder 3556..3644 (89 frames) counted never
+  decoded. Tag master 2026092340 + test seeds 2026092341..2026092347 fresh (202609234*
+  absent; Stage A grep-verifies). IR-1..IR-5 all frozen PRESENT, same caps/formulas as
+  P20Q §7, arm-specific order flags. Stage B needs Stage-A return + independent
+  Pre-EXECUTE PASS + filled STEP-2 + target-output absence. Operator never self-accepts.
+  No commit/push. H2 decision is main-thread analysis after acceptance, never an
+  in-packet verdict.
+  Stage-A return 2026-09-19: new-B digest
+  c78532860d74512046a1a53224bc6643de0e495614103774df67ba7e5203e751 + program pin
+  filled; D2 FEASIBLE (margin 3928.304784481981); 21/21 focused tests green;
+  counts 0/0 + DEV 0/1 + VAL-DEV 0 + HOLD 0 + 1M 0 + 2M 0; attempts 0/1;
+  Stage-B root ABSENT. Stage B NOT authorized by this return.

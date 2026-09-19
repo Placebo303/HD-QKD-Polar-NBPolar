@@ -4850,3 +4850,17 @@ candidate; it is not the default next route.
 - Verbatim large tables: rejected — run root is git-ignored; durable plan + summary carry the record.
 
 **Consequences**: No rerun/retuning, no OpenSpec/AGENTS/troubleshooting change; next branch (L2-order-positions-under-raw-prior / L2-side-bounded-search-at-fixed-point / second-single-construction-form per P20Q §16) remains main-thread planning input — H2 selects nothing.
+
+## 2026-09-19 NB-Polar Phase 4 P20R order-position 1.5M accepted (descriptive NEGATIVE, 0/1 single block)
+
+**Decision**: Record the single P20R Tier-Y execution as `TARGET_EMPIRICAL_N32768_VAL_REMAINDER_ORDER_POSITION_1P5M_COMPLETE_ACCEPTED_DESCRIPTIVE`, accepted descriptive only. The new-B order single factor produced a descriptive NEGATIVE on its first single-block evaluation: no restoration, with even the true-L1 oracle pair failing on this block.
+
+**Context**: Single-factor L2-order-position packet `.workbuddy/queue/NBPOLAR-PHASE4-P20R-ORDER-POSITION-1P5M/` (`MAIN_THREAD_ACCEPTANCE.md` / `PRE_EXECUTE_REVIEW.md` PASS / `PRE_RESULT_REVIEW.md` PASS on disk; Stage-A 21/21 green with derive-once + pinned new-B digest `c7853286…e751` reviewer-recomputed exact; D2 FEASIBLE margin 3928.304784481981 pre-DEV). One-shot Stage B (exit 0, wall 44.37 s / RSS ~521 MiB, SC 6/6, tags 4/4, sampling 0, genie 0+0) on the single 1.5M VAL-remainder block 2044..2171 (CONSUMED, one draw, N=32768, K1/K2 331/6689, tag master 2026092340): A 0/1, B 0/1, C 0/1, D 0/1, all `verify_failed`, `undetected` 0; `b_maintained`/`b_restored` 0, A→B {0,0,0,1}; `d_restored` 0, C→D {0,0,0,1}. Byte-exact disclosed-set manipulation (K2 6689 both arms; intersection 1213; |A−B|=|B−A|=5476; size-delta 0). First errors all L2-layer: A/C coord 133 (in-X, U-domain-out), B/D coord 0 (out-of-X). Disclosure caps A/B 35164 Δ0, C/D 33509 Δ0; key 137346 / public 1310972, recount 0; 34/34 integrity gates. IR payload: IR-2 A 0.99966 vs B 0.32919 (geometry contrast), IR-4 top-16 in-prefix 4/16 all records, IR-5 truncated. Chain: four single factors now tested descriptively — P20N/P20O/P20Q construction-side (B 1/4→2/5→4/5) + P20R order-side 0/1 negative; §16 next-branch candidates (L2-side bounded search at fixed point / second single construction form / further order refinement) eligible for planning selection, NO selection made.
+
+**Observation (not verdict)**: H2 input — the IR-2 rank shift (0.99966→0.32919) joins the archive for main-thread H2 analysis; no H2 verdict here.
+
+**Alternatives considered**:
+- FER/reliability/efficiency readings: rejected — one block, descriptive only, no threshold vote.
+- Branch selection in this packet: rejected — §16 candidates remain main-thread planning input.
+
+**Consequences**: No rerun/retuning of P20R; P19 roots untouched; no push. 2044..2171 CONSUMED; stub 2172..2212 + 2M HOLD remainder 3556..3644 never-decoded.

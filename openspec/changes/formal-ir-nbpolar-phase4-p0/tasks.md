@@ -2779,3 +2779,176 @@ queue dir); `P20Q_FREEZE.md`, `P20Q_IMPLEMENTATION_NOTES.md`; output root
 `.workbuddy/queue/NBPOLAR-PHASE4-P20Q-HOLD-IR-CONFIRMATION-2M/l2_alt_hold_ir_2m/`
 is absent and must remain absent until an authorized Stage-B execution. No
 box above is checked by the implementing session.
+
+## P20R single-factor order-position tasks (Stage A implementation only)
+
+Frozen packet:
+`.workbuddy/queue/NBPOLAR-PHASE4-P20R-ORDER-POSITION-1P5M/`
+(`TASK_PACKET.md`, frozen; Tier-Y decision-gate packet).
+Predecessor: P20Q
+`TARGET_EMPIRICAL_N32768_HOLD_IR_ALT_CONSTRUCTION_2M_COMPLETE_ACCEPTED_DESCRIPTIVE`
+(Stage-B single attempt SPENT 1/1; counts 0/0; HOLD-DEV 1/1 SPENT on 2M HOLD
+2916..3555; 20/20 records; A 0/5 / B 4/5 (b_restored 4 descriptive) / C 0/5 /
+D 4/5 (d_restored 4 diagnostic); 12 L2-fail records all natural-in-prefix but
+U-domain-out; undetected 0; SC 30/30; tags 20/20; recount 0; key 692580 /
+public 6554860) + H2 final adjudication (descriptive only: H2a REFUTED; H2b
+SUPPORTED; H2c SUPPORTED; H2d SUPPORTED-flat; H2e REFUTED-geometry-incoherent).
+Factor decision (frozen, not re-argued): single-factor L2-order-position test under the
+raw prior at frozen α1 construction and frozen per-session disclosure on ONE first-use
+1.5M VAL-remainder block at N=32768 — arm A = α1 + FROZEN 1.5M order, arm B = α1 + NEW
+L2-order positions derived from the REUSED 1.5M raw prior (worktree-file only, zero
+protected derivation reads); C/D oracle pair mirrors A/B under true-L1 (diagnostic
+only). Blocker B-1 (new-B ranking functional) is RESOLVED by user decision (2026-09-19):
+alt-table worst-first re-rank, full frozen text in `TASK_PACKET.md` §3; Stage A SHALL NOT
+invent or alter it. Strategy parent: `docs/nbpolar/REAL_DATA_FEASIBILITY_STRATEGY.md`
+stage 2. Stage A authorized separately; it permits ZERO protected opens (counts 0/0 at
+every stage — the V25 counts NPZ never opened/statted/listed; DEV 0/1; VAL-DEV 0; HOLD 0;
+1M 0; 2M 0 in every form), zero sampling/genie calls at every stage (the new-order
+derivation is deterministic worktree-prior-only), no lambda anywhere, no K carried as an
+absolute from 2M or recomputed from alt-H (S2-i; replay only from the 1.5M session point),
+no derivation or sampling on real frames, no real-data decoder execution, no Stage-B
+output root, no second construction, no construction sweep, no bounded search, no second
+order beyond the single new-B set, no disclosure-size change (B−A = 0, D−C = 0), no
+decoder change, no H2 verdict, no new-block peeking, no SCL/new kernel/model/schema, no
+overwrite under `results/` or `comparison_bench/outputs_comparison/`, and no commit/push.
+Stage B needs an independent Pre-EXECUTE PASS (explicitly adjudicating the §3 reuse/alt
+replay, the new-B derivation contract + B-1 decision text + program pin, the D2 replay
+outcome, the §5 budget/K-literal replay, the §4 gate family, the §2 runner-delta design,
+and the §7 nine-scalar + IR-1..IR-5 boundary incl. IR-3 thresholds, IR-5 cap, and the
+arm-specific order-digest rule) plus a separate pasted authorization.
+
+- [ ] P20R-1: read-only callsite inventory of the packet-§12 predecessor helpers
+  (`operational_f13.py`, `operational_f13_replication.py`, `holdout_microcheck.py`,
+  `holdout_backoff_diagnostic.py`, `l2_disclosure_backoff.py`, `plus1024_confirmation.py`,
+  `plus1024_extension.py`, `plus1024_independent_session.py`,
+  `per_session_calibration.py` (digest recipe pin only),
+  `plus1024_per_session_confirmation.py`, `l1_disclosure_1p5m.py`,
+  `l1_dose_escalation_1p5m.py`, `l1_dose_512_1p5m.py`, `l1_order_1p5m.py`,
+  `raw_prior_val_1p5m.py` (gate/population/record-writer pattern references),
+  `l2_alt_hold_1p5m.py` (α1 construction-swap + 1.5M gate/population pattern
+  reference), `l2_alt_maintain_2m.py` (gate/record-writer/nine-scalar pattern
+  references), `l2_alt_hold_ir_2m.py` (import target; gate/population/IR
+  record-writer pattern references) plus the accepted
+  `l2_alt_hold_ir_2m._ir_hazard_diagnostics` code point cited as the carried-over
+  callsite pattern for the §7 recorder extension; change no shared logic.
+- [ ] P20R-2: verify the §3 1.5M reuse pins by worktree-file digest recomputation ONLY
+  (zero protected opens at every stage): prior canonical digest
+  `372dcc1cedbace1e699f60787d10eb298bb4bb3290519d2e6b19964ecf7d46ac` + H literals
+  `0.02519949692375297 / 0.8003665547495433 / 0.8255660516732963` within 1e-12 + `p_b`
+  cross-check + floor pins; frozen-A orders file-bytes digest
+  `a9f18a9fdad37c2cdf6e540c11d7ffede9b260275a7eae6a3a40a21da11bc638`; alt file-bytes
+  digest `6f4a4f7689d87e2c0a6c73617fdc9d79751a226661177a9bc6193feba2333e78` +
+  alpha-1.0/floor pins + exact key sets + `p1`-equality within 1e-12 + descriptive alt-H
+  replay; K literals `(7020,331,6689)` replayed never recomputed with the S2-i
+  budget-literal replay display `1.3*32768*0.8255660516732963-64 over 5, floored, clipped
+  [0,65536] = 7020` (never from 2M, never from alt-H); D1 literals replayed (`ce_alt`
+  0.9027311772313849, `ce_incumbent` 0.8003665547439149, ceilings 33509/35164,
+  `alt_ideal_length_bits` 29580.69521551802) with the D2
+  `alt_construction_budget_feasibility_replayed` gate evaluated BEFORE any DEV contact
+  (MISMATCH → DEV untouched, no Stage-B request; margin `3928.304784481981`).
+- [ ] P20R-3: derive the new-B order permutation by the §3 contract (worktree-prior arrays
+  ONLY via `derive_new_l2_order`, deterministic, zero sampling/genie/seeds, zero protected
+  reads, length-32768 permutation, K2-prefix disclosed, L1 carried frozen; program pin +
+  file-bytes digest `c78532860d74512046a1a53224bc6643de0e495614103774df67ba7e5203e751` +
+  A-vs-B set-delta table pinned in `P20R_FREEZE.md` — the exact ranking functional is B-1,
+  DECIDED 2026-09-19, alt-table worst-first re-rank per `TASK_PACKET.md` §3; NEVER invent
+  any functional beyond it) and implement the thin runner
+  `formal_ir/nbpolar/l2_order_position_1p5m.py` importing accepted `l2_alt_hold_ir_2m`
+  read-only with ONLY the §2 delta list d1–d8: hardcoded four arms
+  (`A_frozen-order_operational` α1 + frozen order at carried K /
+  `B_new-order_operational` α1 + new order at carried K, the single factor /
+  `C_frozen-order_oracle` / `D_new-order_oracle` at carried K2, oracle-isolated,
+  deployable=false); the §3 reuse artifacts + new-B order file loaded read-only behind the
+  `reuse_prior_identity` + `reuse_alt_identity` + `reuse_order_freeze_A` +
+  `new_order_identity_B` + `order_derivation_program_identity` gates with the K-literal
+  replay gate (never recomputed); the §7 carried nine scalars (arm-specific order digest:
+  frozen-A on A/C, new-B on B/D) PLUS the mandatory IR-1..IR-5 recorder
+  `_ir_hazard_diagnostics` (same caps/formulas as P20Q §7: IR-1 64-bin histograms
+  {prefix, outside} under the record's OWN order + IR-2 first-error hazard-rank percentile
+  + IR-3 above-threshold prefix counts at EXACTLY two frozen thresholds 1.0×/2.0× record
+  prefix-mean hazard + IR-4 top-16 hazardous positions with ranks + IR-5 capped 4096×2
+  float32 series with truncation flag, all PRESENT bounded recording-only post-decode with
+  the truth-isolation boundary pinned); new P20R tag domain (master 2026092340, seed
+  prefix `nbpolar-p20r-order-position-1p5m-seed`); FIRST-128-VAL-remainder-frame 1.5M
+  formation (2044..2171 → ONE block 2044..2171, stub 2172..2212 + 2M HOLD remainder
+  3556..3644 counted never decoded) under the §4 gate family (a)→(g) (cross-file
+  source-tag+digest first, then intra-file VAL-remainder-containment, then consumed-1M /
+  consumed-1.5M / consumed-2M exclusions incl. the DEV∩build-frames disjointness
+  declaration with frame sets — S2-ii, then reuse-prior + reuse-alt + frozen-A-order +
+  new-B-order + derivation-program + K-literal + order-position-identity); five files with
+  per-(arm, block) checkpointing; per-record floor-hit fields (S2); P20A resource
+  passthrough and endpoint separation.
+- [ ] P20R-4: freeze the §3 reuse pins (all three digest replays + H literals + `p_b` +
+  `p1`-equality + floor/alpha pins) + new-B digest + program pin + set-delta table
+  (size-delta 0), the replayed point (K_total literal replay display + (K1,K2) integers +
+  frozen-A order digest replay; NO derivation seeds — deterministic permutation needs zero
+  sampling), the P16 construction migration (digest
+  `055c906472dd2a09761761b18aceb5f31d8b5db19bac658721f8dc49c3faea1b`), the population
+  (VAL-remainder DEV 2044..2171, stub 2172..2212, 2M HOLD remainder 3556..3644), the
+  replayed per-arm caps from the carried integers (A/B `5*(K1+K2)+64 = 35164` with Δ
+  exactly 0; C/D `5*K2+64 = 33509` with Δ exactly 0; 327743 public; totals 137346/1310972),
+  the IR-3 multipliers (1.0×/2.0× with the X10 median-2.246 justification) + IR caps
+  (64-bin / 1-float / 2-threshold / top-16 / 4096×2+flag), the exact Stage-A verify command
+  (zero-open reuse check, `--source 1p5M` vocabulary) and Stage-B command (new P20R tag
+  master, `--prior-digest` / `--alt-digest` / `--k1/--k2` / `--order-digest` /
+  `--new-order-digest` replay pins, `--dev-frames 2044 2171`, `--remainder-frames 2172
+  2212`, 6-SC / 4-tag pure-DEV budget, 1200-s / 2-GiB / single-thread envelope), and the
+  SC/tag/genie (0+0)/wall/RSS budgets in `P20R_FREEZE.md`, plus the D1/D2 replay literals
+  and outcome (FEASIBLE-replay required before any Pre-EXECUTE request).
+- [ ] P20R-5: focused `tests/test_nbpolar_l2_order_position_1p5m.py`
+  (synthetic counts/priors + scripted seams; fresh test-local seeds
+  2026092341..2026092347; temporary roots; `pytest -p no:cacheprovider`) asserting the
+  zero-protected-open audit, the reuse-identity replay (digests/H/`p_b`/`p1`-equality/
+  key-set pins + new-B identity/program pins), the frozen derivation contract
+  (determinism/permutation/ranking/tie-break/refusals; zero sampling/genie pins), the
+  budget/K-literal replay (S2-i; alt-H never a budget input), the single-factor order
+  differential (A-vs-B set-delta byte-exact with size-delta 0; shared-L1 rule),
+  accounting, endpoint separation, the §4 gate family (source-first,
+  VAL-remainder-containment, consumed-1M / consumed-1.5M / consumed-2M exclusions,
+  reuse/order/K/new-order pins last), the DEV∩build-frames declaration (S2-ii), the D1
+  estimator + D2 replay-gate logic on synthetic counts (both branches), the nine carried
+  scalars incl. the arm-specific digest rule + nullability + IR-1..IR-5 (all PRESENT:
+  64-bin histogram shapes/caps, rank-percentile formula + nullability, IR-3 two-threshold
+  1.0×/2.0× counts on synthetic hazards, top-16 shapes/ranks, capped-series truncation
+  flag) + the truth-isolation sentinel, the declared-remainder measurement, the resource
+  path and the no-production-invocation rule; plus one injected end-to-end single-block
+  dual-order run (real SC path, synthetic data, arm-specific digests, IR PRESENT).
+- [ ] P20R-6: `P20R_FREEZE.md` + `P20R_IMPLEMENTATION_NOTES.md` in the packet queue
+  directory and this P20R spec/tasks delta; this doc authorizes nothing (no Stage-B
+  execution, no self-acceptance).
+- [ ] P20R-7: independent Pre-EXECUTE review of the frozen command, population, caps,
+  reuse derivation + new-B derivation contract + B-1 decision text + program pin (§3), D2
+  replay-gate outcome (§3), budget/K-literal replay (§5), gate family (§4), runner-delta
+  design (§2) and nine-scalar + IR-1..IR-5 boundary (§7 incl. IR-3 thresholds, IR-5 cap,
+  and the arm-specific order-digest rule), budgets, tag/domain separation,
+  truth/accounting gates, tests and target absence (main thread + reviewer; separate gate,
+  not this task).
+- [ ] P20R-8: exactly one authorized four-record four-arm attempt with the frozen
+  command (only if the D2 replay outcome is FEASIBLE; MISMATCH ends the packet at Stage A
+  with DEV untouched); the single VAL-remainder attempt is consumed at the first DEV
+  content open with no rerun/reopen/seed/parameter/arm change (separate Stage-B
+  authorization required; not authorized here).
+- [ ] P20R-9: independent Pre-RESULT review recomputing the identities, population, 4
+  records, per-arm outcomes, B-vs-A maintain/restore table + D-vs-C diagnostic,
+  NLL/disclosure/floor-hit/hazard/IR accounting (rank-percentile distribution + histogram
+  summaries + above-threshold mass + top-k concentration under EACH order + truncation
+  flags), the A-vs-B set-delta table, oracle isolation, gates, input stats, resources and
+  the five-file inventory from the artifacts (separate gate, not this task; H2 quantities
+  checked present, never decided).
+- [ ] P20R-10: main-thread adjudication to
+  `TARGET_EMPIRICAL_N32768_VAL_REMAINDER_ORDER_POSITION_1P5M_COMPLETE` or
+  `BLOCKED(<earliest gate>)`; this is a descriptive frozen-disclosure single-factor
+  order-position reading on the first 1.5M VAL-remainder block, not real-frame FER,
+  efficiency, key-rate, scaling, qualification or promotion evidence either way, and the
+  oracle C/D arms are never operational or deployable results. It can restore/maintain or
+  falsify the order-position factor at frozen α1 with the H2 quantities recorded; it
+  licenses no reliability claim and no H2 verdict; stub 2172..2212 and 2M HOLD remainder
+  stay untouched; the 1M-HOLD thread stays open. The order-position branch decision and
+  the H2a–H2e decision belong to later main-thread analysis, never to this packet's label.
+
+Evidence (Stage A only; Stage B not run): ONE new artifact (`new_l2_order_1p5m.json` under
+the P20R queue dir; reuse paths point at the P20M/P20N queue dirs);
+`P20R_FREEZE.md`, `P20R_IMPLEMENTATION_NOTES.md`; output root
+`.workbuddy/queue/NBPOLAR-PHASE4-P20R-ORDER-POSITION-1P5M/l2_order_position_1p5m/`
+is absent and must remain absent until an authorized Stage-B execution. No
+box above is checked by the implementing session.
