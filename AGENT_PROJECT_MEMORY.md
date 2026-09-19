@@ -1,3 +1,76 @@
+## 2026-09-19 NB-Polar Phase 4 P20O alt-L2 maintain-confirmation on 2M (first 2M use) accepted (descriptive complete; restoration replicated)
+
+- Factor [repo-observed]: packet `.workbuddy/queue/NBPOLAR-PHASE4-P20O-2M-MAINTAIN-CONFIRMATION/` accepted descriptive (`MAIN_THREAD_ACCEPTANCE.md`, `PRE_EXECUTE_REVIEW.md`, `PRE_RESULT_REVIEW.md` on disk). Maintain-confirmation of `ALT-L2-LAPLACE-α1` on the FIRST use of the reserved 2M independent session, with per-session Stage-A derivation (2M raw prior canonical digest `b16f52165d9f7ef28884df270f921ce07c2a743f4f4b39c3435838809ae1c587`; orders sha `b2255449d2422b8f9cd08ee6bdf1e1c40ce7787a0e9107c7819da8acf3bd0906`; alt table sha `98e25495d2e7adcc3332f48279f6f1c824b3f129c3e2cbca93a718c0d1ae5fb5`; session H1/H2/H 0.02566204884275839 / 0.8069006731309893 / 0.8325627219737477; K_total 7080, K1/K2 334/6746; D2 FEASIBLE margin 4791.09652735766).
+- Stage B [repo-observed]: one-shot on 2M VAL 2187..2826 (5 blocks), label `TARGET_EMPIRICAL_N32768_VAL_MAINTAIN_ALT_CONSTRUCTION_2M_COMPLETE`. A 0/5, **B 2/5 (b1 `2315..2442`, b2 `2443..2570` exact)**, C 0/5, **D 3/5 (b1, b2, b4 `2699..2826` exact)**; `b_restored_count` 2, `b_maintained` 0, `d_restored` 3, `d_maintained` 0; integrity 29/29 gate keys; key 692580 = 10*35464 + 10*33794; public 6554860; SC 30; tags 20; `undetected` 0; counts 1/1 + 2M VAL-DEV 1/1 + attempts 1/1 SPENT; 2M remainder 2827..2915 and HOLD 2916..3644 untouched.
+- Scientific reading [decision, descriptive only]: **restoration replicated on an independent session** — combined with P20N (1.5M HOLD B 1/4 vs A 0/4), the frozen alt-L2 construction yields B 3/9 vs control A 0/9 restoration events across two sessions. No maintain events (A is never exact anywhere). Oracle gap persists (D 3/5 > B 2/5); L1 is not universal on 2M (b0/b4 operational first errors L1 @6834/14296); alt metric has higher average CE/prefix-hazard yet restores blocks → mechanism likely order/metric-side (H2 open). No reliability/FER claim.
+- Instrumentation [repo-observed]: the ninth U-domain scalar (`l2_fail_in_prefix_u_domain`) definitively closed the P20N domain-mixed reading — all 11 L2 failures are natural-index-in-X-prefix but U-domain-out (genuine undisclosed-region SC errors, no pinning violation). Instrumentation remains 9 scalars per record, NOT a per-position hazard series.
+- Risks/debt [repo-observed, non-blocking]: λ code paths remain (`per_session_calibration.py` retains the λ program; `empirical_diagnostic.py` still references `LAMBDA_STAR`) — future misuse risk, disposition unchanged (raw+floor only for target-channel priors); the f=1.3 operating point still has no demonstrated margin; 1M-HOLD thread open; the worktree carried ~89 uncommitted changes before the pending milestone commit (being made separately).
+- Scope [decision]: descriptive confirmation only — no FER/recovery/qualification/promotion claim; no rerun/retuning; P19 roots untouched; no commit/push. Next gate is main-thread planning for the next single factor (candidates: H2 adjudication from the 9 scalars; per-position instrumentation enhancement; L2 construction-family expansion with X02/X03/X03b materials; L1-side 2M robustness); nothing auto-triggered.
+
+## 2026-09-19 NB-Polar Phase 4 P20N alt-L2 construction HOLD (1.5M HOLD) accepted (descriptive complete; first operational restoration)
+
+- Factor [repo-observed]: packet `.workbuddy/queue/NBPOLAR-PHASE4-P20N-L2-ALT-CONSTRUCTION-HOLD-1P5M/` accepted descriptive (`MAIN_THREAD_ACCEPTANCE.md`, `PRE_EXECUTE_REVIEW.md`, `PRE_RESULT_REVIEW.md` on disk). ONE preregistered alternative L2 construction `ALT-L2-LAPLACE-α1` — `f_alt=(counts_ab+1)/(n_b+1024)` (α=1; L1 path/K/order unchanged), artifact `alt_l2_tables_1p5m.npz` sha256 `6f4a4f7689d87e2c0a6c73617fdc9d79751a226661177a9bc6193feba2333e78`; D2 feasibility FEASIBLE (ce_alt 0.9027311772313849 vs incumbent 0.8003665547439149; alt ideal length 29580.70 ≤ 33509).
+- Stage B [repo-observed]: one-shot on HOLD 2213..2724 (first HOLD use), 4 blocks, fixed disclosure K1=331/K2=6689, tag master 2026092300, label `TARGET_EMPIRICAL_N32768_HOLD_L2_ALT_CONSTRUCTION_1P5M_COMPLETE`. A control-L2 0/4 (L2 fails @111/76/3/81); B alt-L2 operational 1/4 (block 3 `2597..2724` EXACT; fails @1009/20/5823); C control-oracle 0/4; D alt-oracle 1/4 (b3 exact). `b_restored_count` 1, `d_restored_count` 1, `b_maintain_count` 0; all 14 failures L2-layer; L1 exact on all 8 operational records; `undetected` 0 isolated; integrity 28/28 gate keys true; key 549384 / public 5243888 / SC 24 / tags 16 / recount 0. Consumption: counts 0/0, HOLD 1/1 SPENT, attempts 1/1 SPENT, VAL-remainder 0, 2M pristine.
+- Scientific reading [decision, descriptive only]: FIRST operational exact block on the 1.5M session, out-of-sample, at fixed disclosure, restored under BOTH hard-L1 (B) and true-L1 (D) → gain is L2-metric-side. Alt metric has HIGHER average prefix hazard (0.8925–0.9035 vs 0.7954–0.8556) yet decoded one block exactly; neighbourhood floor fraction 0.0 on every failing record → floors exonerated in-run; descriptive support for "incumbent spikiness, not average length, drives out-of-sample L2 failures". No reliability/recovery claim.
+- Instrumentation [repo-observed]: X09-R1 payload `l2_fail_in_prefix` true on 12/14 failures, false on the shared B-b2/D-b2 event @5823; the field is a frozen-definition domain artifact (X-domain error index tested against the U-domain disclosure set) — not a pinning violation; a U-domain cross-check would need arrays not persisted (successor instrumentation item).
+- Branch [decision]: the b3 restoration event activates the deferred `b_restoration_branch_maintain_confirmation_round`; no auto-trigger. Data options: VAL remainder 2044..2212 (one block + 41-frame stub) vs reserved 2M first-use (independent session; needs per-session raw calibration + new freeze/tags). 1M-HOLD thread remains open.
+- Scope [decision]: descriptive confirmation only — no FER/recovery/qualification/promotion claim; no rerun/retuning; P19 roots untouched; no commit/push.
+
+## 2026-09-19 NB-Polar Phase 4 X08 prior audit + P20M raw-prior VAL (1.5M VAL) accepted (descriptive complete); P20L superseded
+
+- X08 Tier-X probe [repo-observed]: `workspace/probes/nbpolar_x08_per_session_prior_entropy_audit/results.json` (packet `.workbuddy/queue/NBPOLAR-X08-PER-SESSION-PRIOR-ENTROPY-AUDIT/`); on 1.5M TRAIN counts P20H λ=137.3823795883264 gives H1 2.006647056368773 / H2 1.9017235959286112 / TOTAL 3.908370652297384 vs P7-equivalent raw-count MLE + 1e-15 floor H1 0.025199496923753 / H2 0.800366554749543 / TOTAL 0.825566051673296; implied K_total 33285 vs 7020; L1 side-info N·H1 65754 vs 826 bits; floor hits 1,046,140/1,048,576; zero columns 0. Focused review PASS.
+- Prior disposition [decision]: λ concentration program must not be used to build the target-channel prior for new sessions (reaffirms X07); raw+floor is the canonical rule; the λ point survives only as a control arm.
+- P20L supersession [decision]: `NBPOLAR-PHASE4-P20L-L1-ORDER-1P5M` SUPERSEDED by P20M (user decision 2026-09-19), zero consumption (Stage B never ran; counts 0/0, DEV 0/1, HOLD 0/1, attempts 0/1); VAL DEV segment 1660..2043 released; STATUS.yaml corrected by main thread (implementation_authorized false; stale "no order file exist" note superseded: `derive_l1_order_1p5m.py` + `new_l1_order_1p5m.json` exist unused).
+- P20M Stage A [repo-observed]: `NBPOLAR-PHASE4-P20M-RAW-PRIOR-VAL-1P5M` derived `raw_prior_1p5m.npz` (canonical digest `372dcc1cedbace1e699f60787d10eb298bb4bb3290519d2e6b19964ecf7d46ac`) under the raw rule (no λ) + `raw_prior_orders_1p5m.json` (sha `a9f18a9fdad37c2cdf6e540c11d7ffede9b260275a7eae6a3a40a21da11bc638`), K_total 7020 (same-run H literal) split K1=331/K2=6689 via accepted `select_empirical_split` on 16 synthetic TRAIN blocks (seeds 2026092291..2026092294); thin runner `raw_prior_val_1p5m.py`; 19 focused tests green. Packet dir holds `PRE_EXECUTE_REVIEW.md` (PASS), `PRE_RESULT_REVIEW.md` (PASS), `MAIN_THREAD_ACCEPTANCE.md`.
+- P20M Stage B [repo-observed]: one-shot exit 0, wall 104.85 s, RSS ~531 MB on VAL 1660..2043 (first genuinely out-of-sample 1.5M segment), tag master 2026092280, label `TARGET_EMPIRICAL_N32768_VAL_RAW_PRIOR_1P5M_COMPLETE`. G0 (λ control 319/6492) 0/3, L1 first errors 24/5/17; G1 (raw 331/6689) 0/3 with L1 breakthrough — first errors L2/26 (l1_exact TRUE), L1/848, L2/31 (l1_exact TRUE), `g1_restored_count` 0; G2 (true-L1 oracle K2 6689) 0/3, L2 first errors 26/3646/31, `oracle_l2_exact` false. Accounting 25/25 gates, `undetected` 0 isolated, key 308376 = 3×34119+3×35164+3×33509, public 2949687, tags 9, SC 15, sampling 0, counts 0/0, DEV 1/1 spent, HOLD 0/1, attempts 1/1 spent, 2M pristine.
+- Scientific reading [decision, descriptive only]: λ fix unblocked L1 (first errors ~2–17 → 848/L2; 2/3 blocks hard-L1-exact) but L2 is now the bottleneck — FIRST genuine out-of-sample L2 evidence (prior TRAIN-segment oracle arms 3/3 exact; now 0/3 on VAL at K2=6689 under true L1). Both §16 L2-implication triggers fired (new-point oracle non-exact; bottleneck-layer move). No restoration/recovery evidence. Next planning input: L2-side single factor / P20D candidate; nothing auto-triggered; 2M reserved for future independent-session confirmation; 1M-HOLD thread stays open.
+- Scope [decision]: descriptive confirmation only — no FER/recovery/qualification/promotion claim; no rerun/retuning; P19 roots untouched; no commit/push.
+- Doc state [repo-observed]: `CURRENT_TASK.md` was stale at triage time (still said P20A pending); P20M reviews/acceptance persisted in the packet dir; CURRENT_TASK/DOCUMENT_INDEX batch update separate.
+
+## 2026-09-18 NB-Polar Phase 4 P20K L1-disclosure +512 (1.5M DEV) accepted (descriptive complete)
+
+- Packet [repo-observed]: `NBPOLAR-PHASE4-P20K` Stage B executed once verbatim with the FREEZE §10 16-flag command — exit 0, wall ~108 s, RSS ~559 MB, no transcription correction, no rerun/tuning. Long-term authorization + independent merged review: Stage A R1-R8 all PASS; Pre-EXECUTE `PRE_EXECUTE_PASS_CONDITIONAL`; `PRE_EXECUTE_REVIEW.md` on disk.
+- Result [repo-observed]: label `TARGET_EMPIRICAL_N32768_DEV_L1_DOSE_512_1P5M_COMPLETE`; evidence root `l1_dose_512_1p5m/` (five files); 21/21 gates PASS. E0 base-K1 0/3 verify_failed (first errors 16/7/3, all L1 layer; raw SER ~0.258/0.254/0.257); E1 L1+512 (K1 831, keyΔ+2560) 0/3 verify_failed (first errors 3/5/2, all L1) → `e1_restored` 0/3 (no recovery); E2 oracle 3/3 exact isolated. Undetected 0. Key 309966 (102357+110037+97572) / public 2949687 / recount 0; ratio ~10.41%/11.19%. SC 15 / tag 9. Consumption counts 0/0 + DEV 1/1 + attempt 1/1; HOLD 0/1; 2M pristine.
+- Reviews [repo-observed]: independent Pre-RESULT PASS, 8 items all PASS. STATUS notes residual template copy (non-semantic) only; full-repo dirty does not BLOCK.
+- Acceptance [decision]: main-thread state `..._ACCEPTED_DESCRIPTIVE`; next_gate P20L. Scientific reading descriptive only: three-dose chain (+128 mixed / +256 all-delayed / +512 all-early, 9 blocks all zero recovery) COMPLETE — disclosure-route evidence closure holds (E1 zero-recovery trigger genuine satisfied); next step must be a new packet with a single factor转向 non-disclosure factor. SCL still locked.
+- Scope [decision]: descriptive confirmation only — no FER/recovery/qualification/promotion claim; no rerun/retuning; P19 roots untouched; no commit/push.
+
+## 2026-09-18 NB-Polar Phase 4 P20J L1-disclosure +256 (1.5M DEV) accepted (descriptive complete)
+
+- Packet [repo-observed]: `NBPOLAR-PHASE4-P20J` Stage B executed once verbatim with the FREEZE §10 16-flag command — exit 0, wall ~108 s, RSS ~533 MB, no transcription correction, no rerun/tuning. Long-term authorization + independent merged review: Stage A R1-R8 all PASS; Pre-EXECUTE `PRE_EXECUTE_PASS_CONDITIONAL`; `PRE_EXECUTE_REVIEW.md` on disk.
+- Result [repo-observed]: label `TARGET_EMPIRICAL_N32768_DEV_L1_DOSE_ESCALATION_1P5M_COMPLETE`; evidence root `l1_dose_escalation_1p5m/` (five files); 21/21 gates PASS. D0 base-K1 0/3 verify_failed; D1 L1+256 (K1 575, keyΔ+1280) 0/3 verify_failed → `d1_restored` 0/3 (no recovery); D2 oracle 3/3 exact isolated. First errors all L1 layer and D1 coordinates all later (blk0 14→23; blk1 6→25; blk2 1→21). Key 306126 (102357+106197+97572) / public 2949687 / recount 0; ratio ~10.41%/10.80%. SC 15 / tag 9. Consumption counts 0/0 + DEV 1/1 + attempt 1/1; HOLD 0/1; 2M pristine.
+- Reviews [repo-observed]: independent Pre-RESULT pass with comments, 8 items all PASS. Dose response: +128 mixed move / +256 all-delayed / both zero recovery — disclosure causally active but insufficient; cross-packet coordinate comparison is non-same-block and must not be read as slope. STATUS notes residual template copy (non-semantic) only.
+- Acceptance [decision]: main-thread state `..._ACCEPTED_DESCRIPTIVE`; next_gate P20K. Scientific reading descriptive only: "+256 falsifies the second dose, L1 bottleneck deeper than +256". §16 branch: D1 zero-recovery literally meets P20D candidate wording but failures all L1-side and P20D is an L2 construction — semantic offset, must not auto-trigger. SCL still locked.
+- Scope [decision]: descriptive confirmation only — no FER/recovery/qualification/promotion claim; no rerun/retuning; P19 roots untouched; no commit/push.
+
+## 2026-09-18 NB-Polar Phase 4 P20I L1-disclosure +128 (1.5M DEV) accepted (descriptive complete)
+
+- Packet [repo-observed]: `NBPOLAR-PHASE4-P20I` Stage B executed once verbatim with the FREEZE §10 16-flag command — exit 0, wall ~111 s, RSS ~533 MB, no transcription correction, no rerun/tuning. Long-term authorization + independent merged review: Stage A R1-R8 all PASS; Pre-EXECUTE `PRE_EXECUTE_PASS_CONDITIONAL`; `PRE_EXECUTE_REVIEW.md` on disk.
+- Result [repo-observed]: label `TARGET_EMPIRICAL_N32768_DEV_L1_DISCLOSURE_1P5M_COMPLETE`; evidence root `l1_disclosure_1p5m/` (five files); 21/21 gates PASS. C0 base-K1 0/3 verify_failed; C1 L1+128 (K1 447) 0/3 verify_failed → `c1_restored` 0/3 (no recovery); C2 oracle 3/3 exact isolated. `L1_exact` 6/6 operational false. First errors all L1 layer (blk0 2→2 unchanged; blk1 17→1 earlier; blk2 13→16 later). Raw SER ~0.252/0.253/0.254. Key 304206 (102357+104277+97572) / public 2949687 / recount 0; ratio ~10.41%/10.61%. SC 15 / tag 9. Consumption counts 0/0 + DEV 1/1 + attempt 1/1; HOLD 0/1; 2M pristine.
+- Reviews [repo-observed]: independent Pre-RESULT pass with comments, 8 items all PASS. STATUS notes residual boilerplate copy (non-semantic) + mixed Chinese/English style issue only.
+- Acceptance [decision]: main-thread state `..._ACCEPTED_DESCRIPTIVE`; next_gate P20J. Scientific reading descriptive only: "+128 moves first-error coordinates but fixes nothing" — +128 minimal dose falsified, L1 bottleneck deeper than +128. §16 branch: C1 zero-recovery literally meets P20D candidate wording but failures all L1-side and P20D is an L2 construction — semantic offset, must not auto-trigger. SCL still locked.
+- Scope [decision]: descriptive confirmation only — no FER/recovery/qualification/promotion claim; no rerun/retuning; P19 roots untouched; no commit/push.
+
+## 2026-09-18 NB-Polar Phase 4 P20H per-session calibration confirmation accepted (descriptive complete)
+
+- Packet [repo-observed]: `NBPOLAR-PHASE4-P20H` Stage B executed once verbatim with the FREEZE §10 `--prior` 16-flag command — exit 0, wall ~114 s, RSS ~559 MB, no retry/reopen/refit. Long-term authorization + independent merged review: Stage A R1-R8 all PASS; Pre-EXECUTE `PRE_EXECUTE_PASS_CONDITIONAL` (§3 calibration gate PASS, §4 covered by long-term authorization + main-thread written ruling); `PRE_EXECUTE_REVIEW.md` on disk.
+- Dispatch incident [procedure]: dispatch transcription wrongly wrote `--counts`/`--prior-digest` two flags; operator CORRECTION corrected it and executed per freeze verbatim — harmless, no extra open/rerun.
+- Calibration [repo-observed]: single open; λ=137.3823795883264 (D4R2 LAMBDA_STAR); recalibrated H1 2.006647056368773 / H2 1.9017235959286112 / TOTAL 3.908370652297384; prior digest `e8dd078a5367…e43b`.
+- Result [repo-observed]: label `TARGET_EMPIRICAL_N32768_DEV_PLUS1024_PER_SESSION_CALIBRATION_COMPLETE`; evidence root `per_session_confirmation/` (five files); 21/21 gates PASS. B0 base-K2 0/3 verify_failed (first errors 16/6/8, all L1 layer; L1 SER ~0.256/0.254/0.255); B1 dK2=+1024 0/3 verify_failed (same first errors/SER); B2 oracle 3/3 exact isolated. Overall exact 3 (oracle only) / verify_failed 6 / rest 0; `b1_restored` 0/3 (no recovery, no sustain). SC 15 / tag 9; key 317646 / public 2949687 / recount 0. Consumption counts 1/1 (Stage A) + DEV 1/1 + attempt 1/1; HOLD 0/1; 2M pristine.
+- Reviews [repo-observed]: independent Pre-RESULT PASS, 8 items all PASS. Branch meaning: P20D literal trigger formally satisfied but failures all L1-side, and B2 all-exact only proves base-K2 solvable given true L1 — P20D semantic offset must not auto-trigger.
+- Acceptance [decision]: main-thread state `..._ACCEPTED_DESCRIPTIVE`; next_gate P20I. Scientific reading is descriptive only: on 1.5M the L1-disclosure shortfall is the bottleneck (K1=319 insufficient, +1024 L2 does not rescue); B2 all-exact proves the L2 chain sufficient given true L1; the next single factor should be an L1-disclosure increment on 1.5M, not P20D. SCL still locked.
+- Scope [decision]: descriptive confirmation only — no FER/recovery/qualification/promotion claim; no rerun/retuning; P19 roots untouched; no commit/push.
+
+## 2026-09-16 NB-Polar Phase 4 P20A resource-endpoint instrumentation implementation complete (reviewed, main-thread return pending)
+
+- Packet [repo-observed]: `NBPOLAR-PHASE4-P20A-RESOURCE-ENDPOINT-INSTRUMENTATION` implementation stage complete + independent review `ACCEPT_WITH_COMMENTS`; all R1-R6 accepted; main-thread return pending. Zero protected reads (not even stat), zero attempts, zero output roots, zero result claims; no commit/push.
+- Failure-classification seam [repo-observed]: `except MemoryError: raise` inserted before broad `except Exception` at 3 internal SC sites — `formal_ir/nbpolar/operational_f13.py` L1 site (~L804) and L2 site (~L841) in `run_operational_block`, plus `formal_ir/nbpolar/holdout_backoff_diagnostic.py` oracle-L2 site (~L728) in `run_oracle_control_block`. All other catches in the four shared helpers verified narrow; runner-level and outer-finalize handlers already correct (`operational_f13.py:1854`, `operational_f13_replication.py:1317`, `holdout_microcheck.py:1406`, `holdout_backoff_diagnostic.py:2260/2294`; finalize handlers opf:1948, replication:1408, microcheck:1508, backoff:2373). Decode/nonfinite taxonomy UNCHANGED (`classify_operational_outcome` untouched).
+- Endpoint fields [repo-observed]: scalar fields `l1_exact`, `hard_l2_exact`, `oracle_l2_exact`, `pair_exact` added (defaulted) to `OperationalBlockResult` and `OracleControlResult`, scored pre-truth-sentinel, persisted in block/control/abort records. `pair_exact` = tag-independent label equality; `exact` unchanged = tag-verified (`tag_pass` AND `label_match`). Cross-arm Nones: operational arms `oracle_l2_exact=None`; oracle arm `l1_exact`/`hard_l2_exact`/`pair_exact=None`.
+- Endpoint asymmetry [decision]: 233/384 = operational-arm complete-pair exact; 377/384 = oracle-arm complete-label exact (ORACLE_CONDITIONED L2 AND true H in final label — not a pure L2 endpoint); denominator 384 paired N=256 synthetic blocks; 144 = `oracle_only` cell. Fixed one residual mislabel in `docs/nbpolar/astra6/PROJECT_BRIEF.md` item 2 (other docs already asymmetric; remaining 233/384 hits use gate-"exact" shorthand, not the symmetric-L2 mislabel).
+- Tests [repo-observed]: 5 NEW MemoryError tests (9 total incl. 4 pre-existing): L1/L2 escape + runner finalize (ResourceError BLOCKED + 5-file finalize + empty jsonl) + oracle escape; ordinary-failure pinning (`RuntimeError`→`decode_failed`, `NumericNonfiniteError`→`nonfinite`). Suites green, injected-only: opf 29, replication 25, microcheck 26, backoff 33 = 113 total.
+- Scope [decision]: no GF32/transform/arithmetic/prior/construction/disclosure/tag/precedence change; no SCL/new kernel/model/schema; no protected reads, attempts, output roots, or result claims; no commit/push.
+- Review attribution notes [procedure]: (a) `PROJECT_BRIEF.md` item-11 hunk (five-arm 15/15 `verify_failed`) belongs to P19/main-thread lifecycle, not P20A — attribution only; (b) "frozen roots byte-identical" phrasing is stale (P19 roots advanced 11/15→15/15 under P19's own completion); (c) "9 new tests" should read "5 new (9 total)".
+
 ## 2026-09-16 NB-Polar Phase 4 P18 N32768 1M HOLD real-input microcheck accepted (descriptive complete)
 
 - Packet [repo-observed]: `NBPOLAR-PHASE4-P18-N32768-HOLDOUT-MICROCHECK`
@@ -48,6 +121,60 @@
   full-suite run; the resumption re-ran both suites with zero protected
   opens). Primary coder-doc/memory/reviewer models can be region-blocked
   while their backup instances work.
+
+## 2026-09-16 NB-Polar Phase 4 P19 HOLDOUT backoff diagnostic executed once (descriptive complete; acceptance pending)
+
+- Packet [repo-observed]: `NBPOLAR-PHASE4-P19-HOLDOUT-BACKOFF-DIAGNOSTIC`
+  executed once + two independent reviews; state label
+  `TARGET_EMPIRICAL_N32768_HOLD_BACKOFF_DIAGNOSTIC_COMPLETE`; main-thread
+  acceptance pending — do not describe as accepted, qualified, promoted, or
+  as any FER/recovery/superiority/route result.
+- Code delta [repo-observed]: thin runner
+  `formal_ir/nbpolar/holdout_backoff_diagnostic.py` (reuses P18 loading/block
+  formation and P16/P17 operational helpers unchanged; five arms hardcoded,
+  not CLI-tunable; five files created pre-open + per-arm checkpointing; one
+  content open per protected input); +30 focused tests (predecessor suites 23
+  + 51 also green = 104 total; full NB-Polar suite intentionally skipped per
+  packet rule — no shared predecessor change). OpenSpec P19 delta under
+  `formal-ir-nbpolar-phase4-p0/specs/nbpolar-phase4-p19/spec.md` + tasks.
+- Gate [repo-observed]: same three P18 HOLD blocks (frames
+  1600..1727 / 1728..1855 / 1856..1983) at N=32768; remainder 1984..1999
+  unused; fixed P16 construction K1=319/K2=6492, predecessor digest
+  `055c906472dd2a09761761b18aceb5f31d8b5db19bac658721f8dc49c3faea1b`; tag
+  master 2026092060 with P19/arm/block domains; five arms with K1/K2/leakage:
+  `base` 319/6492/34119; `l1_plus` 447/6492/34759 (+128 L1); `l2_plus`
+  319/7004/36679 (+512 L2); `both_plus` 447/7004/37319;
+  `true_l1_control` (oracle, provenance ORACLE_TRUE_L1_CONTROL, K1=0/K2=6492/
+  leakage 32524, deployable false, excluded from operational aggregates).
+- Consumption [repo-observed]: train read 1/1 + hold read 1/1 + attempt 1/1
+  at first protected open; opens 1 each; no reopen/rerun; 27/27 SC calls;
+  15/15 tags; wall 186.42 s; RSS peak 615960576 B; no resource stop.
+- Results [repo-observed]: all 15 records `verify_failed` (exact 0/15; tag
+  false for all 15; paired-vs-base all verify_failed->verify_failed;
+  first_operational_recovery_arm null; ordered non-monotone false); block SER
+  0.2409 / 0.2398 / 0.2403; block NLL 27589.35 / 27884.16 / 27688.09;
+  per-arm aggregate CE ratios `base` 1.230820 / `l1_plus` 1.253908 /
+  `l2_plus` 1.3231707976032374 / `both_plus` 1.346258 / control 1.1732819
+  (control excluded from operational aggregates; the earlier operator
+  transcription 1.339389 for l2_plus is superseded — artifact value
+  1.3231707976032374 is authoritative). Accounting key 526200 (operational
+  428628 + control 97572), public 4916145, recount mismatch 0; 20/20
+  integrity gates true; evidence root
+  `.workbuddy/queue/NBPOLAR-PHASE4-P19-HOLDOUT-BACKOFF-DIAGNOSTIC/holdout_backoff_diagnostic/`
+  (5 files).
+- External-commit anomaly [procedure]: a concurrent external commit landed
+  during the run window (HEAD ab173f2a ->
+  faac0411684819f5a9055cd71fc1b4bae6955287, author Placebo303,
+  2026-09-16 21:14:28 +0800) committing a MID-RUN snapshot of the P19
+  artifacts (RUNNING, record 11/15) — an add-before-commit race. The
+  finalized worktree five files are authoritative for acceptance/evidence;
+  never cite `git show HEAD:` blobs for those four modified paths, do not
+  git restore/checkout/stash them, and re-add after acceptance if committing.
+- Scope [decision]: five-arm descriptive diagnostic on the three registered
+  1M HOLD blocks only — no threshold of any kind (0/15 and 15/15 both count
+  as COMPLETE); oracle control never operational; CE ratio is NOT
+  qualification efficiency; no fitting on HOLD; P12-P18/old roots untouched;
+  no commit/push by this packet's operators.
 
 ## 2026-09-16 NB-Polar Phase 4 P19 HOLDOUT backoff diagnostic frozen (not authorized)
 
@@ -4923,3 +5050,252 @@ diagnostic replay is not an official verifier pass. Preserve all seven artifacts
   separate correction from graph/decoder effects such as short cycles, rank
   deficiency, trapping/absorbing structures, layered error propagation and
   BP convergence; the latter require finite-graph and decoder evidence.
+## 2026-09-17 — P19 acceptance and real-data feasibility route
+
+- Main thread accepted
+  `TARGET_EMPIRICAL_N32768_HOLD_BACKOFF_DIAGNOSTIC_COMPLETE` descriptively from
+  the finalized worktree root. The external `faac0411` commit captured only an
+  11/15 `RUNNING` checkpoint; never restore or cite its blobs as the result.
+- P19 passed 20/20 integrity gates and returned 15/15 `verify_failed` on the
+  same three HOLD blocks. Base L1 correctness was true/false/false; +128 L1
+  made it true/true/true. Nevertheless +128 L1, +512 L2, both, and the
+  true-L1 control all recovered 0/3 complete blocks.
+- Interpretation is bounded: hard-L1 propagation is not sufficient for these
+  failures, and the registered backoffs did not recover them. This is not FER,
+  qualification, a global backoff failure or an NB-Polar route rejection. The
+  three blocks are closed diagnostic data and cannot tune K, floor, order or
+  decoder.
+- The project objective is now operational non-oracle real-data complete-block
+  correction under a preregistered meaningful disclosure cap, then independent
+  reproduction, then efficiency optimization. `f<=1.3` is not a Phase-1
+  feasibility requirement and may not be manufactured by changing the
+  denominator.
+- Source audit confirmed broad SC `except Exception` paths can swallow an
+  internal `MemoryError` as `decode_failed`; P20A freezes injected-only
+  resource passthrough and endpoint instrumentation before any new real run.
+- Endpoint semantics: operational 233/384 was complete-pair exact; oracle
+  377/384 used true H in the final label. Their 144 difference is not the
+  strict hard-L1-induced L2-error count. Future records separate L1,
+  hard-L2, oracle-L2 and pair exact.
+- The target model applies the fixed `1e-15` floor before SC. Diagnose raw
+  zero-count hits, floor hits and log loss; never tune the floor on HOLD.
+- HOLD L2 NLL is true-H-conditioned, not candidate-H-conditioned. Its increase
+  cannot be attributed to hard-L1 propagation.
+- L1 SCL starts only after true-L1 L2 recovery and list-coverage evidence;
+  otherwise isolate L2 prior, construction, disclosure and search one factor
+  at a time on independent development data.
+
+## 2026-09-18 NB-Polar Phase 4 P20A accepted; P20B bounded-search diagnostic frozen (not authorized)
+
+- P20A [repo-observed]: main thread accepted `IMPLEMENTATION_ACCEPTED`
+  (independent review `ACCEPT_WITH_COMMENTS`, R1-R6 all accepted). STATUS is
+  `IMPLEMENTATION_ACCEPTED` / `main_thread_acceptance`; next gate
+  `P20B_PLANNING_AWAITING_PROPOSAL`.
+- P20A delta [repo-observed]: `MemoryError` re-raise passthrough at 3 internal
+  SC sites (`operational_f13.py` L1 + L2 in `run_operational_block`,
+  `holdout_backoff_diagnostic.py` oracle-L2 in `run_oracle_control_block`);
+  decode/nonfinite taxonomy unchanged. Endpoint fields `l1_exact`,
+  `hard_l2_exact`, `oracle_l2_exact`, `pair_exact` (defaulted, scored
+  pre-truth-sentinel, persisted in block/control/abort records); `pair_exact`
+  is tag-independent label equality, `exact` remains tag-verified.
+- P20A endpoints [repo-observed]: 233/384 operational-arm complete-pair exact;
+  377/384 oracle-arm complete-label exact (oracle-conditioned, not a pure L2
+  endpoint); denominator 384 paired N=256 synthetic blocks; 144 =
+  `oracle_only` cell. Zero protected reads, zero attempts, zero output roots,
+  zero result claims; no commit/push.
+- P20A tests [repo-observed]: 5 new (9 total incl. 4 pre-existing) MemoryError
+  escape + ordinary-failure pinning; suites green injected-only: opf 29 +
+  replication 25 + microcheck 26 + backoff 33 = 113.
+- P20A review notes [procedure]: "9 new" reads "5 new (9 total)";
+  `PROJECT_BRIEF.md` item-11 hunk belongs to P19 lifecycle, not P20A;
+  "frozen roots byte-identical" phrasing is stale.
+- P20B [next/status]: Tier-Y packet
+  `.workbuddy/queue/NBPOLAR-PHASE4-P20B-BOUNDED-SEARCH-DIAGNOSTIC/`
+  (4 files: `TASK_PACKET` / `PROMPT` / `AUTHORIZATION_PROMPT` / `STATUS`)
+  frozen awaiting explicit user authorization (`execution_authorized`,
+  stage-B authorization, and promotion all false); two stages — StageA
+  implementation + injected tests → FREEZE → independent Pre-EXECUTE, then
+  separately authorized StageB single execution → Pre-RESULT → acceptance.
+  P20B has not run.
+- P20B scope [decision]: strategy option 3 — bounded-search diagnostic with
+  fixed prior/construction/disclosure (`S0_sc_base` / `S1_bounded_search` /
+  `S2_true_l1_diagnostic`); options 1/2 recorded as P20C/P20D candidates only.
+  OpenSpec delta follows the same umbrella path as P20A
+  (`formal-ir-nbpolar-phase4-p0/specs/nbpolar-phase4-p20b/`); no top-level
+  `nbpolar-phase4-p20a` spec exists.
+- P20B pending [pending]: independent development population undeclared;
+  neighborhood definition binary choice deferred to StageA freeze;
+  disclosure/budget quotas to be filled at freeze. Awaiting user decision on
+  topic selection and the two-step gate.
+
+## 2026-09-18 NB-Polar Phase 4 P20B bounded-search diagnostic Stage A complete + dual independent reviews (Stage B NOT authorized)
+
+- P20B topic [decision]: strategy option 3 bounded-search diagnostic (user-approved); options 1/2 recorded as P20C/P20D candidates only.
+- Stage A code delta [repo-observed]: new thin runner `comparison_bench/src/comparison_bench/formal_ir/nbpolar/bounded_search_diagnostic.py` — three arms `S0_sc_base` via `run_operational_block` / `S1` M=8 NBHD-1 `P20B-NBHD-1-hamming1-u-domain-margin-ranked` rescore-only + 1 final tag / `S2` via `run_oracle_control_block` + P20B domain tag closure; VAL DEV shaping; five files + per-(arm,block) checkpoint; P20A passthrough; 20 P19 mirror gates. Shared helpers zero logic change. +34 injected tests. Umbrella OpenSpec delta `openspec/changes/formal-ir-nbpolar-phase4-p0/specs/nbpolar-phase4-p20b/spec.md` + `tasks.md` P20B-1..9 (all unchecked). Plus `P20B_FREEZE.md` + `P20B_IMPLEMENTATION_NOTES.md`.
+- Frozen gate [repo-observed]: M=8 / single NLL / K1=319 / K2=6492 / floor 1e-15 / N=32768; population VAL frames 1200..1327 / 1328..1455 / 1456..1583 + remainder 1584..1599 (closed 1600..1983 non-overlapping, overlap pre-check, digest `055c9064…faea1b` match, manifest HOLD/VAL each 400/102400); cap 34119 op / 32524 control key bits/block + 327743 public/tag, ratio ~10.41%, recount-0 gate; Stage-B command FREEZE §10 verbatim 16 flags (`--dev-frames 1200 1599 --tag-master 2026092080`, block-major, 600s/2GiB/single-thread); S2 ORACLE `deployable=false` never operational; `undetected` isolated; SCL gate/stop rules unchanged.
+- Stage A review [repo-observed]: independent R1-R8 all ACCEPT (34/34 new + 113/113 predecessor independent rerun green, injected-only, zero protected opens, frozen dirs clean). Notes: runner docstring-heavy logic thin; predecessor suite ~14min per §10.1 milestone batch; P20A Ms vs unrelated csv M isolation.
+- Pre-EXECUTE [repo-observed]: independent 6/7 PASS, verdict `PRE_EXECUTE_FAIL`; sole blocker §4 authorization chain — `AUTHORIZATION_PROMPT.md` authorizes Stage A only, STATUS protected/decoder still false, user "P20B=option 3 + continue" names no 16-flag exact command so not Tier-Y execution authorization. Target output root stat-confirmed absent. VAL equivalence accepted as development population (same file fresh HOLD remainder 16 frames < N=32768 single-block 128-frame requirement; source/file/digest/geometry/cost class unchanged). Execution command verbatim-reviewed; executor must run verbatim.
+- Scope [decision]: Stage A complete only — Stage B not run, not authorized, no result/acceptance/qualification/promotion claim; no commit/push.
+
+## 2026-09-18 NB-Polar Phase 4 P20B Stage B bounded-search diagnostic executed once (descriptive complete, accepted)
+
+- Packet [repo-observed]: `NBPOLAR-PHASE4-P20B-BOUNDED-SEARCH-DIAGNOSTIC` Stage B
+  single execution success, exit 0, no rerun. User independently pasted the
+  16-flag verbatim command as authorization; main thread recorded
+  protected/decoder authorization true on disk. Pre-EXECUTE 6/7 PASS plus the
+  pasted authorization补齐.
+- Result [repo-observed]: descriptive label
+  `TARGET_EMPIRICAL_N32768_DEV_BOUNDED_SEARCH_COMPLETE`; five-file evidence
+  root `bounded_search_diagnostic/`; 20/20 gates all true. S0 0/3 exact
+  (verify_failed x3, L1 F/T/T, first errors L1@15433 / L2@42 / L2@55); S1 0/3
+  exact with all three blocks `selected_source=greedy#0`,
+  `search_found_better=false`, dNLL 0.0, `rescores_used` 8 → bounded negative
+  holds (descriptive, zero FER/promotion semantics); S2 0/3 oracle never
+  operational.
+- Accounting/resources [repo-observed]: per-block 34119 / 32524 / 327743
+  identity; totals key 302286 / public 2949687; cap/raw ~10.41%; recount 0;
+  wall 111.31 s; RSS ~541 MB; no resource stop. Consumption train 1/1 +
+  hold/dev 1/1 + attempt 1/1.
+- Reviews [repo-observed]: independent Pre-RESULT 8 items all PASS (threshold
+  rule: found count unrelated to COMPLETE; leakage recount; undetected
+  isolation; per-source attribution; single-factor semantics; artifact freeze
+  consistency; first-error口径注记 non-blocking; language carries no promotion
+  claim).
+- Acceptance [decision]: main-thread state
+  `TARGET_EMPIRICAL_N32768_DEV_BOUNDED_SEARCH_COMPLETE_ACCEPTED_DESCRIPTIVE`;
+  next_gate P20C. Scientific reading is descriptive only: within M=8/NBHD-1 SC
+  shows no missed candidate; information insufficiency remains the primary
+  hypothesis; disclosure/construction work may proceed per packet §16; SCL
+  remains unlocked (still not unlocked).
+- Scope [decision]: VAL DEV diagnostic only — no FER/recovery/qualification/
+  promotion claim; no rerun/tuning; P19 roots untouched; no commit/push.
+
+## 2026-09-18 NB-Polar Phase 4 P20C Stage B L2-disclosure backoff executed once (descriptive complete, accepted)
+
+- Packet [repo-observed]: `NBPOLAR-PHASE4-P20C-L2-DISCLOSURE-BACKOFF` Stage B
+  single execution success — verbatim FREEZE §10 16-flag command, exit 0,
+  wall 92.9 s, no repeat. Long-term authorization + independent Pre-EXECUTE
+  `PRE_EXECUTE_PASS_CONDITIONAL`; `PRE_EXECUTE_REVIEW.md` on disk; STATUS
+  authorization field true.
+- Result [repo-observed]: descriptive label
+  `TARGET_EMPIRICAL_N32768_DEV_L2_DISCLOSURE_BACKOFF_COMPLETE`; evidence root
+  `l2_disclosure_backoff/` (five files); 20/20 gates all true. B0 2/3 exact
+  (blk1 verify_failed; L1 exact while hard-L2 stops at L2@723); B1 3/3 exact
+  (ΔK2=+1024, K2 6492→7516 order-prefix, key Δ+5120); B2 oracle 2/3 exact
+  (blk1 also fail; ORACLE/deployable=false excluded from aggregates).
+  Operational exact 5/6, `b1_restored_count` 1 (block1 B0 fail→B1 exact);
+  overall exact 7 / verify_failed 2 / undetected 0 / decode_failed 0 /
+  nonfinite 0 / abort 0; 15 SC + 9 tag recalculations consistent.
+- Accounting/resources [repo-observed]: key 102357 / 117717 / 97572, total
+  317646 (operational 220074), public 2949687, recount 0; ratios
+  10.41% / 11.97%; digest matches input, stat unchanged; RSS ~579 MB; no
+  resource stop. Consumption attempt 1/1, NPZ 1/1 + DEV TRAIN pairs 1/1,
+  HOLD 0/1 untouched.
+- Reviews [repo-observed]: independent Pre-RESULT 8 items all PASS.
+- Acceptance [decision]: main-thread state
+  `TARGET_EMPIRICAL_N32768_DEV_L2_DISCLOSURE_BACKOFF_COMPLETE_ACCEPTED_DESCRIPTIVE`;
+  next_gate P20E confirmed. Scientific reading is descriptive only: +1024 L2
+  disclosure under frozen order restored the base-failed block (B1 3/3 vs B0
+  2/3), and that same block also failed under true-L1-oracle base disclosure
+  — first positive DEV signal for the information-insufficiency (L2
+  disclosure) hypothesis; SCL still unlocked; P20D alternative construction
+  deferred pending confirmed results.
+- Scope [decision]: VAL DEV diagnostic only — no FER/recovery/qualification/
+  promotion claim; no rerun/tuning; P19 roots untouched; no commit/push.
+
+## 2026-09-18 NB-Polar Phase 4 P20E Stage B plus1024 confirmation executed once (descriptive complete, accepted)
+
+- Packet [repo-observed]: `NBPOLAR-PHASE4-P20E-PLUS1024-CONFIRMATION` Stage B
+  single execution success — verbatim FREEZE §10 command, exit 0,
+  wall ~100 s, RSS ~554 MB, no repeat. Long-term authorization + independent
+  merged review Stage A R1-R8 all PASS + Pre-EXECUTE
+  `PRE_EXECUTE_PASS_CONDITIONAL`; `PRE_EXECUTE_REVIEW.md` on disk.
+- Result [repo-observed]: descriptive label
+  `TARGET_EMPIRICAL_N32768_DEV_PLUS1024_CONFIRMATION_COMPLETE`; evidence root
+  `plus1024_confirmation/` (five files); 20/20 gates all true. B0 3/3 exact,
+  B1 3/3 exact (ΔK2=+1024, K2 6492→7516 order-prefix, key Δ+5120), B2 oracle
+  3/3 exact (ORACLE/deployable=false excluded from aggregates). Overall exact
+  9 / verify_failed 0 / undetected 0 / decode_failed 0 / nonfinite 0 / abort 0;
+  operational 6/6. Blocks 384..511 / 512..639 / 640..767, SER ~0.240 / 0.239 /
+  0.237; b1_restored analogy 0/3 (B0 no failures, no restoration event,
+  "maintain" mode). 15 SC + 9 tag recalculations consistent.
+- Accounting/resources [repo-observed]: key 317646 (operational 220074),
+  public 2949687, recount 0; ratios 10.41% / 11.97%; no resource stop.
+  Consumption attempt 1/1, NPZ 1/1 + DEV TRAIN pairs 1/1, HOLD 0/1 untouched.
+- Reviews [repo-observed]: independent Pre-RESULT PASS WITH COMMENTS, 8 items
+  all PASS. Honesty assessment: maintain-exact holds; restoration-event
+  denominator is 0 — neither replicated nor falsified, and the two must not
+  substitute for each other. `OPERATOR_RETURN` "zero FER claim" already
+  revised by main thread to "no FER/superiority claim".
+- Acceptance [decision]: main-thread state
+  `TARGET_EMPIRICAL_N32768_DEV_PLUS1024_CONFIRMATION_COMPLETE_ACCEPTED_DESCRIPTIVE`;
+  next_gate P20F. Cumulative descriptive: B1 +1024 operational 6/6 exact
+  (P20C 3/3 + P20E 3/3), B0 5/6; SCL still unlocked; P20D alternative
+  construction continues deferred.
+- Scope [decision]: VAL DEV diagnostic only — no FER/recovery/qualification/
+  promotion claim; no rerun/tuning; P19 roots untouched; no commit/push.
+
+## 2026-09-18 NB-Polar Phase 4 P20F Stage B plus1024 extension executed once (descriptive complete, accepted)
+
+- Packet [repo-observed]: `NBPOLAR-PHASE4-P20F-PLUS1024-EXTENSION` Stage B
+  single execution success — verbatim FREEZE §10 command, exit 0,
+  wall ~93 s, RSS ~580 MB, no repeat. Long-term authorization + independent
+  merged review Stage A R1-R8 all PASS + Pre-EXECUTE
+  `PRE_EXECUTE_PASS_CONDITIONAL`; `PRE_EXECUTE_REVIEW.md` on disk.
+- Result [repo-observed]: descriptive label
+  `TARGET_EMPIRICAL_N32768_DEV_PLUS1024_EXTENSION_COMPLETE`; evidence root
+  `plus1024_extension/` (five files); 20/20 gates all true. B0/B1/B2 each 3/3
+  exact; overall exact 9 / verify_failed 0 / undetected 0 / decode_failed 0 /
+  nonfinite 0 / abort 0; operational 6/6. Blocks 768..895 / 896..1023 /
+  1024..1151, SER ~0.2398 / 0.2362 / 0.2395; b1_restored 0/3 (maintain mode,
+  denominator 0). 15 SC + 9 tag recalculations consistent.
+- Accounting/resources [repo-observed]: key 317646, public 2949687, recount 0;
+  ratios 10.41% / 11.97%; no resource stop. Remainder 48 frames / 12288 pairs
+  (1152..1199) counted, never decoded. Consumption attempt 1/1, NPZ 1/1 + DEV
+  TRAIN pairs 1/1, HOLD 0/1 untouched.
+- Reviews [repo-observed]: independent Pre-RESULT pass with comments, 8 items
+  all PASS; two provenance typos non-blocking: `predecessor_construction.protocol`
+  suspected stale copy, `tag_seed_domain` missing counter segment — fix next round.
+- Acceptance [decision]: main-thread state
+  `TARGET_EMPIRICAL_N32768_DEV_PLUS1024_EXTENSION_COMPLETE_ACCEPTED_DESCRIPTIVE`;
+  next_gate P20G. Cumulative descriptive: same-file TRAIN three-tranche B1 +1024
+  operational 9/9 exact, B0 8/9; recovery event only P20C blk1 one case, never
+  replicated; maintain-evidence thickening vs recovery-replication absence must be
+  recorded distinctly, never generalized to overall reliability; SCL still
+  unlocked; same-file TRAIN usable whole blocks exhausted (remainder 1152..1199
+  insufficient for a whole block).
+- Scope [decision]: VAL DEV diagnostic only — no FER/recovery/qualification/
+  promotion claim; no rerun/tuning; P19 roots untouched; no commit/push.
+
+## 2026-09-18 NB-Polar Phase 4 P20G Stage B 1.5M target-population-contract BLOCKED (terminal, descriptive, accepted)
+
+- Packet [repo-observed]: `NBPOLAR-PHASE4-P20G-1P5M-TARGET-POPULATION-CONTRACT`
+  Stage B single execution terminated `BLOCKED(target_population_contract)` —
+  verbatim FREEZE §10 command, within-budget fast fail-closed refusal, not a
+  resource abort. Long-term authorization + independent Pre-EXECUTE
+  `PASS_CONDITIONAL` + §4 divergence resolved by main-thread written ruling
+  adopting execution; divergence and reasons recorded in
+  `PRE_EXECUTE_REVIEW.md`.
+- Mechanism [repo-observed]: 1.5M counts array (1024x1024, floor 1e-15)
+  channel statistics vs reused 1M literals H1 0.02428054681872374 / H2
+  0.7767572780789994 / TOTAL 0.8010378248977232 — all three mismatched;
+  digest/manifest/double-gate PASS then 4th gate FAIL, remaining 16 gates
+  unevaluated, stopped before SC; 0 records, 0 SC / 0 tag. Planned key 317646 /
+  public 2949687 vs actual 0/0, zero-event recount.
+- Consumption [repo-observed]: attempt 1/1 + NPZ open 1 (train 1/1) consumed;
+  1.5M DEV parquet content open 0 (stat-size precheck only); HOLD 0/1
+  untouched; 2M pristine. Five-file root RUNNING stub retained;
+  `OPERATOR_RETURN` §1–§8 complete.
+- Reviews [repo-observed]: independent Pre-RESULT PASS, 7 items all PASS
+  (fail-closed correct, BLOCKED sole legal outcome, no FER semantics, honest
+  accounting, consumption isolation, artifact completeness, clean language;
+  branch suggestion accepts BLOCKED terminal).
+- Acceptance [decision]: main-thread state
+  `BLOCKED_TARGET_POPULATION_CONTRACT_ACCEPTED_TERMINAL_DESCRIPTIVE`;
+  next_gate P20H. Scientific reading is descriptive only: 1M frozen Model-F
+  prior is not directly transferable to the 1.5M session (direct reuse
+  rejected); per-session channel-statistics calibration is an open problem;
+  1.5M DEV 0..383 remain unconsumed and available.
+- Scope [decision]: VAL DEV diagnostic only — no FER/recovery/qualification/
+  promotion claim; no retuning/rerun outside this packet; SCL still unlocked;
+  P19 roots untouched; no commit/push.

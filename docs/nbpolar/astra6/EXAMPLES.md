@@ -15,13 +15,17 @@ Current operational L2 uses `P(L|H=h_hat,B)`. If `h_hat != H`, a sharp L2
 prior can exclude the true low symbol even when the joint posterior retains
 substantial mass on compatible `(H,L)` pairs.
 
-Observed synthetic table:
+Observed synthetic table (asymmetric endpoints):
 
 ```text
-                         oracle L2 exact   oracle L2 failed
-operational L2 exact            233                  0
-operational L2 failed           144                  7
+                              oracle arm exact   oracle arm failed
+operational pair exact               233                   0
+operational pair failed              144                   7
 ```
+
+The oracle arm uses true H in its final label. Therefore `oracle-only=144`
+does not prove 144 hard-L1-induced L2 errors. A strict propagation experiment
+must record L1, hard-L2, oracle-L2 and pair exact separately.
 
 A useful design compares:
 
@@ -75,4 +79,3 @@ key-dependent disclosure = 5*(K1+K2) + 64 = 34119 bits
 The tag is counted once. Public control is separate. Adaptive/list proposals
 must count each newly disclosed GF(32) coordinate once, every tag, and all
 public feedback without merging public control into key-dependent leakage.
-

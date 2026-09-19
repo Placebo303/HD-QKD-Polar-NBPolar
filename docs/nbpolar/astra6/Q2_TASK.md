@@ -17,8 +17,9 @@ and the false claim that an SC decision score is a calibrated APP.
    known coordinates; no truth access; deterministic pruning/ties; accounting.
 5. Analyze q=32 complexity for N=256, 1024, and 32768.
 6. Give tiny exact-enumeration falsification examples.
-7. Define one bounded paired synthetic experiment testing whether retained L1
-   uncertainty closes the 233/384 versus 377/384 gap.
+7. Define one bounded paired synthetic experiment with separate L1,
+   hard-L2, oracle-L2 and pair endpoints, testing strict propagation rather
+   than treating the asymmetric 233/384 versus 377/384 counts as L2-only.
 
 ## Constraints and return
 
@@ -27,4 +28,3 @@ twice or call a path list an APP without calibration. Preserve source
 disclosure semantics. Return equations, pseudocode, invariants, complexity,
 tiny oracles, paired experiment, failure modes, and a recommendation. No code
 or execution.
-

@@ -33,7 +33,11 @@ Metrics are float64 natural logs internally; bits are report-boundary units.
 | Is the prior right? | reconstruct `P1*P2`, surprisal and held-out CE | axis, normalization or held-out calculation differs |
 | Is two-layer propagation causal? | L1 / oracle-L2 / candidate-L2 paired records | operational L2 silently receives truth or unlabelled APP |
 | Is the protocol cost real? | static full-symbol packing and independent disclosure recount | q-ary coordinates are counted as one bit or seed/tag are mixed into EC leakage |
-| Is NB-Polar useful? | matched binary Polar/NB-LDPC comparison | no disclosure or resource advantage at comparable FER |
+| Is real-data NB-Polar correction feasible? | preregistered non-oracle complete-block recovery under a meaningful disclosure cap, followed by independent-session repetition | no recoverable candidate under the frozen cap after the bounded L2 attribution ladder |
+
+Cross-family binary Polar/NB-LDPC comparison is deferred to the sibling
+Comparison project's route owner. It is not the active success gate for this
+independent checkout.
 
 ## Complexity ceiling
 

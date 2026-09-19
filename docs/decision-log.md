@@ -24,6 +24,120 @@ Durable decisions and rejected alternatives for the HD-QKD_Polar_Comparison-nbpo
 
 ## Decisions
 
+## 2026-09-19 NB-Polar Phase 4 P20O 2M maintain-confirmation accepted (descriptive; restoration replicated cross-session; U-domain closure)
+
+**Decision**: Record the single P20O Tier-Y execution as `TARGET_EMPIRICAL_N32768_VAL_MAINTAIN_ALT_CONSTRUCTION_2M_COMPLETE`, accepted descriptive only. Combined with P20N, the frozen alt-L2 construction now shows B 3/9 vs control A 0/9 restoration events across two sessions, with zero maintain events. The next single factor is main-thread planning input; nothing auto-triggers.
+
+**Context**: Maintain-confirmation packet `.workbuddy/queue/NBPOLAR-PHASE4-P20O-2M-MAINTAIN-CONFIRMATION/` (`PRE_EXECUTE_REVIEW.md` / `PRE_RESULT_REVIEW.md` / `MAIN_THREAD_ACCEPTANCE.md` on disk). Factor: maintain-confirmation of `ALT-L2-LAPLACE-α1` on the FIRST use of the reserved 2M independent session, with per-session Stage-A derivation (2M raw prior canonical digest `b16f52165d9f7ef28884df270f921ce07c2a743f4f4b39c3435838809ae1c587`; orders sha `b2255449d2422b8f9cd08ee6bdf1e1c40ce7787a0e9107c7819da8acf3bd0906`; alt table sha `98e25495d2e7adcc3332f48279f6f1c824b3f129c3e2cbca93a718c0d1ae5fb5`; session H1/H2/H 0.02566204884275839 / 0.8069006731309893 / 0.8325627219737477; K_total 7080, K1/K2 334/6746; D2 FEASIBLE margin 4791.09652735766). Stage B one-shot on 2M VAL 2187..2826 (5 blocks): A 0/5, **B 2/5 (b1 `2315..2442`, b2 `2443..2570` exact)**, C 0/5, **D 3/5 (b1, b2, b4 `2699..2826` exact)**; `b_restored_count` 2, `b_maintained` 0, `d_restored` 3, `d_maintained` 0; integrity 29/29 gate keys; key 692580 = 10*35464 + 10*33794; public 6554860; SC 30; tags 20; `undetected` 0; counts 1/1 + 2M VAL-DEV 1/1 + attempts 1/1 SPENT; 2M remainder 2827..2915 and HOLD 2916..3644 untouched. Descriptive reading: restoration replicated on an independent session (P20N 1.5M HOLD B 1/4 vs A 0/4 → combined B 3/9 vs A 0/9); oracle gap persists (D 3/5 > B 2/5); L1 is not universal on 2M (b0/b4 operational first errors L1 @6834/14296); alt metric has higher average CE/prefix-hazard yet restores blocks → mechanism likely order/metric-side (H2 open). Instrumentation: the ninth U-domain scalar (`l2_fail_in_prefix_u_domain`) definitively closed the P20N domain-mixed reading — all 11 L2 failures are natural-index-in-X-prefix but U-domain-out (genuine undisclosed-region SC errors, no pinning violation); instrumentation remains 9 scalars per record, NOT a per-position hazard series.
+
+**Alternatives considered**:
+- Treat the cross-session B 3/9 vs A 0/9 as reliability/FER/recovery evidence or auto-trigger the next factor: rejected — descriptive only, 9 blocks, no FER design; next gate is main-thread planning (candidates: H2 adjudication from the 9 scalars; per-position instrumentation enhancement; L2 construction-family expansion with X02/X03/X03b materials; L1-side 2M robustness).
+- Read D 3/5 > B 2/5 as a verdict against the alt-L2 construction: rejected — the oracle gap confounds true-L1 vs hard-L1; H2 adjudication is a planning candidate, not a conclusion.
+- Treat the `l2_fail_in_prefix` domain-mixed reading as still open: rejected — the ninth U-domain scalar closed it definitively (11/11 U-domain-out).
+- Remove the λ code paths now or claim f=1.3 margin: rejected/deferred — non-blocking debt (`per_session_calibration.py` retains the λ program; `empirical_diagnostic.py` still references `LAMBDA_STAR`; disposition unchanged: raw+floor only for target-channel priors); f=1.3 still has no demonstrated margin.
+
+**Consequences**: No rerun/retuning of P20O; P19 roots untouched; no commit/push. 1M-HOLD thread stays open; the worktree's ~89 uncommitted changes belong to the separately-made milestone commit.
+
+## 2026-09-19 NB-Polar Phase 4 P20N alt-L2 construction HOLD accepted (descriptive; first operational restoration; maintain-confirmation branch armed)
+
+**Decision**: Record the single P20N Tier-Y execution as `TARGET_EMPIRICAL_N32768_HOLD_L2_ALT_CONSTRUCTION_1P5M_COMPLETE`, accepted descriptive only. The b3 restoration event activates the deferred `b_restoration_branch_maintain_confirmation_round` as the next planning input; nothing auto-triggers.
+
+**Context**: Single-factor L2-construction packet `.workbuddy/queue/NBPOLAR-PHASE4-P20N-L2-ALT-CONSTRUCTION-HOLD-1P5M/` (`PRE_EXECUTE_REVIEW.md` / `PRE_RESULT_REVIEW.md` / `MAIN_THREAD_ACCEPTANCE.md` on disk). Factor: one preregistered alternative L2 construction `ALT-L2-LAPLACE-α1`, `f_alt=(counts_ab+1)/(n_b+1024)` (α=1; L1 path/K/order unchanged), `alt_l2_tables_1p5m.npz` sha256 `6f4a4f7689d87e2c0a6c73617fdc9d79751a226661177a9bc6193feba2333e78`; D2 feasibility FEASIBLE (ce_alt 0.9027311772313849 vs incumbent 0.8003665547439149; alt ideal length 29580.70 ≤ 33509). Stage B one-shot on HOLD 2213..2724 (first HOLD use), 4 blocks, fixed disclosure K1=331/K2=6689, tag master 2026092300: A control-L2 0/4 (L2 fails @111/76/3/81); B alt-L2 operational 1/4 (block 3 `2597..2724` EXACT; fails @1009/20/5823); C control-oracle 0/4; D alt-oracle 1/4 (b3 exact). `b_restored_count` 1, `d_restored_count` 1, `b_maintain_count` 0; all 14 failures L2-layer; L1 exact on all 8 operational records; `undetected` 0 isolated; integrity 28/28; key 549384 / public 5243888 / SC 24 / tags 16 / recount 0. Consumption: counts 0/0, HOLD 1/1 SPENT, attempts 1/1 SPENT, VAL-remainder 0, 2M pristine. Descriptive reading only: first operational exact block on the 1.5M session, out-of-sample, at fixed disclosure, restored under both hard-L1 (B) and true-L1 (D) → gain is L2-metric-side; alt metric has higher average prefix hazard (0.8925–0.9035 vs 0.7954–0.8556) yet decoded one block exactly; neighbourhood floor fraction 0.0 on every failing record → floors exonerated in-run (support for "incumbent spikiness, not average length, drives out-of-sample L2 failures"). Instrumentation note: X09-R1 `l2_fail_in_prefix` true on 12/14 failures, false on the shared B-b2/D-b2 event @5823 — a frozen-definition domain artifact (X-domain index vs U-domain set), not a pinning violation; U-domain cross-check needs unpersisted arrays (successor item).
+
+**Alternatives considered**:
+- Treat the b3 restoration as reliability/recovery/FER evidence or auto-trigger the maintain round: rejected — descriptive only, one block; the branch is armed, not triggered.
+- Run the maintain confirmation on VAL remainder 2044..2212 vs reserved 2M first-use now: deferred to main-thread planning — VAL remainder is one block + 41-frame stub; 2M is an independent session needing per-session raw calibration + new freeze/tags.
+- Treat the `l2_fail_in_prefix=false` event as a pinning violation: rejected — frozen-definition domain artifact, documented as successor instrumentation.
+
+**Consequences**: No rerun/retuning of P20N; P19 roots untouched; no commit/push. 1M-HOLD thread stays open; 2M stays reserved.
+
+## 2026-09-19 NB-Polar Phase 4 X08 prior disposition + P20L supersession + P20M raw-prior VAL accepted (descriptive; L2 bottleneck live)
+
+**Decision**: (a) The λ concentration program must not be used to build the target-channel prior for new sessions — raw-count MLE + 1e-15 floor is the canonical rule, λ survives only as a control arm. (b) `NBPOLAR-PHASE4-P20L-L1-ORDER-1P5M` is SUPERSEDED by P20M with zero consumption. (c) Record the single P20M Tier-Y execution as `TARGET_EMPIRICAL_N32768_VAL_RAW_PRIOR_1P5M_COMPLETE`, accepted descriptive only; the live planning consequence is that L2 is now the bottleneck factor (L2-side single factor / P20D candidate as next planning input; nothing auto-triggered).
+
+**Context**: X08 Tier-X probe (`workspace/probes/nbpolar_x08_per_session_prior_entropy_audit/results.json`; packet `.workbuddy/queue/NBPOLAR-X08-PER-SESSION-PRIOR-ENTROPY-AUDIT/`, focused review PASS) on 1.5M TRAIN counts: λ=137.3823795883264 gives H1 2.006647056368773 / H2 1.9017235959286112 / TOTAL 3.908370652297384 (K_total 33285, N·H1 65754) vs raw+floor H1 0.025199496923753 / H2 0.800366554749543 / TOTAL 0.825566051673296 (K_total 7020, N·H1 826); floor hits 1,046,140/1,048,576; zero columns 0. P20M Stage A derived `raw_prior_1p5m.npz` (digest `372dcc1c…cf7d46ac`) under the raw rule and `raw_prior_orders_1p5m.json` (sha `a9f18a9f…1da11bc638`), K_total 7020 split K1=331/K2=6689 via accepted `select_empirical_split` (16 synthetic TRAIN blocks, seeds 2026092291..2026092294); 19 focused tests green; `PRE_EXECUTE_REVIEW.md` PASS and `PRE_RESULT_REVIEW.md` PASS + `MAIN_THREAD_ACCEPTANCE.md` on disk. Stage B one-shot (exit 0, wall 104.85 s, RSS ~531 MB) on VAL 1660..2043 (first genuinely out-of-sample 1.5M segment), tag master 2026092280: G0 (λ control 319/6492) 0/3, L1 first errors 24/5/17; G1 (raw 331/6689) 0/3 with L1 breakthrough — first errors L2/26 (l1_exact TRUE), L1/848, L2/31 (l1_exact TRUE), `g1_restored_count` 0; G2 (true-L1 oracle K2 6689) 0/3, L2 first errors 26/3646/31, `oracle_l2_exact` false. Accounting: 25/25 gates, `undetected` 0 isolated, key 308376 / public 2949687 / tags 9 / SC 15 / sampling 0, counts 0/0, DEV 1/1 + attempts 1/1 spent, HOLD 0/1, 2M pristine. P20L never ran Stage B (counts 0/0, DEV 0/1, HOLD 0/1, attempts 0/1); its VAL DEV segment 1660..2043 was released and its STATUS.yaml corrected by the main thread. This is the FIRST genuine out-of-sample L2 evidence (prior TRAIN-segment oracle arms 3/3 exact; now 0/3 on VAL under true L1); both §16 L2-implication triggers fired.
+
+**Alternatives considered**:
+- Use the λ prior for new-session target channels: rejected — X08 evidence + X07 disposition; λ is control-arm only.
+- Keep P20L alive alongside P20M: rejected — user decision 2026-09-19; P20L superseded with zero consumption.
+- Treat P20M as FER/recovery/qualification evidence or auto-trigger P20D: rejected — descriptive only, no restoration evidence; L2-side work is planning input, not an automatic trigger; 2M stays reserved for independent-session confirmation and the 1M-HOLD thread stays open.
+
+**Consequences**: Raw+floor is the canonical prior rule; no rerun/retuning of P20M; P19 roots untouched; no commit/push. Next gate is main-thread planning of an L2-side single factor.
+
+## 2026-09-16 NB-Polar Phase 4-P19 N=32768 1M-HOLD layer/backoff diagnostic COMPLETE (single run, 15/15 verify_failed descriptive)
+
+**Decision**: Record the single P19 Tier-Y execution (exit 0, stderr empty,
+in-run wall 186.421779 s within 600 s; outer ≈206.7 s) as
+`TARGET_EMPIRICAL_N32768_HOLD_BACKOFF_DIAGNOSTIC_COMPLETE`. Main-thread
+acceptance is pending; this entry is not an acceptance and not blocked. No
+route recommendation is made.
+
+**Context**: Descriptive five-arm real-input layer/backoff diagnostic on the
+exact three accepted P18 HOLD blocks (frames 1600..1727 / 1728..1855 /
+1856..1983 of the V25 1M `pairs.parquet`), reusing the accepted P16
+construction (K1 319/K2 6492, digest
+`055c906472dd2a09761761b18aceb5f31d8b5db19bac658721f8dc49c3faea1b`), fixed
+floor-1e-15 TRAIN prior and P18 slicing (remainder 1984..1999 unused). Arms:
+base(319,6492), l1_plus(447,6492), l2_plus(319,7004), both_plus(447,7004) and a
+provenance-isolated true-L1 oracle control(0,6492); fixed +128 L1 / +512 L2
+increments, `chunk_rows=512`, public tag master 2026092060. All 20 integrity
+gates true, `failing_integrity_gates` empty, `provenance_violations` 0; 15/15
+records, 27/27 SC calls, 15/15 tags. All 15 records returned `verify_failed`
+(exact 0, undetected 0, decode_failed 0, nonfinite 0, resource_abort 0);
+paired-vs-base for every extra-disclosure arm was
+`verify_failed->verify_failed` ×3, `first_operational_recovery_arm` null and
+`ordered_exact_counts_non_monotone` false (reported neutrally). Per-arm
+aggregate CE-normalized disclosure ratios (descriptive only, explicitly NOT
+qualification efficiency): base 1.230820481567787, l1_plus 1.2539080605766497,
+l2_plus 1.3231707976032374, both_plus 1.3462583766121001; oracle control
+1.1732819057566373 (excluded from operational aggregates, deployable false).
+Recount key-dependent 526200 (operational 428628 + isolated control 97572) /
+public 4916145, mismatch 0; reads 1/1 + 1/1 and attempt 1/1 consumed at the
+first protected content open; input sizes/mtimes unchanged; no reopen/rerun.
+Peak RSS 615960576 B ≤ 2 GiB. **There is no exact-count, FER, winner,
+monotonicity, superiority or recovery threshold in this gate**: 15/15
+`verify_failed` is a descriptive real-input observation and is neither a gate
+nor a pass/fail result, and `undetected` is never success (it was 0). Note: an
+earlier operator transcription of the `l2_plus` ratio said 1.339389; the
+artifact value 1.3231707976032374 is authoritative. Independent Pre-EXECUTE
+PASS_WITH_COMMENTS and Pre-RESULT PASS_WITH_COMMENTS (all numbers recomputed
+from the worktree artifacts).
+
+**Provenance anomaly (external, non-blocking)**: while the run was executing, a
+concurrent **external** commit not made by this packet's operators advanced HEAD
+`ab173f2a` → `faac0411684819f5a9055cd71fc1b4bae6955287`
+(`2026-09-16 21:14:28 +0800`, "docs: consolidate NB-Polar research state and
+Astra pack") and captured a **mid-run 11/15 snapshot** of the five P19 artifacts
+(`RUNNING(record 11/15)`, `integrity_all_pass false`) via an add-before-commit
+race ~33 s after the run's final write. This is a provenance anomaly, not a
+scientific failure, and there is no rerun. The finalized 15/15 files are in the
+worktree (four ` M` versus that commit; `frozen_plan.json` byte-identical).
+**Rule for acceptance and future readers: the worktree files are authoritative;
+never read `git show HEAD:<path>` for the four modified paths, and never
+`git restore`/`checkout`/`stash` them.** If a commit is eventually authorized,
+`git add` the four finalized files after acceptance and cite the worktree
+hashes; do not describe `faac0411`'s blobs as the P19 result.
+
+**Alternatives considered**:
+- Rerun/tune seeds, N, K, arms, floor, orders, blocks or thresholds: rejected —
+  forbidden by the freeze; reads 1/1 + 1/1 and attempt 1/1 are consumed.
+- Treat the 15/15 `verify_failed` outcome as a failure, a winner or blocked:
+  rejected — the gate has no recovery/FER/winner/monotonicity/superiority
+  threshold by design and every integrity gate passes; the label is COMPLETE
+  independent of the recovery pattern.
+- Promote to real-frame FER, reconciliation efficiency, leakage, key rate,
+  scaling, qualification or promotion evidence: rejected — scope is a
+  descriptive five-arm diagnostic at N=32768 only, the CE ratio is explicitly
+  not qualification efficiency, and the true-L1 arm is an oracle control.
+- Reconcile the external commit by restoring/checking out the five paths:
+  rejected — that would overwrite the finalized artifacts with the superseded
+  11/15 snapshot and destroy the evidence.
+
+**Consequences**: No OpenSpec box checked; no code/artifact/old-root change;
+neither protected input modified or reopened; no commit/push by this packet's
+operators. Next gate is main-thread acceptance, which must accept from the
+worktree files only.
+
 ## 2026-09-16 NB-Polar Phase 4-P18 N=32768 1M-HOLD microcheck COMPLETE (single run, 0/3 exact descriptive)
 
 **Decision**: Record the single P18 Tier-Y execution (exit 0, stderr empty,
@@ -4666,3 +4780,31 @@ ownership/lifetime strategies, scalar-only outcome retention and sequential
 N=262144 behavior under 2 GiB. It is Tier-X, has no artifact access/attempt/
 claim, and awaits explicit authorization. A future P12-R1 requires a fresh
 packet, root, seeds, read and attempt.
+## 2026-09-17 — Accept P19 descriptively; route NB-Polar to real-data correction feasibility
+
+Accept `TARGET_EMPIRICAL_N32768_HOLD_BACKOFF_DIAGNOSTIC_COMPLETE` from the
+finalized worktree evidence. The concurrent `faac0411` commit contains a
+superseded 11/15 checkpoint and is not the result. The single P19 run passed
+20/20 integrity gates, consumed reads/attempt 1/1 without rerun and produced
+15/15 `verify_failed` outcomes across base, +128 L1, +512 L2, both and an
+isolated true-L1 control.
+
+The +128 L1 arms corrected L1 on all three blocks, but complete recovery
+remained 0/3; the true-L1 control and the registered L2 backoff also recovered
+none. Accept only the same-block mechanism interpretation: hard-L1 propagation
+is not sufficient to explain these failures, and the tested backoffs did not
+recover them. Do not infer FER, global backoff failure, qualification or route
+rejection, and do not tune a successor on these three closed blocks.
+
+The independent checkout's active objective is now real-data NB-Polar
+correction feasibility, not cross-family comparison: (1) operational
+non-oracle complete-block recovery under a preregistered meaningful disclosure
+cap, (2) reproduction on new blocks/independent sessions, then (3) efficiency
+optimization toward `f<=1.3`. Security remains an external interface contract.
+
+Before another real-data execution, freeze P20A to repair the statically
+confirmed internal-SC `MemoryError` misclassification and to make L1,
+hard-L2, oracle-L2 and pair endpoints unambiguous. P20A is injected-only and
+authorizes no protected read or scientific attempt. L1 SCL is conditional on
+evidence that true-L1 L2 is recoverable and a bounded list covers the missing
+candidate; it is not the default next route.

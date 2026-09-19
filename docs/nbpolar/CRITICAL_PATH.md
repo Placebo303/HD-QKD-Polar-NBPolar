@@ -1,5 +1,26 @@
 # NB-Polar implementation critical path
 
+## Active continuation after the accepted P19 diagnostic
+
+The historical build sequence below is complete through the current reference
+route. The active continuation is serial:
+
+1. Accept P19 only as a same-block descriptive diagnostic; never tune on its
+   three HOLD blocks.
+2. Complete P20A: injected-only `MemoryError` passthrough and separate L1,
+   hard-L2, oracle-L2 and pair endpoint semantics.
+3. Freeze one meaningful disclosure cap before reading independent real
+   development data. It may exceed planning `f=1.3`, but cannot approach raw
+   disclosure.
+4. With representation, kernel, prior and direct SC fixed, isolate L2 in this
+   order: disclosure backoff, one alternative construction, then bounded
+   search diagnosis.
+5. Require operational non-oracle complete-block recovery before an
+   independent-session reliability gate.
+6. Start L1 SCL only if true-L1 L2 is recoverable and a small L1 list is shown
+   to contain the needed candidate. Optimize efficiency only after reproducible
+   real recovery.
+
 This sequence is intentionally serial. A later step is not started when the
 preceding gate has failed or is still unauthorized.
 

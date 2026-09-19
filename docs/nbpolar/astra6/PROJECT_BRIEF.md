@@ -28,10 +28,13 @@ the goal.
 
 1. Algebra, transform, SC tiny-oracle, prior tables, static protocol, and
    accounting gates are accepted within their stated synthetic scopes.
-2. On a dependent synthetic two-layer point, hard candidate-conditioned L2
-   recovered 233/384; true-L1 oracle-conditioned L2 recovered 377/384. Paired
-   cells were: both 233, oracle-only 144, operational-only 0, neither 7. This
-   is mechanism evidence for hard-L1 propagation, not real-channel FER.
+2. On a dependent synthetic two-layer point, the operational arm reconstructed
+   the complete pair in 233/384 blocks. The oracle arm inserted true H into the
+   final label and reconstructed its oracle-conditioned complete label in
+   377/384 blocks. Paired cells
+   were both 233, oracle-only 144, operational-only 0 and neither 7. These are
+   asymmetric endpoints: the 144 difference is not the strict count of blocks
+   where wrong hard L1 additionally caused wrong L2.
 3. An adaptive L1 ladder matched static recovery at 632/640 and reduced
    key-dependent disclosure by 20.2484% at frozen N=256. This is not scaling
    or real-channel efficiency evidence.
@@ -62,6 +65,12 @@ the goal.
     true-L1 L2 control. It has no winner/recovery threshold and is not
     authorized by this pack.
 
+11. The completed five-arm diagnostic later returned 15/15 `verify_failed`.
+    +128 L1 made L1 correct on all three blocks, but +512 L2, both increments
+    and the true-L1 control recovered no complete block. This is descriptive
+    same-block evidence only; it makes hard-L1 propagation insufficient as the
+    sole explanation and does not estimate FER or reject NB-Polar.
+
 ## Core contradiction
 
 The TRAIN model suggests an N=32768 point near the intended disclosure budget
@@ -83,4 +92,3 @@ or interactions among them.
   NB-Polar family.
 - Execution requires a separate frozen packet, independent review, and
   explicit user authorization.
-

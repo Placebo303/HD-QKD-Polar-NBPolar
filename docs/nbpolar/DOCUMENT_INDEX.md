@@ -21,6 +21,7 @@ publication, commit, or push authority. Start with `astra6/README.md`.
 | `VALIDATION_GATES.md` | quantitative checks and early falsification tests | Phase 0 frozen |
 | `WORKBUDDY_LIFECYCLE.md` | task, authorization, review and acceptance workflow | active rule |
 | `PROBE_TIER.md` | Tier-X probe template and Tier-Y threshold/delta rules | active rule |
+| `REAL_DATA_FEASIBILITY_STRATEGY.md` | post-P19 project objective, evidence interpretation, L2-first route and stop rules | active route |
 | `../research_cycles/NBPOLAR-PHASE0/REVIEW_ENTRYPOINT.md` | review index | frozen |
 | `../research_cycles/NBPOLAR-PHASE0/FREEZE_REVIEW_VERDICT.md` | durable Phase 0 verdict | FREEZE_ACCEPT |
 | `../research_cycles/NBPOLAR-PHASE0/EXECUTION_PACKET.md` | original Phase 0-2 boundary packet | superseded by scoped WorkBuddy packets |
@@ -35,6 +36,23 @@ publication, commit, or push authority. Start with `astra6/README.md`.
 | `../../.workbuddy/queue/NBPOLAR-PHASE4-P2-CAL-DEV/` | accepted CAL artifact to prior-table validation | heavy packet prepared, all-false |
 | `../../.workbuddy/queue/NBPOLAR-PHASE4-P2-R1-DIAGNOSTIC-INDEX-RECOVERY/` | Bob-axis recovery and bounded CAL prior-table validation | accepted; attempts consumed |
 | `../../.workbuddy/queue/NBPOLAR-PHASE4-P3-EMPIRICAL-PRIOR-SC/` | Heavy autonomous CAL-derived P1 metric to SC interface exploration | `EMPIRICAL_PRIOR_SC_INTERFACE_ACCEPTED`; model-sampled interface evidence only |
+| `../../.workbuddy/queue/NBPOLAR-PHASE4-P19-HOLDOUT-BACKOFF-DIAGNOSTIC/` | five-arm same-block HOLD layer/backoff diagnostic | accepted descriptive; 15/15 verify_failed, no FER claim |
+| `../../.workbuddy/queue/NBPOLAR-PHASE4-P20A-RESOURCE-ENDPOINT-INSTRUMENTATION/` | injected-only resource classification and endpoint semantics packet/prompt | frozen awaiting explicit authorization |
+| `../../.workbuddy/queue/NBPOLAR-X08-PER-SESSION-PRIOR-ENTROPY-AUDIT/` | Tier-X per-session prior entropy audit packet | probe complete; λ diagnosis confirmed |
+| `../../workspace/probes/nbpolar_x08_per_session_prior_entropy_audit/results.json` | X08 probe result (λ prior H1 2.0066 vs raw+floor H1 0.0252; K_total 33285 vs 7020; L1 side info 65754 vs 826 bits) | Tier-X descriptive evidence |
+| `../../.workbuddy/queue/NBPOLAR-PHASE4-P20L-L1-ORDER-1P5M/` | L1-order 1p5m packet | superseded by P20M with zero consumption |
+| `../../.workbuddy/queue/NBPOLAR-PHASE4-P20M-RAW-PRIOR-VAL-1P5M/` | VAL raw-prior 1p5m packet (Stage A `raw_prior_1p5m.npz` + orders; Stage-B VAL 1660..2043) | accepted descriptive `TARGET_EMPIRICAL_N32768_VAL_RAW_PRIOR_1P5M_COMPLETE`; 25/25 gates |
+| `../../.workbuddy/queue/NBPOLAR-PHASE4-P20M-RAW-PRIOR-VAL-1P5M/PRE_EXECUTE_REVIEW.md` | independent Pre-EXECUTE review | PASS |
+| `../../.workbuddy/queue/NBPOLAR-PHASE4-P20M-RAW-PRIOR-VAL-1P5M/PRE_RESULT_REVIEW.md` | independent Pre-RESULT review | PASS |
+| `../../.workbuddy/queue/NBPOLAR-PHASE4-P20M-RAW-PRIOR-VAL-1P5M/MAIN_THREAD_ACCEPTANCE.md` | bounded main-thread acceptance (G0/G1/G2; undetected 0; counts 0/0, DEV 1/1, HOLD 0/1, attempts 1/1) | accepted descriptive; L2-side single-factor planning next, nothing auto-triggered |
+| `../../.workbuddy/queue/NBPOLAR-PHASE4-P20N-L2-ALT-CONSTRUCTION-HOLD-1P5M/` | HOLD alt-L2 1p5m packet (Stage A `alt_l2_tables_1p5m.npz` α=1 Laplace L2 table, D2 FEASIBLE; Stage-B HOLD 2213..2724) | accepted descriptive `TARGET_EMPIRICAL_N32768_HOLD_L2_ALT_CONSTRUCTION_1P5M_COMPLETE`; 28/28 gates |
+| `../../.workbuddy/queue/NBPOLAR-PHASE4-P20N-L2-ALT-CONSTRUCTION-HOLD-1P5M/PRE_EXECUTE_REVIEW.md` | independent Pre-EXECUTE review | PASS |
+| `../../.workbuddy/queue/NBPOLAR-PHASE4-P20N-L2-ALT-CONSTRUCTION-HOLD-1P5M/PRE_RESULT_REVIEW.md` | independent Pre-RESULT review | PASS |
+| `../../.workbuddy/queue/NBPOLAR-PHASE4-P20N-L2-ALT-CONSTRUCTION-HOLD-1P5M/MAIN_THREAD_ACCEPTANCE.md` | bounded main-thread acceptance (A 0/4; B alt-L2 operational 1/4 block-3 exact; C 0/4; D 1/4; undetected 0; HOLD 1/1, attempts 1/1, counts 0/0, 2M pristine) | accepted descriptive; maintain-confirmation planning next, nothing auto-triggered |
+| `../../.workbuddy/queue/NBPOLAR-PHASE4-P20O-2M-MAINTAIN-CONFIRMATION/` | 2M VAL maintain-confirmation packet (Stage A `raw_prior_2m.npz` + `raw_prior_orders_2m.json` + `alt_l2_tables_2m.npz` K334/6746/7080; Stage-B VAL 2187..2826) | accepted descriptive `TARGET_EMPIRICAL_N32768_VAL_MAINTAIN_ALT_CONSTRUCTION_2M_COMPLETE`; A 0/5, B 2/5, C 0/5, D 3/5 |
+| `../../.workbuddy/queue/NBPOLAR-PHASE4-P20O-2M-MAINTAIN-CONFIRMATION/PRE_EXECUTE_REVIEW.md` | independent Pre-EXECUTE review | PASS |
+| `../../.workbuddy/queue/NBPOLAR-PHASE4-P20O-2M-MAINTAIN-CONFIRMATION/PRE_RESULT_REVIEW.md` | independent Pre-RESULT review | PASS |
+| `../../.workbuddy/queue/NBPOLAR-PHASE4-P20O-2M-MAINTAIN-CONFIRMATION/MAIN_THREAD_ACCEPTANCE.md` | bounded main-thread acceptance (A 0/5; B alt-L2 operational 2/5 blocks-1,2 exact; C 0/5; D 3/5 blocks-1,2,4 exact; b_restored 2; b_maintained 0; undetected 0; 2M counts 1/1, VAL-DEV 1/1, attempts 1/1; remainder/HOLD/1M/1.5M untouched) | accepted descriptive; next single-factor planning next, nothing auto-triggered |
 | `../../.workbuddy/queue/NBPOLAR-PHASE5-STATIC-PROTOCOL/` | static synthetic reconciliation, verification and disclosure packet | `STATIC_PROTOCOL_DEVELOPMENT_ACCEPTED`; attempt consumed |
 | `../../.workbuddy/queue/NBPOLAR-PHASE5-STATIC-PROTOCOL/MAIN_THREAD_ACCEPTANCE.md` | bounded Phase 5 disposition | accepted synthetic development signal only |
 | `../../openspec/changes/formal-ir-nbpolar-phase5-static-protocol/` | Phase 5 behavior and scientific gates | implementation and one development attempt complete |
@@ -200,6 +218,17 @@ publication, commit, or push authority. Start with `astra6/README.md`.
 | `../../.workbuddy/queue/NBPOLAR-PHASE4-P18-N32768-HOLDOUT-MICROCHECK/holdout_microcheck/` | N=32768 1M-HOLD microcheck evidence root (frozen_plan/input_and_construction_identity/per_block_outcomes/aggregate_summary/report) | COMPLETE evidence; reads 1/1 + 1/1 and attempt 1/1 consumed; 17/17 gates true, 0/3 exact descriptive |
 | `../../comparison_bench/src/comparison_bench/formal_ir/nbpolar/holdout_microcheck.py` | thin P18 HOLD microcheck runner (accepted P16/P17 helpers reused, unchanged) | COMPLETE implementation; accepted modules untouched |
 | `../../comparison_bench/tests/test_nbpolar_holdout_microcheck.py` | focused tests for identity refusal, HOLD slicing/remainder, one-open guards, no fitting, tag domain, truth isolation, buckets, NLL/disclosure arithmetic, checkpoints and scope | 26 passed; 409 full NB-Polar total |
+| `../../.workbuddy/queue/NBPOLAR-PHASE4-P19-HOLDOUT-BACKOFF-DIAGNOSTIC/TASK_PACKET.md` | Tier-Y N=32768 1M-HOLD five-arm layer/backoff diagnostic (base/+128 L1/+512 L2/both/oracle control, no FER/recovery/winner threshold) | single gate executed, COMPLETE pending main-thread acceptance |
+| `../../.workbuddy/queue/NBPOLAR-PHASE4-P19-HOLDOUT-BACKOFF-DIAGNOSTIC/P19_FREEZE.md` | N=32768 1M-HOLD layer/backoff diagnostic freeze (authorizes nothing) | frozen; single gate executed once, COMPLETE; §6 command authoritative |
+| `../../.workbuddy/queue/NBPOLAR-PHASE4-P19-HOLDOUT-BACKOFF-DIAGNOSTIC/P19_IMPLEMENTATION_NOTES.md` | P19 implementation and test notes | frozen; 30 focused; 104 combined P19+P16/P17/P18 suites green |
+| `../../.workbuddy/queue/NBPOLAR-PHASE4-P19-HOLDOUT-BACKOFF-DIAGNOSTIC/PRE_EXECUTE_REVIEW.md` | independent Pre-EXECUTE review | PASS WITH COMMENTS; N1–N4 non-blocking (N1 one-char `FROZEN_COMMAND` typo, never executed) |
+| `../../.workbuddy/queue/NBPOLAR-PHASE4-P19-HOLDOUT-BACKOFF-DIAGNOSTIC/PRE_RESULT_REVIEW.md` | independent Pre-RESULT review | PASS_WITH_COMMENTS; 20/20 gates recomputed; downgrade solely for external-commit provenance anomaly (item A) — worktree files authoritative, never `git show HEAD:` |
+| `../../.workbuddy/queue/NBPOLAR-PHASE4-P19-HOLDOUT-BACKOFF-DIAGNOSTIC/OPERATOR_RETURN.md` | Phase 4-P19 final operator return (incl. external-commit anomaly adjudication and bounded scope) | COMPLETE returned; accepted descriptively by main thread |
+| `../../.workbuddy/queue/NBPOLAR-PHASE4-P19-HOLDOUT-BACKOFF-DIAGNOSTIC/MAIN_THREAD_ACCEPTANCE.md` | bounded P19 disposition and next gate | accepted descriptive; closed to tuning |
+| `../../.workbuddy/queue/NBPOLAR-PHASE4-P19-HOLDOUT-BACKOFF-DIAGNOSTIC/holdout_backoff_diagnostic/` | N=32768 1M-HOLD layer/backoff diagnostic evidence root (frozen_plan/input_and_predecessor_identity/per_block_arm_outcomes/aggregate_summary/report) | COMPLETE evidence; reads 1/1 + 1/1 and attempt 1/1 consumed; 20/20 gates true, 15/15 `verify_failed` descriptive; worktree files authoritative vs the external mid-run commit |
+| `../../comparison_bench/src/comparison_bench/formal_ir/nbpolar/holdout_backoff_diagnostic.py` | thin P19 five-arm layer/backoff diagnostic runner (accepted P16/P17/P18/P7/P11 helpers reused, unchanged) | COMPLETE implementation; accepted modules untouched |
+| `../../comparison_bench/tests/test_nbpolar_holdout_backoff_diagnostic.py` | focused tests for identity refusal before reads, P18 slicing/remainder, one-open guards, no fitting, five-arm semantics and +128/+512 arithmetic, tag-domain separation, oracle isolation, buckets/recount tampers, paired recovery tables and no-threshold COMPLETE, checkpoints/budgets and scope | 30 passed; independently re-run green by Pre-RESULT |
+
 | `../../.workbuddy/queue/NBPOLAR-PHASE4-X13-METRIC-MEMORY-LIFETIME-PROBE/TASK_PACKET.md` | Tier-X injected two-layer metric ownership/lifetime probe | frozen; awaiting explicit authorization |
 | `../../.workbuddy/queue/NBPOLAR-PHASE4-X13-METRIC-MEMORY-LIFETIME-PROBE/AUTHORIZATION_PROMPT.md` | direct X13 two-file probe authorization | not yet authorized; no attempt |
 | `../../.workbuddy/queue/NBPOLAR-PHASE4-P11-EXACT-CHUNKED-SC/P11_FREEZE.md` | exact chunked SC freeze (authorizes nothing) | frozen; independent Pre-EXECUTE PASS |

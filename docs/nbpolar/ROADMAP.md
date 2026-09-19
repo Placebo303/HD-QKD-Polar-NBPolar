@@ -1,5 +1,23 @@
 # NB-Polar implementation roadmap
 
+## Current priority after P19
+
+The original phase sequence below is retained as architecture history. The
+active route is now governed by `REAL_DATA_FEASIBILITY_STRATEGY.md`:
+
+1. prove real-data complete-block correction feasibility under a
+   preregistered nontrivial disclosure cap;
+2. confirm the frozen candidate on new real blocks and independent sessions;
+3. only then reduce disclosure, time and memory and revisit `f<=1.3`.
+
+P19 showed that its registered L1 repair and L2 backoff did not recover the
+three diagnostic HOLD blocks, and the true-L1 control also failed. Therefore
+ordinary L1 SCL is not the automatic next phase. P20A first repairs resource
+exception classification and endpoint semantics with injected tests only.
+The next scientific design then isolates L2 prior, construction, disclosure
+and search one factor at a time on data independent of the closed P18/P19
+blocks.
+
 This is a plan candidate. Every decoder, Model-F, real-data, or expensive
 benchmark run requires a fresh review and explicit authorization. No phase is
 implicitly unlocked by a previous test or commit.
@@ -119,16 +137,18 @@ breach. Do not assume every individual frame is monotonic.
 
 ## Phase 7 — ordinary q-ary SCL and measured optimization
 
-Only after reference SC and protocol gates pass, add ordinary q-ary SCL with
+Only after reference SC/protocol gates pass **and** true-L1-conditioned L2 is
+recoverable at a meaningful real-data feasibility point, add ordinary q-ary SCL with
 `L in {1,4,8}`. `L=1` must equal SC. Use tiny MAP cases to test path pruning,
 known coordinates and path metrics. Profile q32/N64,256,1024 before any
-convolution or FWHT optimization. Compare with binary Polar and matched GF32
-NB-LDPC under the same input and public-cost contract.
+convolution or FWHT optimization. Cross-family comparison with binary Polar or
+NB-LDPC is deferred to the sibling Comparison route owner and is not an active
+gate in this checkout.
 
-Promotion of an algorithmic configuration requires a pre-registered paired
-criterion, such as at least 5% lower key-dependent disclosure at comparable
-FER and an accepted runtime/memory ceiling. A passing unit test is not a
-performance or qualification claim.
+Promotion inside this checkout first requires preregistered real-data complete-
+block recovery, independent-session repetition and an accepted runtime/memory
+ceiling. Efficiency criteria follow only after that. A passing unit test is
+not a performance or qualification claim.
 
 ## Stop and attribution rules
 

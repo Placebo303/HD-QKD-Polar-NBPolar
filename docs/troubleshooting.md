@@ -568,3 +568,56 @@ transcript so an interruption is recoverable; never accept recovered numbers
 without independent recomputation, and never let a terminated reviewer trigger
 a gate rerun or a second attempt.
 
+### Concurrent external commit captures a mid-run artifact snapshot (add-before-commit race)
+
+**Observed** (2026-09-16, NBPOLAR-PHASE4-P19): a concurrent external commit
+(`faac0411…`, not made by the packet's operators) landed ~33 s after the run's
+final write and committed the five evidence files at an 11/15 checkpoint
+(`outcome_label: RUNNING(record 11/15)`, `integrity_all_pass false`). In the
+worktree the four non-plan files show ` M` against that commit; the finalized
+15/15 files are the worktree content.
+
+**Root cause**: an unsynchronized `git add` captured the worktree while the run
+was still writing, and the `git commit` landed after finalization. `git add`/
+`git commit` never modify worktree files, so the worktree retained the complete
+record; the anomaly is a versioning/provenance artifact, not a data-corruption
+or scientific failure.
+
+**Fix**: treat the **worktree** files as authoritative evidence and read them
+from the filesystem. Do **not** use `git show HEAD:<path>` for the affected
+paths, and do not `git restore`/`checkout --`/`stash`/`reset --hard` them —
+that would overwrite the finalized artifacts with the superseded mid-run
+snapshot and destroy the evidence. Reconstruct the sequence from same-domain
+`created_utc` values and mtimes (final write < commit timestamp), confirm the
+commit is additive and touched no protected input, and record the race as a
+provenance incident in the operator return and decision log. If a commit is
+later authorized, `git add` the finalized files after acceptance and cite the
+worktree hashes; do not describe the committed blobs as the result.
+
+**Prevention**: when a run writes an evidence root into a shared checkout,
+expect concurrent external versioning; before accepting, compare the worktree
+content against the committed blobs and prefer the worktree when they differ,
+never silently reconciling with git. A Pre-RESULT review that finds such a race
+should report it as a provenance anomaly (PASS_WITH_COMMENTS) rather than a
+scientific failure, and must not trigger a rerun.
+
+### Internal SC MemoryError swallowed by a decode-failure catch
+
+**Observed by static audit** (2026-09-17): shared operational helpers wrap L1
+and L2 SC calls in broad `except Exception` blocks. An internal `MemoryError`
+therefore becomes `decode_failed`/an error-type string instead of reaching the
+outer resource-stop handler. Existing runner tests that replace the entire
+block helper with an OOM do not exercise this inner seam.
+
+**Impact**: future large-N or list runs can misattribute a resource failure as
+an algorithmic decoding failure. This path does not explain P18/P19, whose
+persisted outcomes are `verify_failed` with no resource signal.
+
+**Fix contract**: before another real-data run, explicitly re-raise
+`MemoryError` at every audited inner SC seam and preserve the accepted
+decode/nonfinite exception taxonomy. Add injected tests at both the L1 and L2
+SC sites and verify call/disclosure accounting at the stop. Do not rerun or
+rewrite historical gates.
+
+**Prevention**: tests for a runner-level OOM and an inner decoder OOM are
+different. Every helper that promises resource/decode separation needs both.

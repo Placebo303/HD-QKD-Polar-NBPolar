@@ -3,10 +3,23 @@
 ## Status
 
 This worktree is the independent NB-Polar planning and implementation checkout.
-Phases 1-2 are implementation-accepted and Phase 3-R1 has one bounded accepted
-synthetic diagnostic (O3, eps=0.05, K45, seed 2026091213, 299/300 exact).
-Phase 4-P0 is prepared but not authorized; no Model-F run, real-data run,
-qualification, or promotion exists here.
+The algebra/transform/SC/prior/protocol foundation is accepted in its bounded
+scopes. Target-population construction and model-sampled N=32768 operation have
+development evidence, and P18/P19 completed the first descriptive HOLD
+diagnostics. P19 found 0/15 complete recoveries across its five registered
+same-block arms: +128 L1 repaired the two observed L1 errors, while +512 L2,
+both increments and the true-L1 control still recovered no complete block.
+This is not FER or qualification evidence.
+
+The current objective is real-data NB-Polar correction feasibility: first
+establish operational, non-oracle complete-block recovery under a
+preregistered meaningful disclosure cap; then reproduce it on independent
+real blocks/sessions; only then optimize disclosure toward `f<=1.3`. The next
+packet is P20A, an injected-only resource-classification and endpoint-
+instrumentation repair awaiting explicit authorization. No new protected-data
+read or decoder experiment is authorized.
+
+See `REAL_DATA_FEASIBILITY_STRATEGY.md` for the current route and stop rules.
 
 The first implementation target is a native GF(32) source-polarization code:
 

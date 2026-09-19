@@ -1,4 +1,138 @@
-Status: **P18 HOLD microcheck accepted descriptively; P19 layer/backoff diagnostic frozen awaiting explicit authorization** — 2026-09-16
+Status: **P20O VAL maintain-confirmation 2M accepted descriptively; next single-factor planning next, nothing auto-triggered** — 2026-09-19
+
+Main-thread decision accepts
+`TARGET_EMPIRICAL_N32768_VAL_MAINTAIN_ALT_CONSTRUCTION_2M_COMPLETE` only as a
+same-block descriptive result on 2M VAL 2187..2826. A control-L2 0/5; B alt-L2
+operational 2/5 (blocks 1, 2 exact); C control-oracle 0/5; D alt-oracle 3/5
+(blocks 1, 2, 4 exact); `b_restored_count 2`; `b_maintained 0`; all
+L2-layer failures, with the ninth U-domain scalar closing the P20N
+domain-mixed reading (11/11 L2 failures natural-in-prefix but U-domain-out);
+`undetected` 0. Stage A frozen products: `raw_prior_2m.npz` canonical digest
+`b16f52165d9f7ef28884df270f921ce07c2a743f4f4b39c3435838809ae1c587`, order
+file sha `b2255449d2422b8f9cd08ee6bdf1e1c40ce7787a0e9107c7819da8acf3bd0906`,
+`alt_l2_tables_2m.npz` sha
+`98e25495d2e7adcc3332f48279f6f1c824b3f129c3e2cbca93a718c0d1ae5fb5`
+(K_total 7080 / K1 334 / K2 6746). Pre-EXECUTE PASS; Stage-B one-shot exit
+0, 215 s; Pre-RESULT PASS. Evidence:
+`.workbuddy/queue/NBPOLAR-PHASE4-P20O-2M-MAINTAIN-CONFIRMATION/`
+(`PRE_EXECUTE_REVIEW.md`, `PRE_RESULT_REVIEW.md`,
+`MAIN_THREAD_ACCEPTANCE.md`).
+
+Cross-session descriptive reading: with P20N (1.5M HOLD B 1/4 vs A 0/4), the
+frozen alt-L2 construction shows B 3/9 vs A 0/9 block-level restoration
+events across two independent sessions; no maintain events; no reliability
+claim.
+
+Next gate is main-thread planning for the next single factor (H2
+adjudication / per-position instrumentation enhancement /
+construction-family expansion / L1-side 2M robustness); nothing
+auto-triggered. Consumption: 2M counts 1/1, 2M VAL-DEV 1/1, attempts 1/1
+SPENT; 2M VAL 2187..2826 CONSUMED; remainder 2827..2915 + 2M HOLD 2916..3644
++ 1M/1.5M untouched.
+Memory/decision-log details are owned by the memory agent
+(`AGENT_PROJECT_MEMORY.md` / `docs/decision-log.md`); this file points to
+the P20O packet dir for details.
+
+Previous status (retained): **P20N HOLD alt-L2 1p5m accepted descriptively; maintain-confirmation planning next, nothing auto-triggered** — 2026-09-19
+
+Main-thread decision accepts
+`TARGET_EMPIRICAL_N32768_HOLD_L2_ALT_CONSTRUCTION_1P5M_COMPLETE` only as a
+same-block descriptive result on HOLD 2213..2724. A control-L2 0/4; B alt-L2
+operational 1/4 (block 3 exact); C control-oracle 0/4; D alt-oracle 1/4
+(block 3 exact); `b_restored_count 1`; all failures L2-layer; `undetected`
+0; 28/28 gates. Stage A frozen product: `alt_l2_tables_1p5m.npz` sha256
+`6f4a4f7689d87e2c0a6c73617fdc9d79751a226661177a9bc6193feba2333e78`
+(α=1 Laplace L2 table, D2 feasibility FEASIBLE). Pre-EXECUTE PASS; Stage-B
+one-shot exit 0, 164.37 s; Pre-RESULT PASS. Evidence:
+`.workbuddy/queue/NBPOLAR-PHASE4-P20N-L2-ALT-CONSTRUCTION-HOLD-1P5M/`
+(`PRE_EXECUTE_REVIEW.md`, `PRE_RESULT_REVIEW.md`,
+`MAIN_THREAD_ACCEPTANCE.md`).
+
+Next gate is main-thread planning for the maintain-confirmation round (VAL
+remainder one-block micro vs reserved 2M first-use); nothing auto-triggered;
+1M-HOLD thread open. Consumption: HOLD 1/1 spent, attempts 1/1, counts 0/0,
+VAL-remainder 0, 2M pristine.
+Memory/decision-log details are owned by the memory agent
+(`AGENT_PROJECT_MEMORY.md` / `docs/decision-log.md`); this file points to
+the P20N packet dir for details.
+
+Previous status (retained): **P20M VAL raw-prior 1p5m accepted descriptively; L2-side single-factor planning next, nothing auto-triggered** — 2026-09-19
+
+Main-thread decision accepts
+`TARGET_EMPIRICAL_N32768_VAL_RAW_PRIOR_1P5M_COMPLETE` only as a
+same-block descriptive result on VAL 1660..2043. G0 0/3 L1 errors; G1 0/3
+with L1 breakthrough and L2-layer first errors on 2/3 blocks; G2 oracle 0/3
+= first genuine out-of-sample L2 evidence. `undetected` 0; 25/25 gates;
+counts 0/0, DEV 1/1, HOLD 0/1, attempts 1/1, 2M pristine. Stage A frozen
+products: `raw_prior_1p5m.npz` digest
+`372dcc1cedbace1e699f60787d10eb298bb4bb3290519d2e6b19964ecf7d46ac`,
+order file sha `a9f18a9fdad37c2cdf6e540c11d7ffede9b260275a7eae6a3a40a21da11bc638`,
+K1=331/K2=6689/K_total=7020. Pre-EXECUTE PASS; Stage-B one-shot exit 0,
+104.85 s; Pre-RESULT PASS. Evidence:
+`.workbuddy/queue/NBPOLAR-PHASE4-P20M-RAW-PRIOR-VAL-1P5M/`
+(`PRE_EXECUTE_REVIEW.md`, `PRE_RESULT_REVIEW.md`,
+`MAIN_THREAD_ACCEPTANCE.md`).
+
+X08 Tier-X probe confirmed the λ diagnosis:
+`.workbuddy/queue/NBPOLAR-X08-PER-SESSION-PRIOR-ENTROPY-AUDIT/` +
+`workspace/probes/nbpolar_x08_per_session_prior_entropy_audit/results.json`
+(λ prior H1 2.0066 vs raw+floor H1 0.0252; K_total 33285 vs 7020; L1 side
+info 65754 vs 826 bits). P20L
+(`NBPOLAR-PHASE4-P20L-L1-ORDER-1P5M`) was superseded by P20M with zero
+consumption.
+
+Next gate is main-thread planning for an L2-side single factor / P20D
+candidate (both §16 triggers fired); nothing auto-triggered.
+Memory/decision-log details are owned by the memory agent
+(`AGENT_PROJECT_MEMORY.md` / `docs/decision-log.md`); this file points to
+the P20M packet dir and the X08 probe path for details.
+
+Previous status (retained): **P19 accepted descriptively; P20A resource/endpoint repair frozen awaiting explicit authorization** — 2026-09-17
+
+Main-thread decision accepts
+`TARGET_EMPIRICAL_N32768_HOLD_BACKOFF_DIAGNOSTIC_COMPLETE` only as a
+same-block descriptive mechanism result. All 15 P19 records were
+`verify_failed`; +128 L1 made L1 correct on all three blocks, while +512 L2,
+both increments and the true-L1 control recovered no complete block. This is
+not FER, qualification, or a global backoff failure, but it shows hard-L1
+propagation is not a sufficient explanation for these three failures and L1
+SCL is not the next default implementation.
+
+The independent checkout now follows
+`docs/nbpolar/REAL_DATA_FEASIBILITY_STRATEGY.md`: prove meaningful real-data
+complete-block correction, reproduce it, then optimize efficiency. The next
+packet is
+`.workbuddy/queue/NBPOLAR-PHASE4-P20A-RESOURCE-ENDPOINT-INSTRUMENTATION/`.
+It is implementation/accounting-only, uses injected inputs, and awaits explicit
+authorization. No protected data read, decoder experiment, result root,
+commit or push is authorized.
+
+Previous status (retained): **P19 five-arm layer/backoff diagnostic COMPLETE (single run, 20/20 integrity gates, 15/15 verify_failed descriptive); main-thread acceptance pending** — 2026-09-16
+
+P19 executed its one authorized Tier-Y gate once (exit 0, stderr empty, in-run
+wall 186.421779 s within 600 s; outer ≈206.7 s) and returned
+`TARGET_EMPIRICAL_N32768_HOLD_BACKOFF_DIAGNOSTIC_COMPLETE`: all 20 integrity
+gates true, reads 1/1 + 1/1 and attempt 1/1 consumed at the first protected
+content open (no reopen/retry). Five frozen arms on the same three accepted
+P18 HOLD blocks (base, +128 L1, +512 L2, both, provenance-isolated true-L1
+oracle control) produced 15 records, 27/27 SC calls and 15/15 tags; recount
+key-dependent 526200 / public 4916145 with mismatch 0. All 15 records returned
+`verify_failed` (undetected 0, first operational recovery arm null, ordered
+non-monotone false); this is descriptive by design — there is no
+recovery/FER/winner/monotonicity/superiority threshold, so 15/15 `verify_failed`
+is not a gate. Independent Pre-EXECUTE PASS_WITH_COMMENTS /
+Pre-RESULT PASS_WITH_COMMENTS; the Pre-RESULT verdict is PASS_WITH_COMMENTS
+solely for a provenance anomaly: a concurrent **external** commit
+(`faac0411…`, not made by this packet's operators) captured a mid-run 11/15
+snapshot, so acceptance must read the finalized worktree files only (never
+`git show HEAD:`) and must not git-restore them; it is not a scientific failure
+and there is no rerun. Evidence: packet `OPERATOR_RETURN.md` +
+`holdout_backoff_diagnostic/` (five files). No box checked; no code/artifact/
+old-root/protected-input change; no commit/push by this packet's operators.
+Not an acceptance and not a FER/qualification result; main-thread acceptance
+pending.
+
+Previous status (retained): **P18 HOLD microcheck accepted descriptively; P19 layer/backoff diagnostic frozen awaiting explicit authorization** — 2026-09-16
 
 P18 completed its one authorized run with all 17 integrity gates true. The
 three N=32768 1M-HOLD blocks were 0/3 exact, all `verify_failed`, with zero
@@ -7,7 +141,7 @@ CE-normalized disclosure ratio 1.23082048. Main-thread acceptance is
 descriptive only: there was no recovery/FER gate, and three chronological
 blocks cannot qualify or reject the rate.
 
-P19 is frozen, not authorized. It reuses the same blocks, prior and
+P19 was frozen, not authorized. It reuses the same blocks, prior and
 construction in five arms: base, +128 L1 coordinates, +512 L2 coordinates,
 both increments, and a provenance-isolated true-L1 L2 control. It has no
 recovery/superiority threshold and exists only to locate the finite
