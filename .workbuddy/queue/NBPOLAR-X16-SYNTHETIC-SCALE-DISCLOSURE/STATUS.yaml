@@ -1,0 +1,25 @@
+# STATUS.yaml — NBPOLAR-X16-SYNTHETIC-SCALE-DISCLOSURE (proposal only)
+
+probe: NBPOLAR-X16-SYNTHETIC-SCALE-DISCLOSURE
+tier: X
+status: PROPOSAL
+branch: codex/nbpolar-phase0
+authorizing_record: .workbuddy/queue/NBPOLAR-PHASE4-NEXT-BRANCH-DECISION.md §4 D3
+
+# No execution, no commit/push authorized by this packet. Freeze (seed re-grep +
+# prereg write + body embed + T0/T1 green) requires main-thread approval (§9 decision).
+
+frozen_N: 32768
+frozen_k1_synth: 334
+frozen_k2_synth: 6746
+seeds_master_label: 2026092380
+seeds_blocks: [2026092381, 2026092382, 2026092383, 2026092384, 2026092385, 2026092386, 2026092387, 2026092388]
+blocks_per_seed: 1
+gates:
+  g1_mismatch_stop: ">= 0.75 -> X16_STOP_SANITY_G1_HIGH"
+  g1_low_variance_note: "< 0.005 -> Q2 null-with-reason, Q1/Q1b proceed"
+  g2_q1b_nonspike_l8_floor: 0.50
+  g3_spike_fraction_band: [0.02, 0.70]
+scl_lock: UNCHANGED
+recommendation: X16-proceed
+closeout_trigger: "G1-high WITH G2-fail (channel-level non-informative); G1-high WITH G2-pass -> metric-feed audit, not closeout"

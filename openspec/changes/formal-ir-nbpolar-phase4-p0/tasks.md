@@ -2952,3 +2952,196 @@ the P20R queue dir; reuse paths point at the P20M/P20N queue dirs);
 `.workbuddy/queue/NBPOLAR-PHASE4-P20R-ORDER-POSITION-1P5M/l2_order_position_1p5m/`
 is absent and must remain absent until an authorized Stage-B execution. No
 box above is checked by the implementing session.
+
+## P20S maximum-information mechanism-probe tasks (Stage A implementation only)
+
+Frozen packet:
+`.workbuddy/queue/NBPOLAR-PHASE4-P20S-MECHANISM-PROBE-2M-MERGED/`
+(`TASK_PACKET.md`, frozen; Tier-Y decision-gate packet).
+Predecessor: P20R
+`TARGET_EMPIRICAL_N32768_VAL_REMAINDER_ORDER_POSITION_1P5M_COMPLETE_ACCEPTED_DESCRIPTIVE`
+(Stage-B single attempt SPENT 1/1; 1.5M VAL-remainder DEV 2044..2171 CONSUMED;
+A 0/1, B 0/1, C 0/1, D 0/1 — block-dominated, non-discriminating for the order
+factor per main-thread review §D1/D2; 1.5M remainder populations closed).
+User decision 2026-09-20: D1-A authorized (2M same-session cross-split merge
+for the final block: VAL-remainder tail 2827..2915 + HOLD-remainder head
+3556..3594, ONE block at N=32768); D2 mechanism-probe form frozen (three arms
+{frozen-order anchor, local-spike order candidate, true-L1 oracle}, uncapped
+full-block IR-5, geometry/coverage judgment only, NO recovery-rate reading).
+Factor decision (frozen, not re-argued): single-factor L2-order-position probe
+under the raw prior at frozen α1 construction and frozen per-session disclosure
+on the ONE merged final 2M block — arm A = α1 + FROZEN 2M order, arm B = α1 +
+SPIKE L2-order positions derived from the REUSED 2M raw prior (worktree-file
+only, zero protected derivation reads) at identical K; O true-L1 oracle
+(frozen order + alt tables, D-continuity, diagnostic only). Blocker B-1 (spike
+ranking functional) is RESOLVED by user decision (2026-09-20): F-median8
+(score[i] = h[i] − median over the R=8 clipped natural neighborhood; full
+frozen text in `TASK_PACKET.md` §3; Stage A SHALL NOT invent or alter it;
+F-mean8 / F-multi8_32 rejected, retained as historical context only).
+Strategy parent: `docs/nbpolar/REAL_DATA_FEASIBILITY_STRATEGY.md`
+stage 2. Stage A authorized separately; it permits ZERO protected opens
+(counts 0/0 at every stage — the V25 counts NPZ never opened/statted/listed;
+merged-DEV 0/1; 1M 0; 1.5M 0; 2M-non-DEV 0 in every form), zero
+sampling/genie calls at every stage (the spike derivation is deterministic
+worktree-prior-only under the frozen DECIDED 2026-09-20 F-median8
+formula-id), no lambda anywhere, no K carried as an absolute from 1.5M or
+recomputed from alt-H (S2-i; replay only from the P20O 2M session point), no
+derivation or sampling on real frames, no real-data decoder execution, no
+Stage-B output root, no second construction, no construction sweep, no
+bounded search, no second order beyond the single spike set, no
+disclosure-size change (B−A = 0), no decoder change, no H2 verdict, no
+recovery-rate reading, no new-block peeking, no SCL/new kernel/model/schema,
+no text-JSON float dumps, no npz/npy/parquet evidence files, no overwrite
+under `results/` or `comparison_bench/outputs_comparison/`, and no
+commit/push. Stage B needs an independent Pre-EXECUTE PASS (explicitly
+adjudicating the §3 reuse/alt replay, the spike derivation contract +
+formula-id decided text (DECIDED 2026-09-20 F-median8) + program pin, the D1/D2
+replay outcome, the §5 budget/K-literal replay, the §4 gate family (a)→(g)
+incl. the merged frame-set identity rule, the §2 runner-delta design d1–d9,
+and the §7 nine-scalar + IR-1..IR-4 boundary + IR-5 uncapped encoding/size
+rule + arm-specific order-digest rule) plus a separate pasted authorization.
+
+- [ ] P20S-1: read-only callsite inventory of the packet-§12 predecessor helpers
+  (`operational_f13.py`, `operational_f13_replication.py`,
+  `holdout_microcheck.py`, `holdout_backoff_diagnostic.py`,
+  `l2_disclosure_backoff.py`, `plus1024_confirmation.py`,
+  `plus1024_extension.py`, `plus1024_independent_session.py`,
+  `per_session_calibration.py` (digest recipe pin only),
+  `plus1024_per_session_confirmation.py`, `l1_disclosure_1p5m.py`,
+  `l1_dose_escalation_1p5m.py`, `l1_dose_512_1p5m.py`, `l1_order_1p5m.py`,
+  `raw_prior_val_1p5m.py` (gate/population/record-writer pattern references),
+  `l2_alt_hold_1p5m.py` (α1 construction-swap pattern reference),
+  `l2_alt_maintain_2m.py` (gate/record-writer/nine-scalar pattern references),
+  `l2_alt_hold_ir_2m.py` (import target; gate/population/IR record-writer
+  pattern references), `l2_order_position_1p5m.py` (dual-order +
+  derivation-program pattern references) plus the accepted
+  `l2_alt_hold_ir_2m._ir_hazard_diagnostics` code point cited as the carried-over
+  callsite pattern for the §7 recorder extension; change no shared logic.
+- [ ] P20S-2: verify the §3 P20O 2M reuse pins by worktree-file digest recomputation
+  ONLY (zero protected opens at every stage): prior canonical digest
+  `b16f52165d9f7ef28884df270f921ce07c2a743f4f4b39c3435838809ae1c587` + H literals
+  `0.02566204884275839 / 0.8069006731309893 / 0.8325627219737477` within 1e-12 +
+  `p_b` cross-check + floor pins; frozen-A orders file-bytes digest
+  `b2255449d2422b8f9cd08ee6bdf1e1c40ce7787a0e9107c7819da8acf3bd0906`; alt file-bytes
+  digest `98e25495d2e7adcc3332f48279f6f1c824b3f129c3e2cbca93a718c0d1ae5fb5` +
+  alpha-1.0/floor pins + exact key sets + `p1`-equality within 1e-12 + descriptive alt-H
+  replay; K literals `(7080,334,6746)` replayed never recomputed with the S2-i
+  budget-literal replay display `1.3*32768*0.8325627219737477-64 over 5, floored, clipped
+  [0,65536] = 7080` (never from 1.5M, never from alt-H); D1 literals replayed (`ce_alt`
+  0.8850983725781965, `ce_incumbent` 0.8069006731253678, ceilings 33794/35464,
+  `alt_ideal_length_bits` 29002.90347264234) with the D2
+  `alt_construction_budget_feasibility_replayed` gate evaluated BEFORE any DEV contact
+  (MISMATCH → DEV untouched, no Stage-B request; margin `4791.09652735766`).
+- [ ] P20S-3: derive the spike-B order permutation by the §3 contract (worktree-prior
+  arrays ONLY via `derive_spike_l2_order` under the frozen DECIDED 2026-09-20 F-median8
+  formula-id, deterministic, zero sampling/genie/seeds, zero protected reads,
+  length-32768 permutation, K2-prefix disclosed, L1 carried frozen; program pin +
+  file-bytes digest `139f34c3152dfd5c7389c860b4f52ce23e5b6759465714fdb86ab5c605de1864` +
+  A-vs-B set-delta table pinned in `P20S_FREEZE.md` — the exact functional is F-median8,
+  DECIDED 2026-09-20 per `TASK_PACKET.md` §3; NEVER invent or alter any functional) and
+  implement the thin runner `formal_ir/nbpolar/l2_mechanism_probe_2m.py` importing
+  accepted `l2_alt_hold_ir_2m` read-only with ONLY the §2 delta list d1–d9: hardcoded
+  three arms (`A_anchor_frozen_order` α1 + frozen order at carried K /
+  `B_spike_local_order` α1 + spike order at carried K, the probed factor /
+  `O_true_l1_oracle` frozen-order true-L1 diagnostic at carried K2, D-continuity);
+  the §3 reuse artifacts + spike order file loaded read-only behind the
+  `reuse_prior_identity` + `reuse_alt_identity` + `reuse_order_freeze_A` +
+  `spike_order_identity_B` + `order_derivation_program_identity` gates with the K-literal
+  replay gate (never recomputed); the §7 carried nine scalars (arm-specific order digest:
+  frozen-A on A/O, spike on B) PLUS the mandatory IR-1..IR-4 recorder (P20Q-identical
+  caps/formulas: IR-1 64-bin histograms {prefix, outside} under the record's OWN order +
+  IR-2 first-error hazard-rank percentile + IR-3 above-threshold prefix counts at EXACTLY
+  two frozen thresholds 1.0×/2.0× record prefix-mean hazard + IR-4 top-16 with ranks, all
+  PRESENT bounded recording-only post-decode with the truth-isolation boundary pinned)
+  PLUS the IR-5 UNCAPPED full-block writer (per record: 32768 float32-LE hazard series +
+  32768 uint8 in-prefix flags + 32768 uint8 U-domain flags + `ir5full-v1` manifest
+  linkage; binary `.bin` + JSON manifest ONLY, no text-JSON float dumps, no
+  npz/npy/parquet; per-record ≤ ~400 KB, root ≤ ~1.5 MB, every committed file ≤ ~2 MB);
+  new P20S tag domain (master 2026092360, seed prefix
+  `nbpolar-p20s-mechanism-probe-2m-seed`); merged-2M formation (VAL tail 2827..2915 +
+  HOLD head 3556..3594 → ONE block, HOLD tail 3595..3644 + 1.5M stub/remainder counted
+  never decoded) under the §4 gate family (a)→(g) (merged cross-file 2M identity first,
+  then dual-segment intra-file containment, then consumed-1M / consumed-1.5M /
+  consumed-2M exclusions incl. the DEV∩build-frames disjointness declaration with frame
+  sets — S2-ii, then reuse-prior + reuse-alt + frozen-A-order + K-literal +
+  spike-derivation-program pins, then merged-frame-set-identity + order-position-identity
+  + tag-domain pins); fifteen files with per-(arm, block) checkpointing; per-record
+  floor-hit fields (S2); P20A resource passthrough and endpoint separation.
+- [ ] P20S-4: freeze the §3 reuse pins (all three digest replays + H literals + `p_b` +
+  `p1`-equality + floor/alpha pins) + spike digest + formula-id + program pin +
+  set-delta table (size-delta 0), the replayed point (K_total literal replay display +
+  (K1,K2) integers + frozen-A order digest replay; NO derivation seeds — deterministic
+  permutation needs zero sampling), the P16 construction migration (digest
+  `055c906472dd2a09761761b18aceb5f31d8b5db19bac658721f8dc49c3faea1b`), the population
+  (merged DEV VAL tail 2827..2915 + HOLD head 3556..3594, HOLD tail 3595..3644, 1.5M
+  stub/remainder), the replayed per-arm caps from the carried integers (A/B
+  `5*(K1+K2)+64 = 35464` with Δ exactly 0; O `5*K2+64 = 33794`; 327743 public; totals
+  104722/983229), the IR-3 multipliers (1.0×/2.0× with the X10 median-2.246
+  justification) + IR-4 k=16 + IR-5 uncapped encoding/size pins (ir5full-v1, f32le+u8+u8,
+  per-record ≤ ~400 KB, root ≤ ~1.5 MB, every file ≤ ~2 MB), the exact Stage-A verify
+  command (zero-open reuse check, `--source 2M` vocabulary) and Stage-B command (new P20S
+  tag master, `--prior-digest` / `--alt-digest` / `--k1/--k2` / `--order-digest` /
+  `--spike-order-digest` / `--spike-formula` replay pins, dual-segment frame flags,
+  5-SC / 3-tag pure-DEV budget, 1200-s / 2-GiB / single-thread envelope), and the
+  SC/tag/genie (0+0)/wall/RSS budgets in `P20S_FREEZE.md`, plus the D1/D2 replay literals
+  and outcome (FEASIBLE-replay required before any Pre-EXECUTE request).
+- [ ] P20S-5: focused `tests/test_nbpolar_mechanism_probe_2m.py`
+  (synthetic counts/priors + scripted seams; fresh test-local seeds
+  2026092361..2026092367; temporary roots; `pytest -p no:cacheprovider`) asserting the
+  zero-protected-open audit, the reuse-identity replay (digests/H/`p_b`/`p1`-equality/
+  key-set pins + spike identity/program/formula pins), the frozen derivation contract
+  (determinism/permutation/F-median8-scores/tie-break/refusals; zero sampling/genie
+  pins), the budget/K-literal replay (S2-i; alt-H never a budget input), the single-factor
+  order differential (A-vs-B set-delta byte-exact with size-delta 0; shared-L1 rule),
+  accounting, endpoint separation, the §4 gate family (source-first,
+  dual-segment-containment, frame-set identity, consumed-1M / consumed-1.5M /
+  consumed-2M exclusions, reuse/order/K/spike pins last), the DEV∩build-frames
+  declaration (S2-ii), the D1 estimator + D2 replay-gate logic on synthetic counts (both
+  branches), the nine carried scalars incl. the arm-specific digest rule + nullability +
+  IR-1..IR-4 (all PRESENT: 64-bin histogram shapes/caps, rank-percentile formula +
+  nullability, IR-3 two-threshold 1.0×/2.0× counts on synthetic hazards, top-16
+  shapes/ranks) + IR-5 uncapped (array shapes/dtypes/popcount, writer byte
+  sizes/digests/fail-if-present, nine-file manifest identity + tamper refusals, budgets)
+  + the truth-isolation sentinel, the declared-remainder + counted-1.5M measurement, the
+  resource path and the no-production-invocation rule; plus one injected end-to-end
+  single-block three-arm run (real SC path, synthetic data, arm-specific digests,
+  IR-1..IR-4 PRESENT + IR-5 manifest references, 15 files incl. manifest-verified bins).
+- [ ] P20S-6: `P20S_FREEZE.md` + `P20S_IMPLEMENTATION_NOTES.md` in the packet queue
+  directory and this P20S spec/tasks delta; this doc authorizes nothing (no Stage-B
+  execution, no self-acceptance).
+- [ ] P20S-7: independent Pre-EXECUTE review of the frozen command, population, caps,
+  reuse derivation + spike derivation contract + formula-id decided text (DECIDED
+  2026-09-20 F-median8) + program pin (§3), D2 replay-gate outcome (§3),
+  budget/K-literal replay (§5), gate family (§4 incl. merged frame-set identity rule),
+  runner-delta design (§2 d1–d9) and nine-scalar + IR-1..IR-4 boundary + IR-5 uncapped
+  encoding/size rule + arm-specific order-digest rule (§7), budgets, tag/domain
+  separation, truth/accounting gates, tests and target absence (main thread + reviewer;
+  separate gate, not this task).
+- [ ] P20S-8: exactly one authorized three-record three-arm attempt with the frozen
+  command (only if the D2 replay outcome is FEASIBLE; MISMATCH ends the packet at Stage A
+  with DEV untouched); the single merged-DEV attempt is consumed at the first merged-DEV
+  content open with no rerun/reopen/seed/parameter/arm change (separate Stage-B
+  authorization required; not authorized here).
+- [ ] P20S-9: independent Pre-RESULT review recomputing the identities, population, 3
+  records, per-arm outcomes, geometry/coverage tables (full-block series summaries +
+  mismatch-coverage + IR-1 tails under both orders + full-scope top-128/1024
+  concentration + set-delta table, all labelled non-recovery), oracle isolation, gates,
+  input stats, resources and the fifteen-file inventory from the artifacts (separate gate,
+  not this task; H2 quantities checked present, never decided).
+- [ ] P20S-10: main-thread adjudication to
+  `TARGET_EMPIRICAL_N32768_MERGED_MECHANISM_PROBE_2M_COMPLETE` or
+  `BLOCKED(<earliest gate>)`; this is a descriptive frozen-disclosure single-factor
+  mechanism probe on the final merged 2M block, not real-frame FER, efficiency, key-rate,
+  scaling, qualification or promotion evidence either way, and the oracle O arm is never
+  an operational or deployable result. It supplies the maximum-information
+  geometry/coverage observation at frozen α1 with the H2 quantities recorded; it licenses
+  no reliability claim and no H2 verdict; HOLD tail 3595..3644 and all 1.5M remainders
+  stay untouched. The branch decision and the H2a–H2e decision belong to later main-thread
+  analysis, never to this packet's label.
+
+Evidence (Stage A only; Stage B not run): ONE new artifact (`new_spike_order_2m.json` under
+the P20S queue dir; reuse paths point at the P20O queue dir);
+`P20S_FREEZE.md`, `P20S_IMPLEMENTATION_NOTES.md`; output root
+`.workbuddy/queue/NBPOLAR-PHASE4-P20S-MECHANISM-PROBE-2M-MERGED/l2_mechanism_probe_2m/`
+is absent and must remain absent until an authorized Stage-B execution. No
+box above is checked by the implementing session.

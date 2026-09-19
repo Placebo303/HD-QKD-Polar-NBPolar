@@ -1,0 +1,29 @@
+{
+ "probe_id": "NBPOLAR-X15-STRUCTURED-CHANNEL-LIST-SURVIVAL",
+ "tier": "X",
+ "status": "X15_STOP_SANITY_G1",
+ "stop_detail": "pooled mismatch ratio-of-sums 0.9686279296875 outside [0.15, 0.90]",
+ "question": "Q1/Q1b top-L true-cell survival at frozen-hazard spikes + Q2 F-median8 local-spike vs mean-hazard coverage (descriptive only).",
+ "command": "cd /mnt/d/Code/HD-QKD_Polar_Comparison-nbpolar && export OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1 MKL_NUM_THREADS=1 MALLOC_ARENA_MAX=2 && timeout 300 /mnt/d/Code/HD-QKD_Polar_Comparison/.venv/bin/python workspace/probes/nbpolar_x15_structured_channel_list_survival/body.py",
+ "interpreter": {
+  "executable": "/mnt/d/Code/HD-QKD_Polar_Comparison/.venv/bin/python",
+  "version": "3.12.3 (main, Aug 31 2026, 10:18:26) [GCC 13.3.0]"
+ },
+ "wall_s": 1.5295886993408203,
+ "rss_bytes": 144322560,
+ "decoder_calls": 0,
+ "rng_calls": 0,
+ "tag_calls": 0,
+ "protected_opens_attempted": false,
+ "writes": [],
+ "notes": [
+  "Tier-X descriptive probe only: no thresholds, no pass/fail, no verdicts; SCL stays locked whatever the numbers say.",
+  "u1_cond = per-position argmax_u1 p1 (operational hard-u1, decoder-free, P20S U1hard convention); single sc_decode(L=1) per block on hard-u1 L2 metrics = sole decoder use (Q2 mismatch oracle).",
+  "Static order = natural order: positions iid under the model so table-marginal E[h] is position-free; prefix = first 52 positions; pm per block.",
+  "Q1/Q1b per-seed fraction = survived/spike-positions pooled over the seed's 4 blocks; pooled = mean/sample-std(n-1)/range over 8 seeds; null when denominator is 0.",
+  "Q2 per-seed coverage = selected-mismatches/mismatches pooled over the seed's 4 blocks (null when 0 mismatches); pooled = ratio-of-sums over all blocks plus seed mean/std/range.",
+  "rng_calls counts Generator method calls: 0 table (deterministic per-column masses, master 2026092369 is an identity label only) + 64 block-sampling (32 blocks x 2); tag_calls = 0; zero protected opens.",
+  "Measured floor-hit rate is over full f_full cells (planted-zero fraction); sampling never adjusts it.",
+  "Sanity gates G1/G2/G3 are wiring/structure checks evaluated before the main question; any violation stops with X15_STOP_SANITY_* and no repair."
+ ]
+}

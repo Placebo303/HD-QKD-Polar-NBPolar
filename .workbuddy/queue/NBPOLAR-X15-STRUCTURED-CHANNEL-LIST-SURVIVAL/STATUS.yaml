@@ -1,0 +1,39 @@
+# STATUS.yaml — NBPOLAR-X15-STRUCTURED-CHANNEL-LIST-SURVIVAL
+
+probe_id: NBPOLAR-X15-STRUCTURED-CHANNEL-LIST-SURVIVAL
+tier: X
+state: APPROVED_PENDING_FREEZE
+branch: codex/nbpolar-phase0
+authorizing_record: .workbuddy/queue/NBPOLAR-PHASE4-NEXT-BRANCH-DECISION.md §4 D3 + user standing pre-authorization 2026-09-20
+predecessor_probe: NBPOLAR-X14-SCL-LIST-SURVIVAL (PASS_WITH_FINDINGS; near-random channel, Q1 structural, Q2 void)
+execution_authorized: false
+implementation_authorized: true (freeze only)
+protected_opens_allowed: false
+scl_implementation_allowed: false
+frozen_table_identity_master: 2026092369 (reserved, no RNG)
+frozen_block_seeds:
+- 2026092370
+- 2026092371
+- 2026092372
+- 2026092373
+- 2026092374
+- 2026092375
+- 2026092376
+- 2026092377
+seed_grep_verified: planner-grep-clean-2026-09-20 + reverify-required-at-freeze
+probe_root: workspace/probes/nbpolar_x15_structured_channel_list_survival
+packet_docs:
+- .workbuddy/queue/NBPOLAR-X15-STRUCTURED-CHANNEL-LIST-SURVIVAL/TASK_PACKET.md
+- .workbuddy/queue/NBPOLAR-X15-STRUCTURED-CHANNEL-LIST-SURVIVAL/PREREG_DRAFT.md
+- .workbuddy/queue/NBPOLAR-X15-STRUCTURED-CHANNEL-LIST-SURVIVAL/STATUS.yaml
+pending_decisions:
+- id: X15_NEIGHBOR_CONCENTRATION
+  status: FROZEN_20260920_C8_NEIGHBORS_90PCT_ERROR_MASS
+  decision: FROZEN_20260920_C8_NEIGHBORS_90PCT_ERROR_MASS (recommend option auto-selected under standing pre-authorization; transparent engineering choice, zero provenance claim, calibration scalars recorded descriptively, never tuned post-prereg)
+next_gate: FREEZE_THEN_SINGLE_EXECUTE_THEN_FOCUSED_REVIEW
+blockers: none
+notes: X15 = X14 recipe + diagonal concentration (minimal delta, maximal comparability).
+  Pipeline: coder freeze -> single execute -> focused review -> milestone memory batch.
+  p_err=0.25 rests on 1.5M SER (no 2M raw SER found) recorded as a population caveat.
+  No implementation, execution, protected opens, or decoder work performed in this packet step.
+  SCL remains locked; this probe reports coverability evidence only.
