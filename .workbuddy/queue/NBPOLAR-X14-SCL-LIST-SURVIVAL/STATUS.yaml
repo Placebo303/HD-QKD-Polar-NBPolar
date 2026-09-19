@@ -1,0 +1,40 @@
+# STATUS.yaml — NBPOLAR-X14-SCL-LIST-SURVIVAL
+
+probe_id: NBPOLAR-X14-SCL-LIST-SURVIVAL
+tier: X
+state: APPROVED_PENDING_Q2_ALIGNMENT_AND_FREEZE
+branch: codex/nbpolar-phase0
+authorizing_record: .workbuddy/queue/NBPOLAR-PHASE4-NEXT-BRANCH-DECISION.md
+decision_item: D3
+lifecycle: proposal-only
+execution_authorized: false
+implementation_authorized: false
+protected_opens_allowed: false
+decoder_allowed: greedy-SC-mismatch-oracle-only-at-execution
+scl_implementation_allowed: false
+frozen_table_master_seed: 2026092350
+frozen_block_seeds:
+- 2026092351
+- 2026092352
+- 2026092353
+- 2026092354
+- 2026092355
+- 2026092356
+- 2026092357
+seed_grep_verified: planner-grep-clean-2026-09-19
+seed_reverify_required_at_freeze: true
+probe_root: workspace/probes/nbpolar_x14_scl_list_survival
+packet_docs:
+- .workbuddy/queue/NBPOLAR-X14-SCL-LIST-SURVIVAL/TASK_PACKET.md
+- .workbuddy/queue/NBPOLAR-X14-SCL-LIST-SURVIVAL/PREREG_DRAFT.md
+- .workbuddy/queue/NBPOLAR-X14-SCL-LIST-SURVIVAL/STATUS.yaml
+pending_decisions:
+- id: X14_LABEL
+  status: RESOLVED_2026-09-20_RENAMED_FROM_X11
+  decision: rename to X14 (main thread)
+- id: Q2_FORMULA_ALIGNMENT
+  blocked_on: P20S local-spike formula user decision
+next_gate: SEED_REGREP_AND_Q2_ALIGNMENT_THEN_CODER_FREEZE
+blockers: none
+notes: No implementation, execution, protected opens, or decoder work performed in this proposal.
+  SCL remains locked; this probe reports coverability evidence only.
