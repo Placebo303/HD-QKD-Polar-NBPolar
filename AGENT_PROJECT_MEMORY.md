@@ -1,3 +1,9 @@
+## 2026-09-20 Reduced-N (N=8192) persistence probe scoping (unexecuted; next gate RN-1 freeze review)
+
+- Scoping [decision]: OpenSpec delta `specs/nbpolar-reduced-n-persistence/` (spec + design + proposal) + umbrella tasks RN-1..RN-8 (all `[GATE — NOT AUTHORIZED]`) committed and pushed; scoping only — zero protected opens, zero attempts, DEV 0/1, no data contact, no execution.
+- Next gate [procedure]: RN-1 freeze review by the main thread (population 32/18, arm rule, K estimate-only rule, comparability boundary, gate markers); Stage-A/Stage-B authorizations + independent Pre-EXECUTE/Pre-RESULT + acceptance all future and separate.
+- Ledger end-state [repo-observed]: 0 full N=32768 blocks remain (133 frames / 34,048 pairs never-decoded); authorizing N=8192 would consume 3595..3626 leaving 3627..3644 — until then the full 50-frame 2M HOLD tail stays never-decoded.
+
 ## 2026-09-20 Geometry mining: §3 trigger met (Q-G1/Q-G2); reduced-N held pending gates
 
 - Order-independence [repo-observed]: hazard sha `ef4398d3…` identical across A/B/O at manifest level; A≡O masks; B differs; |A−B|=|B−A|=1599 = 23.70% swapped, size-delta 0 ⇒ hazard is a property of the frozen α1 table, orders only choose disclosed positions.

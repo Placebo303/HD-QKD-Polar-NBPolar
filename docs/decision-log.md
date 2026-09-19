@@ -4921,3 +4921,15 @@ candidate; it is not the default next route.
 - Disclosing tail positions or list decoding on this evidence: rejected — neither executed; L2 tail-decodability needs option (i), not (iv).
 
 **Consequences**: geometry run root `workspace/geometry/58503bc3-0306-45b0-b70c-2599aaf82820/` committed (commit `e7600347`); feasibility study `.workbuddy/queue/NBPOLAR-REDUCED-N-FEASIBILITY.md` committed; (iv) scoping gated on OpenSpec delta + freeze + explicit authorizations; no tail contact; no rerun/retuning.
+
+## 2026-09-20 Reduced-N (N=8192) persistence probe — scoping only, no execution
+
+**Decision**: (i) extend the umbrella change `formal-ir-nbpolar-phase4-p0/` with `specs/nbpolar-reduced-n-persistence/` (spec + design + proposal) + tasks RN-1..RN-8, each marked `[GATE — NOT AUTHORIZED]`; (ii) population = ONE N=8192 block on the 2M HOLD tail 3595..3626 (32 frames / 8192 pairs) with declared remainder 3627..3644 (18 / 4608); 1.5M stubs not used; no cross-split combining; D1-A not invoked; 1.5M↔2M never mixable; (iii) rebuild-vs-reuse split — rebuild: construction/allocation, FROZEN_N=8192 runner+tests, K ≈1760 by the frozen formula (estimate only, never hand-filled), fresh length-8192 L1/L2 + spike orders, tag value 81983 + new domain, SC stages 13, IR-5 48 KiB/record, disclosure values, population gates, all reviews/authorizations; reuse read-only: 2M session-H inputs (worktree arrays, never the counts NPZ), formula shapes, code paths, recount/gate/truth-isolation/oracle machinery; (iv) comparability boundary restated — per-N results are NOT comparable across N; the 1/4→2/5→4/5 chain, the H2 verdicts, the 32768 IR-5 geometry and all leakage literals do not transfer; (v) effort class = P16-scale, not P20S-scale thin reuse; (vi) trigger provenance: §3 trigger met by geometry mining (Q-G1 spike-local fail-pattern recurrence at N=8192; Q-G2 tail-mass disclosure comparison at the same N); (vii) this scoping authorizes NOTHING — no data contact, no execution; the 2M HOLD tail stays never-decoded until its own Stage-A/Stage-B authorizations + independent reviews.
+
+**Context**: geometry mining met the §3 trigger with named questions Q-G1/Q-G2; the 2M HOLD tail (50 frames / 12,800 pairs) fits exactly one N=8192 block plus an 18-frame remainder; the N=32768 ladder is exhausted (0 full blocks remain; 133 frames / 34,048 pairs never-decoded).
+
+**Alternatives considered**:
+- Authorizing reduced-N execution in this scoping: rejected — no delta freeze review, no Stage-A/Stage-B authorizations, no independent reviews yet.
+- Using the 1.5M stubs or pooling across N/sessions: rejected — 1.5M↔2M mixing forever forbidden; per-N results not comparable.
+
+**Consequences**: scoping-only delta committed and pushed (no execution, no data contact — zero protected opens, attempts 0/1); next gate is RN-1 freeze review; the full 50-frame 2M HOLD tail stays never-decoded until separately authorized Stage-A/Stage-B execution + independent reviews.
