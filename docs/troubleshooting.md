@@ -621,3 +621,22 @@ rewrite historical gates.
 
 **Prevention**: tests for a runner-level OOM and an inner decoder OOM are
 different. Every helper that promises resource/decode separation needs both.
+
+### Stray `D:/` directory regrowing in the repo root under WSL
+
+**Observed** (2026-09-19): a `D:/` directory inside the repo root accumulated
+2.3 GB / 3597 files.
+
+**Root cause**: `comparison_bench/tests/test_evidence_package.py:27` hardcodes
+`TEST_DIR = Path("D:/Code/...")`. Under WSL that Windows absolute path resolves
+as a RELATIVE path, so the test's `mkdir -p` recreates the whole tree inside
+the repo on every test run.
+
+**Fix**: the tree was moved (not deleted) to `/mnt/d/Code/.stray_dcolon_20260919/`
+(2.3G preserved; unique pytest tmp content not present elsewhere). The planned
+source fix is a small future packet (or next docs batch): replace the hardcoded
+Windows path with a repo-relative/tmp path. Until then the artifact reappears
+on test runs — move it out again, and never `git add` the tree.
+
+**Prevention**: never hardcode a Windows drive-letter path as a test output dir;
+use a repo-relative path or tmp dir so WSL cannot reinterpret it as relative.

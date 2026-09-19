@@ -24,6 +24,19 @@ Durable decisions and rejected alternatives for the HD-QKD_Polar_Comparison-nbpo
 
 ## Decisions
 
+## 2026-09-19 X10 H2 scalar adjudication probe disposition (H2a refuted; local-spike reading; IR-1..IR-5; P20Q frozen next)
+
+**Decision**: Record the Tier-X probe `workspace/probes/nbpolar_x10_h2_scalar_adjudication/` (packet `.workbuddy/queue/NBPOLAR-X10-H2-SCALAR-ADJUDICATION/`, reviewed PASS, decoder-free, zero protected opens) as: H2a **REFUTED**, H2b **SUPPORTED**, H2c **SUPPORTED**, H2d flat, H2e static-geometry **NOT-DECIDABLE** → bounded recording-only instrumentation requirements IR-1..IR-5. Freeze `NBPOLAR-PHASE4-P20Q-HOLD-IR-CONFIRMATION-2M` (reuse-only α1 confirmation on 2M HOLD 2916..3555, 5 blocks, IR-1..IR-5 PRESENT, zero new counts read) as the next planning input; nothing auto-triggers — Stage-A authorization paste still required.
+
+**Context**: H2a: 4/4 evaluable blocks show the exact arm's prefix-hazard mean HIGHER than the failing arm's (P20N b3 +0.0971; P20O b1 +0.0304, b2 +0.0431, b4 +0.0684 bits). H2b: fail-site hazard / prefix-mean median ratio 2.246 over n=25 L2 fails, per-arm medians >1.1. H2c: 23/25 fails in X-prefix; P20O 11/11 additionally out-of-U. H2d: mean |Δfloor| 0.0030 (flat). H2e undecidable from static geometry alone. Descriptive reading: failures are driven by LOCAL relative hazard spikes, not average metric quality; α=1 smoothing flattens those spikes even while raising the mean — this explains "alt CE/hazard higher yet restores blocks". IR-1 64-bin log hazard histograms {prefix,outside} ~1KB/rec; IR-2 first-error hazard-rank percentile (1 float); IR-3 above-threshold prefix counts at 1.0×/2.0× record prefix-mean; IR-4 top-16 hazardous positions w/ ranks; IR-5 capped 4096×2 float32 series + truncation flag (escalation). H2 is one instrumented run from resolution.
+
+**Alternatives considered**:
+- Treat the H2b/H2c support as a mechanism verdict or auto-trigger P20Q: rejected — descriptive only, static scalars; P20Q needs explicit Stage-A authorization.
+- Retain H2a (average-metric-quality) as live: rejected — refuted 4/4 in the evaluable direction.
+- Decide H2e from static geometry or demand the full per-position series now: rejected — NOT-DECIDABLE on current scalars; IR-5 is capped/escalation-only.
+
+**Consequences**: No FER/reliability/qualification claim; no rerun/retuning; P19 roots untouched; no commit/push.
+
 ## 2026-09-19 NB-Polar Phase 4 P20O 2M maintain-confirmation accepted (descriptive; restoration replicated cross-session; U-domain closure)
 
 **Decision**: Record the single P20O Tier-Y execution as `TARGET_EMPIRICAL_N32768_VAL_MAINTAIN_ALT_CONSTRUCTION_2M_COMPLETE`, accepted descriptive only. Combined with P20N, the frozen alt-L2 construction now shows B 3/9 vs control A 0/9 restoration events across two sessions, with zero maintain events. The next single factor is main-thread planning input; nothing auto-triggers.
