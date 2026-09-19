@@ -17,7 +17,24 @@ comparison_bench/outputs_comparison/pytest_tmp/
 comparison_bench/outputs_comparison/pytest_tmp2/
 
 results/
-workspace/
+workspace/*
+!workspace/probes/
+workspace/probes/*
+!workspace/probes/nbpolar_x01_20260913/
+!workspace/probes/nbpolar_x02_dependent_l2_point_search/
+!workspace/probes/nbpolar_x03_bob_marginal_l2/
+!workspace/probes/nbpolar_x03b_oracle_label_correction/
+!workspace/probes/nbpolar_x06_empirical_construction_order/
+!workspace/probes/nbpolar_x07_entropy_contract_reconciliation/
+!workspace/probes/nbpolar_x08_per_session_prior_entropy_audit/
+!workspace/probes/nbpolar_x09_l2_attribution/
+!workspace/probes/nbpolar_x09_l2_attribution_r1/
+!workspace/probes/nbpolar_x10_fwht_kernel_scaling/
+!workspace/probes/nbpolar_x10_h2_scalar_adjudication/
+!workspace/probes/nbpolar_x11_hybrid_fwht_endtoend/
+!workspace/probes/nbpolar_x12_exact_chunked_sc_scaling/
+!workspace/probes/nbpolar_x13_metric_memory_lifetime/
+!workspace/probes/nbpolar_x13r1_metric_memory_completion/
 logs/
 tmp/
 _tmp*/
@@ -30,6 +47,9 @@ _tmp*/
 *.hdf5
 *.pkl
 *.joblib
+*.parquet
+*.log
+*.tmp
 
 .DS_Store
 Thumbs.db
