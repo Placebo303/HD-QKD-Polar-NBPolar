@@ -1,0 +1,62 @@
+{
+ "packet": "geometry-archive mining of P20S/R1 uncapped full-block hazard geometry (analysis-only, read-only)",
+ "run_root": "workspace/geometry/58503bc3-0306-45b0-b70c-2599aaf82820/",
+ "branch": "codex/nbpolar-phase0",
+ "authorization": "STANDING PRE-AUTHORIZATION 2026-09-20 (analysis-only branch, option A)",
+ "protected_ruling": "IR-5 .bin BYTE contents PROTECTED: not opened/statted/parsed; manifest-level evidence only (sha/size/shape/ir5full-v1 linkage) plus JSON scalars",
+ "counters": {
+  "decoder_calls": 0,
+  "rng_calls": 0,
+  "tag_calls": 0,
+  "protected_opens": 0
+ },
+ "order_independence": {
+  "hazard_sha_all_arms": "ef4398d3739120e46f770a4dd11bbb31594a07ccd2cdc2c0b93c57f222d52863",
+  "inprefix_sha_A_O": "9e9f5e9834382bfb98182e16d30e3f1d90303cf4953e24cdb548fe1eb91ad28a",
+  "inprefix_sha_B": "cf75440da657e1b6be8c837bdd54d2ff310f2525a7c01a7ea624fb6941b6830e",
+  "inu_sha_A_O": "c35020473aed1b4642cd726cad727b63fff2824ad68cedd7ffb73c7cbd890479",
+  "inu_sha_B": "bf4e871b353e60030f226c68fda5d37a09535ea1b6b6687f2a3b2654ad18769f",
+  "finding": "hazard series byte-identical across A/B/O; A and O masks identical, B masks differ; hazard is a property of the frozen alpha1 table alone, orders only change which 6746 positions are disclosed",
+  "set_delta": "|A-B|=|B-A|=1599 (23.70% of disclosed set swapped), size-delta 0"
+ },
+ "disclosed_set_composition": {
+  "ir1_prefix_mass": 6746,
+  "ir1_outside_mass": 26022,
+  "ir1_prefix_share": 0.20587158203125,
+  "ir1_prefix_tail8": 0,
+  "ir3_above_A_O": 1641,
+  "ir3_above_B": 1651,
+  "ir3_prefix_mean_A": 0.8740592319509212,
+  "ir3_prefix_mean_B": 0.8768295338061611,
+  "ir3_prefix_mean_delta_B_minus_A": 0.002770301855239965,
+  "ir4_top16_in_prefix_all_arms": 0,
+  "ir4_top16_hazard_range_bits": [9.07681559705083, 9.278449458220482],
+  "reading": "disclosed prefix covers ~1/5 of positions at low hazard; 16/16 most-hazardous positions undisclosed under both orders"
+ },
+ "fail_site": {
+  "arm": "B_spike_local_order",
+  "layer_coord": ["L2", 0],
+  "hazard_bits": 0.5131718176531462,
+  "ir2_rank_pct": 0.432220458984375,
+  "r_fail": 0.5852583630772091,
+  "in_prefix": false,
+  "in_u_domain": false,
+  "floor_rate_B": 0.371734619140625,
+  "floor_rate_A_O": 0.0002593994140625,
+  "archive_L2_fails_total": 42,
+  "archive_out_of_prefix_total": 5,
+  "archive_out_of_prefix_operational": 3,
+  "ordinal": "3rd operational out-of-prefix L2 fail (5th incl. oracle); 1st on a spike-local order",
+  "nearest_neighbor": "P20R-B (coord 0, both flags false, 0.5155 bits, rank 0.32919; different session/order/alt: descriptive parallel only)",
+  "supports": "existence case only (n=1, no baseline; one paired draw gives no order discrimination)"
+ },
+ "still_unanswerable": ["L1 order-beats-frozen (no discrimination at n=1)", "L2 tail-decodability (needs option i disclosure move)", "L3 list decoding (all runs SC-only)", "L4 floor-elevation typicality (single draw)", "L5 off-N32768 persistence (needs option iv)", "L6 empty-band/mid-rank generality (no N=32768 blocks remain)"],
+ "trigger_evaluation": {
+  "criterion": "named mechanism question (a) unanswerable from archive AND (b) testable at reduced N without cross-N baseline",
+  "verdict": "YES",
+  "named_questions": ["Q-G1: does the spike-local L2 fail-site pattern recur at N=8192 on the 2M HOLD tail (within-N=8192 paired comparison, no cross-N baseline)", "Q-G2: does a spike-local order disclose more top-hazard-tail mass than the frozen order at the same N (answerable from re-derived N=8192 table geometry alone)"],
+  "consequence": "option (iv) N=8192 justified, subject to its own gates (OpenSpec change + freeze + explicit authorization)",
+  "caveat": "(iv) yields one N=8192 block (n=1): persistence probe, not statistical discrimination; L1-L4/L6 unaddressed, L2 needs (i)"
+ },
+ "scope": "descriptive only; no FER/reliability/efficiency/threshold-verdict language"
+}

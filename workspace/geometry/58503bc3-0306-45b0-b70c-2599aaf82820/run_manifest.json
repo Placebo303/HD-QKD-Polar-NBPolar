@@ -1,0 +1,19 @@
+{
+ "run_root": "workspace/geometry/58503bc3-0306-45b0-b70c-2599aaf82820/",
+ "branch": "codex/nbpolar-phase0",
+ "command": "read-only inspection of aggregate_summary.json, per_block_arm_outcomes.jsonl (P20S + P20N/O/Q/R), ir5_full_manifest.json, frozen_plan.json, input_and_predecessor_identity.json, report.md files, NEXT-PHASE-PLAN.md, and workspace/h2/497eecf4-d060-42a2-a862-49e8059590b7/ tables; plus python3 stdlib-json scalar census and descriptive arithmetic (fractions, ratios); no pipeline, decoder, or test invocation",
+ "interpreter": "system python3 (stdlib json only; project .venv absent) + file reads; no numpy/pytest imported or needed",
+ "wall": {
+  "timed_execution": false,
+  "note": "interactive analysis-only session; no timed compute to report (all steps are file reads plus instant stdlib arithmetic)"
+ },
+ "decoder_calls": 0,
+ "rng_calls": 0,
+ "tag_calls": 0,
+ "protected_opens": 0,
+ "protected_ruling": "Main-thread ruling recorded: the IR-5 .bin BYTE contents are PROTECTED and were NOT opened/statted/parsed; only manifest-level evidence (ir5_full_manifest.json sha/size/shape/ir5full-v1 linkage) plus scalar and IR-1..IR-4 fields already present in JSON were used",
+ "test_evidence_package": "never run (per task constraint)",
+ "inputs": [".workbuddy/queue/NBPOLAR-PHASE4-P20S-R1-GATE-FIX/l2_mechanism_probe_2m/aggregate_summary.json", ".workbuddy/queue/NBPOLAR-PHASE4-P20S-R1-GATE-FIX/l2_mechanism_probe_2m/per_block_arm_outcomes.jsonl", ".workbuddy/queue/NBPOLAR-PHASE4-P20S-R1-GATE-FIX/l2_mechanism_probe_2m/ir5_full_manifest.json", ".workbuddy/queue/NBPOLAR-PHASE4-P20S-R1-GATE-FIX/l2_mechanism_probe_2m/frozen_plan.json", ".workbuddy/queue/NBPOLAR-PHASE4-P20S-R1-GATE-FIX/l2_mechanism_probe_2m/input_and_predecessor_identity.json", ".workbuddy/queue/NBPOLAR-PHASE4-P20S-R1-GATE-FIX/l2_mechanism_probe_2m/report.md", ".workbuddy/queue/NBPOLAR-PHASE4-P20N-L2-ALT-CONSTRUCTION-HOLD-1P5M/l2_alt_hold_1p5m/report.md", ".workbuddy/queue/NBPOLAR-PHASE4-P20N-L2-ALT-CONSTRUCTION-HOLD-1P5M/l2_alt_hold_1p5m/per_block_arm_outcomes.jsonl", ".workbuddy/queue/NBPOLAR-PHASE4-P20O-2M-MAINTAIN-CONFIRMATION/l2_alt_maintain_2m/report.md", ".workbuddy/queue/NBPOLAR-PHASE4-P20O-2M-MAINTAIN-CONFIRMATION/l2_alt_maintain_2m/per_block_arm_outcomes.jsonl", ".workbuddy/queue/NBPOLAR-PHASE4-P20Q-HOLD-IR-CONFIRMATION-2M/l2_alt_hold_ir_2m/report.md", ".workbuddy/queue/NBPOLAR-PHASE4-P20Q-HOLD-IR-CONFIRMATION-2M/l2_alt_hold_ir_2m/per_block_arm_outcomes.jsonl", ".workbuddy/queue/NBPOLAR-PHASE4-P20R-ORDER-POSITION-1P5M/l2_order_position_1p5m/report.md", ".workbuddy/queue/NBPOLAR-PHASE4-P20R-ORDER-POSITION-1P5M/l2_order_position_1p5m/per_block_arm_outcomes.jsonl", ".workbuddy/queue/NBPOLAR-PHASE4-P20R-ORDER-POSITION-1P5M/l2_order_position_1p5m/frozen_plan.json", "workspace/h2/497eecf4-d060-42a2-a862-49e8059590b7/h2v2_summary.json", "workspace/h2/497eecf4-d060-42a2-a862-49e8059590b7/h2e_table.md", ".workbuddy/queue/NBPOLAR-PHASE4-NEXT-PHASE-PLAN.md"],
+ "outputs": ["workspace/geometry/58503bc3-0306-45b0-b70c-2599aaf82820/mining_report.md", "workspace/geometry/58503bc3-0306-45b0-b70c-2599aaf82820/mining_summary.json", "workspace/geometry/58503bc3-0306-45b0-b70c-2599aaf82820/run_manifest.json"],
+ "git": "no commit/push performed (per task constraint)"
+}
