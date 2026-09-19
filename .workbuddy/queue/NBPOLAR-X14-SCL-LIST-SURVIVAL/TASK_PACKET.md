@@ -66,13 +66,14 @@ argmax convention). `r_j` = 1-based rank of the true `u2_j`. **Survival:** `surv
 positions in a block, reported per-seed then pooled across seeds as mean / sample-std / range —
 stratified by excess-depth bin × L. Q1b repeats this with `p1[·,b_j]` columns and true `u1_j`.
 
-**Local-spike detector (Q2, frozen window):** `d_j = h_j − mean(h over the R=8 clipped natural
-neighborhood of j)` (the `FROZEN_HAZARD_R=8` recipe). Detector selection = top-K2_synth positions
+**Local-spike detector (Q2, frozen F-median8):** `d_j = h_j − median(h over the R=8 clipped natural
+neighborhood of j)` (the `FROZEN_HAZARD_R=8` recipe with median; user decision 2026-09-20, P20S §3
+verbatim). Detector selection = top-K2_synth positions
 by `d_j`; baseline selection = top-K2_synth by global `h_j` (the H2a-REFUTED mean-hazard logic).
 **Coverage** = fraction of greedy-SC operational mismatch positions contained in each selection,
 reported descriptively per-seed + pooled. Mismatches come from the accepted greedy `sc_decode`
 (L=1) run once per block against synthetic truth — the sole decoder use, recording-only.
-Alignment pin: this detector MUST instance the D2/P20S-frozen local-spike formula; the local-mean-excess form drafted here is provisional and the operator aligns it before freeze once the P20S formula decision is recorded.
+ALIGNED 2026-09-20: frozen F-median8 (user decision; P20S §3 verbatim).
 
 ## 3. Frozen synthetic channel (in-body, no protected data)
 

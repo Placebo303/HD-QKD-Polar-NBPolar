@@ -2,7 +2,8 @@
 
 probe_id: NBPOLAR-X14-SCL-LIST-SURVIVAL
 tier: X
-state: APPROVED_PENDING_Q2_ALIGNMENT_AND_FREEZE
+state: COMPLETE_REVIEWED_PASS_WITH_FINDINGS
+focused_review: PASS_WITH_FINDINGS (2026-09-20, reviewer-go, ses_f454e5ad0ffeCVj4f4fnMY2H6S)
 branch: codex/nbpolar-phase0
 authorizing_record: .workbuddy/queue/NBPOLAR-PHASE4-NEXT-BRANCH-DECISION.md
 decision_item: D3
@@ -33,8 +34,9 @@ pending_decisions:
   status: RESOLVED_2026-09-20_RENAMED_FROM_X11
   decision: rename to X14 (main thread)
 - id: Q2_FORMULA_ALIGNMENT
-  blocked_on: P20S local-spike formula user decision
-next_gate: SEED_REGREP_AND_Q2_ALIGNMENT_THEN_CODER_FREEZE
+  status: RESOLVED_2026-09-20_F_MEDIAN8
+  decision: F-median8 d_j = h_j - median(h over R=8 clipped natural neighborhood of j) (user decision 2026-09-20; P20S section 3 verbatim)
+next_gate: MILESTONE_BATCH_PENDING
 blockers: none
 notes: No implementation, execution, protected opens, or decoder work performed in this proposal.
   SCL remains locked; this probe reports coverability evidence only.

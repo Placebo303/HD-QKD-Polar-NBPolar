@@ -1,0 +1,783 @@
+{
+ "probe_id": "NBPOLAR-X14-SCL-LIST-SURVIVAL",
+ "tier": "X",
+ "status": "X14_PROBE_COMPLETE_DESCRIPTIVE_ONLY",
+ "question": "Q1/Q1b top-L true-cell survival at frozen-hazard spikes + Q2 F-median8 local-spike vs mean-hazard coverage (descriptive only).",
+ "frozen": {
+  "N": 256,
+  "q": 32,
+  "alpha": 2,
+  "gf32_poly": 37,
+  "chunk_rows": 512,
+  "floor": 1e-15,
+  "s_rare": 96,
+  "K2_synth": 52,
+  "R_median": 8,
+  "spike_margin_bits": 2.0,
+  "table_master_seed": 2026092350,
+  "block_seeds": [
+   2026092351,
+   2026092352,
+   2026092353,
+   2026092354,
+   2026092355,
+   2026092356,
+   2026092357
+  ],
+  "blocks_per_seed": 4,
+  "q2_detector": "F-median8: d_j = h_j - median(h over R=8 clipped natural neighborhood of j)"
+ },
+ "per_seed": {
+  "2026092351": {
+   "q1": {
+    "[2,4)|L4": {
+     "frac": 0.0,
+     "n": 6
+    },
+    "[2,4)|L8": {
+     "frac": 0.0,
+     "n": 6
+    },
+    "[4,8)|L4": {
+     "frac": 0.0,
+     "n": 1
+    },
+    "[4,8)|L8": {
+     "frac": 0.0,
+     "n": 1
+    },
+    "[8,inf)|L4": {
+     "frac": 0.0,
+     "n": 90
+    },
+    "[8,inf)|L8": {
+     "frac": 0.0,
+     "n": 90
+    },
+    "nonsplike_ref|L4": {
+     "frac": 0.1574973031283711,
+     "n": 927
+    },
+    "nonsplike_ref|L8": {
+     "frac": 0.2750809061488673,
+     "n": 927
+    }
+   },
+   "q1b": {
+    "[2,4)|L4": {
+     "frac": 0.3333333333333333,
+     "n": 6
+    },
+    "[2,4)|L8": {
+     "frac": 0.5,
+     "n": 6
+    },
+    "[4,8)|L4": {
+     "frac": 0.0,
+     "n": 1
+    },
+    "[4,8)|L8": {
+     "frac": 0.0,
+     "n": 1
+    },
+    "[8,inf)|L4": {
+     "frac": 0.13333333333333333,
+     "n": 90
+    },
+    "[8,inf)|L8": {
+     "frac": 0.32222222222222224,
+     "n": 90
+    },
+    "nonsplike_ref|L4": {
+     "frac": 0.17475728155339806,
+     "n": 927
+    },
+    "nonsplike_ref|L8": {
+     "frac": 0.3117583603020496,
+     "n": 927
+    }
+   },
+   "q2": {
+    "coverage_local_spike": 0.20364741641337386,
+    "coverage_mean_hazard": 0.20364741641337386,
+    "n_mismatch": 987
+   },
+   "spike_counts": {
+    "[2,4)": 6,
+    "[4,8)": 1,
+    "[8,inf)": 90,
+    "nonsplike_ref": 927
+   }
+  },
+  "2026092352": {
+   "q1": {
+    "[2,4)|L4": {
+     "frac": 0.0,
+     "n": 22
+    },
+    "[2,4)|L8": {
+     "frac": 0.0,
+     "n": 22
+    },
+    "[4,8)|L4": {
+     "frac": 0.0,
+     "n": 4
+    },
+    "[4,8)|L8": {
+     "frac": 0.0,
+     "n": 4
+    },
+    "[8,inf)|L4": {
+     "frac": 0.0,
+     "n": 71
+    },
+    "[8,inf)|L8": {
+     "frac": 0.0,
+     "n": 71
+    },
+    "nonsplike_ref|L4": {
+     "frac": 0.16720604099244876,
+     "n": 927
+    },
+    "nonsplike_ref|L8": {
+     "frac": 0.3042071197411003,
+     "n": 927
+    }
+   },
+   "q1b": {
+    "[2,4)|L4": {
+     "frac": 0.18181818181818182,
+     "n": 22
+    },
+    "[2,4)|L8": {
+     "frac": 0.2727272727272727,
+     "n": 22
+    },
+    "[4,8)|L4": {
+     "frac": 0.0,
+     "n": 4
+    },
+    "[4,8)|L8": {
+     "frac": 0.0,
+     "n": 4
+    },
+    "[8,inf)|L4": {
+     "frac": 0.16901408450704225,
+     "n": 71
+    },
+    "[8,inf)|L8": {
+     "frac": 0.2535211267605634,
+     "n": 71
+    },
+    "nonsplike_ref|L4": {
+     "frac": 0.16181229773462782,
+     "n": 927
+    },
+    "nonsplike_ref|L8": {
+     "frac": 0.313915857605178,
+     "n": 927
+    }
+   },
+   "q2": {
+    "coverage_local_spike": 0.20342396777442096,
+    "coverage_mean_hazard": 0.2014098690835851,
+    "n_mismatch": 993
+   },
+   "spike_counts": {
+    "[2,4)": 22,
+    "[4,8)": 4,
+    "[8,inf)": 71,
+    "nonsplike_ref": 927
+   }
+  },
+  "2026092353": {
+   "q1": {
+    "[2,4)|L4": {
+     "frac": 0.0,
+     "n": 8
+    },
+    "[2,4)|L8": {
+     "frac": 0.0,
+     "n": 8
+    },
+    "[4,8)|L4": {
+     "frac": 0.0,
+     "n": 1
+    },
+    "[4,8)|L8": {
+     "frac": 0.0,
+     "n": 1
+    },
+    "[8,inf)|L4": {
+     "frac": 0.0,
+     "n": 95
+    },
+    "[8,inf)|L8": {
+     "frac": 0.0,
+     "n": 95
+    },
+    "nonsplike_ref|L4": {
+     "frac": 0.16195652173913044,
+     "n": 920
+    },
+    "nonsplike_ref|L8": {
+     "frac": 0.31956521739130433,
+     "n": 920
+    }
+   },
+   "q1b": {
+    "[2,4)|L4": {
+     "frac": 0.25,
+     "n": 8
+    },
+    "[2,4)|L8": {
+     "frac": 0.25,
+     "n": 8
+    },
+    "[4,8)|L4": {
+     "frac": 0.0,
+     "n": 1
+    },
+    "[4,8)|L8": {
+     "frac": 0.0,
+     "n": 1
+    },
+    "[8,inf)|L4": {
+     "frac": 0.25263157894736843,
+     "n": 95
+    },
+    "[8,inf)|L8": {
+     "frac": 0.4,
+     "n": 95
+    },
+    "nonsplike_ref|L4": {
+     "frac": 0.17173913043478262,
+     "n": 920
+    },
+    "nonsplike_ref|L8": {
+     "frac": 0.32282608695652176,
+     "n": 920
+    }
+   },
+   "q2": {
+    "coverage_local_spike": 0.20603015075376885,
+    "coverage_mean_hazard": 0.20603015075376885,
+    "n_mismatch": 995
+   },
+   "spike_counts": {
+    "[2,4)": 8,
+    "[4,8)": 1,
+    "[8,inf)": 95,
+    "nonsplike_ref": 920
+   }
+  },
+  "2026092354": {
+   "q1": {
+    "[2,4)|L4": {
+     "frac": 0.0,
+     "n": 20
+    },
+    "[2,4)|L8": {
+     "frac": 0.0,
+     "n": 20
+    },
+    "[4,8)|L4": {
+     "frac": 0.0,
+     "n": 6
+    },
+    "[4,8)|L8": {
+     "frac": 0.0,
+     "n": 6
+    },
+    "[8,inf)|L4": {
+     "frac": 0.0,
+     "n": 96
+    },
+    "[8,inf)|L8": {
+     "frac": 0.0,
+     "n": 96
+    },
+    "nonsplike_ref|L4": {
+     "frac": 0.164079822616408,
+     "n": 902
+    },
+    "nonsplike_ref|L8": {
+     "frac": 0.3148558758314856,
+     "n": 902
+    }
+   },
+   "q1b": {
+    "[2,4)|L4": {
+     "frac": 0.1,
+     "n": 20
+    },
+    "[2,4)|L8": {
+     "frac": 0.25,
+     "n": 20
+    },
+    "[4,8)|L4": {
+     "frac": 0.0,
+     "n": 6
+    },
+    "[4,8)|L8": {
+     "frac": 0.3333333333333333,
+     "n": 6
+    },
+    "[8,inf)|L4": {
+     "frac": 0.15625,
+     "n": 96
+    },
+    "[8,inf)|L8": {
+     "frac": 0.2708333333333333,
+     "n": 96
+    },
+    "nonsplike_ref|L4": {
+     "frac": 0.15964523281596452,
+     "n": 902
+    },
+    "nonsplike_ref|L8": {
+     "frac": 0.311529933481153,
+     "n": 902
+    }
+   },
+   "q2": {
+    "coverage_local_spike": 0.2056451612903226,
+    "coverage_mean_hazard": 0.2056451612903226,
+    "n_mismatch": 992
+   },
+   "spike_counts": {
+    "[2,4)": 20,
+    "[4,8)": 6,
+    "[8,inf)": 96,
+    "nonsplike_ref": 902
+   }
+  },
+  "2026092355": {
+   "q1": {
+    "[2,4)|L4": {
+     "frac": 0.0,
+     "n": 22
+    },
+    "[2,4)|L8": {
+     "frac": 0.0,
+     "n": 22
+    },
+    "[4,8)|L4": {
+     "frac": 0.0,
+     "n": 8
+    },
+    "[4,8)|L8": {
+     "frac": 0.0,
+     "n": 8
+    },
+    "[8,inf)|L4": {
+     "frac": 0.0,
+     "n": 75
+    },
+    "[8,inf)|L8": {
+     "frac": 0.0,
+     "n": 75
+    },
+    "nonsplike_ref|L4": {
+     "frac": 0.1338411316648531,
+     "n": 919
+    },
+    "nonsplike_ref|L8": {
+     "frac": 0.26550598476605003,
+     "n": 919
+    }
+   },
+   "q1b": {
+    "[2,4)|L4": {
+     "frac": 0.22727272727272727,
+     "n": 22
+    },
+    "[2,4)|L8": {
+     "frac": 0.36363636363636365,
+     "n": 22
+    },
+    "[4,8)|L4": {
+     "frac": 0.125,
+     "n": 8
+    },
+    "[4,8)|L8": {
+     "frac": 0.375,
+     "n": 8
+    },
+    "[8,inf)|L4": {
+     "frac": 0.18666666666666668,
+     "n": 75
+    },
+    "[8,inf)|L8": {
+     "frac": 0.30666666666666664,
+     "n": 75
+    },
+    "nonsplike_ref|L4": {
+     "frac": 0.1632208922742111,
+     "n": 919
+    },
+    "nonsplike_ref|L8": {
+     "frac": 0.32317736670293795,
+     "n": 919
+    }
+   },
+   "q2": {
+    "coverage_local_spike": 0.201,
+    "coverage_mean_hazard": 0.199,
+    "n_mismatch": 1000
+   },
+   "spike_counts": {
+    "[2,4)": 22,
+    "[4,8)": 8,
+    "[8,inf)": 75,
+    "nonsplike_ref": 919
+   }
+  },
+  "2026092356": {
+   "q1": {
+    "[2,4)|L4": {
+     "frac": 0.0,
+     "n": 6
+    },
+    "[2,4)|L8": {
+     "frac": 0.0,
+     "n": 6
+    },
+    "[4,8)|L4": {
+     "frac": 0.0,
+     "n": 5
+    },
+    "[4,8)|L8": {
+     "frac": 0.0,
+     "n": 5
+    },
+    "[8,inf)|L4": {
+     "frac": 0.0,
+     "n": 99
+    },
+    "[8,inf)|L8": {
+     "frac": 0.0,
+     "n": 99
+    },
+    "nonsplike_ref|L4": {
+     "frac": 0.16630196936542668,
+     "n": 914
+    },
+    "nonsplike_ref|L8": {
+     "frac": 0.29431072210065645,
+     "n": 914
+    }
+   },
+   "q1b": {
+    "[2,4)|L4": {
+     "frac": 0.16666666666666666,
+     "n": 6
+    },
+    "[2,4)|L8": {
+     "frac": 0.5,
+     "n": 6
+    },
+    "[4,8)|L4": {
+     "frac": 0.0,
+     "n": 5
+    },
+    "[4,8)|L8": {
+     "frac": 0.2,
+     "n": 5
+    },
+    "[8,inf)|L4": {
+     "frac": 0.1111111111111111,
+     "n": 99
+    },
+    "[8,inf)|L8": {
+     "frac": 0.25252525252525254,
+     "n": 99
+    },
+    "nonsplike_ref|L4": {
+     "frac": 0.17177242888402625,
+     "n": 914
+    },
+    "nonsplike_ref|L8": {
+     "frac": 0.33150984682713347,
+     "n": 914
+    }
+   },
+   "q2": {
+    "coverage_local_spike": 0.2054380664652568,
+    "coverage_mean_hazard": 0.2054380664652568,
+    "n_mismatch": 993
+   },
+   "spike_counts": {
+    "[2,4)": 6,
+    "[4,8)": 5,
+    "[8,inf)": 99,
+    "nonsplike_ref": 914
+   }
+  },
+  "2026092357": {
+   "q1": {
+    "[2,4)|L4": {
+     "frac": 0.0,
+     "n": 16
+    },
+    "[2,4)|L8": {
+     "frac": 0.0,
+     "n": 16
+    },
+    "[4,8)|L4": {
+     "frac": 0.0,
+     "n": 11
+    },
+    "[4,8)|L8": {
+     "frac": 0.0,
+     "n": 11
+    },
+    "[8,inf)|L4": {
+     "frac": 0.0,
+     "n": 85
+    },
+    "[8,inf)|L8": {
+     "frac": 0.0,
+     "n": 85
+    },
+    "nonsplike_ref|L4": {
+     "frac": 0.16447368421052633,
+     "n": 912
+    },
+    "nonsplike_ref|L8": {
+     "frac": 0.31798245614035087,
+     "n": 912
+    }
+   },
+   "q1b": {
+    "[2,4)|L4": {
+     "frac": 0.125,
+     "n": 16
+    },
+    "[2,4)|L8": {
+     "frac": 0.1875,
+     "n": 16
+    },
+    "[4,8)|L4": {
+     "frac": 0.18181818181818182,
+     "n": 11
+    },
+    "[4,8)|L8": {
+     "frac": 0.36363636363636365,
+     "n": 11
+    },
+    "[8,inf)|L4": {
+     "frac": 0.08235294117647059,
+     "n": 85
+    },
+    "[8,inf)|L8": {
+     "frac": 0.2,
+     "n": 85
+    },
+    "nonsplike_ref|L4": {
+     "frac": 0.18859649122807018,
+     "n": 912
+    },
+    "nonsplike_ref|L8": {
+     "frac": 0.3530701754385965,
+     "n": 912
+    }
+   },
+   "q2": {
+    "coverage_local_spike": 0.20081135902636918,
+    "coverage_mean_hazard": 0.1997971602434077,
+    "n_mismatch": 986
+   },
+   "spike_counts": {
+    "[2,4)": 16,
+    "[4,8)": 11,
+    "[8,inf)": 85,
+    "nonsplike_ref": 912
+   }
+  }
+ },
+ "pooled": {
+  "q1": {
+   "[2,4)|L4": {
+    "n": 7,
+    "mean": 0.0,
+    "sample_std": 0.0,
+    "min": 0.0,
+    "max": 0.0
+   },
+   "[2,4)|L8": {
+    "n": 7,
+    "mean": 0.0,
+    "sample_std": 0.0,
+    "min": 0.0,
+    "max": 0.0
+   },
+   "[4,8)|L4": {
+    "n": 7,
+    "mean": 0.0,
+    "sample_std": 0.0,
+    "min": 0.0,
+    "max": 0.0
+   },
+   "[4,8)|L8": {
+    "n": 7,
+    "mean": 0.0,
+    "sample_std": 0.0,
+    "min": 0.0,
+    "max": 0.0
+   },
+   "[8,inf)|L4": {
+    "n": 7,
+    "mean": 0.0,
+    "sample_std": 0.0,
+    "min": 0.0,
+    "max": 0.0
+   },
+   "[8,inf)|L8": {
+    "n": 7,
+    "mean": 0.0,
+    "sample_std": 0.0,
+    "min": 0.0,
+    "max": 0.0
+   },
+   "nonsplike_ref|L4": {
+    "n": 7,
+    "mean": 0.15933663910245205,
+    "sample_std": 0.011687587257601035,
+    "min": 0.1338411316648531,
+    "max": 0.16720604099244876
+   },
+   "nonsplike_ref|L8": {
+    "n": 7,
+    "mean": 0.2987868974456878,
+    "sample_std": 0.021515220377412103,
+    "min": 0.26550598476605003,
+    "max": 0.31956521739130433
+   }
+  },
+  "q1b": {
+   "[2,4)|L4": {
+    "n": 7,
+    "mean": 0.19772727272727272,
+    "sample_std": 0.07963679219785366,
+    "min": 0.1,
+    "max": 0.3333333333333333
+   },
+   "[2,4)|L8": {
+    "n": 7,
+    "mean": 0.3319805194805195,
+    "sample_std": 0.12602272483302687,
+    "min": 0.1875,
+    "max": 0.5
+   },
+   "[4,8)|L4": {
+    "n": 7,
+    "mean": 0.04383116883116883,
+    "sample_std": 0.07663185990165844,
+    "min": 0.0,
+    "max": 0.18181818181818182
+   },
+   "[4,8)|L8": {
+    "n": 7,
+    "mean": 0.1817099567099567,
+    "sample_std": 0.1792753736095435,
+    "min": 0.0,
+    "max": 0.375
+   },
+   "[8,inf)|L4": {
+    "n": 7,
+    "mean": 0.1559085308202846,
+    "sample_std": 0.05537772750303096,
+    "min": 0.08235294117647059,
+    "max": 0.25263157894736843
+   },
+   "[8,inf)|L8": {
+    "n": 7,
+    "mean": 0.2865383716440055,
+    "sample_std": 0.06394606488911438,
+    "min": 0.2,
+    "max": 0.4
+   },
+   "nonsplike_ref|L4": {
+    "n": 7,
+    "mean": 0.17022053641786863,
+    "sample_std": 0.009954084687459343,
+    "min": 0.15964523281596452,
+    "max": 0.18859649122807018
+   },
+   "nonsplike_ref|L8": {
+    "n": 7,
+    "mean": 0.32396966104479574,
+    "sample_std": 0.01477932950060883,
+    "min": 0.311529933481153,
+    "max": 0.3530701754385965
+   }
+  },
+  "q2": {
+   "local_spike_seed_stats": {
+    "n": 7,
+    "mean": 0.20371373167478746,
+    "sample_std": 0.0021581634014342433,
+    "min": 0.20081135902636918,
+    "max": 0.20603015075376885
+   },
+   "mean_hazard_seed_stats": {
+    "n": 7,
+    "mean": 0.202995403464245,
+    "sample_std": 0.002924852101231292,
+    "min": 0.199,
+    "max": 0.20603015075376885
+   },
+   "ratio_of_sums": {
+    "n_mismatch_total": 6946,
+    "coverage_local_spike": 0.20371436798157214,
+    "coverage_mean_hazard": 0.2029945292254535
+   }
+  },
+  "spike_counts_total": {
+   "[2,4)": 100,
+   "[4,8)": 36,
+   "[8,inf)": 611,
+   "nonsplike_ref": 6421
+  }
+ },
+ "floor_hit": {
+  "measured": 0.09375,
+  "pin_planted": 0.09375,
+  "recorded_real_block0": 0.093475341796875
+ },
+ "model_mean_hazard_bits": 9.050581367082554,
+ "command": "cd /mnt/d/Code/HD-QKD_Polar_Comparison-nbpolar && export OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1 MKL_NUM_THREADS=1 MALLOC_ARENA_MAX=2 && timeout 300 /mnt/d/Code/HD-QKD_Polar_Comparison/.venv/bin/python workspace/probes/nbpolar_x14_scl_list_survival/body.py",
+ "interpreter": {
+  "executable": "/mnt/d/Code/HD-QKD_Polar_Comparison/.venv/bin/python",
+  "version": "3.12.3 (main, Aug 31 2026, 10:18:26) [GCC 13.3.0]"
+ },
+ "env_pins": {
+  "OPENBLAS_NUM_THREADS": "1",
+  "OMP_NUM_THREADS": "1",
+  "MKL_NUM_THREADS": "1",
+  "MALLOC_ARENA_MAX": "2"
+ },
+ "wall_s": 1.479008674621582,
+ "decoder_calls": 28,
+ "rng_calls": 1080,
+ "tag_calls": 0,
+ "protected_opens_attempted": false,
+ "writes": [
+  {
+   "path": "workspace/probes/nbpolar_x14_scl_list_survival/results.json",
+   "size_bytes": 15115
+  }
+ ],
+ "notes": [
+  "Tier-X descriptive probe only: no thresholds, no pass/fail, no verdicts; SCL stays locked whatever the numbers say.",
+  "u1_cond = per-position argmax_u1 p1 (operational hard-u1, decoder-free, P20S U1hard convention); single sc_decode(L=1) per block on hard-u1 L2 metrics = sole decoder use (Q2 mismatch oracle).",
+  "Static order = natural order: positions iid under the model so table-marginal E[h] is position-free; prefix = first 52 positions; pm per block.",
+  "Q1/Q1b per-seed fraction = survived/spike-positions pooled over the seed's 4 blocks; pooled = mean/sample-std(n-1)/range over 7 seeds; null when denominator is 0.",
+  "Q2 per-seed coverage = selected-mismatches/mismatches pooled over the seed's 4 blocks (null when 0 mismatches); pooled = ratio-of-sums over all blocks plus seed mean/std/range.",
+  "rng_calls counts Generator method calls: 1024 table-Dirichlet + 56 block-sampling = 1080; tag_calls = 0; zero protected opens.",
+  "Measured floor-hit rate is over full f_full cells (planted-zero fraction); sampling never adjusts it."
+ ],
+ "prereg_sha256": "ba6949fdf9ad750425390d85bc1ec5f54627cdaadadbbe01fa21ddff9b48b871",
+ "body_sha256": "ab1264226f575e583a1c2ce37c0dd852eee3cea62358560dfa3fe1e033757cad"
+}
