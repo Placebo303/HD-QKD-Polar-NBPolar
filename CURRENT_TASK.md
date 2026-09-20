@@ -1,4 +1,4 @@
-Status: **Route A done — N=32768 real-data ladder formally closed by population exhaustion (`TARGET_EMPIRICAL_N32768_REAL_DATA_LADDER_CLOSED_POPULATION_EXHAUSTION`, 2026-09-20; terminal, NOT a verdict closure); next = route B L2-representation / operating-point redesign scoping (planner in parallel) + optional Q5 (conditional on an L2-redesign choice); SCL stays locked** — 2026-09-20
+Status: **Route A closed (population-exhaustion terminal, NOT a verdict closure); route B C-P1 = RETIRE-ceiling (axis (i) disclosure placement retired after 1 probe; route budget 1/6); next = C-P2 freeze draft — axis (ii) tiered/non-contiguous disclosure amount at the same G3-verbatim triple (N=16384, K1=167/K2=3373, d=0.90), B3-style review + user authorization required; SCL stays locked; Tier-X queue still 4/6** — 2026-09-21
 
 Main-thread chain: P20Q HOLD 2M accepted (B 4/5) → P20R order-position
 1.5M accepted as descriptive NEGATIVE 0/1 with block-dominated qualifier
@@ -16,14 +16,18 @@ persistence probe accepted descriptive (single 2M HOLD-tail block
 verdict**. Packet evidence in the `.workbuddy/queue/` dirs; RN delta spec
 in `openspec/changes/formal-ir-nbpolar-phase4-p0/specs/nbpolar-reduced-n-persistence/`.
 
-Next gate: route B scoping (planner, in parallel) — no construction, data
-reads, or execution authorized; Q5 stays conditional on an L2-redesign
-choice; SCL stays locked. Ledger end-state: 0 full N=32768 blocks
+Next gate: C-P2 freeze draft — axis (ii) tiered/non-contiguous disclosure
+amount at the same G3-verbatim triple (N=16384, K1=167/K2=3373, d=0.90);
+B3-style independent review + explicit user authorization required before
+freeze. C-P1 retired axis (i) as ceiling-hugging (route budget 1/6);
+Q5 stays retired-conditional (axis (iii) not selected). SCL stays locked.
+Ledger end-state: 0 full N=32768 blocks
 formable under any authorized rule; never-decoded = 3627..3644 (18 frames
 / 4608 pairs) + 1.5M VAL stub 2172..2212 (41/10,496) + 1.5M HOLD
 2725..2766 (42/10,752) = 101 frames / 25,856 pairs; 1.5M↔2M mixing
-forever forbidden. The closeout changes no frozen evidence; the Tier-X
-queue continues unaffected (4/6 used). Memory/decision-log details are
+forever forbidden. The route A closeout and the C-P1 disposition change no
+frozen evidence; the Tier-X queue continues unaffected (4/6 used).
+Memory/decision-log details are
 owned by the memory agent (`AGENT_PROJECT_MEMORY.md` /
 `docs/decision-log.md`).
 

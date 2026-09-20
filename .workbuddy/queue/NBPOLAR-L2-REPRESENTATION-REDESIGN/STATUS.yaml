@@ -13,6 +13,10 @@ execution_authorized: false
 implementation_authorized: false
 freeze_authorized: false
 b3_freeze_review: PASS_WITH_FINDINGS_20260920 (F1/F2 fixed in this batch)
+b6_execution: COMPLETE_RETIRE_CEILING (single authorized Tier-X run of C-P1 hazard-ranked placement at the G3-verbatim triple; worktree-only probe root)
+b7_focused_review: PASS_WITH_FINDINGS_20260921 (F1 Q2 degeneracy annotate-not-read; F2 raise-site 3 adapted; F3 budget disposition + cosmetic size_bytes self-report)
+b8_disposition: AXIS_I_RETIRED_FORCED_SWITCH_TO_AXIS_II (charge 1 probe to axis (i); RETIRE-ceiling; axis (i) retired; forced switch to axis (ii) = C-P2 at the same triple)
+route_probes_used: 1/6
 axis_selection_authorized: true (B2 = C-P1, user 2026-09-20)
 protected_opens_allowed: false
 decoder_allowed: false
@@ -45,7 +49,7 @@ packet_docs:
   - .workbuddy/queue/NBPOLAR-L2-REPRESENTATION-REDESIGN/STATUS.yaml
   - .workbuddy/queue/NBPOLAR-L2-REPRESENTATION-REDESIGN/SCOPING_NOTES.md
 
-next_gate: B4_IMPLEMENTATION_AUTHORIZATION_PENDING_USER
+next_gate: C_P2_FREEZE_DRAFT_PENDING (B3-style review + user authorization still required for C-P2)
 blockers: none (nothing to block; nothing is authorized)
 notes: >-
   Route B scoping only. SCL stays locked (scl-synthetic-list-gate track untouched; its G0-G6
