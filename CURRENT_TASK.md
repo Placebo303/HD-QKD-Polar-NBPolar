@@ -1,4 +1,4 @@
-Status: **P20Q→P20R→P20S/R1→H2 v2→X14-X17 chain closed; N=8192 persistence probe in RN-1 revision prep, nothing authorized** — 2026-09-20
+Status: **P20T accepted descriptive, survey adjudicated (SCL stays locked), closeout batch `8a4f1839`, SCL scoping committed `75055934`, RN scope unchanged, next = SCL freeze packet (not yet existent, NOT AUTHORIZED)** — 2026-09-20
 
 Main-thread chain: P20Q HOLD 2M accepted (B 4/5) → P20R order-position
 1.5M accepted as descriptive NEGATIVE 0/1 with block-dominated qualifier

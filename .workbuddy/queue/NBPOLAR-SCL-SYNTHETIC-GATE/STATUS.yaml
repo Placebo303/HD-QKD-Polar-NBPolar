@@ -26,6 +26,7 @@ counters:
   protected_opens: 0
   commits: 0
   pushes: 0
+  scoping_commits: 1 (75055934 docs-only, pushed; implementation/execution counters stay 0)
 
 seeds_reserved_but_unactivated:
   band: 2026092500..2026092519

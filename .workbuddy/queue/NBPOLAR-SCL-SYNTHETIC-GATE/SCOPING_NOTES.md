@@ -19,4 +19,7 @@
   nothing.
 - Gate posture: proposal (S1) is this scoping. Freeze, implementation, tests, execution,
   review, and acceptance (S2..S7) are each NOT AUTHORIZED and need explicit future gates.
-- No commit/push performed or authorized by this scoping.
+- Scoping-only commit 75055934 pushed (5 files, 375 insertions, docs-only:
+  STATUS.yaml + SCOPING_NOTES.md + proposal/design/tasks). No implementation,
+  execution, protected opens, or decoder work performed or authorized by this
+  scoping; all gate markers stay NOT AUTHORIZED.
