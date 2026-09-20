@@ -272,7 +272,7 @@ count——结论强度只按独立证据数计。
   resulting in imperfect distinction and in an increased QBER"*
   → 时间窗重叠抬高 QBER，正是本项目 ToA 映射要量的效应。
 
-### Kanitschar & Huber 2025（PRL 135, 010802）— 适用性下调
+### Kanitschar & Huber 2025（PRL 135, 010802）— 适用性：经附录 D 上调为 A 级、直接适用
 
 标题/期刊/DOI 核实无误。**但摘要明确其对象是纠缠型 HD-QKD**（time-/frequency-bin
 entangled photons），finite-size 部分在配套另一篇 arXiv（未在此文内）。
@@ -566,7 +566,7 @@ failure probability 作为**可分配的一级预算**，本仓库目前只在 o
 
 ## C.3 Kanitschar & Huber（Phys. Rev. Lett. 135, 010802 (2025)）
 
-维持附录 A 的**适用性下调**，原文确认三点：
+原文确认三点（附录 A 原判的适用性下调已由附录 D 推翻、上调为 A 级，见下方更正）：
 
 1. 对象是**纠缠型** HD-QKD：*"paradigmatic high-dimensional systems of **time- or
    frequency-bin entangled photons**"*；方法为 SDP 对偶 + entanglement-witness 启发的
