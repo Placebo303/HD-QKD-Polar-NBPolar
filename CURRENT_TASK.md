@@ -1,4 +1,4 @@
-Status: **Route A closed (population-exhaustion terminal, NOT a verdict closure); route B C-P1 = RETIRE-ceiling (axis (i) disclosure placement retired after 1 probe; route budget 1/6); next = C-P2 freeze draft — axis (ii) tiered/non-contiguous disclosure amount at the same G3-verbatim triple (N=16384, K1=167/K2=3373, d=0.90), B3-style review + user authorization required; SCL stays locked; Tier-X queue still 4/6** — 2026-09-21
+Status: **Route A closed (population-exhaustion terminal, NOT a verdict closure); route B C-P1 = RETIRE-ceiling (axis (i) disclosure placement retired after 1 probe) and C-P2 (axis (ii) disclosure amount/structure) freeze review PASS with findings F1–F3 fixed (`a774b464`) — next gate = C-P2 B4 implementation pending explicit user authorization (route budget 2/6); literature fit-check corrections applied (`84e77bba`); SCL stays locked; Tier-X queue still 4/6** — 2026-09-21
 
 Main-thread chain: P20Q HOLD 2M accepted (B 4/5) → P20R order-position
 1.5M accepted as descriptive NEGATIVE 0/1 with block-dominated qualifier
@@ -16,10 +16,12 @@ persistence probe accepted descriptive (single 2M HOLD-tail block
 verdict**. Packet evidence in the `.workbuddy/queue/` dirs; RN delta spec
 in `openspec/changes/formal-ir-nbpolar-phase4-p0/specs/nbpolar-reduced-n-persistence/`.
 
-Next gate: C-P2 freeze draft — axis (ii) tiered/non-contiguous disclosure
-amount at the same G3-verbatim triple (N=16384, K1=167/K2=3373, d=0.90);
-B3-style independent review + explicit user authorization required before
-freeze. C-P1 retired axis (i) as ceiling-hugging (route budget 1/6);
+Next gate: C-P2 B4 implementation — axis (ii) tiered/non-contiguous disclosure
+amount at the same G3-verbatim triple (N=16384, K1=167/K2=3373, d=0.90).
+The C-P2 freeze review already PASSED with findings F1–F3 fixed
+(`a774b464`), so B4 implementation and B6 execution now require separate
+explicit user authorization. C-P1 retired axis (i) as ceiling-hugging
+(route budget 2/6 after C-P2);
 Q5 stays retired-conditional (axis (iii) not selected). SCL stays locked.
 Ledger end-state: 0 full N=32768 blocks
 formable under any authorized rule; never-decoded = 3627..3644 (18 frames
