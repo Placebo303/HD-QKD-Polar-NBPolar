@@ -57,7 +57,7 @@
 
 - **(i) SCL-unlock gate (true-path top-L survival at spikes):** Literature says the gate is well-posed and usually passable — correct-path survival without splitting is the normal case past reliable positions (Zhang 2016), critical sets cover first errors at >99% (Chen 2017), and q-ary lists need *less* L, not more (Yuan 2018; Abbasi). Nothing retrieved suggests a structural reason the true path must die at our spikes; but no paper tests survival under zero-count-dominated posteriors either, so our X14-style measurement remains the only direct evidence and must stay the gate.
 - **(ii) Spike-local order direction:** Supported as a family (reliability-gated splitting/pruning is a published, winning idea in 4+ variants), but our specific gate signal — empirical frozen-hazard spike mass with IR-4 top-16 in-prefix 0/48 — has no published analogue; all published gates use analytic reliability (GA/Bhattacharyya/SPM-ratio/LLR). Keep the direction; do not claim literature precedent for the hazard signal itself.
-- **(iii) RN N=8192 probe design:** Abbasi N=8192/k=40–80 gives the only external L-ladder template (expect steep FER-vs-L slope differences between fields; plan L∈{4,8,32} minimum to resolve GF(32) vs baselines) and Savin gives the SC-baseline-first methodology; Falk warns that bigger-q can *lose* at fixed L, so the probe must include a binary/CRC-SCL control at matched L, not just q-ary internal comparison.
+- **(iii) RN N=8192 probe design:** Abbasi N=8192/k=40–80 gives the only external L-ladder template (expect steep FER-vs-L slope differences between fields; plan L∈{4,8,32} minimum to resolve GF(32) vs baselines) and Savin gives the SC-baseline-first methodology; Falk warns that bigger-q can *lose* at fixed L, so the probe must include a binary/CRC-SCL control at matched L, not just q-ary internal comparison. **[Adjudicated 2026-09-20 — NOT applicable to RN (frozen SC-only scope; no SCL module exists; SCL locked). Deferred to a future separately-gated SCL track; L values must be re-justified then, never inherited. See §7.]**
 
 ---
 
@@ -65,7 +65,7 @@
 
 1. Unlocking SCL is the literature-consistent move: q-ary SCL typically needs *smaller* L than binary (4× per field upgrade in two independent studies), so a GF(32) list should be cheap *if* our channel behaves like tested ones.
 2. Spike-local reliability gating is a published winning family (split-reduced, critical-set, pruned-tree, PPB-SCL), backing our order-direction — but our frozen-hazard signal itself is novel, so keep X14-style survival as the hard gate.
-3. The only external N=8192 q-ary SCL reference (Abbasi: GF16/L=8 ≈ GF4/L=32 ≈ binary/L=128) sets the RN probe's L-ladder (include 4/8/32 + binary control); expect field-dependent slope, not just offset.
+3. The only external N=8192 q-ary SCL reference (Abbasi: GF16/L=8 ≈ GF4/L=32 ≈ binary/L=128) sets the RN probe's L-ladder (include 4/8/32 + binary control); expect field-dependent slope, not just offset. **[Adjudicated 2026-09-20 — rejected for RN for the same reason; kept as context for future SCL planning only. See §7.]**
 4. Adversarial case is weak: no paper shows lists failing on heavy-tail/zero-count channels; the real risk is mundane — GF(5)-style q-mismatch penalty (Falk) and the field's revealed preference for NB-LDPC/Cascade in HD-QKD IR (Müller).
 5. Hard gaps bound what this survey can bless: zero GF(32)-polar-SCL points, zero N≥8192 q-ary points outside AWGN/low-rate, zero heavy-tail/QKD-channel SCL studies — the RN N=8192 block is genuinely uncharted, so treat its outcome as discovery, not confirmation.
 
@@ -79,3 +79,11 @@
 4. **N≈8192 q-ary at operational rates: absent.** The single N=8192 q-ary SCL study (Abbasi) is very-low-rate (k=40/80, repetition-aided, low-SNR/AWGN); nothing at N=8192 with moderate-rate q-ary SCL.
 5. **Frozen-hazard / spike-local phenomena: absent.** No retrieved paper discusses zero-count-dominated posteriors, frozen-position hazard spikes, or in-prefix survival statistics; the closest concepts (critical sets, vulnerable-bit sets in Rowshan et al. 2019, doc `84543f7a08…`, off. 4168) are analytic-reliability constructions on AWGN.
 6. **Corpus bias note:** Sciverse full-text coverage skews to recent AI-conference/checkable content; several authoritative polar works appear only as metadata/abstracts (e.g. Feng WCNC 2020 full-text fetch failed with FETCH_FAILED; Li DCAN 2022 abstract-only). Two companion items above are honestly marked abstract-level and excluded from the 10-paper count.
+
+---
+
+## 7. Main-thread adjudication (2026-09-20)
+
+- The L-ladder recommendation in §4(iii) and §5 item 3 (L∈{4,8,32} + binary/CRC-SCL control) is REJECTED for the RN N=8192 probe: frozen SC-only scope, no SCL module exists in `formal_ir/nbpolar/`, SCL stays locked; an SCL arm would be a second factor plus a new decoder. Original survey text above is kept for provenance; the inline tags mark the adjudication.
+- DEFERRED to a future separately-gated SCL track (own OpenSpec change + freeze + authorization). Rule for that track: first establish a synthetic working point that distinguishes SC vs list gains; only then decide an L-ladder, with L values re-justified from that working point — never auto-inherited from this survey.
+- No other survey content is altered by this adjudication.
