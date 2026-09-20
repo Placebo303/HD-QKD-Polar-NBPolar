@@ -4,12 +4,19 @@ probe_id: nbpolar_s6_floor_lift_prior
 packet: NBPOLAR-S6-FLOOR-LIFT-PRIOR
 tier: X
 branch: codex/nbpolar-phase0
-execution_authorized: false
-next_gate: S6_EXECUTION_PENDING_USER
+# S6 EXECUTED 2026-09-21 (Tier-X, non-claim, decoder-free) under PI-delegated
+# authorization. results.json exists on disk at
+# workspace/probes/nbpolar_s6_floor_lift_prior/results.json (gitignored,
+# on-disk only). NOT accepted: acceptance items below remain pending;
+# no construction decision follows from this evidence alone (see
+# docs/nbpolar/MACRO_PLAN_20260921.md §8 threshold-arithmetic warning).
+executed: true
+execution_authorized: true
+next_gate: S6_EXECUTED_TIERX_NONCLAIM_PENDING_ACCEPTANCE
 prereg_path: workspace/probes/nbpolar_s6_floor_lift_prior/prereg.md
 body_path: workspace/probes/nbpolar_s6_floor_lift_prior/body.py
 results_path: workspace/probes/nbpolar_s6_floor_lift_prior/results.json
-results_exists: false
+results_exists: true
 
 counters:
   decoder_calls: 0

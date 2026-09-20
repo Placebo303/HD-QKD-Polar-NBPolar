@@ -117,12 +117,17 @@ Type-II-labeled：**6 acq / 220.5 MiB**（`20260112_Type2PPLN_3s` 16.1 MiB；
   FER 以 1/H(X|Y) 权重进 f_eff —— FER 不是免费的）。
 - **Stage 1 零数据判别电池**（decoder-free / CAL-only）：S1 δ-mass ✅已完成；S2 dispersion
   ✅已完成；S3 MFD（冻结集可读，`AVAILABLE_ZERO_COST`）；S4 支撑/地板 ✅已完成；
-  **S5 bounded search diagnostic（`CRITICAL_PATH` 4.3，从未跑过）**；
-  **S6 合成匹配信道对照（经验 P(y|x) 生成，300 block）**。闸门：只选一个胜出方向进入 Stage 2，
-  不允许多头并进。
+  **S5 bounded search diagnostic ✅已完成**；
+  **S6 地板抬升筛选（FLOOR_1e-6 / 1e-9 / 1e-15 × 1p5M/2M，held-out split seed 20260920）✅已完成
+  （Tier-X、non-claim；见 §8）**；
+  下一个零数据项：**中间地板 probe（FLOOR_1e-7 / 1e-8）**，映射尖峰消失与 H1 膨胀之间是否存在 knee
+ （§8 动机）。闸门：只选一个胜出方向进入 Stage 2，不允许多头并进。
 - **Stage 2 单因子执行**：**首选先验/地板/支撑线**（唯一有实证支持的：7/14 vs 0/14）；
   次选 MFD/Gray 标号臂；**不推荐** split-rebalance（已被 P19 l2_plus 间接证伪）与 C-P2（见 §6）。
   表示转向仅当 S3+S5+S6 共同指向。
+  Caveat（§8 方法学警告）：当前尖峰统计**不能**区分任何 LLR 跨度 < 20 bits 的规则
+  （阈值 `median + 20 bits` 在跨度 < 20 时恒为零）—— 未来任何地板 probe 必须以 held-out NLL
+  为主要读数，或采用跨度无关的尖峰定义。
 - **Stage 3 真实数据可行性与测量集**：预注册披露上限 → 逐 block 输出
   exact/undetected/verify_failed/decode_failed 分列（§5.5 `undetected` 绝不并入）、FER、
   交互轮次、吞吐、RSS、逐 block λ 分解（B1→Müller eq 11/13，H(q)→经验 H(X|Y) 的替换
@@ -158,6 +163,65 @@ Type-II-labeled：**6 acq / 220.5 MiB**（`20260112_Type2PPLN_3s` 16.1 MiB；
   解码器证据。**Stage 1 闸门必须由 S5/S6 这类能看到解码结果的判据把住。**
 - Type0 源未验证。
 - 全项目无 FER 阈值。
+
+---
+
+---
+
+## §8 S6 地板抬升筛选（2026-09-21）与一个方法学警告
+
+来源 probe：`workspace/probes/nbpolar_s6_floor_lift_prior/`（Tier-X、non-claim、
+decoder-free、held-out split seed 20260920；`results.json` 在盘、gitignored）。
+各 variant × session 结果：
+
+| variant × session | spikes | H1 | H2 | H_total | held-out NLL | LLR span floor→max |
+|---|---|---|---|---|---|---|
+| FLOOR_1e-6 × 1p5M | 0 | 0.04138 | 0.80515 | 0.84654 | **0.83970** | 19.93 |
+| FLOOR_1e-6 × 2M | 0 | 0.04184 | 0.81168 | 0.85352 | **0.84881** | 19.92 |
+| FLOOR_1e-9 × 1p5M | 181 | 0.02523 | 0.80037 | 0.82560 | 0.84673 | （incumbent-like） |
+| FLOOR_1e-9 × 2M | 294 | 0.02569 | 0.80691 | 0.83259 | 0.85782 | — |
+| **FLOOR_1e-15（incumbent）× 1p5M** | 181 | 0.02520 | 0.80037 | 0.82557 | 0.86374 | 49.83 |
+| **FLOOR_1e-15 × 2M** | 294 | 0.02566 | 0.80690 | 0.83256 | 0.87878 | 49.81 |
+
+正确性闸门：S6 运行把 incumbent 行相对 S5 **逐比特复现**（H1 差 0.0 / 6.9e-18，
+H2 差 4.4e-16 / 1.1e-16，NLL 精确相等，尖峰数 181 / 294 精确相等，
+split 尺寸 212904 / 212056 与 280309 / 279563 精确相等）⇒ pipeline 可信。
+
+> **方法学警告（本节最重要的的一行）：`FLOOR_1e-6` 的"零尖峰"是阈值算术的必然结果，
+> 不是拟合质量的改善。**尖峰判据是 `surprisal > median + 20 bits`；而 FLOOR_1e-6 把 LLR
+> 跨度压缩到 **19.93 / 19.92 bits < 20**，因此**没有任何符号可能超过阈值** —— 零尖峰是被强制的，
+> 不是挣来的。同样的论证适用于 LAPLACE_α1（跨度 4.6–9.0 bits，同样 < 20）。
+> **⇒ 对任何 LLR 跨度 < 20 bits 的规则，spike 计数不携带信息；只有 held-out NLL 是独立证据。**
+> FLOOR_1e-6 在两个 session 上 NLL 均为最优（0.8397 / 0.8488），这才是它真正有用的证据。
+
+Tradeoff（显式记录，不并成一个"优胜者"）：
+
+- FLOOR_1e-6：零尖峰（强制）+ NLL 最优，代价 H1 0.0252→0.0414 / 0.0257→0.0418
+ （**+64% / +63%**），H_total +0.0210 bits/symbol（两个 session 相同），
+ 披露 +179 / +178 符号 = **+895 / +890 bits**。
+- 对比 LAPLACE_α1 的 H1 破坏（0.025 → 4.70，**+185×**）：地板抬升以**两个数量级更小的 H1
+ 代价**买到同样的零尖峰结果。
+- FLOOR_1e-9：H1 保持不动，但**100% 尖峰保留**（181 / 294）。
+- **测试网格上不存在同时满足（零尖峰 AND H1 不变）的点。**
+- 注意：由于 K_total 都由同一 f=1.3 预算字面式推导，两个 variant 的 f 都 ≈1.297–1.298；
+ 1e-6 的真实代价是**同样的 f 买到更少的净密钥**（H_total 上升）。
+
+披露表（描述性，H-proportional split —— **不是**已接受的 `select_empirical_split` 语义）：
+
+| variant × session | K_total | ΔK vs frozen | Δbits |
+|---|---|---|---|
+| 1e-6 × 1p5M | 7199 | +179 | +895 |
+| 1e-6 × 2M | 7258 | +178 | +890 |
+| 1e-9 / 1e-15 × 1p5M | 7021 / 7020 | +1 / 0 | +5 / 0 |
+| 1e-9 / 1e-15 × 2M | 7080 / 7080 | 0 / 0 | 0 / 0 |
+
+大声记录 caveat：H-proportional split 给出 214/6806 与 218/6862，而 session 冻结值为
+331/6689 与 334/6746 —— **L1/L2 切分正是该描述性规则与已接受语义分歧最显著之处**，
+因此这些 K 值不得用于任何 construction 决策。
+
+下一步 Tier-X（推荐，non-claim）：1e-9（尖峰完整保留）与 1e-6（零尖峰、H1 +64%）之间空隙很大
+⇒ **中间地板 probe（1e-7、1e-8）**，映射尖峰消失先于 H1 膨胀的 knee 是否存在。
+**仅凭此证据，不得把 FLOOR_1e-6 提升为任何真实数据 construction 决策。**
 
 ---
 
