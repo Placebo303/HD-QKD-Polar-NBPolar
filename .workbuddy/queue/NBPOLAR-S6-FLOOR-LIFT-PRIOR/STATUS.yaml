@@ -1,0 +1,36 @@
+# STATUS — NBPOLAR-S6-FLOOR-LIFT-PRIOR
+
+probe_id: nbpolar_s6_floor_lift_prior
+packet: NBPOLAR-S6-FLOOR-LIFT-PRIOR
+tier: X
+branch: codex/nbpolar-phase0
+execution_authorized: false
+next_gate: S6_EXECUTION_PENDING_USER
+prereg_path: workspace/probes/nbpolar_s6_floor_lift_prior/prereg.md
+body_path: workspace/probes/nbpolar_s6_floor_lift_prior/body.py
+results_path: workspace/probes/nbpolar_s6_floor_lift_prior/results.json
+results_exists: false
+
+counters:
+  decoder_calls: 0
+  protected_reads: 0
+  rng_calls: 0
+  artifact_reads: 0
+  reruns_to_fix_execution_errors: 0
+
+acceptance:
+  S6-A1: pending
+  S6-A2: pending
+  S6-A3: pending
+  S6-A4: pending
+  S6-A5: pending
+  S6-A6: pending
+  S6-A7: pending
+  S6-A8: pending
+
+frozen_refs:
+  split_seed: 20260920
+  rules: [FLOOR_1e-6, FLOOR_1e-9, FLOOR_1e-15]
+  p16_operational: {k1: 319, k2: 6492, k_total: 6811, n: 32768}
+  session_1p5M: {k1: 331, k2: 6689, k_total: 7020}
+  session_2M: {k1: 334, k2: 6746, k_total: 7080}
