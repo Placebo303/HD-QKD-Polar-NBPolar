@@ -1,0 +1,58 @@
+# STATUS.yaml — NBPOLAR-L2-REPRESENTATION-REDESIGN (scoping skeleton only)
+
+probe_id: NBPOLAR-L2-REPRESENTATION-REDESIGN
+tier: X
+state: SCOPING_ONLY_NO_EXECUTION_AUTHORIZED
+proposal_only: true
+branch: codex/nbpolar-phase0
+route: B (user-decided 2026-09-20: L2 model/representation + disclosure-placement redesign)
+authorizing_record: none (scoping only; no authorization granted or implied)
+openspec_change: openspec/changes/l2-representation-redesign/ (proposal.md + design.md + tasks.md)
+
+execution_authorized: false
+implementation_authorized: false
+freeze_authorized: false
+axis_selection_authorized: false
+protected_opens_allowed: false
+decoder_allowed: false
+real_data_allowed: false
+production_merge_allowed: false
+scl_unlock_allowed: false
+
+counters:
+  implementation_files: 0
+  executions: 0
+  decoder_calls: 0
+  rng_calls: 0
+  tag_calls: 0
+  protected_opens: 0
+  commits: 0
+  pushes: 0
+  scoping_commits: 0 (this scoping performs no commit/push; commit is a separate main-thread action)
+
+seeds_reserved_but_unactivated:
+  band: 2026092600..2026092619
+  table_identity_master: 2026092600
+  working_point_blocks: [2026092601, 2026092602, 2026092603, 2026092604, 2026092605, 2026092606, 2026092607, 2026092608]
+  axis_reserve: [2026092609, 2026092610, 2026092611, 2026092612, 2026092613, 2026092614, 2026092615, 2026092616]
+  tag_master_reserve_unused: 2026092617
+  spares: [2026092618, 2026092619]
+  grep_verified_absent: planner-grep-clean-2026-09-20 (pattern 20260926, zero hits repo-wide)
+  activation: NOT ACTIVATED — re-grep required at any future freeze
+
+packet_docs:
+  - .workbuddy/queue/NBPOLAR-L2-REPRESENTATION-REDESIGN/STATUS.yaml
+  - .workbuddy/queue/NBPOLAR-L2-REPRESENTATION-REDESIGN/SCOPING_NOTES.md
+
+next_gate: NONE_AUTHORIZED
+blockers: none (nothing to block; nothing is authorized)
+notes: >-
+  Route B scoping only. SCL stays locked (scl-synthetic-list-gate track untouched; its G0-G6
+  gates remain NOT AUTHORIZED). Real-data gate NOT reopened: RN/P20 packets stay closed, the
+  2M HOLD tail and all never-decoded remainders stay never-decoded. Axes ranked (i) disclosure
+  placement hazard-ranked vs first-natural (minimum-delta candidate C-P1 at the G3 triple
+  N=16384/K1=167/K2=3373/d=0.90), (ii) disclosure amount/structure (C-P2), (iii) L2
+  channel/prior model with Q5 TRAIN-counts input (C-P3), (iv) SCL downstream-only. Max 2
+  Tier-X probes per axis before forced axis switch; all axes retired -> forced return to the
+  user-owned exhaustion-route decision. Q5 activates as this route's first Tier-X probe only
+  if axis (iii) is selected first (B2); otherwise Q5 stays retired-conditional.
