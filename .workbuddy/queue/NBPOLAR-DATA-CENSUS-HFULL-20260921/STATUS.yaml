@@ -1,0 +1,52 @@
+# STATUS — NBPOLAR-DATA-CENSUS-HFULL-20260921
+packet: NBPOLAR-DATA-CENSUS-HFULL-20260921
+branch: codex/nbpolar-phase0
+implementation_authorized: false
+execution_authorized: false
+timetagger_install_authorized: false
+next_gate: STAGE_B_PENDING_USER_WITH_MERGE_RULE_FIXED
+# Stage A 2026-09-21: auto-follow CONFIRMED on 20260112_Type2PPLN_3s
+# (FileReader(primary) == FileReader(.1) == 3836088 events, identical
+# histograms/spans; concat = 7672176 = exact 2x duplication => forbidden).
+# Merge rule FIXED in scripts/census_intake_20260921.py (primary-only read;
+# --authorized store_true; repo-root sys.path). Frozen stage_a_parse.json A5
+# `union-is-concat-use-both-files` verdict is SUPERSEDED (concat Stage B was
+# NO-GO); evidence JSONs untouched. Stage B needs fresh user authorization AND,
+# at authorization review, per-acquisition delay <<SEARCH>> grids plus
+# preregistered per-acquisition skip lengths (NOT invented here).
+# Open flags for PI (metadata-only): DURATION_TOKEN_VS_SPAN_DISCREPANCY_10X
+# (`3s` token vs 30.0 s span); channel 1001 sync/marker (excluded, A/B only).
+stage_a0_env: NOT_AUTHORIZED
+stage_a0:
+  A0-1_glibc: pending
+  A0-2_numpy: pending
+  A0-3_installed: pending
+  A0-4_filereader_import: pending
+  A0-5_smoke_construct: pending
+stage_a:
+  target: 20260112_Type2PPLN_3s
+  A1_n_primary: confirmed-3836088
+  A2_n_primary_n_cont1: confirmed-3836088-each-identical
+  A3_union_is_sum: recorded-7672176-exact-2x-duplication-concat-forbidden
+  A4_channels_tspan: confirmed-identical-hists-spans
+  A5_merge_verdict_go: superseded-union-concat-NOGO-script-now-primary-only
+stage_b_unlocked: false  # set true only when a Stage A re-run with the FIXED script records stage_b_go: true WITH autofollow-primary-only verdict (frozen union-concat evidence does NOT unlock)
+stage_b:
+  # per-acquisition checklist: [B1-delay-gate, B2-channel, B3-256div, B4-counts,
+  #   B5-H-values, B8-calval, B9-provenance] — B6/B7 are run-global, tracked below.
+  20260112_Type2PPLN_3s: {B1: pending, B2: pending, B3: pending, B4: pending, B5: pending, B8: pending, B9: pending}
+  20260113_SHG_Type2PPLN_3s: {B1: pending, B2: pending, B3: pending, B4: pending, B5: pending, B8: pending, B9: pending}
+  20260113_SHG_Type2PPLN_3s_2: {B1: pending, B2: pending, B3: pending, B4: pending, B5: pending, B8: pending, B9: pending}
+  20260120_Type0_nofilter_500K_3s: {B1: pending, B2: pending, B3: pending, B4: pending, B5: pending, B8: pending, B9: pending}
+  20260120_Type0_nofilter_1M_3s: {B1: pending, B2: pending, B3: pending, B4: pending, B5: pending, B8: pending, B9: pending}
+  20260120_Type0_nofilter_1_5M_3s: {B1: pending, B2: pending, B3: pending, B4: pending, B5: pending, B8: pending, B9: pending}
+  20260120_Type0_nofilter_2M_3s: {B1: pending, B2: pending, B3: pending, B4: pending, B5: pending, B8: pending, B9: pending}
+  20260121_Type2_1-5M_3s: {B1: pending, B2: pending, B3: pending, B4: pending, B5: pending, B8: pending, B9: pending}
+  20260121_Type2_1M_3s: {B1: pending, B2: pending, B3: pending, B4: pending, B5: pending, B8: pending, B9: pending}
+  20260121_Type2_2M_3s: {B1: pending, B2: pending, B3: pending, B4: pending, B5: pending, B8: pending, B9: pending}
+run_global:
+  B6_no_decoder: pending
+  B7_additive_writes_only: pending
+counters: {acquisitions_done: 0, acquisitions_total: 10, stage_a_runs: 0, stage_b_runs: 0}
+artifacts: []
+blocker: null  # on blocker: {id, command, error, remedies, decision_needed}
