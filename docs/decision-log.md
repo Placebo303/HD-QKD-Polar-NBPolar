@@ -5008,3 +5008,15 @@ This supersedes the "pending" note in the 2026-09-20 Corrections entry, item (ii
 - Committing Q1/Q2 prereg/body/results files: rejected — `workspace/probes/*` is gitignored by design (evidence-size rule); the durable record is this entry plus the milestone memory line.
 
 **Consequences**: No execution, no protected opens, no data consumption in this batch; SCL stays locked; the queue continues under its cap of 6, and reaching the cap forces the exhaustion-route decision (redesign / acquisition / closeout).
+
+## 2026-09-20 Milestone batch 2: G3 synthetic working-point STOP (SCL stays locked)
+
+**Decision**: Record the G3 Tier-X probe `workspace/probes/scl-synthetic-working-point/` as `SCLW_STOP_SANITY_HIGH` — a frozen working-point sanity STOP, not an SCL result. SCL stays locked.
+
+**Context**: Tier-X probe with worktree-only/gitignored root; prereg frozen before the run; sibling-venv interpreter substitution documented; rerun budget 1/1 consumed with the reason recorded. Greedy-SC pooled mismatch 0.770302 vs applicable ceiling 0.769312 (exact arithmetic) sits above the G1 high edge 0.749 → NO disclosure bite for greedy at the frozen d=0.90 point (N=16384, K1=167/K2=3373 first-natural). This is the second ceiling-hugging operating point after X16 d=0.75 — the SCL-unlock question is unanswerable on synthetic data at either tested point. The list arm (N=256, unfrozen top-L stub, no spike-local pruning) showed path-survival 0.0 at all L — wiring-only evidence, NOT an SCL negative and NOT an unlock claim. Wiring checks pass: G2 0.99981 / G3-strata 0.10062. Per the freeze: stop, no repair; any working-point amendment is a main-thread/G1 decision. Focused numerical review PASS with non-blocking F1–F3 (executed-body sha unrecorded; a `size_bytes` second field corrected post-run; run-1 artifact counters zeroed).
+
+**Alternatives considered**:
+- Treat the greedy no-bite or the list-arm 0.0 path-survival as SCL evidence (negative or unlock claim): rejected — frozen-point sanity stop; the list arm is an unfrozen stub with no spike-local pruning, so path-survival 0.0 is wiring-only.
+- Amend the working point in-packet to chase a disclosure bite: rejected — per the freeze, stop with no repair; a working-point amendment is a main-thread/G1 decision.
+
+**Consequences**: SCL stays locked; no synthetic working-point conclusion at d=0.90 or d=0.75; no rerun/repair; the probe record stays worktree-only under `workspace/probes/` (gitignored by design); this entry is the durable record. Any future SCL working point needs its own freeze + explicit user authorization.

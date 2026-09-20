@@ -656,3 +656,28 @@ comparison; never stage/commit on the lone `M` flag.
 
 **Prevention**: treat a lone `M` on known fixture paths as stat-dirty until a
 non-empty diff proves otherwise.
+
+---
+
+### 2026-09-20 Tier-X probe hygiene (3 recurring nits)
+
+**Observed**: recurring Tier-X probe hygiene nits (2026-09-20): (i) local
+`.venv` absent in this checkout; (ii) a post-run `results.json` correction
+disclosed only one touched field and omitted the executed-body sha (review F1);
+(iii) stale 0-byte `.git/index.lock` blocks git operations.
+
+**Root cause**: (i) probe commands are frozen against an interpreter that does
+not exist locally, so a sibling venv substitution is needed; (ii) post-run edits
+to `results.json` were not fully disclosed and no executed `body.py` sha256 was
+recorded in the probe root; (iii) interrupted git processes leave a stale lock
+(known AGENTS.md §8 constraint).
+
+**Fix**: (i) sibling-venv substitution is pre-authorized — record it in the
+`results.json` `command_note` AND prereg line 3; (ii) any post-run
+`results.json` correction must disclose ALL touched fields (say "fields", not
+"field") and record the EXECUTED `body.py` sha256 in the probe root; (iii)
+verify no git process is running, remove `.git/index.lock`, and retry.
+
+**Prevention**: Tier-X failure artifacts: counters inside stop payloads may
+read zero — when run-far evidence is needed, record progress markers in the
+artifact itself.

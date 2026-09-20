@@ -1,4 +1,4 @@
-Status: **P20T accepted descriptive, survey adjudicated (SCL stays locked), closeout batch `8a4f1839`, SCL scoping committed `75055934`, RN scope unchanged, next = SCL freeze packet (not yet existent, NOT AUTHORIZED)** — 2026-09-20
+Status: **P20T accepted descriptive; SCL track G2 landed `dba4f42f`, G3 STOP_SANITY_HIGH (no disclosure bite at d=0.90 — SCL stays locked); Q1/Q2 Tier-X done; next = Q3/Q4 Tier-X preregs + exhaustion-route user decision (PENDING)** — 2026-09-20
 
 Main-thread chain: P20Q HOLD 2M accepted (B 4/5) → P20R order-position
 1.5M accepted as descriptive NEGATIVE 0/1 with block-dominated qualifier
