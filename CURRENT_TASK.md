@@ -1,4 +1,4 @@
-Status: **P20T accepted descriptive; SCL track G2 landed `dba4f42f`, G3 STOP_SANITY_HIGH (no disclosure bite at d=0.90 — SCL stays locked); Tier-X queue 4/6 used (Q1–Q4 done, descriptive only); next = user-owned exhaustion-route decision (operating-point redesign / acquisition / closeout, FORCED at cap, PENDING) + optional Q5 (conditional on L2-redesign choice)** — 2026-09-20
+Status: **Route A done — N=32768 real-data ladder formally closed by population exhaustion (`TARGET_EMPIRICAL_N32768_REAL_DATA_LADDER_CLOSED_POPULATION_EXHAUSTION`, 2026-09-20; terminal, NOT a verdict closure); next = route B L2-representation / operating-point redesign scoping (planner in parallel) + optional Q5 (conditional on an L2-redesign choice); SCL stays locked** — 2026-09-20
 
 Main-thread chain: P20Q HOLD 2M accepted (B 4/5) → P20R order-position
 1.5M accepted as descriptive NEGATIVE 0/1 with block-dominated qualifier
@@ -9,17 +9,22 @@ full-block series) → H2 v2 accepted on 59 rows (H2a REFUTED, H2b/c
 SUPPORTED, H2d flat, H2e incoherent incl. full-block n=1) → synthetic
 probes X14/X15/X16 (chance ceilings) → X17 audit (H-a U/X truth confusion
 localized to probe bodies; positive control decodes; corrected full-scale
-still at chance; independent review commissioned) → N=8192 persistence
-probe in RN-1 revision prep (Q-G1 unified, counts boundary resolved, no
-construction/data/execution authorized). Packet evidence in the
-`.workbuddy/queue/` dirs; RN draft in
-`specs/nbpolar-reduced-n-persistence/`.
+still at chance; independent review commissioned) → P20T N=8192
+persistence probe accepted descriptive (single 2M HOLD-tail block
+3595..3626 CONSUMED; A/B/O all verify_failed; within-N n=1 no-bite) →
+**route A closeout: the ladder ends by population exhaustion, not by
+verdict**. Packet evidence in the `.workbuddy/queue/` dirs; RN delta spec
+in `openspec/changes/formal-ir-nbpolar-phase4-p0/specs/nbpolar-reduced-n-persistence/`.
 
-Next gate: RN-1 freeze review after corrections + user authorization; no
-construction, data reads, or execution authorized. Ledger end-state: 0
-full N=32768 blocks remain (133 frames / 34,048 pairs never-decoded);
-N=8192 would consume 3595..3626 leaving 3627..3644. Memory/decision-log
-details are owned by the memory agent (`AGENT_PROJECT_MEMORY.md` /
+Next gate: route B scoping (planner, in parallel) — no construction, data
+reads, or execution authorized; Q5 stays conditional on an L2-redesign
+choice; SCL stays locked. Ledger end-state: 0 full N=32768 blocks
+formable under any authorized rule; never-decoded = 3627..3644 (18 frames
+/ 4608 pairs) + 1.5M VAL stub 2172..2212 (41/10,496) + 1.5M HOLD
+2725..2766 (42/10,752) = 101 frames / 25,856 pairs; 1.5M↔2M mixing
+forever forbidden. The closeout changes no frozen evidence; the Tier-X
+queue continues unaffected (4/6 used). Memory/decision-log details are
+owned by the memory agent (`AGENT_PROJECT_MEMORY.md` /
 `docs/decision-log.md`).
 
 Previous status (retained): **P20O VAL maintain-confirmation 2M accepted descriptively; next single-factor planning next, nothing auto-triggered** — 2026-09-19

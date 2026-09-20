@@ -16,12 +16,13 @@ NB-LDPC graph, Cascade, or binary Polar baseline logic silently.
 - Sibling `../HD-QKD_Polar_Release`: frozen binary Polar baseline and
   protocol reference (read-only reference).
 
-## NB-Polar worktree status (2026-09-11)
+## NB-Polar worktree status (2026-09-20)
 
-This checkout is now the independent NB-Polar planning and future
-implementation worktree. The canonical documents are:
+This checkout is now the independent NB-Polar planning and implementation
+worktree. The canonical documents are:
 
 - [NB-Polar track](docs/nbpolar/README.md)
+- [NB-Polar document index](docs/nbpolar/DOCUMENT_INDEX.md)
 - [asset map](docs/nbpolar/ASSET_MAP.md)
 - [architecture](docs/nbpolar/ARCHITECTURE.md)
 - [implementation roadmap](docs/nbpolar/ROADMAP.md)
@@ -31,12 +32,47 @@ implementation worktree. The canonical documents are:
 - [NB-Polar MVP proposal](openspec/changes/formal-ir-nbpolar-mvp/proposal.md)
   ([design](openspec/changes/formal-ir-nbpolar-mvp/design.md),
   [tasks](openspec/changes/formal-ir-nbpolar-mvp/tasks.md))
+- [decision log](docs/decision-log.md)
 
-The current lifecycle is `PLAN_CANDIDATE`: there is no NB-Polar production
-decoder, Model-F run, real-data run, qualification, or promotion in this
-checkout. The inherited Comparison documents below remain historical context;
-the new track is owned by this worktree and must not modify the binary Polar
-Release checkout.
+Real-data ladder (route A): **CLOSED by population exhaustion**. On
+2026-09-20 the N=32768 real-data ladder formally closed with the terminal
+label `TARGET_EMPIRICAL_N32768_REAL_DATA_LADDER_CLOSED_POPULATION_EXHAUSTION`
+— a population-exhaustion terminal, not a verdict closure: no full N=32768
+block remains formable under any authorized rule (same-split only; 1.5M↔2M
+mixing forever forbidden). The ladder's record is descriptive only — no
+FER/reliability/efficiency claim: construction-side 1/4→2/5→4/5
+(P20N/P20O/P20Q; trend narrative forbidden), order-side 0/1 negative
+(P20R, block-dominated), reduced-N N=8192 n=1 no-bite (P20T), and the H2 v2
+verdicts (H2a REFUTED, H2b/c SUPPORTED, H2d flat, H2e
+geometry-incoherent). It produced no stage-2 replication, no
+threshold/pass verdict, and no cross-N inference. No further real-data
+execution is possible without route B (operating-point redesign) or route C
+(acquisition, user-side).
+
+Current active work:
+
+- **Route B** — L2-representation / operating-point redesign scoping
+  (planner, in parallel). No construction, data reads, or execution is
+  authorized.
+- **Standing Tier-X re-analysis queue** — 4/6 used (Q1–Q4, descriptive
+  only); Q5 conditional on an L2-redesign choice; Q6 retired. Probe
+  records stay worktree-only under `workspace/probes/`; the durable
+  records are the decision-log entries.
+- **SCL track stays locked** — the synthetic working point is
+  non-informative at two operating points (X16 d=0.75, G3 d=0.90); no SCL
+  conclusion exists and any future SCL working point needs its own freeze
+  plus explicit user authorization.
+
+The lifecycle for anything beyond the accepted descriptive work remains
+`PLAN_CANDIDATE`: there is no NB-Polar production decoder, qualification,
+or promotion in this checkout. The inherited Comparison documents below
+remain historical context; the new track is owned by this worktree and must
+not modify the binary Polar Release checkout.
+
+Branch/commit state: work happens on branch `codex/nbpolar-phase0`
+(remote `nbpolar-origin`); commits are pushed plain (no force). This
+closeout batch is committed and pushed on that branch; the durable record
+of each accepted packet lives in `docs/decision-log.md`.
 
 ## Project First Principle
 
