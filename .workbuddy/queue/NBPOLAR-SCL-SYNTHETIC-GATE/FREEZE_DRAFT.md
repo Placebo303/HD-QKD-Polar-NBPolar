@@ -62,7 +62,9 @@ Why this triple (each axis moved for a recorded reason):
   X14 +0.00028 (0.96903 vs 0.96875); X15 −0.00012 (0.96863 vs 0.96875);
   X16 −0.00030 (0.76902 vs 0.76931). Recorded max |Δ| = **0.00030**.
 - PROPOSED G1 mismatch band: **[0.05, 0.749]** (high edge = 0.76931 − 0.02).
-  Margin 0.02 ≈ **65× the recorded ceiling noise** — a reading inside the band
+  Margin 0.02 ≈ **~66× (≥65×) the recorded ceiling noise** (0.02/0.00030≈66.7×;
+  M≥50× derivation rule already satisfied — prior 65× was a conservative
+  understatement) — a reading inside the band
   is a genuine disclosure/channel bite, not ceiling noise. Low edge 0.05: X17-P
   proves 0.000 reachable, so ≤ 0.05 leaves no room for list gain (near-floor).
 - Stop/notes: mismatch > 0.749 → `SCLW_STOP_SANITY_HIGH` (still at ceiling; no
@@ -124,8 +126,9 @@ shared minus/plus kernels reused by import where the freeze allows).
 - `logp_x` / `field` / `alpha` / `known_positions` / `known_values`: contract-
   identical to `sc_decode` (float64 log-scores symbol-axis-last, logsumexp-0
   rows, exact-zero `-inf` preserved, NaN/+inf rejected; positions/values
-  parallel arrays, zero is a value). No defaults frozen except `alpha=2` and
-  `chunk_rows=512` carried from `sc.py`.
+  parallel arrays, zero is a value). No defaults frozen except `alpha=2`
+  carried from `sc.py` (`chunk_rows=512` is the internal `_minus_block`
+  default reused verbatim, NOT an exposed `scl_decode` param).
 - `list_width_L`: caller-supplied positive integer, NO default. Width contract
   folded into the field/shape category (non-integer/≤0 → same
   TypeError/ValueError style as `chunk_rows` validation, `sc.py:190-198`).
@@ -152,8 +155,9 @@ independent.
 surviving path takes the disclosed value (no split, metric +0); dead paths
 stay dead; all-paths-zero-support → `ImpossibleDisclosedValueError`.
 
-**FROZEN chunk_rows / error-category carry-over:** `chunk_rows=512` default,
-allocation-only row-chunking semantics (`sc.py:176-207`); all five `sc.py`
+**FROZEN chunk_rows / error-category carry-over:** internal
+`_minus_block(chunk_rows=512)` default reused verbatim (NOT an `scl_decode`
+param), allocation-only row-chunking semantics (`sc.py:176-207`); all five `sc.py`
 failure categories carried verbatim (metric contract, field/shape contract
 + width, known-coordinate contract, `ImpossibleDisclosedValueError`, numeric
 nonfinite). No new error category except via the width fold-in above.
@@ -168,8 +172,12 @@ recorded as claims). No per-path per-position conditionals (M×N×q too big;
 evidence-size rule).
 
 **FROZEN L=1 equivalence (hardest T1 test):** `scl_decode(..., L=1, stub)`
-reproduces `sc_decode` bit-identically (`u_hat`, `x_hat`,
-`decision_log_scores` == `path_metrics[0]`).
+reproduces `sc_decode` bit-identically on `u_hat`/`x_hat`
+(`u_candidates[0] == u_hat`, `x_candidates[0] == x_hat`) plus
+`path_metrics[0] == sum(decision_log_scores[undisclosed])` (disclosed
+contribute 0 per §3 metric definition; `decision_log_scores` is float64[N]
+per `sc.py:62,232`, so a vector-vs-scalar `==` against `path_metrics[0]`
+would be ill-typed).
 
 **FROZEN measurement definitions (both, so S7 is interpretable):**
 
