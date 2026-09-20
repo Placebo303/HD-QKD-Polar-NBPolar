@@ -1,0 +1,46 @@
+# STATUS.yaml — NBPOLAR-SCL-SYNTHETIC-GATE (scoping skeleton only)
+
+probe_id: NBPOLAR-SCL-SYNTHETIC-GATE
+tier: X
+state: SCOPING_ONLY_NO_EXECUTION_AUTHORIZED
+proposal_only: true
+branch: codex/nbpolar-phase0
+authorizing_record: none (scoping only; no authorization granted or implied)
+openspec_change: openspec/changes/scl-synthetic-list-gate/ (proposal.md + design.md + tasks.md)
+
+execution_authorized: false
+implementation_authorized: false
+freeze_authorized: false
+protected_opens_allowed: false
+decoder_allowed: false
+scl_implementation_allowed: false
+real_data_allowed: false
+production_merge_allowed: false
+
+counters:
+  implementation_files: 0
+  executions: 0
+  decoder_calls: 0
+  rng_calls: 0
+  tag_calls: 0
+  protected_opens: 0
+  commits: 0
+  pushes: 0
+
+seeds_reserved_but_unactivated:
+  band: 2026092500..2026092519
+  table_identity_master: 2026092500
+  working_point_blocks: [2026092501, 2026092502, 2026092503, 2026092504, 2026092505, 2026092506, 2026092507, 2026092508]
+  ladder_reserve: [2026092509, 2026092510, 2026092511, 2026092512, 2026092513, 2026092514, 2026092515, 2026092516]
+  tag_master_reserve_unused: 2026092517
+  spares: [2026092518, 2026092519]
+  grep_verified_absent: planner-grep-clean-2026-09-20 (20260925 band, zero hits repo-wide)
+  activation: NOT ACTIVATED — re-grep required at any future freeze
+
+packet_docs:
+  - .workbuddy/queue/NBPOLAR-SCL-SYNTHETIC-GATE/STATUS.yaml
+  - .workbuddy/queue/NBPOLAR-SCL-SYNTHETIC-GATE/SCOPING_NOTES.md
+
+next_gate: NONE_AUTHORIZED
+blockers: none (nothing to block; nothing is authorized)
+notes: SCL stays locked. RN scope untouched. No implementation, execution, protected opens, or decoder work performed or authorized in this scoping.
