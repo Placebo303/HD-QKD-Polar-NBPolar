@@ -4969,3 +4969,15 @@ This supersedes the "pending" note in the 2026-09-20 Corrections entry, item (ii
 - Recheck transcripts or wall-clock literals as evidence: rejected — non-evidential; telemetry excluded from byte-equality by rule.
 
 **Consequences**: No rerun/retuning of P20T; P19 roots untouched; no push. DEV 3595..3626 CONSUMED; HOLD remainder 3627..3644 (18 frames) + 1.5M VAL stub 2172..2212 (41) + 1.5M HOLD 2725..2766 (42) stay never-decoded; nothing formable remains under any authorized rule — the real-data ladder ends by population exhaustion, not by verdict.
+
+## 2026-09-20 Sciverse q-ary polar SCL survey completed (10 papers + 2 abstract companions)
+
+**Decision**: Record the bounded research-only survey `.workbuddy/queue/LITERATURE-SCL-QARY-POLAR-SURVEY.md` (10 papers + 2 abstract companions, sciverse skill only, no implementation/execution) as complete. Its L-ladder recommendation (L∈{4,8,32} + binary control) is REJECTED for the RN probe and DEFERRED to a future separately-gated SCL track.
+
+**Context**: (i) Bottom line — q-ary SCL typically needs smaller L than binary (4× per field upgrade, two independent studies: Yuan & Steiner 2018 GF256 L/4; Abbasi N=8192 GF16/L=8 ≈ GF4/L=32 ≈ binary/L=128, AWGN very-low-rate — the only external N=8192 q-ary SCL reference); spike-local reliability gating is a published winning family (split-reduced, critical-set, pruned-tree) but our frozen-hazard signal itself is novel (IR-4 top-16 in-prefix 0/48 has no published analogue); adversarial case weak — no list-failure-on-heavy-tail evidence; nearest negatives are GF(5) q-mismatch (Falk) and HD-QKD IR's zero polar presence (Müller 2024, NB-LDPC/Cascade standard); hard gaps — zero GF(32)-polar-SCL points, zero N≥8192 q-ary outside AWGN/low-rate, zero heavy-tail/QKD-channel SCL studies, zero frozen-hazard phenomena in print. (ii) L-ladder REJECTED for RN: frozen SC-only scope, no SCL module exists in `formal_ir/nbpolar/`, SCL stays locked; an SCL arm would be a second factor plus a new decoder. DEFERRED to a future separately-gated SCL track with its own OpenSpec change + freeze + authorization. (iii) Corpus bias noted: sciverse full-text is AI-conference-heavy; 2 companions honestly marked abstract-level (excluded from the 10-count); Feng 2020 full-text fetch failed (FETCH_FAILED).
+
+**Alternatives considered**:
+- Adopt L∈{4,8,32} + binary control into the RN probe now: rejected — second factor + new decoder outside the frozen SC-only scope.
+- Treat the survey as SCL-unlock evidence: rejected — survey only, no execution; X14-style survival stays the hard gate.
+
+**Consequences**: No code/artifact change; no execution; SCL stays locked; no OpenSpec box checked. A future SCL track needs its own change + freeze + authorization.
