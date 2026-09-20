@@ -1,0 +1,107 @@
+task_id: NBPOLAR-PHASE4-P20T-N8192-PERSISTENCE
+state: FROZEN_AWAITING_EXPLICIT_AUTHORIZATION
+tier: Y
+planning_stage: RN2_PACKET_FROZEN_STAGE_A_PENDING
+predecessor: TARGET_EMPIRICAL_N32768_MERGED_MECHANISM_PROBE_2M_COMPLETE_ACCEPTED_DESCRIPTIVE
+predecessor_packet: NBPOLAR-PHASE4-P20S-R1-GATE-FIX
+scoping_skeleton: NBPOLAR-REDUCED-N-PERSISTENCE
+decision_parent: NBPOLAR-REDUCED-N-FEASIBILITY_OPTION_IV_QG1_QG2
+rn1_freeze_review: PASS_20260920_MAIN_THREAD
+selected_session: type2_2M_20260121_183657
+selected_factor: l2_spike_order_positions_under_frozen_alpha1_rule_n8192_tail_persistence_probe
+frozen_n: 8192
+frozen_dev_frames_hold_block_r1: 3595 3626
+frozen_dev_block_r1: 3595..3626
+frozen_dev_pairs: 8192
+frozen_remainder_frames: 3627 3644
+frozen_remainder_pairs: 4608
+frozen_1p5m_stub_frames: 2172 2212
+frozen_1p5m_hold_remainder_frames: 2725 2766
+frozen_n32768_tail_reference: 3595 3644
+frozen_alpha: 1.0
+frozen_floor: 1e-15
+frozen_target_f: 1.3
+frozen_session_h1: 0.02566204884275839
+frozen_session_h2: 0.8069006731309893
+frozen_session_h_total: 0.8325627219737477
+frozen_h_rule: RECOMPUTED_WITHIN_1E12_NEVER_HAND_FILLED
+worktree_prior_input_path: .workbuddy/queue/NBPOLAR-PHASE4-P20O-2M-MAINTAIN-CONFIRMATION/raw_prior_2m.npz
+worktree_prior_canonical_digest_replay_expected: b16f52165d9f7ef28884df270f921ce07c2a743f4f4b39c3435838809ae1c587
+k_total_estimate_only: 1760
+k_estimate_rule: floor((1.3*8192*H-64)/5)_DERIVED_IN_PACKET_NEVER_HAND_FILLED
+k1_k2_rule: EXHAUSTIVE_TRAIN_RESIDUAL_SELECTION_PER_P16_PATTERN_NEVER_CARRIED_FROM_334_6746
+frozen_k1: FROZEN_AT_STAGE_A
+frozen_k2: FROZEN_AT_STAGE_A
+frozen_k_total: FROZEN_AT_STAGE_A
+frozen_order_rule: NEWLY_DERIVED_N8192_WORST_FIRST_NEVER_REUSE_N32768_FILES
+frozen_order_digest_A: FROZEN_AT_STAGE_A
+frozen_spike_order_digest_B: FROZEN_AT_STAGE_A
+frozen_spike_formula_id: F_MEDIAN8_CARRIED_H_MINUS_LOCAL_MEDIAN_W8
+frozen_spike_window_r8: RE_FROZEN_AT_STAGE_A_AS_NEW_DECISION
+frozen_derivation_program: FROZEN_AT_STAGE_A
+frozen_sampling_blocks: FROZEN_AT_STAGE_A
+frozen_derivation_seeds: FROZEN_AT_STAGE_A
+hazard_window_R: 8
+tag_bits_per_tag: 81983
+tag_rule: 10*8192+63_FROZEN_ARITHMETIC_NEW_DOMAIN_PINNED_AT_STAGE_A
+frozen_tag_master: FROZEN_AT_STAGE_A
+frozen_tag_prefix: FROZEN_AT_STAGE_A
+frozen_test_seeds: FROZEN_AT_STAGE_A_FRESH_DISJOINT
+sc_stages: 13
+frozen_chunk_rows: FROZEN_AT_STAGE_A_P11_PRECEDENT_RESIZED
+ir_payload: IR-1..IR-4_ALL_FROZEN_PRESENT_P20Q_IDENTICAL
+ir3_threshold_multipliers: 1.0x_and_2.0x_prefix_mean
+ir4_topk: 16
+ir5_mode: FULL_BLOCK_8192_BINARY_LE_BIN_PLUS_MANIFEST
+ir5_encoding: ir5full-v1 (f32le hazard + u8 inprefix + u8 inu per record; 48KiB_per_record_144KiB_total)
+key_rule_operational: 5*(K1+K2)+64_FROM_IN_PACKET_K
+key_rule_oracle: 5*K2+64_FROM_IN_PACKET_K
+implementation_authorized: false
+stage_a_authorized: false
+stage_a_complete: false
+stage_b_authorized: false
+protected_data_read_authorized: false
+decoder_execution_authorized: false
+counts_calibration_reads_allowed: 0
+counts_calibration_reads_used: 0
+dev_reads_allowed: 1
+dev_reads_used: 0
+one_m_reads_allowed: 0
+one_m_reads_used: 0
+onep5_m_reads_allowed: 0
+onep5_m_reads_used: 0
+two_m_nondev_reads_allowed: 0
+two_m_nondev_reads_used: 0
+attempts_allowed: 1
+attempts_used: 0
+stage_a_genie_calls: 0
+stage_b_sampling_calls: 0
+stage_b_sc_budget: 5
+stage_b_tag_budget: 3
+stage_b_record_budget: 3
+stage_b_out_root: ABSENT
+pre_execute_review: NOT_REQUESTED
+pre_result_review: NOT_REQUESTED
+main_thread_acceptance: NOT_REQUESTED
+next_gate: STAGE_A_AUTHORIZATION_THEN_FREEZE_THEN_PRE_EXECUTE
+openspec_delta: openspec/changes/formal-ir-nbpolar-phase4-p0/specs/nbpolar-reduced-n-persistence/spec.md
+openspec_delta_status: RN1_PASS_FROZEN_20260920
+notes: |
+  Planner freeze 2026-09-20 (branch codex/nbpolar-phase0). RN-2 Tier-Y packet
+  freeze for the single N=8192 persistence probe (Q-G1/Q-G2, within-N only).
+  RN-1 FREEZE REVIEW PASS 2026-09-20 (main thread) verified population
+  arithmetic (R1 3595..3626 = 32x256 = 8192; remainder 3627..3644 = 18x256 =
+  4608), arm rule (A newly-derived frozen-order-equivalent / B spike-local
+  identical K with carried F-median8 and R=8 re-frozen / O oracle
+  deployable=false), K estimate-only rule (~1760, never hand-filled),
+  comparability boundary (59-row join; non-transfer list), gate markers, and
+  honest scope. This packet proceeds under the standing pre-authorization
+  2026-09-20; Stage-A/Stage-B still need their own freezes + independent
+  reviews + authorizations per the gate sequence (standing pre-authorization
+  does not collapse Tier-Y gates). Derivation inputs = worktree prior arrays
+  only (never the V25 counts NPZ; counts 0/0 at every stage); sampling
+  budget+seeds pinned at the Stage-A freeze; tag value 81983 frozen arithmetic
+  with a NEW domain pinned at freeze; SC stages 13; IR-5 48 KiB/record. The 2M
+  HOLD tail stays never-decoded until separately authorized Stage-B execution.
+  All counters 0; attempts 0/1; DEV reads 0/1. No implementation, derivation,
+  execution, commit or push authorized by this packet.
