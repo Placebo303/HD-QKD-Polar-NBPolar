@@ -3,8 +3,9 @@
 probe: NBPOLAR-X17-METRIC-FEED-AUDIT
 tier: X
 status: COMPLETE_AWAITING_FOCUSED_REVIEW
-state: COMPLETE_AWAITING_FOCUSED_REVIEW
-focused_review: PENDING
+state: COMPLETE_REVIEWED_PASS_WITH_FINDINGS
+focused_review: PASS_WITH_FINDINGS (2026-09-20, reviewer-go)
+next_gate: MILESTONE_BATCH_PENDING
 branch: codex/nbpolar-phase0
 authorizing_record: NBPOLAR-X16-SYNTHETIC-SCALE-DISCLOSURE TASK_PACKET.md §5 branch rule (G1-high WITH G2-pass -> metric-feed audit) + NBPOLAR-PHASE4-NEXT-BRANCH-DECISION.md §4 D3
 

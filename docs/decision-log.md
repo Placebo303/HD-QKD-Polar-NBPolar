@@ -4945,3 +4945,6 @@ candidate; it is not the default next route.
 - Treating these edits as a freeze pass: rejected — RN-1 stays in revision prep; freeze review is a separate future gate.
 
 **Consequences**: RN delta files (spec ADDED-1/ADDED-4/ADDED-7, design R1/R4, proposal Problem) carry the unified wording; AGENT_PROJECT_MEMORY.md mechanism line downgraded; RN-1 still needs freeze review + user authorization before any construction, data reads, or execution.
+
+**Addendum (2026-09-20)**: X17 independent focused numerical review complete — PASS_WITH_FINDINGS (numbers recomputed exact; H-a code-localized; positive control proves control-regime decodability only; full-scale at-chance does not prove sub-threshold; causes undistinguished).
+This supersedes the "pending" note in the 2026-09-20 Corrections entry, item (iii).
