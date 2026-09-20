@@ -12,7 +12,8 @@ openspec_change: openspec/changes/l2-representation-redesign/ (proposal.md + des
 execution_authorized: false
 implementation_authorized: false
 freeze_authorized: false
-axis_selection_authorized: false
+b3_freeze_review: PASS_WITH_FINDINGS_20260920 (F1/F2 fixed in this batch)
+axis_selection_authorized: true (B2 = C-P1, user 2026-09-20)
 protected_opens_allowed: false
 decoder_allowed: false
 real_data_allowed: false
@@ -44,7 +45,7 @@ packet_docs:
   - .workbuddy/queue/NBPOLAR-L2-REPRESENTATION-REDESIGN/STATUS.yaml
   - .workbuddy/queue/NBPOLAR-L2-REPRESENTATION-REDESIGN/SCOPING_NOTES.md
 
-next_gate: NONE_AUTHORIZED
+next_gate: B4_IMPLEMENTATION_AUTHORIZATION_PENDING_USER
 blockers: none (nothing to block; nothing is authorized)
 notes: >-
   Route B scoping only. SCL stays locked (scl-synthetic-list-gate track untouched; its G0-G6
