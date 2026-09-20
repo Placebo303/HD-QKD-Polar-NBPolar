@@ -365,7 +365,7 @@ Algorithm 1 (p.5) 的量化规则：初始 `α = ⌈nH_2(E_μ)⌉`（即 Shannon
 | Müller25：`q̂_{i+1} = q_i`（用上一帧真实 QBER 估下一帧），且存在最优估计块长（≈50000） | **(ii) amount** 的前身 | 这是"逐块驱动"的最近先例，但**驱动量是 QBER，不是信道容量 C̄**；且 binary BSC | 部分相关 |
 | Müller25：QBER 低估惩罚 > 高估；blind 在失配 4% 时 f 可 > 2.5 | 风险 | 我们若按块改预算，必须偏保守（高估误差率方向） | 设计先验 |
 | Müller25：BSC/iid 假设"still not well researched"，呼吁研究非无记忆信道**对效率指标本身**的影响 | 全局 | 本项目"经验 P(y|x) + verification-aware f_eff"路线的最强立项引文 | **立项引文** |
-| KH25：IR 项被显式排除；纠缠型协议；finite-size 在配套篇 | — | **NOT-APPLICABLE**：对 placement/amount/L2/SCL 四轴**均无输入**；仅可作为未来"外层净密钥框架"的待评估引用，且必须附"纠缠型 + finite-size 见 [40]"限定 | 无 |
+| KH25：IR 项被显式排除；纠缠型协议；finite-size 在配套篇 | — | **AXIS-SPLIT**：密钥率/安全外层 = **A 级**（我们实测 λ_EC 的外生接收端）；IR/disclosure/decoder = **NO INPUT**（论文显式排除）。密钥率引用必须连带 finite-size 配套篇 arXiv:2505.03874 | §3.1 |
 
 ### 4.2 对三个开放问题的直接回答
 
@@ -410,9 +410,11 @@ Algorithm 1 (p.5) 的量化规则：初始 `α = ⌈nH_2(E_μ)⌉`（即 Shannon
 
 ### 4.3 明确"不适用于我们"的清单（防止过度引用）
 
-1. **KH25 的全部内容**（SDP 对偶、matrix completion、subspace postselection、v_min）都是
-   纠缠型 HD-QKD 的**密钥率上界**工具，与 IR/disclosure/译码无关。**不得**用于声称我们数据的
-   净密钥安全性，也**不得**作为 placement/amount/L2/SCL 的论据。
+1. **KH25 的适用口径（AXIS-SPLIT，见 §3.1）**：仅可作为外层 H(X|E) 项进入净密钥计算，
+   由我们实测 λ_EC 馈入，并连带引用 finite-size 配套篇 arXiv:2505.03874；
+   **永不可单独用于声称我们数据的净密钥安全性**，也**永不可作为
+   placement/amount/L2/SCL 的 IR 证据**（SDP 对偶、matrix completion、
+   subspace postselection、v_min 均为密钥率上界工具，与 IR/disclosure/译码无关）。
 2. **Müller25 的所有数字**（6.7 kbit/s、1.036/1.166、446/3.14、FER<0.003、3000/100 消息、
    t=50、10^−10）都是 **binary BSC / 2D BB84**；引用必须带此限定（AGENTS.md §5.5）。
 3. **Müller25 的 `f_LDPC = 1.166` 不是"LDPC 极限"**，而是 blind 协议 + 2^16 码 + SPA50 + α=1
@@ -434,7 +436,8 @@ Algorithm 1 (p.5) 的量化规则：初始 `α = ⌈nH_2(E_μ)⌉`（即 Shannon
 3. SCL gate  prereg 中显式加入 **tag 长度随 L 重标定**（源自 Zhou22 式 7 的 `L/2^d`）。
 4. 新增协议层候选（零数据消耗）：**聚类验证 + 允许一次重传**（Müller25 §3.3）。
 5. 设计假设登记：**placement 用 L2 误差概率降序（Zhou22 式）+ amount 用逐块困难度
-   （Müller25 式）** 的合并，在三篇文献中无先例，属 NB-Polar 创新位。
+   （Müller25 式）** 的合并，在这三篇已读文献中无先例。创新空间现包括 A1/A2/A3，
+   该主张在任何论文使用前必须先对 A1 重新核查。
 
 ---
 
