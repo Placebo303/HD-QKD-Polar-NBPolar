@@ -1,4 +1,28 @@
-Status: **P20O VAL maintain-confirmation 2M accepted descriptively; next single-factor planning next, nothing auto-triggered** — 2026-09-19
+Status: **P20Q→P20R→P20S/R1→H2 v2→X14-X17 chain closed; N=8192 persistence probe in RN-1 revision prep, nothing authorized** — 2026-09-20
+
+Main-thread chain: P20Q HOLD 2M accepted (B 4/5) → P20R order-position
+1.5M accepted as descriptive NEGATIVE 0/1 with block-dominated qualifier
+(anchor + oracles also non-exact; does not discriminate the order factor)
+→ P20S/R1 merged-block mechanism probe accepted (36/36, geometry-only;
+A exact, B L2 fail @coord 0 outside prefix, O oracle exact; IR-5 uncapped
+full-block series) → H2 v2 accepted on 59 rows (H2a REFUTED, H2b/c
+SUPPORTED, H2d flat, H2e incoherent incl. full-block n=1) → synthetic
+probes X14/X15/X16 (chance ceilings) → X17 audit (H-a U/X truth confusion
+localized to probe bodies; positive control decodes; corrected full-scale
+still at chance; independent review commissioned) → N=8192 persistence
+probe in RN-1 revision prep (Q-G1 unified, counts boundary resolved, no
+construction/data/execution authorized). Packet evidence in the
+`.workbuddy/queue/` dirs; RN draft in
+`specs/nbpolar-reduced-n-persistence/`.
+
+Next gate: RN-1 freeze review after corrections + user authorization; no
+construction, data reads, or execution authorized. Ledger end-state: 0
+full N=32768 blocks remain (133 frames / 34,048 pairs never-decoded);
+N=8192 would consume 3595..3626 leaving 3627..3644. Memory/decision-log
+details are owned by the memory agent (`AGENT_PROJECT_MEMORY.md` /
+`docs/decision-log.md`).
+
+Previous status (retained): **P20O VAL maintain-confirmation 2M accepted descriptively; next single-factor planning next, nothing auto-triggered** — 2026-09-19
 
 Main-thread decision accepts
 `TARGET_EMPIRICAL_N32768_VAL_MAINTAIN_ALT_CONSTRUCTION_2M_COMPLETE` only as a

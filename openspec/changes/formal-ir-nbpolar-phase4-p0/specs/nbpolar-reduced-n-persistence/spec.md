@@ -18,11 +18,8 @@
 The probe SHALL answer at most the following two descriptive questions,
 both scored WITHIN N=8192 only:
 
-- Q-G1: does the spike-local fail-site pattern (first-error at a
-  local-hazard spike; fail site vs disclosed prefix under both domain
-  flags) recur at N=8192 on the 2M HOLD tail under within-N paired
-  comparison (arm A vs arm B on the same block)?
-- Q-G2: does the spike-local order disclose more tail mass than the
+- Q-G1: does the spike-local L2 fail-site pattern (first error at an undisclosed below-mean coord-class site with floor-rate elevation, paired against the frozen order) recur at N=8192 on the 2M HOLD tail under within-N paired comparison (arm A vs arm B on the same block)?
+- Q-G2: does the spike-local order disclose more top-hazard-tail mass than the
   frozen-order equivalent at the same N (IR-1 prefix/outside tail-mass
   contrast A vs B; full-scope top-128/top-1024 concentration per record's
   own order)?
@@ -79,7 +76,7 @@ per (arm, block) record; 3 records total):
 ## ADDED-4. N=8192 derivation contract (normative — new derivation)
 
 - Construction/allocation SHALL be fully re-derived at N=8192 per the P16
-  pattern: model-sampled TRAIN blocks at N=8192 → pooled per-layer risks
+  pattern: model-sampled TRAIN blocks at N=8192 drawn synthetically from the worktree-reused prior arrays (Stage-A derivation under frozen seeds; zero counts-NPZ opens, zero real-frame use) → pooled per-layer risks
   → worst-first `(e,h,index)` orders → K_total via the frozen budget
   formula with the 2M session H recomputed within 1e-12 → exhaustive
   `(K1,K2)` selection by TRAIN residual, frozen before DEV. (K1,K2) SHALL
@@ -137,8 +134,7 @@ Per-N results (K, disclosure, hazard geometry, FER-like behavior) are NOT
 comparable across N. The following SHALL NOT transfer to N=8192: the
 1/4→2/5→4/5 restoration chain (scored at K2=6746 under 32768-length
 orders); the H2 verdicts (H2a REFUTED / H2b SUPPORTED / H2c SUPPORTED /
-H2d flat / H2e truncated-scope verdict — adjudications over the 63-row
-N=32768 join; an N=8192 block contributes zero rows; cross-N pooling
+H2d flat / H2e truncated-scope verdict — adjudications over the 59-row N=32768 join (P20N 16 + P20O 20 + P20Q 20 + P20S/R1 3; P20R 4 rows read-only, never joined); an N=8192 block contributes zero rows; cross-N pooling
 forbidden); the IR-5 32768 geometry (rank structure, prefix fractions,
 top-k baselines — no curve overlays, no shared thresholds); any leakage
 literal (key 35464/35464/33794, public 327743/tag, totals 104722/983229,

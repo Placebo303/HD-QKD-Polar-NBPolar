@@ -4933,3 +4933,15 @@ candidate; it is not the default next route.
 - Using the 1.5M stubs or pooling across N/sessions: rejected — 1.5M↔2M mixing forever forbidden; per-N results not comparable.
 
 **Consequences**: scoping-only delta committed and pushed (no execution, no data contact — zero protected opens, attempts 0/1); next gate is RN-1 freeze review; the full 50-frame 2M HOLD tail stays never-decoded until separately authorized Stage-A/Stage-B execution + independent reviews.
+
+## 2026-09-20 Corrections to review findings (RN questions, counts boundary, X17/SCL qualification, mechanism reading)
+
+**Decision**: (i) RN Q-G1 unified to the mining formulation (undisclosed below-mean coord-class site with floor-rate elevation, paired vs frozen order); spec ADDED-1 + proposal Problem fixed; Q-G2 aligned to "top-hazard-tail mass"; (ii) counts boundary resolved — V25 counts-NPZ opens 0/0 at every stage reaffirmed; construction/order derivation inputs = worktree-reused prior arrays only; TRAIN "sampling" = synthetic draws from the worktree prior in Stage-A derivation with budget+seeds pinned at freeze (never counts opens, never DEV/real frames); design R1/R4 reworded; spec "63-row" corrected to the actual 59-row H2 v2 join (16+20+20+3; P20R read-only); the feasibility study's "63-row" mention is left frozen as superseded; (iii) X17: independent focused numerical review commissioned 2026-09-20 (pending at this writing; see FOCUSED_REVIEW.md when complete) — positive control proves decodability under control conditions only; working-point-related defects are NOT excluded; full-scale at-chance alone does NOT prove sub-threshold; causes not fully distinguished; the synthetic-branch closure stands with this qualification; (iv) mechanism reading downgraded — hazard equality is a per-block/per-arm manifest fact; 6746/32768≈20.59% is a position fraction, not proof of "lowest fifth" selection; top-16 uncoverable (0/48) does NOT directly translate to most-dangerous-SC-channels-undisclosed; all such statements now read as descriptive geometric observations; (v) RN-1 stays in revision prep — the present freeze draft is NOT approved for freezing; still no authorization for construction, data reads, or execution.
+
+**Context**: 2026-09-20 user review of the RN-1 revision-prep draft, the H2 v2 / X17 closeout, and the geometry-mining mechanism reading. Corrections are additive qualifiers — no frozen evidence file is rewritten.
+
+**Alternatives considered**:
+- Rewriting frozen evidence or the superseded feasibility study in place: rejected — frozen stays frozen; corrections live in the live delta files plus this entry.
+- Treating these edits as a freeze pass: rejected — RN-1 stays in revision prep; freeze review is a separate future gate.
+
+**Consequences**: RN delta files (spec ADDED-1/ADDED-4/ADDED-7, design R1/R4, proposal Problem) carry the unified wording; AGENT_PROJECT_MEMORY.md mechanism line downgraded; RN-1 still needs freeze review + user authorization before any construction, data reads, or execution.

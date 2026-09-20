@@ -13,10 +13,10 @@
 
 | # | item | N=8192 consequence |
 |---|---|---|
-| R1 | `construction_and_allocation.json` rebuild | Full re-derivation per P16 pattern (`TASK_PACKET.md` P16-02): new counts-train sampling at N=8192, new pooled `(e,h,index)` worst-first orders, new (K1,K2) exhaustive selection by TRAIN residual (NOT carried from 334/6746) |
+| R1 | `construction_and_allocation.json` rebuild | Full re-derivation per P16 pattern (`TASK_PACKET.md` P16-02): synthetic TRAIN-block sampling at N=8192 drawn ONLY from the worktree-reused prior arrays (V25 counts-NPZ opens 0/0 at every stage; block count + derivation seeds pinned at freeze), new pooled `(e,h,index)` worst-first orders, new (K1,K2) exhaustive selection by TRAIN residual (NOT carried from 334/6746) |
 | R2 | Runner frozen point | New module (or thin-importer + new frozen constants) with `FROZEN_N = 8192` + focused injected tests; `target_construction.py:1559` hard-gates `n == FROZEN_N`, so no frozen-point runner accepts `--n 8192` |
 | R3 | K allocation | `floor((1.3·N·H−64)/5)` derived in-packet from recomputed 2M H within 1e-12 — estimate ≈1760 only, never hand-filled (AGENTS.md §5.5) |
-| R4 | L1/L2 orders | Fresh length-8192 worst-first empirical permutations (new counts opens + sampling budget under frozen derivation seeds); the 32768-length files are length- and geometry-incompatible |
+| R4 | L1/L2 orders | Fresh length-8192 worst-first empirical permutations (zero V25 counts-NPZ opens; synthetic sampling budget with frozen derivation seeds, block count pinned at freeze); the 32768-length files are length- and geometry-incompatible |
 | R5 | Spike order | F-median8 formula-id carried, but R=8 window convention vs 8192-geometry re-frozen as a NEW freeze decision; new length-8192 spike permutation + digest |
 | R6 | Tag value + domain | Value `10·N+63` = **81983** bits/tag (frozen arithmetic in packet); NEW tag domain (fresh master + prefix, grep disjointness proof) |
 | R7 | SC sizing | Stage count log2(8192) = **13**; `chunk_rows` geometry re-sizing (P11 precedent); code paths reused, all sizing constants new |

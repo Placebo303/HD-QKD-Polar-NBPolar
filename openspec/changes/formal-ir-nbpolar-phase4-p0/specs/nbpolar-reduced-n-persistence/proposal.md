@@ -16,7 +16,7 @@ accepted descriptively). The only remaining high-information population
 is the 2M HOLD tail 3595..3644 (50 frames / 12,800 pairs) — insufficient
 for N=32768 but exactly sufficient for ONE N=8192 block (32 frames) with
 an 18-frame remainder. The open question is whether the L2-spike failure
-mechanism (first-error at a local-hazard spike; spike-order coverage)
+mechanism (first error at an undisclosed below-mean coord-class site with floor-rate elevation, paired against the frozen order)
 persists off the N=32768 point — a qualitative, descriptive-only
 persistence check that the zero-cost archive (option (iii)) cannot
 answer once its named trigger question is written.
