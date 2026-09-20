@@ -1,4 +1,4 @@
-Status: **P20T accepted descriptive; SCL track G2 landed `dba4f42f`, G3 STOP_SANITY_HIGH (no disclosure bite at d=0.90 — SCL stays locked); Q1/Q2 Tier-X done; next = Q3/Q4 Tier-X preregs + exhaustion-route user decision (PENDING)** — 2026-09-20
+Status: **P20T accepted descriptive; SCL track G2 landed `dba4f42f`, G3 STOP_SANITY_HIGH (no disclosure bite at d=0.90 — SCL stays locked); Tier-X queue 4/6 used (Q1–Q4 done, descriptive only); next = user-owned exhaustion-route decision (operating-point redesign / acquisition / closeout, FORCED at cap, PENDING) + optional Q5 (conditional on L2-redesign choice)** — 2026-09-20
 
 Main-thread chain: P20Q HOLD 2M accepted (B 4/5) → P20R order-position
 1.5M accepted as descriptive NEGATIVE 0/1 with block-dominated qualifier
