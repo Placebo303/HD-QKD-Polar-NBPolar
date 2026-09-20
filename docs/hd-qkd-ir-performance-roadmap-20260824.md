@@ -237,7 +237,7 @@ NB-LDPC 后继必须说明预期收益来自更低 leakage、更少交互或更�
 - [Pradhan et al., large-girth protograph construction](https://arxiv.org/abs/1301.6301)：提示 degree-2 链风险和 protograph/MET 方向。
 - [Müller et al., HD-QKD NB-LDPC](https://arxiv.org/abs/2305.08631) 与 [HD-QKD IR comparison](https://doi.org/10.1007/s11128-024-04395-w)：证明方向有潜力，但其 QSC/q=8/长块结果不能外推到本项目。
 - [Mitra et al., informed NB-MLC/JRDO/IDC](https://doi.org/10.1007/s11128-024-04343-8)：支持按经验 ET-QKD 信道联合优化 mapping、rate、degree distribution。
-- [Tarable et al., rateless protograph LDPC for QKD](https://tqe.ieee.org/2024/02/02/rateless-protograph-ldpc-codes-for-quantum-key-distribution/)：支持 rate-adaptive protograph 备选。
+- [Tarable et al., rateless protograph LDPC for QKD](https://doi.org/10.1109/TQE.2024.3361810)（IEEE Trans. Quantum Engineering 2024，DOI `10.1109/TQE.2024.3361810`）：支持 rate-adaptive protograph 备选。
 - [Bravo-Santos, q-ary polar source/channel coding](https://arxiv.org/abs/1511.03881)：支持 NB-Polar P0，不证明 GF(1024) finite 实现。
 - [Martinez-Mateo & Elkouss, multiplicatively repeated NB-LDPC](https://doi.org/10.1140/epjqt/s40507-025-00376-9)：支持短块/变化信道的母码思路，但主要证据来自 CV-QKD 低率区。
 - [Tauz et al., Block-MDS QC-LDPC for HD-QKD](https://doi.org/10.1109/ITW61385.2024.10806945)：提供结构化 QC 候选和 IR/PA 联合判据；其模拟信道、码长与判定口径不能直接外推到本项目。
