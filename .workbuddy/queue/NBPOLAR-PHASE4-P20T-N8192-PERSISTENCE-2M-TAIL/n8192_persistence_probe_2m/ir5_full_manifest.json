@@ -1,0 +1,131 @@
+{
+  "files": [
+    {
+      "arm": "A_anchor_frozen_order_equivalent",
+      "block_index": 0,
+      "bytes": 32768,
+      "dtype": "<f4",
+      "endianness": "little",
+      "file": "A_hazard_bits_f32le.bin",
+      "format_version": "ir5full-v1",
+      "order_identity": "66aefea8d88ef0160906ea37575aa4c4c0dbc0dda6fcd67513a61458198ade93",
+      "sha256": "2d66f0093bcd2c8d8fc11777471aea46f85719ea19d6b480096ed2bf65ff672b",
+      "shape": [
+        8192
+      ]
+    },
+    {
+      "arm": "A_anchor_frozen_order_equivalent",
+      "block_index": 0,
+      "bytes": 8192,
+      "dtype": "u1",
+      "endianness": "little",
+      "file": "A_inprefix_u8.bin",
+      "format_version": "ir5full-v1",
+      "order_identity": "66aefea8d88ef0160906ea37575aa4c4c0dbc0dda6fcd67513a61458198ade93",
+      "sha256": "dd89cb7f99bf1c854d8fe3caed3ac3cccdf2cb5af9779cb71fe56cd37c64da03",
+      "shape": [
+        8192
+      ]
+    },
+    {
+      "arm": "A_anchor_frozen_order_equivalent",
+      "block_index": 0,
+      "bytes": 8192,
+      "dtype": "u1",
+      "endianness": "little",
+      "file": "A_inu_u8.bin",
+      "format_version": "ir5full-v1",
+      "order_identity": "66aefea8d88ef0160906ea37575aa4c4c0dbc0dda6fcd67513a61458198ade93",
+      "sha256": "c11d88fcba490e5a42f80452d2810dc45d1cbec884bbae5f754341d5c537e3db",
+      "shape": [
+        8192
+      ]
+    },
+    {
+      "arm": "B_spike_local_order",
+      "block_index": 0,
+      "bytes": 32768,
+      "dtype": "<f4",
+      "endianness": "little",
+      "file": "B_hazard_bits_f32le.bin",
+      "format_version": "ir5full-v1",
+      "order_identity": "355a32d3551c065088da6627dc1ad4ec07b004b73d322567eddaf8cadf03352a",
+      "sha256": "2d66f0093bcd2c8d8fc11777471aea46f85719ea19d6b480096ed2bf65ff672b",
+      "shape": [
+        8192
+      ]
+    },
+    {
+      "arm": "B_spike_local_order",
+      "block_index": 0,
+      "bytes": 8192,
+      "dtype": "u1",
+      "endianness": "little",
+      "file": "B_inprefix_u8.bin",
+      "format_version": "ir5full-v1",
+      "order_identity": "355a32d3551c065088da6627dc1ad4ec07b004b73d322567eddaf8cadf03352a",
+      "sha256": "454fa1a0341c2b61154c1d1dba0a9343bf7727861a0de08bdd5ede508758ee2d",
+      "shape": [
+        8192
+      ]
+    },
+    {
+      "arm": "B_spike_local_order",
+      "block_index": 0,
+      "bytes": 8192,
+      "dtype": "u1",
+      "endianness": "little",
+      "file": "B_inu_u8.bin",
+      "format_version": "ir5full-v1",
+      "order_identity": "355a32d3551c065088da6627dc1ad4ec07b004b73d322567eddaf8cadf03352a",
+      "sha256": "91ea62ef83fa012e9492968e52c3f8aec7cfe4f93cee8d20b660972f3bca9a56",
+      "shape": [
+        8192
+      ]
+    },
+    {
+      "arm": "O_true_l1_oracle",
+      "block_index": 0,
+      "bytes": 32768,
+      "dtype": "<f4",
+      "endianness": "little",
+      "file": "O_hazard_bits_f32le.bin",
+      "format_version": "ir5full-v1",
+      "order_identity": "66aefea8d88ef0160906ea37575aa4c4c0dbc0dda6fcd67513a61458198ade93",
+      "sha256": "2d66f0093bcd2c8d8fc11777471aea46f85719ea19d6b480096ed2bf65ff672b",
+      "shape": [
+        8192
+      ]
+    },
+    {
+      "arm": "O_true_l1_oracle",
+      "block_index": 0,
+      "bytes": 8192,
+      "dtype": "u1",
+      "endianness": "little",
+      "file": "O_inprefix_u8.bin",
+      "format_version": "ir5full-v1",
+      "order_identity": "66aefea8d88ef0160906ea37575aa4c4c0dbc0dda6fcd67513a61458198ade93",
+      "sha256": "dd89cb7f99bf1c854d8fe3caed3ac3cccdf2cb5af9779cb71fe56cd37c64da03",
+      "shape": [
+        8192
+      ]
+    },
+    {
+      "arm": "O_true_l1_oracle",
+      "block_index": 0,
+      "bytes": 8192,
+      "dtype": "u1",
+      "endianness": "little",
+      "file": "O_inu_u8.bin",
+      "format_version": "ir5full-v1",
+      "order_identity": "66aefea8d88ef0160906ea37575aa4c4c0dbc0dda6fcd67513a61458198ade93",
+      "sha256": "c11d88fcba490e5a42f80452d2810dc45d1cbec884bbae5f754341d5c537e3db",
+      "shape": [
+        8192
+      ]
+    }
+  ],
+  "format_version": "ir5full-v1"
+}
