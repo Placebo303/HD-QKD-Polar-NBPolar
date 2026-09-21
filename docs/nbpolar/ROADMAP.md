@@ -1,5 +1,11 @@
 # NB-Polar implementation roadmap
 
+> **SUPERSEDED (2026-09-21)** — This document describes the nonparametric
+> `counts_ab` prior layer, superseded by
+> `openspec/changes/nbpolar-prior-rebaseline/` (±1 parametric prior).
+> Retained for provenance. Read `docs/nbpolar/STATE.md` first.
+> Nothing here is deleted; no number is restated as current.
+
 ## Current priority after P19
 
 The original phase sequence below is retained as architecture history. The

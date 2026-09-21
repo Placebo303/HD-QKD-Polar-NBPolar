@@ -1,5 +1,11 @@
 # NB-Polar Phase 4-P0 specification delta
 
+> **SUPERSEDED (2026-09-21)** — This document describes the nonparametric
+> `counts_ab` prior layer, superseded by
+> `openspec/changes/nbpolar-prior-rebaseline/` (±1 parametric prior).
+> Retained for provenance. Read `docs/nbpolar/STATE.md` first.
+> Nothing here is deleted; no number is restated as current.
+
 ## Requirement: accepted concentration prior
 
 The adapter SHALL compute the joint conditional with the per-Bob-column

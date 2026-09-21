@@ -1,5 +1,11 @@
 # Phase 4-P0 prior-contract freeze (FREEZE_ACCEPT)
 
+> **SUPERSEDED (2026-09-21)** — This document describes the nonparametric
+> `counts_ab` prior layer, superseded by
+> `openspec/changes/nbpolar-prior-rebaseline/` (±1 parametric prior).
+> Retained for provenance. Read `docs/nbpolar/STATE.md` first.
+> Nothing here is deleted; no number is restated as current.
+
 Companion OpenSpec change: `openspec/changes/formal-ir-nbpolar-phase4-p0/`
 (proposal/design/tasks/specs). Packet:
 `.workbuddy/queue/NBPOLAR-PHASE4-P0-PRIOR-CONTRACT-FREEZE/TASK_PACKET.md`.

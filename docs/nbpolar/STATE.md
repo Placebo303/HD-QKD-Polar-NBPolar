@@ -56,7 +56,7 @@
 
 - 授权中：下一个真实数据 packet 优先检验 M2 先验（冻结 K1=319/K2=6492，已接受 block 先行）——仍需独立 freeze + 显式用户授权（`MACRO_PLAN_20260921.md:§§5,9`）。
 - 冻结中：一切真实数据执行（无授权不读不跑）；`results/`、`comparison_bench/outputs_comparison/` 只加不覆；benchmark/result roots 写入；SCL（5-item conjunction 未满足，锁定）；任何 promotion/qualification/FER claim；C-P2 B4；表示转向。
-- 预算：route-B 2/6 used / 4 remaining（`MACRO_PLAN_20260921.md:§6`）；Tier-X probes non-claim，ledger 按里程碑批量更新（`docs/nbpolar/PROBE_TIER.md`）；re-analysis queue 4/6（剩 Q5 + exhaustion-route decision）。
+- 预算：route-B 2/6 used / 4 remaining（`MACRO_PLAN_20260921.md:§6`；1/6 after C-P1 RETIRE at `decision-log.md:5065`；2/6 after C-P2 freeze review at `:5079`）；Tier-X probes non-claim，ledger 按里程碑批量更新（`docs/nbpolar/PROBE_TIER.md`）；re-analysis queue 4/6（剩 Q5 + exhaustion-route decision）。
 - Pending PI decisions：pairing-rule contract（W vs N + window）；σ/`gate_ps=200` 不兼容；accidental-dominated H 可用性；queue 上限处的 exhaustion-route（redesign/acquisition/closeout）；(N)-H window/gate contract；Type0 source verification。
 - Branch `codex/nbpolar-phase0`；本文件前 last commit `5f9ec273`。
 
