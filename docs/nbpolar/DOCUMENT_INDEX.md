@@ -14,6 +14,7 @@ publication, commit, or push authority. Start with `astra6/README.md`.
 | Document | Role | State |
 |---|---|---|
 | `README.md` | scope, ownership, current status | Phase 0 accepted |
+| `STATE.md` | one-page entry point; read first | active |
 | `ASSET_MAP.md` | three-checkout asset and reuse map | read-only synthesis |
 | `ARCHITECTURE.md` | algorithm and software contracts | Phase 0 frozen |
 | `ROADMAP.md` | phased implementation and gates | Phase 0 frozen |

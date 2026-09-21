@@ -2,6 +2,8 @@
 
 ## Status
 
+Fresh sessions read `STATE.md` first (one-page entry point).
+
 This worktree is the independent NB-Polar planning and implementation checkout.
 The algebra/transform/SC/prior/protocol foundation is accepted in its bounded
 scopes. Target-population construction and model-sampled N=32768 operation have
