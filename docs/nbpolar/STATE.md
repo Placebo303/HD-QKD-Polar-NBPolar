@@ -24,7 +24,8 @@
 | 已证伪 | "no prior IR on ToA/HD" novelty claim：A1 = Boutros & Soljanin TCOM 2023 | `MACRO_PLAN_20260921.md:§4`，`PAPER_READ_20260921.md` |
 | 已证伪 | A3 rate bounds licensed for this project：sufficient-condition 推导 + 5+5-bit 架构 out of scope | `MACRO_PLAN_20260921.md:§6` |
 | 结构性担忧（性能未验证） | Gray neighbor-of-zero set = powers of α 是结构性事实；比较译码性能/full MFD verdict 未验证 | `AGENT_PROJECT_MEMORY.md:2026-09-21`，`MACRO_PLAN_20260921.md:§2` |
-| 已检验（bounded negative，非证伪机制） | M2 ±1 prior on REAL data：SHG `_1` δ-tail FAIL（p̂=0.0050202 / U=0.0052879 vs B_tail=2.0e-4；±1 前提不成立 ⇒ NO G2）；NLL PASS 但 matched-32f 近无信息量（Δ=1.950667；1024 帧 incumbent arm A1 永未运行）；M0 稀疏表病理可复现（机制未证伪）；M2 仍 **CANDIDATE**、未验证 | `.workbuddy/queue/NBPOLAR-M2-PRIOR-G1-REALDATA-NLL/G1_ADJUDICATION.md` |
+| 已检验（bounded negative，非证伪机制） | M2 ±1 prior on REAL data（**G1，w=500/LINEAR**）：SHG `_1` δ-tail FAIL（p̂=0.0050202 / U=0.0052879 vs B_tail=2.0e-4；±1 前提不成立 ⇒ NO G2）；NLL PASS 但 matched-32f 近无信息量（Δ=1.950667；1024 帧 incumbent arm A1 永未运行）；M0 稀疏表病理可复现（机制未证伪）；M2 仍 **CANDIDATE**、未验证 | `.workbuddy/queue/NBPOLAR-M2-PRIOR-G1-REALDATA-NLL/G1_ADJUDICATION.md` |
+| 已检验（描述性，契约已换） | **G1R2（w=200/CIRCULAR）**：δ-tail **PASS**（p̂=0，U=1.4986e-5——**S11 推论，非 ±1 前提的新验证**）；NLL PASS（Δ=2.1392）；CAL32 三元组 q0/q+1/q−1/q_rest = 0.7562/0.2419/0.0018/**0**；H_M2=0.8168138 / H_M0=0.6910589。**不得跨契约作优劣比较**（两契约测的是不同窗口/口径群体） | `.workbuddy/queue/NBPOLAR-M2-PRIOR-G1R2-W200-CIRCULAR/G1R2_ADJUDICATION.md` |
 | 已检验（描述性） | SHG `_1` δ-mass：tail 0.50%（1005/200,192），**不满足** ≤1 前提；且低于均匀 accidental 预测（普查 w=500 accidental 1.44%）——尾部非纯偶然符合；冻结 sessions 32 帧 CAL q_rest=0.0（尾部≈0）——±1 前提源相关 | `G1_ADJUDICATION.md` §2；`delta_profiles.json` |
 | 待验证 | FER/reliability/efficiency at any operating point（全项目尚无 FER 阈值） | `MACRO_PLAN_20260921.md:§5 Stage 0` |
 
@@ -54,11 +55,11 @@
 
 ## §4 当前授权与预算状态
 
-- 授权中：无（G1 packet 已执行完毕并裁决为 bounded negative；下一真实数据 packet 需主线程路线决策 + 新的 freeze + 显式用户授权——M2 路线在 SHG `_1` 上已预定 STOP，T6/T7 阻塞，G3 除非新候选否则无效）。
+- 授权中：无（**G1** 已裁决 bounded negative；**S11** 探针完成；**G1R2**（w=200/CIRCULAR，G1 的 delta-successor）已执行并裁决 `NBPOLAR_M2_PRIOR_G1R2_COMPLETE_DESCRIPTIVE`：δ-tail PASS（S11 推论，非新验证）、NLL PASS（Δ=2.1392）、CAL32 三元组 q_rest=0、H_M2=0.8168138）。**G2 前提阻塞已就本契约解除**——T6/T7 不再被 G1 阻塞，但仍需主线程路线决策 + G2 自身 freeze + 独立 Pre-EXECUTE + 显式用户授权；G3 除非 G2 成功否则仍无效。M2 仍是 CANDIDATE，未验证。
 - 冻结 sessions 真实数据 ladder **已耗尽**：never-decoded 余量 101 frames，32-frame CAL 后剩 69 frames（<1 block）；验证须在 SHG 新采集上跑，并声明保留段做独立确认。
 - 冻结中：一切真实数据执行（无授权不读不跑）；`results/`、`comparison_bench/outputs_comparison/` 只加不覆；benchmark/result roots 写入；SCL（5-item conjunction 未满足，锁定）；任何 promotion/qualification/FER claim；C-P2 B4；表示转向。
 - 预算：route-B 2/6 used / 4 remaining（`MACRO_PLAN_20260921.md:§6`；1/6 after C-P1 RETIRE at `decision-log.md:5065`；2/6 after C-P2 freeze review at `:5079`）；Tier-X probes non-claim，ledger 按里程碑批量更新（`docs/nbpolar/PROBE_TIER.md`）；re-analysis queue 4/6（剩 Q5 + exhaustion-route decision）。
-- Pending PI decisions：route decision post-G1（候选方向见 `G1_ADJUDICATION.md` §3：带显式尾部质量的参数 δ 模型 / SHG 尾部性质预注册调查 / 未测量的 incumbent 1024 帧 arm；均未选择）；σ/`gate_ps=200` 不兼容；accidental-dominated H 可用性；queue 上限处的 exhaustion-route（redesign/acquisition/closeout）；Type0 source verification。（已决：G1 packet 采用 (N) W_P=500/W_S=200 配对契约——该 PI 决策由此 packet 的执行而落实。）
+- Pending PI decisions：**route decision post-G1R2**（G2 freeze 数据包是否准备——一次性三臂译码 A1=M0@1024f incumbent / A2=M0@32f 对照 / B=M2@32f，SHG `_1`，14 blocks，冻结 K1=319/K2=6492 与 P16 构造）；K_total 选择（fixed-f vs fixed-K，D4 仍 DEFERRED，G1R2 的 H_M2 暗示 ≈6,946 vs 冻结 7,020，仅规划输入）；σ/`gate_ps=200` 不兼容；accidental-dominated H 可用性；queue 上限处的 exhaustion-route；Type0 source verification。（已决：G1 用 (N) W_P=500/W_S=200；**G1R2 改用 W_P=200 + MOD=CIRCULAR**——后者经 delta 评审，且其"无需改 runner"的原始断言被独立评审否证后已修正。）
 - Branch `codex/nbpolar-phase0`；本文件前 last commit `5f9ec273`。
 
 ## §5 定位（R1/R2/R3 一句话）

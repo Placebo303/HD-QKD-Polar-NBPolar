@@ -1,0 +1,36 @@
+# STATUS — NBPOLAR-M2-PRIOR-G1R2-W200-CIRCULAR
+packet: NBPOLAR-M2-PRIOR-G1R2-W200-CIRCULAR
+branch: codex/nbpolar-phase0
+parent_packet: NBPOLAR-M2-PRIOR-REALDATA-VALIDATION  # delta-successor of its executed G1 contract
+delta: NBPOLAR-M2-PRIOR-REALDATA-VALIDATION/g1r2_delta.md  # 8 CHANGED items (item 8 = runner re-parameterization, applied)
+route: option-1 narrow-window-centred validation (user-confirmed 2026-09-21); MOD=CIRCULAR (user decision)
+change: openspec/changes/nbpolar-prior-rebaseline  # G1-scope successor; T6/T7 (G2) still BLOCKED
+venv: /home/karel_303/.venvs/timetagger/bin/python
+phaseA_authorized: true      # user authorization pasted verbatim 2026-09-22 (kai)
+phaseB_authorized: true      # gated: Phase B runs ONLY after main thread records the closure-verification PASS
+execution_of_decoder: false   # G1 scope is decoder-free; always false
+next_gate: PHASE_B_COMPLETE_AWAITING_PRERESULT_REVIEW  # all Phase-B runs done; no rerun/tuning
+counters: {closure_runs: 1, g1r2_runs: 1, sc_calls_on_protected: 0, reruns: 0}
+delta_review: {state: pass_with_comments_after_one_fail, reviewer: reviewer-go, record: DELTA_REVIEW.md, packet_executable: true, notes: "first review DELTA_FAIL (runner block) => rework item 8 => re-review PASS; stale 6-counts + PROMPT premise clause batch-fixed by main thread (docs-only)"}
+closure_verification: {state: pass_with_comments, reviewer: reviewer-go, verdict: G1R2_CLOSURE_PASS_WITH_COMMENTS, phaseB_unblocked: true, notes: "repro 5/5 exact; ledger 4219 (216 dropped); reserve element-wise 29 ids 4190..4218, 0 >=4219 (item-8 fix confirmed); 19-key config 0 nulls; G1 record byte-identical; no Phase-B science in out-root; wall 29.267s / 1.108GiB; comment: config holds no reserve_frame_ids list by design (19-key set), overflow not representable; untracked .workbuddy/memory/2026-09-21.md provenance to confirm at milestone"}
+ids:
+  G1R2-A_closure: pass  # repro 5/5 exact; ledger 4219>=4190; reserve 4190-4218 (29); wall 29.3s / RSS 1.11GiB; Phase B NOT run
+  G1R2-1_alignment: pass  # peak 50 / sigma 112.45189572400645 / to_bg 1366.27 / ok; offset +50
+  G1R2-2_pairing_delta: pass  # w200 n=1259992; w500 readout no-switch; CHAR lin+circ, circ tail 0
+  G1R2-3_cal32_nll: pass  # CAL32 FIT triple; HELDOUT 143360 symb; Delta=2.139201766011403 > 0.020
+  G1R2-4_h_gates: pass  # H_M2=0.816814 H_M0=0.691059; dtail U=1.4986e-05<2e-4 PASS; nll PASS
+  G1R2-R_remainder: complete  # exempt, no gate; pooled Delta=1.957544 + 3 segments
+artifacts:
+  - workspace/m2_prior_validation/20260113_SHG_Type2PPLN_3s_g1r2/g1.json
+  - workspace/m2_prior_validation/20260113_SHG_Type2PPLN_3s_g1r2/cal_ids.json
+  - workspace/m2_prior_validation/20260113_SHG_Type2PPLN_3s_g1r2/run_log.md
+  - workspace/m2_prior_validation/20260113_SHG_Type2PPLN_3s_g1r2/delta_profiles.json
+  - workspace/m2_prior_validation/20260113_SHG_Type2PPLN_3s_g1r2/g1_closure.json
+  - workspace/m2_prior_validation/20260113_SHG_Type2PPLN_3s_g1r2/cal_ids_closure.json
+  - workspace/m2_prior_validation/20260113_SHG_Type2PPLN_3s_g1r2/run_log_closure.md
+  - workspace/m2_prior_validation/remainder_101f_g1r2/g1.json
+  - workspace/m2_prior_validation/remainder_101f_g1r2/cal_ids.json
+  - workspace/m2_prior_validation/remainder_101f_g1r2/run_log.md
+  - workspace/m2_prior_validation/remainder_101f_g1r2/remainder_driver.py
+  - .workbuddy/queue/NBPOLAR-M2-PRIOR-G1R2-W200-CIRCULAR/g1r2_freeze_config.json  # 19-key closure-emitted
+result: {id: G1R2-B, summary: "COMPLETE: repro 5/5; dtail PASS (phat=0,U=1.4986e-05); nll PASS (Delta=2.13920); H_M2=0.816814/H_M0=0.691059; remainder pooled Delta=1.957544; no rerun/tuning", decision_needed: null}

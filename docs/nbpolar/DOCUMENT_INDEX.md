@@ -303,6 +303,13 @@ publication, commit, or push authority. Start with `astra6/README.md`.
 | `../../.workbuddy/queue/NBPOLAR-S11-SHG-TAIL-NATURE/STATUS.yaml` | operator all-complete return (S11-P..S11-R PASS; one run, 19.5 s / 1.24 GiB, no rerun) | probe complete |
 | `../../.workbuddy/queue/NBPOLAR-S11-SHG-TAIL-NATURE/S11_ADJUDICATION.md` | S11 adjudication (`NBPOLAR_S11_SHG_TAIL_NATURE_COMPLETE_DESCRIPTIVE`; w=500 tail = pairing contamination; far-offset baseline structured; no route selected) | adjudicated 2026-09-21; independent `S11_NUMERICS_PASS` |
 | `../../workspace/probes/nbpolar_s11_shg_tail_nature/` | S11 probe root (`prereg.md` / `body.py` / `results.json`) | Tier-X complete; gitignored worktree-only; durable record = adjudication + decision-log entry |
+| `../../.workbuddy/queue/NBPOLAR-M2-PRIOR-G1R2-W200-CIRCULAR/` | G1R2 narrow-window delta-successor packet (w=500→200, MOD LINEAR_ONLY→CIRCULAR; 8 CHANGED items; SHG `_1` decoder-free; G1 record byte-identical) | `NBPOLAR_M2_PRIOR_G1R2_COMPLETE_DESCRIPTIVE`; δ-tail PASS (consequence of S11), NLL PASS; M2 stays CANDIDATE |
+| `../../.workbuddy/queue/NBPOLAR-M2-PRIOR-G1R2-W200-CIRCULAR/TASK_PACKET.md` | G1R2 delta-successor task packet (delta of the executed+adjudicated G1 contract) | complete; executed once, no rerun/tuning |
+| `../../.workbuddy/queue/NBPOLAR-M2-PRIOR-G1R2-W200-CIRCULAR/DELTA_REVIEW.md` | independent G1R2 delta review | `DELTA_PASS_WITH_COMMENTS` after one DELTA_FAIL cycle on the runner block (reworked) |
+| `../../.workbuddy/queue/NBPOLAR-M2-PRIOR-G1R2-W200-CIRCULAR/G1R2_ADJUDICATION.md` | G1R2 adjudication (basis, result blocks, five adjudication points, route consequence + G2 inputs + truncation caveat) | adjudicated 2026-09-22; T6/T7 no longer blocked by G1; G3 still void |
+| `../../.workbuddy/queue/NBPOLAR-M2-PRIOR-G1R2-W200-CIRCULAR/g1r2_freeze_config.json` | G1R2 frozen delta config (w=200 CIRCULAR contract closure) | frozen; verified |
+| `../../workspace/m2_prior_validation/20260113_SHG_Type2PPLN_3s_g1r2/` | G1R2 SHG `_1` evidence root (decoder-free; reproduction 5/5 exact; CHAR δ-profile; CAL32 triple; held-out NLL) | descriptive evidence; no rerun/tuning |
+| `../../workspace/m2_prior_validation/remainder_101f_g1r2/` | G1R2 frozen-session remainder check (NLL/H only, no gate; pooled Δ 1.9575437) | descriptive; matched-CAL M0 pathology replicates |
 
 The archived draft is not an implementation dependency. It proposed a
 NB-Polar upper layer feeding the old NB-LDPC lower layer; the current track
