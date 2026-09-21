@@ -103,3 +103,42 @@ Diagnostic performance proxies:
 2. Niu, M. Y., et al. (2018). Quantum key distribution with high-dimensional encoding. *Physical Review A*, 98(3), 032314.
 
 3. Xu, F., et al. (2020). Secure quantum key distribution with realistic devices. *Reviews of Modern Physics*, 92(2), 025002.
+
+## NB-Polar M2 CAL / prior accounting (CANDIDATE, descriptive)
+
+This note is descriptive bookkeeping for the NB-Polar M2 ±1 parametric
+prior validation track. It changes no claim in this document.
+
+- **M2 is a CANDIDATE, never the baseline.** The incumbent as-deployed
+  reference is the M0 raw-MLE table at its own 1024-frame CAL. M2 results
+  (if any) are reported against matched-CAL controls and never promote
+  M2 by themselves.
+- **The 32-frame CAL is SACRIFICED.** M2 fits its per-session triple on
+  exactly 32 sacrificed frames (8192 symbols) per session. Sacrificed
+  frames are excluded from the key denominator: no key bit is drawn from
+  frames that estimated the prior.
+- **Reveal bits are diagnostic-only.** The ~18–22 bits
+  (params·log2(n) order-of-magnitude parameter-counting diagnostic) are
+  reported for scale only and never enter leakage bookkeeping as a
+  fitted term.
+- **No λ_prior term enters λ_total.** The security aggregation used for
+  reporting admits no prior-estimation λ term; the CAL mechanism above
+  (sacrifice + exclusion) is the accounting, not a λ addition.
+- **Claim scope unchanged.** This note adds no composable net-key claim.
+  Any future key claim needs its own freeze with independent review.
+
+### Public-message inventory skeleton (M2 track, 0-bit shape)
+
+Shape pattern: the Release fail-closed exhaustive public-message list
+(`docs/nbpolar/MACRO_PLAN_20260921.md` §9 F3) — every public message
+listed with producer, key-dependence, size, and seed/mask/code. Rows
+below are the skeleton at 0 bits; a later freeze fills values.
+
+| message | producer | key-dependence | size-bits | seed/mask/code | status |
+|---|---|---|---|---|---|
+| CAL frame list (32 sacrificed frames/session) | operator | excluded from key denominator | 0 | frame IDs at freeze | to-freeze |
+| fitted triple (q0, q+1, q−1) per session | estimator | derived from sacrificed CAL only | 0 | CAL frame IDs | to-freeze |
+| reveal bits (~18–22, diagnostic) | estimator | diagnostic-only, never λ_total | 0 | params·log2(n) order-of-magnitude | descriptive |
+| P16 orders (frozen len-32768 l2_order) | construction freeze | reused, never re-derived in-packet | 0 | P16 artifact ref | frozen |
+| (K1, K2) = (319, 6492) | freeze | decoded at frozen K regardless | 0 | frozen pair | frozen |
+| Toeplitz tags (64-bit per block) | verifier | per-block tag from frozen TAG_MASTER | 0 | TAG_MASTER at freeze | to-freeze |
