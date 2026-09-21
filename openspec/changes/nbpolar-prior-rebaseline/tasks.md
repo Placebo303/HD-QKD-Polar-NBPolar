@@ -8,21 +8,24 @@ never check their own boxes. No task authorizes production-data execution.
 - [ ] T1: independent review of proposal/design/specs (seven decisions
   explicit, four Supersedes replacements named, D7 frozen list intact).
   Gate: review PASS recorded; else revise-required.
-- [ ] T2: coder packet — implement the M2 adapter (`prior.py` delta:
+- [x] T2: coder packet — implement the M2 adapter (`prior.py` delta:
   per-session triple → model-implied P(A|B) → floor + renorm) with pure
   synthetic fixtures + independent literal oracle; full predecessor suite
   green. Uses injected arrays and temp roots only; no CAL/artifact reads,
   no SC-from-test invocation. Gate: focused tests + T0 pass.
-- [ ] T3: coder packet — K re-split via frozen `select_empirical_split` on
+- [x] T3: coder packet — K re-split via frozen `select_empirical_split` on
   M2 tables; the fixed-K vs fixed-f choice is DECOUPLED and deferred to a
   later preregistered decision (f=1.3 ⇒ K_total 7053/7106; frozen K_total ⇒
   f = 1.2939/1.2952). H-proportional rule banned. Gate: K1/K2 recomputed by
   reviewer from frozen selector.
-- [ ] T4: docs packet — `SECURITY_MODEL.md` CAL note (32-frame sacrifice,
+- [x] T4: docs packet — `SECURITY_MODEL.md` CAL note (32-frame sacrifice,
   reveal-bits diagnostic status, no λ_prior term, claim scope unchanged)
   + public-message inventory skeleton. Gate: main-thread doc review.
-- [ ] T5: freeze the G1 real-data NLL replication (split, seed, margin,
+- [x] T5: freeze the G1 real-data NLL replication (split, seed, margin,
   descriptive-only label). Gate: Pre-EXECUTE-style freeze review PASS.
+  Done 2026-09-21: G1 frozen + executed + adjudicated
+  (`NBPOLAR_M2_PRIOR_G1_COMPLETE_ADJUDICATED_BOUNDED_NEGATIVE`, bounded
+  negative; T6/T7 blocked, not done).
 - [ ] T6: freeze the G2 real-data decode packet (frozen K1=319/K2=6492,
   accepted blocks first, one-shot, `undetected` isolation, recount,
   budgets, stop rules). Gate: independent Pre-EXECUTE PASS + explicit

@@ -7,7 +7,7 @@
 ## 如果只读三件事
 
 1. **leading-candidate 机制（非收敛根因）**：证据指向 M0 非参数先验的先验/地板处理（零 cell 得概率地板 1e-15；每个落地板的真 −1 delta 约 40.42 bits 伪罚；每 block ~44.7 个真 −1 中仅 ~30.4 落在 TRAIN 零 −1 列；S9 合成 B 11/16 vs A 0/16，描述性，见 §1）——但码率、构造、分配、时间相关均**未排除**；54.8σ 余量仅是理想模型下"无码率 binding 证据"，非证伪。
-2. **候选方向（非已采纳基线）**：M2 ±1 先验是 **CANDIDATE**，在冻结 K1/K2 上待真实数据检验（已接受 block 先行）；S9 在真实验证前不得读作 FER/效率证据。
+2. **候选方向（非已采纳基线）**：M2 ±1 先验是 **CANDIDATE 且真实数据检验已出 bounded negative**——SHG `_1` 上 δ-tail 门 FAIL（p̂=0.0050202，U=0.0052879 vs B_tail=2.0e-4，~25× 超预算；±1 前提在新数据上不成立 ⇒ 预定 STOP，不进 G2；`G1_ADJUDICATION.md`）。注意精确口径：**未证伪** M0 地板误定价机制（matched-CAL NLL 差 ~1.95 在两总体可复现），**未证伪** M2 于所有源（冻结 sessions 尾部≈0，但 ladder 已耗尽）；S9 仍不得读作 FER/效率证据。路线决策待主线程规划（T6/T7 阻塞，G3 除非新候选否则无效）。
 3. **什么都不许动**：无真实数据执行授权；`results/`、`comparison_bench/outputs_comparison/` 禁止覆盖；SCL 锁定；C-P2 B4 未授权。
 
 ## §1 三栏结论（描述性除非另注）
@@ -24,8 +24,8 @@
 | 已证伪 | "no prior IR on ToA/HD" novelty claim：A1 = Boutros & Soljanin TCOM 2023 | `MACRO_PLAN_20260921.md:§4`，`PAPER_READ_20260921.md` |
 | 已证伪 | A3 rate bounds licensed for this project：sufficient-condition 推导 + 5+5-bit 架构 out of scope | `MACRO_PLAN_20260921.md:§6` |
 | 结构性担忧（性能未验证） | Gray neighbor-of-zero set = powers of α 是结构性事实；比较译码性能/full MFD verdict 未验证 | `AGENT_PROJECT_MEMORY.md:2026-09-21`，`MACRO_PLAN_20260921.md:§2` |
-| 待验证 | M2 ±1 parametric prior on REAL data（**CANDIDATE，非基线**；S9 仅合成 16 blocks，pro-±1 ground truth；描述性） | `MACRO_PLAN_20260921.md:§9 F1` |
-| 待验证 | SHG/Type0 sources 是否也有 δ-mass ≤1 | `MACRO_PLAN_20260921.md:§9 F4–F5` |
+| 已检验（bounded negative，非证伪机制） | M2 ±1 prior on REAL data：SHG `_1` δ-tail FAIL（p̂=0.0050202 / U=0.0052879 vs B_tail=2.0e-4；±1 前提不成立 ⇒ NO G2）；NLL PASS 但 matched-32f 近无信息量（Δ=1.950667；1024 帧 incumbent arm A1 永未运行）；M0 稀疏表病理可复现（机制未证伪）；M2 仍 **CANDIDATE**、未验证 | `.workbuddy/queue/NBPOLAR-M2-PRIOR-G1-REALDATA-NLL/G1_ADJUDICATION.md` |
+| 已检验（描述性） | SHG `_1` δ-mass：tail 0.50%（1005/200,192），**不满足** ≤1 前提；且低于均匀 accidental 预测（普查 w=500 accidental 1.44%）——尾部非纯偶然符合；冻结 sessions 32 帧 CAL q_rest=0.0（尾部≈0）——±1 前提源相关 | `G1_ADJUDICATION.md` §2；`delta_profiles.json` |
 | 待验证 | FER/reliability/efficiency at any operating point（全项目尚无 FER 阈值） | `MACRO_PLAN_20260921.md:§5 Stage 0` |
 
 ## §2 已关闭死路（每条一行，含关闭界）
@@ -54,11 +54,11 @@
 
 ## §4 当前授权与预算状态
 
-- 授权中：下一个真实数据 packet 优先检验 M2 先验（**CANDIDATE，非基线**；冻结 K1=319/K2=6492，已接受 block 先行）——仍需经修正的完整 freeze + 显式用户授权（`MACRO_PLAN_20260921.md:§§5,9`）。
+- 授权中：无（G1 packet 已执行完毕并裁决为 bounded negative；下一真实数据 packet 需主线程路线决策 + 新的 freeze + 显式用户授权——M2 路线在 SHG `_1` 上已预定 STOP，T6/T7 阻塞，G3 除非新候选否则无效）。
 - 冻结 sessions 真实数据 ladder **已耗尽**：never-decoded 余量 101 frames，32-frame CAL 后剩 69 frames（<1 block）；验证须在 SHG 新采集上跑，并声明保留段做独立确认。
 - 冻结中：一切真实数据执行（无授权不读不跑）；`results/`、`comparison_bench/outputs_comparison/` 只加不覆；benchmark/result roots 写入；SCL（5-item conjunction 未满足，锁定）；任何 promotion/qualification/FER claim；C-P2 B4；表示转向。
 - 预算：route-B 2/6 used / 4 remaining（`MACRO_PLAN_20260921.md:§6`；1/6 after C-P1 RETIRE at `decision-log.md:5065`；2/6 after C-P2 freeze review at `:5079`）；Tier-X probes non-claim，ledger 按里程碑批量更新（`docs/nbpolar/PROBE_TIER.md`）；re-analysis queue 4/6（剩 Q5 + exhaustion-route decision）。
-- Pending PI decisions：pairing-rule contract（W vs N + window）；σ/`gate_ps=200` 不兼容；accidental-dominated H 可用性；queue 上限处的 exhaustion-route（redesign/acquisition/closeout）；(N)-H window/gate contract；Type0 source verification。
+- Pending PI decisions：route decision post-G1（候选方向见 `G1_ADJUDICATION.md` §3：带显式尾部质量的参数 δ 模型 / SHG 尾部性质预注册调查 / 未测量的 incumbent 1024 帧 arm；均未选择）；σ/`gate_ps=200` 不兼容；accidental-dominated H 可用性；queue 上限处的 exhaustion-route（redesign/acquisition/closeout）；Type0 source verification。（已决：G1 packet 采用 (N) W_P=500/W_S=200 配对契约——该 PI 决策由此 packet 的执行而落实。）
 - Branch `codex/nbpolar-phase0`；本文件前 last commit `5f9ec273`。
 
 ## §5 定位（R1/R2/R3 一句话）
@@ -80,4 +80,4 @@
 4. `docs/nbpolar/CRITICAL_PATH.md`，`ROADMAP.md`（串行顺序与 phase gates）
 5. `docs/nbpolar/PAPER_READ_20260921.md`，`LITERATURE_FIT_CHECK_20260921.md`（文献口径）
 6. `docs/decision-log.md` 2026-09-21 条目；`AGENT_PROJECT_MEMORY.md` 最新条目
-7. `.workbuddy/queue/NBPOLAR-M2-PRIOR-STAGE1-IMPLEMENTATION/TASK_PACKET.md`（M2 先验 Stage 1 实现冻结包，待授权）
+7. `.workbuddy/queue/NBPOLAR-M2-PRIOR-STAGE1-IMPLEMENTATION/`（**已接受** `NBPOLAR_M2_PRIOR_STAGE1_IMPLEMENTATION_COMPLETE_ACCEPTED`：`prior_m2.py` + T1–T12 测试 + Spec-5 runner + `SECURITY_MODEL.md` CAL note；独立评审 PASS_WITH_COMMENTS 零阻塞；decoder-free、合成 fixture、零数据接触）与 `.workbuddy/queue/NBPOLAR-M2-PRIOR-G1-REALDATA-NLL/`（**G1 已执行并裁决** `NBPOLAR_M2_PRIOR_G1_COMPLETE_ADJUDICATED_BOUNDED_NEGATIVE`：δ-tail FAIL / NLL PASS（近无信息量）；记录 `G1_ADJUDICATION.md`、`FREEZE_REVIEW.md`、`g1_freeze_config.json`；父包 `STATUS.yaml` `g1_outcome`）。下一步门：主线程路线规划（T6/T7 阻塞；G3 除非新候选否则无效）。
