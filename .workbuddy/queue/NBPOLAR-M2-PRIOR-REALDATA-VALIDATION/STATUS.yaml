@@ -20,6 +20,8 @@ to_freeze:
   g2_blocks: null  # recommended 16 consecutive 128-frame blocks after CAL+held-out, listed
   tag_master: null  # rule TAG_MASTER=EVAL_SEED+10000, value frozen at freeze time
   char_sample_pairs: null  # recommended 200000 (>=200k; zero-obs upper 1.5e-5 << B_tail)
+  cal_frame_ids: null  # TO-FREEZE: explicit 32-frame CAL list for arms A2/B on SHG_1
+  heldout_frame_ids: null  # TO-FREEZE: explicit held-out segment for G1-3 NLL scoring; disjoint from CAL/char/A1-CAL/EVAL
   mod_boundary: null  # recommended LINEAR_ONLY (0<->1023 wrap counts as tail, conservative)
   a1_cal_ids: null  # TO-FREEZE: which 1024 frames form arm A1's incumbent-budget CAL on SHG_1; must be listed explicitly
   disjointness_matrix: null  # TO-FREEZE: prove pairwise-disjoint CAL / char-sample / held-out / EVAL / A1-CAL at freeze; operator may not overlap them
@@ -27,7 +29,13 @@ to_freeze:
   g2_arms: [A1_M0_1024f_incumbent, A2_M0_32f_matched, B_M2_32f_candidate]
 stage1: {I1_adapter_oracle: pending, I2_tests_sc_untouched: pending, I3_resplit_replay: pending, I4_cal_note: pending}
 stage2_g1:
-  frozen_remainder_101f: {G1-1_align: pending, G1-2_pairing_delta: pending, G1-3_cal32_nll: pending, G1-4_H_gate: pending}
+  frozen_remainder_101f:
+    scope: NLL_H_COMPARISON_ONLY
+    exemptions: [G1-1_alignment_EXEMPT_frozen_derived_pairs, delta_tail_200k_EXEMPT_only_25856_pairs_available]
+    G1-2_pairing_delta: pending
+    G1-3_cal32_nll: pending
+    G1-4_H_gate: pending
+    note: the full G1-1..G1-4 four-gate set belongs to SHG_1 ONLY; 101 frames x 256 = 25856 pairs cannot supply the >=200k characterisation sample
   20260113_SHG_Type2PPLN_3s: {G1-1_align: pending, G1-2_pairing_delta: pending, G1-3_cal32_nll: pending, G1-4_H_gate: pending}
 stage3_g2:
   target_acq: 20260113_SHG_Type2PPLN_3s
@@ -38,8 +46,19 @@ stage3_g2:
 stage4: {R1_preresult: pending, R2_adjudication: pending}
 reserved_for_G3:
   SHG_2_acq: 20260113_SHG_Type2PPLN_3s_2
-  declaration: FULLY_RESERVED_AND_UNTOUCHED_UNTIL_G3_FREEZE
-  touched: false
-  rule: no G1/G2 preview, no model selection, no window choice, no pairing read may touch SHG_2 in-packet
+  declaration: FROZEN_FROM_THIS_PACKET_ONWARD__NOT_UNTOUCHED_HISTORICALLY
+  participation_disclosure: >-
+    The 2026-09-21 dual-rule census already ran decoder-free alignment
+    (sigma=114.4 ps), a full pairing grid and (N)-200 H_total=0.816770 on
+    SHG_2 (docs/decision-log.md:5220); its cells entered the usable list
+    that informed the W_P=500 recommendation, so the window choice is
+    DATA-INFORMED from SHG_2 as well as SHG_1. NEVER done on SHG_2: prior
+    fitting, any decoder run, or M2 model selection.
+  g3_contract: >-
+    G3 alignment and window parameters must be INHERITED from SHG_1's
+    frozen rules; never re-derived or tuned against SHG_2's known
+    characteristics. G3 independence is decoder/model independence, NOT
+    no-prior-contact independence; state this distinction in any G3 result.
+  rule: no G1/G2 preview, no model selection, no window choice, no pairing read may touch SHG_2 from this packet onward
 artifacts: []
 result: {id: null, summary: null, decision_needed: null}

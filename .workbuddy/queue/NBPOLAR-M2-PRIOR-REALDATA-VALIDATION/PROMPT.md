@@ -12,7 +12,7 @@ If the packet is ambiguous, STOP and report (second return condition). M2 is a C
 - Output roots (additive only): `workspace/m2_prior_validation/<ACQ>/`. NEVER `results/` or
   `comparison_bench/outputs_comparison/`. NEVER modify `src/`, `experiments/`, `tools/`, `sc.py`.
 - S9 is synthetic-only: NEVER cite it as FER evidence. NEVER pool M1 with a delay-−50 source in CAL.
-- SHG `_2` (`20260113_SHG_Type2PPLN_3s_2`) is FULLY RESERVED AND UNTOUCHED until its own G3 freeze. Any read ⇒ STOP.
+- SHG `_2` (`20260113_SHG_Type2PPLN_3s_2`) is FROZEN from this packet onward. **PARTICIPATION DISCLOSURE: it is NOT untouched** — the 2026-09-21 dual-rule census already ran decoder-free alignment (σ=114.4 ps), a full pairing grid and (N)-200 H_total=0.816770 on it (`docs/decision-log.md:5220`), and its cells informed the W_P=500 recommendation. NEVER done on it: prior fitting, any decoder run, or M2 model selection. Any further read ⇒ STOP.
 - Frozen remainder is 101 frames (41+42+18), not 261. After 32-frame CAL only 69 remain (<1 block, NLL-level only).
 
 ## 1. Stage 1 — Implementation (NO protected reads; injected arrays + temp roots only)

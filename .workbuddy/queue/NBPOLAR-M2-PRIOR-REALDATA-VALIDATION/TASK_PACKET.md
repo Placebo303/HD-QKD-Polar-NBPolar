@@ -53,14 +53,23 @@ the fraction of zero CELLS, not of events hitting the floor — never use it to 
 1.5M VAL 2172–2212 (41) + 1.5M HOLD 2725–2766 (42) + 2M HOLD 3627–3644 (18). P20S consumed 128, P20T consumed 32.
 After a 32-frame CAL only 69 frames remain (<1 128-frame block). Ladder ends by exhaustion (P20T acceptance).
 δ-mass already verified here (`delta_mass_le1=1.0000`); use frozen derived pairs only. No SC call here.
+**EXEMPTIONS (this population)**: exempt from G1-1 (no new alignment — frozen derived pairs) AND exempt from the
+≥200k δ-tail characterisation gate (101 frames × 256 = 25,856 pairs physically cannot supply 200k). The full
+G1-1~G1-4 four-gate set belongs to SHG `_1` ONLY; the remainder contributes an NLL/H comparison check only.
 - PRIMARY G1+G2 POPULATION — SHG `_1` ONLY: `20260113_SHG_Type2PPLN_3s`
 (`/mnt/d/Data/Raw Data/2026.1.13/SHG_Type2PPLN_3s_2026-01-13_162106/` primary + `.1` continuation).
 G1: δ-tail characterisation on a large preregistered sample (≥200k pairs, TO-FREEZE §5) + prior fitting on the
 preregistered 32-frame CAL + held-out NLL on a temporally separated segment. G2: one-shot decode on SHG `_1`
 only, at frozen K1=319/K2=6492 and frozen P16 order.
-- RESERVED FOR G3 — SHG `_2` (`.../SHG_Type2PPLN_3s_2_2026-01-13_162148/`): declared FULLY RESERVED AND UNTOUCHED
-from now until its own G3 freeze. No G1/G2 preview, no model selection, no window choice, no pairing read may
-touch it in-packet. Any touch ⇒ STOP + blocker. It is never both a G1 input and the G3 source.
+- RESERVED FOR G3 — SHG `_2` (`.../SHG_Type2PPLN_3s_2_2026-01-13_162148/`): **PARTICIPATION DISCLOSURE — it is
+NOT untouched.** The 2026-09-21 dual-rule census already ran decoder-free alignment (σ=114.4 ps), a full pairing grid,
+and (N)-200 H_total=0.816770 on it (`docs/decision-log.md:5220`), and its cells entered the "usable" list that informed
+the W_P=500 recommendation — so the primary-window choice is DATA-INFORMED from `_2` as well as `_1`. What has NEVER
+happened: prior fitting, any decoder run, or M2 model selection using `_2`. From this packet onward it is FROZEN: no
+G1/G2 preview, no model selection, no window choice, no pairing read. Any touch ⇒ STOP + blocker.
+  **G3 CONTRACT**: when G3 runs, its alignment and window parameters must be INHERITED from `_1`'s frozen rules —
+  never re-derived or tuned against `_2`'s known characteristics. G3's independence is decoder/model independence,
+  NOT no-prior-contact independence; that distinction must be stated in any G3 result.
 - Already-decoded segments are DEVELOPMENT data, never the confirmation sample. Read PRIMARY `.ttbin` ONLY via
 `FileReader` (auto-follows `.1`; never concatenate `.1` manually — duplication). S10 usability maps used inherited
 offset −50 and are CONDITIONAL until re-paired; never cite them as window evidence.
@@ -87,6 +96,15 @@ frozen parameter MOD (TO-FREEZE §5; recommended LINEAR_ONLY: 0↔1023 wrap jump
 `select_empirical_split` validated on synthetic fixtures only — real-data (K1′,K2′) numbers DIAGNOSTIC-ONLY,
 no construction decision; (d) `SECURITY_MODEL.md` CAL/prior-accounting note + inventory skeleton; (e) runner
 `scripts/m2_prior_validation.py` exposing EXACT Stage-2/3 commands below (flags frozen, TO-FREEZE filled at freeze).
+
+**CLI CONTRACT (single mechanism, no ambiguity)**: the runner SHALL accept ALL frozen parameters through ONE
+`--freeze-config <path>` pointing at a JSON/YAML file containing every TO-FREEZE key in `STATUS.yaml`
+(`B_tail`, `delta_min`, `g2_success_rule`, `g2_inconclusive_rule`, `g2_fail_rule`, `pairing_window_primary`,
+`pairing_window_sensitivity`, `skip_frames`, `cal_split_rule`, `g2_blocks`, `tag_master`, `char_sample_pairs`,
+`mod_boundary`, `a1_cal_ids`, `cal_frame_ids`, `heldout_frame_ids`, `disjointness_matrix`,
+`block_formation_fallback`, `g2_arms`). The per-stage commands below name the flags for readability; the
+authoritative source of values is the freeze-config file, and the runner SHALL refuse to run if any key is null
+or absent. A missing/null key is a hard error, never a default.
 
 | ID | Acceptance | Evidence |
 |----|-----------|----------|
@@ -196,6 +214,7 @@ delta_profiles.json,run_log.md,g2/per_block_outcomes.jsonl}`. Nothing under `res
 
 1. Implement strict adapter + switch + MOD param + oracle-matched tests (I1,I2). 2. Frozen-selector re-split path on
 synthetic fixtures, diagnostic-only real numbers (I3). 3. SECURITY_MODEL CAL note + inventory skeleton (I4).
-4. Build runner with exact §5/§6 CLI (all TO-FREEZE as required flags). 5. Freeze G1 (W_P/W_S/skip/MOD/NCHAR/B_tail/
+4. Build runner with the §CLI-CONTRACT `--freeze-config` interface (all 19 TO-FREEZE keys required, null/absent ⇒
+hard error, never a default). 5. Freeze G1 (W_P/W_S/skip/MOD/NCHAR/B_tail/
 Δ_min/CAL-split) → execute §5 → evaluate both gates. 6. Freeze G2 (N/tag) → Pre-EXECUTE → one-shot §6 → Wilson gate.
 7. Pre-RESULT (R1) → adjudication (R2). T2–T7 only; G3/re-split/re-derivation need new freezes.

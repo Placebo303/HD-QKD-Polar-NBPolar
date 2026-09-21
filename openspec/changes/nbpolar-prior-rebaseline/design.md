@@ -96,7 +96,11 @@ Phase 2 `sc.py` (consumes `logp(N,q)`, agnostic to prior form/labeling);
 registries and frozen-session derived artifacts; P16/P17/P20 accepted
 packets and every negative result (P13/P14/P15 NOT_CONFIRMED, P19 0/3
 `l2_plus`, M4≡M0, split-rebalance non-recommendation) as history; the
-V25-source identity finding; the S2/S4 findings (54.8σ margin as stated;
+V25-source identity finding; the S2/S4 findings (54.8σ margin as stated — an ideal
+ML/uniform-input optimistic bound that excludes SC suboptimality, prior mismatch
+and temporal correlation, and is therefore NOT a refutation of H-A
+(rate/finite-length) either, only an absence of binding evidence under the ideal
+model;
 H2 bias small with sign NOT established — MM ADDS, corrected H2
 0.8026903611/0.8089106006, MM +0.29%/+0.25% vs split-half −0.31%/−0.28%
 opposite signs and comparable magnitude, so this is NOT a refutation of

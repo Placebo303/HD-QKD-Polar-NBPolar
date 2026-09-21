@@ -14,8 +14,10 @@ never check their own boxes. No task authorizes production-data execution.
   green. Uses injected arrays and temp roots only; no CAL/artifact reads,
   no SC-from-test invocation. Gate: focused tests + T0 pass.
 - [ ] T3: coder packet — K re-split via frozen `select_empirical_split` on
-  M2 tables at constant K_total (f=1.3 literal); H-proportional rule
-  banned. Gate: K1/K2 recomputed by reviewer from frozen selector.
+  M2 tables; the fixed-K vs fixed-f choice is DECOUPLED and deferred to a
+  later preregistered decision (f=1.3 ⇒ K_total 7053/7106; frozen K_total ⇒
+  f = 1.2939/1.2952). H-proportional rule banned. Gate: K1/K2 recomputed by
+  reviewer from frozen selector.
 - [ ] T4: docs packet — `SECURITY_MODEL.md` CAL note (32-frame sacrifice,
   reveal-bits diagnostic status, no λ_prior term, claim scope unchanged)
   + public-message inventory skeleton. Gate: main-thread doc review.

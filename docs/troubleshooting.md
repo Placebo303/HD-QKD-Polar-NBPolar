@@ -763,8 +763,11 @@ raw-MLE-plus-floor on sparse rare cells.
 **Prevention**: before freezing any empirical prior, check the
 rarest-cell expected count per column (column samples × rare-event rate);
 if it is < 1, a raw-count table with a fixed floor will price most rare
-cells at floor÷column-total — use a pooled/parametric form or a lifted
-floor, and confirm with a held-out NLL split (S8 convention) before any
+cells at the floor value itself (1e-15 applied to the PROBABILITY, not to
+the count — applying it to the count and then dividing by the column total
+is the error that produced the withdrawn 4e-18/48-bit figure) — use a
+pooled/parametric form or a lifted floor, and confirm with a held-out NLL
+split (S8 convention) before any
 decoder run. Descriptive synthetic scope only — real-data validation
 still required (decision-log 2026-09-21 prior-form entry, caveats (a)–(f)).
 

@@ -44,7 +44,7 @@
 
 | 改动面 | 后果 |
 |---|---|
-| CAL | 1024 frames → S8 单次网格描述性 minima ~2–8 frames + margin 得约 8–32（**无保证**：网格单 draw 非单调；理想 iid 下 8192 样本 SE 已占 H2 ~1.03%；`MACRO_PLAN_20260921.md:§9 F2`） |
+| CAL | 1024 frames → S8 单次网格描述性 minima ~2–8 frames + margin 得约 8–32（**无保证**：网格单 draw 非单调；理想 iid 下 8192 样本 SE=0.00804/0.00814 bits 已占 H2 ~1.00%/1.01%；`MACRO_PLAN_20260921.md:§9 F2`） |
 | Accounting | D3 sacrifice-only 下：incumbent 牺牲 ~8× block；M2 参数计数 reveal ~20 bits 仅为诊断量、**非记账成本**；`docs/SECURITY_MODEL.md` currently has NO CAL/prior term at all（grep verified） |
 | Type0 tier insufficiency | **未溶解**：CAL 缺口或可缓解，但 block 完整性与数据质量约束仍在（Type0-500K ≤146 frames；减 32 CAL 后不足 1 block） |
 | Data scarcity | 冻结 sessions 上**未解除**：never-decoded 余量 **101 frames（非 261）**；32-frame CAL 后仅剩 69 frames，不足 1 个 128-frame block；P20T 接受语即 "ladder ends by exhaustion" |

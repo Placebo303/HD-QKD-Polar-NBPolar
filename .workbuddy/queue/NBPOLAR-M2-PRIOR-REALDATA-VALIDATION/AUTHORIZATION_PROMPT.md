@@ -6,7 +6,7 @@
 I AUTHORIZE packet NBPOLAR-M2-PRIOR-REALDATA-VALIDATION on branch `codex/nbpolar-phase0`
 in repo `/mnt/d/Code/HD-QKD_Polar_Comparison-nbpolar`,
 per `.workbuddy/queue/NBPOLAR-M2-PRIOR-REALDATA-VALIDATION/TASK_PACKET.md`.
-M2 is a CANDIDATE, never the baseline. SHG `_2` stays FULLY RESERVED AND UNTOUCHED until its own G3 freeze.
+M2 is a CANDIDATE, never the baseline. SHG `_2` is FROZEN from this packet onward — **PARTICIPATION DISCLOSURE: not untouched** (the 2026-09-21 census ran decoder-free alignment, a pairing grid and (N)-200 H_total=0.816770 on it, `docs/decision-log.md:5220`; prior fitting, any decoder run and M2 model selection were NEVER done on it).
 
 A. Implementation (Stage 1 ONLY — decoder-free, no protected reads):
 NEW strict 3-parameter M2 adapter beside `formal_ir/nbpolar/prior.py` (never inside `sc.py`) with explicit frozen MOD
@@ -39,4 +39,4 @@ in-packet (milestone batch).
 To authorize, the main thread pastes this entire block with the line below completed:
 
 AUTHORIZED BY: <name> — <UTC date> — implementation_authorized: true/false (Stage 1) / execution_authorized: true/false (Stages 2–3 per freezes + G2 Pre-EXECUTE)
-G1 FREEZE REF: <doc + W_P/W_S/skip/MOD/NCHAR/B_tail/Δ_min/CAL-split values> — G2 FREEZE REF: <doc + N/tag/W_P/MOD/CAL-IDs values> — SHG_2 STILL RESERVED: <yes + untouched confirmation>
+G1 FREEZE REF: <doc + W_P/W_S/skip/MOD/NCHAR/B_tail/Δ_min/CAL-split values> — G2 FREEZE REF: <doc + N/tag/W_P/MOD/CAL-IDs values> — SHG_2 STILL FROZEN: <yes + confirmation no read/fit/decode/model-selection since this packet>

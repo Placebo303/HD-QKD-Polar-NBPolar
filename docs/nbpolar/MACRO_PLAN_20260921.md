@@ -282,8 +282,8 @@ gitignored（`workspace/probes/nbpolar_s8_parametric_prior/results.json`、
   **M1 pooled ±1（2 参数）0.8272/0.8345**；M2 按 session ±1 同值；M3 +边界上下文同值；
   M4 逐 Bob 列 ±1（最多 2048 参数）与 M0 逐比特相等——这是**结构性恒等**（观测 counts 全落在三个位置时，逐列估计器就是全 MLE），只说明"无收缩的逐列估计不能解决稀疏"，**不证明逐列结构无价值**（适当收缩的逐列结构未检验）。参数先验胜 incumbent 0.037–0.044 bits/symbol
   （消灭死格 floor 尖峰）。1% H 精度最小 CAL（2026-09-21 review 修正 C7：单次网格描述性 minima，无保证——
-  网格单 draw 非单调，M2-1p5M 在 n=2000 处 0.769% 而 n=5000 处 1.686%；理想 iid 下 8192 样本 SE=0.00824 bits
-  已占 H2 ~1.03%，≤1% 连理想模型下都不是 95% 保证）：incumbent 1024 frames（0.1% 在网格上永不到）；
+  网格单 draw 非单调，M2-1p5M 在 n=2000 处 0.769% 而 n=5000 处 1.686%；理想 iid 下 8192 样本 SE=0.00804/0.00814 bits（1p5M/2M，由 artifact V2 复算；此前引用的 0.00824 不可复现，已废）
+  已占 H2 ~1.00%/1.01%，≤1% 连理想模型下都不是 95% 保证）：incumbent 1024 frames（0.1% 在网格上永不到）；
   **M1 约 2–4 frames；M2 约 2–8 frames**。先验代价 vs 每 block 净密钥（4 bits/symbol）：
   incumbent 牺牲 262144 symbols ≈ 8× block / 2× 四 block packet；
   **M2 牺牲约 2,000–8,000 bits ≈ 0.015–0.06× block；reveal 约 20 bits 仅为 D3 下参数计数诊断量、非记账成本（C12）**。
