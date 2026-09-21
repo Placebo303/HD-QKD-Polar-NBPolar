@@ -765,3 +765,7 @@ cells at floor÷column-total — use a pooled/parametric form or a lifted
 floor, and confirm with a held-out NLL split (S8 convention) before any
 decoder run. Descriptive synthetic scope only — real-data validation
 still required (decision-log 2026-09-21 prior-form entry, caveats (a)–(f)).
+
+### Miller–Madow sign error: a "bias-corrected" entropy that moves the wrong way
+
+**Symptom**: Miller–Madow "corrected" H2 below the plug-in estimate. **Root cause**: subtracting the positive plug-in bias correction (`body.py:240`). **Fix**: MM ADDS `(K−1)/(2 n ln2)` (correct values 0.8026903611/0.8089106006). **Prevention**: check the correction's sign against a tiny hand-computed case.

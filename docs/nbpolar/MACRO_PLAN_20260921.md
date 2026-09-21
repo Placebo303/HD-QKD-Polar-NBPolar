@@ -27,19 +27,19 @@ same-vs-separate acquisition、`600k`/`1p2M`）在 IR 轴上现为 non-observabl
 
 ---
 
-## §1 已证伪 / 已成立（S2/S4 判别式，2026-09-21）
+## §1 模型受限诊断 / 已成立（S2/S4 判别式，2026-09-21；2026-09-21 review 修正 C1–C4）
 
 来源 probe：`workspace/probes/nbpolar_s2s4_zero_data_discriminators/`（Tier-X、
 non-claim、decoder-free、zero protected reads）。
 
 | 假说 | 判决 | 关键数字 |
 |---|---|---|
-| H-A 码率/有限长 | **REFUTED** | 冻结 K2=6689 处余量 **54.8σ**，预测 FER≈0；要翻转需 V 放大 **555×**；达到 FER=0.01 所需 ΔK2 = **−1382**（即已过剩 1382 符号 = K2 的 20.7%） |
-| H-B 强形式（H2 被估错） | **REFUTED** | 估计噪声仅 **±0.3%**（MM +0.29%/+0.25%；split-half −0.31%/−0.28%，seed 20260920） |
-| H-B 弱形式（地板尖峰杀死 SC 路径） | **SUPPORTED** | 地板命中 **99.77%/99.75%**；地板→主体 LLR 跨度 **48.8 bits**；Laplace-α1 把地板 1e-15→~2e-3 |
-| H-C（A3 ±1 前提） | **前提成立** | `delta_mass_le1 = 1.0000`（两个 session，线性与环形）；后验支撑 median=p90=p99=max=**2.0**；H2=0.8004 ≈ h2(SER)=h2(0.2468)=0.8062 |
+| H-A 码率/有限长 | **理想模型下无 binding 证据（非证伪）** | 冻结 K2=6689 处余量 **54.8σ**，预测 FER≈0；要翻转需 V 放大 **555×**；达到 FER=0.01 所需 ΔK2 = **−1382**。该界为 ML/uniform-input 乐观界，不含 SC 次优/先验失配/时间相关——仅说明理想模型下无证据表明码率 binding |
+| H-B 强形式（H2 被估错） | **偏差符号未确立（非证伪）** | 偏差小但符号相反量级相当：MM（加法修正，正确值 **0.8026903611/0.8089106006**，原 S2 在 `body.py:240` 相减写反）+0.29%/+0.25%；split-half −0.31%/−0.28%（seed 20260920） |
+| H-B 弱形式（地板尖峰影响 SC 路径） | **描述性关联（非杀伤证实）** | 零 **cell** 占比 **99.77%/99.75%**（表 cell 分数，非事件命中率）；地板→主体 LLR 跨度 **40.4214 bits**（原 48.8 系 ~4e-18 误定价的连带错误，地板为概率上 1e-15，见 C1）；Laplace-α1 把地板 1e-15→~2e-3 |
+| H-C（A3 ±1 前提） | **前提成立** | `delta_mass_le1 = 1.0000`（两个 session，线性与环形）；90%/99% effective-support 统计 ≈**2**（采样 contexts 上，非逐符号精确支撑）；H2=0.8004 ≈ h2(SER)=h2(0.2468)=0.8062 |
 
-明确记录：早期的启发式 `2^(H2/SER) ≈ 9`（"errors are 3–4 bins wide"）已被直接测量 **REFUTED**，
+明确记录：早期的启发式 `2^(H2/SER) ≈ 9`（"errors are 3–4 bins wide"）已被直接测量**否定**（描述性判别，非安全结论），
 不得再用；它是 residue-space artifact。
 
 ---
@@ -54,8 +54,11 @@ non-claim、decoder-free、zero protected reads）。
 | 1p5M | 2.004 | 1.275 | 1.297 | +116 | −130 |
 | 2M | 1.986 | 1.276 | 1.298 | +115 | −129 |
 
-总量与 f=1.3 Shannon 在 ~13 symbols 内相符。但 **P19 `l2_plus` 已经把 K2 从 6492 移到 7004
-（+512），结果 0/3**，所以"增加 L2 披露"的方向已被证伪；总量不变的 rebalance（+130 给 L2）
+总量与 f=1.3 Shannon 在 ~13 symbols 内相符（2026-09-21 review 补充 C14：fixed-f 与 fixed-K_total 不可兼得——
+M2 H_total 下 f=1.3 ⇒ K_total 7053/7106，即 +33/+26；冻 K_total 则 f=1.2939/1.2952；任何 rebalance 必须声明取哪一边，
+且 G2 冻 K1=319/K2=6492）。但 **P19 `l2_plus` 只是把 K2 从 6492 移到 7004
+（+512）在旧工作点上 3 blocks 得 0/3**，仅证伪该单次加量；"增加 L2 披露"的一般方向未证伪；
+总量不变的 rebalance（+130 给 L2）
 严格弱于已经失败的尝试。记录为 **finding，不推荐实验**。它解释了 P20I/J/K（L1 上 +128/+256/+512
 ⇒ zero recovery），因为 L1 本来就已 ~2× over-disclosed。
 
@@ -66,10 +69,11 @@ non-claim、decoder-free、zero protected reads）。
 **均值 1.0000**。A3 Definition 2 原文 *"Thanks to the Gray code, the neighbor of zero has a
 unit Hamming weight"* 把单位重量作为**定义前提**。⇒ 不换 Gray，A3 的 MFD 判据对我们无定义。
 Gray 只改标号：代数不变、`sc.py` 对标号不感知、协议账目不变。
+上限：neighbor-set = powers-of-α 是结构性事实，不构成比较译码性能结论或 full MFD verdict——性能 UNVERIFIED。
 
 ---
 
-## §3 数据：新采集入库（解除"只剩约 2 block"死结）
+## §3 数据：新采集入库（冻结 ladder 仍耗尽；仅 SHG 为新增可用）
 
 入库规模：10 acquisitions / 20 ttbin 文件 / **333.1 MiB** 总量。
 Type-II-labeled：**6 acq / 220.5 MiB**（`20260112_Type2PPLN_3s` 16.1 MiB；
@@ -86,9 +90,12 @@ Type-II-labeled：**6 acq / 220.5 MiB**（`20260112_Type2PPLN_3s` 16.1 MiB；
 需确认 primary 是否仅为 header/index；(b) `Type2_1M_2026-01-21` 携带 100+ `results_*` 目录；
 按 PI 指示**一律未读**（仅列出名称）。
 
-影响：此前的绑定约束（never-decoded 余量 = 1.5M VAL 2172-2212、1.5M HOLD 2725-2766、
-2M VAL 2827-2915、2M HOLD 3556-3644 = 261 frames / 66,816 pairs ≈ **2 blocks of 128 frames**）
-**解除**。真实数据不再需要为方法开发而定量配给；它可以重新作为 confirmation sample。
+影响：此前记录的绑定约束有误——never-decoded 余量不是 261 frames，而是 **101 frames**
+（1.5M VAL 2172–2212 = 41、1.5M HOLD 2725–2766 = 42、2M HOLD 3627–3644 = 18；
+P20S 消耗 128、P20T 消耗 32，2M VAL 2827–2915 不再计入）。
+**冻结 sessions 的真实数据 ladder 已耗尽**：32-frame CAL 后仅剩 69 frames，不足 1 个 128-frame block；
+P20T 自身接受语即 "ladder ends by exhaustion"。入库的 SHG 对是新的可用数据，
+但冻结-session 口径下的"数据稀缺解除"是 **FALSE**——真实数据不再需要为方法开发而定量配给的说法仅对 SHG 新采集成立；它可以重新作为 confirmation sample（须声明保留段做独立确认）。
 普查补充（2026-09-21）：Type0 四个采集在继承 tier 下无 H，PI 质疑该 tier 的统计必要性；最小-CAL 描述性复算（skip-0，CAL128/256/512，preregistered）救回 3 个 cell（500K w500/w1000 CAL128 H≈0.86/0.98；1M w500 CAL256 H≈0.94），1.5M/2M 因峰宽-纯度冲突在任何尺寸下均不可辩护，最小尺寸 H 仅为描述性、不可与冻结三源比较（见决策日志同日条目）。
 
 ---
@@ -129,13 +136,16 @@ Type-II-labeled：**6 acq / 220.5 MiB**（`20260112_Type2PPLN_3s` 16.1 MiB；
   ✅已完成（Tier-X、non-claim；见 §9——"1.5M/2M 任何尺寸不可辩护"更正为仅窗口可用性层面的 1.5M 例外）**；
   下一个零数据项：**中间地板 probe（FLOOR_1e-7 / 1e-8）**，映射尖峰消失与 H1 膨胀之间是否存在 knee
  （§8 动机）。闸门：只选一个胜出方向进入 Stage 2，不允许多头并进。
- **2026-09-21 修订：先验形式问题现为 Stage 1 首要假设（leading hypothesis）**—— S8/S9 共同指向
- M0 地板对稀疏 rare cell 的误定价（见 §9 F1–F2）；中间地板 probe 仍可跑，但不再是闸门唯一的候选项。
-- **Stage 2 单因子执行**：**首选先验/地板/支撑线**（唯一有实证支持的：7/14 vs 0/14，现由 S9 合成证据加强为“先验形式是收敛根因”—— M2 ±1 先验在冻结 P16 构造下落点 11/16 vs M0 0/16 paired）；
-  次选 MFD/Gray 标号臂；**不推荐** split-rebalance（已被 P19 l2_plus 间接证伪）与 C-P2（见 §6）。
+ **2026-09-21 修订（2026-09-21 review 修正：降格为 candidate）**：先验形式问题现为 Stage 1 首要候选
+ （leading candidate，非收敛根因）—— S8/S9 共同指向
+ M0 地板对稀疏 rare cell 的误定价（见 §9 F1–F2），但码率、构造、分配、时间相关均未排除；
+ 中间地板 probe 仍可跑，但不再是闸门唯一的候选项。
+- **Stage 2 单因子执行**：**首选先验/地板/支撑线**（有合成实证支持的候选：7/14 vs 0/14，现由 S9 合成证据加强为“先验形式是 leading-candidate 机制”—— M2 ±1 先验在冻结 P16 构造下落点 11/16 vs M0 0/16 paired，描述性）；
+  次选 MFD/Gray 标号臂；**不推荐** split-rebalance（P19 l2_plus 仅证伪该旧工作点单次加量，见 §2）与 C-P2（见 §6）。
   表示转向仅当 S3+S5+S6 共同指向。
- **2026-09-21 修订：下一个真实数据 packet 应优先检验 M2 先验**（冻结 K1=319/K2=6492、
- 已接受 block 先行，见 §9 F6）—— 在真实数据验证确认 S9 方向之前，不得把 S9 读作 FER/效率证据。
+ **2026-09-21 修订（2026-09-21 review 修正）**：M2 路线变更现为 **candidate**；下一个真实数据 packet
+ 是否检验 M2 先验， gated on 经修正的完整 freeze（C1–C4 数字、C14 fixed-f-vs-fixed-K 选择）+ 显式用户授权
+ （冻结 K1=319/K2=6492、已接受 block 先行，见 §9 F6）—— 在真实数据验证确认 S9 方向之前，不得把 S9 读作 FER/效率证据。
   Caveat（§8 方法学警告）：当前尖峰统计**不能**区分任何 LLR 跨度 < 20 bits 的规则
   （阈值 `median + 20 bits` 在跨度 < 20 时恒为零）—— 未来任何地板 probe 必须以 held-out NLL
   为主要读数，或采用跨度无关的尖峰定义。
@@ -149,8 +159,8 @@ Type-II-labeled：**6 acq / 220.5 MiB**（`20260112_Type2PPLN_3s` 16.1 MiB；
 
 ## §6 授权决定
 
-- **C-P2 B4：NOT AUTHORIZED**（route 预算 2/6 已用，剩 4/6）。依据三条：(1) dispersion 显示冻结
-  K2 有 54.8σ 余量、预测 FER≈0 ⇒ L2 量非约束；(2) C-P2 冻结文本为 N=16384、K1=167 固定、
+- **C-P2 B4：NOT AUTHORIZED**（route 预算 2/6 已用，剩 4/6）。依据三条（2026-09-21 review 修正：(1) 为理想模型诊断，非证伪）：(1) dispersion 显示冻结
+  K2 有 54.8σ 余量、预测 FER≈0 ⇒ 理想 ML/uniform-input 模型下无证据表明 L2 量 binding（SC 次优/先验失配/时间相关未排除）；(2) C-P2 冻结文本为 N=16384、K1=167 固定、
   变 K2'，测的正是那个过剩旋钮；(3) 新发现缺陷是两层分配比，C-P2 不测。NOT a rejection of
   axis (ii) forever — re-freeze required if Stage 1 later shows the amount axis is binding.
   `next_gate` remains `C_P2_B4_IMPLEMENTATION_PENDING_USER` but with this rationale recorded.
@@ -167,7 +177,7 @@ Type-II-labeled：**6 acq / 220.5 MiB**（`20260112_Type2PPLN_3s` 16.1 MiB；
 
 ## §7 剩余风险
 
-- Stage 1 可能全部 inconclusive ⇒ 不应继续烧数据（因新数据入库，此风险已大幅下降）。
+- Stage 1 可能全部 inconclusive ⇒ 不应继续烧冻结 sessions 数据（冻结 ladder 已耗尽：余量 101 frames，CAL 后 69 frames；SHG 为新增可用但须声明保留段）。
 - λ 代码路径残留：`per_session_calibration.py` 保留 λ 程序、`empirical_diagnostic.py` 仍引用
   `LAMBDA_STAR`；disposition 为 raw+floor。
 - 表示转向的历史陷阱：V67/V68/V69/V70 每次都以 `successor: new_representation` 收尾且都没产出
@@ -246,10 +256,10 @@ Tradeoff（显式记录，不并成一个"优胜者"）：
 
 ---
 
-## §9 先验形式：本轮收敛结论与建议方向（2026-09-21，S8/S9/S10，Tier-X 描述性）
+## §9 先验形式：本轮候选结论与建议方向（2026-09-21，S8/S9/S10，Tier-X 描述性；2026-09-21 review 修正 C1–C5）
 
-本轮所有 probe 指向同一个根因：**非参数经验先验（`counts_ab` raw-count MLE + 1e-15 floor，
-即 incumbent P7 规则）对稀疏 rare cell 误定价**—— 不是码率、不是披露量、不是构造。
+本轮 probe 把先验/地板处理指向 leading-candidate 机制：**非参数经验先验（`counts_ab` raw-count MLE +
+1e-15 概率地板，即 incumbent P7 规则）对稀疏 rare cell 误定价**——码率、披露量、构造、时间相关均未排除。
 完整记录见 `docs/decision-log.md` 同日"Prior form is the converging root cause"条目；证据在盘、
 gitignored（`workspace/probes/nbpolar_s8_parametric_prior/results.json`、
 `workspace/probes/nbpolar_s9_decoder_prior_relevance/results.json`、
@@ -260,9 +270,10 @@ gitignored（`workspace/probes/nbpolar_s8_parametric_prior/results.json`、
   零真实数据。A（M0 表格 + 冻结 P16）**0/16**，CI (0.000, 0.194)；B（M2 ±1 参数 + 冻结 P16）
   **11/16**，CI (0.444, 0.858)；C（M2 ±1 参数 + M2 重推导构造）13/16，CI (0.570, 0.934)。
   Paired：A-vs-B 为 B-only 11 / A-only 0 / 皆非 5；B-vs-C 为 C-only 2 / B-only 0（CI 重叠 ⇒
-  为安全无需重推导构造）。**机制**：TRAIN 每列 ~256 样本；真值 −1 率 0.00136 ⇒ ~70% 的 M0 列
-  零 −1 事件，1e-15 floor 经列归一后定价 ~4e-18，而 M2  pooled 拟合定价 0.00147；
-  每 EVAL block ~45 个真 −1 delta，每个令 M0 付出约 48 bits 伪罚。预算：N=32768 下每次 SC
+  B 与 C 不可区分，非安全/等价结论）。**机制（2026-09-21 review 修正 C1–C2）**：TRAIN 每列 ~256 样本；
+  真值 −1 率 0.00136；每 EVAL block ~44.72 个真 −1 delta，其中仅 ~30.35 落在 TRAIN 零 −1 列；
+  零 cell 得概率地板 1e-15（`body.py:141-143` 对概率加地板；原"列归一后 ~4e-18"写错），而 M2  pooled
+  拟合定价 0.00147；每个落地板的 delta 令 M0 付出约 **40.4214 bits** 伪罚（原 48 bits 高估 8 bits）。预算：N=32768 下每次 SC
   调用约 6 s；三臂运行峰值约 0.96 GB。**Caveat（逐字）**：synthetic only；16 blocks（wide CIs）；
   ground truth was pro-M2 by design（exact ±1 support）；arm A 0/16 特指稀疏 rare cell 上的
   raw-MLE-plus-floor。Descriptive only—— no FER/efficiency/qualification claim。
@@ -270,10 +281,12 @@ gitignored（`workspace/probes/nbpolar_s8_parametric_prior/results.json`、
   split-B 评分，seed 20260920）：M0 0.8637/0.8788（2436/2635 参数）；
   **M1 pooled ±1（2 参数）0.8272/0.8345**；M2 按 session ±1 同值；M3 +边界上下文同值；
   M4 逐 Bob 列 ±1（2048 参数）与 M0 逐比特相等。参数先验胜 incumbent 0.037–0.044 bits/symbol
-  （消灭死格 floor 尖峰）。1% H 精度最小 CAL：incumbent 1024 frames（0.1% 在网格上永不到）；
+  （消灭死格 floor 尖峰）。1% H 精度最小 CAL（2026-09-21 review 修正 C7：单次网格描述性 minima，无保证——
+  网格单 draw 非单调，M2-1p5M 在 n=2000 处 0.769% 而 n=5000 处 1.686%；理想 iid 下 8192 样本 SE=0.00824 bits
+  已占 H2 ~1.03%，≤1% 连理想模型下都不是 95% 保证）：incumbent 1024 frames（0.1% 在网格上永不到）；
   **M1 约 2–4 frames；M2 约 2–8 frames**。先验代价 vs 每 block 净密钥（4 bits/symbol）：
   incumbent 牺牲 262144 symbols ≈ 8× block / 2× 四 block packet；
-  **M2 牺牲约 2,000–8,000 bits ≈ 0.015–0.06× block；reveal 约 20 bits ≈ 1.5e-4× block**。
+  **M2 牺牲约 2,000–8,000 bits ≈ 0.015–0.06× block；reveal 约 20 bits 仅为 D3 下参数计数诊断量、非记账成本（C12）**。
   M4 与 M0 同等昂贵—— 跳过。M1 ≈ M2（gap 约 1e-5 bits 量级，精确值 −4.55e-05 / −1.24e-06）；
   若 delay −50 源进入 CAL 需重验。
 - **F3 — 先验估计账目缺口确认，Release 呈现可复制模式**：`docs/SECURITY_MODEL.md` 对
@@ -282,9 +295,9 @@ gitignored（`workspace/probes/nbpolar_s8_parametric_prior/results.json`、
   （1 标量，LLR `±log((1−p)/p)`）；唯一 q×q 条件表是 MAP-sanity 诊断（译码器永不加载）；
   信道参数在密钥数据上 in-sample 估计（无 CAL 对象）；主 claim 限域
   `public_ec_only_not_secure` + `composable_security_claim_flag=0` + 穷尽 fail-closed 公开消息清单。
-  **Release 的单参数每平面信道即参数先验模式。**可复制模式：(1) 译码器只收参数化信道；
+  **Release 的单参数每平面信道是参数先验模式的一种解释（对代码路径的解读，非已证明的安全结论，C3-review F3 修正）。**可复制模式：(1) 译码器只收参数化信道；
   (2) in-sample 估计（Release，须标注复用偏差并限域）或保留小 CAL 并计费——
-  NB-Polar 取后者（约 8–32 frames：代价可忽略且避开复用偏差）；(3) 穷尽公开消息清单 + fail-closed；
+  NB-Polar 取后者（约 8–32 frames：C7 下无精度保证，仅为待验证的候选工作点，且避开复用偏差）；(3) 穷尽公开消息清单 + fail-closed；
   (4) 限域声明。
 - **F4 — S10：Type0 窗口细化（更正一处过 claim）**：grid {200,…,500}、offset −50。
   **500K 自 w=250 起可用；1M 自 w=300 起可用；1.5M 在 w=350–400 有可用窄缝**
@@ -298,9 +311,14 @@ gitignored（`workspace/probes/nbpolar_s8_parametric_prior/results.json`、
   `docs/hd-qkd-ir-roadmap-review-20260823.md:21` "V25 | 三源 `type2_2026-01-21` 经验信道"；
   时间戳 184040 / 183806 / 183657 与三个目录精确匹配。其普查 H ≈ 0.80 与冻结参考重合不是独立佐证——
   是同一数据经另一估计路径。**真正新增可用数据是 SHG 对（H 0.817，coverage 0.92）加上 ±1 先验解锁的部分。**
-- **F6 — 战略后果**：若采用 ±1 先验，CAL 需求自 1024 frames 降至约 8–32 frames。
-  这一改动同时溶解：Type0 tier 不足（S10）、先验估计算目缺口（F3）、以及驱动整个 10 采集入库的
-  数据稀缺约束。记为建议方向，显式标注 **pending real-data validation**（F1 仅合成）。
+  冻结 sessions 的 never-decoded 余量仅 101 frames（C5），32-frame CAL 后剩 69 frames（<1 block）——
+  冻结 ladder 耗尽，后续验证须在 SHG 上跑并声明保留段。
+- **F6 — 战略后果（2026-09-21 review 修正 C6/C15）**：若采用 ±1 先验（candidate），CAL 需求自 1024 frames 降至约 8–32 frames
+  （C7：无保证的单次网格描述性 minima）。
+  这一改动**不溶解** Type0 tier 约束（S10：500K ≤146 frames，减 32 CAL 后不足 1 block；block 完整性与数据质量约束仍在）、
+  **不溶解**冻结-session 数据稀缺（余量 101 frames，CAL 后 69 frames，不足 1 block），
+  仅缓解 CAL 缺口与先验账目缺口（F3）。记为候选方向，显式标注 **pending real-data validation**（F1 仅合成）。
 
-**对 §5 的后果**：先验形式问题现为 Stage 1 首要假设；下一个真实数据 packet 应优先检验 M2 先验
+**对 §5 的后果**：先验形式问题现为 Stage 1 首要候选（candidate，非假设确立）；M2 路线变更为 candidate，
+下一个真实数据 packet 是否检验 M2 先验 gated on 经修正的完整 freeze + 显式用户授权
 （冻结 K1=319/K2=6492、已接受 block 先行），S9 在真实数据验证前不得读作 FER/效率证据。
