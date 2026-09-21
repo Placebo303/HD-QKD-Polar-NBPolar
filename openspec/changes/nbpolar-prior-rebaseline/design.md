@@ -14,7 +14,12 @@ sources share delay sign, and S8's M1 subsample rows are per-session refits
 (carrying a 0.42%/0.03% pooled-vs-per-session mismatch floor), so "M1 ≈ M2"
 does not validate pooled-CAL logistics. M2 isolates per-source
 delay/offset risk at identical parametric cost; M3 adds nothing and M4
-(2048 params) reproduces M0 bit-for-bit with M0's 1024-frame CAL minimum.
+(2048 params) reproduces M0 bit-for-bit with M0's 1024-frame CAL minimum —
+a STRUCTURAL identity (with counts on three positions the per-column
+estimator IS the full MLE), which shows only that an UNREGULARISED
+per-column estimator does not solve sparsity; it does NOT show that
+per-column structure is valueless (a properly shrunk per-column model is
+untested).
 M1 becomes the candidate only if a CAL must pool sessions whose
 per-session frames fall below M2's fitting floor AND all pooled sources
 share verified delay sign. M1 is forbidden the moment a delay-−50 (or any

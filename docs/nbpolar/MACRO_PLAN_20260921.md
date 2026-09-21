@@ -278,9 +278,9 @@ gitignored（`workspace/probes/nbpolar_s8_parametric_prior/results.json`、
   ground truth was pro-M2 by design（exact ±1 support）；arm A 0/16 特指稀疏 rare cell 上的
   raw-MLE-plus-floor。Descriptive only—— no FER/efficiency/qualification claim。
 - **F2 — S8：±1 先验在拟合、数据量、账目三项同时更优**：held-out NLL（split-A 拟合 /
-  split-B 评分，seed 20260920）：M0 0.8637/0.8788（2436/2635 参数）；
+  split-B 评分，seed 20260920）：M0 0.8637/0.8788（2436/2635 为**非零 cell 数，非自由度**；固定支撑下自由度约 1412/1611，无结构全条件表则为 1024×1023）；
   **M1 pooled ±1（2 参数）0.8272/0.8345**；M2 按 session ±1 同值；M3 +边界上下文同值；
-  M4 逐 Bob 列 ±1（2048 参数）与 M0 逐比特相等。参数先验胜 incumbent 0.037–0.044 bits/symbol
+  M4 逐 Bob 列 ±1（最多 2048 参数）与 M0 逐比特相等——这是**结构性恒等**（观测 counts 全落在三个位置时，逐列估计器就是全 MLE），只说明"无收缩的逐列估计不能解决稀疏"，**不证明逐列结构无价值**（适当收缩的逐列结构未检验）。参数先验胜 incumbent 0.037–0.044 bits/symbol
   （消灭死格 floor 尖峰）。1% H 精度最小 CAL（2026-09-21 review 修正 C7：单次网格描述性 minima，无保证——
   网格单 draw 非单调，M2-1p5M 在 n=2000 处 0.769% 而 n=5000 处 1.686%；理想 iid 下 8192 样本 SE=0.00824 bits
   已占 H2 ~1.03%，≤1% 连理想模型下都不是 95% 保证）：incumbent 1024 frames（0.1% 在网格上永不到）；

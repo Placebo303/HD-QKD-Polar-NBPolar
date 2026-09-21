@@ -1,24 +1,45 @@
 # STATUS — NBPOLAR-M2-PRIOR-REALDATA-VALIDATION
 packet: NBPOLAR-M2-PRIOR-REALDATA-VALIDATION
 branch: codex/nbpolar-phase0
-change: openspec/changes/nbpolar-prior-rebaseline  # implements T2-T7; T1/T8 + G3 + re-derivation OUT
+change: openspec/changes/nbpolar-prior-rebaseline  # implements T2-T7; T1/T8 + G3 + re-split + re-derivation OUT
 implementation_authorized: false
 execution_authorized: false
 next_gate: STAGE1_IMPLEMENTATION_PENDING_AUTHORIZATION
 counters: {stage1_runs: 0, g1_runs: 0, g2_runs: 0, sc_calls_on_protected: 0, reruns: 0}
-budget_cap: {stage2_s: 300, stage3_s: 900, rss_GiB: 2, single_threaded: true}
-to_freeze: {pairing_window_N: null, skip_frames: null, delta_ge2_bound: null, g2_blocks: null, tag_master: null}
+budget_cap: {stage2_s: 600, stage3_s: 900, rss_GiB: 2, single_threaded: true}
+to_freeze:
+  B_tail: null  # recommended 2.0e-4; arithmetic 40.4214*p*32768<=1%*26214 in §5
+  delta_min: null  # recommended 0.020 bits/symbol held-out NLL M0-M2 margin
+  g2_success_rule: null  # recommended Wilson-lower(B)>Wilson-upper(A2), strict non-overlap, z=1.96
+  g2_inconclusive_rule: null  # recommended point(B)>point(A2) but CIs overlap => bounded negative
+  g2_fail_rule: null  # recommended point(B)<=point(A2)
+  pairing_window_primary: null  # recommended 500 (DATA-INFORMED per narrow-H census usable cells)
+  pairing_window_sensitivity: null  # recommended 200 (cleanest, marginally biased 0.92 cover)
+  skip_frames: null  # recommended 702 labelled INHERITED_NOT_DERIVED
+  cal_split_rule: null  # frozen RULE-FIT32-SCORE-HELDOUT: fit all 32, score disjoint held-out, seed N/A
+  g2_blocks: null  # recommended 16 consecutive 128-frame blocks after CAL+held-out, listed
+  tag_master: null  # rule TAG_MASTER=EVAL_SEED+10000, value frozen at freeze time
+  char_sample_pairs: null  # recommended 200000 (>=200k; zero-obs upper 1.5e-5 << B_tail)
+  mod_boundary: null  # recommended LINEAR_ONLY (0<->1023 wrap counts as tail, conservative)
+  a1_cal_ids: null  # TO-FREEZE: which 1024 frames form arm A1's incumbent-budget CAL on SHG_1; must be listed explicitly
+  disjointness_matrix: null  # TO-FREEZE: prove pairwise-disjoint CAL / char-sample / held-out / EVAL / A1-CAL at freeze; operator may not overlap them
+  block_formation_fallback: null  # TO-FREEZE: if SHG yield is short -> COMPLETE-BLOCKS-ONLY, else INSUFFICIENT=>INCONCLUSIVE (never pad/reuse)
+  g2_arms: [A1_M0_1024f_incumbent, A2_M0_32f_matched, B_M2_32f_candidate]
 stage1: {I1_adapter_oracle: pending, I2_tests_sc_untouched: pending, I3_resplit_replay: pending, I4_cal_note: pending}
 stage2_g1:
+  frozen_remainder_101f: {G1-1_align: pending, G1-2_pairing_delta: pending, G1-3_cal32_nll: pending, G1-4_H_gate: pending}
   20260113_SHG_Type2PPLN_3s: {G1-1_align: pending, G1-2_pairing_delta: pending, G1-3_cal32_nll: pending, G1-4_H_gate: pending}
-  20260113_SHG_Type2PPLN_3s_2: {G1-1_align: pending, G1-2_pairing_delta: pending, G1-3_cal32_nll: pending, G1-4_H_gate: pending}
 stage3_g2:
   target_acq: 20260113_SHG_Type2PPLN_3s
   G2-1_freeze_preauth: pending
-  G2-2_oneshot_AB: pending
+  G2-2_oneshot_A1A2B: pending
   G2-3_taxonomy_accounting: pending
   G2-4_no_rerun: pending
 stage4: {R1_preresult: pending, R2_adjudication: pending}
-reserved_for_G3: {frames_261_remainder: untouched, SHG_2_as_G3_session: proposed}
+reserved_for_G3:
+  SHG_2_acq: 20260113_SHG_Type2PPLN_3s_2
+  declaration: FULLY_RESERVED_AND_UNTOUCHED_UNTIL_G3_FREEZE
+  touched: false
+  rule: no G1/G2 preview, no model selection, no window choice, no pairing read may touch SHG_2 in-packet
 artifacts: []
 result: {id: null, summary: null, decision_needed: null}
