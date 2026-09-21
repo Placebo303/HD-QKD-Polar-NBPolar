@@ -20,13 +20,16 @@ per-session frames fall below M2's fitting floor AND all pooled sources
 share verified delay sign. M1 is forbidden the moment a delay-−50 (or any
 sign-distinct) source enters CAL.
 
-## D2 — CAL size: preregister 32 sacrificed frames per session
+## D2 — CAL size: preregister 32 sacrificed frames per session (candidate budget)
 
 S8 M2 1%-H minima are 7.8/2.0 frames (1p5M/2M) on a single-draw,
-non-monotone grid — a first-sub-threshold readout, not a stability proof.
-CAL=32 frames (8192 symbols) buys ≤1% H error with ≥4× margin over the
-worst observed 8-frame need, at 32768 bits ≈ 0.25× a block (4 bits/symbol
-assumed), vs the incumbent 8×. Floor: never below 8 frames without a new
+non-monotone grid — a first-sub-threshold readout, not a stability proof
+(M2-1p5M reads 0.769% at n=2000 but 1.686% at n=5000). CAL=32 frames
+(8192 symbols) is a candidate budget with ~4× margin over the worst
+observed 8-frame need, at 32768 bits ≈ 0.25× a block (4 bits/symbol
+assumed), vs the incumbent 8× — it buys no guaranteed ≤1% H error:
+ideal-iid SE at 8192 is already ≈1.0% of H2 and the two SE estimators
+disagree ~2.2×. Floor: never below 8 frames without a new
 freeze. 0.1% accuracy is neither bought (M2 0.1% hits grid max on 1p5M)
 nor required for the decode-validation gate.
 
@@ -43,12 +46,16 @@ cost is negligible and reuse bias is avoided. Claim scope is unchanged: no
 composable net-key claim; Müller 2025 eq (11)/(13) with H(q) → empirical
 H(X|Y) stays a preregister-before-use rule, never applied post-hoc.
 
-## D4 — K allocation: constant-total re-split from the new H1/H2
+## D4 — K allocation: re-split from the new H1/H2; f-vs-K_total choice deferred
 
-K_total stays on the frozen f=1.3 literal. (K1,K2) are re-derived from the
+(K1,K2) are re-derived from the
 M2 tables via the accepted `select_empirical_split` semantics (16
 synthetic TRAIN blocks) — the H-proportional descriptive split in the
-S6/S8 tables SHALL NOT select construction K. Total is constant: P19
+S6/S8 tables SHALL NOT select construction K. Fixed-f and fixed-K_total
+cannot both hold under M2's H_total: f=1.3 ⇒ K_total 7053/7106 (+33/+26
+vs current 7020/7080); freezing K_total ⇒ f=1.2939/1.2952. Neither is
+frozen here — the K_total choice is a separate later preregistered
+decision. G2 freezes K1=319/K2=6492 regardless of that choice. P19
 `l2_plus` (+512 to K2) already failed 0/3, so an increase is falsified and
 only rebalancing is a candidate. The old L1-f≈2.00/L2-f≈1.275 mis-split is
 expected to move, but the new numbers come from the frozen selector, not
@@ -84,8 +91,11 @@ Phase 2 `sc.py` (consumes `logp(N,q)`, agnostic to prior form/labeling);
 registries and frozen-session derived artifacts; P16/P17/P20 accepted
 packets and every negative result (P13/P14/P15 NOT_CONFIRMED, P19 0/3
 `l2_plus`, M4≡M0, split-rebalance non-recommendation) as history; the
-V25-source identity finding; the S2/S4 refutations (54.8σ margin,
-±0.3% H2 noise, `2^(H2/SER)` heuristic ban).
+V25-source identity finding; the S2/S4 findings (54.8σ margin as stated;
+H2 bias small with sign NOT established — MM ADDS, corrected H2
+0.8026903611/0.8089106006, MM +0.29%/+0.25% vs split-half −0.31%/−0.28%
+opposite signs and comparable magnitude, so this is NOT a refutation of
+H2 misestimation; `2^(H2/SER)` heuristic ban).
 
 ## Data-flow change
 

@@ -15,9 +15,11 @@ instead of the disproven M0 floor regime.
 ## Problem
 
 S8/S9 (Tier-X, descriptive/non-claim, split seed 20260920) converge on one
-root cause: the incumbent M0 nonparametric table prices ~70% of sparse
-rare (−1) cells at ~4e-18 after the 1e-15 floor, each costing ~48 bits of
-spurious penalty, while a 2-parameter ±1 model prices them at the pooled
+root cause: the incumbent M0 nonparametric table prices TRAIN-zero-−1
+cells at the 1e-15 probability floor (floor acts on probabilities,
+`body.py:141-143`), each floored true −1 delta costing 40.4214 bits of
+spurious penalty (only 30.3509 of the 44.7185 true −1 deltas per block
+fall in TRAIN-zero-−1 columns), while a 2-parameter ±1 model prices them at the pooled
 rate and wins held-out NLL by 0.037–0.044 bits/symbol (S8) and decodes
 11/16 vs 0/16 paired on synthetic N=32768 blocks (S9). The M0 layer also
 forces a 1024-frame CAL (≈8× a block of net key) and carries no
@@ -25,10 +27,12 @@ prior-estimation term in λ_total.
 
 ## Proposal
 
-Adopt the per-session ±1 parametric prior (M2) as the new prior baseline:
-CAL drops to a preregistered 32 sacrificed frames per session; K_total
-stays on the frozen f=1.3 literal with the (K1,K2) split re-derived from
-the new H1/H2 at constant total; the frozen P16 construction order is kept
+Test the per-session ±1 parametric prior (M2) as a CANDIDATE replacement
+for the prior baseline — pending real-data validation, not an adopted
+baseline: CAL drops to a preregistered 32 sacrificed frames per session; the
+f-vs-K_total choice is preregistered separately (D4) rather than settled
+here; the (K1,K2) split is re-derived from
+the new H1/H2; the frozen P16 construction order is kept
 for the first validation packet; claim scope does not change.
 
 ## Supersedes
@@ -41,8 +45,9 @@ for the first validation packet; claim scope does not change.
 2. The CAL/DEV/EVAL lifecycle built on it (CAL = 262,144 symbols = 1024
    frames) — replaced by the 32-frame sacrificed CAL (D2).
 3. The disclosure K allocation (L1 f≈2.00 over-disclosed, L2 f≈1.275
-   under-disclosed, total f≈1.2975) — replaced by the constant-total
-   re-split rule from the new H1/H2 (D4).
+   under-disclosed, total f≈1.2975) — replaced by the
+   re-split rule from the new H1/H2 with the f-vs-K_total choice
+   preregistered separately (D4, not constant-total by default).
 4. The λ_total accounting with no prior-estimation term — replaced by
    explicit CAL-sacrifice accounting; no λ_prior term is added (D3).
 

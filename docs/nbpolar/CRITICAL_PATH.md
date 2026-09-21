@@ -1,10 +1,12 @@
 # NB-Polar implementation critical path
 
-> **SUPERSEDED (2026-09-21)** — This document describes the nonparametric
-> `counts_ab` prior layer, superseded by
-> `openspec/changes/nbpolar-prior-rebaseline/` (±1 parametric prior).
-> Retained for provenance. Read `docs/nbpolar/STATE.md` first.
-> Nothing here is deleted; no number is restated as current.
+> **PARTIALLY SUPERSEDED (2026-09-21)** — The following is superseded by
+> `openspec/changes/nbpolar-prior-rebaseline/` (±1 parametric prior):
+>   - Step 7: the Model-F build step (CAL counts adapted with the
+>     per-Bob-column concentration contract)
+> Everything else in this document — steps 1–6, steps 8–10, and the
+> stop-attribution list — REMAINS IN FORCE. Retained for provenance.
+> Read `docs/nbpolar/STATE.md` first.
 
 ## Active continuation after the accepted P19 diagnostic
 

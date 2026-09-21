@@ -95,8 +95,11 @@ checkout 内的 V8/V53/V57 等内容按 AGENTS.md §0 视为继承的只读资�
 
 - HD-Cascade 未实现，且按 `roadmap §8` 不进当前周期、不与 D7 争预算；
 - q-ary SCL 自 P20H 锁死，解锁需先过合成信道 `scl-synthetic-list-gate`；
-- 受保护数据人口是硬约束：可用 never-used 段仅 261f/66816 pairs，现行
-  "128 连续帧/同 split/同 session" 规则下 = **0 个完整 N=32768 块**；2M 内部合并可得唯一 1 块。
+- 受保护数据人口是硬约束：可用 never-used 段仅 101f（P20S −128、P20T −32 后的
+  never-decoded 余量：1.5M VAL 2172–2212 = 41、1.5M HOLD 2725–2766 = 42、
+  2M HOLD 3627–3644 = 18；原 261f/66816 pairs 为消耗前总数），现行
+  "128 连续帧/同 split/同 session" 规则下 = **0 个完整 N=32768 块**；32-frame CAL
+  后仅剩 69 frames，不足 1 个 128-frame block，ladder 已耗尽（P20T 接受语）。
   → 任何"多分支并列比较"都受此人口上限约束，必须先解决评估人口，否则统计力度不足
   （现状已是 1/4、5 块 / 20 records 的 descriptive 级别）。
 

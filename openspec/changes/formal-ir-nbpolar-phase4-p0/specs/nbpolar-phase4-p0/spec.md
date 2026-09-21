@@ -1,10 +1,20 @@
 # NB-Polar Phase 4-P0 specification delta
 
-> **SUPERSEDED (2026-09-21)** — This document describes the nonparametric
-> `counts_ab` prior layer, superseded by
-> `openspec/changes/nbpolar-prior-rebaseline/` (±1 parametric prior).
-> Retained for provenance. Read `docs/nbpolar/STATE.md` first.
-> Nothing here is deleted; no number is restated as current.
+> **PARTIALLY SUPERSEDED (2026-09-21)** — The following are superseded by
+> `openspec/changes/nbpolar-prior-rebaseline/` (±1 parametric prior) for
+> all future evidence (the new change's delta supersedes them; this text
+> is untouched):
+>   - Requirement "accepted concentration prior": the per-Bob-column
+>     concentration-formula mandate
+>     (`f[a,b]=(counts[a,b]+lambda*p_global[a])/(n_b[b]+lambda)`)
+>   - Requirement "lifecycle and truth isolation": only the CAL-fit mandate
+>     (CAL 262144 symbols fits counts/`lambda`); the truth-isolation
+>     sentences (DEV/EVAL tuning bans, `VAL1726-1729` ban, oracle-helper
+>     test-local rule) REMAIN IN FORCE
+> Everything else in this document — "axis and packing honesty",
+> "decoder-facing tensors", "SymbolMetric object", "validation gates",
+> and the truth-isolation sentences above — REMAINS IN FORCE. Retained
+> for provenance. Read `docs/nbpolar/STATE.md` first.
 
 ## Requirement: accepted concentration prior
 

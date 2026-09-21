@@ -1,10 +1,12 @@
 # NB-Polar implementation roadmap
 
-> **SUPERSEDED (2026-09-21)** — This document describes the nonparametric
-> `counts_ab` prior layer, superseded by
-> `openspec/changes/nbpolar-prior-rebaseline/` (±1 parametric prior).
-> Retained for provenance. Read `docs/nbpolar/STATE.md` first.
-> Nothing here is deleted; no number is restated as current.
+> **PARTIALLY SUPERSEDED (2026-09-21)** — The following is superseded by
+> `openspec/changes/nbpolar-prior-rebaseline/` (±1 parametric prior):
+>   - Phase 4 ("Model-F adapter and two-layer diagnostic"): the
+>     concentration-prior fit from CAL arrays and its gate text
+> Everything else in this document — Phases 0–3, Phases 5–7, and the
+> stop-and-attribution rules — REMAINS IN FORCE. Retained for provenance.
+> Read `docs/nbpolar/STATE.md` first.
 
 ## Current priority after P19
 

@@ -1,10 +1,14 @@
 # Phase 4-P0 prior-contract freeze (FREEZE_ACCEPT)
 
-> **SUPERSEDED (2026-09-21)** — This document describes the nonparametric
-> `counts_ab` prior layer, superseded by
-> `openspec/changes/nbpolar-prior-rebaseline/` (±1 parametric prior).
-> Retained for provenance. Read `docs/nbpolar/STATE.md` first.
-> Nothing here is deleted; no number is restated as current.
+> **PARTIALLY SUPERSEDED (2026-09-21)** — The following are superseded by
+> `openspec/changes/nbpolar-prior-rebaseline/` (±1 parametric prior):
+>   - §1: the `f[a,b]=(counts+λ·p_global)/(n_b+λ)` nonparametric prior
+>     formula and `DECODER_FLOOR=1e-15`
+>   - §5: the 262,144-symbol (1024-frame) CAL that fits counts/`lambda`
+> Everything else in this document — §2 axis/provenance table, §3
+> SymbolMetric API, §4 tensors, §6 validation matrix, §7–§8, and the
+> truth-isolation requirements — REMAINS IN FORCE. Retained for provenance.
+> Read `docs/nbpolar/STATE.md` first.
 
 Companion OpenSpec change: `openspec/changes/formal-ir-nbpolar-phase4-p0/`
 (proposal/design/tasks/specs). Packet:

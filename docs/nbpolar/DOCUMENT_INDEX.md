@@ -4,6 +4,11 @@ This directory is the canonical planning home for the independent NB-Polar
 track in the current worktree. It must not be treated as an extension of the
 binary Polar Release checkout.
 
+> Staleness note (2026-09-21): this index stops at P20R — P20S/P20T packets
+> and the S8/S9/S10 Tier-X probes are not yet indexed; the current
+> never-decoded ledger (101 frames, not 261) lives in the decision-log
+> 2026-09-21 arithmetic-corrections entry.
+
 ## GPT-6 Astra reasoning pack
 
 `astra6/` contains a compact current-state brief, minimal examples, four
@@ -262,7 +267,7 @@ publication, commit, or push authority. Start with `astra6/README.md`.
 | `../../.workbuddy/queue/NBPOLAR-PHASE4-P3-EMPIRICAL-PRIOR-SC/PRE_RESULT_REVIEW.md` | independent Pre-RESULT review | PASS_WITH_COMMENTS |
 | `../../.workbuddy/queue/NBPOLAR-PHASE4-P3-EMPIRICAL-PRIOR-SC/OPERATOR_RETURN.md` | Stage A/B operator return (candidate) | candidate returned; acceptance pending |
 | `../../.workbuddy/queue/NBPOLAR-PHASE4-P3-EMPIRICAL-PRIOR-SC/empirical_prior_sc_diagnostic/` | Stage B evidence root (frozen_plan/oracle_records/stress_and_profile/diagnostic_summary/report) | candidate evidence; attempt 1/1 consumed |
-| `../../.workbuddy/queue/NBPOLAR-PHASE4-P20R-ORDER-POSITION-1P5M/` | order-position 1p5m packet (new-B L2 order under frozen α1, single VAL-remainder block 2044..2171; `MAIN_THREAD_ACCEPTANCE.md`; never-used ledger corrected per next-branch decision §2(ii): 1.5M VAL 2172..2212 (41/10,496), 1.5M HOLD 2725..2766 (42/10,752), 2M VAL 2827..2915 (89/22,784), 2M HOLD 3556..3644 (89/22,784); 261 frames / 66,816 pairs) | accepted descriptive negative `TARGET_EMPIRICAL_N32768_VAL_REMAINDER_ORDER_POSITION_1P5M_COMPLETE_ACCEPTED_DESCRIPTIVE`; 34/34 gates; DEV 1/1, counts 0/0, attempts 1/1; §16 planning next, nothing auto-triggered |
+| `../../.workbuddy/queue/NBPOLAR-PHASE4-P20R-ORDER-POSITION-1P5M/` | order-position 1p5m packet (new-B L2 order under frozen α1, single VAL-remainder block 2044..2171; `MAIN_THREAD_ACCEPTANCE.md`; never-used ledger corrected per next-branch decision §2(ii): 1.5M VAL 2172..2212 (41/10,496), 1.5M HOLD 2725..2766 (42/10,752), 2M VAL 2827..2915 (89/22,784), 2M HOLD 3556..3644 (89/22,784); pre-consumption 261 frames / 66,816 pairs — post-P20S (−128) / post-P20T (−32) never-decoded remainder 101 frames (41+42+18)) | accepted descriptive negative `TARGET_EMPIRICAL_N32768_VAL_REMAINDER_ORDER_POSITION_1P5M_COMPLETE_ACCEPTED_DESCRIPTIVE`; 34/34 gates; DEV 1/1, counts 0/0, attempts 1/1; §16 planning next, nothing auto-triggered |
 | `../../.workbuddy/queue/NBPOLAR-PHASE4-P20Q-HOLD-IR-CONFIRMATION-2M/` | HOLD alt-L2 2M IR-confirmation packet (Stage-B HOLD DEV 2916..3555 CONSUMED; accepted IR-1..IR-5 payload tables are the pre-registered H2 inputs) | accepted descriptive `TARGET_EMPIRICAL_N32768_HOLD_IR_ALT_CONSTRUCTION_2M_COMPLETE_ACCEPTED_DESCRIPTIVE`; A 0/5, B 4/5, C 0/5, D 4/5; b_maintained 0, b_restored 4 descriptive; no H2 verdict in-packet |
 | `../../.workbuddy/queue/NBPOLAR-PHASE4-P20S-MECHANISM-PROBE-2M-MERGED/` | merged-block mechanism probe 2M packet (single full-block A/B/O geometry; uncapped IR-5 series) | accepted descriptive via R1 `TARGET_EMPIRICAL_N32768_MERGED_MECHANISM_PROBE_2M_COMPLETE_ACCEPTED_DESCRIPTIVE`; 36/36 gates after the R1 one-expression fix |
 | `../../.workbuddy/queue/NBPOLAR-PHASE4-P20S-R1-GATE-FIX/` | P20S-R1 delta-successor gate-expression fix (DELTA.md; identical freeze, one predicate corrected) | accepted descriptive; ONE authorized execution (exit 0, 15/15 files, recount mismatch 0); no other delta |

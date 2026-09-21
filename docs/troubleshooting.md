@@ -742,11 +742,13 @@ blocks): arm A with the incumbent M0 prior (`counts_ab` raw-count MLE +
 
 **Root cause**: TRAIN gives 262144/1024 = ~256 samples per B-column while
 the ground-truth −1 rate is 0.00136, so ~70% of M0 columns
-(e^−0.349 ≈ 0.705) see ZERO −1 events. The 1e-15 floor, divided by the
-~256 column total at per-column renorm, prices those cells at ~4e-18,
-versus the pooled ±1 fit's 0.00147. Each EVAL block holds ~45 true −1
-deltas (32768 × 0.00136), each costing M0
-log2(0.00147/4e-18) ≈ 48 bits of spurious LLR penalty — enough to kill
+(e^−0.349 ≈ 0.705 predicted; 695/1024 on the seed-2026092101 rebuild)
+see ZERO −1 events. The floor acts on probabilities
+(`body.py:141-143`), not counts, so those cells are priced at 1e-15,
+versus the pooled ±1 fit's 0.00147 — log2(0.00147/1e-15) = 40.4214 bits
+of spurious LLR penalty per floored true −1 delta. Only 30.3509 of the
+44.7185 true −1 deltas per EVAL block (32768 × 0.00136) fall in
+TRAIN-zero-−1 columns — enough to kill
 the SC path while failing honestly (`verify_failed`, never `undetected`).
 S8 confirms the fit side independently: M0 held-out NLL 0.8637/0.8788 vs
 M1/M2/M3 ≈ 0.8272/0.8345 (split-A fit / split-B score, seed 20260920).
