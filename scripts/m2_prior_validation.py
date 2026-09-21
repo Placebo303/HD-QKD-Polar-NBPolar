@@ -11,6 +11,10 @@ G2 stage body belongs to a later freeze: after all validation passes it
 exits 3 ``STAGE_BODY_PENDING_FREEZE`` with zero data contact (nothing
 read beyond the freeze-config file, nothing created). No decoder runs
 under this packet.
+Science constants are window-keyed contracts: the G1 legacy contract at
+w=500 is preserved verbatim, and the G1R2 successor at w=200 (delta
+item 8, NBPOLAR-M2-PRIOR-G1R2-W200-CIRCULAR) reuses the same mechanics.
+Selection uses the freeze ``pairing_window_primary`` only, never data.
 
 Wiring verifiable via ``--selfcheck`` (pure logic; touches no data).
 
@@ -356,6 +360,97 @@ REMAINDER_N_FRAMES = 101
 REMAINDER_CAL_FRAMES = 32
 
 G1_PACKET_DIR = _REPO_ROOT / ".workbuddy" / "queue" / "NBPOLAR-M2-PRIOR-G1-REALDATA-NLL"
+G1_CONFIG_NAME = "g1_freeze_config.json"
+
+# G1R2 successor contract (delta item 8, NBPOLAR-M2-PRIOR-G1R2-W200-CIRCULAR):
+# same layout/mechanics as G1, corrected pairing+MOD window (w=200).
+REPRO_GATE_G1R2 = {
+    "peak_center_ps": 50,
+    "peak_sigma_ps": 112.45189572400645,
+    "status": "ok",
+    "n_pairs": 1259992,
+    "n_frames": 4921,
+}
+G1R2_PACKET_DIR = _REPO_ROOT / ".workbuddy" / "queue" / "NBPOLAR-M2-PRIOR-G1R2-W200-CIRCULAR"
+G1R2_CONFIG_NAME = "g1r2_freeze_config.json"
+
+# Per-contract record. Selection is explicit and deterministic via
+# freeze["pairing_window_primary"] (500 -> G1 legacy, 200 -> G1R2) —
+# never inferred by reading data. G1's literals stay verbatim so a G1
+# invocation reproduces its accepted record; alignment literals
+# (peak_center / sigma / status) are shared across both contracts.
+CONTRACTS = {
+    500: {
+        "window": 500,
+        "repro_gate": REPRO_GATE,
+        "packet_dir": G1_PACKET_DIR,
+        "config_name": G1_CONFIG_NAME,
+        "packet": "NBPOLAR-M2-PRIOR-G1-REALDATA-NLL",
+        "freeze": "NBPOLAR-M2-PRIOR-REALDATA-VALIDATION/g1_freeze.md",
+        "label": "G1",
+        "science_mode": "g1-science",
+    },
+    200: {
+        "window": 200,
+        "repro_gate": REPRO_GATE_G1R2,
+        "packet_dir": G1R2_PACKET_DIR,
+        "config_name": G1R2_CONFIG_NAME,
+        "packet": "NBPOLAR-M2-PRIOR-G1R2-W200-CIRCULAR",
+        "freeze": "NBPOLAR-M2-PRIOR-G1R2-W200-CIRCULAR/TASK_PACKET.md",
+        "label": "G1R2",
+        "science_mode": "g1r2-science",
+    },
+}
+
+
+def contract_for_window(window) -> dict:
+    """Select the science contract for an explicit pairing window (pure).
+
+    500 selects the G1 legacy contract, 200 the G1R2 successor. Any
+    other value exits 2 loudly (never a silent default, never inferred
+    from data — the caller passes the freeze value through).
+    """
+    try:
+        w = int(str(window).strip())
+    except (TypeError, ValueError):
+        w = None
+    if w not in CONTRACTS:
+        _fail(
+            f"pairing_window_primary {window!r} selects no science contract "
+            f"(known windows: {sorted(CONTRACTS)}; G1=500, G1R2=200)"
+        )
+    return CONTRACTS[w]
+
+
+def contract_for_freeze(freeze: dict) -> dict:
+    """Select the science contract from an already-loaded freeze mapping."""
+    return contract_for_window(freeze.get("pairing_window_primary"))
+
+
+def reserve_ids_for_ledger(n_postskip) -> dict:
+    """Ledger-driven reserve emission (delta item 8; pure, no I/O).
+
+    The reserve starts at ALLOCATED_FRAMES (frames 0..ALLOCATED_FRAMES-1
+    are allocated) and ends at the last available post-skip frame
+    (n_postskip - 1): 4190..4255 at the G1 ledger (4256 frames, exactly
+    the legacy SEG_RESERVE range), 4190..4218 at the G1R2 ledger (4219
+    frames). When no post-skip frame lies beyond the allocation the
+    reserve is empty with a recorded note — frame ids are never
+    invented, so ids past the ledger end (e.g. 4219+ at w=200) cannot
+    be emitted.
+    """
+    n = int(n_postskip)
+    start = ALLOCATED_FRAMES
+    end = n - 1
+    if end < start:
+        return {
+            "ids": [],
+            "note": (
+                f"no post-skip frame beyond allocated {ALLOCATED_FRAMES} "
+                f"(ledger {n}); empty reserve, never invented"
+            ),
+        }
+    return {"ids": list(range(start, end + 1)), "note": ""}
 
 MODES = ("LINEAR_ONLY", "CIRCULAR")
 
@@ -946,11 +1041,19 @@ def _write_json(path: Path, obj: dict) -> None:
 
 
 def _closure_outputs(*, acq_id, out_root: Path, freeze, align, sweep, pairing,
-                     ledger, segments, matrix, elapsed_s):
+                     ledger, segments, matrix, elapsed_s, _packet_dir=None):
     """Flush Phase-A closure artifacts (workspace + packet-dir config)."""
+    contract = contract_for_freeze(freeze)
+    gate = contract["repro_gate"]
+    reserve = reserve_ids_for_ledger(ledger["complete_frames"])
+    seg_text = " / ".join(f"{name} {s}-{e}" for name, s, e in SEG_RANGES)
+    if reserve["ids"]:
+        seg_text += f" / reserve {reserve['ids'][0]}-{reserve['ids'][-1]}"
+    else:
+        seg_text += f" / reserve empty ({reserve['note']})"
     g1 = {
-        "packet": "NBPOLAR-M2-PRIOR-G1-REALDATA-NLL",
-        "freeze": "NBPOLAR-M2-PRIOR-REALDATA-VALIDATION/g1_freeze.md",
+        "packet": contract["packet"],
+        "freeze": contract["freeze"],
         "mode": "closure-only",
         "acq_id": acq_id,
         "nature": "DESCRIPTIVE/NON-CLAIM, decoder-free; M2 CANDIDATE, never baseline",
@@ -960,7 +1063,7 @@ def _closure_outputs(*, acq_id, out_root: Path, freeze, align, sweep, pairing,
         "offset_sign_convention": "tA_aligned = tA_raw + peak_center_ps",
         "pairing": pairing,
         "reproduction_gate": {
-            "expected": dict(REPRO_GATE),
+            "expected": dict(gate),
             "observed": {
                 "peak_center_ps": align["peak_center_ps"],
                 "peak_sigma_ps": align["peak_sigma_ps"],
@@ -969,11 +1072,11 @@ def _closure_outputs(*, acq_id, out_root: Path, freeze, align, sweep, pairing,
                 "n_frames": pairing["n_frames"],
             },
             "match5": (
-                align["peak_center_ps"] == REPRO_GATE["peak_center_ps"]
-                and align["peak_sigma_ps"] == REPRO_GATE["peak_sigma_ps"]
-                and align["status"] == REPRO_GATE["status"]
-                and pairing["n_pairs"] == REPRO_GATE["n_pairs"]
-                and pairing["n_frames"] == REPRO_GATE["n_frames"]
+                align["peak_center_ps"] == gate["peak_center_ps"]
+                and align["peak_sigma_ps"] == gate["peak_sigma_ps"]
+                and align["status"] == gate["status"]
+                and pairing["n_pairs"] == gate["n_pairs"]
+                and pairing["n_frames"] == gate["n_frames"]
             ),
             "verdict": "REPRODUCED",
         },
@@ -999,14 +1102,13 @@ def _closure_outputs(*, acq_id, out_root: Path, freeze, align, sweep, pairing,
             "char_frame_ids": segments["char"],
             "heldout_frame_ids": segments["heldout"],
             "eval_frame_ids": segments["eval"],
-            "reserve_frame_ids": list(
-                range(SEG_RESERVE[1], SEG_RESERVE[2] + 1)
-            ),
+            "reserve_frame_ids": reserve["ids"],
+            "reserve_note": reserve["note"],
             "disjointness_matrix": matrix,
         },
     )
     lines = [
-        "# G1 Phase-A closure run log — NBPOLAR-M2-PRIOR-G1-REALDATA-NLL",
+        f"# {contract['label']} Phase-A closure run log — {contract['packet']}",
         "",
         f"acq: {acq_id}",
         f"mode: closure-only (zero NLL/gate science)",
@@ -1019,13 +1121,12 @@ def _closure_outputs(*, acq_id, out_root: Path, freeze, align, sweep, pairing,
         "reproduction_gate: 5/5 exact (peak_center / sigma / status / n_pairs / n_frames)",
         f"ledger post-skip: {ledger['complete_frames']} complete frames "
         f"(allocated>={ALLOCATED_FRAMES} ok={ledger['complete_frames'] >= ALLOCATED_FRAMES})",
-        "segments: a1_cal 0-1023 / cal32 1024-1055 / char 1056-1837 / "
-        "heldout 1838-2397 / eval 2398-4189 / reserve 4190-4255",
+        f"segments: {seg_text}",
         f"disjointness all_disjoint={matrix['all_disjoint']}",
         f"wall_s={elapsed_s:.1f} (budget {BUDGET_CLOSURE_S}) "
         f"rss_peak_advisory_GiB={g1['timing']['rss_gib_peak_advisory']}",
         "",
-        "Outputs: g1.json cal_ids.json run_log.md (+ packet-dir g1_freeze_config.json).",
+        f"Outputs: g1.json cal_ids.json run_log.md (+ packet-dir {contract['config_name']}).",
     ]
     (out_root / "run_log.md").write_text("\n".join(lines) + "\n", encoding="utf-8")
 
@@ -1037,7 +1138,11 @@ def _closure_outputs(*, acq_id, out_root: Path, freeze, align, sweep, pairing,
     missing = _missing_freeze_keys(cfg)
     if missing:
         _fail(f"closure config missing keys: {', '.join(missing)}")
-    _write_json(G1_PACKET_DIR / "g1_freeze_config.json", cfg)
+    # Contract-routed packet-dir emission (never the other contract's
+    # dir). _packet_dir is the test-only override (tests MUST pass an
+    # explicit fake dir; default None keeps the production routing).
+    target_dir = Path(_packet_dir) if _packet_dir is not None else contract["packet_dir"]
+    _write_json(target_dir / contract["config_name"], cfg)
     return g1
 
 
@@ -1123,12 +1228,13 @@ def run_closure(*, acq_id, out_root: Path, freeze, options, _read_timetags=None)
         "frozen": {"d": G1_D, "bin_width_ps": G1_BIN_WIDTH_PS,
                    "period_ps": G1_PERIOD_PS, "frame_pairs": G1_FRAME_PAIRS},
     }
+    gate = contract_for_freeze(freeze)["repro_gate"]
     repro_ok = (
-        align["peak_center_ps"] == REPRO_GATE["peak_center_ps"]
-        and align["peak_sigma_ps"] == REPRO_GATE["peak_sigma_ps"]
-        and align["status"] == REPRO_GATE["status"]
-        and n_pairs == REPRO_GATE["n_pairs"]
-        and n_frames == REPRO_GATE["n_frames"]
+        align["peak_center_ps"] == gate["peak_center_ps"]
+        and align["peak_sigma_ps"] == gate["peak_sigma_ps"]
+        and align["status"] == gate["status"]
+        and n_pairs == gate["n_pairs"]
+        and n_frames == gate["n_frames"]
     )
     if not repro_ok:
         out_root.mkdir(parents=True, exist_ok=True)
@@ -1136,9 +1242,9 @@ def run_closure(*, acq_id, out_root: Path, freeze, options, _read_timetags=None)
                     {"acq_id": acq_id, "mode": "closure-only",
                      "verdict": "ALIGN_INCONSISTENT", "align": align,
                      "yield_sweep": sweep, "pairing": pairing,
-                     "reproduction_expected": dict(REPRO_GATE)})
+                     "reproduction_expected": dict(gate)})
         print("CLOSURE_ALIGN_INCONSISTENT reproduction gate mismatch "
-              f"(expected {REPRO_GATE}; observed peak={align['peak_center_ps']}/"
+              f"(expected {gate}; observed peak={align['peak_center_ps']}/"
               f"{align['peak_sigma_ps']}/{align['status']} n_pairs={n_pairs} "
               f"n_frames={n_frames})", file=sys.stderr)
         return 1
@@ -1281,6 +1387,9 @@ def run_g1_science(*, acq_id, out_root: Path, freeze, options, _read_timetags=No
     char_pairs = int(freeze["char_sample_pairs"])
     B_tail = float(freeze["B_tail"])
     delta_min = float(freeze["delta_min"])
+    contract = contract_for_freeze(freeze)
+    gate = contract["repro_gate"]
+    label = contract["label"]
 
     got = read(acq_id)
     tA, tB = got["tA"], got["tB"]
@@ -1301,12 +1410,12 @@ def run_g1_science(*, acq_id, out_root: Path, freeze, options, _read_timetags=No
         "criterion": "status==ok AND peak_to_bg>=10 (unit-independent)",
     }
     if not align["accept"]:
-        _fail(f"G1 ALIGN_FAIL status={align['status']} to_bg={align['peak_to_bg']}")
+        _fail(f"{label} ALIGN_FAIL status={align['status']} to_bg={align['peak_to_bg']}")
     offset = int(align["peak_center_ps"])
     sweep = _yield_sweep_selfcheck(tA, tB, offset)
     sweep_ok, sweep["yield_note"] = _sweep_accept(sweep)
     if not sweep_ok:
-        _fail(f"G1 ALIGN_INCONSISTENT offset={offset} "
+        _fail(f"{label} ALIGN_INCONSISTENT offset={offset} "
               f"yield@derived={sweep['yield_at_derived']} max={sweep['yield_max']}")
 
     alice, bob = pair_narrow_nearest_unique(tA, tB, offset, window_p)
@@ -1319,12 +1428,12 @@ def run_g1_science(*, acq_id, out_root: Path, freeze, options, _read_timetags=No
         "n_pairs": n_pairs,
         "n_frames": n_frames,
     }
-    if not (repro["peak_center_ps"] == REPRO_GATE["peak_center_ps"]
-            and repro["peak_sigma_ps"] == REPRO_GATE["peak_sigma_ps"]
-            and repro["status"] == REPRO_GATE["status"]
-            and repro["n_pairs"] == REPRO_GATE["n_pairs"]
-            and repro["n_frames"] == REPRO_GATE["n_frames"]):
-        _fail(f"G1 ALIGN_INCONSISTENT reproduction gate mismatch: {repro} != {REPRO_GATE}")
+    if not (repro["peak_center_ps"] == gate["peak_center_ps"]
+            and repro["peak_sigma_ps"] == gate["peak_sigma_ps"]
+            and repro["status"] == gate["status"]
+            and repro["n_pairs"] == gate["n_pairs"]
+            and repro["n_frames"] == gate["n_frames"]):
+        _fail(f"{label} ALIGN_INCONSISTENT reproduction gate mismatch: {repro} != {gate}")
 
     # W_S sensitivity readout (no switching): counts + δ triple only.
     sens_a, sens_b = pair_narrow_nearest_unique(tA, tB, offset, window_s)
@@ -1342,7 +1451,7 @@ def run_g1_science(*, acq_id, out_root: Path, freeze, options, _read_timetags=No
         _write_json(out_root / "g1.json",
                     {"acq_id": acq_id, "verdict": "INSUFFICIENT",
                      "align": align, "ledger": ledger, "detail": str(exc)})
-        print(f"G1_INSUFFICIENT {exc}", file=sys.stderr)
+        print(f"{label}_INSUFFICIENT {exc}", file=sys.stderr)
         return 1
     named = {name: segments[name] for name, _, _ in SEG_RANGES}
     matrix = disjointness_matrix(
@@ -1352,7 +1461,7 @@ def run_g1_science(*, acq_id, out_root: Path, freeze, options, _read_timetags=No
           ("eval", named["eval"])]}
     )
     if not matrix["all_disjoint"]:
-        _fail(f"G1 segment overlap invalidates run: {matrix['pairwise_overlap']}")
+        _fail(f"{label} segment overlap invalidates run: {matrix['pairwise_overlap']}")
 
     char_a = frames_a[named["char"]].ravel()
     char_b = frames_b[named["char"]].ravel()
@@ -1384,8 +1493,8 @@ def run_g1_science(*, acq_id, out_root: Path, freeze, options, _read_timetags=No
     elapsed = _time.time() - t0
 
     _write_json(out_root / "g1.json", {
-        "packet": "NBPOLAR-M2-PRIOR-G1-REALDATA-NLL",
-        "mode": "g1-science",
+        "packet": contract["packet"],
+        "mode": contract["science_mode"],
         "acq_id": acq_id,
         "nature": "DESCRIPTIVE/NON-CLAIM, decoder-free; M2 CANDIDATE, never baseline",
         "align": align,
@@ -1397,7 +1506,7 @@ def run_g1_science(*, acq_id, out_root: Path, freeze, options, _read_timetags=No
                     "sensitivity": sensitivity,
                     "frozen": {"d": G1_D, "bin_width_ps": G1_BIN_WIDTH_PS,
                                "period_ps": G1_PERIOD_PS, "frame_pairs": G1_FRAME_PAIRS}},
-        "reproduction_gate": {"expected": dict(REPRO_GATE), "observed": repro,
+        "reproduction_gate": {"expected": dict(gate), "observed": repro,
                               "match5": True, "verdict": "REPRODUCED"},
         "ledger": ledger,
         "cal": {"n_frames": 32, "n_pairs": int(cal_a.size),
@@ -1427,7 +1536,7 @@ def run_g1_science(*, acq_id, out_root: Path, freeze, options, _read_timetags=No
         "disjointness_matrix": matrix,
     })
     (out_root / "run_log.md").write_text(
-        "# G1 science run log — NBPOLAR-M2-PRIOR-G1-REALDATA-NLL\n\n"
+        f"# {label} science run log — {contract['packet']}\n\n"
         f"acq: {acq_id}\n"
         f"reproduction_gate: 5/5 exact\n"
         f"delta_tail: phat={dtail_gate['p_hat']:.3e} U={dtail_gate['U']:.3e} "
@@ -1439,12 +1548,12 @@ def run_g1_science(*, acq_id, out_root: Path, freeze, options, _read_timetags=No
         encoding="utf-8",
     )
     if elapsed > BUDGET_G1_S:
-        print(f"G1_BUDGET_EXCEEDED wall_s={elapsed:.1f} > {BUDGET_G1_S}", file=sys.stderr)
+        print(f"{label}_BUDGET_EXCEEDED wall_s={elapsed:.1f} > {BUDGET_G1_S}", file=sys.stderr)
         return 1
     if dtail_gate["verdict"] == "FAIL":
-        print("G1 recorded: delta-tail FAIL ⇒ premise fails on this source; "
+        print(f"{label} recorded: delta-tail FAIL ⇒ premise fails on this source; "
               "NOT proceeding toward G2", file=sys.stderr)
-    print(f"G1_DONE acq={acq_id} dtail={dtail_gate['verdict']} nll={nll_gate['verdict']} "
+    print(f"{label}_DONE acq={acq_id} dtail={dtail_gate['verdict']} nll={nll_gate['verdict']} "
           f"wall_s={elapsed:.1f}")
     return 0
 
@@ -1769,6 +1878,44 @@ def _selfcheck() -> int:
                 "system-temp roots must be refused (Stage-1 allows workspace/ only)"
             )
 
+        def t_contracts_g1_g1r2() -> None:
+            # Explicit window-keyed selection: 500 -> G1 legacy literals,
+            # 200 -> G1R2 successor; anything else exits 2 (never a
+            # default, never data-inferred).
+            g1c = contract_for_window(500)
+            assert g1c["repro_gate"] is REPRO_GATE, "G1 contract must keep the legacy gate object"
+            assert g1c["repro_gate"]["n_pairs"] == 1269268, g1c["repro_gate"]
+            assert g1c["repro_gate"]["n_frames"] == 4958, g1c["repro_gate"]
+            assert g1c["packet_dir"] == G1_PACKET_DIR, g1c["packet_dir"]
+            assert g1c["config_name"] == "g1_freeze_config.json", g1c["config_name"]
+            assert g1c["label"] == "G1", g1c["label"]
+            r2c = contract_for_window("200")
+            assert r2c["repro_gate"]["n_pairs"] == 1259992, r2c["repro_gate"]
+            assert r2c["repro_gate"]["n_frames"] == 4921, r2c["repro_gate"]
+            assert r2c["packet_dir"] == G1R2_PACKET_DIR, r2c["packet_dir"]
+            assert r2c["config_name"] == "g1r2_freeze_config.json", r2c["config_name"]
+            assert r2c["label"] == "G1R2", r2c["label"]
+            # Alignment literals stay shared across both contracts.
+            for cc in (g1c, r2c):
+                assert cc["repro_gate"]["peak_center_ps"] == 50, cc
+                assert cc["repro_gate"]["peak_sigma_ps"] == 112.45189572400645, cc
+                assert cc["repro_gate"]["status"] == "ok", cc
+            # Ledger-driven reserve: G1 ledger -> legacy 4190-4255 range;
+            # G1R2 ledger -> 4190-4218 (never 4219+); empty + note below
+            # the allocation (never invented ids).
+            assert reserve_ids_for_ledger(4256)["ids"] == list(range(4190, 4256)), (
+                "G1 ledger must reproduce the legacy SEG_RESERVE range"
+            )
+            r200 = reserve_ids_for_ledger(4219)
+            assert r200["ids"] == list(range(4190, 4219)) and r200["note"] == "", r200
+            assert r200["ids"][-1] == 4218 and all(i < 4219 for i in r200["ids"])
+            rempty = reserve_ids_for_ledger(4190)
+            assert rempty["ids"] == [] and "never invented" in rempty["note"], rempty
+            err = _expect_exit2(lambda: contract_for_window(300))
+            assert "no science contract" in err, f"unclear message: {err.strip()}"
+            err = _expect_exit2(lambda: contract_for_freeze({}))
+            assert "no science contract" in err, f"unclear message: {err.strip()}"
+
         for name, fn in [
             ("complete-json-loads", t_complete_json_loads),
             ("missing-two-keys-exit2-lists-exactly", t_missing_two_keys_exit2_lists_exactly),
@@ -1783,6 +1930,7 @@ def _selfcheck() -> int:
             ("closure-only-store-true", t_closure_only_store_true_ast),
             ("cross-check-detects-mismatch", t_cross_check_detects_mismatch),
             ("k-pin-319-6492", t_k_pin),
+            ("contracts-g1-g1r2", t_contracts_g1_g1r2),
             ("workspace-confinement", t_workspace_confinement),
         ]:
             check(name, fn)
