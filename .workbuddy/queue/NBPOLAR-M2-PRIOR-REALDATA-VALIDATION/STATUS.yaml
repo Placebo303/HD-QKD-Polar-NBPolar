@@ -1,0 +1,24 @@
+# STATUS — NBPOLAR-M2-PRIOR-REALDATA-VALIDATION
+packet: NBPOLAR-M2-PRIOR-REALDATA-VALIDATION
+branch: codex/nbpolar-phase0
+change: openspec/changes/nbpolar-prior-rebaseline  # implements T2-T7; T1/T8 + G3 + re-derivation OUT
+implementation_authorized: false
+execution_authorized: false
+next_gate: STAGE1_IMPLEMENTATION_PENDING_AUTHORIZATION
+counters: {stage1_runs: 0, g1_runs: 0, g2_runs: 0, sc_calls_on_protected: 0, reruns: 0}
+budget_cap: {stage2_s: 300, stage3_s: 900, rss_GiB: 2, single_threaded: true}
+to_freeze: {pairing_window_N: null, skip_frames: null, delta_ge2_bound: null, g2_blocks: null, tag_master: null}
+stage1: {I1_adapter_oracle: pending, I2_tests_sc_untouched: pending, I3_resplit_replay: pending, I4_cal_note: pending}
+stage2_g1:
+  20260113_SHG_Type2PPLN_3s: {G1-1_align: pending, G1-2_pairing_delta: pending, G1-3_cal32_nll: pending, G1-4_H_gate: pending}
+  20260113_SHG_Type2PPLN_3s_2: {G1-1_align: pending, G1-2_pairing_delta: pending, G1-3_cal32_nll: pending, G1-4_H_gate: pending}
+stage3_g2:
+  target_acq: 20260113_SHG_Type2PPLN_3s
+  G2-1_freeze_preauth: pending
+  G2-2_oneshot_AB: pending
+  G2-3_taxonomy_accounting: pending
+  G2-4_no_rerun: pending
+stage4: {R1_preresult: pending, R2_adjudication: pending}
+reserved_for_G3: {frames_261_remainder: untouched, SHG_2_as_G3_session: proposed}
+artifacts: []
+result: {id: null, summary: null, decision_needed: null}
