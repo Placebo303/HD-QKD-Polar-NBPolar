@@ -288,6 +288,7 @@ publication, commit, or push authority. Start with `astra6/README.md`.
 | `../../workspace/probes/q3-disclosure-efficiency-face/` | Q3 Tier-X disclosure-efficiency face (92 records / 26 within-packet pairs; restored 0/0/0/0/1/2/4) | `Q3_DESCRIPTIVE_ONLY`; cross-packet pooling forbidden; focused review PASS; worktree-only record |
 | `../../workspace/probes/q4-status-distribution-audit/` | Q4 Tier-X status distribution audit (165 records / 18 aggregates; 46 located `undetected` all zero) | `Q4_DESCRIPTIVE_ONLY` + `Q4_UNDETECTED_ALL_ZERO` + `Q4_STATUS_COHERENCE_NO_ANOMALY_READINGS` (A8 evaluable 150/165 only); focused review PASS; worktree-only record |
 | `../../../HD-QKD_Polar_Comparison/openspec/changes/archive/2026-09-11-formal-ir-future-nbpolar-app-transfer-superseded/` | superseded hybrid APP-transfer draft, retained for provenance | archived |
+| `../../.workbuddy/queue/NBPOLAR-M2-PRIOR-STAGE1-IMPLEMENTATION/` | M2-prior Stage 1 implementation packet (adapter + M0 switch + synthetic re-split + CAL note + runner interface) | `STAGE1_IMPLEMENTATION_PENDING_AUTHORIZATION`; implements parent `NBPOLAR-M2-PRIOR-REALDATA-VALIDATION` §4 (a)–(e) |
 
 The archived draft is not an implementation dependency. It proposed a
 NB-Polar upper layer feeding the old NB-LDPC lower layer; the current track

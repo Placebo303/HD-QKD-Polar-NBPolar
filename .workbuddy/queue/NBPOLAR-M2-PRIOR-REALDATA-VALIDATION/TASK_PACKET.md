@@ -125,7 +125,7 @@ CAL 32 sacrificed frames (listed) → RULE-FIT32-SCORE-HELDOUT (fit triple on AL
 separate held-out segment disjoint from CAL and from the char sample; no within-CAL split; split seed N/A) →
 held-out NLL M0 vs M2 + H1/H2/H_total both models, SAME CAL for M0 vs M2.
 Exact command (sibling venv; `--authorized` required, exits non-zero without it):
-`/home/karel_303/.venvs/timetagger/bin/python scripts/m2_prior_validation.py --stage-g1-nll --acq-id <ACQ> --window-primary <W_P> --window-sensitivity <W_S> --skip <SKIP> --mod <MOD> --char-pairs <NCHAR> --out-root workspace/m2_prior_validation/<ACQ> --authorized`
+`/home/karel_303/.venvs/timetagger/bin/python scripts/m2_prior_validation.py --freeze-config <PATH> --stage-g1-nll --acq-id <ACQ> --window-primary <W_P> --window-sensitivity <W_S> --skip <SKIP> --mod <MOD> --char-pairs <NCHAR> --out-root workspace/m2_prior_validation/<ACQ> --authorized`
 G1-δtail gate (executable): statistic p̂=count(|δ|≥2)/n on the LARGE char sample only (denominator n=NCHAR pairs,
 frozen MOD decides wrap). Confidence: one-sided 95% upper U (rule-of-three 3/n if zero obs, else Clopper-Pearson
 upper). PASS iff U < B_tail (TO-FREEZE; recommended 2.0e-4: 40.4214×p×32768 ≤1%×26214 ⇒ p ≤1.98e-4 ≈2.0e-4, where
@@ -172,7 +172,7 @@ Wilson-lower(B) > Wilson-upper(A2) (strict non-overlap on the matched-CAL pair);
 with no gate (descriptive). FAIL iff point(B) ≤ point(A2). INCONCLUSIVE iff point(B) > point(A2) but CIs overlap ⇒
 bounded negative, no tuning, no rerun. No FER/efficiency reading (G3 deferred).
 Exact command:
-`/home/karel_303/.venvs/timetagger/bin/python scripts/m2_prior_validation.py --stage-g2-decode --acq-id 20260113_SHG_Type2PPLN_3s --arms A1,A2,B --blocks <N> --k1 319 --k2 6492 --tag-master <FROZEN> --window-primary <W_P> --mod <MOD> --out-root workspace/m2_prior_validation/20260113_SHG_Type2PPLN_3s/g2 --authorized`
+`/home/karel_303/.venvs/timetagger/bin/python scripts/m2_prior_validation.py --freeze-config <PATH> --stage-g2-decode --acq-id 20260113_SHG_Type2PPLN_3s --arms A1,A2,B --blocks <N> --k1 319 --k2 6492 --tag-master <FROZEN> --window-primary <W_P> --mod <MOD> --out-root workspace/m2_prior_validation/20260113_SHG_Type2PPLN_3s/g2 --authorized`
 
 | ID | Acceptance | Evidence |
 |----|-----------|----------|

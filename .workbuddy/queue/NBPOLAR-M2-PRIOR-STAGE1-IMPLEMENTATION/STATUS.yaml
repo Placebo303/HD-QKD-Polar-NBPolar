@@ -1,0 +1,20 @@
+# STATUS — NBPOLAR-M2-PRIOR-STAGE1-IMPLEMENTATION
+packet: NBPOLAR-M2-PRIOR-STAGE1-IMPLEMENTATION
+branch: codex/nbpolar-phase0
+parent_packet: NBPOLAR-M2-PRIOR-REALDATA-VALIDATION  # implements its Stage 1 (§4 (a)-(e)) only
+change: openspec/changes/nbpolar-prior-rebaseline  # T2/T3/T4 at Stage-1 scope; T1/T5-T8 OUT
+implementation_authorized: false
+execution_authorized: false
+next_gate: STAGE1_IMPLEMENTATION_PENDING_AUTHORIZATION
+counters: {stage1_runs: 0, g1_runs: 0, g2_runs: 0, sc_calls_on_protected: 0, reruns: 0}
+stage1:
+  S1-1_adapter_mod_oracle: pending
+  S1-2_m0_switch_bitexact: pending
+  S1-3_metric_contract: pending
+  S1-4_frozen_untouched_noimport: pending
+  S1-5_resplit_replay_synthetic: pending
+  S1-6_cal_note_inventory: pending
+  S1-7_runner_freezeconfig_contract: pending
+  S1-8_focused_suite_green: pending
+artifacts: []
+result: {id: null, summary: null, decision_needed: null}
