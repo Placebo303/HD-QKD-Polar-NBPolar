@@ -298,6 +298,11 @@ publication, commit, or push authority. Start with `astra6/README.md`.
 | `../../.workbuddy/queue/NBPOLAR-M2-PRIOR-G1-REALDATA-NLL/g1_freeze_config.json` | 19-key TO-FREEZE closure config (nulls filled at closure) | frozen; verified |
 | `../../workspace/m2_prior_validation/20260113_SHG_Type2PPLN_3s/{g1.json,cal_ids.json,run_log.md,delta_profiles.json,g1_closure_reproduction.json,cal_ids_closure.json,run_log_closure.md}` | G1 Phase-B + Phase-A closure evidence root (decoder-free; reproduction bit-exact vs closure ledger) | descriptive evidence; no rerun/tuning |
 | `../../workspace/m2_prior_validation/remainder_101f/{g1.json,cal_ids.json,run_log.md,remainder_driver.py}` | frozen-session remainder check (NLL/H only, no gate; pooled Δ 1.957900) | descriptive; matched-CAL M0 pathology replicates |
+| `../../.workbuddy/queue/NBPOLAR-S11-SHG-TAIL-NATURE/TASK_PACKET.md` | S11 Tier-X tail-nature probe task packet (incl. main-thread scoped correction: anchor = post-skip frames 1056–1837, the frozen SEG_RANGES/G1 CHAR segment) | probe complete; descriptive/non-claim |
+| `../../.workbuddy/queue/NBPOLAR-S11-SHG-TAIL-NATURE/PROMPT.md` | direct operator prompt for S11 | probe complete |
+| `../../.workbuddy/queue/NBPOLAR-S11-SHG-TAIL-NATURE/STATUS.yaml` | operator all-complete return (S11-P..S11-R PASS; one run, 19.5 s / 1.24 GiB, no rerun) | probe complete |
+| `../../.workbuddy/queue/NBPOLAR-S11-SHG-TAIL-NATURE/S11_ADJUDICATION.md` | S11 adjudication (`NBPOLAR_S11_SHG_TAIL_NATURE_COMPLETE_DESCRIPTIVE`; w=500 tail = pairing contamination; far-offset baseline structured; no route selected) | adjudicated 2026-09-21; independent `S11_NUMERICS_PASS` |
+| `../../workspace/probes/nbpolar_s11_shg_tail_nature/` | S11 probe root (`prereg.md` / `body.py` / `results.json`) | Tier-X complete; gitignored worktree-only; durable record = adjudication + decision-log entry |
 
 The archived draft is not an implementation dependency. It proposed a
 NB-Polar upper layer feeding the old NB-LDPC lower layer; the current track

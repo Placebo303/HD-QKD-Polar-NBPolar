@@ -1,0 +1,20 @@
+# STATUS — NBPOLAR-S11-SHG-TAIL-NATURE
+packet: NBPOLAR-S11-SHG-TAIL-NATURE
+branch: codex/nbpolar-phase0
+tier: X  # descriptive/non-claim, decoder-free (AGENTS.md §10.4)
+probe_root: workspace/probes/nbpolar_s11_shg_tail_nature/
+venv: /home/karel_303/.venvs/timetagger/bin/python
+probe_authorized: true   # user authorization pasted verbatim 2026-09-21 (Kai); Tier-X descriptive/non-claim
+decoder_contact: false        # always false under this packet
+next_gate: S11_OPERATOR_DISPATCHED
+counters: {probe_runs: 1, sc_calls_on_protected: 0, reruns: 0}
+ids:
+  S11-P_prereg: pass
+  S11-A_anchor: pass-exact-1005/200192  # corrected range 1056-1837 per main-thread decision
+  S11-B_wgrid: pass
+  S11-C_offset_scan: pass
+  S11-D_far_baseline: pass
+  S11-E_clustering: pass
+  S11-R_results: pass
+artifacts: [workspace/probes/nbpolar_s11_shg_tail_nature/prereg.md, workspace/probes/nbpolar_s11_shg_tail_nature/body.py, workspace/probes/nbpolar_s11_shg_tail_nature/results.json]
+result: {id: null, summary: null, decision_needed: null}
