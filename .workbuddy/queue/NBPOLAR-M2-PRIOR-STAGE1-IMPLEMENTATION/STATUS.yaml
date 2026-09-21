@@ -3,18 +3,30 @@ packet: NBPOLAR-M2-PRIOR-STAGE1-IMPLEMENTATION
 branch: codex/nbpolar-phase0
 parent_packet: NBPOLAR-M2-PRIOR-REALDATA-VALIDATION  # implements its Stage 1 (§4 (a)-(e)) only
 change: openspec/changes/nbpolar-prior-rebaseline  # T2/T3/T4 at Stage-1 scope; T1/T5-T8 OUT
-implementation_authorized: false
-execution_authorized: false
-next_gate: STAGE1_IMPLEMENTATION_PENDING_AUTHORIZATION
+implementation_authorized: true   # user authorization pasted verbatim 2026-09-21 (Stage 1 only)
+execution_authorized: false       # no data/decoder execution under this packet
+next_gate: STAGE2_G1_FREEZE_PENDING_PREPARATION
 counters: {stage1_runs: 0, g1_runs: 0, g2_runs: 0, sc_calls_on_protected: 0, reruns: 0}
 stage1:
-  S1-1_adapter_mod_oracle: pending
-  S1-2_m0_switch_bitexact: pending
-  S1-3_metric_contract: pending
-  S1-4_frozen_untouched_noimport: pending
-  S1-5_resplit_replay_synthetic: pending
-  S1-6_cal_note_inventory: pending
-  S1-7_runner_freezeconfig_contract: pending
-  S1-8_focused_suite_green: pending
-artifacts: []
-result: {id: null, summary: null, decision_needed: null}
+  S1-1_adapter_mod_oracle: pass    # T1 oracle ≤1e-12 both MODs; T3 wrap-cell toggle + exact-int fit attribution (review-confirmed)
+  S1-2_m0_switch_bitexact: pass    # T2 M0 diff == 0.0 incl. zero-cell + empty-column fixture; M0 ignores MOD
+  S1-3_metric_contract: pass       # T4–T8 metric contract, decoder-free loopback
+  S1-4_frozen_untouched_noimport: pass  # T9 frozen-untouched (git diff --stat empty) + T10 no-import grep+AST
+  S1-5_resplit_replay_synthetic: pass   # T11 K replay exact at k_total ∈ {0,5,31,32}; select_empirical_split imported; H-proportional absent
+  S1-6_cal_note_inventory: pass    # SECURITY_MODEL.md +39 lines, Spec 6 five statements + 0-bit skeleton
+  S1-7_runner_freezeconfig_contract: pass  # T12a–j refusal demos; --selfcheck 12/12 PASS
+  S1-8_focused_suite_green: pass   # 21 passed, 0 failed, ~8 s (budget 300 s)
+artifacts:
+  - comparison_bench/src/comparison_bench/formal_ir/prior_m2.py (NEW)
+  - comparison_bench/tests/test_nbpolar_prior_m2.py (NEW)
+  - scripts/m2_prior_validation.py (skeleton → Spec 5 contract)
+  - docs/SECURITY_MODEL.md (+39 lines, CAL/prior accounting note)
+  - REVIEW.md (independent focused review, verdict PASS_WITH_COMMENTS, zero blocking)
+  - MAIN_THREAD_ACCEPTANCE.md (label NBPOLAR_M2_PRIOR_STAGE1_IMPLEMENTATION_COMPLETE_ACCEPTED)
+result:
+  id: NBPOLAR_M2_PRIOR_STAGE1_IMPLEMENTATION_COMPLETE_ACCEPTED
+  summary: Stage-1 decoder-free surface complete and accepted; M2 remains CANDIDATE; no freeze values, no K decision, no claims.
+  decision_needed: null
+carried_nonblocking:
+  - rename selfcheck fn t_stubs_raise_not_implemented → t_stage_bodies_exit3 (cosmetic)
+  - note _out_root_refusal forbidden-tree guard as additive to Spec-5 workspace confinement

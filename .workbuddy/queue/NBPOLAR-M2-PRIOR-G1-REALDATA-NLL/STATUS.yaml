@@ -1,0 +1,38 @@
+# STATUS — NBPOLAR-M2-PRIOR-G1-REALDATA-NLL
+packet: NBPOLAR-M2-PRIOR-G1-REALDATA-NLL
+branch: codex/nbpolar-phase0
+parent_packet: NBPOLAR-M2-PRIOR-REALDATA-VALIDATION  # implements its §5 only; §§6-8 OUT
+freeze: NBPOLAR-M2-PRIOR-REALDATA-VALIDATION/g1_freeze.md  # G1_FREEZE_REVIEW_PASS_PENDING_AUTHORIZATION (T5 PASS after one revise cycle)
+change: openspec/changes/nbpolar-prior-rebaseline  # T5 at G1 scope; T6/T7/T8 OUT
+venv: /home/karel_303/.venvs/timetagger/bin/python
+phase0_phaseA_authorized: true   # user authorization pasted verbatim 2026-09-21 (kai)
+phaseB_authorized: true          # gated: Phase B runs ONLY after main thread records closure+Phase-0 verification (freeze-review PASS per packet)
+execution_of_decoder: false       # G1 is decoder-free; always false under this packet
+counters: {phase0_runs: 1, closure_runs: 2, g1_runs: 1, sc_calls_on_protected: 0, reruns: 0, phaseB_runs: 1}
+freeze_review: {state: pass_after_one_revise_cycle, reviewer: reviewer-go, record: FREEZE_REVIEW.md}
+closure_verification: {state: pass_with_comments, reviewer: reviewer-go, verdict: CLOSURE_PASS_WITH_COMMENTS, phaseB_unblocked: true, notes: "C1 per-venv test record (timetagger venv G1 15/15 + Stage-1 uncollectable-pandas; sibling venv 36/36); C2 freeze-config string glosses semantically identical; C3 T12i edit in untracked file; C4 csv mode noise; C5 closure exit-0 accepted on artifact consistency (reviewer .ttbin-forbidden)"}
+next_gate: MAIN_THREAD_ADJUDICATION_PENDING_FOCUS_VERIFICATION
+ids:
+  G1-0_phase0_tests: pass    # G1 file 15/15 (packet venv); Stage-1 21/21 + G1 15/15 = 36/36 (sibling venv, per-venv record per closure verification C1); sole packet-venv gap = pre-existing pandas absence
+  G1-A_closure: pass         # reproduction 5/5 exact; ledger 4256 >= 4190; five lists + disjointness all-zero; 19-key freeze-config; closure verification PASS_WITH_COMMENTS
+  G1-1_alignment: pass         # peak 50 / sigma 112.45189572400645 / to_bg 1366.27 ok; sweep PASS-with-note (frozen dual-rule pin); no inherited offsets
+  G1-2_pairing_delta: pass      # (N) W_P500 n=1269268 at derived offset; W_S200 readout n=1259992 no-switch; MOD LINEAR_ONLY; CHAR 200192 linear+circular profiles
+  G1-3_cal32_nll: pass          # CAL32 1024-1055 sacrificed; FIT32 triple q0 .7467/q+1 .2437/q-1 .00439; matched M0 same CAL; HELDOUT 143360 sym; NLL_M0 3.043859 / M2 1.093192
+  G1-4_h_gates: evaluated       # H_M0 0.730680 / H_M2 0.841180; dtail FAIL (phat 0.0050202, U 0.0052879 vs B 2.0e-4) => premise fails, NO G2; nll PASS (Δ 1.950667 vs 0.020)
+  remainder_101f_check: done    # NLL/H only, exempt, no gate: CAL VAL 2172-2203; pooled Δ 1.957900; per-seg 1.978823 / 2.024941 / 1.791009
+artifacts: [scripts/m2_prior_validation.py (G1 body + --closure-only),
+  comparison_bench/tests/test_nbpolar_m2_g1_body.py (15 tests),
+  workspace/m2_prior_validation/20260113_SHG_Type2PPLN_3s/{g1.json,cal_ids.json,run_log.md},
+  workspace/m2_prior_validation/20260113_SHG_Type2PPLN_3s/{g1_closure_reproduction.json,cal_ids_closure.json,run_log_closure.md},
+  workspace/m2_prior_validation/20260113_SHG_Type2PPLN_3s/delta_profiles.json,
+  workspace/m2_prior_validation/remainder_101f/{g1.json,cal_ids.json,run_log.md,remainder_driver.py},
+  .workbuddy/queue/NBPOLAR-M2-PRIOR-G1-REALDATA-NLL/g1_freeze_config.json (19 keys)]
+result:
+  id: NBPOLAR_M2_PRIOR_G1_COMPLETE_ADJUDICATED_BOUNDED_NEGATIVE
+  summary: >-
+    G1 executed once per freeze on SHG_1; delta-tail FAIL (phat 0.0050202, U 0.0052879 vs B_tail 2.0e-4)
+    => ±1 premise fails on this source, preregistered STOP, NO G2; NLL PASS (Delta 1.950667, matched-32f,
+    near-uninformative by design, never promotes M2). Remainder check pooled Delta 1.957900 (no gate).
+    M2 remains CANDIDATE, not validated. Route decision pending main-thread planning.
+  decision_needed: null
+adjudication: G1_ADJUDICATION.md
