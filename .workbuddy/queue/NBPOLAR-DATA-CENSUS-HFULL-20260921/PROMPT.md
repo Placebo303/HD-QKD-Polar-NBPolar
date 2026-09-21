@@ -27,9 +27,33 @@ Do NOT redesign. Do NOT guess. If the packet is ambiguous, STOP and report.
 `d=1024`, `bin_width_ps=200`, `period_ps=204800`, `pairing=nearest`,
 `rule=legacy_v1`, `frame_pairs=256`, `gate_ps=200`, `threshold_ps=40000`.
 Channels FIXED: logical A = hardware 1, B = hardware 5 (NOT searched).
-Delay gate: `|delay−peak|<50ps`, `sigma∈[50,150]`, gate=200, threshold=40000.
-Do NOT inherit frozen −50/+50/+50 delays or the `frames <702` skip from old
-sessions — each new acquisition gets its own searched delay and preregistered skip.
+Delay (R1 REWRITE 2026-09-21 — SUPERSEDES the old `|delay−peak|<50ps`,
+`sigma∈[50,150]` gate, which was calibrated for the 01-21 V25 sources and is
+inapplicable to new sources): ONE estimator invocation per acquisition with
+frozen scan params (`scan_range_ps=409600`, `bin_ps=100` — TASK_PACKET.md
+§1.2); acceptance is unit-independent — `status=="ok"` AND `peak_to_bg>=10`.
+FAIL ⇒ record `ALIGN_FAIL`, exclude that acquisition, continue — NO tuning, NO
+sigma widening, NO second scan range. Yield-vs-offset self-check: derived
+offset at/within one coarse step of the yield maximum (a strict-exact miss by
+a plateau margin is PASS-with-note, never tuned); beyond one step ⇒
+`ALIGN_INCONSISTENT` (record, STOP loudly). Do NOT inherit the frozen
+−50/+50/+50 delays (01-21 V25 sources only). Dual-rule census: pair under (W)
+wide legacy_v1 always + (N) nearest-unique grid {200,500,1000,2000,4000,40000};
+report σ vs frozen [50,150] per acquisition without relaxing the gate.
+Skip: default **702 frames for ALL acquisitions, labelled
+`INHERITED_NOT_DERIVED`** (known weakness — stated plainly, census is
+descriptive/non-claim because of it) + mandatory NON-DECISION companion
+diagnostic per acquisition (per-frame coincidence counts over the first ~1500
+frames; recorded, does not change the run). Do NOT invent per-acquisition
+skips mid-run.
+Length tiers (B0: after pairing, before any H work; thresholds in full frames):
+TIER_FULL ≥ 1982 frames → frozen sizing (skip 702, CAL 1024, VAL 256);
+TIER_REDUCED 1342–1981 frames → reduced sizing (skip 702, CAL 512, VAL 128,
+labelled `REDUCED_SIZING`, NOT directly comparable); TIER_INSUFFICIENT < 1342
+frames → record `INSUFFICIENT_LENGTH`, no H. No frame reuse, no padding, no
+partial-frame inclusion (trailing <256 remainder excluded, recorded).
+Channel 1001 (sync/marker) excluded by construction — pairing masks select only
+ch 1/5; all else lands in `other` against the 0.20 guard.
 PI RULING 2026-09-21: Type0 and SHG are only SOURCE differences, NO effect on IR —
 ALL 10 acquisitions are in scope. Ignore any `TYPE0_SOURCE_UNVERIFIED` exclusion
 language in the inventory doc/JSON.
@@ -103,11 +127,15 @@ UNVERIFIED — Stage A tests it empirically. Do not assume it.**
 ```
 
 Without `--authorized` the script exits non-zero by design — do not bypass.
-Per acquisition: PRIMARY-ONLY read (concatenation forbidden — Stage A
-confirmed autofollow) → channel verify → delay search+gate → pairing → framing →
-counts_ab → H1/H2/H_total + flat H_full → `census.json` with full provenance.
-Record B1–B9 per TASK_PACKET.md §6. A failed B1/B2 gate on one acquisition is
-recorded as FAIL for that acquisition — continue the rest, do not retry/tune.
+Per acquisition (ordered, no reorder/retry/tune): PRIMARY-ONLY read
+(concatenation forbidden — Stage A confirmed autofollow) → channel verify (B2)
+→ ONE frozen-params delay invocation + gate (B1) → pairing → B0 tier assignment
+(B0-1) → skip/CAL/VAL per tier (B8) → framing (B3) → counts_ab (B4) →
+H1/H2/H_total + flat H_full → `census.json` with full provenance (B9).
+Record B0-1, B1–B9 per TASK_PACKET.md §6. A failed B1/B2 gate or an
+INSUFFICIENT tier on one acquisition is recorded as that verdict for that
+acquisition — exclude it, continue the rest, do not retry/tune; report
+per-acquisition table PLUS `DELAY_GATE_FAIL` / `INSUFFICIENT_LENGTH` counts.
 A B6/B7 violation ⇒ STOP the entire run immediately.
 
 After the run, capture for the run log (`workspace/census_20260921/run_log.md`):
@@ -117,7 +145,7 @@ commands run, branch, `pip show Swabian-TimeTagger numpy` (or equivalent version
 
 ## 5. Return (exactly one of the two)
 
-1. **All-complete**: list of files created + per-ID (A0-1–A0-5, A1–A5, B1–B9) PASS/FAIL with
+1. **All-complete**: list of files created + per-ID (A0-1–A0-5, A1–A5, B0-1, B1–B9) PASS/FAIL with
    evidence paths + per-acquisition H table (H1/H2/H_total primary;
    H_full_flat secondary in a SEPARATE column) + run log path.
 2. **Concrete blocker**: failing command + exact error/traceback (or adverse
