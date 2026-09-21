@@ -681,3 +681,87 @@ verify no git process is running, remove `.git/index.lock`, and retry.
 **Prevention**: Tier-X failure artifacts: counters inside stop payloads may
 read zero — when run-far evidence is needed, record progress markers in the
 artifact itself.
+
+### `from TimeTagger import FileReader` fails on WSL (namespace moved in 2.20+)
+
+**Observed** (2026-09-21, WSL): `from TimeTagger import FileReader` raises
+`ModuleNotFoundError` / `ImportError` even though the `Swabian-TimeTagger`
+package (2.22.6) is installed in `/home/karel_303/.venvs/timetagger`.
+
+**Root cause**: since 2.20 the bare top-level `TimeTagger` name is gone; the
+module lives at `Swabian.TimeTagger`. The Linux wheel (`cp38-abi3`,
+`manylinux_2_28`) additionally needs glibc ≥ 2.28 + numpy ≥ 1.23.
+
+**Fix**: use the working form
+
+```python
+from Swabian import TimeTagger as TT
+reader = TT.FileReader(path)
+```
+
+and, for repo code written against the old name, add the shim
+`sys.modules["TimeTagger"] = Swabian.TimeTagger` before those imports.
+`FileReader` is a pure offline parser — no hardware and no dongle required —
+so this unblocks all `.ttbin` reading in WSL.
+
+**Prevention**: never assume the bare `TimeTagger` top-level name; probe the
+installed namespace (`python -c "from Swabian import TimeTagger"`) before
+reporting the reader as unavailable.
+
+### Opening both a `.ttbin` primary and its `.1` segment double-counts every event
+
+**Observed** (2026-09-21, `20260112_Type2PPLN_3s`): opening either the 8,160-byte
+primary or the 16.9 MB `.1` file yields the identical 3,836,088 events
+(identical channel histograms and timestamp spans); reading both and
+concatenating gives 7,672,176 = exact 2×.
+
+**Root cause**: `FileReader` auto-follows `.1` continuation segments, so the
+`.1` file is not a second independent acquisition — each primary here is a
+small header/index whose bulk lives in the `.1` sibling.
+
+**Fix**: open exactly one path per acquisition (either one works). Existing
+repo code `scripts/v65ar2_pipeline.py:154-156` takes
+`sorted(glob("*.ttbin"))[0]`, which happens to be safe here; never add an
+explicit primary+`.1` concatenation.
+
+**Prevention**: when a new `.ttbin` intake shows tiny primaries with large
+`.1` siblings, verify event-count identity (primary vs `.1` vs both) before
+wiring any pairing/pipeline input.
+
+### Nonparametric empirical prior prices sparse rare cells at the 1e-15 floor (M0-floor failure mode)
+
+**Observed** (2026-09-21, S9 Tier-X synthetic probe
+`workspace/probes/nbpolar_s9_decoder_prior_relevance/`, N=32768, GF32×GF32
+F03, frozen P16, matched K1=319/K2=6492, 16 shared model-sampled EVAL
+blocks): arm A with the incumbent M0 prior (`counts_ab` raw-count MLE +
+1e-15 floor + per-column renorm) decoded **0/16** (all `verify_failed`,
+`undetected` 0), while arm B with the M2 ±1 parametric prior on the SAME
+16 blocks and SAME frozen construction decoded **11/16** (paired: B-only
+11, A-only 0, neither 5). Re-deriving the construction under M2 (arm C,
+13/16) adds nothing outside the overlapping CIs.
+
+**Root cause**: TRAIN gives 262144/1024 = ~256 samples per B-column while
+the ground-truth −1 rate is 0.00136, so ~70% of M0 columns
+(e^−0.349 ≈ 0.705) see ZERO −1 events. The 1e-15 floor, divided by the
+~256 column total at per-column renorm, prices those cells at ~4e-18,
+versus the pooled ±1 fit's 0.00147. Each EVAL block holds ~45 true −1
+deltas (32768 × 0.00136), each costing M0
+log2(0.00147/4e-18) ≈ 48 bits of spurious LLR penalty — enough to kill
+the SC path while failing honestly (`verify_failed`, never `undetected`).
+S8 confirms the fit side independently: M0 held-out NLL 0.8637/0.8788 vs
+M1/M2/M3 ≈ 0.8272/0.8345 (split-A fit / split-B score, seed 20260920).
+
+**Fix**: lift the floor or, better, replace the per-column raw MLE with a
+pooled ±1 parametric prior (S8 M1: 2 global params; M2: 2 params/session;
+1% H-accuracy CAL drops from 1024 frames to ~2–8 frames). Keep the frozen
+construction/orders (arm B, not arm C) — the minimal change. Do NOT read
+arm A's 0/16 as proof no nonparametric prior can work; it is specific to
+raw-MLE-plus-floor on sparse rare cells.
+
+**Prevention**: before freezing any empirical prior, check the
+rarest-cell expected count per column (column samples × rare-event rate);
+if it is < 1, a raw-count table with a fixed floor will price most rare
+cells at floor÷column-total — use a pooled/parametric form or a lifted
+floor, and confirm with a held-out NLL split (S8 convention) before any
+decoder run. Descriptive synthetic scope only — real-data validation
+still required (decision-log 2026-09-21 prior-form entry, caveats (a)–(f)).

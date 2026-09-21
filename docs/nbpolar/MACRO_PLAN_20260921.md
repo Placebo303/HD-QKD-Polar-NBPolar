@@ -121,11 +121,21 @@ Type-II-labeled：**6 acq / 220.5 MiB**（`20260112_Type2PPLN_3s` 16.1 MiB；
   **S5 bounded search diagnostic ✅已完成**；
   **S6 地板抬升筛选（FLOOR_1e-6 / 1e-9 / 1e-15 × 1p5M/2M，held-out split seed 20260920）✅已完成
   （Tier-X、non-claim；见 §8）**；
+  **S8 参数先验形式（M0 非参数 vs M1/M2/M3 ±1 参数 vs M4 逐列，held-out NLL + CAL 网格）✅已完成
+  （Tier-X、non-claim；见 §9）**；
+  **S9 先验-译码器相关性（N=32768 合成信道三臂解码 A 0/16 vs B 11/16 vs C 13/16，paired design）
+  ✅已完成（Tier-X、non-claim、synthetic-only；见 §9）**；
+  **S10 Type0 窗口细化（grid {200,…,500}、offset −50，28 格全 INSUFFICIENT、无 H 发射）
+  ✅已完成（Tier-X、non-claim；见 §9——"1.5M/2M 任何尺寸不可辩护"更正为仅窗口可用性层面的 1.5M 例外）**；
   下一个零数据项：**中间地板 probe（FLOOR_1e-7 / 1e-8）**，映射尖峰消失与 H1 膨胀之间是否存在 knee
  （§8 动机）。闸门：只选一个胜出方向进入 Stage 2，不允许多头并进。
-- **Stage 2 单因子执行**：**首选先验/地板/支撑线**（唯一有实证支持的：7/14 vs 0/14）；
+ **2026-09-21 修订：先验形式问题现为 Stage 1 首要假设（leading hypothesis）**—— S8/S9 共同指向
+ M0 地板对稀疏 rare cell 的误定价（见 §9 F1–F2）；中间地板 probe 仍可跑，但不再是闸门唯一的候选项。
+- **Stage 2 单因子执行**：**首选先验/地板/支撑线**（唯一有实证支持的：7/14 vs 0/14，现由 S9 合成证据加强为“先验形式是收敛根因”—— M2 ±1 先验在冻结 P16 构造下落点 11/16 vs M0 0/16 paired）；
   次选 MFD/Gray 标号臂；**不推荐** split-rebalance（已被 P19 l2_plus 间接证伪）与 C-P2（见 §6）。
   表示转向仅当 S3+S5+S6 共同指向。
+ **2026-09-21 修订：下一个真实数据 packet 应优先检验 M2 先验**（冻结 K1=319/K2=6492、
+ 已接受 block 先行，见 §9 F6）—— 在真实数据验证确认 S9 方向之前，不得把 S9 读作 FER/效率证据。
   Caveat（§8 方法学警告）：当前尖峰统计**不能**区分任何 LLR 跨度 < 20 bits 的规则
   （阈值 `median + 20 bits` 在跨度 < 20 时恒为零）—— 未来任何地板 probe 必须以 held-out NLL
   为主要读数，或采用跨度无关的尖峰定义。
@@ -233,3 +243,64 @@ Tradeoff（显式记录，不并成一个"优胜者"）：
 *本文件为宏观计划记录，不含执行授权、不含阈值判决、不含受保护数据。C-P2 与 Stage 2/3 的任何
 执行仍需独立的 freeze + 显式用户授权。*
 - 窄规则（N）H 普查：60 格中 32 个 FULL H（(N)-200：SHG 0.8173/0.8168，01-21 为 0.8215/0.7997/0.8313，对照冻结参考仅列数字不断言）；干净＋FULL＋无偏可用格存在（01-21 w≤2000十二格 ＋ SHG w=500/1000四格；SHG w=200 高斯覆盖 0.92 略偏）。
+
+---
+
+## §9 先验形式：本轮收敛结论与建议方向（2026-09-21，S8/S9/S10，Tier-X 描述性）
+
+本轮所有 probe 指向同一个根因：**非参数经验先验（`counts_ab` raw-count MLE + 1e-15 floor，
+即 incumbent P7 规则）对稀疏 rare cell 误定价**—— 不是码率、不是披露量、不是构造。
+完整记录见 `docs/decision-log.md` 同日"Prior form is the converging root cause"条目；证据在盘、
+gitignored（`workspace/probes/nbpolar_s8_parametric_prior/results.json`、
+`workspace/probes/nbpolar_s9_decoder_prior_relevance/results.json`、
+`workspace/probes/nbpolar_s10_window_refine/results.json`）。
+
+- **F1 — S9：±1 参数先验在表格先验全败处解码（合成、描述性）**：N=32768、GF32×GF32 F03、
+  冻结 P16 构造、匹配 K1=319/K2=6492、16 个共享 EVAL block、64-bit Toeplitz tag、模型采样合成、
+  零真实数据。A（M0 表格 + 冻结 P16）**0/16**，CI (0.000, 0.194)；B（M2 ±1 参数 + 冻结 P16）
+  **11/16**，CI (0.444, 0.858)；C（M2 ±1 参数 + M2 重推导构造）13/16，CI (0.570, 0.934)。
+  Paired：A-vs-B 为 B-only 11 / A-only 0 / 皆非 5；B-vs-C 为 C-only 2 / B-only 0（CI 重叠 ⇒
+  为安全无需重推导构造）。**机制**：TRAIN 每列 ~256 样本；真值 −1 率 0.00136 ⇒ ~70% 的 M0 列
+  零 −1 事件，1e-15 floor 经列归一后定价 ~4e-18，而 M2  pooled 拟合定价 0.00147；
+  每 EVAL block ~45 个真 −1 delta，每个令 M0 付出约 48 bits 伪罚。预算：N=32768 下每次 SC
+  调用约 6 s；三臂运行峰值约 0.96 GB。**Caveat（逐字）**：synthetic only；16 blocks（wide CIs）；
+  ground truth was pro-M2 by design（exact ±1 support）；arm A 0/16 特指稀疏 rare cell 上的
+  raw-MLE-plus-floor。Descriptive only—— no FER/efficiency/qualification claim。
+- **F2 — S8：±1 先验在拟合、数据量、账目三项同时更优**：held-out NLL（split-A 拟合 /
+  split-B 评分，seed 20260920）：M0 0.8637/0.8788（2436/2635 参数）；
+  **M1 pooled ±1（2 参数）0.8272/0.8345**；M2 按 session ±1 同值；M3 +边界上下文同值；
+  M4 逐 Bob 列 ±1（2048 参数）与 M0 逐比特相等。参数先验胜 incumbent 0.037–0.044 bits/symbol
+  （消灭死格 floor 尖峰）。1% H 精度最小 CAL：incumbent 1024 frames（0.1% 在网格上永不到）；
+  **M1 约 2–4 frames；M2 约 2–8 frames**。先验代价 vs 每 block 净密钥（4 bits/symbol）：
+  incumbent 牺牲 262144 symbols ≈ 8× block / 2× 四 block packet；
+  **M2 牺牲约 2,000–8,000 bits ≈ 0.015–0.06× block；reveal 约 20 bits ≈ 1.5e-4× block**。
+  M4 与 M0 同等昂贵—— 跳过。M1 ≈ M2（gap 约 1e-5 bits 量级，精确值 −4.55e-05 / −1.24e-06）；
+  若 delay −50 源进入 CAL 需重验。
+- **F3 — 先验估计账目缺口确认，Release 呈现可复制模式**：`docs/SECURITY_MODEL.md` 对
+  CAL/prior/calibration 零提及（大小写敏感 grep 零命中）；采用的 λ_total 契约（Müller eq 11/13）
+  无先验估计项。冻结 Release 基线无此问题，因其无此对象：译码器只收**参数化 per-bit-plane BSC**
+  （1 标量，LLR `±log((1−p)/p)`）；唯一 q×q 条件表是 MAP-sanity 诊断（译码器永不加载）；
+  信道参数在密钥数据上 in-sample 估计（无 CAL 对象）；主 claim 限域
+  `public_ec_only_not_secure` + `composable_security_claim_flag=0` + 穷尽 fail-closed 公开消息清单。
+  **Release 的单参数每平面信道即参数先验模式。**可复制模式：(1) 译码器只收参数化信道；
+  (2) in-sample 估计（Release，须标注复用偏差并限域）或保留小 CAL 并计费——
+  NB-Polar 取后者（约 8–32 frames：代价可忽略且避开复用偏差）；(3) 穷尽公开消息清单 + fail-closed；
+  (4) 限域声明。
+- **F4 — S10：Type0 窗口细化（更正一处过 claim）**：grid {200,…,500}、offset −50。
+  **500K 自 w=250 起可用；1M 自 w=300 起可用；1.5M 在 w=350–400 有可用窄缝**
+ （coverage 0.953–0.977，accidental 0.041–0.047）；**2M 无可用窗口**
+ （w=450 coverage 0.946 而 accidental 已 0.075；w=500 coverage 0.968 但 accidental 0.082）。
+  **此前"1.5M/2M 任何尺寸不可救"对 1.5M 被推翻**—— 其所需窗口（1.96σ = 345）恰落入旧网格空隙。
+  但 28 格全 tier-INSUFFICIENT（最优 558 frames vs 1342 REDUCED 门限），故无 H 发射——
+  有效结果，非失败。注意 S10 "usable"（coverage+accidental）与 minimal-sizing "defensible"
+  （另需 SE ≤ 1.5%）是不同门限，无矛盾。
+- **F5 — 三个 `20260121_Type2_*` 采集即 V25 三源（确认）**：
+  `docs/hd-qkd-ir-roadmap-review-20260823.md:21` "V25 | 三源 `type2_2026-01-21` 经验信道"；
+  时间戳 184040 / 183806 / 183657 与三个目录精确匹配。其普查 H ≈ 0.80 与冻结参考重合不是独立佐证——
+  是同一数据经另一估计路径。**真正新增可用数据是 SHG 对（H 0.817，coverage 0.92）加上 ±1 先验解锁的部分。**
+- **F6 — 战略后果**：若采用 ±1 先验，CAL 需求自 1024 frames 降至约 8–32 frames。
+  这一改动同时溶解：Type0 tier 不足（S10）、先验估计算目缺口（F3）、以及驱动整个 10 采集入库的
+  数据稀缺约束。记为建议方向，显式标注 **pending real-data validation**（F1 仅合成）。
+
+**对 §5 的后果**：先验形式问题现为 Stage 1 首要假设；下一个真实数据 packet 应优先检验 M2 先验
+（冻结 K1=319/K2=6492、已接受 block 先行），S9 在真实数据验证前不得读作 FER/效率证据。
