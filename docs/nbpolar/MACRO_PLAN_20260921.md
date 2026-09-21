@@ -89,6 +89,7 @@ Type-II-labeled：**6 acq / 220.5 MiB**（`20260112_Type2PPLN_3s` 16.1 MiB；
 影响：此前的绑定约束（never-decoded 余量 = 1.5M VAL 2172-2212、1.5M HOLD 2725-2766、
 2M VAL 2827-2915、2M HOLD 3556-3644 = 261 frames / 66,816 pairs ≈ **2 blocks of 128 frames**）
 **解除**。真实数据不再需要为方法开发而定量配给；它可以重新作为 confirmation sample。
+普查补充（2026-09-21）：Type0 四个采集在继承 tier 下无 H，PI 质疑该 tier 的统计必要性；最小-CAL 描述性复算（skip-0，CAL128/256/512，preregistered）救回 3 个 cell（500K w500/w1000 CAL128 H≈0.86/0.98；1M w500 CAL256 H≈0.94），1.5M/2M 因峰宽-纯度冲突在任何尺寸下均不可辩护，最小尺寸 H 仅为描述性、不可与冻结三源比较（见决策日志同日条目）。
 
 ---
 
