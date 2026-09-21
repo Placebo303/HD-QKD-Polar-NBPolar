@@ -9,7 +9,7 @@ never the baseline. No production code exists yet for this packet — you write 
 - Repo: `/mnt/d/Code/HD-QKD_Polar_Comparison-nbpolar`
 - Branch: `codex/nbpolar-phase0` — verify `cat .git/HEAD` shows
   `ref: refs/heads/codex/nbpolar-phase0`. Else STOP.
-- Python: `.venv/bin/python` for EVERYTHING in Stage 1 (synthetic only; never import TimeTagger).
+- Python: `/mnt/d/Code/HD-QKD_Polar_Comparison/.venv/bin/python` for EVERYTHING in Stage 1 (sibling venv — THIS checkout has no `.venv`; synthetic only; never import TimeTagger).
 - Packet: `.workbuddy/queue/NBPOLAR-M2-PRIOR-STAGE1-IMPLEMENTATION/TASK_PACKET.md`
   (authoritative; overrides this prompt on conflict).
 - NEVER modify `sc.py`/`algebra.py`/`transform.py` or anything under `src/`/`experiments/`/`tools/`.
@@ -37,13 +37,17 @@ never the baseline. No production code exists yet for this packet — you write 
    ⇒ exit 2 listing keys) + `--stage-g1-nll`/`--stage-g2-decode` + `--authorized`
    (`action="store_true"`, absent ⇒ exit 2 reading nothing) + flag cross-check + 319/6492 pin +
    `workspace/`-confined `--out-root`; post-validation bodies exit 3 with zero data contact.
+   **Skeleton state**: `scripts/m2_prior_validation.py` is committed as a SKELETON whose stage bodies currently raise
+   `NotImplementedError` (verified pre-implementation state — never a silent success). Stage 1 replaces those bodies
+   with the exit-3 `STAGE_BODY_PENDING_FREEZE` behaviour above; the guards, `--freeze-config` loading,
+   `--authorized` enforcement, out-root refusal and import purity are already wired and must be PRESERVED, not rewritten.
 
 ## 2. Verify (exact commands)
 
 ```
 cd /mnt/d/Code/HD-QKD_Polar_Comparison-nbpolar
-.venv/bin/python -m pytest comparison_bench/tests/test_nbpolar_prior_m2.py -p no:cacheprovider -q
-.venv/bin/python scripts/m2_prior_validation.py --help
+/mnt/d/Code/HD-QKD_Polar_Comparison/.venv/bin/python -m pytest comparison_bench/tests/test_nbpolar_prior_m2.py -p no:cacheprovider -q
+/mnt/d/Code/HD-QKD_Polar_Comparison/.venv/bin/python scripts/m2_prior_validation.py --help
 git diff --stat -- comparison_bench/src/comparison_bench/formal_ir/nbpolar/sc.py comparison_bench/src/comparison_bench/formal_ir/nbpolar/algebra.py comparison_bench/src/comparison_bench/formal_ir/nbpolar/transform.py
 grep -rE "from.*nbpolar|import.*nbpolar|from \. |import \." comparison_bench/src/comparison_bench/formal_ir/prior_m2.py
 ```

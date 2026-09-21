@@ -153,7 +153,7 @@ recomputes K1/K2). S1-6 CAL note + skeleton: doc diff + main-thread doc review. 
 contract (T12): `--help` + refusal demos (exit codes + stderr). S1-8 T0 green: full focused
 pytest log, zero failures. Evidence paths reported per ID; "still incomplete" is not a report.
 
-## Exact Stage-1 commands (repo `.venv`; `--authorized` NOT needed — no data, no decoder)
+## Exact Stage-1 commands (sibling venv `/mnt/d/Code/HD-QKD_Polar_Comparison/.venv/bin/python` — THIS checkout has no `.venv`; `--authorized` NOT needed — no data, no decoder)
 
 ```
 cd /mnt/d/Code/HD-QKD_Polar_Comparison-nbpolar
