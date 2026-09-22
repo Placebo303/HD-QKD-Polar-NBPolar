@@ -62,9 +62,25 @@ as FAIL record).
 
 - [ ] M2 adapter matches the independent oracle (absolute max-error per
   frozen tolerances); truth-leak sentinels hold; `sc.py` untouched.
+  Evidence: `.workbuddy/queue/NBPOLAR-M2-PRIOR-STAGE1-IMPLEMENTATION/REVIEW.md`
+  verdict "pass with comments" (§Verdict); `comparison_bench/src/comparison_bench/formal_ir/prior_m2.py`
+  + `comparison_bench/tests/test_nbpolar_prior_m2.py`; `git diff --stat -- .../nbpolar/sc.py` empty.
 - [ ] CAL=32 sacrifice, K re-split, and inventory are recomputable from
   frozen artifacts; no frozen number moved post-hoc.
+  Evidence: G1 `workspace/m2_prior_validation/20260113_SHG_Type2PPLN_3s/g1.json` +
+  `cal_ids.json`; `.workbuddy/queue/NBPOLAR-M2-PRIOR-K-RESPLIT-D4/D4_RECORD.md`
+  (`NBPOLAR_M2_PRIOR_K_RESPLIT_D4_COMPLETE_REPORT_ONLY`, planning input, adopts neither branch);
+  G1R2 `.workbuddy/queue/NBPOLAR-M2-PRIOR-G1R2-W200-CIRCULAR/g1r2_freeze_config.json`;
+  G4 `.workbuddy/queue/NBPOLAR-M2-PRIOR-G4-INVENTORY/g4_inventory.json` (`row_count` 107;
+  Tier-Y COMPLETE entry `eb119149` in `.workbuddy/memory/2026-09-22.md`).
 - [ ] G1/G2 reviews recorded; no FER/efficiency/qualification claim made.
+  Evidence (narrowed scope): G1 reviews on-disk
+  (`.workbuddy/queue/NBPOLAR-M2-PRIOR-G1-REALDATA-NLL/FREEZE_REVIEW.md` +
+  `G1_ADJUDICATION.md`); G1R2 reviews on-disk
+  (`.workbuddy/queue/NBPOLAR-M2-PRIOR-G1R2-W200-CIRCULAR/DELTA_REVIEW.md` +
+  `G1R2_ADJUDICATION.md`); G2 reviews STATUS-inline only — no on-disk PRE_* files
+  in `.workbuddy/queue/NBPOLAR-M2-PRIOR-G2-DECODE/` (see `STATUS.yaml:13`
+  `pre_execute_review` inline + `:32-40` ids block, and `G2_ADJUDICATION.md`); deviation disclosed.
 - [x] Memory triage completed at close.
   2026-09-22: G2 SUCCESS entry appended to `AGENT_PROJECT_MEMORY.md`
   (headline + 5 bullets: verdict / contract / status-boundaries /

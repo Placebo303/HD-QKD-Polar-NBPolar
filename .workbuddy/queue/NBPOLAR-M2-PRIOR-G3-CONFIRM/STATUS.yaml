@@ -48,6 +48,7 @@ ids:
   G3-3_measurement_disclosure: pass
   G3-4_no_rerun_gate: pass
   R1_preresult: pass  # chat Pre-RESULT ses_f37783dcbffe2wXwtggh6xHUIx 17:52:15–18:00:12 PASS_WITH_COMMENTS MAY PROCEED + on-disk PRE_RESULT_REVIEW.md (reviewer-go ses_f376e04ceffenAuTYaqlppawX6, PASS_WITH_COMMENTS, 8/8)
+  # plan-only note per R-B3 2026-09-22: on-disk file worktree-only, not relied on by this change
   R2_adjudication: pass  # main thread ses_f3c5c9197ffea0q9X14Vu9v4sL 18:01; independently verified and re-affirmed by main thread ses_f3ffe4fc3ffdRTnxpL95qLBnVo after transcript-level review of all three review sessions; commit 3f5b374a overstatement corrected here
 artifacts:
   - scripts/m2_prior_validation.py
