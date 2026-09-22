@@ -24,6 +24,30 @@ Durable decisions and rejected alternatives for the HD-QKD_Polar_Comparison-nbpo
 
 ## Decisions
 
+## 2026-09-22 NB-Polar M2-prior G3 Tier-Y one-shot three-arm confirmation decode SUCCESS (`NBPOLAR_M2_PRIOR_G3_SUCCESS`)
+
+**Decision**: Adjudicate the single G3 Tier-Y execution on SHG `_2` (w=200/CIRCULAR, independent session) as `NBPOLAR_M2_PRIOR_G3_SUCCESS`. B (M2 CANDIDATE, matched 32f) **8/14** exact, Wilson 95% [0.3259026690, 0.7861949007] p̂=0.5714285714; A2 (M0 control, matched 32f) 0/14, Wilson [0.0, 0.2153170119]; strict non-overlap (0.3259 > 0.2153). A1 (M0 incumbent, 1024f) 0/14 all `verify_failed` — descriptive, NO gate.
+
+**Context**: Frozen contract INHERITED, never re-derived: K1=319/K2=6492, P16 digest `055c906472dd2a09761761b18aceb5f31d8b5db19bac658721f8dc49c3faea1b`, W_P=200/W_S=500/CIRCULAR/skip=702, acq `20260113_SHG_Type2PPLN_3s_2` ONLY, census repro σ = 114.43029692866367 bit-exact (center 50, ok), ledger 4289 (242 dropped), EVAL 2398–4189 = 14 blocks, segments all-disjoint. `undetected` 0/42 isolated; taxonomy {exact 8, verify_failed 34}; disclosure recount mismatch 0 (key 1,432,998 = 34,119×42; public 13,765,206 = 327,743×42; 42 tags; **tag_master 2026110101 G3-fresh**, distinct from G2's inherited 2026103001; EVAL_SEED 2026100101). One-shot: `g3_runs: 1`, `reruns: 0`, single closure→decode mtime sequence (16:59→17:00→17:50); budget wall **858.5 s ≤ 900**, RSS 1.13 GiB ≤ 2, 126 SC (3/block × 42) / 42 tags, `budget_aborted: false`. Gate chain: held authorization (kai 2026-09-22, precondition G2 SUCCESS) → Pre-EXECUTE PASS_WITH_COMMENTS → decode body + DELTA_PASS → one-shot → Pre-RESULT PASS_WITH_COMMENTS (publication/commit MAY proceed) → R2 main-thread adjudication. Counterfactual: had G2 failed, G3 was VOID and SHG `_2` untouched.
+
+**M2 status**: the packet's condition "M2 remains a CANDIDATE until G3 passes" is now satisfied on BOTH decode gates (G2 11/14, G3 8/14). M2 is the confirmed ±1 prior candidate for `nbpolar-prior-rebaseline`. Final rebaseline completion still requires **G4** (exhaustive public-message inventory, D6's last gate) + OpenSpec archive — G4 is NOT done.
+
+**NLL domain note** (constant-enforced per row): true-H NLL on polar-transformed `u1` (isolated-oracle view); cand-H NLL on untransformed `high_hat` (operational view) — labeled per row via `G3_NLL_DOMAINS`. `oracle_l2_exact` 0/42 across arms while operational hard-L2 discriminates (B-exact blocks 8/8) repeats the G2 domain note; gate unaffected; future NLL statements must cite the label.
+
+**Pre-RESULT non-blocking comments** (recorded in `G3_ADJUDICATION.md` §4, NO rerun): tag_master/EVAL_SEED not echoed in `g3_summary.json` (freshness via freeze+STATUS+runner constants+drift-refused test; recommend echoing in G4-era summaries); input-vs-closure freeze config 19 vs 21 keys is expected input→output (shared keys equal, NOT a mismatch); chat-dispatch venv typo present in NO repo file (operator used STATUS-mandated venv, non-material).
+
+**Process notes**: operator honestly reported the venv typo deviation; corrected command run once, RC=0. Main thread corrected `sc_calls_on_protected: 0 → 126` at R2 (operator left the pre-run value; durable status is main-thread owned) — a status correction, NOT a rerun.
+
+**Binding boundaries**: no FER-as-population / efficiency / qualification / promotion / composable net-key claim; **no cross-session superiority** reading of 11/14 vs 8/14 (different sessions — the correct claim is replication of DIRECTION, not comparability of magnitudes); no cross-contract comparison vs G1 (w=500/LINEAR bounded negative); q_rest=0 weak at 32f CAL (3/8192=3.66e-4) + no-misread rule; w=200 timing-truncated population (state in any future rate/efficiency/leakage sentence); far-offset accidental baseline structured not uniform; A1 0/14 both sessions = descriptive incumbent first measurement, not a benchmark claim.
+
+**Alternatives considered**:
+- Treat B 8/14 as reliability/FER/qualification evidence: rejected — bounded Tier-Y gate outcome only; M2 is a confirmed candidate, final rebaseline needs G4 + archive.
+- Read G2 11/14 vs G3 8/14 as a cross-session superiority/magnitude comparison: rejected — different sessions; replication of DIRECTION only.
+- Read A1 0/14 as a benchmark defeat of the incumbent: rejected — descriptive first measurement, no gate.
+- Treat the venv typo or the sc_calls counter correction as execution/rerun issues: rejected — corrected command run once, RC=0; the counter fix is a main-thread status correction, NOT a rerun.
+
+**Consequences**: Evidence in `.workbuddy/queue/NBPOLAR-M2-PRIOR-G3-CONFIRM/G3_ADJUDICATION.md` (+ `workspace/m2_prior_validation/20260113_SHG_Type2PPLN_3s_2_g3/`); next active decision = G4 packet preparation (requires user authorization); SHG `_2` EVAL consumed, RESERVE 99 untouched; SHG `_1` RESERVE 29 untouched.
+
 ## 2026-09-22 NB-Polar M2-prior G2 Tier-Y one-shot three-arm decode SUCCESS (`NBPOLAR_M2_PRIOR_G2_SUCCESS`)
 
 **Decision**: Adjudicate the single G2 Tier-Y execution on SHG `_1` (w=200/CIRCULAR) as `NBPOLAR_M2_PRIOR_G2_SUCCESS`. B (M2 CANDIDATE, matched 32f CAL) 11/14 exact, Wilson 95% [0.5241027623, 0.9242875166]; A2 (M0 control, matched 32f) 0/14, Wilson [0.0, 0.2153170119]; strict non-overlap (0.5241 > 0.2153). A1 (M0 incumbent, 1024f) 0/14 all `verify_failed` — descriptive, NO gate.

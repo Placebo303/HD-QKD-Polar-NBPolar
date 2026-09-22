@@ -7,7 +7,7 @@
 ## 如果只读三件事
 
 1. **leading-candidate 机制（非收敛根因）**：证据指向 M0 非参数先验的先验/地板处理（零 cell 得概率地板 1e-15；每个落地板的真 −1 delta 约 40.42 bits 伪罚；每 block ~44.7 个真 −1 中仅 ~30.4 落在 TRAIN 零 −1 列；S9 合成 B 11/16 vs A 0/16，描述性，见 §1）——但码率、构造、分配、时间相关均**未排除**；54.8σ 余量仅是理想模型下"无码率 binding 证据"，非证伪。
-2. **候选方向（非已采纳基线）**：M2 ±1 先验是 **CANDIDATE 且真实数据检验已出 bounded negative**——SHG `_1` 上 δ-tail 门 FAIL（p̂=0.0050202，U=0.0052879 vs B_tail=2.0e-4，~25× 超预算；±1 前提在新数据上不成立 ⇒ 预定 STOP，不进 G2；`G1_ADJUDICATION.md`）。注意精确口径：**未证伪** M0 地板误定价机制（matched-CAL NLL 差 ~1.95 在两总体可复现），**未证伪** M2 于所有源（冻结 sessions 尾部≈0，但 ladder 已耗尽）；S9 仍不得读作 FER/效率证据。后续已推进：S11 判定该 FAIL 主因是**配对污染**（w=200 CIRCULAR 尾部 = 0）⇒ G1R2（w=200/CIRCULAR）δ-tail PASS、NLL PASS ⇒ **G2 SUCCESS `NBPOLAR_M2_PRIOR_G2_SUCCESS`（B 11/14 vs A2 0/14 严格不重叠）**；G3 已解锁、待 dispatch。M2 仍 CANDIDATE（G3 通过前不变）。
+2. **候选方向（非已采纳基线）**：M2 ±1 先验是 **CANDIDATE 且真实数据检验已出 bounded negative**——SHG `_1` 上 δ-tail 门 FAIL（p̂=0.0050202，U=0.0052879 vs B_tail=2.0e-4，~25× 超预算；±1 前提在新数据上不成立 ⇒ 预定 STOP，不进 G2；`G1_ADJUDICATION.md`）。注意精确口径：**未证伪** M0 地板误定价机制（matched-CAL NLL 差 ~1.95 在两总体可复现），**未证伪** M2 于所有源（冻结 sessions 尾部≈0，但 ladder 已耗尽）；S9 仍不得读作 FER/效率证据。后续已推进：S11 判定该 FAIL 主因是**配对污染**（w=200 CIRCULAR 尾部 = 0）⇒ G1R2（w=200/CIRCULAR）δ-tail PASS、NLL PASS ⇒ **G2 SUCCESS `NBPOLAR_M2_PRIOR_G2_SUCCESS`（B 11/14 vs A2 0/14 严格不重叠）** ⇒ **G3 SUCCESS `NBPOLAR_M2_PRIOR_G3_SUCCESS`（SHG `_2` 独立 session：B 8/14 Wilson [0.3259,0.7862] vs A2 0/14 [0.0,0.2153] 严格不重叠；A1 0/14 描述性无门；undetected 0 隔离；recount 0；tag_master 2026110101 G3 新鲜；一次性 g3_runs 1 reruns 0，wall 858.5 s ≤ 900；126 SC/42 tag）**。M2 在**两个解码门上均已确认**（"CANDIDATE until G3 passes" 条件已满足）⇒ M2 为 `nbpolar-prior-rebaseline` 的**已确认 ±1 prior 候选**；**G4（穷尽公共消息清单）仍是 D6 最后一道门**，需自己的 packet + 用户授权（`G3_ADJUDICATION.md`）。绑定边界：11/14 vs 8/14 是**方向复制、非量级可比**（两个独立 session 各自过自己的 CI 门）；无 FER/效率/资格/composable key 声明；A1 两 session 均 0/14 = 描述性首次测量。
 3. **什么都不许动**：无真实数据执行授权；`results/`、`comparison_bench/outputs_comparison/` 禁止覆盖；SCL 锁定；C-P2 B4 未授权。
 
 ## §1 三栏结论（描述性除非另注）
@@ -28,6 +28,7 @@
 | 已检验（描述性，契约已换） | **G1R2（w=200/CIRCULAR）**：δ-tail **PASS**（p̂=0，U=1.4986e-5——**S11 推论，非 ±1 前提的新验证**）；NLL PASS（Δ=2.1392）；CAL32 三元组 q0/q+1/q−1/q_rest = 0.7562/0.2419/0.0018/**0**；H_M2=0.8168138 / H_M0=0.6910589。**不得跨契约作优劣比较**（两契约测的是不同窗口/口径群体） | `.workbuddy/queue/NBPOLAR-M2-PRIOR-G1R2-W200-CIRCULAR/G1R2_ADJUDICATION.md` |
 | 已检验（描述性） | SHG `_1` δ-mass：tail 0.50%（1005/200,192），**不满足** ≤1 前提；且低于均匀 accidental 预测（普查 w=500 accidental 1.44%）——尾部非纯偶然符合；冻结 sessions 32 帧 CAL q_rest=0.0（尾部≈0）——±1 前提源相关 | `G1_ADJUDICATION.md` §2；`delta_profiles.json` |
 | 已检验（bounded Tier-Y gate outcome，非 FER/效率证据） | **G2（w=200/CIRCULAR，SHG `_1` 三臂 one-shot）SUCCESS `NBPOLAR_M2_PRIOR_G2_SUCCESS`**：B（M2，matched 32f）**11/14** exact Wilson [0.5241027623, 0.9242875166] vs A2（M0，matched 32f）**0/14** Wilson [0.0, 0.2153170119]，严格不重叠；A1（M0 incumbent 1024f）0/14 描述性、无门。`undetected` 0/42 隔离；recount mismatch 0；`g2_runs: 1` / `sc_calls_on_protected: 126` / `reruns: 0`；wall 855.1 s / RSS 1.12 GiB。M2 仍 **CANDIDATE**（G3 通过前不变）；无跨契约优劣（vs G1 w=500/LINEAR bounded negative） | `.workbuddy/queue/NBPOLAR-M2-PRIOR-G2-DECODE/G2_ADJUDICATION.md` |
+| 已检验（bounded Tier-Y gate outcome，非 FER/效率证据） | **G3（w=200/CIRCULAR，SHG `_2` 独立 session 三臂 one-shot）SUCCESS `NBPOLAR_M2_PRIOR_G3_SUCCESS`**：B（M2，matched 32f）**8/14** exact Wilson [0.3259026690, 0.7861949007]（p̂=0.5714285714）vs A2（M0，matched 32f）**0/14** Wilson [0.0, 0.2153170119]，严格不重叠；A1（M0 incumbent 1024f）0/14 描述性、无门。`undetected` 0/42 隔离；taxonomy {exact 8, verify_failed 34}；recount mismatch 0（tag_master 2026110101 G3-fresh；EVAL_SEED 2026100101）；`g3_runs: 1` / `sc_calls_on_protected: 126` / `reruns: 0`；wall 858.5 s / RSS 1.13 GiB。M2 为两 decode 门确认的 **confirmed candidate**（G2 11/14 + G3 8/14）；11/14 vs 8/14 不得跨 session 比优劣（仅方向复现）；NLL 域标签按行常量强制（`G3_NLL_DOMAINS`）；G4 + OpenSpec archive 未完成 | `.workbuddy/queue/NBPOLAR-M2-PRIOR-G3-CONFIRM/G3_ADJUDICATION.md` |
 | 规划输入（report-only，不采纳） | **D4 K-RESPLIT `NBPOLAR_M2_PRIOR_K_RESPLIT_D4_COMPLETE_REPORT_ONLY`**：fixed-f=1.3 ⇒ K_total **6946**（+135 vs 冻结 6811；split 335/6611）；fixed-K：f(6811)=1.2747449 / f(6946)=1.2999641（deviation −3.59e-5，R5）/ f(7020)=1.3137879；冻结 selector 6811→(328,6483) / 7020→(346,6674)。合成 genie 32 calls，`sc_calls_on_protected: 0`。G2/G3 仍冻 319/6492；fixed-f vs fixed-K 为后续 preregistered 决策 | `.workbuddy/queue/NBPOLAR-M2-PRIOR-K-RESPLIT-D4/D4_RECORD.md` |
 | 待验证 | FER/reliability/efficiency at any operating point（全项目尚无 FER 阈值） | `MACRO_PLAN_20260921.md:§5 Stage 0` |
 
@@ -57,12 +58,40 @@
 
 ## §4 当前授权与预算状态
 
-- 授权中：**G3-CONFIRM**（G2 SUCCESS 后前提满足；kai 2026-09-22 授权已生效；G2 milestone commit `db5f5e0e` 已落地 ⇒ **Phase 0 + A 已 dispatch、执行中**——2026-09-22 16:57 起 operator 写入 G3 runner stage 与 `test_nbpolar_m2_g3_confirm.py`；decode（G3-2）前仍需 Pre-EXECUTE + 记录授权，SHG `_2` 仅经 Phase-A closure 作 decoder-free 接触）。G2 已裁决 `NBPOLAR_M2_PRIOR_G2_SUCCESS`（B 11/14 vs A2 0/14 严格不重叠；A1 0/14 描述性；M2 仍 CANDIDATE）。D4 已完成 `NBPOLAR_M2_PRIOR_K_RESPLIT_D4_COMPLETE_REPORT_ONLY`（两分支皆不采纳；G2/G3 仍冻 319/6492）。**G1** bounded negative；**G1R2** 描述性完成（δ-tail PASS 系 S11 推论）。
+- 授权状态：**G2 + G3 均已裁决完成**——G2 `NBPOLAR_M2_PRIOR_G2_SUCCESS`（B 11/14 vs A2 0/14 严格不重叠；A1 0/14 描述性）；**G3 `NBPOLAR_M2_PRIOR_G3_SUCCESS`**（SHG `_2` 独立 session 三臂 one-shot；B 8/14 vs A2 0/14 严格不重叠；A1 0/14 描述性；M2 为两门确认的 confirmed candidate）。D4 已完成 `NBPOLAR_M2_PRIOR_K_RESPLIT_D4_COMPLETE_REPORT_ONLY`（两分支皆不采纳；G2/G3 仍冻 319/6492）。**G1** bounded negative；**G1R2** 描述性完成（δ-tail PASS 系 S11 推论）。**下一门 = G4**（exhaustive public-message inventory，D6 的 last gate）——需自己的 packet + 用户授权，当前无任何 G4 授权；SHG `_2` EVAL 已消耗、RESERVE 99 untouched，SHG `_1` RESERVE 29 untouched。
 - 冻结 sessions 真实数据 ladder **已耗尽**：never-decoded 余量 101 frames，32-frame CAL 后剩 69 frames（<1 block）；验证须在 SHG 新采集上跑，并声明保留段做独立确认。
 - 冻结中：一切真实数据执行（无授权不读不跑）；`results/`、`comparison_bench/outputs_comparison/` 只加不覆；benchmark/result roots 写入；SCL（5-item conjunction 未满足，锁定）；任何 promotion/qualification/FER claim；C-P2 B4；表示转向。
 - 预算：route-B 2/6 used / 4 remaining（`MACRO_PLAN_20260921.md:§6`；1/6 after C-P1 RETIRE at `decision-log.md:5065`；2/6 after C-P2 freeze review at `:5079`）；Tier-X probes non-claim，ledger 按里程碑批量更新（`docs/nbpolar/PROBE_TIER.md`）；re-analysis queue 4/6（剩 Q5 + exhaustion-route decision）。
-- Pending PI decisions（2026-09-22 更新：G2 freeze+execute+adjudication 已完成，**route decision post-G1R2** 中 G2-freeze-准备子项已关闭；现 pending = G3-CONFIRM dispatch（milestone commit 后）+ 下列）：**route decision post-G1R2**（G2 freeze 数据包是否准备——一次性三臂译码 A1=M0@1024f incumbent / A2=M0@32f 对照 / B=M2@32f，SHG `_1`，14 blocks，冻结 K1=319/K2=6492 与 P16 构造）；K_total 选择（fixed-f vs fixed-K，D4 仍 DEFERRED，G1R2 的 H_M2 暗示 ≈6,946 vs 冻结 7,020，仅规划输入）；σ/`gate_ps=200` 不兼容；accidental-dominated H 可用性；queue 上限处的 exhaustion-route；Type0 source verification。（已决：G1 用 (N) W_P=500/W_S=200；**G1R2 改用 W_P=200 + MOD=CIRCULAR**——后者经 delta 评审，且其"无需改 runner"的原始断言被独立评审否证后已修正。）
-- Branch `codex/nbpolar-phase0`；本文件前 last commit `5f9ec273`。
+- Pending PI decisions（2026-09-22 更新：G2+G3 freeze+execute+adjudication 已完成，**route decision post-G1R2** 中 G2/G3 子项已关闭；现 pending = G4 packet 准备（需用户授权）+ 下列）：**route decision post-G1R2**（G2/G3 一次性三臂译码已完成——A1=M0@1024f incumbent / A2=M0@32f 对照 / B=M2@32f，SHG `_1`/`_2` 各 14 blocks，冻结 K1=319/K2=6492 与 P16 构造；G4 需自己的 packet + 用户授权）；K_total 选择（fixed-f vs fixed-K，D4 仍 DEFERRED，G1R2 的 H_M2 暗示 ≈6,946 vs 冻结 7,020，仅规划输入）；σ/`gate_ps=200` 不兼容；accidental-dominated H 可用性；queue 上限处的 exhaustion-route；Type0 source verification。（已决：G1 用 (N) W_P=500/W_S=200；**G1R2 改用 W_P=200 + MOD=CIRCULAR**——后者经 delta 评审，且其"无需改 runner"的原始断言被独立评审否证后已修正。）
+- Branch `codex/nbpolar-phase0`；本文件建立时的 last commit `5f9ec273`（provenance，**非**当前 HEAD——当前 HEAD 见 `git log -1`）。
+
+## §4.1 M2 promotion ladder（状态阶梯**定义**；本节不授予任何晋级）
+
+> 2026-09-22 主线裁定，源自 `docs/nbpolar/REAL_DATA_CORRECTION_ROADMAP_20260922.md` §5，并补入 G3 三态、失败分层口径与 G4。
+> **M2 当前 = `CANDIDATE`。** 本表只定义未来状态的进入条件，不改变任何当前状态，不构成授权。
+
+```text
+CANDIDATE
+  → (G3 预注册门 PASS)                                    VALIDATED_AT_FROZEN_CONTRACT
+  → (R2 门过：预注册 FER 口径 + 样本量达标)                 FER_MEASURED_AT_CONTRACT
+  → (R3 门过：verification-aware f_eff + 运行时/RSS 上界)   EFFICIENCY_ACCOUNTED
+  → (≥2 独立 session 复现 + 样本量 + G4 exhaustive
+     public-message inventory + 独立 Pre-RESULT 全过)       READY_FOR_QUALIFICATION
+任一 FAIL 或 INCONCLUSIVE：回 CANDIDATE 或 BOUNDED_NEGATIVE。禁止跳级；
+禁止用合成 S9 推级；禁止用跨契约（G1 w=500 vs G1R2/G2 w=200）优劣叙事推级。
+```
+
+**G3 裁决三态 → 状态串**（**decode 之前**写入 packet，避免裁决夜现编）：
+
+| 结果 | 状态串 |
+|---|---|
+| PASS —— Wilson-lower(B) > Wilson-upper(A2) | `NBPOLAR_M2_PRIOR_G3_SUCCESS` |
+| FAIL / INCONCLUSIVE / premise 层未过（执行干净） | `NBPOLAR_M2_PRIOR_G3_COMPLETE_ADJUDICATED_BOUNDED_NEGATIVE`，失败层写进**正文**，不另造标签 |
+| 执行事故（`resource_abort` / invalid-run） | **不产生**科学状态串；按 freeze 重冻规则，不改状态、不重跑不调参 |
+
+分层定义：**FAIL** = point(B) ≤ point(A2)；**INCONCLUSIVE** = 点估计占优但 Wilson CI 重叠，**或** EVAL < 14 完整块（COMPLETE-BLOCKS-ONLY ⇒ INSUFFICIENT）；**premise 层** = 继承的 `B_tail` / `Δ_min` 门未过。三者都只回 CANDIDATE，M2 不升不降。
+
+> 裁定说明（与路线图建议的两处差异）：(1) 负面标签沿用 G1 家族 `…_COMPLETE_ADJUDICATED_BOUNDED_NEGATIVE` 而非路线图的 `…_G3_BOUNDED_NEGATIVE`，以便与 `…_G1_COMPLETE_ADJUDICATED_BOUNDED_NEGATIVE` 同族 grep；(2) **不采纳** `…_PREMISE_FAIL` 独立标签——G1 的 δ-tail premise FAIL 本就折进 bounded-negative 标签，G3 保持同一约定，premise 层只在正文分层。
 
 ## §5 定位（R1/R2/R3 一句话）
 
@@ -84,4 +113,4 @@
 5. `docs/nbpolar/CRITICAL_PATH.md`，`ROADMAP.md`（串行顺序与 phase gates）
 6. `docs/nbpolar/PAPER_READ_20260921.md`，`LITERATURE_FIT_CHECK_20260921.md`（文献口径）
 7. `docs/decision-log.md` 2026-09-21 条目；`AGENT_PROJECT_MEMORY.md` 最新条目
-8. `.workbuddy/queue/NBPOLAR-M2-PRIOR-STAGE1-IMPLEMENTATION/`（**已接受** `NBPOLAR_M2_PRIOR_STAGE1_IMPLEMENTATION_COMPLETE_ACCEPTED`：`prior_m2.py` + T1–T12 测试 + Spec-5 runner + `SECURITY_MODEL.md` CAL note；独立评审 PASS_WITH_COMMENTS 零阻塞；decoder-free、合成 fixture、零数据接触）与 `.workbuddy/queue/NBPOLAR-M2-PRIOR-G1-REALDATA-NLL/`（**G1 已执行并裁决** `NBPOLAR_M2_PRIOR_G1_COMPLETE_ADJUDICATED_BOUNDED_NEGATIVE`：δ-tail FAIL / NLL PASS（近无信息量）；记录 `G1_ADJUDICATION.md`、`FREEZE_REVIEW.md`、`g1_freeze_config.json`；父包 `STATUS.yaml` `g1_outcome`）；并续 `NBPOLAR-S11-SHG-TAIL-NATURE/`（S11：尾部主因是配对污染，far-offset 基线非均匀）、`NBPOLAR-M2-PRIOR-G1R2-W200-CIRCULAR/`（G1R2 描述性 PASS，δ-tail PASS 系 S11 推论）、`NBPOLAR-M2-PRIOR-G2-DECODE/`（**G2 SUCCESS** `NBPOLAR_M2_PRIOR_G2_SUCCESS`）、`NBPOLAR-M2-PRIOR-K-RESPLIT-D4/`（D4 report-only，两分支皆不采纳）。下一步门：**G3 Phase 0 + A dispatch**（`NBPOLAR-M2-PRIOR-G3-CONFIRM/`；G2 SUCCESS 已解锁、授权生效；decode 前仍需 Pre-EXECUTE + 记录授权）。
+8. `.workbuddy/queue/NBPOLAR-M2-PRIOR-STAGE1-IMPLEMENTATION/`（**已接受** `NBPOLAR_M2_PRIOR_STAGE1_IMPLEMENTATION_COMPLETE_ACCEPTED`：`prior_m2.py` + T1–T12 测试 + Spec-5 runner + `SECURITY_MODEL.md` CAL note；独立评审 PASS_WITH_COMMENTS 零阻塞；decoder-free、合成 fixture、零数据接触）与 `.workbuddy/queue/NBPOLAR-M2-PRIOR-G1-REALDATA-NLL/`（**G1 已执行并裁决** `NBPOLAR_M2_PRIOR_G1_COMPLETE_ADJUDICATED_BOUNDED_NEGATIVE`：δ-tail FAIL / NLL PASS（近无信息量）；记录 `G1_ADJUDICATION.md`、`FREEZE_REVIEW.md`、`g1_freeze_config.json`；父包 `STATUS.yaml` `g1_outcome`）；并续 `NBPOLAR-S11-SHG-TAIL-NATURE/`（S11：尾部主因是配对污染，far-offset 基线非均匀）、`NBPOLAR-M2-PRIOR-G1R2-W200-CIRCULAR/`（G1R2 描述性 PASS，δ-tail PASS 系 S11 推论）、`NBPOLAR-M2-PRIOR-G2-DECODE/`（**G2 SUCCESS** `NBPOLAR_M2_PRIOR_G2_SUCCESS`）、`NBPOLAR-M2-PRIOR-K-RESPLIT-D4/`（D4 report-only，两分支皆不采纳）、`NBPOLAR-M2-PRIOR-G3-CONFIRM/`（**G3 SUCCESS** `NBPOLAR_M2_PRIOR_G3_SUCCESS`，SHG `_2` 独立 session 确认；`G3_ADJUDICATION.md`；Pre-EXECUTE/DELTA/Pre-RESULT 全 PASS；M2 两门确认）。下一步门：**G4 packet 准备**（穷尽公共消息清单，D6 最后一道门；需自己的 packet + 用户授权，未授权前不做任何 G4 工作）。

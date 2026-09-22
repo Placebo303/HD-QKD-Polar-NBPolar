@@ -50,4 +50,7 @@ independence) must appear in every output. No decision-log / memory / index upda
 
 To authorize, the main thread pastes this entire block with the line below completed:
 
-AUTHORIZED BY: <name> — <date> — g3_authorized: true (precondition: G2 adjudication ADOPTED M2) / execution_one_shot: true / decoder_modification: false
+AUTHORIZED BY: kai — 2026.09.22 — g3_authorized: true (precondition: G2 adjudication ADOPTED M2 — MET 2026-09-22 via NBPOLAR_M2_PRIOR_G2_SUCCESS) / execution_one_shot: true / decoder_modification: false
+# Audit note: this line was pasted verbatim by the user in the main-thread chat on 2026.09.22 while the packet's
+# precondition was still unmet, and was HELD (not dispatched, SHG `_2` untouched) until G2 adjudicated SUCCESS.
+# The hold + unlock record lives in STATUS.yaml (authorization_hold_note + precondition_status: MET).

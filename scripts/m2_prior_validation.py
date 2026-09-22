@@ -16,7 +16,11 @@ two-layer causal SC through the accepted chunked ``sc_decode``
 (chunk_rows=512) by importing and calling the frozen
 ``operational_f13``/P17 procedures (deferred production-only loader;
 tests pass an explicit fake chain and never enter it). M2 is a
-CANDIDATE, never the baseline.
+CANDIDATE, never the baseline. The G3 one-shot three-arm decode body
+(``--stage-g3-decode``) reuses the G2 machinery verbatim on SHG ``_2``
+per ``NBPOLAR-M2-PRIOR-G3-CONFIRM`` (stage-keyed to its own
+``g3_freeze_config.json``; G3 seeds; NLL domain labels + participation
+disclosure on every output).
 Science constants are window-keyed contracts: the G1 legacy contract at
 w=500 is preserved verbatim, and the G1R2 successor at w=200 (delta
 item 8, NBPOLAR-M2-PRIOR-G1R2-W200-CIRCULAR) reuses the same mechanics.
@@ -67,6 +71,12 @@ STAGE1_STATUS = (
 # user-facing messages so the literal appears once.
 FLAG_G1 = "--stage-g1-nll"
 FLAG_G2 = "--stage-g2-decode"
+# G3 Phase-A closure flag (NBPOLAR-M2-PRIOR-G3-CONFIRM, D6 gate G3).
+FLAG_G3 = "--stage-g3-closure"
+# G3 Phase-B one-shot three-arm decode flag (same packet; implemented
+# additively as run_stage_g3_decode after Pre-EXECUTE PASS + recorded
+# authorization, reusing the G2 decode machinery verbatim).
+FLAG_G3D = "--stage-g3-decode"
 
 # Frozen G2 one-shot K pair (packet §6): G2 decodes frozen K1=319/K2=6492
 # regardless; any re-split belongs to a separate later freeze.
@@ -2798,6 +2808,1037 @@ def run_stage_g2(
     return 0
 
 
+# ---------------------------------------------------------------------------
+# G3 constants + Phase-A closure (NBPOLAR-M2-PRIOR-G3-CONFIRM, D6 gate G3).
+#
+# Phase A is decoder-free closure on SHG `_2` — the first permitted contact
+# with that acquisition. NO decode, NO production SC call, NO tag invocation
+# exists on the closure path: run_stage_g3 takes NO decode chain, never
+# calls _load_g2_decoder_chain, and references no decoder entry point
+# (pinned by test + selfcheck AST checks). The Phase-B three-arm decode
+# (--stage-g3-decode) is implemented additively below as
+# run_stage_g3_decode (dispatched after Pre-EXECUTE PASS + recorded
+# authorization); it reuses the G2 decode machinery verbatim and the
+# closure above stays decoder-free.
+#
+# Routing is STAGE-KEYED like G2 (blocking-fix B3 pattern): only this
+# packet's own g3_freeze_config.json reaches the body; any other freeze
+# exits 3 STAGE_BODY_PENDING_FREEZE with zero data contact. The G3 stage
+# writes NO other packet dir (never G1/G1R2/G2) and NO out-root outside
+# workspace/m2_prior_validation/ (Stage-1 guards, unchanged).
+#
+# Reused verbatim from the G2 body (never rewritten): the frozen EVAL
+# layout (g2_eval_blocks: 2398-4189 = 14 x 128-frame blocks), the Wilson
+# gate machinery (wilson_interval/eval_g2_gate), the disclosure recount
+# (recount_g2_disclosure), segment/disjointness/reserve helpers, the
+# pairing/chunking primitives, and the inherited alignment method
+# (_align_frozen + _yield_sweep_selfcheck + _sweep_accept).
+# ---------------------------------------------------------------------------
+
+G3_PACKET = "NBPOLAR-M2-PRIOR-G3-CONFIRM"
+G3_PACKET_DIR = _REPO_ROOT / ".workbuddy" / "queue" / "NBPOLAR-M2-PRIOR-G3-CONFIRM"
+G3_CONFIG_NAME = "g3_freeze_config.json"
+G3_LABEL = "G3"
+G3_TARGET_ACQ = "20260113_SHG_Type2PPLN_3s_2"
+
+# G3 tag/seed (packet contract): TAG_MASTER = EVAL_SEED + 10000; fresh —
+# no collision with S9 2026092101/2026092117, P20 2026092000-2026092400,
+# G1 2026092201, G1R2/G2 2026093001/2026103001, SCL reserve 2026092517,
+# L2 reserve 2026092617.
+G3_EVAL_SEED = 2026100101
+G3_TAG_MASTER = 2026110101
+
+# Alignment reproduction target: the decoder-free 2026-09-21 dual-rule
+# census on SHG `_2`
+# (workspace/census_20260921/20260113_SHG_Type2PPLN_3s_2/dual_rule_census.json:
+# align peak_center 50 / sigma 114.43029692866367 / status ok / to_bg
+# 1385.5; (N) w=200: 1277938 pairs / 4991 pre-skip frames). The METHOD is
+# inherited (scan 409600 / bin 100, accept status==ok AND peak_to_bg>=10 +
+# yield-sweep self-check); the offset VALUE is derived, and the 5-tuple
+# below must reproduce bit-exact — mismatch => ALIGN_INCONSISTENT loud
+# STOP, never a method adjustment.
+G3_REPRO_GATE = {
+    "peak_center_ps": 50,
+    "peak_sigma_ps": 114.43029692866367,
+    "status": "ok",
+    "n_pairs": 1277938,
+    "n_frames": 4991,
+}
+
+# Participation disclosure (packet §"reservation + participation
+# disclosure"): REQUIRED verbatim in EVERY G3 output (closure JSON, log,
+# freeze config note, STATUS). G3 independence is decoder/model
+# independence, NOT no-prior-contact independence.
+G3_PARTICIPATION = (
+    "SHG `_2` is NOT untouched: the 2026-09-21 dual-rule census ran "
+    "decoder-free alignment (sigma 114.4 ps), a full pairing grid and "
+    "(N)-200 H_total=0.816770 on it, and its cells informed the W_P "
+    "recommendation. Never done on SHG `_2`: prior fitting, any decoder "
+    "run, or M2 model selection. G3 independence is decoder/model "
+    "independence, NOT no-prior-contact independence."
+)
+
+# Caveats carried into the G3 record: G2's (a)-(c) verbatim + (d) the
+# participation disclosure above.
+G3_CAVEATS = (
+    G2_CAVEATS
+    + " d) G3 is the FIRST decoder contact with SHG `_2`, and its "
+    "independence claim is decoder/model independence only (see "
+    "participation disclosure)."
+)
+
+
+def check_g3_config_route(config_path) -> str | None:
+    """None when ``--freeze-config`` routes to the G3 body, else the reason.
+
+    Stage-keyed (G2 B3 pattern), never window-only: the G3 closure body
+    executes ONLY for this packet's own freeze name
+    (``g3_freeze_config.json``) and never for a path at/under the G1,
+    G1R2, or G2 packet dirs. A non-None return means exit 3
+    ``STAGE_BODY_PENDING_FREEZE`` (this freeze carries no G3 body) with
+    zero data contact — never a silent fallback, never a write. Pure:
+    resolves paths but creates nothing.
+    """
+    if config_path is None:
+        return "no --freeze-config path supplied (G3 body needs its stage-keyed freeze)"
+    p = Path(config_path)
+    if p.name != G3_CONFIG_NAME:
+        return (
+            f"config name {p.name!r} != stage-keyed {G3_CONFIG_NAME!r}: "
+            "the G3 body runs only under its own packet freeze (never window-only)"
+        )
+    try:
+        r = p.expanduser()
+        if not r.is_absolute():
+            r = Path.cwd() / r
+        r = r.resolve()
+    except Exception as exc:
+        return f"cannot resolve --freeze-config {config_path!s}: {exc}"
+    for foreign in (G1_PACKET_DIR, G1R2_PACKET_DIR, G2_PACKET_DIR):
+        try:
+            f = foreign.resolve()
+        except Exception:
+            f = foreign
+        if r == f or f in r.parents or r == f / G3_CONFIG_NAME:
+            return (
+                f"refusing routed path {r}: at/under a G1/G1R2/G2 packet dir; "
+                "the G3 stage never runs off (or writes to) those dirs"
+            )
+    return None
+
+
+def _read_timetags_g3_production(acq_id):
+    """Production timetag read for the G3 Phase-A closure (SHG `_2` ONLY).
+
+    The FIRST permitted SHG `_2` contact: allows EXACTLY G3_TARGET_ACQ and
+    refuses every other acquisition loudly (including SHG `_1` — this
+    reader serves the G3 closure only). Read mechanics intentionally
+    mirror _read_timetags_production (inventory primary ONLY, autofollow
+    rule; NEVER concatenated): that guard is preserved verbatim and is
+    not reused here because it freezes SHG `_2` against G1/G2 contact.
+    Deferred TimeTagger shim + ``src.qkd_io`` import (import purity:
+    never at module top). Returns the same record shape
+    (tA/tB/n_events/channel_hist/other_* /primary).
+    """
+    if acq_id != G3_TARGET_ACQ:
+        _fail(
+            f"refusing acquisition {acq_id!r}: the G3 closure reads ONLY "
+            f"{G3_TARGET_ACQ!r} (first permitted SHG `_2` contact; SHG `_1` "
+            "and every other source are out of scope for this stage)"
+        )
+    _ensure_timetagger_shim()
+    from scripts.census_intake_20260921 import (  # deferred: runs its own shim+src import
+        HW_A,
+        HW_B,
+        _acq_files,
+    )
+    from src.qkd_io.ttbin_pipeline import read_ttbin_events  # deferred
+
+    prim, _cont = _acq_files(acq_id)
+    if not prim.exists():
+        _fail(f"raw file not found: {prim} (run from repo root)")
+    try:
+        ev = read_ttbin_events(prim)  # primary ONLY; FileReader auto-follows `.1`
+    except Exception as exc:
+        _fail(f"{acq_id}: FileReader(primary) failed: {exc}")
+    ch = np.asarray(ev.channel).astype(np.int64)
+    ts = np.asarray(ev.time_ps).astype(np.int64)
+    del ev
+    if ch.shape != ts.shape or ch.ndim != 1 or int(ch.size) == 0:
+        _fail(f"{acq_id}: primary read self-inconsistent")
+    total = int(ch.size)
+    uniq, counts = np.unique(ch, return_counts=True)
+    chan_hist = {int(k): int(v) for k, v in zip(uniq.tolist(), counts.tolist())}
+    other = int(np.sum((ch != HW_A) & (ch != HW_B)))
+    import gc as _gc
+
+    tA = np.sort(ts[ch == HW_A])
+    tB = np.sort(ts[ch == HW_B])
+    del ch, ts
+    _gc.collect()
+    return {
+        "tA": tA,
+        "tB": tB,
+        "n_events": total,
+        "channel_hist": chan_hist,
+        "other_count": other,
+        "other_frac": other / total if total else 1.0,
+        "primary": str(prim),
+    }
+
+
+def _g3_closure_outputs(*, acq_id, out_root: Path, freeze, align, sweep, pairing,
+                        ledger, segments, eval_blocks, matrix, elapsed_s,
+                        _packet_dir=None):
+    """Flush G3 Phase-A closure artifacts (workspace + packet-dir config)."""
+    reserve = reserve_ids_for_ledger(ledger["complete_frames"])
+    seg_text = " / ".join(f"{name} {s}-{e}" for name, s, e in SEG_RANGES)
+    if reserve["ids"]:
+        seg_text += f" / reserve {reserve['ids'][0]}-{reserve['ids'][-1]}"
+    else:
+        seg_text += f" / reserve empty ({reserve['note']})"
+    eval_flat = [f for s, e in eval_blocks for f in range(s, e + 1)]
+    g3 = {
+        "packet": G3_PACKET,
+        "freeze": f"{G3_PACKET}/g3_freeze.md",
+        "mode": "closure-only",
+        "acq_id": acq_id,
+        "nature": "DESCRIPTIVE/NON-CLAIM, decoder-free; M2 CANDIDATE, never baseline",
+        "participation_disclosure": G3_PARTICIPATION,
+        "align": align,
+        "yield_sweep": sweep,
+        "offset_applied_to_alice": int(align["peak_center_ps"]),
+        "offset_sign_convention": "tA_aligned = tA_raw + peak_center_ps",
+        "pairing": pairing,
+        "reproduction_gate": {
+            "expected": dict(G3_REPRO_GATE),
+            "observed": {
+                "peak_center_ps": align["peak_center_ps"],
+                "peak_sigma_ps": align["peak_sigma_ps"],
+                "status": align["status"],
+                "n_pairs": pairing["n_pairs"],
+                "n_frames": pairing["n_frames"],
+            },
+            "match5": (
+                align["peak_center_ps"] == G3_REPRO_GATE["peak_center_ps"]
+                and align["peak_sigma_ps"] == G3_REPRO_GATE["peak_sigma_ps"]
+                and align["status"] == G3_REPRO_GATE["status"]
+                and pairing["n_pairs"] == G3_REPRO_GATE["n_pairs"]
+                and pairing["n_frames"] == G3_REPRO_GATE["n_frames"]
+            ),
+            "verdict": "REPRODUCED",
+        },
+        "ledger": ledger,
+        "segments": {name: [ids[0], ids[-1]] for name, ids in segments.items()},
+        "eval_blocks": eval_blocks,
+        "n_eval_blocks": len(eval_blocks),
+        "disjointness_all_disjoint": bool(matrix["all_disjoint"]),
+        "caveats": G3_CAVEATS,
+        "timing": {
+            "wall_s": elapsed_s,
+            "wall_budget_s": BUDGET_CLOSURE_S,
+            "rss_gib_peak_advisory": _peak_rss_gib_advisory(),
+            "rss_budget_gib": BUDGET_RSS_GIB,
+        },
+    }
+    _write_json(out_root / "g3.json", g3)
+    _write_json(
+        out_root / "cal_ids.json",
+        {
+            "acq_id": acq_id,
+            "participation_disclosure": G3_PARTICIPATION,
+            "ledger_complete_frames": ledger["complete_frames"],
+            "layout_rule": "g1_freeze.md §4 (0-based post-skip complete frames)",
+            "a1_cal_ids": segments["a1_cal"],
+            "cal_frame_ids": segments["cal32"],
+            "char_frame_ids": segments["char"],
+            "heldout_frame_ids": segments["heldout"],
+            "eval_frame_ids": eval_flat,
+            "eval_blocks": eval_blocks,
+            "reserve_frame_ids": reserve["ids"],
+            "reserve_note": reserve["note"],
+            "disjointness_matrix": matrix,
+        },
+    )
+    lines = [
+        f"# {G3_LABEL} Phase-A closure run log — {G3_PACKET}",
+        "",
+        f"acq: {acq_id}",
+        "mode: closure-only (zero NLL/gate/decode science; no SC call, no tag invocation)",
+        f"participation: {G3_PARTICIPATION}",
+        f"align: peak_center={align['peak_center_ps']} sigma={align['peak_sigma_ps']} "
+        f"to_bg={align['peak_to_bg']} status={align['status']}",
+        f"yield_sweep: at_derived={sweep['yield_at_derived']} max={sweep['yield_max']} "
+        f"note={sweep.get('yield_note', sweep['yield_max_ok'])}",
+        f"pairing (N) w={pairing['window']}: n_pairs={pairing['n_pairs']} "
+        f"n_frames={pairing['n_frames']} tier={pairing['tier']}",
+        "reproduction_gate: 5/5 exact (peak_center / sigma / status / n_pairs / n_frames)",
+        f"ledger post-skip: {ledger['complete_frames']} complete frames "
+        f"(allocated>={ALLOCATED_FRAMES} ok={ledger['complete_frames'] >= ALLOCATED_FRAMES})",
+        f"segments: {seg_text}",
+        f"eval_blocks: {len(eval_blocks)} complete 128-frame blocks "
+        f"(target {G2_BLOCKS}; COMPLETE-BLOCKS-ONLY)",
+        f"disjointness all_disjoint={matrix['all_disjoint']}",
+        f"wall_s={elapsed_s:.1f} (budget {BUDGET_CLOSURE_S}) "
+        f"rss_peak_advisory_GiB={g3['timing']['rss_gib_peak_advisory']}",
+        "",
+        f"Outputs: g3.json cal_ids.json run_log.md (+ packet-dir {G3_CONFIG_NAME}).",
+    ]
+    (out_root / "run_log.md").write_text("\n".join(lines) + "\n", encoding="utf-8")
+
+    cfg = {k: freeze[k] for k in REQUIRED_FREEZE_KEYS if k in freeze}
+    cfg["a1_cal_ids"] = segments["a1_cal"]
+    cfg["cal_frame_ids"] = segments["cal32"]
+    cfg["heldout_frame_ids"] = segments["heldout"]
+    cfg["disjointness_matrix"] = matrix
+    missing = _missing_freeze_keys(cfg)
+    if missing:
+        _fail(f"closure config missing keys: {', '.join(missing)}")
+    # Extras beyond the 19 TO-FREEZE keys (allowed: enforcement is
+    # presence, never exclusivity): the frozen EVAL block list + the
+    # participation disclosure required in every output.
+    cfg["eval_blocks"] = eval_blocks
+    cfg["participation_disclosure"] = G3_PARTICIPATION
+    # Contract-routed packet-dir emission (never any other packet dir).
+    # _packet_dir is the test-only override (tests MUST pass an explicit
+    # fake dir; default None keeps the production routing).
+    target_dir = Path(_packet_dir) if _packet_dir is not None else G3_PACKET_DIR
+    _write_json(target_dir / G3_CONFIG_NAME, cfg)
+    return g3
+
+
+def run_g3_closure(*, acq_id, out_root: Path, freeze, options, _read_timetags=None,
+                   _align_fn=None, _sweep_fn=None, _packet_dir=None):
+    """G3 Phase-A freeze closure (SHG `_2`, ONE framing pass; decoder-free).
+
+    Derives alignment by the INHERITED method (never an inherited offset
+    VALUE), reproduction-checks the 5-tuple against the census gate
+    bit-exact, pairs at W_P=200, applies skip-702, enumerates the
+    post-skip ledger, allocates A1-CAL/CAL32/CHAR/HELDOUT/EVAL/RESERVE,
+    and determines the 14 complete EVAL blocks (COMPLETE-BLOCKS-ONLY;
+    fewer than 14 formable => INSUFFICIENT, recorded INCONCLUSIVE — never
+    pad/reuse/shrink N). Emits the workspace closure artifacts plus the
+    complete packet-dir freeze-config (all 19 keys). Returns 0 on
+    REPRODUCED; 1 (loud) on ALIGN/reproduction/ledger failures or budget
+    stop. Creates nothing on the failure paths before the point of
+    evidence flush (partial g3.json is flushed for forensics, but the
+    packet-dir config is emitted ONLY on the success path).
+
+    ``_read_timetags``/``_align_fn``/``_sweep_fn`` are the injectable
+    seams: production passes none (FileReader + inherited estimator +
+    inherited sweep); tests MUST pass explicit fakes and never touch
+    data. No prior fitting, no NLL, no gates, no decode — this function
+    cannot call the decoder (it takes no chain and references no decoder
+    entry point).
+    """
+    import time as _time
+
+    t0 = _time.time()
+    read = _read_timetags or _read_timetags_g3_production
+    align_fn = _align_fn or _align_frozen
+    sweep_fn = _sweep_fn or _yield_sweep_selfcheck
+    window = int(freeze["pairing_window_primary"])
+    skip = int(freeze["skip_frames"])
+
+    got = read(acq_id)
+    tA, tB = got["tA"], got["tB"]
+    if float(got.get("other_frac", 0.0)) > 0.20:
+        out_root.mkdir(parents=True, exist_ok=True)
+        _write_json(
+            out_root / "g3.json",
+            {"acq_id": acq_id, "mode": "closure-only", "verdict": "CHANNEL_FAIL",
+             "participation_disclosure": G3_PARTICIPATION,
+             "other_frac": got.get("other_frac"), "channel_hist": got.get("channel_hist")},
+        )
+        print(f"CLOSURE_CHANNEL_FAIL other_frac={got.get('other_frac')}", file=sys.stderr)
+        return 1
+
+    peak = align_fn(tA, tB)
+    align = {
+        "estimator_source": "src/workflow/export_joint_sequence_sidecar.py:715",
+        "scan_range_ps": G1_SCAN_RANGE_PS,
+        "bin_ps": G1_BIN_PS_ALIGN,
+        "peak_center_ps": peak.get("peak_center_ps"),
+        "peak_sigma_ps": peak.get("peak_sigma_ps"),
+        "peak_to_bg": peak.get("peak_to_bg"),
+        "status": peak.get("status"),
+        "accept": bool(
+            peak.get("status") == "ok"
+            and peak.get("peak_to_bg") is not None
+            and float(peak.get("peak_to_bg")) >= G1_PEAK_TO_BG_MIN
+        ),
+        "criterion": "status==ok AND peak_to_bg>=10 (unit-independent)",
+    }
+    if not align["accept"]:
+        out_root.mkdir(parents=True, exist_ok=True)
+        _write_json(out_root / "g3.json",
+                    {"acq_id": acq_id, "mode": "closure-only",
+                     "participation_disclosure": G3_PARTICIPATION,
+                     "verdict": "ALIGN_FAIL", "align": align})
+        print(f"CLOSURE_ALIGN_FAIL status={align['status']} to_bg={align['peak_to_bg']}",
+              file=sys.stderr)
+        return 1
+
+    offset = int(align["peak_center_ps"])
+    sweep = sweep_fn(tA, tB, offset)
+    sweep_ok, sweep["yield_note"] = _sweep_accept(sweep)
+    if not sweep_ok:
+        out_root.mkdir(parents=True, exist_ok=True)
+        _write_json(out_root / "g3.json",
+                    {"acq_id": acq_id, "mode": "closure-only",
+                     "participation_disclosure": G3_PARTICIPATION,
+                     "verdict": "ALIGN_INCONSISTENT", "align": align,
+                     "yield_sweep": sweep})
+        print(f"CLOSURE_ALIGN_INCONSISTENT offset={offset} "
+              f"yield@derived={sweep['yield_at_derived']} max={sweep['yield_max']}",
+              file=sys.stderr)
+        return 1
+
+    alice, bob = pair_narrow_nearest_unique(tA, tB, offset, window)
+    del tA, tB
+    n_pairs = int(alice.size)
+    n_frames = n_pairs // G1_FRAME_PAIRS
+    pairing = {
+        "rule": "(N) narrow nearest-unique",
+        "window": window,
+        "offset_ps": offset,
+        "n_pairs": n_pairs,
+        "n_frames": n_frames,
+        "tier": _tier(n_pairs),
+        "frozen": {"d": G1_D, "bin_width_ps": G1_BIN_WIDTH_PS,
+                   "period_ps": G1_PERIOD_PS, "frame_pairs": G1_FRAME_PAIRS},
+    }
+    gate = G3_REPRO_GATE
+    repro_ok = (
+        align["peak_center_ps"] == gate["peak_center_ps"]
+        and align["peak_sigma_ps"] == gate["peak_sigma_ps"]
+        and align["status"] == gate["status"]
+        and n_pairs == gate["n_pairs"]
+        and n_frames == gate["n_frames"]
+    )
+    if not repro_ok:
+        out_root.mkdir(parents=True, exist_ok=True)
+        _write_json(out_root / "g3.json",
+                    {"acq_id": acq_id, "mode": "closure-only",
+                     "participation_disclosure": G3_PARTICIPATION,
+                     "verdict": "ALIGN_INCONSISTENT", "align": align,
+                     "yield_sweep": sweep, "pairing": pairing,
+                     "reproduction_expected": dict(gate)})
+        print("CLOSURE_ALIGN_INCONSISTENT reproduction gate mismatch "
+              f"(expected {gate}; observed peak={align['peak_center_ps']}/"
+              f"{align['peak_sigma_ps']}/{align['status']} n_pairs={n_pairs} "
+              f"n_frames={n_frames})", file=sys.stderr)
+        return 1
+
+    try:
+        _, _, ledger = chunk_frames(alice, bob, skip)
+    except ValueError as exc:
+        # A stream shorter than the skip (or otherwise unframmable)
+        # holds zero post-skip frames: INSUFFICIENT => INCONCLUSIVE.
+        out_root.mkdir(parents=True, exist_ok=True)
+        _write_json(out_root / "g3.json",
+                    {"acq_id": acq_id, "mode": "closure-only",
+                     "participation_disclosure": G3_PARTICIPATION,
+                     "verdict": "INCONCLUSIVE", "align": align,
+                     "pairing": pairing,
+                     "ledger": {"complete_frames": 0},
+                     "reason": f"INSUFFICIENT: {exc}"})
+        print(f"CLOSURE_INSUFFICIENT {exc}", file=sys.stderr)
+        return 1
+    del alice, bob
+    try:
+        segments = segment_frame_lists(ledger["complete_frames"])
+    except _InsufficientFrames as exc:
+        out_root.mkdir(parents=True, exist_ok=True)
+        _write_json(out_root / "g3.json",
+                    {"acq_id": acq_id, "mode": "closure-only",
+                     "participation_disclosure": G3_PARTICIPATION,
+                     "verdict": "INCONCLUSIVE", "align": align,
+                     "pairing": pairing, "ledger": ledger,
+                     "reason": f"INSUFFICIENT: {exc}"})
+        print(f"CLOSURE_INSUFFICIENT {exc}", file=sys.stderr)
+        return 1
+    named = {
+        "a1_cal": segments["a1_cal"],
+        "cal32": segments["cal32"],
+        "char": segments["char"],
+        "heldout": segments["heldout"],
+        "eval": segments["eval"],
+    }
+    matrix = disjointness_matrix(named)
+    if not matrix["all_disjoint"]:
+        _fail(f"closure segment overlap invalidates run: {matrix['pairwise_overlap']}")
+    for key, want in (("a1_cal_ids", named["a1_cal"]),
+                      ("cal_frame_ids", named["cal32"]),
+                      ("heldout_frame_ids", named["heldout"])):
+        if list(freeze.get(key)) != want:
+            _fail(f"closure input freeze {key} != §4 rule enumeration "
+                  "(bootstrap the input config from the frozen rules verbatim)")
+    # EVAL block determination (frozen layout reuse; COMPLETE-BLOCKS-ONLY):
+    # the 14-block layout must fit inside the post-skip ledger, else
+    # INSUFFICIENT => INCONCLUSIVE (never pad/reuse/shrink N).
+    eval_blocks = g2_eval_blocks()
+    if len(eval_blocks) != G2_BLOCKS or eval_blocks[-1][1] >= ledger["complete_frames"]:
+        out_root.mkdir(parents=True, exist_ok=True)
+        _write_json(out_root / "g3.json",
+                    {"acq_id": acq_id, "mode": "closure-only",
+                     "participation_disclosure": G3_PARTICIPATION,
+                     "verdict": "INCONCLUSIVE", "align": align,
+                     "pairing": pairing, "ledger": ledger,
+                     "reason": (
+                         f"INSUFFICIENT: EVAL layout {eval_blocks[-1]} beyond post-skip "
+                         f"ledger {ledger['complete_frames']} (never pad/reuse/shrink)"
+                     )})
+        print(f"CLOSURE_INSUFFICIENT EVAL beyond ledger {ledger['complete_frames']}",
+              file=sys.stderr)
+        return 1
+
+    elapsed = _time.time() - t0
+    _g3_closure_outputs(acq_id=acq_id, out_root=out_root, freeze=freeze,
+                        align=align, sweep=sweep, pairing=pairing,
+                        ledger=ledger, segments=named, eval_blocks=eval_blocks,
+                        matrix=matrix, elapsed_s=elapsed,
+                        _packet_dir=_packet_dir)
+    if elapsed > BUDGET_CLOSURE_S:
+        print(f"CLOSURE_BUDGET_EXCEEDED wall_s={elapsed:.1f} > {BUDGET_CLOSURE_S}",
+              file=sys.stderr)
+        return 1
+    print(f"CLOSURE_REPRODUCED acq={acq_id} n_pairs={n_pairs} "
+          f"postskip_frames={ledger['complete_frames']} eval_blocks={len(eval_blocks)} "
+          f"wall_s={elapsed:.1f}")
+    return 0
+
+
+def run_stage_g3(
+    *,
+    acq_id: str,
+    out_root: Path,
+    freeze: dict,
+    options: dict,
+    _read_timetags=None,
+    _align_fn=None,
+    _sweep_fn=None,
+    _packet_dir=None,
+    _config_path=None,
+) -> int:
+    """G3 Phase-A closure entry (SHG `_2`; Tier-Y; decoder-free).
+
+    Stage-keyed routing first: any freeze that is not this packet's own
+    ``g3_freeze_config.json`` exits 3 ``STAGE_BODY_PENDING_FREEZE`` with
+    zero data contact. Under the G3 freeze: pin the acquisition (ONLY
+    SHG `_2`), pin the inherited contract values (window 200/500,
+    skip 702, CIRCULAR, 14 blocks, tag_master 2026110101, verbatim arms
+    and rule literals — the freeze file is authoritative but the body
+    refuses drift on what it consumes), then run the decoder-free
+    closure. Returns 0 on REPRODUCED; 1 for ALIGN/INSUFFICIENT/budget
+    stops; 2 for guard/mismatch refusals.
+
+    ``_read_timetags``/``_align_fn``/``_sweep_fn``/``_packet_dir`` are the
+    injectable seams: production passes none (FileReader + inherited
+    estimator/sweep + packet-dir routing); tests MUST pass explicit
+    fakes and never touch data. There is deliberately NO decode-chain
+    seam: this stage cannot decode by construction.
+    """
+    # -- Stage-keyed routing: not our freeze => exit 3, zero contact.
+    routed = check_g3_config_route(_config_path)
+    if routed is not None:
+        print(
+            "STAGE_BODY_PENDING_FREEZE: " + routed + (
+                f" (packet {G3_PACKET}; acq {acq_id}; "
+                "zero data contact: nothing read, nothing created)"
+            ),
+            file=sys.stderr,
+        )
+        return 3
+    # -- Single-target pin: the G3 closure reads ONLY SHG `_2`.
+    if acq_id != G3_TARGET_ACQ:
+        _fail(
+            f"G3 closure acq {acq_id!r} != frozen target {G3_TARGET_ACQ!r} "
+            "(G3 Phase-A is the first permitted contact with SHG `_2` only)"
+        )
+    # -- G3 freeze-content pins (exit 2, listing; the freeze file is
+    # authoritative but the body refuses drift on what it consumes).
+    # Windows/skip/MOD/K-adjacent values are INHERITED from SHG `_1`'s
+    # frozen rules (never re-derived); tag_master is the G3-fresh value.
+    pins = [
+        ("pairing_window_primary", 200),
+        ("pairing_window_sensitivity", 500),
+        ("skip_frames", 702),
+        ("mod_boundary", "CIRCULAR"),
+        ("g2_blocks", G2_BLOCKS),
+        ("tag_master", G3_TAG_MASTER),
+    ]
+    bad_pins = [
+        f"{key}={freeze.get(key)!r} != frozen {want!r}"
+        for key, want in pins
+        if freeze.get(key) != want
+    ]
+    if list(freeze.get("g2_arms", [])) != list(G2_ARMS):
+        bad_pins.append(f"g2_arms={freeze.get('g2_arms')!r} != frozen {list(G2_ARMS)!r}")
+    for key in (
+        "cal_split_rule",
+        "g2_success_rule",
+        "g2_inconclusive_rule",
+        "g2_fail_rule",
+        "block_formation_fallback",
+    ):
+        want = {
+            "cal_split_rule": G2_CAL_SPLIT_RULE,
+            "g2_success_rule": G2_SUCCESS_RULE,
+            "g2_inconclusive_rule": G2_INCONCLUSIVE_RULE,
+            "g2_fail_rule": G2_FAIL_RULE,
+            "block_formation_fallback": G2_FALLBACK_RULE,
+        }[key]
+        if freeze.get(key) != want:
+            bad_pins.append(f"{key} != frozen literal")
+    if bad_pins:
+        _fail(
+            "G3 freeze-content drift (refusing to run off-contract): "
+            + "; ".join(bad_pins)
+        )
+    return run_g3_closure(
+        acq_id=acq_id, out_root=out_root, freeze=freeze, options=options,
+        _read_timetags=_read_timetags, _align_fn=_align_fn,
+        _sweep_fn=_sweep_fn, _packet_dir=_packet_dir,
+    )
+
+
+# ---------------------------------------------------------------------------
+# G3 Phase-B one-shot three-arm decode (NBPOLAR-M2-PRIOR-G3-CONFIRM, D6 G3).
+#
+# Reuses the G2 decode machinery VERBATIM (never rewritten): the deferred
+# frozen-chain loader (_load_g2_decoder_chain, fail-closed pandas alias,
+# frozen chunk contract), the EVAL layout (g2_eval_blocks), per-arm CAL
+# fitting (fit_g2_arm), the block body (run_g2_block), the eval loop +
+# budget metre (run_g2_eval), the Wilson gate (wilson_interval /
+# eval_g2_gate), the disclosure recount (recount_g2_disclosure), and the
+# segment/disjointness/pairing/chunking primitives. G3 differs ONLY in:
+# packet + stage-keyed route (own g3_freeze_config.json), acquisition
+# (SHG `_2` ONLY), the alignment reproduction gate (G3_REPRO_GATE, census
+# sigma), seeds (G3_EVAL_SEED / G3_TAG_MASTER), output names, and the NLL
+# domain labels + participation disclosure stamped onto every output.
+# ---------------------------------------------------------------------------
+
+# NLL conditioning-domain labels (G2 adjudication §4, carried forward):
+# the isolated oracle view conditions on polar-transformed u1, while the
+# frozen operational path conditions L2 on untransformed high_hat (the
+# domain derive_p2 is built in). Stamped onto every per-block record and
+# the summary so no "H-conditioned L2" number is ever read domain-blind.
+G3_NLL_DOMAINS = {
+    "nll_l2_trueH_domain": (
+        "polar-transformed u1 (isolated oracle view; NOT the operational domain)"
+    ),
+    "nll_l2_candH_domain": (
+        "untransformed high_hat (operational view; hard L1 candidate)"
+    ),
+}
+
+
+def stamp_g3_record_domains(records) -> list:
+    """Stamp NLL domain labels + participation disclosure on records (pure).
+
+    Same rows, each plus the two G3_NLL_DOMAINS labels and the G3
+    participation disclosure (required in every G3 output). Records are
+    copied, never mutated; no I/O.
+    """
+    stamped = []
+    for rec in records:
+        row = dict(rec)
+        row["nll_l2_trueH_domain"] = G3_NLL_DOMAINS["nll_l2_trueH_domain"]
+        row["nll_l2_candH_domain"] = G3_NLL_DOMAINS["nll_l2_candH_domain"]
+        row["participation_disclosure"] = G3_PARTICIPATION
+        stamped.append(row)
+    return stamped
+
+
+def run_stage_g3_decode(
+    *,
+    acq_id: str,
+    out_root: Path,
+    freeze: dict,
+    options: dict,
+    _read_timetags=None,
+    _decode_chain=None,
+    _frames_bundle=None,
+    _config_path=None,
+) -> int:
+    """G3 one-shot three-arm decode (SHG `_2`, W_P=200/CIRCULAR; Tier-Y).
+
+    Stage-keyed routing first: any freeze that is not this packet's own
+    ``g3_freeze_config.json`` exits 3 ``STAGE_BODY_PENDING_FREEZE`` with
+    zero data contact. Under the G3 freeze: pin the acquisition (ONLY
+    SHG `_2`), pin the inherited contract values (window 200/500,
+    skip 702, CIRCULAR, 14 blocks, tag_master 2026110101, verbatim arms
+    and rule literals), verify the P16 construction (P17 procedure,
+    pinned inner digest) BEFORE any SC call, re-derive alignment by the
+    inherited method with the census reproduction check, fit per-arm
+    priors on each arm's OWN sacrificed CAL, decode 14 EVAL blocks × 3
+    arms through the frozen operational path, stamp the NLL domain
+    labels, and render the preregistered Wilson gate (``undetected``
+    isolated). Returns 0 with the verdict recorded (SUCCESS/FAIL/
+    INCONCLUSIVE are complete Tier-Y returns); 1 for INSUFFICIENT/budget
+    stops (INCONCLUSIVE recorded); 2 for guard/mismatch refusals.
+
+    ``_read_timetags``/``_decode_chain``/``_frames_bundle`` are the
+    injectable seams: production passes none (FileReader + real frozen
+    chain + real align/pair); tests MUST pass explicit fakes and never
+    enter the production decoder.
+    """
+    import time as _time
+
+    t0 = _time.time()
+    # -- Stage-keyed routing: not our freeze => exit 3, zero contact.
+    routed = check_g3_config_route(_config_path)
+    if routed is not None:
+        print(
+            "STAGE_BODY_PENDING_FREEZE: " + routed + (
+                f" (packet {G3_PACKET}; acq {acq_id}; "
+                "zero data contact: nothing read, nothing created)"
+            ),
+            file=sys.stderr,
+        )
+        return 3
+    # -- Single-target pin: the G3 decode reads ONLY SHG `_2`.
+    if acq_id != G3_TARGET_ACQ:
+        _fail(
+            f"G3 decode acq {acq_id!r} != frozen target {G3_TARGET_ACQ!r} "
+            "(G3 Phase-B is a Tier-Y confirmation on SHG `_2` only)"
+        )
+    # -- G3 freeze-content pins (exit 2, listing; the freeze file is
+    # authoritative but the body refuses drift on what it consumes).
+    # Windows/skip/MOD/K-adjacent values are INHERITED from SHG `_1`'s
+    # frozen rules (never re-derived); tag_master is the G3-fresh value.
+    pins = [
+        ("pairing_window_primary", 200),
+        ("pairing_window_sensitivity", 500),
+        ("skip_frames", 702),
+        ("mod_boundary", "CIRCULAR"),
+        ("g2_blocks", G2_BLOCKS),
+        ("tag_master", G3_TAG_MASTER),
+    ]
+    bad_pins = [
+        f"{key}={freeze.get(key)!r} != frozen {want!r}"
+        for key, want in pins
+        if freeze.get(key) != want
+    ]
+    if list(freeze.get("g2_arms", [])) != list(G2_ARMS):
+        bad_pins.append(f"g2_arms={freeze.get('g2_arms')!r} != frozen {list(G2_ARMS)!r}")
+    for key in (
+        "cal_split_rule",
+        "g2_success_rule",
+        "g2_inconclusive_rule",
+        "g2_fail_rule",
+        "block_formation_fallback",
+    ):
+        want = {
+            "cal_split_rule": G2_CAL_SPLIT_RULE,
+            "g2_success_rule": G2_SUCCESS_RULE,
+            "g2_inconclusive_rule": G2_INCONCLUSIVE_RULE,
+            "g2_fail_rule": G2_FAIL_RULE,
+            "block_formation_fallback": G2_FALLBACK_RULE,
+        }[key]
+        if freeze.get(key) != want:
+            bad_pins.append(f"{key} != frozen literal")
+    if bad_pins:
+        _fail(
+            "G3 freeze-content drift (refusing to run off-contract): "
+            + "; ".join(bad_pins)
+        )
+    chain = _decode_chain or _load_g2_decoder_chain()
+    # -- Construction identity BEFORE any SC call (P17 procedure, pinned
+    # inner digest; reused verbatim from the G2 body).
+    try:
+        identity = chain.verify_predecessor_construction(
+            G2_CONSTRUCTION_PATH, expected_digest=G2_CONSTRUCTION_DIGEST
+        )
+    except Exception as exc:
+        _fail(f"G3 construction identity FAILED: {exc}")
+    l1_order = identity["l1_order"]
+    l2_order = identity["l2_order"]
+    if len(l1_order) != G2_N or len(l2_order) != G2_N:
+        _fail(f"G3 orders length {len(l1_order)}/{len(l2_order)} != N={G2_N}")
+
+    m2_mod = _frozen_m2()
+    prior_mod = _frozen_prior()
+    window = int(freeze["pairing_window_primary"])
+    skip = int(freeze["skip_frames"])
+    mod = str(freeze["mod_boundary"])
+
+    if _frames_bundle is None:
+        read = _read_timetags or _read_timetags_g3_production
+        got = read(acq_id)
+        tA, tB = got["tA"], got["tB"]
+        if float(got.get("other_frac", 0.0)) > 0.20:
+            _fail(f"G3 CHANNEL_FAIL other_frac={got.get('other_frac')}")
+        peak = _align_frozen(tA, tB)
+        if not (
+            peak.get("status") == "ok"
+            and peak.get("peak_to_bg") is not None
+            and float(peak.get("peak_to_bg")) >= G1_PEAK_TO_BG_MIN
+        ):
+            _fail(f"G3 ALIGN_FAIL status={peak.get('status')} to_bg={peak.get('peak_to_bg')}")
+        offset = int(peak.get("peak_center_ps"))
+        sweep = _yield_sweep_selfcheck(tA, tB, offset)
+        sweep_ok, sweep["yield_note"] = _sweep_accept(sweep)
+        if not sweep_ok:
+            _fail(f"G3 ALIGN_INCONSISTENT offset={offset}")
+        alice, bob = pair_narrow_nearest_unique(tA, tB, offset, window)
+        del tA, tB
+        n_pairs = int(alice.size)
+        n_frames = n_pairs // G1_FRAME_PAIRS
+        repro = G3_REPRO_GATE
+        if not (
+            peak.get("peak_center_ps") == repro["peak_center_ps"]
+            and peak.get("peak_sigma_ps") == repro["peak_sigma_ps"]
+            and peak.get("status") == repro["status"]
+            and n_pairs == repro["n_pairs"]
+            and n_frames == repro["n_frames"]
+        ):
+            _fail(
+                "G3 ALIGN_INCONSISTENT reproduction gate mismatch "
+                f"(expected {repro}; observed peak={peak.get('peak_center_ps')}/"
+                f"{peak.get('peak_sigma_ps')}/{peak.get('status')} "
+                f"n_pairs={n_pairs} n_frames={n_frames})"
+            )
+        frames_a, frames_b, ledger = chunk_frames(alice, bob, skip)
+        del alice, bob
+        align_rec = {
+            "peak_center_ps": peak.get("peak_center_ps"),
+            "peak_sigma_ps": peak.get("peak_sigma_ps"),
+            "status": peak.get("status"),
+        }
+    else:
+        # Test-only bundle: explicit fake frames (synthetic; the injected
+        # fake chain stands in for the frozen decoder). Reproduction
+        # checks are skipped (no census literals apply to synthetic
+        # fixtures); layout, CAL fitting, metrics, NLL, floor audit,
+        # gate, and routing run real.
+        frames_a = np.asarray(_frames_bundle["frames_a"], dtype=np.int64)
+        frames_b = np.asarray(_frames_bundle["frames_b"], dtype=np.int64)
+        ledger = {"complete_frames": int(_frames_bundle["ledger_complete"])}
+        align_rec = {"peak_center_ps": 50, "status": "synthetic-bundle"}
+    try:
+        segments = segment_frame_lists(ledger["complete_frames"])
+    except _InsufficientFrames as exc:
+        out_root.mkdir(parents=True, exist_ok=True)
+        verdict = {
+            "packet": G3_PACKET,
+            "mode": "g3-decode",
+            "acq_id": acq_id,
+            "nature": "Tier-Y decision gate, decoder run; M2 CANDIDATE, never baseline",
+            "participation_disclosure": G3_PARTICIPATION,
+            "verdict": "INCONCLUSIVE",
+            "reason": f"INSUFFICIENT: {exc}",
+            "fallback": G2_FALLBACK_RULE,
+            "caveats": G3_CAVEATS,
+        }
+        _write_json(out_root / "g3_summary.json", verdict)
+        print(f"G3_INSUFFICIENT {exc}", file=sys.stderr)
+        return 1
+    for key, want in (
+        ("a1_cal_ids", segments["a1_cal"]),
+        ("cal_frame_ids", segments["cal32"]),
+        ("heldout_frame_ids", segments["heldout"]),
+    ):
+        if list(freeze.get(key)) != want:
+            _fail(
+                f"G3 input freeze {key} != §4 rule enumeration "
+                "(bootstrap the input config from the frozen rules verbatim)"
+            )
+    named = {name: segments[name] for name, _, _ in SEG_RANGES}
+    matrix = disjointness_matrix(
+        {k: named[k] for k in ("a1_cal", "cal32", "char", "heldout", "eval")}
+    )
+    if not matrix["all_disjoint"]:
+        _fail(f"G3 segment overlap invalidates run: {matrix['pairwise_overlap']}")
+    eval_blocks = g2_eval_blocks()
+    if eval_blocks[-1][1] >= ledger["complete_frames"]:
+        _fail(
+            f"G3 EVAL {eval_blocks[-1]} beyond post-skip ledger "
+            f"{ledger['complete_frames']} (never pad/reuse/shrink)"
+        )
+
+    arms_fit = {}
+    p_tables = {}
+    for arm in G2_ARMS:
+        cal_ids = g2_cal_ids(arm)
+        cal_a = frames_a[cal_ids].ravel()
+        cal_b = frames_b[cal_ids].ravel()
+        fit = fit_g2_arm(arm, cal_a, cal_b, mod, m2_mod)
+        arms_fit[arm] = fit
+        p_tables[arm] = (
+            np.asarray(prior_mod.derive_p1(fit["joint"]), dtype=np.float64),
+            np.asarray(prior_mod.derive_p2(fit["joint"]), dtype=np.float64),
+        )
+        del cal_a, cal_b
+    polar_fn = getattr(chain, "polar_transform", None)
+    if polar_fn is None:
+        _fail("G3 decode chain lacks polar_transform")
+    # The frozen polar_transform(symbols, *, field, alpha) requires the
+    # keyword-only field: build it ONCE here and bind it (plus alpha) into
+    # the wrapper (reused verbatim from the G2 body).
+    try:
+        _g3_field = chain.make_gf32()
+        _g3_alpha = int(chain.alpha)
+    except Exception as exc:
+        _fail(f"G3 decode chain field/alpha unavailable: {exc}")
+    _polar, _field, _alpha = polar_fn, _g3_field, _g3_alpha
+    records, metre = run_g2_eval(
+        out_root=out_root,
+        frames_a=frames_a,
+        frames_b=frames_b,
+        eval_blocks=eval_blocks,
+        arms_fit=arms_fit,
+        p_tables=p_tables,
+        l1_order=l1_order,
+        l2_order=l2_order,
+        k1=G2_K1,
+        k2=G2_K2,
+        tag_master=int(freeze["tag_master"]),
+        eval_seed=G3_EVAL_SEED,
+        chain=chain,
+        polar_fn=_bind_g2_polar(_polar, _field, _alpha),
+        prior_mod=prior_mod,
+        budget_s=G2_BUDGET_S,
+        budget_rss_gib=BUDGET_RSS_GIB,
+    )
+    del frames_a, frames_b
+    # Stamp the NLL domain labels + participation disclosure onto every
+    # per-block record, then re-flush the outcomes file stamped
+    # (run_g2_eval flushed it unstamped; the stamped rewrite is
+    # deterministic: same rows plus three string keys).
+    records = stamp_g3_record_domains(records)
+    with open(out_root / "per_block_outcomes.jsonl", "w", encoding="utf-8") as fh:
+        for rec in records:
+            fh.write(json.dumps(rec, sort_keys=True) + "\n")
+    by_arm = {}
+    for arm in G2_ARMS:
+        arm_recs = [r for r in records if r["arm"] == arm]
+        by_arm[arm] = {
+            "n_blocks": len(arm_recs),
+            "exact": sum(1 for r in arm_recs if r["exact"]),
+            "undetected": sum(1 for r in arm_recs if r["undetected"]),
+            "outcomes": {o: sum(1 for r in arm_recs if r["outcome"] == o) for o in G2_OUTCOMES},
+        }
+    gate = eval_g2_gate(by_arm["B_M2_32f_candidate"]["exact"], by_arm["A2_M0_32f_matched"]["exact"])
+    # Disclosure recount over decoded rows (mismatch must be 0):
+    # resource_abort rows (budget stop) disclose nothing and are out of
+    # scope — the aborted run records INCONCLUSIVE below regardless.
+    decoded = [r for r in records if r["outcome"] != "resource_abort"]
+    recount = recount_g2_disclosure(decoded)
+    if recount["mismatches"]:
+        _fail(f"G3 disclosure recount mismatch: {recount['mismatches']}")
+    elapsed = _time.time() - t0
+    summary = {
+        "packet": G3_PACKET,
+        "freeze": f"{G3_PACKET}/g3_freeze.md",
+        "contract": {
+            "window": window,
+            "mod": mod,
+            "skip": skip,
+            "label": "G3",
+            "mode": "g3-decode",
+            "inherited": "SHG `_1` frozen rules (never re-derived against SHG `_2`)",
+        },
+        "acq_id": acq_id,
+        "nature": "Tier-Y decision gate, decoder run; M2 CANDIDATE, never baseline",
+        "participation_disclosure": G3_PARTICIPATION,
+        "align": align_rec,
+        "ledger": ledger,
+        "construction": {
+            "path": str(G2_CONSTRUCTION_PATH),
+            "inner_digest": G2_CONSTRUCTION_DIGEST,
+            "k1": G2_K1,
+            "k2": G2_K2,
+            "n": G2_N,
+        },
+        "arms": {
+            arm: {
+                "mode": arms_fit[arm]["mode"],
+                "n_cal_pairs": arms_fit[arm]["n_cal_pairs"],
+                "triple": (
+                    {k: (float(v) if isinstance(v, float) else v)
+                     for k, v in arms_fit[arm]["triple"].items()}
+                    if arms_fit[arm]["triple"] else None
+                ),
+                **by_arm[arm],
+            }
+            for arm in G2_ARMS
+        },
+        "gate": gate,
+        "verdict": (
+            gate["verdict"] if not metre["budget_aborted"] else "INCONCLUSIVE"
+        ),
+        "budget_aborted": bool(metre["budget_aborted"]),
+        "disclosure_recount": recount,
+        "nll_domains": {
+            "nll_l2_trueH_bits": G3_NLL_DOMAINS["nll_l2_trueH_domain"],
+            "nll_l2_candH_bits": G3_NLL_DOMAINS["nll_l2_candH_domain"],
+            "note": (
+                "per G2 adjudication section 4: the isolated oracle view conditions "
+                "on polar-transformed u1, the operational view on untransformed "
+                "high_hat — state the domain with every H-conditioned L2 number."
+            ),
+        },
+        "caveats": G3_CAVEATS,
+        "timing": {
+            "wall_s": elapsed,
+            "wall_budget_s": G2_BUDGET_S,
+            "rss_gib_peak_advisory": _peak_rss_gib_advisory(),
+            "rss_budget_gib": BUDGET_RSS_GIB,
+        },
+        "calls": {
+            "sc_calls": metre["sc_calls"],
+            "tag_invocations": metre["tag_invocations"],
+        },
+    }
+    _write_json(out_root / "g3_summary.json", summary)
+    _write_json(
+        out_root / "cal_ids.json",
+        {
+            "acq_id": acq_id,
+            "participation_disclosure": G3_PARTICIPATION,
+            "layout_rule": "g1_freeze.md §4 (0-based post-skip complete frames)",
+            "a1_cal_ids": named["a1_cal"],
+            "cal_frame_ids": named["cal32"],
+            "char_frame_ids": named["char"],
+            "heldout_frame_ids": named["heldout"],
+            "eval_blocks": eval_blocks,
+            "disjointness_matrix": matrix,
+        },
+    )
+    (out_root / "run_log.md").write_text(
+        f"# G3 one-shot run log — {G3_PACKET}\n\n"
+        f"acq: {acq_id}\n"
+        f"participation: {G3_PARTICIPATION}\n"
+        f"arms: A1 exact={by_arm['A1_M0_1024f_incumbent']['exact']}/14 "
+        f"(descriptive) | A2 exact={by_arm['A2_M0_32f_matched']['exact']}/14 | "
+        f"B exact={by_arm['B_M2_32f_candidate']['exact']}/14\n"
+        f"gate: {gate['verdict']} "
+        f"(B {gate['b']['lower']:.4f}-{gate['b']['upper']:.4f} vs "
+        f"A2 {gate['a2']['lower']:.4f}-{gate['a2']['upper']:.4f})\n"
+        f"undetected: A1={by_arm['A1_M0_1024f_incumbent']['undetected']} "
+        f"A2={by_arm['A2_M0_32f_matched']['undetected']} "
+        f"B={by_arm['B_M2_32f_candidate']['undetected']} (isolated, never success)\n"
+        f"nll_domains: trueH={G3_NLL_DOMAINS['nll_l2_trueH_domain']} | "
+        f"candH={G3_NLL_DOMAINS['nll_l2_candH_domain']}\n"
+        f"disclosure recount mismatches={recount['mismatches']}\n"
+        f"sc_calls={metre['sc_calls']} tag_invocations={metre['tag_invocations']} "
+        f"wall_s={elapsed:.1f} (budget {G2_BUDGET_S})\n"
+        "M2 is a CANDIDATE, never the baseline.\n",
+        encoding="utf-8",
+    )
+    if metre["budget_aborted"] or elapsed > G2_BUDGET_S:
+        print(f"G3_BUDGET_EXCEEDED wall_s={elapsed:.1f} > {G2_BUDGET_S}", file=sys.stderr)
+        return 1
+    print(
+        f"G3_DONE acq={acq_id} verdict={summary['verdict']} "
+        f"A2={by_arm['A2_M0_32f_matched']['exact']}/14 "
+        f"B={by_arm['B_M2_32f_candidate']['exact']}/14 wall_s={elapsed:.1f}"
+    )
+    return 0
+
+
 def _selfcheck() -> int:
     """Verify Stage-1 wiring using ONLY pure logic. Touches no data.
 
@@ -2808,7 +3849,11 @@ def _selfcheck() -> int:
     ``STAGE_BODY_PENDING_FREEZE`` with zero data contact), and the G2
     pure helpers (Wilson gate, EVAL layout, first-error, floor audit,
     recount) plus one fake-chain G2 block (synthetic; production decoder
-    never entered). Prints one PASS/FAIL line per check; returns 0
+    never entered), and the G3 stage-keyed routing + tag/seed arithmetic
+    + census repro literals + participation disclosure + no-decode
+    construction (synthetic; SHG `_2` never contacted), plus the G3
+    decode-body routing/pins (unrouted exit 3, drift exit 2, zero
+    contact). Prints one PASS/FAIL line per check; returns 0
     iff all pass.
     """
     import contextlib
@@ -3298,6 +4343,140 @@ def _selfcheck() -> int:
             err = _expect_exit2(lambda: contract_for_freeze({}))
             assert "no science contract" in err, f"unclear message: {err.strip()}"
 
+        def t_g3_route_pins_disclosure_no_decode() -> None:
+            # Stage-keyed routing (G2 B3 pattern): only the G3 packet's
+            # own freeze name routes; G1/G1R2/G2 packet-dir paths never
+            # route, even with a G3 name. Unrouted => exit 3, zero
+            # contact, nothing created.
+            assert check_g3_config_route(tmp / G3_CONFIG_NAME) is None
+            assert check_g3_config_route(tmp / "freeze.json") is not None
+            assert check_g3_config_route(None) is not None
+            for foreign in (
+                G1_PACKET_DIR / G1_CONFIG_NAME,
+                G1R2_PACKET_DIR / G1R2_CONFIG_NAME,
+                G2_PACKET_DIR / G2_CONFIG_NAME,
+                G1_PACKET_DIR / G3_CONFIG_NAME,
+                G2_PACKET_DIR / G3_CONFIG_NAME,
+            ):
+                assert check_g3_config_route(foreign) is not None, foreign
+            target = tmp / "never_created_g3"
+            buf = io.StringIO()
+            with contextlib.redirect_stderr(buf):
+                rc = run_stage_g3(
+                    acq_id=G3_TARGET_ACQ, out_root=target,
+                    freeze={k: f"value-{k}" for k in REQUIRED_FREEZE_KEYS},
+                    options={}, _config_path=tmp / "freeze.json",
+                )
+            assert rc == 3, f"run_stage_g3 returned {rc!r}, want 3"
+            assert "STAGE_BODY_PENDING_FREEZE" in buf.getvalue()
+            assert not target.exists(), "unrouted G3 freeze created output"
+            # G3 tag/seed arithmetic + census repro literals pinned.
+            assert G3_TAG_MASTER == G3_EVAL_SEED + 10000 == 2026110101
+            assert G3_EVAL_SEED == 2026100101
+            assert G3_REPRO_GATE["peak_center_ps"] == 50
+            assert G3_REPRO_GATE["peak_sigma_ps"] == 114.43029692866367
+            assert G3_REPRO_GATE["status"] == "ok"
+            assert G3_REPRO_GATE["n_pairs"] == 1277938
+            assert G3_REPRO_GATE["n_frames"] == 4991
+            assert G3_TARGET_ACQ == "20260113_SHG_Type2PPLN_3s_2"
+            # Participation disclosure: decoder/model independence, NOT
+            # no-prior-contact independence — must read exactly so.
+            assert "NOT no-prior-contact independence" in G3_PARTICIPATION
+            assert "decoder/model independence" in G3_PARTICIPATION
+            assert "0.816770" in G3_PARTICIPATION
+            # EVAL layout reuse: 14 complete 128-frame blocks ending at
+            # 4189 (never rewritten for G3).
+            assert g2_eval_blocks()[0] == [2398, 2525]
+            assert g2_eval_blocks()[-1] == [4062, 4189]
+            assert len(g2_eval_blocks()) == G2_BLOCKS == 14
+            # No-decode construction: the G3 entry/closure take NO decode
+            # chain and reference no decoder entry point.
+            import inspect as _insp
+
+            for fn in (run_stage_g3, run_g3_closure):
+                assert "_decode_chain" not in _insp.signature(fn).parameters, fn
+            import ast as _ast2
+
+            src = Path(__file__).read_text(encoding="utf-8")
+            tree = _ast2.parse(src)
+            g3_src = ""
+            for node in _ast2.walk(tree):
+                if isinstance(node, _ast2.FunctionDef) and node.name in (
+                    "run_stage_g3", "run_g3_closure", "_g3_closure_outputs",
+                    "_read_timetags_g3_production", "check_g3_config_route",
+                ):
+                    g3_src += _ast2.dump(node) + "\n"
+            for banned in ("sc_decode", "run_operational_block",
+                           "toeplitz_tag", "_load_g2_decoder_chain"):
+                assert banned not in g3_src, f"G3 closure path references {banned}"
+
+        def t_g3_decode_route_exit3_and_pins() -> None:
+            # G3 decode body: stage-keyed routing + single-target acq +
+            # freeze pins refuse BEFORE any chain load or data contact.
+            assert FLAG_G3D == "--stage-g3-decode"
+            assert check_g3_config_route(tmp / G3_CONFIG_NAME) is None
+            target = tmp / "never_created_g3d"
+            buf = io.StringIO()
+            with contextlib.redirect_stderr(buf):
+                rc = run_stage_g3_decode(
+                    acq_id=G3_TARGET_ACQ, out_root=target,
+                    freeze={k: f"value-{k}" for k in REQUIRED_FREEZE_KEYS},
+                    options={}, _config_path=tmp / "freeze.json",
+                )
+            assert rc == 3, f"run_stage_g3_decode returned {rc!r}, want 3"
+            assert "STAGE_BODY_PENDING_FREEZE" in buf.getvalue()
+            assert not target.exists(), "unrouted G3 decode freeze created output"
+            # Off-target acq refuses (exit 2), creating nothing.
+            buf = io.StringIO()
+            try:
+                with contextlib.redirect_stderr(buf):
+                    run_stage_g3_decode(
+                        acq_id="ELSEWHERE", out_root=tmp / "o_g3d_acq",
+                        freeze={k: f"value-{k}" for k in REQUIRED_FREEZE_KEYS},
+                        options={}, _config_path=tmp / G3_CONFIG_NAME,
+                    )
+            except SystemExit as exc:
+                assert exc.code == 2, f"exit code {exc.code!r}, want 2"
+            else:
+                raise AssertionError("off-target G3 decode acq must exit(2)")
+            assert not (tmp / "o_g3d_acq").exists()
+            # Freeze drift refuses (exit 2) before any chain load: the
+            # synthetic full-freeze drifts on tag_master; a corrected
+            # freeze with shorthand arms drifts on g2_arms verbatim.
+            err = _expect_exit2(lambda: run_stage_g3_decode(
+                acq_id=G3_TARGET_ACQ, out_root=tmp / "o_g3d_drift",
+                freeze=dict(full), options={},
+                _config_path=tmp / G3_CONFIG_NAME,
+            ))
+            assert "tag_master" in err, f"drift refusal must name tag_master: {err.strip()}"
+            assert not (tmp / "o_g3d_drift").exists()
+            ok = dict(full)
+            ok.update({
+                "pairing_window_primary": 200,
+                "pairing_window_sensitivity": 500,
+                "skip_frames": 702,
+                "mod_boundary": "CIRCULAR",
+                "g2_blocks": 14,
+                "tag_master": 2026110101,
+                "g2_arms": ["A1", "A2", "B"],
+                "cal_split_rule": G2_CAL_SPLIT_RULE,
+                "g2_success_rule": G2_SUCCESS_RULE,
+                "g2_inconclusive_rule": G2_INCONCLUSIVE_RULE,
+                "g2_fail_rule": G2_FAIL_RULE,
+                "block_formation_fallback": G2_FALLBACK_RULE,
+            })
+            err = _expect_exit2(lambda: run_stage_g3_decode(
+                acq_id=G3_TARGET_ACQ, out_root=tmp / "o_g3d_arms",
+                freeze=ok, options={},
+                _config_path=tmp / G3_CONFIG_NAME,
+            ))
+            assert "g2_arms" in err, f"arms refusal must name g2_arms: {err.strip()}"
+            assert not (tmp / "o_g3d_arms").exists()
+            # NLL domain labels name the conditioning domain explicitly
+            # (G2 adjudication section 4: u1 vs high_hat).
+            assert "u1" in G3_NLL_DOMAINS["nll_l2_trueH_domain"]
+            assert "high_hat" in G3_NLL_DOMAINS["nll_l2_candH_domain"]
+
         for name, fn in [
             ("complete-json-loads", t_complete_json_loads),
             ("missing-two-keys-exit2-lists-exactly", t_missing_two_keys_exit2_lists_exactly),
@@ -3316,6 +4495,8 @@ def _selfcheck() -> int:
             ("k-pin-319-6492", t_k_pin),
             ("contracts-g1-g1r2", t_contracts_g1_g1r2),
             ("workspace-confinement", t_workspace_confinement),
+            ("g3-route-pins-disclosure-no-decode", t_g3_route_pins_disclosure_no_decode),
+            ("g3-decode-route-exit3-and-pins", t_g3_decode_route_exit3_and_pins),
         ]:
             check(name, fn)
 
@@ -3348,6 +4529,28 @@ def main(argv=None) -> int:
         "Stage-keyed: runs ONLY under g2_freeze_config.json at window 200; "
         "any other freeze exits 3 STAGE_BODY_PENDING_FREEZE with zero data "
         "contact. M2 is a CANDIDATE, never the baseline.",
+    )
+    ap.add_argument(
+        FLAG_G3,
+        dest="stage_g3",
+        action="store_true",
+        help="G3 Phase-A closure on SHG `_2` (NBPOLAR-M2-PRIOR-G3-CONFIRM). "
+        "Decoder-free: alignment by the inherited method (reproduction "
+        "check vs census sigma), pairing at W_P=200, skip-702, ledger + "
+        "segment allocation + g3_freeze_config.json. Stage-keyed: runs "
+        "ONLY under g3_freeze_config.json; any other freeze exits 3 "
+        "STAGE_BODY_PENDING_FREEZE with zero data contact. No decode, no "
+        "SC call, no tag invocation exists on this path.",
+    )
+    ap.add_argument(
+        FLAG_G3D,
+        dest="stage_g3d",
+        action="store_true",
+        help="G3 one-shot three-arm decode on SHG `_2` (NBPOLAR-M2-PRIOR-G3-CONFIRM). "
+        "Stage-keyed: runs ONLY under g3_freeze_config.json with the inherited "
+        "contract (W_P=200, CIRCULAR, skip=702, K1=319/K2=6492, tag_master "
+        "2026110101); any other freeze exits 3 STAGE_BODY_PENDING_FREEZE with "
+        "zero data contact. M2 is a CANDIDATE, never the baseline.",
     )
     ap.add_argument(
         "--closure-only",
@@ -3389,13 +4592,21 @@ def main(argv=None) -> int:
     ap.add_argument("--tag-master", default=None)
     a = ap.parse_args(argv)
 
-    if sum([bool(a.stage_g1), bool(a.stage_g2), bool(a.selfcheck)]) != 1:
-        _fail(f"pick exactly one of {FLAG_G1} / {FLAG_G2} / --selfcheck")
+    if sum([bool(a.stage_g1), bool(a.stage_g2), bool(a.stage_g3),
+             bool(a.stage_g3d), bool(a.selfcheck)]) != 1:
+        _fail(f"pick exactly one of {FLAG_G1} / {FLAG_G2} / {FLAG_G3} / {FLAG_G3D} / --selfcheck")
     if a.selfcheck:
         return _selfcheck()
     # Authorization BEFORE any freeze-config parsing or file access.
     _require_authorized(bool(a.authorized))
-    stage_flag = FLAG_G1 if a.stage_g1 else FLAG_G2
+    if a.stage_g1:
+        stage_flag = FLAG_G1
+    elif a.stage_g2:
+        stage_flag = FLAG_G2
+    elif a.stage_g3:
+        stage_flag = FLAG_G3
+    else:
+        stage_flag = FLAG_G3D
     if not a.freeze_config:
         _fail(f"--freeze-config <path> is required with {stage_flag} (all 19 to_freeze keys; never a default)")
     freeze = load_freeze_config(a.freeze_config)
@@ -3439,6 +4650,16 @@ def main(argv=None) -> int:
         return run_stage_g1_nll(
             acq_id=a.acq_id, out_root=Path(a.out_root), freeze=freeze, options=options,
             closure_only=bool(a.closure_only),
+        )
+    if a.stage_g3:
+        return run_stage_g3(
+            acq_id=a.acq_id, out_root=Path(a.out_root), freeze=freeze, options=options,
+            _config_path=Path(a.freeze_config),
+        )
+    if a.stage_g3d:
+        return run_stage_g3_decode(
+            acq_id=a.acq_id, out_root=Path(a.out_root), freeze=freeze, options=options,
+            _config_path=Path(a.freeze_config),
         )
     return run_stage_g2(
         acq_id=a.acq_id, out_root=Path(a.out_root), freeze=freeze, options=options,
