@@ -61,3 +61,12 @@ production code; reviewer edits no files; coder never self-accepts.
 T1–T9 are all docs/review/memory and small enough to implement directly — the
 orchestrator may run them without the full implement pipeline. O1–O4 are not small
 and are not authorized here at all.
+
+## 待用户裁决的开放问题（2026-09-23）
+
+本节只追加裁决占位，不改上文 T1–T9 与 O1–O4 的内容与勾选，不新增 FER/效率/晋级断言。
+
+- OQ1：Step-1 筛选 ladder 是否锁定 q∈{4,8,16}，还是预允许 q=32。Decision: PENDING
+- OQ2：Step-1 止损用硬性 FER–f 分离阈值（现在定）还是定性 bar 留给未来 freeze。Decision: PENDING
+- OQ3：Step-3 是否确认 GF(32) 为裂维探针，还是预允许其他因式分解。Decision: PENDING
+- OQ4：Stage-3 押后（λ 逐行恒等于 34,119 = 5·(K1+K2)+64 ⇒ cap 比较退化为构造恒等式、判别力为零）是否接受，还是要求附一页纸面判别力说明。Decision: PENDING

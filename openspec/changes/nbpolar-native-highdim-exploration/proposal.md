@@ -197,3 +197,24 @@ See `tasks.md` (T1–T9, all docs/plan/review; no execution authorized).
    factorization be pre-allowed?
 4. Does the user accept DEFERRED Stage-3 as stated, or require a paper-only
    discriminative-power note attached to this change?
+
+## 已核实现状调研（2026-09-23，供新对话接手）
+
+本节只补来源与接手信息，不改上文既有结论。与 §Frozen facts 同主题的结论以原句为准，此处不重述断言、只给来源范围与行号引用，不新增 FER/效率/晋级断言。
+
+(a) 兄弟项目盘点（数值与定性结论以 §Frozen facts 原句为准）：
+- 二元 LDPC / 二元 Polar / 二元 Cascade 均已实现并测过（来源范围：兄弟 checkout 只读引用，本盘点不新增实现/测量断言）。
+- NB-LDPC 现有路线：V7R3 GF(32)×GF(32) 多层、V54 Q_SUB=32 生产壳、V13R3 原生 q=1024（n=256，rate 0.336）；d=1024 现状与目标数值见 §Frozen facts 原句（`f≈12.1` / 6.64 bits/symbol / `f≈1.1`），此处不另写新数。
+- q-ary polar 零实现（NOT_FOUND）；HD-Cascade 无代码；qLDPC 参考止于 q≤256 / d≤64（定性结论以 §Frozen facts 原句为准）。
+- 文件级来源明细除 (b) 行号引用外，其余以兄弟仓只读历史为准，本轮未逐文件新增核对。
+
+(b) Cascade 认知纠正（行号引用为本轮已核实出处）：
+- 不存在"二元 Cascade 对高维不适用"的 blanket verdict。
+- Release 仓否决的是 Cascade-lite 效率：泄漏 2.43× Shannon、β_eff_empirical 恒钳 0，语境为低维 d=32~512 逐层外推（来源：Release 仓 `low_dim_opt/outputs/report/RATE_SATURATION_AND_CASCADE_20260913.md:9,30-31,36-46`）。
+- d=1024 终选为 Cascade 60/60 vs Layered LDPC 59/60、配对检验 p=1.0 ⇒ no_decision（来源：`HD-QKD_Polar_Release/docs/decision-log.md:597-616,619-623`）。
+- cascade-single worktree 仅有域限制（q 非 2 幂 unsupported，建议 NB-LDPC）。
+- 被判"不适合主线"的是 Route C（q 元 Polar，因构造/译码/replay/security 接口全重写），与 Cascade 无关（来源：`总体判断.txt:14,118-135`）。
+
+(c) 本 checkout 的 docs/memory 对 (b) 中 2.43× 与 p=1.0 结论零引用零驳回，属未汇入（文档缺口记录，非对结论的肯定或否定）。
+
+(d) 用户意图与分工：二元三件套已测；要探索高维原生是否有性能提升与优势；坚持"已有数据先成功、新数据最后测"（分工与边界以 §Goal / §Non-Goals / 各 Step 的 not-doing 为准）。
