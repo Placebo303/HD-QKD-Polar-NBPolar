@@ -24,6 +24,43 @@ Durable decisions and rejected alternatives for the HD-QKD_Polar_Comparison-nbpo
 
 ## Decisions
 
+## 2026-09-22 NB-Polar M2-prior G2 Tier-Y one-shot three-arm decode SUCCESS (`NBPOLAR_M2_PRIOR_G2_SUCCESS`)
+
+**Decision**: Adjudicate the single G2 Tier-Y execution on SHG `_1` (w=200/CIRCULAR) as `NBPOLAR_M2_PRIOR_G2_SUCCESS`. B (M2 CANDIDATE, matched 32f CAL) 11/14 exact, Wilson 95% [0.5241027623, 0.9242875166]; A2 (M0 control, matched 32f) 0/14, Wilson [0.0, 0.2153170119]; strict non-overlap (0.5241 > 0.2153). A1 (M0 incumbent, 1024f) 0/14 all `verify_failed` — descriptive, NO gate.
+
+**Context**: Frozen contract intact: K1=319/K2=6492, P16 digest `055c906472dd2a09761761b18aceb5f31d8b5db19bac658721f8dc49c3faea1b`, W_P=200/W_S=500/CIRCULAR/skip=702, EVAL 2398–4189 = 14 blocks, segments all-disjoint, alignment repro 50/112.45189572400645/ok, ledger 4219. `undetected` 0/42 isolated; `nonfinite` 0; disclosure recount mismatch 0 (key 1,432,998 = 34,119×42; public 13,765,206 = 327,743×42; 42 tags, tag_master 2026103001 INHERITED). Counters: `g2_runs: 1`, `sc_calls_on_protected: 126` (3/block × 42), `reruns: 0`. Budget: wall 855.1 s ≤ 900; RSS 1.12 GiB ≤ 2. Gates: independent freeze review PASS (after 3 FAIL cycles), Pre-EXECUTE PASS (S1 deferred-loader ACCEPT-WITH-CONDITION; S3 arms-spelling fix), one-shot execution, Pre-RESULT PASS_WITH_COMMENTS (publication/commit MAY proceed).
+
+**Phase-B patch ruling**: first attempt crashed pre-decode (polar_fn missing keyword-only `field`) at 0 SC/0 tag/no verdict → minimal authorized patch + FIRST verdict-bearing run = NOT a Tier-Y rerun; test gap closed (`test_polar_binder_pins_keyword_only_field`).
+
+**Binding boundaries**: M2 remains a CANDIDATE until G3 passes; NO FER/efficiency/qualification/promotion/composable-net-key claim; NO cross-contract superiority vs G1 (w=500/LINEAR, its own bounded negative); A1 0/14 is a descriptive first incumbent measurement, not a benchmark claim; caveats (a) structured far-offset baseline, (b) q_rest=0 weak at 32f CAL (3/8192=3.66e-4), (c) w=200 timing-truncated population.
+
+**Diagnostic note** (Pre-RESULT comment 1, does NOT affect the gate): the isolated oracle 3rd SC call + `nll_l2_trueH` condition on polar-transformed `views["u1"]`, while the frozen operational path conditions L2 on untransformed `high_hat` (domain `derive_p2` is built in) → `oracle_l2_exact` = 0/42 and the trueH/candH NLL pair is non-discriminative, while operational hard-L2 discriminates. For G3/future NLL work: always state which domain "H-conditioned L2" means.
+
+**Alternatives considered**:
+- Treat B 11/14 as reliability/FER/qualification evidence: rejected — bounded Tier-Y gate outcome only; M2 stays CANDIDATE until G3.
+- Read A1 0/14 as a benchmark defeat of the incumbent: rejected — descriptive first measurement, no gate.
+- Treat the first-attempt crash + patch as a Tier-Y rerun violation: rejected — 0 SC/0 tag/no verdict before the patch; the single verdict-bearing run is the one-shot.
+
+**Consequences**: Evidence in `.workbuddy/queue/NBPOLAR-M2-PRIOR-G2-DECODE/G2_ADJUDICATION.md`; G3 precondition MET, authorization (kai 2026-09-22) operative, dispatch held until the milestone commit lands; SHG `_2` still ZERO contact.
+
+## 2026-09-22 NB-Polar M2-prior K-RESPLIT D4 COMPLETE REPORT ONLY (`NBPOLAR_M2_PRIOR_K_RESPLIT_D4_COMPLETE_REPORT_ONLY`)
+
+**Decision**: Record D4 as report-only, adopting NEITHER branch. fixed-f=1.3 → K_total 6946 (intermediates: N·H 26765.355267304014, 1.3·N·H 34794.96184749522, −64, ÷5 = 6946.192369499045, floor 6946; +135 vs frozen 6811). fixed-K: f(6811)=1.2747449, f(6946)=1.2999641 (deviation −3.59e-5 from 1.3 — R5, floor-loss, never rounded), f(7020)=1.3137879. Frozen-selector splits (imported `select_empirical_split`, never reimplemented): 6811→(328,6483), 6946→(335,6611), 7020→(346,6674). 32 synthetic genie calls, `sc_calls_on_protected: 0`, 6/6 tests.
+
+**Context**: Operator STOP on a packet self-contradiction ("decoder-free" vs genie-derived inputs) → main-thread scope ruling 2026-09-22 (synthetic genie TRAIN allowed; protected contact still forbidden; label changed to "no-protected-data-contact; synthetic-only"). Review D4_PASS_WITH_COMMENTS. Planning input only — G2/G3 stay at frozen 319/6492; fixed-f vs fixed-K remains a later preregistered decision. Evidence: `.workbuddy/queue/NBPOLAR-M2-PRIOR-K-RESPLIT-D4/D4_RECORD.md`, `workspace/m2_prior_validation/k_resplit_d4/{report.md,results.json,run_log.md}` (workspace is gitignored).
+
+**Alternatives considered**:
+- Adopt fixed-f K_total 6946 for G2/G3 now: rejected — G2/G3 stay frozen at 319/6492; the choice is a later preregistered decision.
+- Reimplement the split selector: rejected — frozen `select_empirical_split` imported, never reimplemented.
+
+**Consequences**: No K number moved; no rerun; `next_gate: MILESTONE_BATCH_COMPLETE`.
+
+## 2026-09-22 NB-Polar M2-prior G3 unlocked, held until milestone commit
+
+**Decision**: G3 precondition is MET (G2 SUCCESS) and the G3 authorization (kai 2026-09-22) is now operative; dispatch of Phase 0 + Phase A is deferred until the milestone commit lands (G3 modifies `scripts/m2_prior_validation.py`). SHG `_2` still ZERO contact.
+
+**Consequences**: Next active task after the milestone commit = G3-CONFIRM Phase 0 + A.
+
 ## 2026-09-19 NB-Polar Phase 4 P20Q HOLD IR confirmation accepted (descriptive; B 4/5 restoration, IR-1..IR-5 complete)
 
 **Decision**: Record the single P20Q Tier-Y execution as `TARGET_EMPIRICAL_N32768_HOLD_IR_ALT_CONSTRUCTION_2M_COMPLETE_ACCEPTED_DESCRIPTIVE`, accepted descriptive only. The accepted IR-1..IR-5 payload tables + nine carried scalars are the pre-registered inputs for main-thread H2a–H2e analysis AFTER this acceptance; the follow-on efficiency/disclosure-minimality vs next-upstream-factor branch decision comes after that analysis. Nothing auto-triggers.

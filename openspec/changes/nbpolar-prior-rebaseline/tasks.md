@@ -26,13 +26,18 @@ never check their own boxes. No task authorizes production-data execution.
   Done 2026-09-21: G1 frozen + executed + adjudicated
   (`NBPOLAR_M2_PRIOR_G1_COMPLETE_ADJUDICATED_BOUNDED_NEGATIVE`, bounded
   negative; T6/T7 blocked, not done).
-- [ ] T6: freeze the G2 real-data decode packet (frozen K1=319/K2=6492,
+- [x] T6: freeze the G2 real-data decode packet (frozen K1=319/K2=6492,
   accepted blocks first, one-shot, `undetected` isolation, recount,
   budgets, stop rules). Gate: independent Pre-EXECUTE PASS + explicit
   user authorization pasted in full before any run.
-- [ ] T7: execute T5/T6 exactly once each per freeze; independent
+  Done 2026-09-22: G2 frozen + executed + adjudicated
+  (`NBPOLAR_M2_PRIOR_G2_SUCCESS`; freeze review PASS after 3 FAIL cycles;
+  Pre-EXECUTE PASS; Pre-RESULT PASS_WITH_COMMENTS).
+- [x] T7: execute T5/T6 exactly once each per freeze; independent
   Pre-RESULT review before any result is published or committed.
   Gate: Pre-RESULT PASS; FAIL blocks solidification.
+  Done 2026-09-22: G2 one-shot executed (g2_runs 1, reruns 0),
+  Pre-RESULT PASS_WITH_COMMENTS.
 - [ ] T8: main-thread adjudication (adopt / revise-required / negative
   record). G3 (independent session) and any construction re-derivation
   need their own freezes — explicitly out of this task list.

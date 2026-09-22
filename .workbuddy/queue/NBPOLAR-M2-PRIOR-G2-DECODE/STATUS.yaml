@@ -1,0 +1,51 @@
+# STATUS — NBPOLAR-M2-PRIOR-G2-DECODE (Tier-Y one-shot three-arm decode, SHG `_1`)
+packet: NBPOLAR-M2-PRIOR-G2-DECODE
+branch: codex/nbpolar-phase0
+change: openspec/changes/nbpolar-prior-rebaseline  # **T6 (freeze) + T7 (execute)**; T5 done via G1R2
+parent_packet: NBPOLAR-M2-PRIOR-REALDATA-VALIDATION  # implements its §5 (G2) + §6 (Stage 4)
+predecessor_contracts: {G1: g1_freeze.md (w500/LINEAR, bounded negative), G1R2: g1r2_delta.md (w200/CIRCULAR, executed, dtail+NLL PASS)}
+freeze: g2_freeze.md   # G2_FREEZE_PREPARED_PENDING_REVIEW
+venv: /home/karel_303/.venvs/timetagger/bin/python
+freeze_and_implementation_authorized: true   # user authorization pasted verbatim 2026-09-22 (kai) — T6
+execution_authorized: true                   # T7 one-shot; gated: Pre-EXECUTE PASS + auth recorded BEFORE any decode
+decoder_modification: false                  # frozen: sc.py/algebra/transform + formal_ir/nbpolar/ never modified
+next_gate: MILESTONE_COMMIT_PENDING   # G2 adjudicated SUCCESS; publication/commit gated on the milestone commit
+pre_execute_review: {state: pass, reviewer: reviewer-go, verdict: PRE_EXECUTE_PASS, phaseB_unblocked: true, notes: "S1 deferred-loader mechanism ACCEPT-WITH-CONDITION (frozen source executed identically, stub parents carry real __path__, skipped __init__s are re-exports not consumed by the G2 chain, fail-closed pandas stub, P17 digest check before any SC call); condition: Phase-B return must include loader smoke lines and any loader/chunk/digest failure is a STOP-blocker. S3 arms-spelling fix verified. Thin budget margin (126 calls ~756 s vs 900 s) — record per-block wall_s."}
+main_thread_ruling_2026_09_22_phaseB_patch:
+  decision: "AUTHORIZE minimal runner patch (polar_fn must pass field=/alpha= to the frozen polar_transform) + ONE execution of the verbatim command."
+  why_not_a_tierY_violation: >-
+    The one-shot execution HAS NOT happened: the run crashed on the first block of the first arm BEFORE any decode —
+    out-root absent, 0 SC calls on protected data, 0 tag invocations, 0 blocks decoded, NO verdict rendered, no
+    outcomes observed. Nothing exists to tune against. The Tier-Y rerun ban exists to prevent adjusting after seeing
+    results; patching an implementation defect and then performing the FIRST actual verdict-bearing run does not
+    violate it. No seed/threshold/K/order/window/MOD change is involved.
+  constraints: >-
+    Patch scope is the polar_fn wrapper ONLY (build the field once via chain.make_gf32(), pass field= and
+    alpha=chain.alpha). No measurement-set reduction, no threshold/seed/K/order/window/MOD change, no second
+    execution if this one renders a verdict. If it fails again, STOP as a blocker — no workaround, no third attempt.
+  evidence_of_no_decode: "out-root workspace/m2_prior_validation/20260113_SHG_Type2PPLN_3s_g2/ ABSENT; sc_calls_on_protected 0; tag_invocations 0."
+main_thread_corrections_2026_09_22:
+  S3_arms_spelling: "Phase-B command --arms now uses the FULL frozen g2_arms spellings (A1_M0_1024f_incumbent,A2_M0_32f_matched,B_M2_32f_candidate); the A1,A2,B shorthand is withdrawn (it failed the verbatim flag<->key cross-check). Freeze VALUES unchanged."
+  S2_budget_arithmetic: "Measurement semantics require 3 SC calls/block (L1, hard-L2, oracle_l2_exact) => 3x14x3 = 126 calls ~= 756 s + overhead vs the 900 s cap; freeze budget arithmetic corrected (thinner margin, measurement set NOT reduced)."
+  S1_loader_mechanism: "DEFERRED to Pre-EXECUTE ruling: the frozen package import needs pandas, absent from the mandated venv; the body uses a deferred loader (bare parent packages with real __path__, frozen __init__s never run, files unmodified) + fail-closed pandas alias. Frozen-tree diff empty; smoke-verified. Pre-EXECUTE must accept or reject this mechanism before any decode."
+counters: {g2_runs: 1, sc_calls_on_protected: 126, tag_invocations: 42, reruns: 0}
+ids:
+  G2-0_phase0_tests: pass
+  G2-A_closure: pass
+  G2-1_freeze_preauth: pass
+  G2-2_oneshot_A1A2B: pass
+  G2-3_measurement_accounting: pass
+  G2-4_no_rerun_gate: pass
+  R1_preresult: pass
+  R2_adjudication: pass
+artifacts: [.workbuddy/queue/NBPOLAR-M2-PRIOR-G2-DECODE/g2_freeze_config.json,
+  comparison_bench/tests/test_nbpolar_m2_g2_decode.py, scripts/m2_prior_validation.py,
+  workspace/m2_prior_validation/20260113_SHG_Type2PPLN_3s_g2/per_block_outcomes.jsonl,
+  workspace/m2_prior_validation/20260113_SHG_Type2PPLN_3s_g2/g2_summary.json,
+  workspace/m2_prior_validation/20260113_SHG_Type2PPLN_3s_g2/cal_ids.json,
+  workspace/m2_prior_validation/20260113_SHG_Type2PPLN_3s_g2/run_log.md]
+result: {id: NBPOLAR_M2_PRIOR_G2_SUCCESS, summary: 'B 11/14 exact Wilson [0.5241,0.9243] vs A2
+  0/14 Wilson [0.0,0.2153]: strict non-overlap => SUCCESS; A1 0/14 descriptive,
+  no gate; undetected 0 isolated; recount mismatch 0; 126 SC/42 tags;
+  wall 855.1s/RSS 1.12GiB within budget; one-shot, no rerun/tuning',
+  decision_needed: null}

@@ -1,0 +1,52 @@
+# STATUS — NBPOLAR-M2-PRIOR-G3-CONFIRM
+packet: NBPOLAR-M2-PRIOR-G3-CONFIRM
+branch: codex/nbpolar-phase0
+change: openspec/changes/nbpolar-prior-rebaseline  # D6 gate **G3** (independent-session confirmation)
+venv: /home/karel_303/.venvs/timetagger/bin/python
+nature: Tier-Y one-shot confirmation; M2 remains a CANDIDATE until G3 passes
+precondition: "VOID unless the G2 adjudication ADOPTS M2 (SUCCESS); verified by main thread before dispatch"
+g3_authorized: true               # user authorization pasted verbatim 2026-09-22 (kai) — HELD: precondition not yet met
+execution_one_shot: true          # gated BOTH on the precondition AND on Pre-EXECUTE PASS + auth recorded before decode
+decoder_modification: false        # frozen: sc.py/algebra/transform/prior_m2.py + formal_ir/nbpolar/ never modified
+precondition_status: MET  # G2 adjudicated SUCCESS 2026-09-22 (`NBPOLAR_M2_PRIOR_G2_SUCCESS`, G2_ADJUDICATION.md)
+next_gate: AWAITING_MILESTONE_COMMIT_THEN_PHASE0_PHASEA_DISPATCH  # precondition met; held authorization operative; G3 modifies scripts/m2_prior_validation.py so it MUST wait for the G2 milestone commit to land first (no concurrent runner edits)
+authorization_hold_note: >-
+  Authorization (kai 2026-09-22) was received while the packet's PRECONDITION (G2 adjudication ADOPTS M2) was
+  unsatisfied, and was HELD: not dispatched, SHG `_2` untouched. The precondition is now MET — G2 returned SUCCESS
+  (B 11/14 Wilson [0.5241,0.9243] vs A2 0/14 [0.0,0.2153], strict non-overlap; undetected 0 isolated; recount
+  mismatch 0; one-shot). The held authorization is therefore OPERATIVE and G3 may be dispatched — Phase 0 + Phase A
+  first, then Pre-EXECUTE + recorded authorization BEFORE any decode. G3 participation disclosure required in
+  every output (decoder/model independence, NOT no-prior-contact independence).
+counters: {closure_runs: 0, g3_runs: 0, sc_calls_on_protected: 0, tag_invocations: 0, reruns: 0}
+target_acq: 20260113_SHG_Type2PPLN_3s_2
+contract_inherited_from_SHG_1:
+  pairing_rule: N_narrow_nearest_unique
+  W_P: 200
+  W_S: 500                         # sensitivity readout only, no switching
+  mod_boundary: CIRCULAR
+  skip_frames: 702                 # INHERITED_NOT_DERIVED
+  N: 32768
+  K1: 319
+  K2: 6492                         # no re-split (D4 deferred), no increase
+  construction_digest: 055c906472dd2a09761761b18aceb5f31d8b5db19bac658721f8dc49c3faea1b
+  tag_master: 2026110101           # EVAL_SEED 2026100101 + 10000 (fresh)
+  g3_blocks_target: 14
+  gates: {B_tail: 2.0e-4, delta_min: 0.020, wilson_z: 1.96}
+  fallback: COMPLETE-BLOCKS-ONLY else INSUFFICIENT=>INCONCLUSIVE
+alignment_reproduction_check: "census sigma ~= 114.4 ps (decoder-free census); method inherited, offset VALUE never inherited"
+participation_disclosure: >-
+  SHG `_2` is NOT untouched: the 2026-09-21 dual-rule census ran decoder-free alignment (sigma 114.4 ps),
+  a full pairing grid and (N)-200 H_total=0.816770 on it, and its cells informed the W_P recommendation.
+  Never done on SHG `_2`: prior fitting, any decoder run, or M2 model selection. G3 independence is
+  decoder/model independence, NOT no-prior-contact independence — state this in every G3 result.
+ids:
+  G3-0_phase0_tests: pending
+  G3-A_closure: pending
+  G3-1_freeze_preauth: pending
+  G3-2_oneshot_decode: pending
+  G3-3_measurement_disclosure: pending
+  G3-4_no_rerun_gate: pending
+  R1_preresult: pending
+  R2_adjudication: pending
+artifacts: []
+result: {id: null, summary: null, decision_needed: null}

@@ -7,10 +7,16 @@ the ``--authorized`` hard gate, flag/freeze cross-check, the frozen
 held-out NLL body (``--stage-g1-nll``) is implemented decoder-free per
 ``NBPOLAR-M2-PRIOR-G1-REALDATA-NLL`` / ``g1_freeze.md`` (Phase-0 code;
 Phase-A ``--closure-only`` framing pass + Phase-B full G1 science). The
-G2 stage body belongs to a later freeze: after all validation passes it
-exits 3 ``STAGE_BODY_PENDING_FREEZE`` with zero data contact (nothing
-read beyond the freeze-config file, nothing created). No decoder runs
-under this packet.
+G2 one-shot three-arm decode body (``--stage-g2-decode``) is implemented
+per ``NBPOLAR-M2-PRIOR-G2-DECODE`` / ``g2_freeze.md``: stage-keyed routing
+(only the G2 packet's own ``g2_freeze_config.json`` at window 200 reaches
+the body; any other freeze exits 3 ``STAGE_BODY_PENDING_FREEZE`` with
+zero data contact), per-arm CAL priors via the frozen M2/M0 leaves, and
+two-layer causal SC through the accepted chunked ``sc_decode``
+(chunk_rows=512) by importing and calling the frozen
+``operational_f13``/P17 procedures (deferred production-only loader;
+tests pass an explicit fake chain and never enter it). M2 is a
+CANDIDATE, never the baseline.
 Science constants are window-keyed contracts: the G1 legacy contract at
 w=500 is preserved verbatim, and the G1R2 successor at w=200 (delta
 item 8, NBPOLAR-M2-PRIOR-G1R2-W200-CIRCULAR) reuses the same mechanics.
@@ -373,6 +379,404 @@ REPRO_GATE_G1R2 = {
 }
 G1R2_PACKET_DIR = _REPO_ROOT / ".workbuddy" / "queue" / "NBPOLAR-M2-PRIOR-G1R2-W200-CIRCULAR"
 G1R2_CONFIG_NAME = "g1r2_freeze_config.json"
+
+# ---------------------------------------------------------------------------
+# G2 constants + pure helpers (NBPOLAR-M2-PRIOR-G2-DECODE, g2_freeze.md).
+#
+# Routing (blocking-fix B3) is STAGE-KEYED, never window-only: only the G2
+# packet's own freeze (config name ``g2_freeze_config.json`` at window 200,
+# i.e. the G1R2 science mechanics) reaches the decode body. The G2 stage
+# writes NO packet dir at all (Phase-B outputs are out-root-only); in
+# particular it SHALL NOT write to the G1 or G1R2 packet dirs.
+# ---------------------------------------------------------------------------
+
+G2_PACKET = "NBPOLAR-M2-PRIOR-G2-DECODE"
+G2_PACKET_DIR = _REPO_ROOT / ".workbuddy" / "queue" / "NBPOLAR-M2-PRIOR-G2-DECODE"
+G2_CONFIG_NAME = "g2_freeze_config.json"
+G2_LABEL = "G2"
+
+# Frozen decode constants (g2_freeze.md "Frozen decode constants").
+G2_N = 32768
+G2_K1 = FROZEN_K1  # 319
+G2_K2 = FROZEN_K2  # 6492
+G2_TAG_BITS = 64
+G2_DISCLOSED_BITS = 5
+G2_CHUNK_ROWS = 512  # frozen `sc._minus_block` default (P11 contract)
+G2_FLOOR = 1e-15
+# Tag/seed provenance (freeze rows 7 + B1/R7): INHERITED from G1R2
+# (value-identical); G1R2 was decoder-free so no tag/seed stream was ever
+# consumed there. Rule TAG_MASTER = EVAL_SEED + 10000.
+G2_EVAL_SEED = 2026093001
+G2_TAG_MASTER = 2026103001
+# Construction provenance (freeze clarification N2): canonical P16 path
+# (never re-derived); the pinned digest is the INNER P16 procedure digest
+# (the wrapper file's own sha256 differs — expected, P17-established).
+G2_CONSTRUCTION_PATH = (
+    _REPO_ROOT / ".workbuddy" / "queue"
+    / "NBPOLAR-PHASE4-P16-N32768-OPERATIONAL-F13" / "operational_f13_gate"
+    / "construction_and_allocation.json"
+)
+G2_CONSTRUCTION_DIGEST = (
+    "055c906472dd2a09761761b18aceb5f31d8b5db19bac658721f8dc49c3faea1b"
+)
+
+# Frozen EVAL layout: post-skip frames 2398–4189 = 14 blocks × 128 frames
+# × 256 pairs; N = 32768 pairs per block.
+G2_EVAL_FIRST = 2398
+G2_EVAL_LAST = 4189
+G2_BLOCK_FRAMES = 128
+G2_BLOCKS = 14
+
+# Wilson gate uses the two-sided 95% score interval (z=1.96) — NOT the
+# frozen protocol one-sided lower bound (WILSON_Z=1.6449).
+G2_WILSON_Z = 1.96
+
+G2_ARMS = (
+    "A1_M0_1024f_incumbent",
+    "A2_M0_32f_matched",
+    "B_M2_32f_candidate",
+)
+# Each arm fits on its OWN sacrificed CAL (freeze row 5): A1 on the
+# 1024-frame incumbent budget (262,144 pairs), A2/B on the matched
+# 32-frame CAL (8,192 pairs). Ranges are post-skip frame ids, inclusive.
+G2_ARM_CAL = {
+    "A1_M0_1024f_incumbent": (0, 1023),
+    "A2_M0_32f_matched": (1024, 1055),
+    "B_M2_32f_candidate": (1024, 1055),
+}
+
+G2_OUTCOMES = (
+    "exact",
+    "verify_failed",
+    "undetected",
+    "decode_failed",
+    "nonfinite",
+    "resource_abort",
+)
+
+G2_BUDGET_S = 900.0
+
+# Verbatim-inherited rule literals (G1R2 closure values; the G2 body
+# refuses drift on the rules it consumes).
+G2_CAL_SPLIT_RULE = (
+    "RULE-FIT32-SCORE-HELDOUT: fit all 32, score disjoint held-out, seed N/A"
+)
+G2_SUCCESS_RULE = (
+    "Wilson-lower(B) > Wilson-upper(A2), strict non-overlap, z=1.96"
+)
+G2_INCONCLUSIVE_RULE = (
+    "point(B) > point(A2) but CIs overlap => bounded negative"
+)
+G2_FAIL_RULE = "point(B) <= point(A2)"
+G2_FALLBACK_RULE = (
+    "COMPLETE-BLOCKS-ONLY, else INSUFFICIENT=>INCONCLUSIVE "
+    "(never pad/reuse/shrink)"
+)
+
+# Caveats carried into the G2 record (freeze review N1 + truncation R5).
+G2_CAVEATS = (
+    "a) the census far-offset accidental baseline is structured, not uniform "
+    "(S11 R4: far-offset tail ~= 0.40 vs uniform 0.997): the w=200 accidental "
+    "estimate (0.0058) must NOT be read as a uniform-accidental level; "
+    "b) q_rest = 0 is a weak statement at a 32-frame CAL (zero-observation "
+    "upper bound 3/8192 = 3.66e-4): G2 is precisely the test of whether that "
+    "matters, so a FAIL/INCONCLUSIVE verdict must NOT later be misread as "
+    "premise validation; "
+    "c) w=200 keeps a timing-truncated population (c0 count identical across "
+    "windows but jitter-heavy coincidences preferentially dropped): state it "
+    "in any rate/efficiency/leakage sentence. "
+    "M2 is a CANDIDATE, never the baseline."
+)
+
+
+def check_g2_config_route(config_path) -> str | None:
+    """None when ``--freeze-config`` routes to the G2 body, else the reason.
+
+    Stage-keyed (B3), never window-only: the G2 decode body executes ONLY
+    for the G2 packet's own freeze name (``g2_freeze_config.json``) and
+    never for a path at/under the G1 or G1R2 packet dirs. A non-None
+    return means exit 3 ``STAGE_BODY_PENDING_FREEZE`` (this freeze carries
+    no G2 body) with zero data contact — never a silent fallback, never a
+    write. Pure: resolves paths but creates nothing.
+    """
+    if config_path is None:
+        return "no --freeze-config path supplied (G2 body needs its stage-keyed freeze)"
+    p = Path(config_path)
+    if p.name != G2_CONFIG_NAME:
+        return (
+            f"config name {p.name!r} != stage-keyed {G2_CONFIG_NAME!r}: "
+            "the G2 body runs only under its own packet freeze (never window-only)"
+        )
+    try:
+        r = p.expanduser()
+        if not r.is_absolute():
+            r = Path.cwd() / r
+        r = r.resolve()
+    except Exception as exc:
+        return f"cannot resolve --freeze-config {config_path!s}: {exc}"
+    for foreign in (G1_PACKET_DIR, G1R2_PACKET_DIR):
+        try:
+            f = foreign.resolve()
+        except Exception:
+            f = foreign
+        if r == f or f in r.parents or r == f / G1_CONFIG_NAME or r == f / G1R2_CONFIG_NAME:
+            return (
+                f"refusing routed path {r}: at/under a G1/G1R2 packet dir; "
+                "the G2 stage never runs off (or writes to) those dirs"
+            )
+    return None
+
+
+def g2_eval_blocks() -> list:
+    """Frozen EVAL block list: 14 blocks × [start,end] post-skip frames.
+
+    Block b covers frames 2398+128*b .. +127; the last block ends exactly
+    at 4189. Pure.
+    """
+    blocks = []
+    for b in range(G2_BLOCKS):
+        s = G2_EVAL_FIRST + b * G2_BLOCK_FRAMES
+        blocks.append([s, s + G2_BLOCK_FRAMES - 1])
+    if blocks[-1][1] != G2_EVAL_LAST or blocks[0][0] != G2_EVAL_FIRST:
+        raise AssertionError(f"G2 EVAL layout drift: {blocks[0]}..{blocks[-1]}")
+    return blocks
+
+
+def g2_cal_ids(arm: str) -> list:
+    """Post-skip CAL frame ids for one frozen arm name (pure).
+
+    Only the three freeze spellings route anywhere; anything else raises
+    (never a silent default CAL).
+    """
+    try:
+        s, e = G2_ARM_CAL[arm]
+    except (KeyError, TypeError):
+        raise ValueError(f"unknown G2 arm {arm!r} (frozen arms: {list(G2_ARMS)})")
+    return list(range(s, e + 1))
+
+
+def wilson_interval(k, n, z=G2_WILSON_Z) -> dict:
+    """Two-sided Wilson score interval for a binomial proportion (pure).
+
+    ``k`` exact of ``n`` blocks at ``z`` (frozen 1.96). Boundaries clamp:
+    k=0 -> lower 0.0, k=n -> upper 1.0. Stdlib-only.
+    """
+    k = int(k)
+    n = int(n)
+    z = float(z)
+    if n <= 0:
+        raise ValueError(f"n must be positive, got {n!r}")
+    if not 0 <= k <= n:
+        raise ValueError(f"k must lie in 0..n, got k={k!r} n={n!r}")
+    if not z > 0 or not math.isfinite(z):
+        raise ValueError(f"z must be finite and positive, got {z!r}")
+    p = k / n
+    denom = 1.0 + z * z / n
+    center = (p + z * z / (2.0 * n)) / denom
+    half = z * math.sqrt(p * (1.0 - p) / n + z * z / (4.0 * n * n)) / denom
+    return {
+        "k": k,
+        "n": n,
+        "z": z,
+        "p_hat": p,
+        "lower": max(0.0, center - half),
+        "upper": min(1.0, center + half),
+    }
+
+
+def eval_g2_gate(b_exact, a2_exact, n=G2_BLOCKS, z=G2_WILSON_Z) -> dict:
+    """Preregistered G2 Wilson gate (pure; A1 descriptive, no gate).
+
+    SUCCESS iff Wilson-lower(B) > Wilson-upper(A2) (strict non-overlap);
+    FAIL iff point(B) <= point(A2); else INCONCLUSIVE (bounded negative,
+    no tuning, no rerun). ``undetected`` never enters: callers pass exact
+    counts only.
+    """
+    b = wilson_interval(b_exact, n, z)
+    a = wilson_interval(a2_exact, n, z)
+    if b["lower"] > a["upper"]:
+        verdict = "SUCCESS"
+    elif b["p_hat"] <= a["p_hat"]:
+        verdict = "FAIL"
+    else:
+        verdict = "INCONCLUSIVE"
+    return {"b": b, "a2": a, "n": int(n), "verdict": verdict}
+
+
+def g2_exact_from(tag_pass, label_match) -> dict:
+    """Tag-verified exactness with ``undetected`` isolated (pure).
+
+    ``exact`` = tag_pass AND label_match; ``undetected`` = tag pass
+    without label match — a separate key, never merged into success/FER.
+    """
+    tag = bool(tag_pass)
+    match = bool(label_match)
+    return {
+        "tag_pass": tag,
+        "label_match": match,
+        "exact": bool(tag and match),
+        "undetected": bool(tag and not match),
+    }
+
+
+def g2_first_error(high_hat, high_true, low_hat, low_true) -> dict:
+    """First operational error coordinate AND layer (pure, no I/O).
+
+    Source-symbol index of the first position where either layer hat
+    differs from truth; layer is ``L1`` when the high layer differs there,
+    else ``L2``. No hats (L1 failure) or no mismatch ->
+    ``(None, None)``. Hats are read-only here; never mutated.
+    """
+    if high_hat is None or low_hat is None:
+        return {"coordinate": None, "layer": None}
+    hh = np.asarray(high_hat, dtype=np.int64).ravel()
+    ht = np.asarray(high_true, dtype=np.int64).ravel()
+    lh = np.asarray(low_hat, dtype=np.int64).ravel()
+    lt = np.asarray(low_true, dtype=np.int64).ravel()
+    if not (hh.shape == ht.shape == lh.shape == lt.shape):
+        raise ValueError(
+            f"hat/truth shape mismatch: {hh.shape}/{ht.shape}/{lh.shape}/{lt.shape}"
+        )
+    bad = (hh != ht) | (lh != lt)
+    idx = np.flatnonzero(bad)
+    if idx.size == 0:
+        return {"coordinate": None, "layer": None}
+    i = int(idx[0])
+    return {"coordinate": i, "layer": "L1" if hh[i] != ht[i] else "L2"}
+
+
+def g2_truth_views(alice, polar_fn) -> dict:
+    """Source/transform truth views for one EVAL block (pure).
+
+    ``high = alice >> 5``, ``low = alice & 31`` (frozen
+    ``A = 32*U1 + U2`` packing); ``u1/u2 = polar_fn(high/low)``;
+    ``labels = alice``. ``polar_fn`` is injected (production: the frozen
+    chain ``polar_transform``; tests: an explicit fake). Symbols are
+    validated to [0,1023]; inputs never mutated.
+    """
+    a = np.asarray(alice, dtype=np.int64).ravel()
+    if a.size == 0:
+        raise ValueError("empty alice block")
+    if a.min() < 0 or a.max() > 1023:
+        raise ValueError("alice symbols out of [0,1023]")
+    high = (a >> 5).astype(np.int64)
+    low = (a & 31).astype(np.int64)
+    u1 = np.asarray(polar_fn(high), dtype=np.int64).ravel()
+    u2 = np.asarray(polar_fn(low), dtype=np.int64).ravel()
+    if u1.shape != a.shape or u2.shape != a.shape:
+        raise ValueError(
+            f"polar_fn shape mismatch: {u1.shape}/{u2.shape} vs {a.shape}"
+        )
+    return {"high": high, "low": low, "u1": u1, "u2": u2, "labels": a.copy()}
+
+
+def g2_l2_nll_bits(p2_table, bob, u1cond, u2true, prior_mod, provenance) -> dict | None:
+    """Mean L2 NLL (bits) of true ``u2`` under one H-conditioning (pure).
+
+    Gathers frozen L2 rows for the conditioning ``u1cond`` (true-H for the
+    oracle view, hard candidate-H for the operational view) and scores
+    ``-log2 P(u2true)`` via the UNCHANGED frozen metric pipeline.
+    ``u1cond=None`` (L2 never ran) -> None. Decoder-free scoring only.
+    """
+    if u1cond is None:
+        return None
+    b = np.asarray(bob, dtype=np.int64).ravel()
+    h = np.asarray(u1cond, dtype=np.int64).ravel()
+    u = np.asarray(u2true, dtype=np.int64).ravel()
+    if not (b.shape == h.shape == u.shape):
+        raise ValueError(f"bob/u1cond/u2 shape mismatch: {b.shape}/{h.shape}/{u.shape}")
+    g = np.asarray(
+        prior_mod.gather_p2_metrics(b[None, :], h[None, :], p2_table),
+        dtype=np.float64,
+    ).reshape(-1, 32)
+    s = prior_mod.probs_to_symbol_metric(g, provenance=provenance)
+    nll = -np.asarray(s.logp)[np.arange(u.size), u] / math.log(2)
+    return {"n_symbols": int(u.size), "nll_mean_bits": float(nll.mean())}
+
+
+def g2_floor_audit(raw_joint, joint, alice, bob) -> dict:
+    """Raw-zero vs fixed-floor accounting for one block (pure).
+
+    ``raw_joint`` is the pre-floor table (M0 raw MLE / M2 triple base),
+    ``joint`` the floored+renormalized table actually decoded with.
+    ``n_raw_zero_hits`` = positions whose true pair sat on an exact raw
+    zero (scored at the floor); ``n_floor_lifted`` = positions with
+    0 < raw < 1e-15; ``floor_logloss_bits`` = -log2(joint) summed over the
+    raw-zero hits. Decoder-free measurement plumbing.
+    """
+    r = np.asarray(raw_joint, dtype=np.float64)
+    j = np.asarray(joint, dtype=np.float64)
+    a = np.asarray(alice, dtype=np.int64).ravel()
+    b = np.asarray(bob, dtype=np.int64).ravel()
+    if r.shape != (G1_D, G1_D) or j.shape != (G1_D, G1_D):
+        raise ValueError(f"tables must be (1024,1024), got {r.shape}/{j.shape}")
+    if a.shape != b.shape:
+        raise ValueError(f"alice/bob length mismatch: {a.shape} vs {b.shape}")
+    raw = r[a, b]
+    flo = j[a, b]
+    if not np.isfinite(flo).all() or (flo <= 0).any():
+        raise ValueError("floored table must hold finite positive mass on block pairs")
+    zero = raw == 0.0
+    lifted = (raw > 0.0) & (raw < G2_FLOOR)
+    with np.errstate(divide="ignore"):
+        ll = -np.log2(flo[zero]).sum()
+    return {
+        "n": int(a.size),
+        "n_raw_zero_hits": int(zero.sum()),
+        "n_floor_lifted": int(lifted.sum()),
+        "floor_logloss_bits": float(ll),
+    }
+
+
+def recount_g2_disclosure(records, k1=G2_K1, k2=G2_K2) -> dict:
+    """Independent literal disclosure recount over block records (pure).
+
+    Recomputes per-record key/public bits from the frozen accounting rule
+    (5 bits per disclosed coordinate, 64 per invoked tag, 10*N+63 public
+    seed bits per invoked tag) and diffs against the incremental totals;
+    any mismatch invalidates the run. ``tag_invocations`` counts invoked
+    per-block final tags.
+    """
+    n = G2_N
+    seed_len = 10 * int(n) + 63
+    inc_key = 0
+    inc_pub = 0
+    inc_tag = 0
+    re_key = 0
+    re_pub = 0
+    re_tag = 0
+    for rec in records:
+        inc_key += int(rec["key_dependent_bits"])
+        inc_pub += int(rec["public_control_bits"])
+        inc_tag += int(rec.get("tag_invoked", False))
+        want_key = G2_DISCLOSED_BITS * int(k1)
+        if rec.get("l2_invoked", False):
+            want_key += G2_DISCLOSED_BITS * int(k2)
+        if rec.get("tag_invoked", False):
+            want_key += G2_TAG_BITS
+            re_pub += seed_len
+            re_tag += 1
+        re_key += want_key
+    mismatches = []
+    if inc_key != re_key:
+        mismatches.append(f"key_dependent_bits:{inc_key}!={re_key}")
+    if inc_pub != re_pub:
+        mismatches.append(f"public_control_bits:{inc_pub}!={re_pub}")
+    if inc_tag != re_tag:
+        mismatches.append(f"tag_invocations:{inc_tag}!={re_tag}")
+    return {
+        "incremental": {
+            "key_dependent_bits": inc_key,
+            "public_control_bits": inc_pub,
+            "tag_invocations": inc_tag,
+        },
+        "recount": {
+            "key_dependent_bits": re_key,
+            "public_control_bits": re_pub,
+            "tag_invocations": re_tag,
+        },
+        "mismatches": mismatches,
+    }
 
 # Per-contract record. Selection is explicit and deterministic via
 # freeze["pairing_window_primary"] (500 -> G1 legacy, 200 -> G1R2) —
@@ -1586,20 +1990,812 @@ def run_stage_g1_nll(*, acq_id: str, out_root: Path, freeze: dict, options: dict
                           options=options, _read_timetags=_read_timetags)
 
 
-def run_stage_g2(*, acq_id: str, out_root: Path, freeze: dict, options: dict) -> int:
-    """G2 one-shot entry (Stage-1: body pending freeze, packet §6).
+def _load_g2_decoder_chain():
+    """Deferred production-only import of the frozen decoder chain.
 
-    Post-validation Stage-1 behaviour: exit 3 ``STAGE_BODY_PENDING_FREEZE``
-    with zero data contact (nothing read, nothing created). The G2 science
-    body belongs to a later freeze.
+    Loads the REAL frozen modules (``operational_f13``,
+    ``operational_f13_replication`` (P17 procedure), ``two_layer``,
+    ``transform``, ``algebra``, ``sc``, ``shared``) by file location
+    through bare parent packages: the real ``formal_ir``/``nbpolar``
+    ``__init__`` files are NEVER executed (the mandated venv has no
+    pandas), and NO frozen file is modified. If pandas is missing, a
+    fail-closed alias is installed: any attribute access raises
+    ``ImportError`` loudly, so pandas can never silently affect numerics
+    (the G2 path never touches it; ``shared.py`` uses ``pd`` only inside
+    functions this path never calls, with lazy annotations). The frozen
+    chunk contract (P11: ``sc._minus_block`` default exactly 512) is
+    asserted fail-closed. Returns a namespace of frozen callables.
+
+    Production path ONLY (called from ``run_stage_g2`` with
+    ``_decode_chain=None``). Tests/selfcheck/closure MUST pass an
+    explicit fake chain and never call this.
     """
-    print(
-        "STAGE_BODY_PENDING_FREEZE: Stage G2 decode body belongs to a later freeze "
-        f"(packet {STAGE1_PACKET} §6; all validation passed for acq {acq_id}; "
-        "zero data contact: nothing read, nothing created)",
-        file=sys.stderr,
+    import importlib
+    import importlib.util
+    import types as _types
+
+    base_formal = "comparison_bench.src.comparison_bench.formal_ir"
+    base_nb = base_formal + ".nbpolar"
+    formal_dir = (
+        _REPO_ROOT / "comparison_bench" / "src" / "comparison_bench" / "formal_ir"
     )
-    return 3
+    nb_dir = formal_dir / "nbpolar"
+    for name, path in ((base_formal, formal_dir), (base_nb, nb_dir)):
+        if name not in sys.modules:
+            stub = _types.ModuleType(name)
+            stub.__path__ = [str(path)]
+            sys.modules[name] = stub
+    if importlib.util.find_spec("pandas") is None and "pandas" not in sys.modules:
+        class _FailClosedPandas(_types.ModuleType):
+            def __getattr__(self, name):
+                raise ImportError(
+                    "pandas is not installed in the mandated venv; refusing "
+                    f"pd use (attribute {name!r}) on the G2 decode path"
+                )
+
+        stub_pd = _FailClosedPandas("pandas")
+        stub_pd.__version__ = "0-stub-fail-closed"
+        sys.modules["pandas"] = stub_pd
+    opf = importlib.import_module(base_nb + ".operational_f13")
+    rep = importlib.import_module(base_nb + ".operational_f13_replication")
+    tl = importlib.import_module(base_nb + ".two_layer")
+    tf = importlib.import_module(base_nb + ".transform")
+    alg = importlib.import_module(base_nb + ".algebra")
+    sc_mod = importlib.import_module(base_nb + ".sc")
+    shared = importlib.import_module(base_formal + ".shared")
+    import inspect as _inspect
+
+    try:
+        chunk_default = _inspect.signature(sc_mod._minus_block).parameters[
+            "chunk_rows"
+        ].default
+    except (KeyError, AttributeError, ValueError) as exc:
+        _fail(f"frozen chunk contract drift: cannot read _minus_block signature: {exc}")
+    if chunk_default != G2_CHUNK_ROWS:
+        _fail(
+            "frozen chunk contract drift: _minus_block chunk_rows default "
+            f"{chunk_default!r} != frozen {G2_CHUNK_ROWS}"
+        )
+    return _types.SimpleNamespace(
+        run_operational_block=opf.run_operational_block,
+        classify_operational_outcome=opf.classify_operational_outcome,
+        operational_seed_bits=opf.operational_seed_bits,
+        verify_predecessor_construction=rep.verify_predecessor_construction,
+        sc_decode=sc_mod.sc_decode,
+        toeplitz_tag=shared.toeplitz_tag,
+        labels_to_bits=tl.labels_to_bits,
+        seed_bits_for=tl.seed_bits_for,
+        polar_transform=tf.polar_transform,
+        make_gf32=alg.make_gf32,
+        disclosed_bits_per_coordinate=tl.DISCLOSED_BITS_PER_COORDINATE,
+        tag_bits=tl.TAG_BITS,
+        alpha=tl.ALPHA,
+    )
+
+
+def fit_g2_arm(arm, cal_a, cal_b, mod, m2_mod) -> dict:
+    """Fit one arm's prior on its OWN sacrificed CAL (pure + frozen leaves).
+
+    A1/A2 (incumbent, as-deployed): raw-MLE M0 via ``build_m0_joint``;
+    B (CANDIDATE): ±1 triple via ``fit_m2_triple`` -> ``build_m2_joint``
+    (frozen MOD). Returns the floored joint actually decoded with, the
+    pre-floor raw table for the floor audit, and the triple (B only).
+    Only the three frozen arm spellings route anywhere.
+    """
+    if arm not in G2_ARM_CAL:
+        raise ValueError(f"unknown G2 arm {arm!r} (frozen arms: {list(G2_ARMS)})")
+    a = np.asarray(cal_a, dtype=np.int64).ravel()
+    b = np.asarray(cal_b, dtype=np.int64).ravel()
+    if a.shape != b.shape:
+        raise ValueError(f"alice/bob length mismatch: {a.shape} vs {b.shape}")
+    counts = build_counts_1024(a, b)
+    n_cal = int(counts.sum())
+    if arm == "B_M2_32f_candidate":
+        triple = m2_mod.fit_m2_triple(counts, mod=mod)
+        joint = m2_mod.build_m2_joint(
+            triple["q0"], triple["q_plus1"], triple["q_minus1"], mod=mod
+        )
+        d = np.arange(G1_D)
+        raw = np.zeros((G1_D, G1_D), dtype=np.float64)
+        raw[d, d] = float(triple["q0"])
+        raw[(d + 1) % G1_D, d] = float(triple["q_plus1"])
+        raw[(d - 1) % G1_D, d] = float(triple["q_minus1"])
+        mode = "M2"
+    else:
+        triple = None
+        joint = m2_mod.build_m0_joint(counts)
+        mat = counts.astype(np.float64)
+        n_b = mat.sum(axis=0)
+        empty = n_b == 0
+        denom = np.where(empty, 1.0, n_b)
+        raw = mat / denom[None, :]
+        if empty.any():
+            raw[:, empty] = 1.0 / G1_D
+        mode = "M0"
+    return {
+        "arm": arm,
+        "mode": mode,
+        "n_cal_pairs": n_cal,
+        "triple": triple,
+        "joint": np.asarray(joint, dtype=np.float64),
+        "raw": raw,
+    }
+
+
+def _bind_g2_polar(polar_fn, field, alpha):
+    """Bind the frozen polar call shape ``(vec, *, field, alpha)`` (pure).
+
+    The frozen ``polar_transform`` requires keyword-only ``field``; this
+    adapter binds the chain's field/alpha once so block code calls
+    ``polar_fn(vec)``. No data contact; used by ``run_stage_g2`` with the
+    production chain and by tests with a signature-strict fake.
+    """
+    _p, _f, _a = polar_fn, field, int(alpha)
+    return lambda v, _p=_p, _f=_f, _a=_a: np.asarray(
+        _p(np.asarray(v, dtype=np.int64), field=_f, alpha=_a), dtype=np.int64
+    )
+
+
+def run_g2_block(
+    *,
+    arm,
+    block_index,
+    eval_frames,
+    bob,
+    alice,
+    fit,
+    p1_table,
+    p2_table,
+    l1_order,
+    l2_order,
+    k1,
+    k2,
+    tag_master,
+    eval_seed,
+    chain,
+    polar_fn,
+    prior_mod,
+) -> dict:
+    """Decode ONE arm × EVAL block (scalar record; arrays never persisted).
+
+    Operational path: two-layer causal SC by importing and calling the
+    frozen ``run_operational_block`` (accepted chunked ``sc_decode``,
+    chunk_rows=512 by the frozen default; 64-bit Toeplitz tag from
+    ``tag_master``; ``exact`` = tag_pass AND label_match, ``undetected``
+    isolated). Plus the G2 measurement set: ``oracle_l2_exact`` (third SC
+    call, true-H-conditioned L2 metric, same disclosures — isolated
+    diagnostic, never touches the operational outcome), first-error
+    coordinate+layer, raw-zero/floor audit + log loss, true-H and
+    candidate-H L2 NLL, disclosure bits, wall/RSS, SC/tag call counts.
+    ``chain`` is the production loader namespace or an explicit fake
+    (tests MUST pass a fake). Returns the scalar block record.
+    """
+    import time as _time
+
+    t0 = _time.perf_counter()
+    n = int(np.asarray(bob).size)
+    views = g2_truth_views(alice, polar_fn)
+    field = chain.make_gf32()
+    label_bits = chain.labels_to_bits(views["labels"])
+    l1_pos = np.asarray(l1_order, dtype=np.int64)[: int(k1)]
+    l2_pos = np.asarray(l2_order, dtype=np.int64)[: int(k2)]
+    calls = {"sc": 0, "tag": 0}
+
+    def _tag_fn(bits, seed, tag_bits):
+        calls["tag"] = int(calls.get("tag", 0)) + 1
+        return chain.toeplitz_tag(bits, seed, tag_bits)
+
+    res = chain.run_operational_block(
+        n=n,
+        stream_seed=int(eval_seed),
+        block_index=int(block_index),
+        bob=np.asarray(bob, dtype=np.int64),
+        high_true=views["high"],
+        low_true=views["low"],
+        u1_true=views["u1"],
+        u2_true=views["u2"],
+        labels_true=views["labels"],
+        labels_true_bits=np.asarray(label_bits),
+        field=field,
+        p1_table=np.asarray(p1_table, dtype=np.float64),
+        p2_table=np.asarray(p2_table, dtype=np.float64),
+        l1_order=[int(v) for v in list(l1_pos)],
+        l2_order=[int(v) for v in list(l2_pos)],
+        k1=int(k1),
+        k2=int(k2),
+        master=int(tag_master),
+        tag_fn=_tag_fn,
+        calls=calls,
+    )
+    # Oracle L2 (isolated diagnostic): true-high-conditioned metric, SAME
+    # D2 disclosures, fresh SC call, ORACLE lineage. Never alters the
+    # operational outcome; failure records None loudly, never silently.
+    oracle_exact = None
+    oracle_error = None
+    try:
+        g_or = np.asarray(
+            prior_mod.gather_p2_metrics(
+                np.asarray(bob, dtype=np.int64)[None, :],
+                views["u1"][None, :],
+                np.asarray(p2_table, dtype=np.float64),
+            ),
+            dtype=np.float64,
+        ).reshape(-1, 32)
+        s_or = prior_mod.probs_to_symbol_metric(
+            g_or, provenance=prior_mod.Provenance.ORACLE_CONDITIONED
+        )
+        calls["sc"] = int(calls.get("sc", 0)) + 1
+        sc_or = chain.sc_decode(
+            s_or.logp,
+            field=field,
+            alpha=int(chain.alpha),
+            known_positions=l2_pos,
+            known_values=np.asarray(views["u2"], dtype=np.int64)[l2_pos],
+        )
+        oracle_exact = bool(
+            np.array_equal(np.asarray(sc_or.x_hat), views["low"])
+        )
+    except Exception as exc:
+        oracle_error = type(exc).__name__
+    cand_u1 = None
+    if getattr(res, "high_hat", None) is not None:
+        cand_u1 = np.asarray(res.high_hat, dtype=np.int64).ravel()
+    nll_true = g2_l2_nll_bits(
+        np.asarray(p2_table, dtype=np.float64),
+        np.asarray(bob, dtype=np.int64),
+        views["u1"],
+        views["u2"],
+        prior_mod,
+        prior_mod.Provenance.ORACLE_CONDITIONED,
+    )
+    nll_cand = g2_l2_nll_bits(
+        np.asarray(p2_table, dtype=np.float64),
+        np.asarray(bob, dtype=np.int64),
+        cand_u1,
+        views["u2"],
+        prior_mod,
+        prior_mod.Provenance.CANDIDATE_CONDITIONED,
+    )
+    first = g2_first_error(
+        getattr(res, "high_hat", None),
+        views["high"],
+        getattr(res, "low_hat", None),
+        views["low"],
+    )
+    floor = g2_floor_audit(
+        fit["raw"],
+        fit["joint"],
+        views["labels"],
+        np.asarray(bob, dtype=np.int64),
+    )
+    verdict = g2_exact_from(res.tag_pass, res.label_match)
+    wall = _time.perf_counter() - t0
+    return {
+        "arm": arm,
+        "block_index": int(block_index),
+        "eval_frames": [int(eval_frames[0]), int(eval_frames[1])],
+        "n": n,
+        "outcome": str(res.outcome),
+        "exact": bool(verdict["exact"]),
+        "undetected": bool(verdict["undetected"]),
+        "tag_pass": bool(verdict["tag_pass"]),
+        "label_match": bool(verdict["label_match"]),
+        "l1_exact": bool(res.l1_exact),
+        "hard_l2_exact": bool(res.hard_l2_exact),
+        "oracle_l2_exact": oracle_exact,
+        "oracle_error": oracle_error,
+        "pair_exact": bool(res.pair_exact),
+        "first_error_coordinate": first["coordinate"],
+        "first_error_layer": first["layer"],
+        "n_raw_zero_hits": floor["n_raw_zero_hits"],
+        "n_floor_lifted": floor["n_floor_lifted"],
+        "floor_logloss_bits": floor["floor_logloss_bits"],
+        "nll_l2_trueH_bits": (nll_true["nll_mean_bits"] if nll_true else None),
+        "nll_l2_candH_bits": (nll_cand["nll_mean_bits"] if nll_cand else None),
+        "l1_executed": bool(res.l1_executed),
+        "l1_decode_failed": bool(res.l1_decode_failed),
+        "l2_invoked": bool(res.l2_invoked),
+        "l2_skipped_by_l1_failure": bool(res.l2_skipped_by_l1_failure),
+        "l2_decode_failed": bool(res.l2_decode_failed),
+        "tag_invoked": bool(res.tag_invoked),
+        "key_dependent_bits": int(res.key_dependent_bits),
+        "public_control_bits": int(res.public_control_bits),
+        "nonfinite": bool(res.nonfinite),
+        "truth_leak_violation": bool(res.truth_leak_violation),
+        "l1_error_type": res.l1_error_type,
+        "l2_error_type": res.l2_error_type,
+        "wall_s": float(wall),
+        "rss_gib_peak_advisory": _peak_rss_gib_advisory(),
+        "sc_calls": int(calls.get("sc", 0)),
+        "tag_fn_calls": int(calls.get("tag", 0)),
+    }
+
+
+def _g2_abort_record(arm, block_index, eval_frames) -> dict:
+    """Scalar resource_abort record (budget stop; never decoded)."""
+    return {
+        "arm": arm,
+        "block_index": int(block_index),
+        "eval_frames": [int(eval_frames[0]), int(eval_frames[1])],
+        "n": G2_N,
+        "outcome": "resource_abort",
+        "exact": False,
+        "undetected": False,
+        "tag_pass": False,
+        "label_match": False,
+        "l1_exact": False,
+        "hard_l2_exact": False,
+        "oracle_l2_exact": None,
+        "oracle_error": "resource_abort",
+        "pair_exact": False,
+        "first_error_coordinate": None,
+        "first_error_layer": None,
+        "n_raw_zero_hits": 0,
+        "n_floor_lifted": 0,
+        "floor_logloss_bits": 0.0,
+        "nll_l2_trueH_bits": None,
+        "nll_l2_candH_bits": None,
+        "l1_executed": False,
+        "l1_decode_failed": False,
+        "l2_invoked": False,
+        "l2_skipped_by_l1_failure": False,
+        "l2_decode_failed": False,
+        "tag_invoked": False,
+        "key_dependent_bits": 0,
+        "public_control_bits": 0,
+        "nonfinite": False,
+        "truth_leak_violation": False,
+        "l1_error_type": None,
+        "l2_error_type": None,
+        "wall_s": 0.0,
+        "rss_gib_peak_advisory": _peak_rss_gib_advisory(),
+        "sc_calls": 0,
+        "tag_fn_calls": 0,
+    }
+
+
+def run_g2_eval(
+    *,
+    out_root: Path,
+    frames_a,
+    frames_b,
+    eval_blocks,
+    arms_fit,
+    p_tables,
+    l1_order,
+    l2_order,
+    k1,
+    k2,
+    tag_master,
+    eval_seed,
+    chain,
+    polar_fn,
+    prior_mod,
+    budget_s=G2_BUDGET_S,
+    budget_rss_gib=BUDGET_RSS_GIB,
+) -> tuple:
+    """Decode all arms × EVAL blocks; flush ``per_block_outcomes.jsonl``.
+
+    ``frames_a``/``frames_b`` are post-skip complete-frame arrays;
+    ``eval_blocks`` the frozen ``[[start,end]]`` list; ``arms_fit`` maps
+    arm -> :func:`fit_g2_arm` record; ``p_tables`` maps arm ->
+    ``(p1, p2)`` layer tables. ``chain`` is production or explicit fake.
+    Budget stop (wall/RSS) marks remaining blocks ``resource_abort``
+    (never padded, reused, or shrunk). Returns ``(records, metre)`` where
+    ``metre`` carries elapsed wall, abort flag, and SC/tag totals.
+    """
+    import time as _time
+
+    t0 = _time.time()
+    fa = np.asarray(frames_a, dtype=np.int64)
+    fb = np.asarray(frames_b, dtype=np.int64)
+    if fa.shape != fb.shape or fa.ndim != 2:
+        raise ValueError(f"frames must be equal (F,P), got {fa.shape}/{fb.shape}")
+    records: list = []
+    aborted = False
+    sc_total = 0
+    tag_total = 0
+    for arm in G2_ARMS:
+        fit = arms_fit[arm]
+        p1, p2 = p_tables[arm]
+        for b, (s, e) in enumerate(eval_blocks):
+            if _time.time() - t0 > float(budget_s):
+                aborted = True
+            elif _peak_rss_gib_advisory() is not None and float(
+                _peak_rss_gib_advisory()
+            ) > float(budget_rss_gib):
+                aborted = True
+            if aborted:
+                records.append(_g2_abort_record(arm, b, [s, e]))
+                continue
+            rec = run_g2_block(
+                arm=arm,
+                block_index=b,
+                eval_frames=[s, e],
+                bob=fb[s : e + 1].ravel(),
+                alice=fa[s : e + 1].ravel(),
+                fit=fit,
+                p1_table=p1,
+                p2_table=p2,
+                l1_order=l1_order,
+                l2_order=l2_order,
+                k1=k1,
+                k2=k2,
+                tag_master=tag_master,
+                eval_seed=eval_seed,
+                chain=chain,
+                polar_fn=polar_fn,
+                prior_mod=prior_mod,
+            )
+            sc_total += rec["sc_calls"]
+            tag_total += int(rec["tag_invoked"])
+            records.append(rec)
+    out_root.mkdir(parents=True, exist_ok=True)
+    with open(out_root / "per_block_outcomes.jsonl", "w", encoding="utf-8") as fh:
+        for rec in records:
+            fh.write(json.dumps(rec, sort_keys=True) + "\n")
+    metre = {
+        "wall_s": _time.time() - t0,
+        "budget_aborted": bool(aborted),
+        "sc_calls": int(sc_total),
+        "tag_invocations": int(tag_total),
+    }
+    return records, metre
+
+
+def run_stage_g2(
+    *,
+    acq_id: str,
+    out_root: Path,
+    freeze: dict,
+    options: dict,
+    _read_timetags=None,
+    _decode_chain=None,
+    _frames_bundle=None,
+    _config_path=None,
+) -> int:
+    """G2 one-shot three-arm decode (SHG `_1`, w=200/CIRCULAR; Tier-Y).
+
+    Stage-keyed routing first: any freeze that is not the G2 packet's own
+    ``g2_freeze_config.json`` (or not at window 200) exits 3
+    ``STAGE_BODY_PENDING_FREEZE`` with zero data contact — the G2 body is
+    pending for THAT freeze, never a silent window-only fallback, and no
+    G1/G1R2 packet path is ever written. Under the G2 freeze: re-verify
+    the G1R2 reproduction literals bit-exact (mismatch => loud STOP),
+    verify the P16 construction (P17 procedure, pinned inner digest)
+    BEFORE any SC call, fit per-arm priors on each arm's OWN sacrificed
+    CAL, decode 14 EVAL blocks × 3 arms through the frozen operational
+    path, and render the preregistered Wilson gate (``undetected``
+    isolated). Returns 0 with the verdict recorded (SUCCESS/FAIL/
+    INCONCLUSIVE are complete Tier-Y returns); 1 for INSUFFICIENT/budget
+    stops (INCONCLUSIVE recorded); 2 for guard/mismatch refusals.
+
+    ``_read_timetags``/``_decode_chain``/``_frames_bundle`` are the
+    injectable seams: production passes none (FileReader + real frozen
+    chain + real align/pair); tests MUST pass explicit fakes and never
+    enter the production decoder.
+    """
+    import time as _time
+
+    t0 = _time.time()
+    # -- Stage-keyed routing (B3): not our freeze => exit 3, zero contact.
+    # The route check runs BEFORE contract selection so a non-G2 freeze
+    # name alone (even with a non-200 window) exits 3 without consulting
+    # anything else.
+    routed = check_g2_config_route(_config_path)
+    if routed is not None:
+        print(
+            "STAGE_BODY_PENDING_FREEZE: " + routed + (
+                f" (packet {G2_PACKET}; acq {acq_id}; "
+                "zero data contact: nothing read, nothing created)"
+            ),
+            file=sys.stderr,
+        )
+        return 3
+    contract = contract_for_freeze(freeze)
+    if contract["label"] != "G1R2":
+        print(
+            "STAGE_BODY_PENDING_FREEZE: freeze window routes to "
+            f"{contract['label']}, not the w=200 G1R2 science mechanics "
+            "the G2 body requires "
+            f"(packet {G2_PACKET}; acq {acq_id}; "
+            "zero data contact: nothing read, nothing created)",
+            file=sys.stderr,
+        )
+        return 3
+    # -- G2 freeze-content pins (exit 2, listing; the freeze file is
+    # authoritative but the body refuses drift on what it consumes).
+    pins = [
+        ("pairing_window_primary", 200),
+        ("pairing_window_sensitivity", 500),
+        ("skip_frames", 702),
+        ("mod_boundary", "CIRCULAR"),
+        ("g2_blocks", G2_BLOCKS),
+        ("tag_master", G2_TAG_MASTER),
+    ]
+    bad_pins = [
+        f"{key}={freeze.get(key)!r} != frozen {want!r}"
+        for key, want in pins
+        if freeze.get(key) != want
+    ]
+    if list(freeze.get("g2_arms", [])) != list(G2_ARMS):
+        bad_pins.append(f"g2_arms={freeze.get('g2_arms')!r} != frozen {list(G2_ARMS)!r}")
+    for key in (
+        "cal_split_rule",
+        "g2_success_rule",
+        "g2_inconclusive_rule",
+        "g2_fail_rule",
+        "block_formation_fallback",
+    ):
+        want = {
+            "cal_split_rule": G2_CAL_SPLIT_RULE,
+            "g2_success_rule": G2_SUCCESS_RULE,
+            "g2_inconclusive_rule": G2_INCONCLUSIVE_RULE,
+            "g2_fail_rule": G2_FAIL_RULE,
+            "block_formation_fallback": G2_FALLBACK_RULE,
+        }[key]
+        if freeze.get(key) != want:
+            bad_pins.append(f"{key} != frozen literal")
+    if bad_pins:
+        _fail(
+            "G2 freeze-content drift (refusing to run off-contract): "
+            + "; ".join(bad_pins)
+        )
+    chain = _decode_chain or _load_g2_decoder_chain()
+    # -- Construction identity BEFORE any SC call (P17 procedure, pinned
+    # inner digest; wrapper-file sha differs — expected).
+    try:
+        identity = chain.verify_predecessor_construction(
+            G2_CONSTRUCTION_PATH, expected_digest=G2_CONSTRUCTION_DIGEST
+        )
+    except Exception as exc:
+        _fail(f"G2 construction identity FAILED: {exc}")
+    l1_order = identity["l1_order"]
+    l2_order = identity["l2_order"]
+    if len(l1_order) != G2_N or len(l2_order) != G2_N:
+        _fail(f"G2 orders length {len(l1_order)}/{len(l2_order)} != N={G2_N}")
+
+    m2_mod = _frozen_m2()
+    prior_mod = _frozen_prior()
+    window = int(freeze["pairing_window_primary"])
+    skip = int(freeze["skip_frames"])
+    mod = str(freeze["mod_boundary"])
+
+    if _frames_bundle is None:
+        read = _read_timetags or _read_timetags_production
+        got = read(acq_id)
+        tA, tB = got["tA"], got["tB"]
+        if float(got.get("other_frac", 0.0)) > 0.20:
+            _fail(f"G2 CHANNEL_FAIL other_frac={got.get('other_frac')}")
+        peak = _align_frozen(tA, tB)
+        if not (
+            peak.get("status") == "ok"
+            and peak.get("peak_to_bg") is not None
+            and float(peak.get("peak_to_bg")) >= G1_PEAK_TO_BG_MIN
+        ):
+            _fail(f"G2 ALIGN_FAIL status={peak.get('status')} to_bg={peak.get('peak_to_bg')}")
+        offset = int(peak.get("peak_center_ps"))
+        sweep = _yield_sweep_selfcheck(tA, tB, offset)
+        sweep_ok, sweep["yield_note"] = _sweep_accept(sweep)
+        if not sweep_ok:
+            _fail(f"G2 ALIGN_INCONSISTENT offset={offset}")
+        alice, bob = pair_narrow_nearest_unique(tA, tB, offset, window)
+        del tA, tB
+        n_pairs = int(alice.size)
+        n_frames = n_pairs // G1_FRAME_PAIRS
+        gate = contract["repro_gate"]
+        if not (
+            peak.get("peak_center_ps") == gate["peak_center_ps"]
+            and peak.get("peak_sigma_ps") == gate["peak_sigma_ps"]
+            and peak.get("status") == gate["status"]
+            and n_pairs == gate["n_pairs"]
+            and n_frames == gate["n_frames"]
+        ):
+            _fail(
+                "G2 ALIGN_INCONSISTENT reproduction gate mismatch "
+                f"(expected {gate}; observed peak={peak.get('peak_center_ps')}/"
+                f"{peak.get('peak_sigma_ps')}/{peak.get('status')} "
+                f"n_pairs={n_pairs} n_frames={n_frames})"
+            )
+        frames_a, frames_b, ledger = chunk_frames(alice, bob, skip)
+        del alice, bob
+        align_rec = {
+            "peak_center_ps": peak.get("peak_center_ps"),
+            "peak_sigma_ps": peak.get("peak_sigma_ps"),
+            "status": peak.get("status"),
+        }
+    else:
+        # Test-only bundle: explicit fake frames (synthetic; decoder-free
+        # except the injected fake chain). Reproduction checks are skipped
+        # (no census literals apply to synthetic fixtures); layout, CAL
+        # fitting, metrics, NLL, floor audit, gate, and routing run real.
+        frames_a = np.asarray(_frames_bundle["frames_a"], dtype=np.int64)
+        frames_b = np.asarray(_frames_bundle["frames_b"], dtype=np.int64)
+        ledger = {"complete_frames": int(_frames_bundle["ledger_complete"])}
+        align_rec = {"peak_center_ps": 50, "status": "synthetic-bundle"}
+    try:
+        segments = segment_frame_lists(ledger["complete_frames"])
+    except _InsufficientFrames as exc:
+        out_root.mkdir(parents=True, exist_ok=True)
+        verdict = {
+            "packet": G2_PACKET,
+            "mode": "g2-decode",
+            "acq_id": acq_id,
+            "verdict": "INCONCLUSIVE",
+            "reason": f"INSUFFICIENT: {exc}",
+            "fallback": G2_FALLBACK_RULE,
+        }
+        _write_json(out_root / "g2_summary.json", verdict)
+        print(f"G2_INSUFFICIENT {exc}", file=sys.stderr)
+        return 1
+    for key, want in (
+        ("a1_cal_ids", segments["a1_cal"]),
+        ("cal_frame_ids", segments["cal32"]),
+        ("heldout_frame_ids", segments["heldout"]),
+    ):
+        if list(freeze.get(key)) != want:
+            _fail(
+                f"G2 input freeze {key} != §4 rule enumeration "
+                "(bootstrap the input config from the frozen rules verbatim)"
+            )
+    named = {name: segments[name] for name, _, _ in SEG_RANGES}
+    matrix = disjointness_matrix(
+        {k: named[k] for k in ("a1_cal", "cal32", "char", "heldout", "eval")}
+    )
+    if not matrix["all_disjoint"]:
+        _fail(f"G2 segment overlap invalidates run: {matrix['pairwise_overlap']}")
+    eval_blocks = g2_eval_blocks()
+    if eval_blocks[-1][1] >= ledger["complete_frames"]:
+        _fail(
+            f"G2 EVAL {eval_blocks[-1]} beyond post-skip ledger "
+            f"{ledger['complete_frames']} (never pad/reuse/shrink)"
+        )
+
+    arms_fit = {}
+    p_tables = {}
+    for arm in G2_ARMS:
+        cal_ids = g2_cal_ids(arm)
+        cal_a = frames_a[cal_ids].ravel()
+        cal_b = frames_b[cal_ids].ravel()
+        fit = fit_g2_arm(arm, cal_a, cal_b, mod, m2_mod)
+        arms_fit[arm] = fit
+        p_tables[arm] = (
+            np.asarray(prior_mod.derive_p1(fit["joint"]), dtype=np.float64),
+            np.asarray(prior_mod.derive_p2(fit["joint"]), dtype=np.float64),
+        )
+        del cal_a, cal_b
+    polar_fn = getattr(chain, "polar_transform", None)
+    if polar_fn is None:
+        _fail("G2 decode chain lacks polar_transform")
+    # The frozen polar_transform(symbols, *, field, alpha) requires the
+    # keyword-only field: build it ONCE here and bind it (plus alpha) into
+    # the wrapper. Field construction is decode-external (no data contact).
+    try:
+        _g2_field = chain.make_gf32()
+        _g2_alpha = int(chain.alpha)
+    except Exception as exc:
+        _fail(f"G2 decode chain field/alpha unavailable: {exc}")
+    _polar, _field, _alpha = polar_fn, _g2_field, _g2_alpha
+    records, metre = run_g2_eval(
+        out_root=out_root,
+        frames_a=frames_a,
+        frames_b=frames_b,
+        eval_blocks=eval_blocks,
+        arms_fit=arms_fit,
+        p_tables=p_tables,
+        l1_order=l1_order,
+        l2_order=l2_order,
+        k1=G2_K1,
+        k2=G2_K2,
+        tag_master=int(freeze["tag_master"]),
+        eval_seed=G2_EVAL_SEED,
+        chain=chain,
+        polar_fn=_bind_g2_polar(_polar, _field, _alpha),
+        prior_mod=prior_mod,
+        budget_s=G2_BUDGET_S,
+        budget_rss_gib=BUDGET_RSS_GIB,
+    )
+    del frames_a, frames_b
+    by_arm = {}
+    for arm in G2_ARMS:
+        arm_recs = [r for r in records if r["arm"] == arm]
+        by_arm[arm] = {
+            "n_blocks": len(arm_recs),
+            "exact": sum(1 for r in arm_recs if r["exact"]),
+            "undetected": sum(1 for r in arm_recs if r["undetected"]),
+            "outcomes": {o: sum(1 for r in arm_recs if r["outcome"] == o) for o in G2_OUTCOMES},
+        }
+    gate = eval_g2_gate(by_arm["B_M2_32f_candidate"]["exact"], by_arm["A2_M0_32f_matched"]["exact"])
+    recount = recount_g2_disclosure(records)
+    if recount["mismatches"]:
+        _fail(f"G2 disclosure recount mismatch: {recount['mismatches']}")
+    elapsed = _time.time() - t0
+    summary = {
+        "packet": G2_PACKET,
+        "freeze": f"{G2_PACKET}/g2_freeze.md",
+        "contract": {"window": window, "label": contract["label"], "mode": "g2-decode"},
+        "acq_id": acq_id,
+        "nature": "Tier-Y decision gate, decoder run; M2 CANDIDATE, never baseline",
+        "align": align_rec,
+        "ledger": ledger,
+        "construction": {
+            "path": str(G2_CONSTRUCTION_PATH),
+            "inner_digest": G2_CONSTRUCTION_DIGEST,
+            "k1": G2_K1,
+            "k2": G2_K2,
+            "n": G2_N,
+        },
+        "arms": {
+            arm: {
+                "mode": arms_fit[arm]["mode"],
+                "n_cal_pairs": arms_fit[arm]["n_cal_pairs"],
+                "triple": (
+                    {k: (float(v) if isinstance(v, float) else v)
+                     for k, v in arms_fit[arm]["triple"].items()}
+                    if arms_fit[arm]["triple"] else None
+                ),
+                **by_arm[arm],
+            }
+            for arm in G2_ARMS
+        },
+        "gate": gate,
+        "verdict": (
+            gate["verdict"] if not metre["budget_aborted"] else "INCONCLUSIVE"
+        ),
+        "budget_aborted": bool(metre["budget_aborted"]),
+        "disclosure_recount": recount,
+        "caveats": G2_CAVEATS,
+        "timing": {
+            "wall_s": elapsed,
+            "wall_budget_s": G2_BUDGET_S,
+            "rss_gib_peak_advisory": _peak_rss_gib_advisory(),
+            "rss_budget_gib": BUDGET_RSS_GIB,
+        },
+        "calls": {
+            "sc_calls": metre["sc_calls"],
+            "tag_invocations": metre["tag_invocations"],
+        },
+    }
+    _write_json(out_root / "g2_summary.json", summary)
+    _write_json(
+        out_root / "cal_ids.json",
+        {
+            "acq_id": acq_id,
+            "layout_rule": "g2_freeze.md §4 (0-based post-skip complete frames)",
+            "a1_cal_ids": named["a1_cal"],
+            "cal_frame_ids": named["cal32"],
+            "char_frame_ids": named["char"],
+            "heldout_frame_ids": named["heldout"],
+            "eval_blocks": eval_blocks,
+            "disjointness_matrix": matrix,
+        },
+    )
+    (out_root / "run_log.md").write_text(
+        f"# G2 one-shot run log — {G2_PACKET}\n\n"
+        f"acq: {acq_id}\n"
+        f"arms: A1 exact={by_arm['A1_M0_1024f_incumbent']['exact']}/14 "
+        f"(descriptive) | A2 exact={by_arm['A2_M0_32f_matched']['exact']}/14 | "
+        f"B exact={by_arm['B_M2_32f_candidate']['exact']}/14\n"
+        f"gate: {gate['verdict']} "
+        f"(B {gate['b']['lower']:.4f}-{gate['b']['upper']:.4f} vs "
+        f"A2 {gate['a2']['lower']:.4f}-{gate['a2']['upper']:.4f})\n"
+        f"undetected: A1={by_arm['A1_M0_1024f_incumbent']['undetected']} "
+        f"A2={by_arm['A2_M0_32f_matched']['undetected']} "
+        f"B={by_arm['B_M2_32f_candidate']['undetected']} (isolated, never success)\n"
+        f"disclosure recount mismatches={recount['mismatches']}\n"
+        f"sc_calls={metre['sc_calls']} tag_invocations={metre['tag_invocations']} "
+        f"wall_s={elapsed:.1f} (budget {G2_BUDGET_S})\n",
+        encoding="utf-8",
+    )
+    if metre["budget_aborted"] or elapsed > G2_BUDGET_S:
+        print(f"G2_BUDGET_EXCEEDED wall_s={elapsed:.1f} > {G2_BUDGET_S}", file=sys.stderr)
+        return 1
+    print(
+        f"G2_DONE acq={acq_id} verdict={summary['verdict']} "
+        f"A2={by_arm['A2_M0_32f_matched']['exact']}/14 "
+        f"B={by_arm['B_M2_32f_candidate']['exact']}/14 wall_s={elapsed:.1f}"
+    )
+    return 0
 
 
 def _selfcheck() -> int:
@@ -1608,8 +2804,11 @@ def _selfcheck() -> int:
     Covers: freeze-config loading + missing-key detection, the
     ``--authorized`` guard, the out-root guards (forbidden trees +
     ``workspace/`` confinement), flag/freeze cross-check, the frozen
-    319/6492 K pin, and the exit-3 ``STAGE_BODY_PENDING_FREEZE`` bodies
-    (zero data contact). Prints one PASS/FAIL line per check; returns 0
+    319/6492 K pin, the G2 stage-keyed routing (non-G2 freeze exits 3
+    ``STAGE_BODY_PENDING_FREEZE`` with zero data contact), and the G2
+    pure helpers (Wilson gate, EVAL layout, first-error, floor audit,
+    recount) plus one fake-chain G2 block (synthetic; production decoder
+    never entered). Prints one PASS/FAIL line per check; returns 0
     iff all pass.
     """
     import contextlib
@@ -1722,19 +2921,202 @@ def _selfcheck() -> int:
                 _out_root_refusal(tmp / "workspace" / "m2_prior_validation") is None
             )
 
-        def t_g2_body_still_exit3() -> None:
+        def t_g2_route_exit3_unrouted_zero_contact() -> None:
+            # Stage-keyed routing (B3): a non-G2 freeze (Stage-1-era name +
+            # window-500 contract) exits 3 with zero data contact — the G2
+            # body is pending for THAT freeze, never a silent fallback.
             target = tmp / "never_created_g2"
             buf = io.StringIO()
             with contextlib.redirect_stderr(buf):
-                rc = run_stage_g2(acq_id="X", out_root=target, freeze=dict(full), options={})
+                rc = run_stage_g2(
+                    acq_id="X", out_root=target, freeze=dict(full), options={},
+                    _config_path=tmp / "freeze.json",
+                )
             assert rc == 3, f"run_stage_g2 returned {rc!r}, want 3"
             assert "STAGE_BODY_PENDING_FREEZE" in buf.getvalue(), (
-                "run_stage_g2 must name STAGE_BODY_PENDING_FREEZE"
+                "unrouted G2 freeze must name STAGE_BODY_PENDING_FREEZE"
             )
-            assert STAGE1_PACKET in buf.getvalue(), (
-                "run_stage_g2 must point at the Stage 1 packet"
+            assert not target.exists(), "unrouted G2 freeze created output"
+            # G1/G1R2 packet-dir paths never route, even with a G2 name.
+            for foreign in (
+                G1_PACKET_DIR / G1_CONFIG_NAME,
+                G1R2_PACKET_DIR / G1R2_CONFIG_NAME,
+                G1_PACKET_DIR / G2_CONFIG_NAME,
+            ):
+                assert check_g2_config_route(foreign) is not None, foreign
+            assert check_g2_config_route(None) is not None
+            assert (
+                check_g2_config_route(tmp / G2_CONFIG_NAME) is None
+            ), "a G2-named temp freeze must route"
+
+        def t_g2_pure_helpers() -> None:
+            # EVAL layout: 14 blocks x 128 frames x 256 pairs = N=32768;
+            # A1-CAL 262,144 pairs; A2/B-CAL 8,192 pairs.
+            blocks = g2_eval_blocks()
+            assert len(blocks) == 14, len(blocks)
+            assert blocks[0] == [2398, 2525], blocks[0]
+            assert blocks[-1] == [4062, 4189], blocks[-1]
+            assert all(e - s + 1 == 128 for s, e in blocks)
+            assert 128 * 256 == G2_N == 32768, (128 * 256, G2_N)
+            assert 14 * G2_BLOCK_FRAMES * 256 == 14 * G2_N == 458752
+            assert len(g2_cal_ids("A1_M0_1024f_incumbent")) * 256 == 262144
+            assert len(g2_cal_ids("A2_M0_32f_matched")) * 256 == 8192
+            assert len(g2_cal_ids("B_M2_32f_candidate")) * 256 == 8192
+            assert g2_cal_ids("A1_M0_1024f_incumbent") == list(range(0, 1024))
+            try:
+                g2_cal_ids("A9")
+            except ValueError as exc:
+                assert "unknown G2 arm" in str(exc)
+            else:
+                raise AssertionError("unknown arm must raise")
+            # Wilson boundaries: 0/14 clamps lower to 0, 14/14 upper to 1.
+            z0 = wilson_interval(0, 14)
+            assert z0["lower"] == 0.0 and 0.0 < z0["upper"] < 1.0, z0
+            assert abs(z0["upper"] - 0.21533) < 1e-4, z0
+            z14 = wilson_interval(14, 14)
+            assert z14["upper"] == 1.0 and 0.0 < z14["lower"] < 1.0, z14
+            assert abs(z14["lower"] - 0.78467) < 1e-4, z14
+            for bad_k, bad_n in ((-1, 14), (15, 14), (3, 0)):
+                try:
+                    wilson_interval(bad_k, bad_n)
+                except ValueError:
+                    pass
+                else:
+                    raise AssertionError(f"wilson({bad_k},{bad_n}) must raise")
+            # Gate: strict non-overlap SUCCESS; equal points FAIL;
+            # better-point overlap INCONCLUSIVE.
+            assert eval_g2_gate(14, 0)["verdict"] == "SUCCESS"
+            assert eval_g2_gate(7, 7)["verdict"] == "FAIL"
+            assert eval_g2_gate(0, 14)["verdict"] == "FAIL"
+            assert eval_g2_gate(8, 7)["verdict"] == "INCONCLUSIVE"
+            # exact/undetected isolation.
+            assert g2_exact_from(True, True) == {
+                "tag_pass": True, "label_match": True,
+                "exact": True, "undetected": False,
+            }
+            assert g2_exact_from(True, False)["undetected"] is True
+            assert g2_exact_from(True, False)["exact"] is False
+            assert g2_exact_from(False, True)["exact"] is False
+            # First-error coordinate AND layer.
+            fe = g2_first_error(
+                np.array([1, 2, 3]), np.array([1, 2, 3]),
+                np.array([4, 5, 6]), np.array([4, 0, 6]),
             )
-            assert not target.exists(), "run_stage_g2 created output"
+            assert fe == {"coordinate": 1, "layer": "L2"}, fe
+            fe = g2_first_error(
+                np.array([1, 9, 3]), np.array([1, 2, 3]),
+                np.array([4, 5, 6]), np.array([4, 5, 6]),
+            )
+            assert fe == {"coordinate": 1, "layer": "L1"}, fe
+            assert g2_first_error(None, None, None, None) == {
+                "coordinate": None, "layer": None,
+            }
+            assert g2_first_error(
+                np.array([1]), np.array([1]), np.array([2]), np.array([2])
+            ) == {"coordinate": None, "layer": None}
+            # Floor audit on a toy joint (raw zero hit + lifted cell).
+            raw = np.full((1024, 1024), 0.5 / 1024)
+            raw[7, 3] = 0.0
+            raw[9, 3] = 1e-16
+            joint = np.maximum(raw, 1e-15)
+            joint = joint / joint.sum(axis=0, keepdims=True)
+            fa = g2_floor_audit(
+                raw, joint, np.array([7, 9, 5]), np.array([3, 3, 3])
+            )
+            assert fa["n_raw_zero_hits"] == 1, fa
+            assert fa["n_floor_lifted"] == 1, fa
+            assert fa["floor_logloss_bits"] > 40.0, fa
+            # Disclosure recount: incremental vs literal recompute.
+            recs = [
+                {"key_dependent_bits": 5 * 319 + 5 * 6492 + 64,
+                 "public_control_bits": 10 * 32768 + 63,
+                 "tag_invoked": True, "l2_invoked": True},
+                {"key_dependent_bits": 5 * 319,
+                 "public_control_bits": 0,
+                 "tag_invoked": False, "l2_invoked": False},
+            ]
+            assert recount_g2_disclosure(recs)["mismatches"] == []
+            bad = [dict(recs[0], key_dependent_bits=1)]
+            assert recount_g2_disclosure(bad)["mismatches"] != []
+
+        def t_g2_fake_block() -> None:
+            # One synthetic G2 block through an explicit FAKE chain
+            # (production decoder never entered). Exercises wiring only.
+            import types as _st
+
+            prior_mod = _frozen_prior()
+            m2_mod = _frozen_m2()
+            n = 256
+            rng = np.random.default_rng(20260922)
+            alice = rng.integers(0, 1024, size=n).astype(np.int64)
+            bob = rng.integers(0, 1024, size=n).astype(np.int64)
+            fit = fit_g2_arm(
+                "B_M2_32f_candidate", alice, bob, "CIRCULAR", m2_mod
+            )
+            assert fit["mode"] == "M2" and fit["triple"] is not None
+            fit0 = fit_g2_arm(
+                "A2_M0_32f_matched", alice, bob, "CIRCULAR", m2_mod
+            )
+            assert fit0["mode"] == "M0" and fit0["triple"] is None
+            p1 = prior_mod.derive_p1(fit["joint"])
+            p2 = prior_mod.derive_p2(fit["joint"])
+            views = g2_truth_views(alice, lambda v: np.asarray(v).copy())
+            assert views["labels"].tolist() == alice.tolist()
+            assert (((views["high"] << 5) + views["low"]) == alice).all()
+
+            truth = {}
+
+            def _fake_run_block(**kw):
+                truth.update(kw)
+                calls = kw.get("calls")
+                if calls is not None:
+                    calls["sc"] = int(calls.get("sc", 0)) + 2
+                tag_fn = kw.get("tag_fn")
+                if tag_fn is not None:
+                    tag_fn(b"0" * 10, b"1" * 73, 64)
+                    tag_fn(b"0" * 10, b"1" * 73, 64)
+                return _st.SimpleNamespace(
+                    outcome="exact", tag_pass=True, label_match=True,
+                    l1_exact=True, hard_l2_exact=True, pair_exact=True,
+                    high_hat=np.array(kw["high_true"], copy=True),
+                    low_hat=np.array(kw["low_true"], copy=True),
+                    l1_executed=True, l1_decode_failed=False,
+                    l2_invoked=True, l2_skipped_by_l1_failure=False,
+                    l2_decode_failed=False, tag_invoked=True,
+                    key_dependent_bits=5 * 319 + 5 * 6492 + 64,
+                    public_control_bits=10 * n + 63,
+                    nonfinite=False, truth_leak_violation=False,
+                    l1_error_type=None, l2_error_type=None,
+                )
+
+            def _fake_sc(logp, *, field, alpha, known_positions, known_values):
+                assert int(alpha) == 2
+                return _st.SimpleNamespace(x_hat=np.zeros(logp.shape[0], dtype=np.int64))
+
+            fake = _st.SimpleNamespace(
+                run_operational_block=_fake_run_block,
+                sc_decode=_fake_sc,
+                toeplitz_tag=lambda bits, seed, tb: b"fake",
+                make_gf32=lambda: object(),
+                labels_to_bits=lambda lab: np.zeros(10 * len(lab), dtype=np.uint8),
+                alpha=2,
+            )
+            rec = run_g2_block(
+                arm="B_M2_32f_candidate", block_index=0,
+                eval_frames=[2398, 2525], bob=bob, alice=alice, fit=fit,
+                p1_table=p1, p2_table=p2,
+                l1_order=list(range(n)), l2_order=list(range(n)),
+                k1=3, k2=5, tag_master=G2_TAG_MASTER, eval_seed=G2_EVAL_SEED,
+                chain=fake, polar_fn=lambda v: np.asarray(v).copy(),
+                prior_mod=prior_mod,
+            )
+            assert rec["outcome"] == "exact" and rec["exact"] is True
+            assert rec["undetected"] is False
+            assert rec["sc_calls"] == 3, rec["sc_calls"]
+            assert rec["tag_fn_calls"] == 2, rec["tag_fn_calls"]
+            assert rec["key_dependent_bits"] == 5 * 319 + 5 * 6492 + 64
+            assert truth["n"] == n and truth["master"] == G2_TAG_MASTER
+            assert truth["k1"] == 3 and truth["k2"] == 5
 
         def t_g1_pure_helpers() -> None:
             import math as _math
@@ -1925,7 +3307,9 @@ def _selfcheck() -> int:
             ("yaml-branch", t_yaml_branch),
             ("authorized-guard", t_authorized_guard),
             ("out-root-guard", t_out_root_guard),
-            ("stage-g2-body-exit3-pending-freeze", t_g2_body_still_exit3),
+            ("stage-g2-route-exit3-unrouted-zero-contact", t_g2_route_exit3_unrouted_zero_contact),
+            ("g2-pure-helpers", t_g2_pure_helpers),
+            ("g2-fake-block", t_g2_fake_block),
             ("g1-pure-helpers", t_g1_pure_helpers),
             ("closure-only-store-true", t_closure_only_store_true_ast),
             ("cross-check-detects-mismatch", t_cross_check_detects_mismatch),
@@ -1945,7 +3329,8 @@ def _selfcheck() -> int:
 def main(argv=None) -> int:
     ap = argparse.ArgumentParser(
         description="M2 prior validation runner (Stage-1 guards real; G1 body "
-        "decoder-free per g1_freeze.md; G2 body exits 3 STAGE_BODY_PENDING_FREEZE).",
+        "decoder-free per g1_freeze.md; G2 one-shot three-arm decode per "
+        "g2_freeze.md, stage-keyed freeze only).",
     )
     ap.add_argument(
         FLAG_G1,
@@ -1959,8 +3344,10 @@ def main(argv=None) -> int:
         FLAG_G2,
         dest="stage_g2",
         action="store_true",
-        help="G2 one-shot entry (packet §6). Stage-1 body exits 3 "
-        "STAGE_BODY_PENDING_FREEZE with zero data contact.",
+        help="G2 one-shot three-arm decode (NBPOLAR-M2-PRIOR-G2-DECODE). "
+        "Stage-keyed: runs ONLY under g2_freeze_config.json at window 200; "
+        "any other freeze exits 3 STAGE_BODY_PENDING_FREEZE with zero data "
+        "contact. M2 is a CANDIDATE, never the baseline.",
     )
     ap.add_argument(
         "--closure-only",
@@ -2054,7 +3441,8 @@ def main(argv=None) -> int:
             closure_only=bool(a.closure_only),
         )
     return run_stage_g2(
-        acq_id=a.acq_id, out_root=Path(a.out_root), freeze=freeze, options=options
+        acq_id=a.acq_id, out_root=Path(a.out_root), freeze=freeze, options=options,
+        _config_path=Path(a.freeze_config),
     )
 
 
