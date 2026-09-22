@@ -59,10 +59,18 @@ Integrity facts (all independently verified):
    the matched-CAL M0 control restores none (8/14 vs 0/14, strictly non-overlapping CIs), with `undetected`
    isolated, disclosure recount exact, and G3-fresh tag provenance. The G2 result (11/14 vs 0/14 on SHG `_1`)
    was therefore not a single-session accident.
-3. **M2 status**: the packet's own condition — "M2 remains a CANDIDATE until G3 passes" — is now satisfied on
-   both preregistered decode gates (G2, G3). M2 is the **confirmed ±1 prior candidate** for the
-   `nbpolar-prior-rebaseline` change. Final rebaseline completion still requires **G4** (exhaustive
-   public-message inventory, D6's last gate) and the OpenSpec archive; nothing here pre-empts those.
+3. **M2 status — state transition per the PRE-REGISTERED ladder** (`docs/nbpolar/STATE.md` §4.1, main-thread
+   ruling written BEFORE the decode; semantics pre-write `G3_ADJUDICATION_PREWRITE.md` §9 present at G3-1 —
+   presence check satisfied): the ladder defines `CANDIDATE → (G3 preregistered-gate PASS)
+   VALIDATED_AT_FROZEN_CONTRACT`. The G3 preregistered Wilson gate PASSED on the one-shot execution, so the entry
+   condition is met and **M2 transitions from `CANDIDATE` to `VALIDATED_AT_FROZEN_CONTRACT`** as of this
+   adjudication (2026-09-22). This is the SECOND rung only: the ladder's later rungs are NOT met —
+   `FER_MEASURED_AT_CONTRACT` requires the R2 preregistered FER gate + sample size; `EFFICIENCY_ACCOUNTED`
+   requires R3; `READY_FOR_QUALIFICATION` requires ≥2 independent-session replication + sample + G4 exhaustive
+   public-message inventory + independent Pre-RESULT all-pass. No level-skipping, no synthetic-S9 promotion, no
+   cross-contract narrative promotion (§4.1 binding). Final rebaseline completion still requires **G4** and the
+   OpenSpec archive; nothing here pre-empts those. Status string used: `NBPOLAR_M2_PRIOR_G3_SUCCESS` exactly as
+   preregistered in the §4.1 three-state table (no invented label).
 4. **What this does NOT establish** (binding): no FER-as-population estimate; no efficiency, qualification,
    promotion, or composable net-key claim; **no cross-session superiority** reading of 11/14 vs 8/14 (different
    sessions, each gate evaluated on its own CI — the correct claim is replication of the *direction*, not

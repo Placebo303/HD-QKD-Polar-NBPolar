@@ -7,7 +7,7 @@
 ## 如果只读三件事
 
 1. **leading-candidate 机制（非收敛根因）**：证据指向 M0 非参数先验的先验/地板处理（零 cell 得概率地板 1e-15；每个落地板的真 −1 delta 约 40.42 bits 伪罚；每 block ~44.7 个真 −1 中仅 ~30.4 落在 TRAIN 零 −1 列；S9 合成 B 11/16 vs A 0/16，描述性，见 §1）——但码率、构造、分配、时间相关均**未排除**；54.8σ 余量仅是理想模型下"无码率 binding 证据"，非证伪。
-2. **候选方向（非已采纳基线）**：M2 ±1 先验是 **CANDIDATE 且真实数据检验已出 bounded negative**——SHG `_1` 上 δ-tail 门 FAIL（p̂=0.0050202，U=0.0052879 vs B_tail=2.0e-4，~25× 超预算；±1 前提在新数据上不成立 ⇒ 预定 STOP，不进 G2；`G1_ADJUDICATION.md`）。注意精确口径：**未证伪** M0 地板误定价机制（matched-CAL NLL 差 ~1.95 在两总体可复现），**未证伪** M2 于所有源（冻结 sessions 尾部≈0，但 ladder 已耗尽）；S9 仍不得读作 FER/效率证据。后续已推进：S11 判定该 FAIL 主因是**配对污染**（w=200 CIRCULAR 尾部 = 0）⇒ G1R2（w=200/CIRCULAR）δ-tail PASS、NLL PASS ⇒ **G2 SUCCESS `NBPOLAR_M2_PRIOR_G2_SUCCESS`（B 11/14 vs A2 0/14 严格不重叠）** ⇒ **G3 SUCCESS `NBPOLAR_M2_PRIOR_G3_SUCCESS`（SHG `_2` 独立 session：B 8/14 Wilson [0.3259,0.7862] vs A2 0/14 [0.0,0.2153] 严格不重叠；A1 0/14 描述性无门；undetected 0 隔离；recount 0；tag_master 2026110101 G3 新鲜；一次性 g3_runs 1 reruns 0，wall 858.5 s ≤ 900；126 SC/42 tag）**。M2 在**两个解码门上均已确认**（"CANDIDATE until G3 passes" 条件已满足）⇒ M2 为 `nbpolar-prior-rebaseline` 的**已确认 ±1 prior 候选**；**G4（穷尽公共消息清单）仍是 D6 最后一道门**，需自己的 packet + 用户授权（`G3_ADJUDICATION.md`）。绑定边界：11/14 vs 8/14 是**方向复制、非量级可比**（两个独立 session 各自过自己的 CI 门）；无 FER/效率/资格/composable key 声明；A1 两 session 均 0/14 = 描述性首次测量。
+2. **候选方向（非已采纳基线）**：M2 ±1 先验是 **CANDIDATE 且真实数据检验已出 bounded negative**——SHG `_1` 上 δ-tail 门 FAIL（p̂=0.0050202，U=0.0052879 vs B_tail=2.0e-4，~25× 超预算；±1 前提在新数据上不成立 ⇒ 预定 STOP，不进 G2；`G1_ADJUDICATION.md`）。注意精确口径：**未证伪** M0 地板误定价机制（matched-CAL NLL 差 ~1.95 在两总体可复现），**未证伪** M2 于所有源（冻结 sessions 尾部≈0，但 ladder 已耗尽）；S9 仍不得读作 FER/效率证据。后续已推进：S11 判定该 FAIL 主因是**配对污染**（w=200 CIRCULAR 尾部 = 0）⇒ G1R2（w=200/CIRCULAR）δ-tail PASS、NLL PASS ⇒ **G2 SUCCESS `NBPOLAR_M2_PRIOR_G2_SUCCESS`（B 11/14 vs A2 0/14 严格不重叠）** ⇒ **G3 SUCCESS `NBPOLAR_M2_PRIOR_G3_SUCCESS`（SHG `_2` 独立 session：B 8/14 Wilson [0.3259,0.7862] vs A2 0/14 [0.0,0.2153] 严格不重叠；A1 0/14 描述性无门；undetected 0 隔离；recount 0；tag_master 2026110101 G3 新鲜；一次性 g3_runs 1 reruns 0，wall 858.5 s ≤ 900；126 SC/42 tag）**。M2 在**两个解码门上均已确认**（"CANDIDATE until G3 passes" 条件已满足）⇒ 按 STATE §4.1 预注册阶梯，**M2 状态转入 `VALIDATED_AT_FROZEN_CONTRACT`**（仅第二级；R2 FER 门、R3 效率门、G4 均未做，禁止跳级；`G3_ADJUDICATION.md` §3）；**G4（穷尽公共消息清单）仍是 D6 最后一道门**，需自己的 packet + 用户授权。绑定边界：11/14 vs 8/14 是**方向复制、非量级可比**（两个独立 session 各自过自己的 CI 门）；无 FER/效率/资格/composable key 声明；A1 两 session 均 0/14 = 描述性首次测量。
 3. **什么都不许动**：无真实数据执行授权；`results/`、`comparison_bench/outputs_comparison/` 禁止覆盖；SCL 锁定；C-P2 B4 未授权。
 
 ## §1 三栏结论（描述性除非另注）
@@ -68,7 +68,7 @@
 ## §4.1 M2 promotion ladder（状态阶梯**定义**；本节不授予任何晋级）
 
 > 2026-09-22 主线裁定，源自 `docs/nbpolar/REAL_DATA_CORRECTION_ROADMAP_20260922.md` §5，并补入 G3 三态、失败分层口径与 G4。
-> **M2 当前 = `CANDIDATE`。** 本表只定义未来状态的进入条件，不改变任何当前状态，不构成授权。
+> **M2 状态（2026-09-22 G3 裁决后）= `VALIDATED_AT_FROZEN_CONTRACT`**（第一道真实数据 decode 门 G2 + 独立 session 门 G3 双过，按本表第一行进入；仅第二级——R2 FER 门、R3 效率门、G4 inventory 均未做，禁止跳级）。G3 裁决记录：`NBPOLAR_M2_PRIOR_G3_SUCCESS`（`G3_ADJUDICATION.md`）。本表只定义状态的进入条件，不构成授权。
 
 ```text
 CANDIDATE
