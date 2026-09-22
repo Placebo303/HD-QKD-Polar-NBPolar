@@ -5443,6 +5443,8 @@ F6 — strategic consequence. If the ±1 prior is adopted, CAL drops from 1024 f
 
 ## 2026-09-22 NB-Polar G3 记录更正（record correction）
 
+> 【已更正 → 本条的"Pre-EXECUTE 从未执行"系矫枉过正（F17）；见本文件同日「G3 transcript 复核与 R2 reaffirmation」条目】
+
 **Disposition**（user 2026-09-22）：**correct the records → independent Pre-RESULT → main thread adjudicates**。本条 = phase 1 记录更正；不裁定准入性，不晋级 M2，不标记任何 gate 通过。
 
 **Deviation**：独立只读审计裁定 `PRE_EXECUTE_MISSING` —— G3 Tier-Y one-shot decode（SHG `_2`，执行 17:50:13，起始 ≈17:35:55，wall 858.499 s）在没有其 Pre-EXECUTE 门的情况下执行。`STATUS.yaml` 在译码时刻为 `G3-1_freeze_preauth: pending`，18:02:14 回填为 `pass`（retroactive，INVALID）。G3 无任何 `PRE_EXECUTE*` / `PRE_RESULT*` 文件；packet 内 `ses_` id 零个（仓库 P20 惯例要求两者皆有）。
@@ -5454,3 +5456,17 @@ F6 — strategic consequence. If the ±1 prior is adopted, CAL drops from 1024 f
 **Status**：M2 恢复为 `CANDIDATE`；`VALIDATED_AT_FROZEN_CONTRACT` 未生效；`NBPOLAR_M2_PRIOR_G3_SUCCESS` 在主线裁决前不可引用。数值结果本身（B 8/14 [0.3259026690,0.7861949007] vs A2 0/14 [0.0,0.2153170119] 严格不重叠；A1 0/14 无门；`undetected` 0/42 隔离；recount 0；one-shot；预算 OK）未经削弱，仅状态/出处断言被更正。
 
 **Next**：independent Pre-RESULT（→ `PRE_RESULT_REVIEW.md`），然后 main-thread adjudication 定准入。
+
+## 2026-09-22 NB-Polar G3 transcript 复核与 R2 reaffirmation（`NBPOLAR_M2_PRIOR_G3_SUCCESS` 可引用）
+
+**Transcript verification**（app-server 读取，主线 `ses_f3ffe4fc3ffdRTnxpL95qLBnVo`）：三个独立 reviewer-go session 真实存在且通过 —— Pre-EXECUTE `ses_f37a519a9ffe18vTQSivbTZrrq`（17:03:15→17:08:38）`Verdict: PRE_EXECUTE_PASS_WITH_COMMENTS — Phase B may proceed.`（12/12，0 blocking，5 comments）；decode-body DELTA `ses_f37921cd2ffespTkJe44mfjeva`（17:23:59→17:30:22）`Verdict: DELTA_PASS — the one-shot Phase-B run may be dispatched`（0 blocking）；Pre-RESULT `ses_f37783dcbffe2wXwtggh6xHUIx`（17:52:15→18:00:12）`Verdict: PRE_RESULT_PASS_WITH_COMMENTS` / `Blocking Issues: - None.` / `Publication/commit: MAY PROCEED`（6 comments）。另有在盘独立 Pre-RESULT `PRE_RESULT_REVIEW.md`（reviewer-go `ses_f376e04ceffenAuTYaqlppawX6`，PASS_WITH_COMMENTS，8/8）。
+
+**`3f5b374a` overstatement corrected**（F17）：其 "Pre-EXECUTE never performed"（commit message / STATE banner / STATUS `not_satisfied_at_execution` / deviation `PRE_EXECUTE_MISSING`）作为"评审是否发生"的表征均为假；偏差是未落盘，不是未发生。本次提交纠正，旧字符串保留作历史。
+
+**R2 reaffirmation**（本线程主线）：复核全部三个 session verbatim verdicts + 在盘 Pre-RESULT 后，reaffirm `NBPOLAR_M2_PRIOR_G3_SUCCESS` + M2 → `VALIDATED_AT_FROZEN_CONTRACT`（仅第二级；R2 FER / R3 效率 / G4 未做）。晋级依据 = pre-G3 "CANDIDATE until G3 passes" 规则（G2 裁决）+ `g3_freeze_config.json` 17:00:07 预注册门，**不是** STATE §4.1（decode 后 ≈17:58 所写）。F1–F14 重分类见 `G3_PROCESS_DEVIATION.md` §3R。
+
+**Permanently-disclosed residual deviations**：（1）三 chat 评审无盘记录（P20 惯例未满足）；（2）STATUS G3-1 转录滞后（pending→18:02:14；Pre-RESULT comment 1 发现、R2 关闭）；（3）F5/F6 时间断言假（STATE §4.1 / PREWRITE 非 pre-decode）；（4）`3f5b374a` 矫枉过正（已纠正）。
+
+**Open process issue**：两独立主线程（`ses_f3c5c9197…` 与 `ses_f3ffe4fc…`，均为 `parentID: None`）并发操作同一仓库 —— F5/F6 根因；需流程规则防止重演。
+
+**Consequences**：G4 packet 准备（穷尽公共消息清单，D6 最后一道门；需自己的 packet + 用户授权）；SHG `_2` EVAL 已消耗、RESERVE 99 untouched。
