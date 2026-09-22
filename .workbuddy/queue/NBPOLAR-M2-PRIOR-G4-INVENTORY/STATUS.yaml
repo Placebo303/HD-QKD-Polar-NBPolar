@@ -1,0 +1,197 @@
+# STATUS — NBPOLAR-M2-PRIOR-G4-INVENTORY
+# This packet authorizes NOTHING. Execution requires the main thread to paste AUTHORIZATION_PROMPT.md
+# verbatim (AGENTS.md §10.1). `authorizations: []` below is binding: empty == not authorized.
+# 本包本身不授权任何事；执行需主线粘贴 verbatim 授权后方可进行。
+packet: NBPOLAR-M2-PRIOR-G4-INVENTORY
+branch: codex/nbpolar-phase0
+change: openspec/changes/nbpolar-prior-rebaseline   # D6 gate G4: exhaustive public-message inventory (Release pattern, CAL frames listed)
+venv: /home/karel_303/.venvs/timetagger/bin/python   # packet-local builder only
+nature: Tier-Y one-shot RECORD/AUDIT gate — no decode, no SC, no tags, no raw-data read, no re-derivation; inventories already-executed public messages (G1/G1R2/G2/G3)
+stage: PACKET_DRAFT
+result: null
+next_gate: USER_AUTHORIZATION_PENDING
+authorizations: []          # EMPTY == NOT AUTHORIZED. Non-empty only after verbatim user paste.
+authorizations_note: "Upon authorization record here: who, date, exact AUTHORIZED BY line, one_shot, inventory_only_no_decode."
+
+m2_state_at_dispatch: VALIDATED_AT_FROZEN_CONTRACT   # STATE.md §4.1, 2nd rung; R2 FER gate and R3 efficiency gate NOT done
+ladder_effect: >
+  G4 PASS records ONLY the G4 conjunct of the READY_FOR_QUALIFICATION row (>=2 independent sessions + sample
+  size + G4 + independent Pre-RESULT). No promotion, no demotion: M2 stays VALIDATED_AT_FROZEN_CONTRACT;
+  R2/R3 remain outstanding and are never substituted by G4. G4 FAIL/incomplete blocks the conjunct and keeps
+  every D6 claim-bearing statement forbidden. No level skipping; partial inventory cannot pass G4.
+
+precondition: "VOID unless G3 stands accepted as NBPOLAR_M2_PRIOR_G3_SUCCESS with M2 at VALIDATED_AT_FROZEN_CONTRACT; verified by main thread before dispatch"
+
+stage3_measurement_set: OUT_OF_SCOPE   # D6 Stage-3 (MACRO_PLAN §5 Stage 3: preregistered disclosure cap + per-block λ decomposition) = separate future packet, own freeze + own authorization. G4 computes no λ_total, no cap, no FER/efficiency number. NOT the parent packet's §6 "Stage 3" (G2 execution, closed). Disambiguation confirmed — Main-thread adjudication 2026-09-22 item 2: Stage-3 wholly out of G4.
+
+frozen_constants:            # verbatim; any change requires a NEW freeze; do not guess
+  N: 32768
+  K1: 319
+  K2: 6492
+  p16_digest: 055c906472dd2a09761761b18aceb5f31d8b5db19bac658721f8dc49c3faea1b   # inner P16 procedure digest; G4 computes no digest
+  W_P: 200
+  W_S: 500
+  MOD: CIRCULAR
+  skip: 702                      # INHERITED_NOT_DERIVED
+  frame_pairs: 256
+  floor: 1e-15
+  chunk: 512                     # chunk_rows
+  bin: 200 ps                    # pairing bin_width_ps=200 (NOT the alignment scan bin=100 ps; G4 derives neither)
+  g2_tag_master: 2026103001      # INHERITED (EVAL_SEED 2026093001; TAG_MASTER = EVAL_SEED + 10000)
+  g3_tag_master: 2026110101      # EVAL_SEED 2026100101, same frozen rule
+  census_sigma: 114.43029692866367   # FROZEN QUOTED VALUE ONLY — citation requires "frozen quoted, not recomputed in G4"; recomputation => STOP
+not_in_this_freeze: >-          # not restated/verified/computed by G4; needing them => new freeze
+  other census constants (d, period_ps, threshold_ps, gate_ps); gate values (B_tail 2.0e-4, delta_min 0.020,
+  Wilson z=1.96) — N/A for G4 (no statistical verdict).
+
+inputs_read_only:              # every path must exist at Phase A; missing => STOP (full manifest in TASK_PACKET.md)
+  contract_and_rules:
+    - openspec/changes/nbpolar-prior-rebaseline/design.md                      # D6 G4 definition; D3 Release/CAL; D7
+    - openspec/changes/nbpolar-prior-rebaseline/specs/nbpolar-prior-rebaseline/spec.md
+    - openspec/changes/nbpolar-prior-rebaseline/tasks.md                       # T4/T8: G4 own packet + authorization
+    - docs/nbpolar/STATE.md                                                    # §4.1 ladder
+    - docs/SECURITY_MODEL.md                                                   # CAL note + 0-bit inventory skeleton (read-only; NOT edited) — skeleton not written back; archive-stage docs update = separate main-thread docs commit (Main-thread adjudication 2026-09-22 item 8)
+    - docs/nbpolar/MACRO_PLAN_20260921.md                                      # §5 Stage 3 boundary; §9 F3 Release pattern
+    - docs/decision-log.md                                                     # F3 Release provenance
+    - docs/nbpolar/REAL_DATA_CORRECTION_ROADMAP_20260922.md                    # R2/R3/Stage-3 ownership (boundary only)
+    - .workbuddy/queue/NBPOLAR-M2-PRIOR-REALDATA-VALIDATION/TASK_PACKET.md
+    - .workbuddy/queue/NBPOLAR-M2-PRIOR-REALDATA-VALIDATION/g1_freeze.md
+    - .workbuddy/queue/NBPOLAR-M2-PRIOR-STAGE1-IMPLEMENTATION/PROMPT.md        # T4 skeleton provenance
+    - .workbuddy/queue/NBPOLAR-M2-PRIOR-K-RESPLIT-D4/D4_RECORD.md              # report-only K context
+  g1:
+    - .workbuddy/queue/NBPOLAR-M2-PRIOR-G1-REALDATA-NLL/TASK_PACKET.md
+    - .workbuddy/queue/NBPOLAR-M2-PRIOR-G1-REALDATA-NLL/FREEZE_REVIEW.md
+    - .workbuddy/queue/NBPOLAR-M2-PRIOR-G1-REALDATA-NLL/AUTHORIZATION_PROMPT.md
+    - .workbuddy/queue/NBPOLAR-M2-PRIOR-G1-REALDATA-NLL/STATUS.yaml
+    - .workbuddy/queue/NBPOLAR-M2-PRIOR-G1-REALDATA-NLL/g1_freeze_config.json
+    - .workbuddy/queue/NBPOLAR-M2-PRIOR-G1-REALDATA-NLL/G1_ADJUDICATION.md
+    - workspace/m2_prior_validation/20260113_SHG_Type2PPLN_3s/g1.json
+    - workspace/m2_prior_validation/20260113_SHG_Type2PPLN_3s/delta_profiles.json
+    - workspace/m2_prior_validation/20260113_SHG_Type2PPLN_3s/cal_ids.json
+    - workspace/m2_prior_validation/20260113_SHG_Type2PPLN_3s/cal_ids_closure.json
+    - workspace/m2_prior_validation/20260113_SHG_Type2PPLN_3s/g1_closure_reproduction.json
+    - workspace/m2_prior_validation/20260113_SHG_Type2PPLN_3s/run_log.md
+    - workspace/m2_prior_validation/20260113_SHG_Type2PPLN_3s/run_log_closure.md
+  g1r2:
+    - .workbuddy/queue/NBPOLAR-M2-PRIOR-G1R2-W200-CIRCULAR/TASK_PACKET.md
+    - .workbuddy/queue/NBPOLAR-M2-PRIOR-G1R2-W200-CIRCULAR/DELTA_REVIEW.md
+    - .workbuddy/queue/NBPOLAR-M2-PRIOR-G1R2-W200-CIRCULAR/AUTHORIZATION_PROMPT.md
+    - .workbuddy/queue/NBPOLAR-M2-PRIOR-G1R2-W200-CIRCULAR/STATUS.yaml
+    - .workbuddy/queue/NBPOLAR-M2-PRIOR-G1R2-W200-CIRCULAR/g1r2_freeze_config.json
+    - .workbuddy/queue/NBPOLAR-M2-PRIOR-G1R2-W200-CIRCULAR/G1R2_ADJUDICATION.md
+    - workspace/m2_prior_validation/20260113_SHG_Type2PPLN_3s_g1r2/g1.json
+    - workspace/m2_prior_validation/20260113_SHG_Type2PPLN_3s_g1r2/delta_profiles.json
+    - workspace/m2_prior_validation/20260113_SHG_Type2PPLN_3s_g1r2/cal_ids.json
+    - workspace/m2_prior_validation/20260113_SHG_Type2PPLN_3s_g1r2/cal_ids_closure.json
+    - workspace/m2_prior_validation/20260113_SHG_Type2PPLN_3s_g1r2/g1_closure.json
+    - workspace/m2_prior_validation/20260113_SHG_Type2PPLN_3s_g1r2/run_log.md
+    - workspace/m2_prior_validation/20260113_SHG_Type2PPLN_3s_g1r2/run_log_closure.md
+  g2:
+    - .workbuddy/queue/NBPOLAR-M2-PRIOR-G2-DECODE/TASK_PACKET.md
+    - .workbuddy/queue/NBPOLAR-M2-PRIOR-G2-DECODE/g2_freeze.md
+    - .workbuddy/queue/NBPOLAR-M2-PRIOR-G2-DECODE/AUTHORIZATION_PROMPT.md
+    - .workbuddy/queue/NBPOLAR-M2-PRIOR-G2-DECODE/STATUS.yaml
+    - .workbuddy/queue/NBPOLAR-M2-PRIOR-G2-DECODE/g2_freeze_config.json
+    - .workbuddy/queue/NBPOLAR-M2-PRIOR-G2-DECODE/G2_ADJUDICATION.md
+    - workspace/m2_prior_validation/20260113_SHG_Type2PPLN_3s_g2/g2_summary.json
+    - workspace/m2_prior_validation/20260113_SHG_Type2PPLN_3s_g2/per_block_outcomes.jsonl
+    - workspace/m2_prior_validation/20260113_SHG_Type2PPLN_3s_g2/cal_ids.json
+    - workspace/m2_prior_validation/20260113_SHG_Type2PPLN_3s_g2/run_log.md
+  g3:
+    - .workbuddy/queue/NBPOLAR-M2-PRIOR-G3-CONFIRM/TASK_PACKET.md
+    - .workbuddy/queue/NBPOLAR-M2-PRIOR-G3-CONFIRM/AUTHORIZATION_PROMPT.md
+    - .workbuddy/queue/NBPOLAR-M2-PRIOR-G3-CONFIRM/STATUS.yaml
+    - .workbuddy/queue/NBPOLAR-M2-PRIOR-G3-CONFIRM/g3_freeze_config.json
+    - .workbuddy/queue/NBPOLAR-M2-PRIOR-G3-CONFIRM/G3_ADJUDICATION.md
+    - .workbuddy/queue/NBPOLAR-M2-PRIOR-G3-CONFIRM/G3_ADJUDICATION_PREWRITE.md
+    - .workbuddy/queue/NBPOLAR-M2-PRIOR-G3-CONFIRM/PRE_RESULT_REVIEW.md
+    - .workbuddy/queue/NBPOLAR-M2-PRIOR-G3-CONFIRM/G3_PROCESS_DEVIATION.md
+    - workspace/m2_prior_validation/20260113_SHG_Type2PPLN_3s_2_g3/g3.json
+    - workspace/m2_prior_validation/20260113_SHG_Type2PPLN_3s_2_g3/g3_summary.json
+    - workspace/m2_prior_validation/20260113_SHG_Type2PPLN_3s_2_g3/per_block_outcomes.jsonl
+    - workspace/m2_prior_validation/20260113_SHG_Type2PPLN_3s_2_g3/cal_ids.json
+    - workspace/m2_prior_validation/20260113_SHG_Type2PPLN_3s_2_g3/run_log.md
+    - workspace/m2_prior_validation/20260113_SHG_Type2PPLN_3s_2_g3/input/g3_freeze_config.json
+  construction:
+    - .workbuddy/queue/NBPOLAR-PHASE4-P16-N32768-OPERATIONAL-F13/operational_f13_gate/construction_and_allocation.json
+  excluded_explicitly:
+    - raw SHG acquisition files            # never read
+    - workspace/dual_rule_census_20260921.py and census packet outputs   # sigma quoted from G3 artifacts + decision-log only (census = sigma quoted source only)
+    - S8/S9 synthetic probe parameters ; Stage-1 test outputs            # explicitly OUT of G4 closure domain (Main-thread adjudication 2026-09-22 item 1)
+    - results/ ; comparison_bench/outputs_comparison/                     # never read, never written
+    - sibling checkouts ../HD-QKD_Polar_Comparison* ; ../HD-QKD_Polar_Release
+
+outputs_planned:               # all NEW additive files inside this packet dir; nothing exists yet; never overwrite
+  - .workbuddy/queue/NBPOLAR-M2-PRIOR-G4-INVENTORY/g4_freeze_config.json   # Phase A input manifest + TO-FREEZE non-null
+  - .workbuddy/queue/NBPOLAR-M2-PRIOR-G4-INVENTORY/g4_inventory.json        # row schema per TASK_PACKET.md; row_count == rows len
+  - .workbuddy/queue/NBPOLAR-M2-PRIOR-G4-INVENTORY/g4_inventory.md          # per-stage tables + CAL frames listed + Release mapping + completeness declaration + no-claim
+  - .workbuddy/queue/NBPOLAR-M2-PRIOR-G4-INVENTORY/g4_counts.json           # counts by stage/class/handling; cross_check; sc_calls 0; tag_invocations 0
+  - .workbuddy/queue/NBPOLAR-M2-PRIOR-G4-INVENTORY/g4_run_log.md
+write_scope: "this packet dir ONLY (plus this STATUS.yaml). No workspace writes, no workspace/probes/ writes, no results/ writes, no comparison_bench writes. Single output route confirmed (Main-thread adjudication 2026-09-22 item 7): the five g4_* files above are the complete output set."
+
+release_handling_enum:         # exactly one value per row; unassignable => STOP. Six classes accepted as packet-local freeze (Main-thread adjudication 2026-09-22 item 3); result_publication added by item 4; any FURTHER extension => new freeze
+  - counted_in_leak_IR
+  - charged_0_labeled_public_ec_only_not_secure   # Release in-sample COMPARISON record row only; never counted in NB-Polar's own accounting (NB-Polar uses sacrificed CAL) — Main-thread adjudication 2026-09-22 item 3
+  - result_publication            # NLL/delta-profile-style result announcements, size 0/N/A, exhaustive-first entry — Main-thread adjudication 2026-09-22 item 4
+  - sacrificed_excluded_from_denominator
+  - diagnostic_only_never_lambda
+  - structural_public_parameter
+  - blocked_never_public
+
+outcome_strings_preregistered:  # FROZEN (proposed => frozen, Main-thread adjudication 2026-09-22 item 5); recorded at authorization, BEFORE the build
+  complete: NBPOLAR_M2_PRIOR_G4_INVENTORY_COMPLETE
+  incomplete: NBPOLAR_M2_PRIOR_G4_INVENTORY_INCOMPLETE_BLOCKED
+  crash_before_any_output: no state string — counters/reason only; corrective-rebuild rule applies
+
+budget: {wall_s_max: 300, rss_gib_max: 2, threads: 1}   # FROZEN (proposed => frozen, Main-thread adjudication 2026-09-22 item 5); decode 900 s budget is N/A
+counters: {g4_runs: 0, reruns: 0, rebuilds: 0, sc_calls_on_protected: 0, tag_invocations: 0}   # expected at completion: g4_runs 1, reruns 0, sc 0, tags 0. Rebuild exception FROZEN (Main-thread adjudication 2026-09-22 item 5): one rebuild only, and only after a zero-output crash, accounted here.
+sigma_string_consistency_check: ALLOWED   # cross-artifact STRING comparison of quoted sigma across G3 freeze / adjudication / decision-log = traceability, operator executes directly; ANY numeric re-derivation FORBIDDEN => STOP — Main-thread adjudication 2026-09-22 item 6 (A-class resolved rule)
+
+ids:                            # operator reports; main thread accepts; operator never self-accepts
+  G4-0_preconditions: pending
+  G4-1_traceability: pending
+  G4-2_cal_frames_listed: pending
+  G4-3_release_mapping_and_recount: pending
+  G4-4_counts_and_no_omission_no_claim: pending
+  R1_preresult: pending
+  R2_adjudication: pending
+
+undetected_isolation: >-
+  G2/G3 undetected counts (0/42 each, as frozen in their artifacts) are listed as isolated inventory rows and
+  never merged into any success/FER number. G4 asserts no success, no FER, no efficiency, no qualification,
+  no promotion, no composable key, and never cites S9 as FER/efficiency evidence.
+recount_cross_check_frozen:     # computed sums must equal these; mismatch => STOP, frozen numbers stand
+  key_bits: 1432998             # 34119 x 42 (G2 and G3 as recorded)
+  public_bits: 13765206         # 327743 x 42 (G2 and G3 as recorded)
+  tags: 42                      # per stage: G2 tag_master 2026103001; G3 tag_master 2026110101
+cal_frames_to_list:
+  shg_1: {a1_cal: "post-skip 0-1023 (1024 frames)", cal32: "post-skip 1024-1055 (32 frames)"}   # as recorded in cal_ids*.json; listed, never re-derived
+  shg_2: {cal32_and_a1_cal: "exactly as recorded in workspace/.../20260113_SHG_Type2PPLN_3s_2_g3/cal_ids.json"}
+
+discipline_kept_from_g3: [one_shot_no_rerun, independent_pre_execute, independent_pre_result, verbatim_authorization, undetected_isolation, disclosure_recount, to_freeze_non_null, ambiguity_stop, participation_disclosure, no_claim_scope, no_in_packet_log_memory_index_updates]
+decode_specific_na: [three_arm_decode, eval_blocks, complete_blocks_only, wilson_gate, B_tail, delta_min, g_blocks, sc_calls, tag_generation, decode_budget_900s, shg2_first_contact_closure, alignment_reproduction_gate, cal_padding_prohibition_as_frame_rule]
+result: null
+decision_needed: null
+notes: >
+  Packet drafted 2026-09-22 by the planning subagent (docs only; no code, no execution, no raw-data read).
+  This packet itself authorizes nothing. Do not dispatch, do not run even a path-existence check, before the
+  main thread pastes AUTHORIZATION_PROMPT.md verbatim and authorizations becomes non-empty.
+
+revisions:
+  - date: 2026-09-22
+    label: "Main-thread adjudication 2026-09-22"
+    scope: >
+      Mechanical merge of 8 adjudicated open questions into TASK_PACKET.md, AUTHORIZATION_PROMPT.md and this
+      STATUS.yaml by the planning subagent; no decisions made in-packet. stage / authorizations / result /
+      next_gate unchanged; no frozen constant value changed; no output path changed; no gate touched other
+      than the proposed-to-frozen status of budget / rebuild rule / outcome strings; no raw data read; no
+      commit, no push.
+    items:
+      "1": "G4 closure domain = all G1/G1R2/G2/G3 public messages + CAL frames detail + Release pattern mapping; census only as sigma quoted source; S8/S9 synthetic probe params and Stage-1 test outputs OUT; domain expansion = new freeze, never decided ad hoc at execution."
+      "2": "Stage-3 two-sense disambiguation confirmed: in D6/spec 'G4 + Stage-3', Stage-3 = MACRO_PLAN section 5 measurement set, wholly out of G4 (separate packet); G4 computes no lambda / cap / FER."
+      "3": "Release six-class enumeration accepted as packet-local freeze; charged_0_labeled_public_ec_only_not_secure limited to Release in-sample comparison record rows, never counted in NB-Polar's own accounting (NB-Polar uses sacrificed CAL)."
+      "4": "Result publication = exhaustive-first: NLL/delta-profile-style announcements entered with release_handling result_publication (size 0/N/A); G1/G1R2 places without tag/disclosure fields get explicit none_recorded rows."
+      "5": "New values frozen (were proposed): budget 300 s / 2 GiB; rebuild exception (exactly one rebuild, only after a zero-output crash, accounted); outcome strings NBPOLAR_M2_PRIOR_G4_INVENTORY_COMPLETE / NBPOLAR_M2_PRIOR_G4_INVENTORY_INCOMPLETE_BLOCKED."
+      "6": "Ambiguity A resolved: cross-artifact STRING consistency check of sigma across G3 freeze / adjudication / decision-log allowed (traceability, operator executes directly); any numeric re-derivation forbidden. A-class moved from automatic STOP to resolved rule; record retained."
+      "7": "Single output route confirmed: only g4_freeze_config.json / g4_inventory.json / g4_inventory.md / g4_counts.json / g4_run_log.md (+ this STATUS.yaml); no workspace/probes/ writes."
+      "8": "docs/SECURITY_MODEL.md skeleton not written back; archive-stage docs update is a separate main-thread docs commit (statement retained in-packet)."
