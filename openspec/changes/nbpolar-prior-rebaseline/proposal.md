@@ -2,9 +2,10 @@
 
 ## Status
 
-`PLAN_CANDIDATE / T1_REVISE_REQUIRED` (T1 independent review: FAIL,
-recorded at `INDEPENDENT_PLAN_REVIEW.md`; re-review pending after B1/B2
-fixes). Branch: `codex/nbpolar-phase0` (verified via `.git/HEAD`).
+`PLAN_CANDIDATE / T1_PASS_WITH_COMMENTS` (T1 independent review recorded
+at `INDEPENDENT_PLAN_REVIEW.md`: initial FAIL on B1/B2; re-review
+2026-09-22 PASS_WITH_COMMENTS, B1/B2 closed; review file retained
+unaltered). Branch: `codex/nbpolar-phase0` (verified via `.git/HEAD`).
 This change authorizes no implementation or execution; T2–T8 were executed
 under separate coder packets, freeze reviews, and user authorizations — not
 under this change's authority.
@@ -100,5 +101,5 @@ with no production-data execution authorized by this change.
 
 ## Tasks
 
-See `tasks.md` (T2–T8 done; T1 open — FAIL, revise-required, re-review
-pending). This proposal authorizes no implementation or execution.
+See `tasks.md` (T1 closed — PASS_WITH_COMMENTS; T2–T8 done). This
+proposal authorizes no implementation or execution.
