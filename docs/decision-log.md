@@ -5482,3 +5482,7 @@ F6 — strategic consequence. If the ±1 prior is adopted, CAL drops from 1024 f
 **Effect**: 仅经未来独立 rate-freeze 包 + 冻结评审 + 用户授权 (only via a future independent rate-freeze packet + freeze review + user authorization) does this take effect. Until then, fixed-f / 6946 / 335 / 6611 is a planning direction only — not a frozen, executable or citable K.
 
 **Consequences**: Planning direction recorded; no OpenSpec box checked, no gate passed, no rerun/retuning; fixed-K (6811 → 328/6483, f = 1.2747449) remains a planning contrast only. Pointer: `.workbuddy/queue/NBPOLAR-M2-PRIOR-K-RESPLIT-D4/D4_RECORD.md` §3 and the `d4_adoption_decision:` block in that packet's `STATUS.yaml`. No commit/push by this entry.
+
+## 2026-09-22 — OpenSpec archive: nbpolar-prior-rebaseline merged + change archived
+
+Archive pair: `openspec/changes/nbpolar-prior-rebaseline/` → `openspec/changes/archive/2026-09-22-nbpolar-prior-rebaseline/` (git mv; delta spec body verbatim); merged spec: `openspec/specs/nbpolar-prior-rebaseline/spec.md` (header-only archive/M2-status/reference-resolution note; Requirement text untouched; bare design.md/tasks.md refs resolve to the archive paths; D1-D7 not duplicated). M2 status unchanged (`VALIDATED_AT_FROZEN_CONTRACT`); G4 still open (own packet + authorization required).
