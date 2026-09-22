@@ -35,7 +35,7 @@ data — succeeding on existing data first, testing on new data last (user inten
 
 - Operating point: time-bin high-dim `d=1024`, `N=32768` symbols/block
   (= 128 frames × 256 pairs), `K1=319` / `K2=6492`, P16 construction,
-  `w=200` CIRCULAR, `skip=702`, `frame_pairs=256`, floor `1e-15`,
+  `W_P=200` / `W_S=500` CIRCULAR, `skip=702`, `frame_pairs=256`, floor `1e-15`,
   `chunk=512`, bin `200 ps`.
 - Frozen contract: efficiency `f(6811)=1.2747449`;
   per-block `key_dependent_bits=34,119` (algebraically `5·(K1+K2)+64`,
@@ -77,7 +77,10 @@ data — succeeding on existing data first, testing on new data last (user inten
 ## Impact Scope
 
 - New: `openspec/changes/nbpolar-native-highdim-exploration/`
-  (`proposal.md`, `design.md`, `tasks.md`; **no `specs/` delta — see below**).
+  (`proposal.md`, `design.md`, `tasks.md`, `step0-survey-prereg-skeleton.md`,
+  `step1-screening-design.md`, `step2-transfer-prior-design.md`,
+  `step3-complexity-adjudication-and-probe-envelope.md`, `exploration-index.md`,
+  `stage3-deferral-discriminative-power-note.md`; **no `specs/` delta — see below**).
 - Read-only inputs only (never modified, never re-derived here): frozen artifacts under
   `results/` and `comparison_bench/outputs_comparison/`, plan/contract docs under
   `docs/nbpolar/`, sibling checkouts as read-only history reference.
@@ -130,7 +133,9 @@ exploration write root above. §Frozen box — N / K1 / K2 / P16 / w and every n
   uncertainty, preregistered stop-loss line (e.g. no separation at small q ⇒ do not
   scale to d=1024; clear separation ⇒ proceed to Step 2/3 designs).
 - Stop-loss is a design requirement, not a post-hoc judgment: the screening design must
-  state the numeric no-go condition before any run.
+  state the qualitative no-go bar before any run (OQ2, adjudicated 2026-09-23); the hard
+  numeric separation threshold, if any, is fixed by the future freeze before its run and
+  never tuned post-hoc.
 - Not doing: no d=1024 simulation, no real-data FER, no sim→real generalization claim.
 
 ### Step 2 — transfer-prior injection: non-uniform init from the real transition matrix
@@ -147,16 +152,18 @@ exploration write root above. §Frozen box — N / K1 / K2 / P16 / w and every n
   boundary.
 - Not doing: no M2 modification, no CAL change, no EVAL/RESERVE consumption.
 
-### Step 3 — d=1024 paper-complexity adjudication + GF(32) split-dimension probe design
+### Step 3 — d=1024 paper-complexity adjudication + split-dimension probe design (GF(32) baseline; OQ3 pre-allows other factorizations, 2026-09-23)
 
 - Scientific question: even if Steps 0–2 look promising, does a native d=1024 decoder
   survive the complexity wall on paper (RS-kernel / SCL scaling above), and is a
-  GF(32) split-dimension probe the right bounded next object?
+  split-dimension probe (GF(32) baseline, other factorizations pre-allowed per OQ3)
+  the right bounded next object?
 - Read-only inputs: the cited complexity formulas as stated (no re-derivation claimed
   here); sibling GF(32) history as negative-result record.
 - Design outputs (later): a one-page complexity adjudication (ops/memory vs block
-  budget, with explicit assumptions) plus a bounded GF(32) probe envelope
-  (what is asked, what would falsify it, what it cannot claim).
+  budget, with explicit assumptions) plus a bounded split-dimension probe envelope
+  (GF(32) baseline candidate; other factorizations pre-allowed per OQ3 — what is
+  asked, what would falsify it, what it cannot claim).
 - Stop-loss: if the paper adjudication shows d=1024 native decoding exceeds the
   practical envelope by orders of magnitude with no credible reduction path, the
   recommendation is to stop scaling and record the negative — not to launch code.
@@ -171,7 +178,9 @@ per-row constant here, the comparison degenerates into a construction identity w
 zero discriminative power. Reason to defer (not to abolish): running it now would
 produce a verdict-shaped artifact that cannot discriminate any hypothesis. It returns
 only if a future design restores discriminative power (non-constant λ or a
-non-identical construction comparison), under its own freeze.
+non-identical construction comparison), under its own freeze. Per OQ4 (adjudicated
+2026-09-23) a one-page paper-only discriminative-power note is attached to this
+change via T7.
 
 ## Acceptance Criteria
 
@@ -197,6 +206,14 @@ See `tasks.md` (T1–T9, all docs/plan/review; no execution authorized).
    factorization be pre-allowed?
 4. Does the user accept DEFERRED Stage-3 as stated, or require a paper-only
    discriminative-power note attached to this change?
+
+**Adjudicated 2026-09-23 (user decisions; recorded in `tasks.md` OQ section):**
+(1) {4, 8, 16} locked; q=32 not pre-allowed. (2) Qualitative bar fixed now; the hard
+numeric separation threshold is deferred to the future freeze. (3) Other factorizations
+ARE pre-allowed — GF(32) is the baseline candidate, not the sole locked family, and the
+Step-3 adjudication compares within the pre-allowed set (T6 and `design.md` D5 carry
+this delta). (4) Stage-3 DEFERRED is accepted, AND a one-page paper-only
+discriminative-power note is attached via T7.
 
 ## 已核实现状调研（2026-09-23，供新对话接手）
 

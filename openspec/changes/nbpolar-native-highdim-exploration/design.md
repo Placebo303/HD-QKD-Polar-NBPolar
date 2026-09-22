@@ -36,9 +36,10 @@ their shapes, ledgers, and stop rules in advance.
   freeze — not selected here); arm B bit-plane binary decomposition with ordered
   MSD-style conditioning (Park–Barg structure respected, not BICM-naive).
 - Metric: paired FER–f at matched operating points with uncertainty (per-seed values +
-  mean/sample-std/range in the future `results.json`); the design states the numeric
-  no-go condition (no separation across q ⇒ do not scale; separation ⇒ Step 2/3
-  designs may be frozen next).
+  mean/sample-std/range in the future `results.json`); the design states the
+  qualitative no-go bar (no separation across q ⇒ do not scale; separation ⇒ Step 2/3
+  designs may be frozen next); the hard numeric threshold is a future-freeze item
+  (OQ2, adjudicated 2026-09-23 — never tuned post-hoc).
 - Sim/real firewall: screening parameters, models, and seeds freeze at prereg;
   a rerun to fix an execution error is allowed once and recorded; no threshold may be
   tuned post-hoc; no sim FER enters any real-data table or claim.
@@ -57,18 +58,21 @@ their shapes, ledgers, and stop rules in advance.
 - Boundary guard: the design must not consume EVAL blocks, RESERVE frames, or re-fit
   on confirmation-boundary data; violation ⇒ stop. No `prior_m2.py` or CAL change.
 
-## D5 — Step-3 complexity adjudication + GF(32) probe envelope
+## D5 — Step-3 complexity adjudication + split-dimension probe envelope (GF(32) baseline; OQ3 pre-allows other factorizations, 2026-09-23)
 
 - Paper adjudication inputs (as cited, not re-derived here): Trifonov-2018 RS-kernel
   O(q^l·l); Chen–Bai–Ma-2022 SCL (q²+q)·L·n·log n/2; candidate block budget from the
   frozen point (N=32768 symbols, d=1024 alphabet).
 - Adjudication output: one page — assumed (q, L, l / kernel width, iterations),
   arithmetic ops + memory vs budget, and the explicit assumption list; conclusion is
-  one of SCALE / PROBE-ONLY (GF(32) split-dimension) / STOP, each with its falsifier.
-- GF(32) probe envelope: asks only whether the split-dimension object preserves the
-  Step-1 separation signal at bounded cost; it cannot claim d=1024 native performance.
-  Sibling GF(32) negatives (V7R3 multilayer, V54 shell, V13R3 q=1024) stay on record
-  as constraints, not as reusable code.
+  one of SCALE / PROBE-ONLY (split-dimension probe within the pre-allowed
+  factorization set, GF(32) baseline) / STOP, each with its falsifier.
+- Split-dimension probe envelope (OQ3, adjudicated 2026-09-23: factorizations other
+  than GF(32) are pre-allowed; GF(32) = 32×32 is the baseline candidate, not the
+  sole locked family): the probe asks only whether the split-dimension object
+  preserves the Step-1 separation signal at bounded cost; it cannot claim d=1024
+  native performance. Sibling GF(32) negatives (V7R3 multilayer, V54 shell, V13R3
+  q=1024) stay on record as constraints, not as reusable code.
 
 ## D6 — Stage-3 deferral (design rationale)
 
@@ -77,6 +81,9 @@ to a construction identity: both sides differ only by the frozen arithmetic, so 
 gate's output carries zero bits of hypothesis information. Deferral is the minimal
 action (no gate edit, no constant move). Re-entry condition: a future design with
 non-constant λ or a non-identical construction comparison, under its own freeze.
+A one-page paper-only discriminative-power note (cap-identity derivation +
+conditions that restore discriminative power) is attached to this change via T7
+(OQ4, adjudicated 2026-09-23).
 
 ## D7 — Minimalism (§5.7) and risk register
 
@@ -90,10 +97,11 @@ non-constant λ or a non-identical construction comparison, under its own freeze
   Step-2 boundary guard exists for this. R3: survey descriptives may tempt decoder
   conclusions — Step 0 produces no FER object. R4: complexity numbers are
   assumption-sensitive — D5 forces the assumption list into the artifact.
-- Frozen-box recheck (reviewer-verifiable): N=32768, K1=319, K2=6492, P16, w=200
-  CIRCULAR, skip=702, frame_pairs=256, floor 1e-15, chunk 512, bin 200 ps,
-  f(6811)=1.2747449, 34,119 / 327,743 bits, undetected 0/42, EVAL 14 blocks,
-  RESERVE 29/99 frames — none moved by this change.
+- Frozen-box recheck (reviewer-verifiable): N=32768, K1=319, K2=6492, P16,
+  W_P=200 / W_S=500 CIRCULAR, skip=702, frame_pairs=256, floor 1e-15, chunk 512,
+  bin 200 ps, f(6811)=1.2747449, 34,119 / 327,743 bits, undetected 0/42,
+  EVAL 14 blocks (2398–4189), RESERVE SHG_1 29 / SHG_2 99 frames — none moved
+  by this change.
 
 ## 文献与复杂度锚点（2026-09-23）
 
