@@ -4,7 +4,7 @@ branch: codex/nbpolar-phase0
 change: openspec/changes/nbpolar-prior-rebaseline  # implements T2-T7; T1/T8 + G3 + re-split + re-derivation OUT
 implementation_authorized: true   # Stage-1 (§4 (a)-(e)) delivered+accepted via child packet NBPOLAR-M2-PRIOR-STAGE1-IMPLEMENTATION (2026-09-21)
 execution_authorized: false       # G1/G2/G3 execution NOT authorized (G1 ran under its own child packet authorization)
-counters: {stage1_runs: 0, g1_runs: 1, g2_runs: 0, sc_calls_on_protected: 0, reruns: 0}
+counters: {stage1_runs: 0, g1_runs: 1, g1r2_runs: 1, g2_runs: 1, sc_calls_on_protected: 126, tag_invocations: 42, reruns: 0}
 budget_cap: {stage2_s: 600, stage3_s: 900, rss_GiB: 2, single_threaded: true}
 freeze_doc: g1_freeze.md  # G1_FREEZE_PREPARED_PENDING_REVIEW (2026-09-21); 16 values frozen therein, 4 list-type keys filled by Phase-A closure
 to_freeze:
@@ -37,7 +37,20 @@ g1_outcome: >-
   Reproduction 5/5 bit-exact; closure + numerics independently verified (CLOSURE_PASS_WITH_COMMENTS,
   G1_NUMERICS_PASS). Route consequence: T6/T7 (G2) BLOCKED pending main-thread route decision; G3 void
   unless a new candidate emerges; M2 remains CANDIDATE, not validated; no FER/efficiency claim.
-next_gate: MAIN_THREAD_ROUTE_PLANNING_POST_G1_BOUNDED_NEGATIVE
+g1_route_consequence_superseded: >-
+  G1's own bounded-negative result above is UNCHANGED. Its route consequence ("T6/T7 BLOCKED; G3 void unless
+  a new candidate emerges") held at G1 adjudication 2026-09-21 and is SUPERSEDED by S11 (the w=500 tail
+  FAIL is substantially pairing-contamination; w=200 CIRCULAR tail = 0), by G1R2 (w=200/CIRCULAR
+  descriptive PASS) and by G2 SUCCESS (NBPOLAR_M2_PRIOR_G2_SUCCESS, 2026-09-22). Records:
+  S11/G1R2/G2 adjudications + decision-log 2026-09-21..22 entries.
+g1r2_outcome: "NBPOLAR_M2_PRIOR_G1R2_COMPLETE_DESCRIPTIVE (2026-09-22; delta record g1r2_delta.md; adjudication ../NBPOLAR-M2-PRIOR-G1R2-W200-CIRCULAR/G1R2_ADJUDICATION.md; decoder-free, SHG_2 untouched)"
+g2_outcome: >-
+  NBPOLAR_M2_PRIOR_G2_SUCCESS (2026-09-22; Tier-Y one-shot three-arm decode, SHG_1, w=200/CIRCULAR).
+  B (M2 matched 32f) 11/14 Wilson [0.5241027623, 0.9242875166] vs A2 (M0 matched 32f) 0/14 Wilson
+  [0.0, 0.2153170119], strict non-overlap; A1 (M0 incumbent 1024f) 0/14 descriptive, NO gate.
+  undetected 0/42 isolated; disclosure recount mismatch 0; one-shot, reruns 0. M2 remains CANDIDATE
+  until G3. Record: ../NBPOLAR-M2-PRIOR-G2-DECODE/G2_ADJUDICATION.md.
+next_gate: G3_CONFIRM_OWNED_BY_CHILD_PACKET  # T5/T6/T7 complete; G3 Phase 0+A IN FLIGHT under NBPOLAR-M2-PRIOR-G3-CONFIRM (operator active 2026-09-22 16:57+; decode still gated on Pre-EXECUTE + recorded authorization)
 stage1: {I1_adapter_oracle: pass, I2_tests_sc_untouched: pass, I3_resplit_replay: pass, I4_cal_note: pass}
 # Stage-1 evidence: child packet NBPOLAR-M2-PRIOR-STAGE1-IMPLEMENTATION/ (REVIEW.md PASS_WITH_COMMENTS,
 # MAIN_THREAD_ACCEPTANCE.md label NBPOLAR_M2_PRIOR_STAGE1_IMPLEMENTATION_COMPLETE_ACCEPTED; S1-1..S1-8 pass).
@@ -52,11 +65,12 @@ stage2_g1:
   20260113_SHG_Type2PPLN_3s: {G1-1_align: pending, G1-2_pairing_delta: pending, G1-3_cal32_nll: pending, G1-4_H_gate: pending}
 stage3_g2:
   target_acq: 20260113_SHG_Type2PPLN_3s
-  G2-1_freeze_preauth: pending
-  G2-2_oneshot_A1A2B: pending
-  G2-3_taxonomy_accounting: pending
-  G2-4_no_rerun: pending
-stage4: {R1_preresult: pending, R2_adjudication: pending}
+  G2-1_freeze_preauth: pass       # freeze review PASS after 3 FAIL cycles (B1-B5 + 2 one-line fixes); Pre-EXECUTE PASS
+  G2-2_oneshot_A1A2B: pass        # one-shot executed 2026-09-22; g2_runs 1, reruns 0, wall 855.1 s <= 900, RSS 1.12 GiB <= 2
+  G2-3_taxonomy_accounting: pass  # taxonomy {exact 11, verify_failed 31}; undetected 0/42 isolated; recount mismatch 0
+  G2-4_no_rerun: pass             # Wilson strict non-overlap B 0.5241 > A2 0.2153 => NBPOLAR_M2_PRIOR_G2_SUCCESS
+  record: ../NBPOLAR-M2-PRIOR-G2-DECODE/G2_ADJUDICATION.md
+stage4: {R1_preresult: pass, R2_adjudication: pass}  # Pre-RESULT PASS zero blocking; adjudicated NBPOLAR_M2_PRIOR_G2_SUCCESS
 reserved_for_G3:
   SHG_2_acq: 20260113_SHG_Type2PPLN_3s_2
   declaration: FROZEN_FROM_THIS_PACKET_ONWARD__NOT_UNTOUCHED_HISTORICALLY

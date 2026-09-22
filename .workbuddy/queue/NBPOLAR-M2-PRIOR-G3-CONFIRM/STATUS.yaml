@@ -9,7 +9,7 @@ g3_authorized: true               # user authorization pasted verbatim 2026-09-2
 execution_one_shot: true          # gated BOTH on the precondition AND on Pre-EXECUTE PASS + auth recorded before decode
 decoder_modification: false        # frozen: sc.py/algebra/transform/prior_m2.py + formal_ir/nbpolar/ never modified
 precondition_status: MET  # G2 adjudicated SUCCESS 2026-09-22 (`NBPOLAR_M2_PRIOR_G2_SUCCESS`, G2_ADJUDICATION.md)
-next_gate: AWAITING_MILESTONE_COMMIT_THEN_PHASE0_PHASEA_DISPATCH  # precondition met; held authorization operative; G3 modifies scripts/m2_prior_validation.py so it MUST wait for the G2 milestone commit to land first (no concurrent runner edits)
+next_gate: PHASE0_PHASEA_IN_FLIGHT  # precondition MET; held authorization (kai 2026-09-22) OPERATIVE; milestone db5f5e0e is HEAD. Phase 0+A operator ACTIVE as of 2026-09-22 16:58 +0800: G3 stage written into scripts/m2_prior_validation.py (FLAG_G3 / run_stage_g3 / G3_PACKET, +688..691 lines, mtime 16:57) and comparison_bench/tests/test_nbpolar_m2_g3_confirm.py created (648 lines, mtime 16:58); g3_freeze_config.json not yet emitted; counters/ids to be filled by the operator at return. G3-2 decode remains UNAUTHORIZED until Pre-EXECUTE PASS + recorded authorization.
 authorization_hold_note: >-
   Authorization (kai 2026-09-22) was received while the packet's PRECONDITION (G2 adjudication ADOPTS M2) was
   unsatisfied, and was HELD: not dispatched, SHG `_2` untouched. The precondition is now MET — G2 returned SUCCESS
@@ -17,7 +17,7 @@ authorization_hold_note: >-
   mismatch 0; one-shot). The held authorization is therefore OPERATIVE and G3 may be dispatched — Phase 0 + Phase A
   first, then Pre-EXECUTE + recorded authorization BEFORE any decode. G3 participation disclosure required in
   every output (decoder/model independence, NOT no-prior-contact independence).
-counters: {closure_runs: 0, g3_runs: 0, sc_calls_on_protected: 0, tag_invocations: 0, reruns: 0}
+counters: {closure_runs: 1, g3_runs: 0, sc_calls_on_protected: 0, tag_invocations: 0, reruns: 0}
 target_acq: 20260113_SHG_Type2PPLN_3s_2
 contract_inherited_from_SHG_1:
   pairing_rule: N_narrow_nearest_unique
@@ -40,13 +40,20 @@ participation_disclosure: >-
   Never done on SHG `_2`: prior fitting, any decoder run, or M2 model selection. G3 independence is
   decoder/model independence, NOT no-prior-contact independence — state this in every G3 result.
 ids:
-  G3-0_phase0_tests: pending
-  G3-A_closure: pending
+  G3-0_phase0_tests: pass
+  G3-A_closure: pass
   G3-1_freeze_preauth: pending
   G3-2_oneshot_decode: pending
   G3-3_measurement_disclosure: pending
   G3-4_no_rerun_gate: pending
   R1_preresult: pending
   R2_adjudication: pending
-artifacts: []
+artifacts:
+  - scripts/m2_prior_validation.py
+  - comparison_bench/tests/test_nbpolar_m2_g3_confirm.py
+  - workspace/m2_prior_validation/20260113_SHG_Type2PPLN_3s_2_g3/g3.json
+  - workspace/m2_prior_validation/20260113_SHG_Type2PPLN_3s_2_g3/cal_ids.json
+  - workspace/m2_prior_validation/20260113_SHG_Type2PPLN_3s_2_g3/run_log.md
+  - workspace/m2_prior_validation/20260113_SHG_Type2PPLN_3s_2_g3/input/g3_freeze_config.json
+  - .workbuddy/queue/NBPOLAR-M2-PRIOR-G3-CONFIRM/g3_freeze_config.json
 result: {id: null, summary: null, decision_needed: null}

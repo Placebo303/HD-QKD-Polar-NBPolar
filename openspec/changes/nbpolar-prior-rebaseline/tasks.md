@@ -38,9 +38,14 @@ never check their own boxes. No task authorizes production-data execution.
   Gate: Pre-RESULT PASS; FAIL blocks solidification.
   Done 2026-09-22: G2 one-shot executed (g2_runs 1, reruns 0),
   Pre-RESULT PASS_WITH_COMMENTS.
-- [ ] T8: main-thread adjudication (adopt / revise-required / negative
+- [x] T8: main-thread adjudication (adopt / revise-required / negative
   record). G3 (independent session) and any construction re-derivation
   need their own freezes — explicitly out of this task list.
+  Done 2026-09-22: G1 bounded negative recorded, then G1R2 descriptive
+  and G2 adjudicated `NBPOLAR_M2_PRIOR_G2_SUCCESS` (B 11/14 vs A2 0/14,
+  strict non-overlap). M2 ADOPTED AS CANDIDATE for G3 — it is NOT
+  promoted: it stays CANDIDATE until G3 passes. G3 runs under its own
+  packet `NBPOLAR-M2-PRIOR-G3-CONFIRM` (out of this task list).
 
 ## Acceptance
 
@@ -49,7 +54,11 @@ never check their own boxes. No task authorizes production-data execution.
 - [ ] CAL=32 sacrifice, K re-split, and inventory are recomputable from
   frozen artifacts; no frozen number moved post-hoc.
 - [ ] G1/G2 reviews recorded; no FER/efficiency/qualification claim made.
-- [ ] Memory triage completed at close.
+- [x] Memory triage completed at close.
+  2026-09-22: G2 SUCCESS entry appended to `AGENT_PROJECT_MEMORY.md`
+  (headline + 5 bullets: verdict / contract / status-boundaries /
+  diagnostic / procedure). Stage-1, G1, S11 and G1R2 entries already
+  present. G3 will get its own triage at its close.
 
 ## Small-task note
 
