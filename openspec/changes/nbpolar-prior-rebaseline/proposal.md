@@ -2,9 +2,12 @@
 
 ## Status
 
-`PLAN_CANDIDATE / IMPLEMENTATION_NOT_AUTHORIZED / EXECUTE_NOT_AUTHORIZED`.
-Branch: `codex/nbpolar-phase0` (verified via `.git/HEAD`).
-Planning artifacts only — no production code, no execution authorization.
+`PLAN_CANDIDATE / T1_REVISE_REQUIRED` (T1 independent review: FAIL,
+recorded at `INDEPENDENT_PLAN_REVIEW.md`; re-review pending after B1/B2
+fixes). Branch: `codex/nbpolar-phase0` (verified via `.git/HEAD`).
+This change authorizes no implementation or execution; T2–T8 were executed
+under separate coder packets, freeze reviews, and user authorizations — not
+under this change's authority.
 
 ## Goal
 
@@ -57,8 +60,10 @@ In: M2 prior definition, CAL procedure, accounting rule, K re-split rule,
 construction freeze decision, validation gates, delta spec, coder task
 list, and the `SECURITY_MODEL.md` CAL-note update.
 Out: Phase 0–1 field/transform, Phase 2 `sc.py`, verification/accounting
-primitives, data registries, frozen-session artifacts, any `.py`
-implementation, any execution, any security/composability claim.
+primitives, data registries, frozen-session artifacts, any execution, any
+security/composability claim. The T2/T3 `.py` adapter and K re-split code
+live under separate coder-packet authorization (cf. Impact Scope), not under
+this change's authority.
 
 ## Non-Goals
 
@@ -76,9 +81,9 @@ need follow-up edits — flagged as conflicts below, not edited here.
 ## Affected specs
 
 New delta `specs/nbpolar-prior-rebaseline/spec.md` superseding the
-`nbpolar-phase4-p0` "accepted concentration prior" and "lifecycle"
-requirements for all future evidence. Merged `openspec/specs/` carries no
-NB-Polar prior requirement, so nothing there is modified.
+`nbpolar-phase4-p0` "accepted concentration prior" and "lifecycle and truth
+isolation" requirements for all future evidence. Merged `openspec/specs/`
+carries no NB-Polar prior requirement, so nothing there is modified.
 
 ## Acceptance Criteria
 
@@ -95,4 +100,5 @@ with no production-data execution authorized by this change.
 
 ## Tasks
 
-See `tasks.md`. This proposal authorizes no implementation or execution.
+See `tasks.md` (T2–T8 done; T1 open — FAIL, revise-required, re-review
+pending). This proposal authorizes no implementation or execution.

@@ -2,12 +2,17 @@
 
 Ownership: main thread owns acceptance; operators report evidence only and
 never check their own boxes. No task authorizes production-data execution.
+Status: T2–T8 done (see rows below); T1 still open — FAIL
+(`INDEPENDENT_PLAN_REVIEW.md`), revise-required, re-review pending after
+B1/B2 fixes.
 
 ## Plan acceptance (this change)
 
 - [ ] T1: independent review of proposal/design/specs (seven decisions
   explicit, four Supersedes replacements named, D7 frozen list intact).
   Gate: review PASS recorded; else revise-required.
+  Note: review recorded at `INDEPENDENT_PLAN_REVIEW.md` — verdict FAIL,
+  re-review required after B1/B2 fixes; T1 stays open.
 - [x] T2: coder packet — implement the M2 adapter (`prior.py` delta:
   per-session triple → model-implied P(A|B) → floor + renorm) with pure
   synthetic fixtures + independent literal oracle; full predecessor suite
@@ -21,6 +26,9 @@ never check their own boxes. No task authorizes production-data execution.
 - [x] T4: docs packet — `SECURITY_MODEL.md` CAL note (32-frame sacrifice,
   reveal-bits diagnostic status, no λ_prior term, claim scope unchanged)
   + public-message inventory skeleton. Gate: main-thread doc review.
+  G4 follow-up (future, out of this task list): G4 freeze + independent
+  review + execution tasks require their own packet and explicit user
+  authorization — no G4 work is authorized by this change.
 - [x] T5: freeze the G1 real-data NLL replication (split, seed, margin,
   descriptive-only label). Gate: Pre-EXECUTE-style freeze review PASS.
   Done 2026-09-21: G1 frozen + executed + adjudicated
@@ -39,8 +47,9 @@ never check their own boxes. No task authorizes production-data execution.
   Done 2026-09-22: G2 one-shot executed (g2_runs 1, reruns 0),
   Pre-RESULT PASS_WITH_COMMENTS.
 - [x] T8: main-thread adjudication (adopt / revise-required / negative
-  record). G3 (independent session) and any construction re-derivation
-  need their own freezes — explicitly out of this task list.
+  record). G3 (independent session), G4 (exhaustive public-message
+  inventory), and any construction re-derivation need their own freezes —
+  explicitly out of this task list.
   Done 2026-09-22: G1 bounded negative recorded, then G1R2 descriptive
   and G2 adjudicated `NBPOLAR_M2_PRIOR_G2_SUCCESS` (B 11/14 vs A2 0/14,
   strict non-overlap). M2 ADOPTED AS CANDIDATE for G3 — it is NOT

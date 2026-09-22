@@ -106,6 +106,11 @@ H2 bias small with sign NOT established — MM ADDS, corrected H2
 opposite signs and comparable magnitude, so this is NOT a refutation of
 H2 misestimation; `2^(H2/SER)` heuristic ban).
 
+D7 tail incorporated by reference: the evidential-history items above
+(V25-source identity, S2/S4 54.8σ qualification, H2 sign/MM-additivity
+correction, heuristic ban) are frozen as stated in this section (D7);
+tasks/specs cover only the structural freezes and point back here.
+
 ## Data-flow change
 
 Old: CAL frames → `counts_ab` (1024×1024) → λ-concentration/`LAMBDA_STAR`
