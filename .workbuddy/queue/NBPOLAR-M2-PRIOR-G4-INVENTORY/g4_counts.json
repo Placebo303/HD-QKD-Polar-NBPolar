@@ -1,0 +1,71 @@
+{
+  "rows_by_stage": {
+    "CONTRACT": 20,
+    "G1": 21,
+    "G1R2": 21,
+    "G2": 22,
+    "G3": 23
+  },
+  "rows_by_message_class": {
+    "contract_param": 17,
+    "construction": 2,
+    "alignment_record": 4,
+    "ledger_allocation": 9,
+    "cal_frame_list": 8,
+    "fitted_prior": 5,
+    "reveal_bits_diagnostic": 1,
+    "disclosure_bits": 5,
+    "tag": 6,
+    "threshold_or_gate_record": 8,
+    "result_publication": 18,
+    "participation_disclosure": 1,
+    "blocked": 12,
+    "none_recorded": 11
+  },
+  "rows_by_release_handling": {
+    "counted_in_leak_IR": 4,
+    "charged_0_labeled_public_ec_only_not_secure": 1,
+    "result_publication": 18,
+    "sacrificed_excluded_from_denominator": 8,
+    "diagnostic_only_never_lambda": 1,
+    "structural_public_parameter": 63,
+    "blocked_never_public": 12
+  },
+  "key_bits_sum": 2865996,
+  "public_bits_sum": 27530412,
+  "tags_total": 84,
+  "cal_frames_listed": {
+    "shg_1": 1056,
+    "shg_2": 1056
+  },
+  "cross_check": {
+    "key": {
+      "computed": {
+        "G2": 1432998,
+        "G3": 1432998
+      },
+      "frozen": 1432998,
+      "match": true
+    },
+    "public": {
+      "computed": {
+        "G2": 13765206,
+        "G3": 13765206
+      },
+      "frozen": 13765206,
+      "match": true
+    },
+    "tags": {
+      "computed": {
+        "G2": 42,
+        "G3": 42
+      },
+      "frozen": 42,
+      "match": true
+    }
+  },
+  "sc_calls": 0,
+  "tag_invocations": 0,
+  "g4_runs": 1,
+  "reruns": 0
+}

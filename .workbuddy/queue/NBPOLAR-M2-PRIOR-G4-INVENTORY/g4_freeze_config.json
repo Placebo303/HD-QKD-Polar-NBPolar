@@ -1,0 +1,1045 @@
+{
+  "packet": "NBPOLAR-M2-PRIOR-G4-INVENTORY",
+  "phase": "A_input_manifest_freeze",
+  "change": "openspec/changes/nbpolar-prior-rebaseline (D6 gate G4)",
+  "branch": "codex/nbpolar-phase0",
+  "builder": ".workbuddy/queue/NBPOLAR-M2-PRIOR-G4-INVENTORY/g4_build_inventory.py",
+  "stage_at_phase_a": "PACKET_DRAFT (unchanged — authorization recorded, stage NOT advanced)",
+  "authorizations": {
+    "pointer": ".workbuddy/queue/NBPOLAR-M2-PRIOR-G4-INVENTORY/STATUS.yaml#authorizations[0]",
+    "recorded": true,
+    "line": "AUTHORIZED BY: kai —2026.09.22 — g4_authorized: true (precondition: G3 accepted NBPOLAR_M2_PRIOR_G3_SUCCESS, M2 VALIDATED_AT_FROZEN_CONTRACT) / execution_one_shot: true / inventory_only_no_decode: true / raw_data_read: false",
+    "recorded_before": "Phase-B build; independent Pre-EXECUTE review still PENDING (must PASS before any build)",
+    "one_shot": true,
+    "inventory_only_no_decode": true,
+    "raw_data_read": false
+  },
+  "manifest_count": 63,
+  "input_manifest": [
+    {
+      "id": "M01",
+      "group": "contract_and_rules",
+      "path": "openspec/changes/nbpolar-prior-rebaseline/design.md",
+      "exists": true,
+      "locators_used": [
+        "§D6 line 79 (G4 definition; G4 + Stage-3 boundary)",
+        "§D3 line 41 (accounting: sacrifice the CAL, no λ_prior)",
+        "§D7 line 91 (what stays frozen)"
+      ]
+    },
+    {
+      "id": "M02",
+      "group": "contract_and_rules",
+      "path": "openspec/changes/nbpolar-prior-rebaseline/specs/nbpolar-prior-rebaseline/spec.md",
+      "exists": true,
+      "locators_used": [
+        "§Requirement: validation gates line 51 (G4 clause line 56)",
+        "§Requirement: sacrificed small CAL lines 17-20 ('excluded from key denominators and listed in the public-message inventory')"
+      ]
+    },
+    {
+      "id": "M03",
+      "group": "contract_and_rules",
+      "path": "openspec/changes/nbpolar-prior-rebaseline/tasks.md",
+      "exists": true,
+      "locators_used": [
+        "T4 line 27 (SECURITY_MODEL CAL note / 0-bit inventory skeleton)",
+        "T8 line 50 (main-thread adjudication)"
+      ]
+    },
+    {
+      "id": "M04",
+      "group": "contract_and_rules",
+      "path": "docs/nbpolar/STATE.md",
+      "exists": true,
+      "locators_used": [
+        "§4.1 line 69 (M2 promotion ladder; M2 state line 72)",
+        "READY_FOR_QUALIFICATION row line 80 (G4 conjunct)"
+      ]
+    },
+    {
+      "id": "M05",
+      "group": "contract_and_rules",
+      "path": "docs/SECURITY_MODEL.md",
+      "exists": true,
+      "locators_used": [
+        "§NB-Polar M2 CAL / prior accounting line 107 (sacrifice / reveal-bits / no λ_prior notes)",
+        "§Public-message inventory skeleton line 130; table rows lines 139-144 (CAL list 139, fitted triple 140, reveal bits 141, P16 orders 142, (K1,K2) 143, Toeplitz tags 144)"
+      ]
+    },
+    {
+      "id": "M06",
+      "group": "contract_and_rules",
+      "path": "docs/nbpolar/MACRO_PLAN_20260921.md",
+      "exists": true,
+      "locators_used": [
+        "§5 line 121; Stage 3 measurement set line 152 (boundary only, carved out of G4)",
+        "§9 F3 line 292 (Release fail-closed inventory pattern)"
+      ]
+    },
+    {
+      "id": "M07",
+      "group": "contract_and_rules",
+      "path": "docs/decision-log.md",
+      "exists": true,
+      "locators_used": [
+        "F3 entry line 5327 (Release pattern provenance; fail-closed public-message inventory, blocked_* statuses; charged_0 label)"
+      ]
+    },
+    {
+      "id": "M08",
+      "group": "contract_and_rules",
+      "path": "docs/nbpolar/REAL_DATA_CORRECTION_ROADMAP_20260922.md",
+      "exists": true,
+      "locators_used": [
+        "§4 line 141 (R2 line 143, R3 line 152 — ownership boundary only)",
+        "§5 ladder line 170"
+      ]
+    },
+    {
+      "id": "M09",
+      "group": "contract_and_rules",
+      "path": ".workbuddy/queue/NBPOLAR-M2-PRIOR-REALDATA-VALIDATION/TASK_PACKET.md",
+      "exists": true,
+      "locators_used": [
+        "provenance only (context, no row source): §1 Frozen decisions line 32; §6 Stage 3 (G2 execution) line 151 — source of the §6-Stage-3 vs MACRO-Stage-3 disambiguation"
+      ]
+    },
+    {
+      "id": "M10",
+      "group": "contract_and_rules",
+      "path": ".workbuddy/queue/NBPOLAR-M2-PRIOR-REALDATA-VALIDATION/g1_freeze.md",
+      "exists": true,
+      "locators_used": [
+        "provenance only (context, no row source): §4 Segment layout line 41 (layout rule referenced by cal_ids*.json $.layout_rule); §5 19 TO-FREEZE values line 56; §6 Gate rules line 82"
+      ]
+    },
+    {
+      "id": "M11",
+      "group": "contract_and_rules",
+      "path": ".workbuddy/queue/NBPOLAR-M2-PRIOR-STAGE1-IMPLEMENTATION/PROMPT.md",
+      "exists": true,
+      "locators_used": [
+        "provenance only (context, no row source): §1 line 35 (0-bit inventory skeleton provenance, T4)"
+      ]
+    },
+    {
+      "id": "M12",
+      "group": "contract_and_rules",
+      "path": ".workbuddy/queue/NBPOLAR-M2-PRIOR-K-RESPLIT-D4/D4_RECORD.md",
+      "exists": true,
+      "locators_used": [
+        "line 3 (Label: NBPOLAR_M2_PRIOR_K_RESPLIT_D4_COMPLETE_REPORT_ONLY, report-only, adopted neither branch; K1/K2 unchanged)"
+      ]
+    },
+    {
+      "id": "M13",
+      "group": ".workbuddy/queue/NBPOLAR-M2-PRIOR-G1-REALDATA-NLL packet",
+      "path": ".workbuddy/queue/NBPOLAR-M2-PRIOR-G1-REALDATA-NLL/TASK_PACKET.md",
+      "exists": true,
+      "locators_used": [
+        "provenance only (context, no row source): Phase A line 40; Phase B line 46; Acceptance IDs line 66"
+      ]
+    },
+    {
+      "id": "M14",
+      "group": ".workbuddy/queue/NBPOLAR-M2-PRIOR-G1-REALDATA-NLL packet",
+      "path": ".workbuddy/queue/NBPOLAR-M2-PRIOR-G1-REALDATA-NLL/FREEZE_REVIEW.md",
+      "exists": true,
+      "locators_used": [
+        "provenance only (context, no row source): §Re-review FREEZE_PASS line 16; §Gate status line 24"
+      ]
+    },
+    {
+      "id": "M15",
+      "group": ".workbuddy/queue/NBPOLAR-M2-PRIOR-G1-REALDATA-NLL packet",
+      "path": ".workbuddy/queue/NBPOLAR-M2-PRIOR-G1-REALDATA-NLL/AUTHORIZATION_PROMPT.md",
+      "exists": true,
+      "locators_used": [
+        "provenance only (context, no row source): verbatim authorization block (A/B scope)"
+      ]
+    },
+    {
+      "id": "M16",
+      "group": ".workbuddy/queue/NBPOLAR-M2-PRIOR-G1-REALDATA-NLL packet",
+      "path": ".workbuddy/queue/NBPOLAR-M2-PRIOR-G1-REALDATA-NLL/STATUS.yaml",
+      "exists": true,
+      "locators_used": [
+        "$.result.id (block at line 30)",
+        "$.ids lines 15-21",
+        "$.stage"
+      ]
+    },
+    {
+      "id": "M17",
+      "group": ".workbuddy/queue/NBPOLAR-M2-PRIOR-G1-REALDATA-NLL packet",
+      "path": ".workbuddy/queue/NBPOLAR-M2-PRIOR-G1-REALDATA-NLL/g1_freeze_config.json",
+      "exists": true,
+      "locators_used": [
+        "$.tag_master",
+        "$.pairing_window_primary",
+        "$.pairing_window_sensitivity",
+        "$.mod_boundary",
+        "$.skip_frames",
+        "$.a1_cal_ids",
+        "$.cal_frame_ids",
+        "$.char_sample_pairs",
+        "$.disjointness_matrix"
+      ]
+    },
+    {
+      "id": "M18",
+      "group": ".workbuddy/queue/NBPOLAR-M2-PRIOR-G1-REALDATA-NLL packet",
+      "path": ".workbuddy/queue/NBPOLAR-M2-PRIOR-G1-REALDATA-NLL/G1_ADJUDICATION.md",
+      "exists": true,
+      "locators_used": [
+        "line 20 (G1 verdict: bounded negative)"
+      ]
+    },
+    {
+      "id": "M19",
+      "group": "workspace/m2_prior_validation/20260113_SHG_Type2PPLN_3s",
+      "path": "workspace/m2_prior_validation/20260113_SHG_Type2PPLN_3s/g1.json",
+      "exists": true,
+      "locators_used": [
+        "$.align",
+        "$.yield_sweep",
+        "$.offset_applied_to_alice",
+        "$.offset_sign_convention",
+        "$.pairing",
+        "$.pairing.frozen.frame_pairs",
+        "$.pairing.frozen.bin_width_ps",
+        "$.reproduction_gate",
+        "$.ledger",
+        "$.cal.m2_triple",
+        "$.cal.n_frames",
+        "$.cal.n_pairs",
+        "$.H_M2_bits",
+        "$.H_M0_bits",
+        "$.NLL_M2_bits",
+        "$.NLL_M0_bits",
+        "$.nll_delta_bits",
+        "$.gates.delta_tail",
+        "$.gates.nll",
+        "top-level key scan (tag / key_dependent_bits / public_control_bits / participation / reveal ABSENT)"
+      ]
+    },
+    {
+      "id": "M20",
+      "group": "workspace/m2_prior_validation/20260113_SHG_Type2PPLN_3s",
+      "path": "workspace/m2_prior_validation/20260113_SHG_Type2PPLN_3s/delta_profiles.json",
+      "exists": true,
+      "locators_used": [
+        "$.profile",
+        "$.sensitivity_triple",
+        "$.tail_gate",
+        "$.mod_frozen",
+        "$.n_pairs"
+      ]
+    },
+    {
+      "id": "M21",
+      "group": "workspace/m2_prior_validation/20260113_SHG_Type2PPLN_3s",
+      "path": "workspace/m2_prior_validation/20260113_SHG_Type2PPLN_3s/cal_ids.json",
+      "exists": true,
+      "locators_used": [
+        "$.a1_cal_ids",
+        "$.cal_frame_ids",
+        "$.layout_rule",
+        "$.disjointness_matrix"
+      ]
+    },
+    {
+      "id": "M22",
+      "group": "workspace/m2_prior_validation/20260113_SHG_Type2PPLN_3s",
+      "path": "workspace/m2_prior_validation/20260113_SHG_Type2PPLN_3s/cal_ids_closure.json",
+      "exists": true,
+      "locators_used": [
+        "$.a1_cal_ids",
+        "$.cal_frame_ids",
+        "$.ledger_complete_frames",
+        "$.reserve_frame_ids",
+        "$.layout_rule"
+      ]
+    },
+    {
+      "id": "M23",
+      "group": "workspace/m2_prior_validation/20260113_SHG_Type2PPLN_3s",
+      "path": "workspace/m2_prior_validation/20260113_SHG_Type2PPLN_3s/g1_closure_reproduction.json",
+      "exists": true,
+      "locators_used": [
+        "$.segments",
+        "$.disjointness_all_disjoint",
+        "$.ledger",
+        "$.pairing"
+      ]
+    },
+    {
+      "id": "M24",
+      "group": "workspace/m2_prior_validation/20260113_SHG_Type2PPLN_3s",
+      "path": "workspace/m2_prior_validation/20260113_SHG_Type2PPLN_3s/run_log.md",
+      "exists": true,
+      "locators_used": [
+        "lines 1-6 (reproduction_gate / delta_tail / nll lines)"
+      ]
+    },
+    {
+      "id": "M25",
+      "group": "workspace/m2_prior_validation/20260113_SHG_Type2PPLN_3s",
+      "path": "workspace/m2_prior_validation/20260113_SHG_Type2PPLN_3s/run_log_closure.md",
+      "exists": true,
+      "locators_used": [
+        "lines 1-6 (align / yield_sweep lines)"
+      ]
+    },
+    {
+      "id": "M26",
+      "group": ".workbuddy/queue/NBPOLAR-M2-PRIOR-G1R2-W200-CIRCULAR packet",
+      "path": ".workbuddy/queue/NBPOLAR-M2-PRIOR-G1R2-W200-CIRCULAR/TASK_PACKET.md",
+      "exists": true,
+      "locators_used": [
+        "provenance only (context, no row source): §19 TO-FREEZE delta summary line 26; Phases line 40; Acceptance IDs line 48"
+      ]
+    },
+    {
+      "id": "M27",
+      "group": ".workbuddy/queue/NBPOLAR-M2-PRIOR-G1R2-W200-CIRCULAR packet",
+      "path": ".workbuddy/queue/NBPOLAR-M2-PRIOR-G1R2-W200-CIRCULAR/DELTA_REVIEW.md",
+      "exists": true,
+      "locators_used": [
+        "provenance only (context, no row source): §Re-review DELTA_PASS_WITH_COMMENTS line 36; §First review line 6"
+      ]
+    },
+    {
+      "id": "M28",
+      "group": ".workbuddy/queue/NBPOLAR-M2-PRIOR-G1R2-W200-CIRCULAR packet",
+      "path": ".workbuddy/queue/NBPOLAR-M2-PRIOR-G1R2-W200-CIRCULAR/AUTHORIZATION_PROMPT.md",
+      "exists": true,
+      "locators_used": [
+        "provenance only (context, no row source): verbatim authorization block (A/B scope)"
+      ]
+    },
+    {
+      "id": "M29",
+      "group": ".workbuddy/queue/NBPOLAR-M2-PRIOR-G1R2-W200-CIRCULAR packet",
+      "path": ".workbuddy/queue/NBPOLAR-M2-PRIOR-G1R2-W200-CIRCULAR/STATUS.yaml",
+      "exists": true,
+      "locators_used": [
+        "$.result (inline flow at line 36: id G1R2-B)",
+        "$.ids lines 16-22",
+        "$.stage"
+      ]
+    },
+    {
+      "id": "M30",
+      "group": ".workbuddy/queue/NBPOLAR-M2-PRIOR-G1R2-W200-CIRCULAR packet",
+      "path": ".workbuddy/queue/NBPOLAR-M2-PRIOR-G1R2-W200-CIRCULAR/g1r2_freeze_config.json",
+      "exists": true,
+      "locators_used": [
+        "$.tag_master",
+        "$.pairing_window_primary",
+        "$.pairing_window_sensitivity",
+        "$.mod_boundary",
+        "$.skip_frames",
+        "$.a1_cal_ids",
+        "$.cal_frame_ids"
+      ]
+    },
+    {
+      "id": "M31",
+      "group": ".workbuddy/queue/NBPOLAR-M2-PRIOR-G1R2-W200-CIRCULAR packet",
+      "path": ".workbuddy/queue/NBPOLAR-M2-PRIOR-G1R2-W200-CIRCULAR/G1R2_ADJUDICATION.md",
+      "exists": true,
+      "locators_used": [
+        "line 3 (Label: NBPOLAR_M2_PRIOR_G1R2_COMPLETE_DESCRIPTIVE)"
+      ]
+    },
+    {
+      "id": "M32",
+      "group": "workspace/m2_prior_validation/20260113_SHG_Type2PPLN_3s_g1r2",
+      "path": "workspace/m2_prior_validation/20260113_SHG_Type2PPLN_3s_g1r2/g1.json",
+      "exists": true,
+      "locators_used": [
+        "$.align",
+        "$.yield_sweep",
+        "$.offset_applied_to_alice",
+        "$.pairing",
+        "$.reproduction_gate",
+        "$.ledger",
+        "$.cal.m2_triple",
+        "$.H_M2_bits",
+        "$.H_M0_bits",
+        "$.NLL_M2_bits",
+        "$.NLL_M0_bits",
+        "$.nll_delta_bits",
+        "$.gates.delta_tail",
+        "$.gates.nll",
+        "top-level key scan (tag / key_dependent_bits / public_control_bits / participation / reveal ABSENT)"
+      ]
+    },
+    {
+      "id": "M33",
+      "group": "workspace/m2_prior_validation/20260113_SHG_Type2PPLN_3s_g1r2",
+      "path": "workspace/m2_prior_validation/20260113_SHG_Type2PPLN_3s_g1r2/delta_profiles.json",
+      "exists": true,
+      "locators_used": [
+        "$.profile",
+        "$.sensitivity_triple",
+        "$.tail_gate",
+        "$.mod_frozen"
+      ]
+    },
+    {
+      "id": "M34",
+      "group": "workspace/m2_prior_validation/20260113_SHG_Type2PPLN_3s_g1r2",
+      "path": "workspace/m2_prior_validation/20260113_SHG_Type2PPLN_3s_g1r2/cal_ids.json",
+      "exists": true,
+      "locators_used": [
+        "$.a1_cal_ids",
+        "$.cal_frame_ids",
+        "$.layout_rule"
+      ]
+    },
+    {
+      "id": "M35",
+      "group": "workspace/m2_prior_validation/20260113_SHG_Type2PPLN_3s_g1r2",
+      "path": "workspace/m2_prior_validation/20260113_SHG_Type2PPLN_3s_g1r2/cal_ids_closure.json",
+      "exists": true,
+      "locators_used": [
+        "$.a1_cal_ids",
+        "$.cal_frame_ids",
+        "$.ledger_complete_frames",
+        "$.reserve_frame_ids",
+        "$.layout_rule"
+      ]
+    },
+    {
+      "id": "M36",
+      "group": "workspace/m2_prior_validation/20260113_SHG_Type2PPLN_3s_g1r2",
+      "path": "workspace/m2_prior_validation/20260113_SHG_Type2PPLN_3s_g1r2/g1_closure.json",
+      "exists": true,
+      "locators_used": [
+        "$.segments",
+        "$.disjointness_all_disjoint",
+        "$.ledger"
+      ]
+    },
+    {
+      "id": "M37",
+      "group": "workspace/m2_prior_validation/20260113_SHG_Type2PPLN_3s_g1r2",
+      "path": "workspace/m2_prior_validation/20260113_SHG_Type2PPLN_3s_g1r2/run_log.md",
+      "exists": true,
+      "locators_used": [
+        "lines 1-6 (reproduction_gate / delta_tail / nll lines)"
+      ]
+    },
+    {
+      "id": "M38",
+      "group": "workspace/m2_prior_validation/20260113_SHG_Type2PPLN_3s_g1r2",
+      "path": "workspace/m2_prior_validation/20260113_SHG_Type2PPLN_3s_g1r2/run_log_closure.md",
+      "exists": true,
+      "locators_used": [
+        "lines 1-6 (align / yield_sweep lines)"
+      ]
+    },
+    {
+      "id": "M39",
+      "group": ".workbuddy/queue/NBPOLAR-M2-PRIOR-G2-DECODE packet",
+      "path": ".workbuddy/queue/NBPOLAR-M2-PRIOR-G2-DECODE/TASK_PACKET.md",
+      "exists": true,
+      "locators_used": [
+        "provenance only (context, no row source): §Spec 1 line 45; §Spec 3 Phases line 80; Acceptance IDs line 90"
+      ]
+    },
+    {
+      "id": "M40",
+      "group": ".workbuddy/queue/NBPOLAR-M2-PRIOR-G2-DECODE packet",
+      "path": ".workbuddy/queue/NBPOLAR-M2-PRIOR-G2-DECODE/g2_freeze.md",
+      "exists": true,
+      "locators_used": [
+        "§Contract values line 42 (chunk_rows 512; floor 1e-15 at line 91)",
+        "§Arms line 93",
+        "§Gates line 104",
+        "§Measurement semantics line 111",
+        "§Initial ledger values line 126"
+      ]
+    },
+    {
+      "id": "M41",
+      "group": ".workbuddy/queue/NBPOLAR-M2-PRIOR-G2-DECODE packet",
+      "path": ".workbuddy/queue/NBPOLAR-M2-PRIOR-G2-DECODE/AUTHORIZATION_PROMPT.md",
+      "exists": true,
+      "locators_used": [
+        "provenance only (context, no row source): verbatim authorization block (A/B scope)"
+      ]
+    },
+    {
+      "id": "M42",
+      "group": ".workbuddy/queue/NBPOLAR-M2-PRIOR-G2-DECODE packet",
+      "path": ".workbuddy/queue/NBPOLAR-M2-PRIOR-G2-DECODE/STATUS.yaml",
+      "exists": true,
+      "locators_used": [
+        "$.result (inline flow line 47: id NBPOLAR_M2_PRIOR_G2_SUCCESS)",
+        "$.ids lines 32-38",
+        "$.stage"
+      ]
+    },
+    {
+      "id": "M43",
+      "group": ".workbuddy/queue/NBPOLAR-M2-PRIOR-G2-DECODE packet",
+      "path": ".workbuddy/queue/NBPOLAR-M2-PRIOR-G2-DECODE/g2_freeze_config.json",
+      "exists": true,
+      "locators_used": [
+        "$.tag_master",
+        "$.pairing_window_primary",
+        "$.pairing_window_sensitivity",
+        "$.mod_boundary",
+        "$.skip_frames",
+        "$.eval_blocks",
+        "$.a1_cal_ids",
+        "$.cal_frame_ids"
+      ]
+    },
+    {
+      "id": "M44",
+      "group": ".workbuddy/queue/NBPOLAR-M2-PRIOR-G2-DECODE packet",
+      "path": ".workbuddy/queue/NBPOLAR-M2-PRIOR-G2-DECODE/G2_ADJUDICATION.md",
+      "exists": true,
+      "locators_used": [
+        "line 3 (Label NBPOLAR_M2_PRIOR_G2_SUCCESS)",
+        "line 4 (Verdict)"
+      ]
+    },
+    {
+      "id": "M45",
+      "group": "workspace/m2_prior_validation/20260113_SHG_Type2PPLN_3s_g2",
+      "path": "workspace/m2_prior_validation/20260113_SHG_Type2PPLN_3s_g2/g2_summary.json",
+      "exists": true,
+      "locators_used": [
+        "$.contract",
+        "$.align",
+        "$.ledger",
+        "$.construction.inner_digest",
+        "$.arms.*.triple",
+        "$.arms.*.outcomes",
+        "$.gate",
+        "$.verdict",
+        "$.disclosure_recount.incremental",
+        "$.disclosure_recount.recount",
+        "$.disclosure_recount.mismatches",
+        "$.calls",
+        "top-level key scan (participation_disclosure ABSENT)"
+      ]
+    },
+    {
+      "id": "M46",
+      "group": "workspace/m2_prior_validation/20260113_SHG_Type2PPLN_3s_g2",
+      "path": "workspace/m2_prior_validation/20260113_SHG_Type2PPLN_3s_g2/per_block_outcomes.jsonl",
+      "exists": true,
+      "locators_used": [
+        "rows[*].key_dependent_bits",
+        "rows[*].public_control_bits",
+        "rows[*].undetected",
+        "rows[*].tag_invoked",
+        "rows[*].nll_l2_trueH_bits",
+        "rows[*].nll_l2_candH_bits",
+        "row count (42)",
+        "top-level key scan per row (tag / disclosure present; participation_disclosure / reveal ABSENT)"
+      ]
+    },
+    {
+      "id": "M47",
+      "group": "workspace/m2_prior_validation/20260113_SHG_Type2PPLN_3s_g2",
+      "path": "workspace/m2_prior_validation/20260113_SHG_Type2PPLN_3s_g2/cal_ids.json",
+      "exists": true,
+      "locators_used": [
+        "$.a1_cal_ids",
+        "$.cal_frame_ids",
+        "$.eval_blocks",
+        "$.layout_rule"
+      ]
+    },
+    {
+      "id": "M48",
+      "group": "workspace/m2_prior_validation/20260113_SHG_Type2PPLN_3s_g2",
+      "path": "workspace/m2_prior_validation/20260113_SHG_Type2PPLN_3s_g2/run_log.md",
+      "exists": true,
+      "locators_used": [
+        "lines 1-6 (arms / gate / undetected lines)"
+      ]
+    },
+    {
+      "id": "M49",
+      "group": ".workbuddy/queue/NBPOLAR-M2-PRIOR-G3-CONFIRM packet",
+      "path": ".workbuddy/queue/NBPOLAR-M2-PRIOR-G3-CONFIRM/TASK_PACKET.md",
+      "exists": true,
+      "locators_used": [
+        "provenance only (context, no row source): contract lines 48-49 (MOD/skip/N/chunk/tag_master); §Participation disclosure line 36; §Contract line 45"
+      ]
+    },
+    {
+      "id": "M50",
+      "group": ".workbuddy/queue/NBPOLAR-M2-PRIOR-G3-CONFIRM packet",
+      "path": ".workbuddy/queue/NBPOLAR-M2-PRIOR-G3-CONFIRM/AUTHORIZATION_PROMPT.md",
+      "exists": true,
+      "locators_used": [
+        "provenance only (context, no row source): verbatim authorization block (A/B scope)"
+      ]
+    },
+    {
+      "id": "M51",
+      "group": ".workbuddy/queue/NBPOLAR-M2-PRIOR-G3-CONFIRM packet",
+      "path": ".workbuddy/queue/NBPOLAR-M2-PRIOR-G3-CONFIRM/STATUS.yaml",
+      "exists": true,
+      "locators_used": [
+        "$.result.id (block at line 63)",
+        "$.ids lines 43-49",
+        "$.stage"
+      ]
+    },
+    {
+      "id": "M52",
+      "group": ".workbuddy/queue/NBPOLAR-M2-PRIOR-G3-CONFIRM packet",
+      "path": ".workbuddy/queue/NBPOLAR-M2-PRIOR-G3-CONFIRM/g3_freeze_config.json",
+      "exists": true,
+      "locators_used": [
+        "$.tag_master",
+        "$.pairing_window_primary",
+        "$.pairing_window_sensitivity",
+        "$.mod_boundary",
+        "$.skip_frames",
+        "$.eval_blocks",
+        "$.a1_cal_ids",
+        "$.cal_frame_ids",
+        "$.participation_disclosure"
+      ]
+    },
+    {
+      "id": "M53",
+      "group": ".workbuddy/queue/NBPOLAR-M2-PRIOR-G3-CONFIRM packet",
+      "path": ".workbuddy/queue/NBPOLAR-M2-PRIOR-G3-CONFIRM/G3_ADJUDICATION.md",
+      "exists": true,
+      "locators_used": [
+        "line 3 (主线 R2 accepted)",
+        "line 5 (Label NBPOLAR_M2_PRIOR_G3_SUCCESS)",
+        "line 7 (Verdict)",
+        "census sigma string copy (SC10h string containment)"
+      ]
+    },
+    {
+      "id": "M54",
+      "group": ".workbuddy/queue/NBPOLAR-M2-PRIOR-G3-CONFIRM packet",
+      "path": ".workbuddy/queue/NBPOLAR-M2-PRIOR-G3-CONFIRM/G3_ADJUDICATION_PREWRITE.md",
+      "exists": true,
+      "locators_used": [
+        "§5 line 81 (participation disclosure in every output)",
+        "§1 line 26 (three-state verdict table)"
+      ]
+    },
+    {
+      "id": "M55",
+      "group": ".workbuddy/queue/NBPOLAR-M2-PRIOR-G3-CONFIRM packet",
+      "path": ".workbuddy/queue/NBPOLAR-M2-PRIOR-G3-CONFIRM/PRE_RESULT_REVIEW.md",
+      "exists": true,
+      "locators_used": [
+        "§2 Disclosure accounting line 55",
+        "§3 undetected isolation line 75",
+        "census sigma string copy"
+      ]
+    },
+    {
+      "id": "M56",
+      "group": ".workbuddy/queue/NBPOLAR-M2-PRIOR-G3-CONFIRM packet",
+      "path": ".workbuddy/queue/NBPOLAR-M2-PRIOR-G3-CONFIRM/G3_PROCESS_DEVIATION.md",
+      "exists": true,
+      "locators_used": [
+        "§1 timeline line 8",
+        "census sigma string copy"
+      ]
+    },
+    {
+      "id": "M57",
+      "group": "workspace/m2_prior_validation/20260113_SHG_Type2PPLN_3s_2_g3",
+      "path": "workspace/m2_prior_validation/20260113_SHG_Type2PPLN_3s_2_g3/g3.json",
+      "exists": true,
+      "locators_used": [
+        "$.participation_disclosure",
+        "$.align",
+        "$.yield_sweep",
+        "$.segments",
+        "$.eval_blocks",
+        "$.n_eval_blocks",
+        "$.ledger",
+        "$.disjointness_all_disjoint"
+      ]
+    },
+    {
+      "id": "M58",
+      "group": "workspace/m2_prior_validation/20260113_SHG_Type2PPLN_3s_2_g3",
+      "path": "workspace/m2_prior_validation/20260113_SHG_Type2PPLN_3s_2_g3/g3_summary.json",
+      "exists": true,
+      "locators_used": [
+        "$.contract",
+        "$.align.peak_sigma_ps",
+        "$.construction.inner_digest",
+        "$.arms.*.triple",
+        "$.arms.*.outcomes",
+        "$.gate",
+        "$.verdict",
+        "$.disclosure_recount.*",
+        "$.participation_disclosure",
+        "$.nll_domains",
+        "$.calls"
+      ]
+    },
+    {
+      "id": "M59",
+      "group": "workspace/m2_prior_validation/20260113_SHG_Type2PPLN_3s_2_g3",
+      "path": "workspace/m2_prior_validation/20260113_SHG_Type2PPLN_3s_2_g3/per_block_outcomes.jsonl",
+      "exists": true,
+      "locators_used": [
+        "rows[*].key_dependent_bits",
+        "rows[*].public_control_bits",
+        "rows[*].undetected",
+        "rows[*].tag_invoked",
+        "rows[*].nll_l2_trueH_bits",
+        "rows[*].nll_l2_candH_bits",
+        "rows[*].nll_l2_trueH_domain",
+        "rows[*].nll_l2_candH_domain",
+        "rows[*].participation_disclosure",
+        "row count (42)"
+      ]
+    },
+    {
+      "id": "M60",
+      "group": "workspace/m2_prior_validation/20260113_SHG_Type2PPLN_3s_2_g3",
+      "path": "workspace/m2_prior_validation/20260113_SHG_Type2PPLN_3s_2_g3/cal_ids.json",
+      "exists": true,
+      "locators_used": [
+        "$.a1_cal_ids",
+        "$.cal_frame_ids",
+        "$.eval_blocks",
+        "$.layout_rule",
+        "$.participation_disclosure"
+      ]
+    },
+    {
+      "id": "M61",
+      "group": "workspace/m2_prior_validation/20260113_SHG_Type2PPLN_3s_2_g3",
+      "path": "workspace/m2_prior_validation/20260113_SHG_Type2PPLN_3s_2_g3/run_log.md",
+      "exists": true,
+      "locators_used": [
+        "lines 1-6 (participation / arms / gate lines)"
+      ]
+    },
+    {
+      "id": "M62",
+      "group": "workspace/m2_prior_validation/20260113_SHG_Type2PPLN_3s_2_g3",
+      "path": "workspace/m2_prior_validation/20260113_SHG_Type2PPLN_3s_2_g3/input/g3_freeze_config.json",
+      "exists": true,
+      "locators_used": [
+        "$.tag_master",
+        "$.a1_cal_ids",
+        "$.cal_frame_ids",
+        "$.pairing_window_primary",
+        "$.skip_frames"
+      ]
+    },
+    {
+      "id": "M63",
+      "group": "construction",
+      "path": ".workbuddy/queue/NBPOLAR-PHASE4-P16-N32768-OPERATIONAL-F13/operational_f13_gate/construction_and_allocation.json",
+      "exists": true,
+      "locators_used": [
+        "$.cell.n",
+        "$.cell.k1",
+        "$.cell.k2",
+        "$.cell.l1_order (presence + length)",
+        "$.cell.l2_order (presence + length)",
+        "$.protocol",
+        "$.frozen_before_first_dev",
+        "NOTE: G4 computes NO digest — cell.freeze_sha256 NOT read"
+      ]
+    }
+  ],
+  "excluded_inputs": [
+    "raw SHG acquisition files (both sessions) — never read",
+    "workspace/dual_rule_census_20260921.py and census packet outputs — sigma quoted from G3 artifacts + docs/decision-log.md only (census = quoted-sigma source, not a domain)",
+    "S8/S9 synthetic probe parameters; Stage-1 test outputs — closure domain OUT (Main-thread adjudication 2026-09-22 item 1)",
+    "Stage-3 measurement set (MACRO_PLAN §5) — separate packet, own freeze + own authorization (adjudication item 2)",
+    "results/ ; comparison_bench/outputs_comparison/ — never read, never written",
+    "sibling checkouts ../HD-QKD_Polar_Comparison*, ../HD-QKD_Polar_Release",
+    "comparison_bench/tests/ — no test file is created or modified by this packet"
+  ],
+  "frozen_constants": {
+    "N": 32768,
+    "K1": 319,
+    "K2": 6492,
+    "p16_digest": "055c906472dd2a09761761b18aceb5f31d8b5db19bac658721f8dc49c3faea1b",
+    "W_P": 200,
+    "W_S": 500,
+    "MOD": "CIRCULAR",
+    "skip": 702,
+    "frame_pairs": 256,
+    "floor": 1e-15,
+    "chunk": 512,
+    "bin": "200 ps",
+    "g2_tag_master": 2026103001,
+    "g3_tag_master": 2026110101,
+    "census_sigma": 114.43029692866367
+  },
+  "frozen_constant_notes": {
+    "N": "recorded verbatim as contract context (inventory row, not re-derived)",
+    "K1": "recorded verbatim (frozen; D4 deferred, no re-split)",
+    "K2": "recorded verbatim (frozen; no increase)",
+    "p16_digest": "quoted verbatim; inner P16 procedure digest of the canonical construction_and_allocation.json (wrapper file's own sha256 differs — P17-established; G4 computes NO digest)",
+    "W_P": "recorded verbatim",
+    "W_S": "recorded verbatim (sensitivity readout only)",
+    "MOD": "recorded verbatim",
+    "skip": "recorded verbatim (INHERITED_NOT_DERIVED)",
+    "frame_pairs": "recorded verbatim",
+    "floor": "recorded verbatim",
+    "chunk": "recorded verbatim (chunk_rows)",
+    "bin": "pairing bin_width_ps=200 (census frozen block); NOT the alignment-scan bin=100 ps; G4 derives neither",
+    "g2_tag_master": "recorded verbatim, INHERITED (EVAL_SEED 2026093001; TAG_MASTER = EVAL_SEED + 10000)",
+    "g3_tag_master": "recorded verbatim (EVAL_SEED 2026100101, same frozen rule)",
+    "census_sigma": "frozen quoted value, not recomputed in G4; citation must carry this label + its source artifact path; numeric re-derivation => STOP"
+  },
+  "not_in_this_freeze": "other census constants (d, period_ps, threshold_ps, gate_ps); gate values (B_tail 2.0e-4, delta_min 0.020, Wilson z=1.96) — not restated, not verified, not computed by G4; needing them => new freeze",
+  "recount_cross_check_frozen": {
+    "key_bits": 1432998,
+    "key_expr": "34119 x 42",
+    "public_bits": 13765206,
+    "public_expr": "327743 x 42",
+    "tags": 42,
+    "expected_block_rows": 42,
+    "undetected": "0/42 per stage as recorded (isolated; never merged into success/FER)",
+    "mismatch_rule": "mismatch => STOP; frozen numbers stand; never publish a corrected number"
+  },
+  "cal_frames_to_list": {
+    "shg_1": {
+      "source": "workspace/m2_prior_validation/20260113_SHG_Type2PPLN_3s/cal_ids.json",
+      "a1_cal": {
+        "expected_count": 1024,
+        "as_recorded": "post-skip 0-1023 (ranges computed at build from the frozen array)"
+      },
+      "cal32": {
+        "expected_count": 32,
+        "as_recorded": "post-skip 1024-1055"
+      }
+    },
+    "shg_2": {
+      "source": "workspace/m2_prior_validation/20260113_SHG_Type2PPLN_3s_2_g3/cal_ids.json",
+      "a1_cal": {
+        "expected_count": 1024,
+        "as_recorded": "as recorded in g3 cal_ids.json $.a1_cal_ids"
+      },
+      "cal32": {
+        "expected_count": 32,
+        "as_recorded": "as recorded in g3 cal_ids.json $.cal_frame_ids"
+      }
+    },
+    "rule": "listed, never re-derived / re-allocated / edited; set-equality checked across cal_ids*.json, packet freeze configs and inventory rows"
+  },
+  "release_handling_enum": [
+    "counted_in_leak_IR",
+    "charged_0_labeled_public_ec_only_not_secure",
+    "result_publication",
+    "sacrificed_excluded_from_denominator",
+    "diagnostic_only_never_lambda",
+    "structural_public_parameter",
+    "blocked_never_public"
+  ],
+  "message_class_enum": [
+    "contract_param",
+    "construction",
+    "alignment_record",
+    "ledger_allocation",
+    "cal_frame_list",
+    "fitted_prior",
+    "reveal_bits_diagnostic",
+    "disclosure_bits",
+    "tag",
+    "threshold_or_gate_record",
+    "result_publication",
+    "participation_disclosure",
+    "blocked",
+    "none_recorded"
+  ],
+  "row_status_enum": [
+    "frozen",
+    "quoted",
+    "derived_read_only",
+    "to_freeze"
+  ],
+  "row_schema_fields": [
+    "id",
+    "stage",
+    "message_class",
+    "message",
+    "producer",
+    "key_dependent",
+    "size_bits",
+    "count",
+    "seed_mask_code_ref",
+    "source_artifact",
+    "source_locator",
+    "release_handling",
+    "status"
+  ],
+  "expected_classes_by_stage": {
+    "CONTRACT": [
+      "contract_param",
+      "construction",
+      "fitted_prior",
+      "reveal_bits_diagnostic",
+      "disclosure_bits"
+    ],
+    "G1": [
+      "contract_param",
+      "alignment_record",
+      "ledger_allocation",
+      "cal_frame_list",
+      "fitted_prior",
+      "threshold_or_gate_record",
+      "result_publication",
+      "disclosure_bits",
+      "tag",
+      "participation_disclosure",
+      "reveal_bits_diagnostic",
+      "blocked"
+    ],
+    "G1R2": [
+      "contract_param",
+      "alignment_record",
+      "ledger_allocation",
+      "cal_frame_list",
+      "fitted_prior",
+      "threshold_or_gate_record",
+      "result_publication",
+      "disclosure_bits",
+      "tag",
+      "participation_disclosure",
+      "reveal_bits_diagnostic",
+      "blocked"
+    ],
+    "G2": [
+      "contract_param",
+      "alignment_record",
+      "ledger_allocation",
+      "cal_frame_list",
+      "fitted_prior",
+      "threshold_or_gate_record",
+      "result_publication",
+      "disclosure_bits",
+      "tag",
+      "participation_disclosure",
+      "reveal_bits_diagnostic",
+      "blocked"
+    ],
+    "G3": [
+      "contract_param",
+      "alignment_record",
+      "ledger_allocation",
+      "cal_frame_list",
+      "fitted_prior",
+      "threshold_or_gate_record",
+      "result_publication",
+      "disclosure_bits",
+      "tag",
+      "participation_disclosure",
+      "reveal_bits_diagnostic",
+      "blocked"
+    ]
+  },
+  "enumeration_rule": "all rows = every disclosure-bearing/public field in every input-manifest artifact (exhaustive key scan over the stage JSON/JSONL files), plus contract rows (frozen constants quoted verbatim), plus Release-pattern fail-closed blocked rows, plus an explicit none_recorded row for every expected field class that is absent in a stage (exhaustive-first, adjudication item 4 — never silence). Run telemetry (wall_s, rss, sc_calls, tag_fn_calls) is not a public protocol message and is excluded by this rule. Every verdict is quoted as recorded in its source artifact; G4 asserts no claim.",
+  "outcome_strings_preregistered": {
+    "complete": "NBPOLAR_M2_PRIOR_G4_INVENTORY_COMPLETE",
+    "incomplete": "NBPOLAR_M2_PRIOR_G4_INVENTORY_INCOMPLETE_BLOCKED",
+    "crash_before_any_output": "no state string — counters/reason only; corrective-rebuild rule applies",
+    "frozen": "proposed => frozen, Main-thread adjudication 2026-09-22 item 5; recorded at authorization BEFORE the build"
+  },
+  "budget": {
+    "wall_s_max": 300,
+    "rss_gib_max": 2,
+    "threads": 1,
+    "frozen": "proposed => frozen, Main-thread adjudication 2026-09-22 item 5; decode 900 s budget is N/A"
+  },
+  "expected_counters": {
+    "sc_calls": 0,
+    "tag_invocations": 0,
+    "g4_runs": 1,
+    "reruns": 0
+  },
+  "single_output_route": [
+    ".workbuddy/queue/NBPOLAR-M2-PRIOR-G4-INVENTORY/g4_freeze_config.json (Phase A, this file)",
+    ".workbuddy/queue/NBPOLAR-M2-PRIOR-G4-INVENTORY/g4_inventory.json (Phase B)",
+    ".workbuddy/queue/NBPOLAR-M2-PRIOR-G4-INVENTORY/g4_inventory.md (Phase B)",
+    ".workbuddy/queue/NBPOLAR-M2-PRIOR-G4-INVENTORY/g4_counts.json (Phase B)",
+    ".workbuddy/queue/NBPOLAR-M2-PRIOR-G4-INVENTORY/g4_run_log.md (Phase B)",
+    ".workbuddy/queue/NBPOLAR-M2-PRIOR-G4-INVENTORY/STATUS.yaml (operator-owned: stage/counters/artifacts/result only)",
+    "nothing under workspace/probes/, results/, comparison_bench/outputs_comparison/, or anywhere else (adjudication item 7)"
+  ],
+  "closure_domain": {
+    "in": [
+      "every public message already emitted by G1 / G1R2 / G2 / G3",
+      "CAL frame-ID detail per session (sacrificed lists, listed never re-derived)",
+      "Release-pattern mapping (six-class packet-local freeze + result_publication)"
+    ],
+    "out": [
+      "S8/S9 synthetic probe parameters",
+      "Stage-1 test outputs",
+      "census (enters only as the quoted-sigma source)",
+      "Stage-3 measurement set (separate packet, own freeze, own authorization)"
+    ],
+    "expansion_rule": "any closure-domain expansion = a NEW freeze; never decided ad hoc during execution (adjudication item 1)"
+  },
+  "rebuild_rule": "corrective rebuild ONLY if the first build crashed leaving ZERO inventory output files (exactly one), recorded in STATUS.yaml; once any complete g4_inventory.json exists: no rebuild / patch / addendum (FROZEN, adjudication item 5)",
+  "sigma_string_consistency_check": "ALLOWED — cross-artifact STRING comparison of the quoted sigma across g3_summary.json / G3_ADJUDICATION.md / docs/decision-log.md (traceability, SC10h); ANY numeric re-derivation FORBIDDEN => STOP (adjudication item 6)",
+  "to_freeze": [
+    "frozen_constants.N",
+    "frozen_constants.K1",
+    "frozen_constants.K2",
+    "frozen_constants.p16_digest",
+    "frozen_constants.W_P",
+    "frozen_constants.W_S",
+    "frozen_constants.MOD",
+    "frozen_constants.skip",
+    "frozen_constants.frame_pairs",
+    "frozen_constants.floor",
+    "frozen_constants.chunk",
+    "frozen_constants.bin",
+    "frozen_constants.g2_tag_master",
+    "frozen_constants.g3_tag_master",
+    "frozen_constants.census_sigma",
+    "recount_cross_check_frozen.key_bits",
+    "recount_cross_check_frozen.public_bits",
+    "recount_cross_check_frozen.tags",
+    "recount_cross_check_frozen.expected_block_rows",
+    "outcome_strings_preregistered.complete",
+    "outcome_strings_preregistered.incomplete",
+    "budget.wall_s_max",
+    "budget.rss_gib_max",
+    "budget.threads",
+    "expected_counters.sc_calls",
+    "expected_counters.tag_invocations",
+    "expected_counters.g4_runs",
+    "expected_counters.reruns",
+    "release_handling_enum",
+    "message_class_enum",
+    "row_status_enum",
+    "row_schema_fields",
+    "expected_classes_by_stage.CONTRACT",
+    "expected_classes_by_stage.G1",
+    "expected_classes_by_stage.G1R2",
+    "expected_classes_by_stage.G2",
+    "expected_classes_by_stage.G3",
+    "enumeration_rule",
+    "manifest_count",
+    "authorizations.line",
+    "cal_frames_to_list.shg_1.a1_cal.expected_count",
+    "cal_frames_to_list.shg_1.cal32.expected_count",
+    "cal_frames_to_list.shg_2.a1_cal.expected_count",
+    "cal_frames_to_list.shg_2.cal32.expected_count"
+  ]
+}

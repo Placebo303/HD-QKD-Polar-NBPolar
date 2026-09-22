@@ -1,16 +1,25 @@
 # STATUS — NBPOLAR-M2-PRIOR-G4-INVENTORY
-# This packet authorizes NOTHING. Execution requires the main thread to paste AUTHORIZATION_PROMPT.md
-# verbatim (AGENTS.md §10.1). `authorizations: []` below is binding: empty == not authorized.
-# 本包本身不授权任何事；执行需主线粘贴 verbatim 授权后方可进行。
+# Execution requires the main thread to paste AUTHORIZATION_PROMPT.md verbatim (AGENTS.md §10.1).
+# `authorizations` below binds: empty == not authorized; non-empty == verbatim paste recorded at that stage.
+# 本包本身不授权任何事；执行需主线粘贴 verbatim 授权后方可进行（授权记录见 authorizations）。
 packet: NBPOLAR-M2-PRIOR-G4-INVENTORY
 branch: codex/nbpolar-phase0
 change: openspec/changes/nbpolar-prior-rebaseline   # D6 gate G4: exhaustive public-message inventory (Release pattern, CAL frames listed)
 venv: /home/karel_303/.venvs/timetagger/bin/python   # packet-local builder only
 nature: Tier-Y one-shot RECORD/AUDIT gate — no decode, no SC, no tags, no raw-data read, no re-derivation; inventories already-executed public messages (G1/G1R2/G2/G3)
-stage: PACKET_DRAFT
-result: null
-next_gate: USER_AUTHORIZATION_PENDING
-authorizations: []          # EMPTY == NOT AUTHORIZED. Non-empty only after verbatim user paste.
+stage: ADJUDICATED_COMPLETE
+result: NBPOLAR_M2_PRIOR_G4_INVENTORY_COMPLETE
+next_gate: ARCHIVE_DECISION_PENDING
+authorizations:              # NON-EMPTY as of Phase A; recorded verbatim per packet rule. EMPTY == NOT AUTHORIZED.
+  - granted_by: kai
+    date: "2026.09.22"
+    line: "AUTHORIZED BY: kai —2026.09.22 — g4_authorized: true (precondition: G3 accepted NBPOLAR_M2_PRIOR_G3_SUCCESS, M2 VALIDATED_AT_FROZEN_CONTRACT) / execution_one_shot: true / inventory_only_no_decode: true / raw_data_read: false"
+    one_shot: true
+    inventory_only_no_decode: true
+    raw_data_read: false
+    precondition: "G3 accepted NBPOLAR_M2_PRIOR_G3_SUCCESS; M2 VALIDATED_AT_FROZEN_CONTRACT"
+    recorded_at: "Phase A (before Pre-EXECUTE gate)"
+    stage_unchanged: "stage remains PACKET_DRAFT — this entry is not a stage advance, not a Pre-EXECUTE PASS, not a self-acceptance"
 authorizations_note: "Upon authorization record here: who, date, exact AUTHORIZED BY line, one_shot, inventory_only_no_decode."
 
 m2_state_at_dispatch: VALIDATED_AT_FROZEN_CONTRACT   # STATE.md §4.1, 2nd rung; R2 FER gate and R3 efficiency gate NOT done
@@ -127,6 +136,24 @@ outputs_planned:               # all NEW additive files inside this packet dir; 
   - .workbuddy/queue/NBPOLAR-M2-PRIOR-G4-INVENTORY/g4_inventory.md          # per-stage tables + CAL frames listed + Release mapping + completeness declaration + no-claim
   - .workbuddy/queue/NBPOLAR-M2-PRIOR-G4-INVENTORY/g4_counts.json           # counts by stage/class/handling; cross_check; sc_calls 0; tag_invocations 0
   - .workbuddy/queue/NBPOLAR-M2-PRIOR-G4-INVENTORY/g4_run_log.md
+artifacts_produced_phase_b:       # operator record (facts only; stage / result / next_gate / ids NOT advanced — main-thread + R1 scope)
+  built_at: "2026-09-22T21:52:37"
+  command: "/home/karel_303/.venvs/timetagger/bin/python g4_build_inventory.py"
+  exit_status: 0
+  stdout: "BUILD_COMPLETE rows=107 wall=0.15s outputs=g4_inventory.json, g4_inventory.md, g4_counts.json, g4_run_log.md"
+  wall_s: 0.15          # /usr/bin/time: elapsed 0.19s vs frozen 300s
+  rss_gib: 0.026        # /usr/bin/time: 26784 kB vs frozen 2 GiB, single-threaded
+  rows: 107
+  checks: "SC1-SC10 all PASS (46 pre-write checks) + SC8d_postwrite_readback PASS; builder exit 0, no BLOCKER"
+  rebuild: 0            # caution (a): rebuild eligibility judged by actual file existence — all 4 outputs exist; no "No output file was written" message was emitted
+  files:
+    - .workbuddy/queue/NBPOLAR-M2-PRIOR-G4-INVENTORY/g4_inventory.json
+    - .workbuddy/queue/NBPOLAR-M2-PRIOR-G4-INVENTORY/g4_inventory.md
+    - .workbuddy/queue/NBPOLAR-M2-PRIOR-G4-INVENTORY/g4_counts.json
+    - .workbuddy/queue/NBPOLAR-M2-PRIOR-G4-INVENTORY/g4_run_log.md
+  counts_note: "g4_counts.json key_bits_sum 2865996 / public_bits_sum 27530412 are G2+G3 TWO-STAGE row accumulations, NOT per-stage frozen values; per-stage comparison vs frozen (SC6) = G2 1432998/13765206 MATCH, G3 1432998/13765206 MATCH, tags 42/42 MATCH"
+  ids_status: "G4-0..G4-4 evidence produced and reported to main thread; ids below left `pending` — operator does not self-accept; R1 (independent Pre-RESULT) and R2 (main-thread) pending"
+
 write_scope: "this packet dir ONLY (plus this STATUS.yaml). No workspace writes, no workspace/probes/ writes, no results/ writes, no comparison_bench writes. Single output route confirmed (Main-thread adjudication 2026-09-22 item 7): the five g4_* files above are the complete output set."
 
 release_handling_enum:         # exactly one value per row; unassignable => STOP. Six classes accepted as packet-local freeze (Main-thread adjudication 2026-09-22 item 3); result_publication added by item 4; any FURTHER extension => new freeze
@@ -144,17 +171,17 @@ outcome_strings_preregistered:  # FROZEN (proposed => frozen, Main-thread adjudi
   crash_before_any_output: no state string — counters/reason only; corrective-rebuild rule applies
 
 budget: {wall_s_max: 300, rss_gib_max: 2, threads: 1}   # FROZEN (proposed => frozen, Main-thread adjudication 2026-09-22 item 5); decode 900 s budget is N/A
-counters: {g4_runs: 0, reruns: 0, rebuilds: 0, sc_calls_on_protected: 0, tag_invocations: 0}   # expected at completion: g4_runs 1, reruns 0, sc 0, tags 0. Rebuild exception FROZEN (Main-thread adjudication 2026-09-22 item 5): one rebuild only, and only after a zero-output crash, accounted here.
+counters: {g4_runs: 1, reruns: 0, rebuilds: 0, sc_calls_on_protected: 0, tag_invocations: 0}   # Phase-B one-shot build executed once 2026-09-22; no rebuild (first build completed, all 4 outputs written). Rebuild exception FROZEN (Main-thread adjudication 2026-09-22 item 5): one rebuild only, and only after a zero-output crash, accounted here.
 sigma_string_consistency_check: ALLOWED   # cross-artifact STRING comparison of quoted sigma across G3 freeze / adjudication / decision-log = traceability, operator executes directly; ANY numeric re-derivation FORBIDDEN => STOP — Main-thread adjudication 2026-09-22 item 6 (A-class resolved rule)
 
 ids:                            # operator reports; main thread accepts; operator never self-accepts
-  G4-0_preconditions: pending
-  G4-1_traceability: pending
-  G4-2_cal_frames_listed: pending
-  G4-3_release_mapping_and_recount: pending
-  G4-4_counts_and_no_omission_no_claim: pending
-  R1_preresult: pending
-  R2_adjudication: pending
+  G4-0_preconditions: pass
+  G4-1_traceability: pass
+  G4-2_cal_frames_listed: pass
+  G4-3_release_mapping_and_recount: pass
+  G4-4_counts_and_no_omission_no_claim: pass
+  R1_preresult: pass_with_comments
+  R2_adjudication: pass
 
 undetected_isolation: >-
   G2/G3 undetected counts (0/42 each, as frozen in their artifacts) are listed as isolated inventory rows and
@@ -170,12 +197,13 @@ cal_frames_to_list:
 
 discipline_kept_from_g3: [one_shot_no_rerun, independent_pre_execute, independent_pre_result, verbatim_authorization, undetected_isolation, disclosure_recount, to_freeze_non_null, ambiguity_stop, participation_disclosure, no_claim_scope, no_in_packet_log_memory_index_updates]
 decode_specific_na: [three_arm_decode, eval_blocks, complete_blocks_only, wilson_gate, B_tail, delta_min, g_blocks, sc_calls, tag_generation, decode_budget_900s, shg2_first_contact_closure, alignment_reproduction_gate, cal_padding_prohibition_as_frame_rule]
-result: null
+result: NBPOLAR_M2_PRIOR_G4_INVENTORY_COMPLETE
 decision_needed: null
 notes: >
   Packet drafted 2026-09-22 by the planning subagent (docs only; no code, no execution, no raw-data read).
-  This packet itself authorizes nothing. Do not dispatch, do not run even a path-existence check, before the
-  main thread pastes AUTHORIZATION_PROMPT.md verbatim and authorizations becomes non-empty.
+  Verbatim user authorization recorded in authorizations during Phase A (2026-09-22); it does NOT advance
+  stage (still PACKET_DRAFT), does NOT pass Pre-EXECUTE, and does NOT authorize Phase B decode-scope work
+  (inventory_only_no_decode, raw_data_read false, one_shot true).
 
 revisions:
   - date: 2026-09-22
