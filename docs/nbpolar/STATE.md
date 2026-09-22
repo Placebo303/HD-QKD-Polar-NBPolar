@@ -77,10 +77,11 @@
 
 ## §6 延伸阅读（按序）
 
-1. `docs/nbpolar/MACRO_PLAN_20260921.md` §§0–9（候选结论 S8/S9/S10 F1–F6，2026-09-21 review 已修正）
-2. `docs/nbpolar/REAL_DATA_FEASIBILITY_STRATEGY.md`（当前 route 与 stop rules）
-3. `docs/nbpolar/PHASE4_P0_PRIOR_CONTRACT.md`（先验契约冻结）
-4. `docs/nbpolar/CRITICAL_PATH.md`，`ROADMAP.md`（串行顺序与 phase gates）
-5. `docs/nbpolar/PAPER_READ_20260921.md`，`LITERATURE_FIT_CHECK_20260921.md`（文献口径）
-6. `docs/decision-log.md` 2026-09-21 条目；`AGENT_PROJECT_MEMORY.md` 最新条目
-7. `.workbuddy/queue/NBPOLAR-M2-PRIOR-STAGE1-IMPLEMENTATION/`（**已接受** `NBPOLAR_M2_PRIOR_STAGE1_IMPLEMENTATION_COMPLETE_ACCEPTED`：`prior_m2.py` + T1–T12 测试 + Spec-5 runner + `SECURITY_MODEL.md` CAL note；独立评审 PASS_WITH_COMMENTS 零阻塞；decoder-free、合成 fixture、零数据接触）与 `.workbuddy/queue/NBPOLAR-M2-PRIOR-G1-REALDATA-NLL/`（**G1 已执行并裁决** `NBPOLAR_M2_PRIOR_G1_COMPLETE_ADJUDICATED_BOUNDED_NEGATIVE`：δ-tail FAIL / NLL PASS（近无信息量）；记录 `G1_ADJUDICATION.md`、`FREEZE_REVIEW.md`、`g1_freeze_config.json`；父包 `STATUS.yaml` `g1_outcome`）；并续 `NBPOLAR-S11-SHG-TAIL-NATURE/`（S11：尾部主因是配对污染，far-offset 基线非均匀）、`NBPOLAR-M2-PRIOR-G1R2-W200-CIRCULAR/`（G1R2 描述性 PASS，δ-tail PASS 系 S11 推论）、`NBPOLAR-M2-PRIOR-G2-DECODE/`（**G2 SUCCESS** `NBPOLAR_M2_PRIOR_G2_SUCCESS`）、`NBPOLAR-M2-PRIOR-K-RESPLIT-D4/`（D4 report-only，两分支皆不采纳）。下一步门：**G3 Phase 0 + A dispatch**（`NBPOLAR-M2-PRIOR-G3-CONFIRM/`；G2 SUCCESS 已解锁、授权生效；decode 前仍需 Pre-EXECUTE + 记录授权）。
+1. `docs/nbpolar/REAL_DATA_CORRECTION_ROADMAP_20260922.md`（R0–R4 执行序：G3 收口 → 可重复 → FER → 效率 → 论文；planning proposal）
+2. `docs/nbpolar/MACRO_PLAN_20260921.md` §§0–9（候选结论 S8/S9/S10 F1–F6，2026-09-21 review 已修正）
+3. `docs/nbpolar/REAL_DATA_FEASIBILITY_STRATEGY.md`（当前 route 与 stop rules）
+4. `docs/nbpolar/PHASE4_P0_PRIOR_CONTRACT.md`（先验契约冻结）
+5. `docs/nbpolar/CRITICAL_PATH.md`，`ROADMAP.md`（串行顺序与 phase gates）
+6. `docs/nbpolar/PAPER_READ_20260921.md`，`LITERATURE_FIT_CHECK_20260921.md`（文献口径）
+7. `docs/decision-log.md` 2026-09-21 条目；`AGENT_PROJECT_MEMORY.md` 最新条目
+8. `.workbuddy/queue/NBPOLAR-M2-PRIOR-STAGE1-IMPLEMENTATION/`（**已接受** `NBPOLAR_M2_PRIOR_STAGE1_IMPLEMENTATION_COMPLETE_ACCEPTED`：`prior_m2.py` + T1–T12 测试 + Spec-5 runner + `SECURITY_MODEL.md` CAL note；独立评审 PASS_WITH_COMMENTS 零阻塞；decoder-free、合成 fixture、零数据接触）与 `.workbuddy/queue/NBPOLAR-M2-PRIOR-G1-REALDATA-NLL/`（**G1 已执行并裁决** `NBPOLAR_M2_PRIOR_G1_COMPLETE_ADJUDICATED_BOUNDED_NEGATIVE`：δ-tail FAIL / NLL PASS（近无信息量）；记录 `G1_ADJUDICATION.md`、`FREEZE_REVIEW.md`、`g1_freeze_config.json`；父包 `STATUS.yaml` `g1_outcome`）；并续 `NBPOLAR-S11-SHG-TAIL-NATURE/`（S11：尾部主因是配对污染，far-offset 基线非均匀）、`NBPOLAR-M2-PRIOR-G1R2-W200-CIRCULAR/`（G1R2 描述性 PASS，δ-tail PASS 系 S11 推论）、`NBPOLAR-M2-PRIOR-G2-DECODE/`（**G2 SUCCESS** `NBPOLAR_M2_PRIOR_G2_SUCCESS`）、`NBPOLAR-M2-PRIOR-K-RESPLIT-D4/`（D4 report-only，两分支皆不采纳）。下一步门：**G3 Phase 0 + A dispatch**（`NBPOLAR-M2-PRIOR-G3-CONFIRM/`；G2 SUCCESS 已解锁、授权生效；decode 前仍需 Pre-EXECUTE + 记录授权）。
