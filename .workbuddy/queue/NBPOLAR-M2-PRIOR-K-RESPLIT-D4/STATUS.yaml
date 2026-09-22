@@ -43,3 +43,12 @@ result:
     Planning input only — G2 stays at the frozen 319/6492; the fixed-f vs fixed-K choice remains a later
     preregistered main-thread/PI decision (D4).
   decision_needed: null
+d4_adoption_decision:
+  branch: fixed-f
+  k_total: 6946
+  k1: 335
+  k2: 6611
+  f_implied: 1.2999641
+  decided_by: kai
+  date: 2026-09-22
+  effect: planning-direction-only; G2/G3 stay 319/6492; effective only via future rate-freeze packet + authorization

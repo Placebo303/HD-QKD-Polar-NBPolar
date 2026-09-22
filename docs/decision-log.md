@@ -5470,3 +5470,15 @@ F6 — strategic consequence. If the ±1 prior is adopted, CAL drops from 1024 f
 **Open process issue**：两独立主线程（`ses_f3c5c9197…` 与 `ses_f3ffe4fc…`，均为 `parentID: None`）并发操作同一仓库 —— F5/F6 根因；需流程规则防止重演。
 
 **Consequences**：G4 packet 准备（穷尽公共消息清单，D6 最后一道门；需自己的 packet + 用户授权）；SHG `_2` EVAL 已消耗、RESERVE 99 untouched。
+
+## 2026-09-22 — D4 adoption: fixed-f branch selected as future rate-freeze direction
+
+**Decision**: 主线/PI 裁决 —— decided by **kai**, 2026-09-22: of the two branches reported by D4 (`NBPOLAR_M2_PRIOR_K_RESPLIT_D4_COMPLETE_REPORT_ONLY`, which itself ADOPTS NEITHER), select the **fixed-f branch** as the planning direction for a future rate freeze. fixed-f = 1.3 → **K_total 6946** → frozen-selector split **K1 = 335 / K2 = 6611**, implying **f = 1.2999641** (deviation **−3.59e-5** from 1.3 — R5 floor loss, reported never rounded, never "≈ 1.3"). The fixed-K branch (6811 → 328/6483, f = 1.2747449) is NOT adopted and is retained only as a planning contrast inside the D4 record.
+
+**Context**: This is exactly the "later preregistered main-thread/PI decision" that the D4 report-only entry and `.workbuddy/queue/NBPOLAR-M2-PRIOR-K-RESPLIT-D4/STATUS.yaml` deferred (`adoption: none`). Evidence basis: `.workbuddy/queue/NBPOLAR-M2-PRIOR-K-RESPLIT-D4/D4_RECORD.md` §3 (numbers copied verbatim: 6946 / 335 / 6611 / 1.2999641 / −3.59e-5). No number was recomputed or re-derived by this entry.
+
+**Frozen scope unchanged**: G2/G3 stay frozen at **K1 = 319 / K2 = 6492**. This entry changes no frozen constant, authorizes no re-derivation, no re-split, no rerun and no execution, and does not alter the D4 report-only status (ADOPTS NEITHER) or `next_gate: MILESTONE_BATCH_COMPLETE`.
+
+**Effect**: 仅经未来独立 rate-freeze 包 + 冻结评审 + 用户授权 (only via a future independent rate-freeze packet + freeze review + user authorization) does this take effect. Until then, fixed-f / 6946 / 335 / 6611 is a planning direction only — not a frozen, executable or citable K.
+
+**Consequences**: Planning direction recorded; no OpenSpec box checked, no gate passed, no rerun/retuning; fixed-K (6811 → 328/6483, f = 1.2747449) remains a planning contrast only. Pointer: `.workbuddy/queue/NBPOLAR-M2-PRIOR-K-RESPLIT-D4/D4_RECORD.md` §3 and the `d4_adoption_decision:` block in that packet's `STATUS.yaml`. No commit/push by this entry.
