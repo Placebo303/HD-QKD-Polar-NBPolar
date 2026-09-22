@@ -46,7 +46,7 @@ consumption, no decoder, no simulation. No `.ttbin` path is listed anywhere.
 
 | # | Path (repo-relative) | Supplies | Frozen provenance |
 |---|---|---|---|
-| M1 | `workspace/m2_prior_validation/20260113_SHG_Type2PPLN_3s_g1r2/delta_profiles.json` | PRIMARY. Signed error-Δ histogram source (`profile.circular_counts`, 1025 cells, `circular_offset` −512; `profile.linear_counts`, 2047 cells, `linear_offset` −1023); \|Δ\| summary (`summaries.CIRCULAR`: n0 / n_plus / n_minus / n_tail / n_total); period-crossing wrap accounting (linear ±1023 cells closing into circular ∓1; `tail_gate` p̂ / U / B_tail / verdict) | G1R2 frozen derived artifact. SHG `_1` (`20260113_SHG_Type2PPLN_3s`), CHAR segment, 200,192 pairs, (N) W_P=200, MOD CIRCULAR, skip-702, derived offset +50 ps. Verified: file read (header keys, `linear_offset`, `circular_offset`, `summaries`, `tail_gate`, `sensitivity_triple` all present; linear tail cells 44 + 1 = 45 close exactly) |
+| M1 | `workspace/m2_prior_validation/20260113_SHG_Type2PPLN_3s_g1r2/delta_profiles.json` | PRIMARY. Signed error-Δ histogram source (`profile.circular_counts`, 1024 cells covering residues −512…+511, `circular_offset` −512 — corrected 2026-09-23 per packet amendment 1; `profile.linear_counts`, 2047 cells, `linear_offset` −1023); \|Δ\| summary (`profile.summaries.CIRCULAR`: n0 / n_plus / n_minus / n_tail / n_total); period-crossing wrap accounting (linear ±1023 cells closing into circular ∓1; `tail_gate` p̂ / U / B_tail / verdict) | G1R2 frozen derived artifact. SHG `_1` (`20260113_SHG_Type2PPLN_3s`), CHAR segment, 200,192 pairs, (N) W_P=200, MOD CIRCULAR, skip-702, derived offset +50 ps. Verified: file read (header keys, `linear_offset`, `circular_offset`, `summaries`, `tail_gate`, `sensitivity_triple` all present; linear tail cells 44 + 1 = 45 close exactly) |
 | M2 | `workspace/m2_prior_validation/20260113_SHG_Type2PPLN_3s/delta_profiles.json` | CONTEXT ONLY. Signed-Δ histogram under the superseded G1 contract (`mod_frozen` LINEAR_ONLY). Recorded context; never compared numerically against M1 (cross-contract comparison forbidden) | G1 frozen derived artifact. Same acq/CHAR population (200,192 pairs) under (N) W_P=500, MOD LINEAR_ONLY, skip-702. Verified: file read (header keys, `mod_frozen: LINEAR_ONLY`, `linear_counts` present) |
 | M3 | `.workbuddy/queue/NBPOLAR-M2-PRIOR-G1R2-W200-CIRCULAR/G1R2_ADJUDICATION.md` | Frozen record anchoring M1: linear {−1023: 44, −1: 450, 0: 150909, +1: 48788, +1023: 1} / circular {−1: 451, 0: 150909, +1: 48832, tail 0} wrap closure; CAL32 triple q0/q+1/q−1/q_rest = 0.7562255859375 / 0.241943359375 / 0.0018310546875 / 0; H_M2 = 0.8168138 / H_M0 = 0.6910589. Supplies \|Δ\|-adjacent CAL-conditional distribution + period-crossing wrap reference | G1R2 main-thread adjudication `NBPOLAR_M2_PRIOR_G1R2_COMPLETE_DESCRIPTIVE` (descriptive/non-claim). Verified: file read |
 | M4 | `.workbuddy/queue/NBPOLAR-M2-PRIOR-G1-REALDATA-NLL/G1_ADJUDICATION.md` | Frozen record anchoring M2: linear profile {0: 149852, +1: 48639, −1: 696, tail: 1005}; CAL triple 0.746704 / 0.243652 / 0.004395 / 0.005249; tail budget B_tail = 2.0e-4 with p̂ = 0.0050202 / U = 0.0052879. Supplies signed-Δ record + tail-budget reference for the G1 contract | G1 main-thread adjudication `NBPOLAR_M2_PRIOR_G1_COMPLETE_ADJUDICATED_BOUNDED_NEGATIVE`. Verified: file read |
@@ -81,10 +81,12 @@ without new justification):
   symbol lands in a later bin than the Alice symbol. This convention matches
   the frozen profile asymmetry (+1 cell dominant: 48788 vs −1 cell 450 under
   the G1R2 contract).
-- **Primary histogram (CIRCULAR semantics):** 1025 integer bins centered at
-  −512, …, +512 with exact edges at k − 0.5 … k + 0.5 for each integer k;
-  counts read directly from M1 `profile.circular_counts`
-  (`circular_offset` −512). No re-binning, no smoothing, no fit.
+- **Primary histogram (CIRCULAR semantics):** 1024 cells covering the circular
+  residues −512, …, +511 with exact edges at k − 0.5 … k + 0.5 for each
+  integer k; counts read directly from M1 `profile.circular_counts`
+  (`circular_offset` −512, len 1024 — one cell per distinct circular residue;
+  corrected 2026-09-23 per packet amendment 1 after the frozen-artifact shape
+  check). No re-binning, no smoothing, no fit.
 - **Wrap cross-check (LINEAR semantics):** 2047 integer bins centered at
   −1023, …, +1023 with exact half-integer edges; counts read directly from M1
   `profile.linear_counts` (`linear_offset` −1023). Reported alongside the

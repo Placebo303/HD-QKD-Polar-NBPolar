@@ -5498,3 +5498,18 @@ Archive pair: `openspec/changes/nbpolar-prior-rebaseline/` → `openspec/changes
 **Discipline**: sim/real ledger separation L1/L2/L3 (never merged, never compared numerically, never cited as L1 FER); future write root `workspace/exploration/nbpolar-native-highdim/<step>/` (step0/1/2/3, at most `prereg.md`/`results.json`/`notes.md`) not created and gitignored-by-default — OPEN ITEM for future packets to decide probe-record durability (`exploration-index.md` §2). Out of scope and unauthorized: O1 any Tier-X probe run, O2 any Tier-Y gate, O3 any decoder / GF(32)-graph / prior-CAL / freeze / new-data work, O4 Stage-3 re-entry — each needs its own packet + freeze review + verbatim user authorization.
 
 **Consequences**: the change stays ACTIVE (not archived) as the plan base for the O1–O4 future packets; this entry authorizes no execution and makes no FER / efficiency / promotion / qualification / composable-key statement of any kind.
+
+## 2026-09-23 — Tier-X probe `NBPOLAR_EXPLORATION_STEP0_SURVEY_COMPLETE_DESCRIPTIVE` (Step-0 channel survey; descriptive, non-claim)
+
+**Basis**: verbatim user authorization (overnight delegation; recorded in `.workbuddy/queue/NBPOLAR-EXPLORATION-STEP0-SURVEY/STATUS.yaml`) + operator all-complete return + independent focused numerical review PASS_WITH_COMMENTS (every value recomputed exact from M1) + main-thread adjudication. One run (`s0_runs: 1`, `reruns: 0`, `rebuilds: 0`); interpreter `/home/karel_303/.venvs/timetagger/bin/python` (no AGENTS.md §8 deviation).
+
+**Result [repo-observed, descriptive/non-claim]** — population: SHG_1 (`20260113_SHG_Type2PPLN_3s`) CHAR, n_pairs 200,192, (N) W_P=200, MOD CIRCULAR, skip-702, derived offset +50 ps (G1R2 contract):
+- Residual error is ±1-dominated with a large +1 bias: n0 = 150,909 (75.38%); \|Δ\|=1 mass 49,283/200,192 = 0.24617866847826086 (+1 48,832 vs −1 451, ≈108×); **delta_mass_le1 = 1.0000** — \|Δ\| ∈ {0,1} exhausts the population; \|Δ\| ≥ 2 bins are all zero.
+- Period-crossing (LINEAR ±1023 cells): n_cross = 45 (44 + 1), rate 2.247842071611253e-04 per symbol — identical to the LINEAR_ONLY tail; CIRCULAR tail = 0.
+- Wrap closure re-verified from the arrays: circular[−1] 451 = linear[−1] 450 + linear[+1023] 1; circular[+1] 48,832 = linear[+1] 48,788 + linear[−1023] 44; all five frozen anchors (44 / 1 / 451 / 48832 / 0) matched.
+- Bin occupancy (M6 `real_frame_batch.parquet`): **UNMEASURABLE_FROM_FROZEN_ARTIFACTS** — no pyarrow/pandas under the available interpreters (both resolve to `/usr/bin/python3.12`); nothing installed; no substitute source, no mixed population; the Phase-A schema+provenance check awaits a future packet with a reader-capable interpreter.
+- M2 (G1 w=500 LINEAR_ONLY) carried as context only; zero cross-contract numeric comparison.
+
+**Process [procedure]**: amendment 1 corrected the packet + parent skeleton to the artifact's actual shape (`profile.circular_counts` 1024 cells, residues −512…+511; `profile.summaries.CIRCULAR`) — supersedes the skeleton/T2 "1025 cells" text; no number and no definition intent moved. The P0 draft check caught both packet defects before any write (operator STOP discipline held). Focused-review comments closed by the main thread (question paraphrase accepted as prereg-permitted restatement; run-log attempt count corrected 4 → 2 deduped; STATUS counters updated).
+
+**Scope**: Tier-X non-claim — no FER / efficiency / promotion / qualification statement; L3 descriptive-survey ledger only; probe-root artifacts (`workspace/exploration/nbpolar-native-highdim/step0/{prereg.md,results.json,notes.md}`) are worktree-only by convention (gitignored by design). Steps 1–3 runs, Stage-3 re-entry and any Tier-Y gate remain unauthorized.
