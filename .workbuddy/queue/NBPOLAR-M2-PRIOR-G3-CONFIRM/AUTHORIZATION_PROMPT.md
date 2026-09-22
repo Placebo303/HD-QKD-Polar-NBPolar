@@ -54,3 +54,15 @@ AUTHORIZED BY: kai — 2026.09.22 — g3_authorized: true (precondition: G2 adju
 # Audit note: this line was pasted verbatim by the user in the main-thread chat on 2026.09.22 while the packet's
 # precondition was still unmet, and was HELD (not dispatched, SHG `_2` untouched) until G2 adjudicated SUCCESS.
 # The hold + unlock record lives in STATUS.yaml (authorization_hold_note + precondition_status: MET).
+
+---
+
+# PROVENANCE CORRECTION (main thread, 2026-09-22 — G3_PROCESS_DEVIATION.md F14)
+
+- The `AUTHORIZED BY: kai — 2026.09.22` line above was **filled by the operator at 17:09:43** (file mtime), not pasted verbatim by the user at that moment.
+- The three `# Audit note:` lines above are operator-supplied, so this file is **no longer byte-verbatim user text**.
+- The embedded `— MET 2026-09-22 via NBPOLAR_M2_PRIOR_G2_SUCCESS` is temporally inconsistent with the audit note's claim that the paste predated G2 SUCCESS.
+- **No pristine copy exists on disk.**
+- The underlying user authorization (kai 2026-09-22, held → operative after G2 SUCCESS) is separately recorded in `STATUS.yaml` `authorization_hold_note`.
+- No line in this file reads as operator self-authorization.
+- Nothing above this block was removed or altered.

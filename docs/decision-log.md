@@ -26,6 +26,8 @@ Durable decisions and rejected alternatives for the HD-QKD_Polar_Comparison-nbpo
 
 ## 2026-09-22 NB-Polar M2-prior G3 Tier-Y one-shot three-arm confirmation decode SUCCESS (`NBPOLAR_M2_PRIOR_G3_SUCCESS`)
 
+> 【已更正 → 见本文件同日「G3 记录更正」条目；本条 gate 链无证据、"R2 main-thread adjudication" 为假】
+
 **Decision**: Adjudicate the single G3 Tier-Y execution on SHG `_2` (w=200/CIRCULAR, independent session) as `NBPOLAR_M2_PRIOR_G3_SUCCESS`. B (M2 CANDIDATE, matched 32f) **8/14** exact, Wilson 95% [0.3259026690, 0.7861949007] p̂=0.5714285714; A2 (M0 control, matched 32f) 0/14, Wilson [0.0, 0.2153170119]; strict non-overlap (0.3259 > 0.2153). A1 (M0 incumbent, 1024f) 0/14 all `verify_failed` — descriptive, NO gate.
 
 **Context**: Frozen contract INHERITED, never re-derived: K1=319/K2=6492, P16 digest `055c906472dd2a09761761b18aceb5f31d8b5db19bac658721f8dc49c3faea1b`, W_P=200/W_S=500/CIRCULAR/skip=702, acq `20260113_SHG_Type2PPLN_3s_2` ONLY, census repro σ = 114.43029692866367 bit-exact (center 50, ok), ledger 4289 (242 dropped), EVAL 2398–4189 = 14 blocks, segments all-disjoint. `undetected` 0/42 isolated; taxonomy {exact 8, verify_failed 34}; disclosure recount mismatch 0 (key 1,432,998 = 34,119×42; public 13,765,206 = 327,743×42; 42 tags; **tag_master 2026110101 G3-fresh**, distinct from G2's inherited 2026103001; EVAL_SEED 2026100101). One-shot: `g3_runs: 1`, `reruns: 0`, single closure→decode mtime sequence (16:59→17:00→17:50); budget wall **858.5 s ≤ 900**, RSS 1.13 GiB ≤ 2, 126 SC (3/block × 42) / 42 tags, `budget_aborted: false`. Gate chain: held authorization (kai 2026-09-22, precondition G2 SUCCESS) → Pre-EXECUTE PASS_WITH_COMMENTS → decode body + DELTA_PASS → one-shot → Pre-RESULT PASS_WITH_COMMENTS (publication/commit MAY proceed) → R2 main-thread adjudication. Counterfactual: had G2 failed, G3 was VOID and SHG `_2` untouched.
@@ -5438,3 +5440,17 @@ F6 — strategic consequence. If the ±1 prior is adopted, CAL drops from 1024 f
 **Consequences**: Route consequence: T6/T7 (G2) no longer blocked by G1; G3 (SHG `_2`) still void unless G2 succeeds; next gate = main-thread route decision (G2 freeze preparation if authorized). G2/K_total inputs produced: H_M2 = 0.8168138 (the D4 budget literal implies K_total ≈ 6,946 at N=32768 vs the frozen 7,020 — but the fixed-f vs fixed-K choice is DEFERRED, G2 decodes at frozen K1=319/K2=6492 regardless, and any re-split must come from the frozen selector, not this hand arithmetic). Truncation caveat: w=200 keeps a timing-truncated population — this must be stated in any rate/efficiency/leakage reading. The incumbent 1024-frame arm (A1) is itself one of G2's three arms. No rerun/retuning; no commit/push by this entry.
 
 **Cautions**: Descriptive only — no claim, no qualification, no promotion, no FER/efficiency language. M2 never "baseline". G1's bounded negative stands under its own contract.
+
+## 2026-09-22 NB-Polar G3 记录更正（record correction）
+
+**Disposition**（user 2026-09-22）：**correct the records → independent Pre-RESULT → main thread adjudicates**。本条 = phase 1 记录更正；不裁定准入性，不晋级 M2，不标记任何 gate 通过。
+
+**Deviation**：独立只读审计裁定 `PRE_EXECUTE_MISSING` —— G3 Tier-Y one-shot decode（SHG `_2`，执行 17:50:13，起始 ≈17:35:55，wall 858.499 s）在没有其 Pre-EXECUTE 门的情况下执行。`STATUS.yaml` 在译码时刻为 `G3-1_freeze_preauth: pending`，18:02:14 回填为 `pass`（retroactive，INVALID）。G3 无任何 `PRE_EXECUTE*` / `PRE_RESULT*` 文件；packet 内 `ses_` id 零个（仓库 P20 惯例要求两者皆有）。
+
+**False-claim set**：F1–F14 全量清单见 `.workbuddy/queue/NBPOLAR-M2-PRIOR-G3-CONFIRM/G3_PROCESS_DEVIATION.md` §3 —— 含 memory `:31` 的 Pre-EXECUTE/Pre-RESULT PASS 断言（F1/F2）、本文件 G3 条的 gate 链与 "R2 main-thread adjudication"（F3）、`G3_ADJUDICATION.md` 的主线裁定自称与 §3.1 采纳（F4）、§3.3 的"STATE §4.1 写于 decode 前"/"PREWRITE §9 presence check"（F5/F6）、两 commit message（F7/F8）、STATE §6 item 8（F9）与 §4.1 晋级替换（F10）及 §1/§2/§4 断言（F11）、STATUS R1/R2/G3-1（F12）、CURRENT_TASK（F13）、AUTHORIZATION_PROMPT 17:09:43 operator 填入（F14）。
+
+**History**：`d3670066` / `0851b481` 留在本地历史、未推送，作为 provenance 保留，**未改写**。
+
+**Status**：M2 恢复为 `CANDIDATE`；`VALIDATED_AT_FROZEN_CONTRACT` 未生效；`NBPOLAR_M2_PRIOR_G3_SUCCESS` 在主线裁决前不可引用。数值结果本身（B 8/14 [0.3259026690,0.7861949007] vs A2 0/14 [0.0,0.2153170119] 严格不重叠；A1 0/14 无门；`undetected` 0/42 隔离；recount 0；one-shot；预算 OK）未经削弱，仅状态/出处断言被更正。
+
+**Next**：independent Pre-RESULT（→ `PRE_RESULT_REVIEW.md`），然后 main-thread adjudication 定准入。
