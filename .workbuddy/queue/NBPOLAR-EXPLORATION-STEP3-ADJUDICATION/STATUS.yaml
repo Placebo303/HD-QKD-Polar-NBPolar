@@ -1,0 +1,74 @@
+# STATUS — NBPOLAR-EXPLORATION-STEP3-ADJUDICATION
+
+packet: NBPOLAR-EXPLORATION-STEP3-ADJUDICATION
+branch: codex/nbpolar-phase0
+change: openspec/changes/nbpolar-native-highdim-exploration/   # proposal §Step 3 + design §D5 + step3 envelope
+output_root: workspace/exploration/nbpolar-native-highdim/step3/   # created BY this task; exactly prereg.md, results.json, notes.md
+nature: paper-only, tier-N/A — arithmetic on cited formulas under frozen assumptions; no data, no decoder, no claim
+stage: RESULT_ADJUDICATED
+result: NBPOLAR_EXPLORATION_STEP3_ADJUDICATION_COMPLETE_DESCRIPTIVE   # verdict PROBE-ONLY (complexity reading, non-claim)
+next_gate: MILESTONE_BATCH_DURABLE_RECORDS
+authorizations:
+  - authorized_by: user (verbatim instruction, 2026-09-23)
+    instruction_verbatim: "我的意思是做完全套本项目的方向探索部分"
+    binding: "ONE paper-only Step-3 complexity adjudication only — see AUTHORIZATION_PROMPT.md main-thread binding; Steps 1–2 runs, Tier-Y gates, real-data contact and Stage-3 re-entry remain unauthorized"
+    recorded_at: "2026-09-23 (main thread, before dispatch)"
+authorizations_note: "EMPTY == not authorized; above entry is the verbatim user instruction + the main-thread scope binding."
+
+cited_inputs:   # cited as-is; never re-derived
+  C1: "RS-kernel O(q^l·l) — Trifonov 2018 (per proposal §Frozen facts)"
+  C2: "SCL (q²+q)·L·n·log n/2 — Chen–Bai–Ma 2022 DOI 10.1016/j.jiixd.2022.10.002; q=1024 ⇒ ≈1e6 mult/node"
+  C3: "frozen point N=32768 symbols/block, d=1024 alphabet"
+  C4: "per-decode ~20 s — INFERRED (G2/G3 wall ≈855–858 s over 3 arms × 14 blocks); never a frozen constant"
+
+frozen_assumptions:   # main-thread freeze 2026-09-23; fixed before any arithmetic
+  A1: "rows: full-native q=1024 n=32768; probe rows (pre-allowed set CLOSED per OQ3): GF(32)=32×32 baseline, GF(16)×GF(64), GF(8)×GF(128)"
+  A2: "SCL list L=8 full-native / L=1 probe rows; RS-kernel width l=2; iterations N/A"
+  A3: "n=32768 symbols per factor-stage per row; split rows sum over both fields"
+  A4: "memory model: L·q·n float32 values per row (split rows sum fields)"
+  A5: "budget ~20 s/decode (C4 inferred) + machine rate 1e9 float ops/s effective single-thread"
+  A6: "reduction paths admitted: L=1 on probe rows only; nothing else credited"
+  A7: "probe-cost bound ≤ 4× A5 decode budget (≤ ~80 s)"
+
+verdict_rule: "SCALE iff full-native row within budget; else PROBE-ONLY iff ≥1 probe row within A7 bound; else STOP. Exactly one verdict, with its falsifier; a verdict whose falsifier is met is not recorded."
+
+write_scope: "output root (exactly prereg.md, results.json, notes.md) + this packet dir (s3_adjudicate.py, s3_run_log.md) ONLY. No data paths, no formal_ir//src/ imports, no decoder execution, no other writes."
+
+budget: {wall_s_max: 300, threads: 1, s3_ops: 1, reruns: 0}
+rebuild_rule: "exactly one corrective rebuild, only after a zero-output crash; recorded in counters + notes.md"
+
+stop_rules:
+  - missing cited input / output root pre-exists with content / verdict-rule ambiguity / arithmetic not traceable to C1-C2 + A1-A7 => STOP (return condition 2)
+  - any data path, decoder execution, formal_ir//src/ import, out-of-scope write, or claim object => hard STOP
+
+counters: {s3_ops: 1, reruns: 0, rebuilds: 0}
+
+ids:   # operator reports; main thread accepts; operator never self-accepts
+  S3-P_draft_check: pass
+  S3-1_prereg_and_command: pass
+  S3-2_row_arithmetic: pass
+  S3-3_verdict: pass
+  S3-4_write_scope: pass
+  S3-5_no_claim: pass
+  review_focused_numerical: pass   # independent recomputation exact; verdict C2-dominated and robust to the C1 application-shape reading; no blocking findings
+
+adjudication: >
+  Main-thread adjudication 2026-09-23: Tier-X focused numerical review PASS (every row
+  recomputed exact from A1–A7 + C1/C2). Verdict PROBE-ONLY recorded — full-native
+  (q=1024, L=8) exceeds the inferred ~20 s/decode budget by ~100x on C2 (2063.6 s;
+  C1 34.4 s) with no admitted reduction path, while all three probe rows
+  (GF(32)=32x32, GF(16)xGF(64), GF(8)xGF(128) at L=1) sit within the A7 ~80 s bound.
+  Falsifier (envelope §5): the probe cannot preserve the Step-1 separation signal at
+  bounded cost. The C1 application shape (per-kernel x n/2) was fixed by dispatch; the
+  verdict is C2-dominated and unchanged under any reasonable C1 reading. Non-claim:
+  complexity reading only — no FER/efficiency/promotion statement. STATUS kept as the
+  frozen pre-execution snapshot except this adjudication block; durable counters live
+  in results.json (review-confirmed).
+
+result: null
+decision_needed: null
+notes: >
+  Paper-only adjudication frozen by the main thread from the accepted step3 envelope
+  (T6). The ~20 s/decode figure is the inferred assumption C4 with its provenance and is
+  excluded from any frozen-number framing. Output-root artifacts are worktree-only by
+  convention (gitignored by design).

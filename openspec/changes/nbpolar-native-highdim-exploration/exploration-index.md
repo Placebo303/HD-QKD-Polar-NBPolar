@@ -31,6 +31,10 @@
 - Future root (not created by this change): `workspace/exploration/nbpolar-native-highdim/<step>/`
   with `step0/`, `step1/`, `step2/`, `step3/` (Step-3 paper-only, tier-N/A) —
   each holding at most `prereg.md` / `results.json` / `notes.md`.
+- Addendum root (envelope delta, recorded in the addendum packet):
+  `workspace/exploration/nbpolar-native-highdim/step0-m6-addendum/` — separate Tier-X
+  probe id completing Step-0's deferred M6 occupancy metric; the completed `step0/`
+  root stays read-only.
 - None of these directories exists or is created by this change.
 - Each future run needs its own freeze plus verbatim user authorization
   (AGENTS.md §10.1–10.4).
@@ -104,7 +108,24 @@
 
 ## §7 Task status snapshot (descriptive; this file flips no checkbox)
 
-- T1/T3/T5/T6 accepted 2026-09-23 (review gates T2/T4 PASS).
-- T2/T4 complete.
-- T7 accepted 2026-09-23 (main-thread doc review).
-- T8/T9 pending.
+- T1–T9 ALL COMPLETE 2026-09-23: T1/T3/T5/T6/T7 accepted, T2/T4/T8 review gates PASS, T9 memory triage recorded.
+- Suite execution (2026-09-23, under the user's full-suite instruction recorded verbatim in each packet's STATUS.yaml): see §8 below.
+
+## §8 Suite execution packets (2026-09-23; Tier-X, non-claim)
+
+Shared authorization: user instruction 「我的意思是做完全套本项目的方向探索部分」
+(2026-09-23), bound per packet in each `AUTHORIZATION_PROMPT.md` / `STATUS.yaml`
+(own freeze + focused numerical review + main-thread adjudication per probe; synthetic
+only; no real data; no Tier-Y; no frozen-constant change).
+
+| Probe | Root | Status 2026-09-23 |
+|---|---|---|
+| Step-0 channel survey | `step0/` | **COMPLETE_DESCRIPTIVE** `NBPOLAR_EXPLORATION_STEP0_SURVEY_COMPLETE_DESCRIPTIVE` — ±1-dominated residual (delta_mass_le1 = 1.0000; +1/−1 ≈ 108×); period-crossing 45/200,192; wrap closure re-verified; focused review PASS_WITH_COMMENTS |
+| Step-0 M6 occupancy addendum | `step0-m6-addendum/` | **COMPLETE_DESCRIPTIVE** — `UNMEASURABLE_FROM_FROZEN_ARTIFACTS` (no parquet reader on this machine; d=8 synthetic manifest context recorded); focused review PASS_WITH_COMMENTS |
+| Step-3 paper adjudication | `step3/` | **COMPLETE_DESCRIPTIVE** — verdict **PROBE-ONLY** (full-native ≈100× over the inferred ~20 s budget on C2; all three pre-allowed split probes within the ~80 s bound); focused review PASS |
+| Step-1 small-q screening | `step1/` | **COMPLETE_DESCRIPTIVE** `NBPOLAR_EXPLORATION_STEP1_SCREENING_COMPLETE_DESCRIPTIVE` — clear separation at cell-mean level (native arm A better than Gray bit-plane MSD arm B in 12/12 cells; largest at high rate: q8 R0.60 ΔFER +0.4102, q4 R0.50 +0.2529, q16 R0.60 +0.1152; seed-level nuance: q4 R0.60 has 3/16 negative seeds — carried in the adjudication); focused review PASS |
+| Step-2 transfer-prior probe | `step2/` | **COMPLETE_DESCRIPTIVE** `NBPOLAR_EXPLORATION_STEP2_PRIOR_TRANSFER_COMPLETE_DESCRIPTIVE` — kept-evidence NEGATIVE: injected M2 prior (frozen floor) ≤ 0 g_succ at cell-mean in every discriminating cell vs the no-injection true-channel baseline; g_nll strongly negative where floored tail cells bind (floor-mishandling visible); amendment 3 replaced the degenerate blind-uniform control; focused review PASS_WITH_COMMENTS |
+
+Durable records for the suite are batched at the milestone (AGENTS.md §10.4): one
+`docs/decision-log.md` entry + one `AGENT_PROJECT_MEMORY.md` update at suite close;
+probe-root artifacts remain worktree-only (gitignored by design).

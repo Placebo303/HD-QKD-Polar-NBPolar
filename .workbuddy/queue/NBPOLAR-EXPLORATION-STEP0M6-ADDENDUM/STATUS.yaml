@@ -1,0 +1,74 @@
+# STATUS — NBPOLAR-EXPLORATION-STEP0M6-ADDENDUM
+
+packet: NBPOLAR-EXPLORATION-STEP0M6-ADDENDUM
+branch: codex/nbpolar-phase0
+change: openspec/changes/nbpolar-native-highdim-exploration/   # step0-survey-prereg-skeleton.md §2 M6 + §3c + §6
+output_root: workspace/exploration/nbpolar-native-highdim/step0-m6-addendum/   # created BY this task; exactly prereg.md, results.json, notes.md
+protected_root: workspace/exploration/nbpolar-native-highdim/step0/   # completed Step-0 probe root; READ-ONLY, must stay byte-unchanged
+nature: Tier-X addendum — deferred M6 bin-occupancy Phase-A check under a reader-capable interpreter; non-claim
+stage: RESULT_ADJUDICATED
+result: NBPOLAR_EXPLORATION_STEP0M6_ADDENDUM_COMPLETE_DESCRIPTIVE   # occupancy UNMEASURABLE_FROM_FROZEN_ARTIFACTS (reader check failed; d=8 synthetic manifest context recorded)
+next_gate: MILESTONE_BATCH_DURABLE_RECORDS
+authorizations:
+  - authorized_by: user (verbatim instruction, 2026-09-23)
+    instruction_verbatim: "我的意思是做完全套本项目的方向探索部分"
+    binding: "ONE Tier-X M6 occupancy addendum only — see AUTHORIZATION_PROMPT.md binding; the completed step0 root stays byte-unchanged; real-data decode, other probes, Tier-Y gates and Stage-3 re-entry remain unauthorized"
+    recorded_at: "2026-09-23 (main thread, before dispatch)"
+authorizations_note: "EMPTY == not authorized; above entry is the verbatim user instruction + the main-thread scope binding."
+
+inputs_read_only:
+  M6: comparison_bench/outputs_comparison/real_frame_batch.parquet
+  context: comparison_bench/outputs_comparison/run_manifest.json   # provenance context (benchmark snapshot is synthetic-d8; M6 must be checked, not assumed)
+
+phase_a_checks (in order; any failure => UNMEASURABLE_FROM_FROZEN_ARTIFACTS with the failing check):
+  1_reader: "an interpreter importing pyarrow or pandas exists (nothing installed)"
+  2_columns: "a per-pair Alice bin-index column exists (Bob column recorded if present)"
+  3_alphabet: "alphabet size 1024 (d=8 synthetic frame batch FAILS provenance)"
+  4_provenance: "frozen-contract real population; any synthetic marker (e.g. dataset_id synthetic_d8_*) FAILS"
+
+occupancy_rule: "if all checks pass: c_A over the parquet rows; o[b]=c_A[b]/n with the ACTUAL row count n stated (never assume 200,192; never mix populations); report max_b o[b], min_b o[b], max_b o[b]/u, fraction of bins with o[b]<u/2 (u=1/1024)"
+
+interpreter_policy: "ordered, nothing installed: (1) /home/karel_303/.venvs/hd-qkd-polar-comparison/bin/python (numpy+pandas; probe pyarrow); (2) any other existing interpreter that imports pyarrow or pandas (probe, record); (3) none => UNMEASURABLE terminal (recorded reason)"
+
+write_scope: "output root (exactly prereg.md, results.json, notes.md) + this packet dir (s0m6_check.py, s0m_run_log.md) ONLY. comparison_bench/ is READ-ONLY. Forbidden: the completed step0 root, results/, frozen dirs, .ttbin, other workspace paths, change/archive dirs, AGENT_PROJECT_MEMORY.md, docs/."
+
+budget: {wall_s_max: 600, threads: 1, s0m_runs: 1, reruns: 0}
+rebuild_rule: "exactly one corrective rebuild, only after a zero-output crash; recorded"
+
+stop_rules:
+  - output root pre-exists; completed step0 root modified/missing; out-of-scope write; any decoder/real-data-decode/EVAL/RESERVE contact; any claim object => hard STOP
+  - reader-absence or Phase-A check failure => UNMEASURABLE_FROM_FROZEN_ARTIFACTS terminal (recorded; NOT a stop)
+
+counters: {s0m_runs: 1, reruns: 0, rebuilds: 1}
+
+ids:   # operator reports; main thread accepts; operator never self-accepts
+  S0M-P_draft_check: pass
+  S0M-1_prereg_and_one_run: pass
+  S0M-2_phase_a_checks: pass          # in-order stop at reader; column/alphabet/provenance recorded not_run
+  S0M-3_occupancy_outcome: pass       # UNMEASURABLE terminal with reason; no substitute, no mixed population
+  S0M-4_write_scope: pass             # protected step0 root byte-unchanged (sizes re-checked)
+  S0M-5_no_claim: pass
+
+adjudication: >
+  Main-thread adjudication 2026-09-23: the addendum closed the Step-0 skeleton's deferred
+  M6 occupancy metric with the designed UNMEASURABLE_FROM_FROZEN_ARTIFACTS terminal —
+  no interpreter on this machine imports a parquet engine (pyarrow/fastparquet/duckdb/
+  polars all absent; pandas-only cannot read parquet), recorded with verbatim errors and
+  one corrective rebuild (zero-output makedirs crash, per the rebuild rule; the rebuilds
+  counter was hand-patched 0->1 in the artifacts and disclosed in s0m_run_log.md —
+  review-confirmed as the correct value). The manifest context (dataset_ids
+  [synthetic_d8_ser005], dimensions [8]) is recorded as context only — even with a
+  reader, the d=8 synthetic frame batch would fail the alphabet/provenance checks, so
+  the terminal outcome is doubly grounded. No substitute source, no mixed population, no
+  invented denominator. Non-claim: descriptive L3-ledger outcome only. The protected
+  completed step0 root stayed byte-unchanged. Durable consequence for the exploration
+  plan: bin occupancy is NOT measurable from frozen artifacts on this machine; any
+  future occupancy question needs a reader-capable environment as its own packet.
+
+result: null
+decision_needed: null
+notes: >
+  Addendum packet completing the Step-0 skeleton's deferred M6 metric. Envelope delta
+  recorded: separate Tier-X probe id with a suffixed output root; the completed Step-0
+  root is protected read-only. Output-root artifacts are worktree-only by convention
+  (gitignored by design).

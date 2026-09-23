@@ -1,0 +1,89 @@
+# STATUS — NBPOLAR-EXPLORATION-STEP1-SCREENING
+
+packet: NBPOLAR-EXPLORATION-STEP1-SCREENING
+branch: codex/nbpolar-phase0
+change: openspec/changes/nbpolar-native-highdim-exploration/   # proposal §Step 1 + design §D3 + step1-screening-design.md
+output_root: workspace/exploration/nbpolar-native-highdim/step1/   # created BY this task; exactly prereg.md, results.json, notes.md
+nature: Tier-X synthetic screening (AGENTS.md §10.4) — native q-ary polar SC vs Gray bit-plane MSD binary polar; non-claim; no real data
+stage: RESULT_ADJUDICATED
+result: NBPOLAR_EXPLORATION_STEP1_SCREENING_COMPLETE_DESCRIPTIVE   # clear separation at cell-mean level: native arm A better than Gray bit-plane MSD arm B in 12/12 cells (10/12 strictly positive; 2 zeros are floor ties)
+next_gate: MILESTONE_BATCH_DURABLE_RECORDS
+authorizations:
+  - authorized_by: user (verbatim instruction, 2026-09-23)
+    instruction_verbatim: "我的意思是做完全套本项目的方向探索部分"
+    binding: "ONE Tier-X Step-1 synthetic screening only — see AUTHORIZATION_PROMPT.md main-thread binding; real data, EVAL/RESERVE, frozen constants, Steps 2–3 runs, Tier-Y gates and Stage-3 re-entry remain unauthorized"
+    recorded_at: "2026-09-23 (main thread, before dispatch)"
+authorizations_note: "EMPTY == not authorized; above entry is the verbatim user instruction + the main-thread scope binding."
+
+freeze:   # main-thread freeze 2026-09-23 (the six deferred items of step1-screening-design.md §8)
+  F1_arm_a: "q-ary polar SC via read-only reuse of comparison_bench.formal_ir.nbpolar {algebra.make_gf2m, transform.polar_transform (alpha=2), sc.sc_decode, oracle}; zero modification; import failure => STOP"
+  F2_arm_b: "r-level Gray bit-plane MLC-polar, packet-local binary butterfly + Arikan SC, MSD hard conditioning on earlier decoded planes, plane order 0..r-1; soft-carrying variants deferred (recorded)"
+  F3_fields: "GF(4)=0b111, GF(8)=0b1011, GF(16)=0b10011 primitives; alpha=2; reflected Gray mapping shared by both arms"
+  F4_channel: "P(δ=0)=0.75, P(δ=+1)=0.24, P(δ=−1)=0.005, 0.005 uniform over remaining q−3 offsets; symmetric control not in this probe (recorded)"
+  F5_operating_points: "n_sym=128; R ∈ {0.30,0.40,0.50,0.60}; K_sym=round(R·128) = {38,51,64,77}; design seed 2026092400 fixed"
+  F6_seeds: "screening seeds 2026092401..2026092416 (16); 64 blocks/seed ⇒ 1024 blocks per (q,R,arm); shared message + shared noise matrix per (seed,block) across arms (paired); numpy default_rng"
+  F7_design: "q-ary split-channel recursion (formulas in TASK_PACKET) + Monte-Carlo H(u|y) per position; top-K = information set; arm B: same per plane on the induced binary channel (marginal-averaged over earlier message bits)"
+  F8_metric: "FER = block-error fraction over 1024 blocks; f = r·K_sym/(n_sym·H_δ); per-(q,R,arm): per-seed series + mean/sample-std/range; paired ΔFER = FER_B − FER_A; NO numeric threshold (qualitative bar of design §5 only)"
+
+correctness_gates:   # all binding before any screening arithmetic; any failure => STOP, zero outputs
+  G1_oracle: "≥200 random tiny instances (n_sym∈{2,4}; 100 F4-family + 100 random uniform transitions) per arm per q: decoded codeword == brute-force MAP codeword exactly; mismatch count must be 0"
+  G2_noiseless: "20/20 exact round-trip per q per arm on an error-free channel"
+  G3_low_rate_smoke: "at R=0.30, both arms FER < 0.5 (design/decoder smoke gate)"
+
+write_scope: "output root (exactly prereg.md, results.json, notes.md) + this packet dir (s1_screen.py, s1_run_log.md) ONLY. comparison_bench/ is READ-ONLY (imports only). Forbidden: src/, experiments/, tools/, results/, comparison_bench/outputs_comparison/, frozen dirs, .ttbin, other workspace paths, change/archive dirs, AGENT_PROJECT_MEMORY.md, docs/."
+
+interpreter_policy: "ordered (amendment 2, 2026-09-23): PRIMARY = /home/karel_303/.venvs/hd-qkd-polar-comparison/bin/python (numpy 2.4.4 + pandas 3.0.2; frozen import chain verified; primitives match F3 exactly); then .venv/bin/python if it ever exists (absent now); timetagger venv DEMOTED (no pandas — cannot import the formal_ir package chain); nothing installed. Exact command: PYTHONPATH=comparison_bench/src /home/karel_303/.venvs/hd-qkd-polar-comparison/bin/python .workbuddy/queue/NBPOLAR-EXPLORATION-STEP1-SCREENING/s1_screen.py --probe-root workspace/exploration/nbpolar-native-highdim/step1/"
+
+amendments:
+  - id: "2"
+    date: "2026-09-23"
+    file: "TASK_PACKET_AMENDMENT_2.md"
+    trigger: "P0 draft check FAIL (operator STOP, zero writes): timetagger venv has numpy but no pandas; formal_ir package chain imports pandas before the pandas-free nbpolar submodules"
+    effect: "interpreter re-frozen to the existing pandas-capable venv /home/karel_303/.venvs/hd-qkd-polar-comparison/bin/python (import chain verified read-only; primitives match F3); timetagger demoted; nothing installed; prereg line amended; failed P0 consumed nothing"
+
+budget: {wall_s_max: 5400, rss_gib_max: 4, threads: 1, s1_runs: 1, reruns: 0}
+rebuild_rule: "exactly one corrective rebuild, only after a zero-output crash; recorded in counters + notes.md"
+
+stop_rules:
+  - any correctness-gate failure; numpy-capable interpreter absent; formal_ir import failure => STOP (no outputs)
+  - out-of-scope write; any modification under comparison_bench/; any real-data/.ttbin/EVAL/RESERVE contact => hard STOP
+  - budget exceeded => STOP (record; no narrowing); any sim-FER-framed-as-real-FER or claim object => hard STOP; any post-hoc tuning => hard STOP
+
+counters: {s1_runs: 1, reruns: 0, rebuilds: 0}
+
+ids:   # operator reports; main thread accepts; operator never self-accepts
+  S1-P_draft_check: pass          # incl. re-dispatch after amendment 2 (interpreter re-freeze)
+  S1-1_prereg_and_one_run: pass
+  S1-2_correctness_gates: pass    # G1 200/200 per (arm,q) 0 hard mismatches (tie-tolerated <=1e-9, first-divergence semantics); G2 20/20; G3 smoke <= 0.0195
+  S1-3_run_completeness: pass     # 12 cells x 1024 blocks x 16 seeds; pairing verified in code
+  S1-4_metric_integrity: pass     # H_delta/f/per-seed series recomputed exact; no numeric threshold
+  S1-5_write_scope: pass          # formal_ir read-only; exactly 3 output files
+  S1-6_no_claim: pass
+  review_focused_numerical: pass  # independent recomputation exact (144 fresh gate instances, 0 hard mismatches); non-blocking comments noted
+
+adjudication: >
+  Main-thread adjudication 2026-09-23: Tier-X focused numerical review PASS — every
+  value independently recomputed exact; gates reproduced with fresh instances; pairing
+  and determinism verified in code (full-rerun impracticality explicitly stated by the
+  reviewer; determinism excerpt identical). RESULT (synthetic, L2 ledger, never cited as
+  L1 real-data FER): clear separation at cell-mean level — native-symbol q-ary polar SC
+  (arm A) beats the Gray bit-plane MSD binary-polar arm (arm B) in 12/12 (q,R) cells;
+  10/12 strictly positive, the 2 zeros (q8/q16 R=0.30) are floor ties where both arms
+  are perfect; the largest separations at the high-rate cells (q8 R0.60 dFER +0.4102,
+  q4 R0.50 +0.2529, q16 R0.60 +0.1152). Seed-level nuance carried (review-confirmed):
+  the same-sign reading holds at cell means; at seed level q4_R0.60 has 3/16 negative
+  seeds (range dips to -0.046875) and the smallest mean separation (+0.0439) — the run
+  log's phrasing is accurate for cell means and is qualified here. Qualitative-bar
+  outcome per design §5: clear separation => Step 2/3 designs may be frozen next
+  (Step-3 adjudication already executed; Step-2 probe running). Three pre-run build
+  defects were caught and fixed by the gates before the frozen run (disclosed in the
+  run log). Non-blocking items closed by the main thread: these counters/IDs; the
+  __pycache__ byproduct and the phantom stat-dirty test-fixture CSV noted as no-action.
+
+result: null
+decision_needed: null
+notes: >
+  Screening packet frozen by the main thread from the accepted step1 design (T3/T4).
+  F4 mirrors the frozen CAL32 proportions and the Step-0 diagnosis (descriptive provenance
+  only — it is a synthetic channel instance, not a real-data claim). Output-root artifacts
+  are worktree-only by convention (gitignored by design).

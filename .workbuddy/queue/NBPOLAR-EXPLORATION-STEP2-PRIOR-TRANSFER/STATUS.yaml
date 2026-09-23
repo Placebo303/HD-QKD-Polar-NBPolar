@@ -1,0 +1,93 @@
+# STATUS — NBPOLAR-EXPLORATION-STEP2-PRIOR-TRANSFER
+
+packet: NBPOLAR-EXPLORATION-STEP2-PRIOR-TRANSFER
+branch: codex/nbpolar-phase0
+change: openspec/changes/nbpolar-native-highdim-exploration/   # proposal §Step 2 + design §D4 + step2-transfer-prior-design.md
+output_root: workspace/exploration/nbpolar-native-highdim/step2/   # created BY this task; exactly prereg.md, results.json, notes.md
+nature: Tier-X synthetic paired probe — informed (M2 ±1 structure, fixed numerical reference) vs uniform init on the Step-1 decoder envelope; non-claim
+stage: RESULT_ADJUDICATED
+result: NBPOLAR_EXPLORATION_STEP2_PRIOR_TRANSFER_COMPLETE_DESCRIPTIVE   # kept-evidence NEGATIVE: injected M2 prior (frozen floor) does not beat the no-injection true-channel baseline at cell-mean level; g_nll strongly negative where floored tail cells bind
+next_gate: MILESTONE_BATCH_DURABLE_RECORDS
+authorizations:
+  - authorized_by: user (verbatim instruction, 2026-09-23)
+    instruction_verbatim: "我的意思是做完全套本项目的方向探索部分"
+    binding: "ONE Tier-X Step-2 transfer-prior probe only — see AUTHORIZATION_PROMPT.md binding; real data, EVAL/RESERVE, prior-code/CAL changes, frozen constants, other steps' runs, Tier-Y gates and Stage-3 re-entry remain unauthorized"
+    recorded_at: "2026-09-23 (main thread, before dispatch)"
+authorizations_note: "EMPTY == not authorized; above entry is the verbatim user instruction + the main-thread scope binding."
+
+freeze:   # main-thread freeze 2026-09-23 (the deferred items of step2-transfer-prior-design.md §8)
+  F1_decoder: "Step-1 arm A reused: q-ary polar SC via read-only reuse of comparison_bench.formal_ir.nbpolar (make_gf2m/polar_transform alpha=2/sc_decode); GF(4)=0b111, GF(8)=0b1011, GF(16)=0b10011; design seed 2026092400; n_sym=128; R∈{0.30,0.40,0.50,0.60}; K_sym={38,51,64,77}; bit-plane MSD axis NOT in Step 2 (recorded delta)"
+  F2_channel: "Step-1 F4 instance: P(δ=0)=0.75, P(δ=+1)=0.24, P(δ=−1)=0.005, 0.005 uniform over other q−3 offsets"
+  F3_arm_i: "informed init = frozen G1R2 CAL32 triple verbatim (q0 0.7562, q+1 0.2419, q−1 0.0018, rest 0) with the frozen floor 1e-15 applied, NOT renormalized; log P_I(y|x') = log(max(p_{δ=(y−x') mod q}, 1e-15))"
+  F4_arm_u: "no-injection baseline (amendment 3, 2026-09-23 — replaces the degenerate uniform arm): log P_U(y|x') = log P_F4(y|x') (true synthetic channel belief). Rationale: at the sc_decode interface a uniform message vector is information-free (blind decoder, FER=1.0 at 1 − q^-K), making informed-vs-uniform vacuous"
+
+amendments:
+  - id: "3"
+    date: "2026-09-23"
+    file: "TASK_PACKET_AMENDMENT_3.md"
+    trigger: "dispatched run STOPPED at gate G3 (zero writes, operator discipline correct): log P_U(y|x')=log(1/q) is constant in y and x' — the uniform arm is a blind decoder; every info decision an exact tie; FER=1.0 deterministic (success prob q^-K)"
+    effect: "arm U redefined to the non-degenerate no-injection baseline (true F4 channel belief); G1b renamed/redirected; scientific question preserved in meaningful form (injected real-data prior w/ frozen floor vs standard baseline; negative kept as evidence); G0 gap closed by recording per-(q,R) information-set summaries; consumed run (s2_runs 1, zero outputs) accounted as a gate-failed pre-measurement stop — the re-dispatch is a fresh packet execution, not a measurement rerun"
+  F5_seeds: "16 seeds 2026092401..2026092416 × 64 blocks = 1024 paired trials per (q,R); shared message + noise matrix per (seed,block) across arms; numpy default_rng"
+  F6_metric: "per (q,seed): g_succ(s)=(Σok_I−Σok_U)/T_s; g_nll(s)=Σ(nll_U−nll_I)/T_s; T_s=64; nll_arm(t)=−Σ_{i∈info}log2 P_arm(x_i=true_i|y); per-seed + mean/sample-std/range per q; NO numeric threshold; zero/negative kept as evidence (design §5)"
+  F7_boundary: "no EVAL/RESERVE; no re-fit; no prior_m2.py change; no CAL change; no decoder change; M2 values copied from the frozen record only"
+  F8_crosscheck: "G0: if Step-1 results.json readable (read-only), recomputed information sets must equal Step-1's per (q,R); else record 'reference unavailable, deterministic recompute only'"
+
+correctness_gates:   # binding before any probe arithmetic; failure => STOP, zero outputs
+  G0: "information-set equality vs Step-1 results.json (or recorded unavailability)"
+  G1a: "oracle agreement with the informed prior: ≥200 tiny instances (n_sym∈{2,4}; 100 F4-family + 100 random uniform) per q, decoded == brute-force MAP, 0 mismatches"
+  G1b: "oracle agreement with the TRUE-CHANNEL belief (amendment 3, renamed from 'uniform prior'): >=200 tiny instances (n_sym∈{2,4}; 100 F4-family + 100 random uniform) per q, decoded == brute-force MAP, 0 mismatches"
+  G2: "noiseless round-trip 20/20 per q (arm I path)"
+  G3: "smoke: at R=0.30 both arms FER < 0.9"
+
+write_scope: "output root (exactly prereg.md, results.json, notes.md) + this packet dir (s2_transfer.py, s2_run_log.md) ONLY. comparison_bench/ READ-ONLY (imports only). Step-0/Step-1/Step-3 output roots are read-only reference. Forbidden: src/, experiments/, tools/, results/, comparison_bench/outputs_comparison/, frozen dirs, .ttbin, other workspace paths, change/archive dirs, AGENT_PROJECT_MEMORY.md, docs/."
+
+interpreter_policy: "PRIMARY /home/karel_303/.venvs/hd-qkd-polar-comparison/bin/python (numpy+pandas; frozen import chain verified); .venv absent; timetagger demoted (no pandas); nothing installed. Command uses PYTHONPATH=comparison_bench/src."
+
+budget: {wall_s_max: 3600, rss_gib_max: 4, threads: 1, s2_runs: 1, reruns: 0}
+rebuild_rule: "exactly one corrective rebuild, only after a zero-output crash; recorded in counters + notes.md"
+
+stop_rules:
+  - any gate failure; interpreter/import failure; out-of-scope write; any modification under comparison_bench/; any real-data/EVAL/RESERVE contact; any prior-code/CAL change => hard STOP
+  - budget exceeded => STOP (record; no narrowing); any claim object or post-hoc tuning => hard STOP
+
+counters: {s2_runs: 1, reruns: 0, rebuilds: 0}   # s2_runs 1 = the gate-failed pre-measurement STOP (G3 blind-uniform degeneracy), ZERO output artifacts; amendment 3 re-defines the control; the re-dispatched fresh execution records its own counters in results.json
+
+ids:   # operator reports; main thread accepts; operator never self-accepts
+  S2-P_draft_check: pass          # incl. the amendment-3 re-dispatch (stale prereg refresh recorded; no measurement existed)
+  S2-1_prereg_and_one_run: pass
+  S2-2_gates: pass                # G0 recorded unavailability; G1a/G1b 200/q 0 hard mismatches; G2 20/20; G3 smoke ok
+  S2-3_run_completeness: pass     # 12 cells x 16 seeds x 64 paired trials x both arms
+  S2-4_metric_integrity: pass     # g_succ/g_nll recomputed exact; no threshold; negatives kept
+  S2-5_write_scope: pass
+  S2-6_no_claim: pass
+  review_focused_numerical: pass_with_comments   # 144 fresh gate instances 0 hard mismatches; 48/48 series stats exact; M2 provenance verified
+
+adjudication: >
+  Main-thread adjudication 2026-09-23: Tier-X focused numerical review PASS_WITH_COMMENTS
+  — every value independently recomputed exact; gates reproduced with fresh instances.
+  RESULT (synthetic L2, kept-evidence NEGATIVE per design §5; non-claim): on the frozen
+  Step-1 envelope, injecting the real-data M2 ±1 structure (frozen CAL32 triple
+  0.7562/0.2419/0.0018/rest-0 + floor 1e-15, unrenormalized) as the decoder's channel
+  belief does NOT beat the no-injection true-channel baseline — g_succ <= 0 at cell-mean
+  in every discriminating cell (q4: -0.084/-0.334/-0.196/-0.0088; q8 R0.5 -0.067,
+  R0.6 -0.190; q16 R0.5 -0.001, R0.6 -0.074); g_nll strongly negative where the floored
+  tail cells bind (q4 R0.6 -5305.54 +/- 512.32) — the floor-mishandling mechanism
+  amendment 3 named is visible in the measurement. Seed-level nuances carried
+  (review-confirmed): q4_R0.60 has 2/16 positive g_succ seeds; q8_R0.40 g_nll mean
+  +0.0006 is floating noise in an all-zero tie cell; q16_R0.50 g_nll range has one
+  +0.000127 against mean -23.2. Control-definition history: the original uniform arm was
+  degenerate by construction (information-free messages, FER=1.0); amendment 3 replaced
+  it with the non-degenerate no-injection baseline and re-ran (one gate-failed
+  pre-measurement STOP, zero outputs, then one fresh execution — no measurement ever
+  existed to rerun). This negative is synthetic-envelope evidence only: it neither
+  promotes nor demotes M2's real-data status (VALIDATED_AT_FROZEN_CONTRACT unchanged);
+  a floor-aware prior formulation is the natural successor question (own packet).
+
+result: null
+decision_needed: null
+notes: >
+  Step-2 packet frozen by the main thread from the accepted step2 design (T5), reusing
+  the Step-1 frozen envelope (decoder/channel/points/seeds) so the transfer question is
+  isolated to the initial-message priors. Dispatch is sequenced AFTER the Step-1 run
+  lands (G0 cross-check reads Step-1 results.json read-only). Output-root artifacts are
+  worktree-only by convention (gitignored by design).
