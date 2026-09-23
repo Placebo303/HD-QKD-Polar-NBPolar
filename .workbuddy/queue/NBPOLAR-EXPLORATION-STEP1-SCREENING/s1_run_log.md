@@ -26,7 +26,9 @@
 - Gate outcome (from results.json): G1 200/200 instances per (arm, q),
   hard mismatches 0 everywhere (strict: q4 A197/B199, q8 A200/B198,
   q16 A200/B200; remainder tie-tolerated ≤1e-9); G2 20/20 per (q, arm);
-  G3 smoke FER(R=0.30) ≤ 0.0195 everywhere (bar < 0.5); full-screen R=0.30
+  G3 smoke FER(R=0.30) max 0.01953125 (5/256, q4 armB) — every cell at or below it
+  (bar < 0.5) [corrected 2026-09-23 per independent audit D4: the earlier phrasing
+  "≤ 0.0195" understated the true max by 3.1e-05; gate outcome unaffected]; full-screen R=0.30
   recheck passed before write.
 - Output root holds exactly 3 files: prereg.md, results.json, notes.md.
   Packet dir holds s1_screen.py + this log only.

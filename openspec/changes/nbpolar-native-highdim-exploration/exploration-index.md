@@ -120,7 +120,7 @@ only; no real data; no Tier-Y; no frozen-constant change).
 
 | Probe | Root | Status 2026-09-23 |
 |---|---|---|
-| Step-0 channel survey | `step0/` | **COMPLETE_DESCRIPTIVE** `NBPOLAR_EXPLORATION_STEP0_SURVEY_COMPLETE_DESCRIPTIVE` — ±1-dominated residual (delta_mass_le1 = 1.0000; +1/−1 ≈ 108×); period-crossing 45/200,192; wrap closure re-verified; focused review PASS_WITH_COMMENTS |
+| Step-0 channel survey | `step0/` | **COMPLETE_DESCRIPTIVE** `NBPOLAR_EXPLORATION_STEP0_SURVEY_COMPLETE_DESCRIPTIVE` — ±1-dominated residual (\|Δ\|≤1 incl. zero bin = 1.0000 — the established `delta_mass_le1` fact, NOT the stored key `mass_le1` = 0.24617866847826086 which is \|Δ\|=1 only, per audit D1; +1/−1 ≈ 108×); period-crossing 45/200,192; wrap closure re-verified; focused review PASS_WITH_COMMENTS |
 | Step-0 M6 occupancy addendum | `step0-m6-addendum/` | **COMPLETE_DESCRIPTIVE** — `UNMEASURABLE_FROM_FROZEN_ARTIFACTS` (no parquet reader on this machine; d=8 synthetic manifest context recorded); focused review PASS_WITH_COMMENTS |
 | Step-3 paper adjudication | `step3/` | **COMPLETE_DESCRIPTIVE** — verdict **PROBE-ONLY** (full-native ≈100× over the inferred ~20 s budget on C2; all three pre-allowed split probes within the ~80 s bound); focused review PASS |
 | Step-1 small-q screening | `step1/` | **COMPLETE_DESCRIPTIVE** `NBPOLAR_EXPLORATION_STEP1_SCREENING_COMPLETE_DESCRIPTIVE` — clear separation at cell-mean level (native arm A better than Gray bit-plane MSD arm B in 12/12 cells; largest at high rate: q8 R0.60 ΔFER +0.4102, q4 R0.50 +0.2529, q16 R0.60 +0.1152; seed-level nuance: q4 R0.60 has 3/16 negative seeds — carried in the adjudication); focused review PASS |

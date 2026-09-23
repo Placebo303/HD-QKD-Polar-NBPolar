@@ -48,6 +48,7 @@ ids:   # operator reports; main thread accepts; operator never self-accepts
   S0M-3_occupancy_outcome: pass       # UNMEASURABLE terminal with reason; no substitute, no mixed population
   S0M-4_write_scope: pass             # protected step0 root byte-unchanged (sizes re-checked)
   S0M-5_no_claim: pass
+  review_focused_numerical: pass_with_comments   # independent recomputation: reader absence reproduced across interpreters; in-order stop honored; byte-identity + protected-root integrity verified
 
 adjudication: >
   Main-thread adjudication 2026-09-23: the addendum closed the Step-0 skeleton's deferred
@@ -65,7 +66,6 @@ adjudication: >
   plan: bin occupancy is NOT measurable from frozen artifacts on this machine; any
   future occupancy question needs a reader-capable environment as its own packet.
 
-result: null
 decision_needed: null
 notes: >
   Addendum packet completing the Step-0 skeleton's deferred M6 metric. Envelope delta

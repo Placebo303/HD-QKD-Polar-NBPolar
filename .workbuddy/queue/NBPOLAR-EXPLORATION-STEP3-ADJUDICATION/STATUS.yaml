@@ -65,7 +65,6 @@ adjudication: >
   frozen pre-execution snapshot except this adjudication block; durable counters live
   in results.json (review-confirmed).
 
-result: null
 decision_needed: null
 notes: >
   Paper-only adjudication frozen by the main thread from the accepted step3 envelope

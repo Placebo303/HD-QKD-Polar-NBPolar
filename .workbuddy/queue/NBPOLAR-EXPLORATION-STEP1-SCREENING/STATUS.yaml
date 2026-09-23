@@ -54,7 +54,7 @@ counters: {s1_runs: 1, reruns: 0, rebuilds: 0}
 ids:   # operator reports; main thread accepts; operator never self-accepts
   S1-P_draft_check: pass          # incl. re-dispatch after amendment 2 (interpreter re-freeze)
   S1-1_prereg_and_one_run: pass
-  S1-2_correctness_gates: pass    # G1 200/200 per (arm,q) 0 hard mismatches (tie-tolerated <=1e-9, first-divergence semantics); G2 20/20; G3 smoke <= 0.0195
+  S1-2_correctness_gates: pass    # G1 200/200 per (arm,q) 0 hard mismatches (tie-tolerated <=1e-9, first-divergence semantics); G2 20/20; G3 smoke max 0.01953125 (5/256; corrected 2026-09-23 per audit D4 from the truncated "<= 0.0195")
   S1-3_run_completeness: pass     # 12 cells x 1024 blocks x 16 seeds; pairing verified in code
   S1-4_metric_integrity: pass     # H_delta/f/per-seed series recomputed exact; no numeric threshold
   S1-5_write_scope: pass          # formal_ir read-only; exactly 3 output files
@@ -80,7 +80,6 @@ adjudication: >
   run log). Non-blocking items closed by the main thread: these counters/IDs; the
   __pycache__ byproduct and the phantom stat-dirty test-fixture CSV noted as no-action.
 
-result: null
 decision_needed: null
 notes: >
   Screening packet frozen by the main thread from the accepted step1 design (T3/T4).

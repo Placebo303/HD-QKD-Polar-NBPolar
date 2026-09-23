@@ -73,7 +73,10 @@ adjudication: >
   R0.6 -0.190; q16 R0.5 -0.001, R0.6 -0.074); g_nll strongly negative where the floored
   tail cells bind (q4 R0.6 -5305.54 +/- 512.32) — the floor-mishandling mechanism
   amendment 3 named is visible in the measurement. Seed-level nuances carried
-  (review-confirmed): q4_R0.60 has 2/16 positive g_succ seeds; q8_R0.40 g_nll mean
+  (review-confirmed): q4_R0.60 has 3/16 strictly positive g_succ seeds (+0.015625 at
+  seeds 2026092404/2026092407/2026092408 — corrected 2026-09-23 per independent audit
+  D2, which read the raw series directly; the earlier 2/16 count was a review-side
+  miscount carried into the first adjudication); q8_R0.40 g_nll mean
   +0.0006 is floating noise in an all-zero tie cell; q16_R0.50 g_nll range has one
   +0.000127 against mean -23.2. Control-definition history: the original uniform arm was
   degenerate by construction (information-free messages, FER=1.0); amendment 3 replaced
@@ -83,7 +86,6 @@ adjudication: >
   promotes nor demotes M2's real-data status (VALIDATED_AT_FROZEN_CONTRACT unchanged);
   a floor-aware prior formulation is the natural successor question (own packet).
 
-result: null
 decision_needed: null
 notes: >
   Step-2 packet frozen by the main thread from the accepted step2 design (T5), reusing
