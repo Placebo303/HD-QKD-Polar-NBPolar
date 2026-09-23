@@ -1,0 +1,90 @@
+# STATUS — NBPOLAR-EXPLORATION-STEP1B-SOFT-BASELINE
+
+packet: NBPOLAR-EXPLORATION-STEP1B-SOFT-BASELINE
+branch: codex/nbpolar-phase0
+change: openspec/changes/nbpolar-native-highdim-exploration/   # closure adjudication next-step priority; step1-screening-design.md arms/fairness
+output_root: workspace/exploration/nbpolar-native-highdim/step1b-soft-baseline/   # created BY this task; exactly prereg.md, results.json, notes.md
+nature: Tier-X synthetic screening — native q-ary SC vs soft-carrying MSD bit-plane baseline (with Step-1 hard-MS reference); non-claim
+stage: RESULT_ADJUDICATED
+result: NBPOLAR_EXPLORATION_STEP1B_SOFT_BASELINE_COMPLETE_DESCRIPTIVE   # soft-carrying MSD does NOT close the native small-q gap: Δ(Bsoft−A) ≥0 in 12/12, >0 in 10/12 (2 zeros); production min-sum B-lab worse than native in 12/12
+next_gate: MILESTONE_BATCH_DURABLE_RECORDS
+authorizations:
+  - authorized_by: user (verbatim instruction, 2026-09-23)
+    instruction_verbatim: "可以继续往下按照之前判决规划、推进，使用free shubagent"
+    binding: "ONE Tier-X Step-1 soft-baseline extension probe only — see AUTHORIZATION_PROMPT.md binding; real data, EVAL/RESERVE, frozen constants, Tier-Y gates and Stage-3 re-entry remain unauthorized; free-model execution per instruction, focused review on primary reviewer-go"
+    recorded_at: "2026-09-23 (main thread, before dispatch)"
+authorizations_note: "EMPTY == not authorized; above entry is the verbatim user instruction + the main-thread scope binding."
+
+freeze:   # main-thread freeze 2026-09-23
+  F1_arm_a: "UNCHANGED Step-1 arm A: q-ary polar SC (formal_ir read-only reuse; GF(4)=0b111, GF(8)=0b1011, GF(16)=0b10011; alpha=2; design seed 2026092400; n_sym=128; R∈{0.30,0.40,0.50,0.60}; K_sym={38,51,64,77})"
+  F2_arm_b_hard: "faithful re-implementation of Step-1 arm B (Gray bit-plane MLC-polar, MSD HARD conditioning, plane order 0..r-1, joint top-(r*K_sym), design seed 2026092400) from the frozen Step-1 builder; fidelity gated by G0"
+  F3_arm_b_soft: "same decomposition/design as F2 with EXACT SOFT-CARRYING MSD conditioning: log S_b − log(S_0+S_1), S_b = Σ_{a_<i,a_>i} P_F4(y − symbol(b@i,a_<i,a_>i)) · Π_{j<i} belief_j(a_j) · 2^{-(r-1-i)}; belief_j = plane j SC posteriors (soft); later planes marginalized uniformly; plane 0 = marginal induced channel; terms ≤ 2^(r-1) ≤ 8"
+  F4_channel_seeds: "F4 P(δ=0)=0.75, P(δ=+1)=0.24, P(δ=−1)=0.005, 0.005 uniform over other q−3; seeds 2026092401..16 × 64 blocks = 1024 per cell; shared message+noise per (seed,block) across all three arms; numpy default_rng"
+  F5_metric: "FER over 1024 blocks per (q,R,arm); per-seed series + mean/sample-std/range; paired ΔFER = Bsoft−A and Bsoft−Bhard; H_δ 0.8818511717297366/0.8934608122041734/0.900353370320442; f = r*K/(n*H_δ); NO numeric threshold (qualitative reading; negatives kept)"
+  F6_gates: "G0 reproduction (B-hard means == Step-1 recorded armB_fer.mean, all 12 cells, bit-exact; mismatch => STOP); G1/G1b oracle >=200 tiny instances per q per arm vs brute-force MAP, 0 hard mismatches, ties <=1e-9 first-divergence; G2 noiseless 20/20; G3 smoke FER(R=0.30)<0.5; G4 determinism excerpt identical"
+  F7_interpreter: "ordered: /home/karel_303/.venvs/hd-qkd-polar-comparison/bin/python (numpy+pandas; formal_ir import chain) => .venv/bin/python if it ever exists; timetagger demoted; nothing installed"
+
+readonly_reference:
+  - .workbuddy/queue/NBPOLAR-EXPLORATION-STEP1-SCREENING/s1_screen.py    # builder pattern + arm-B-hard source (frozen)
+  - workspace/exploration/nbpolar-native-highdim/step1/results.json      # G0 reproduction target (Step-1 recorded armB_fer.mean)
+
+write_scope: "output root (exactly prereg.md, results.json, notes.md) + this packet dir (s1b_screen.py, s1b_run_log.md) ONLY. comparison_bench/ READ-ONLY (imports only). Forbidden: src/, experiments/, tools/, results/, comparison_bench/outputs_comparison/, frozen dirs, .ttbin, other workspace paths (Step-0/1/2/3 roots read-only reference), change/archive dirs, AGENT_PROJECT_MEMORY.md, docs/."
+
+budget: {wall_s_max: 5400, rss_gib_max: 4, threads: 1, s1b_runs: 1, reruns: 0}
+rebuild_rule: "exactly one corrective rebuild, only after a zero-output crash; recorded in counters + notes.md"
+
+stop_rules:
+  - any gate failure incl. G0 reproduction mismatch; interpreter/import failure; out-of-scope write; any modification under comparison_bench/ => hard STOP
+  - any real-data/EVAL/RESERVE contact; budget exceeded (record; no narrowing); any claim object; any post-hoc tuning => hard STOP
+
+counters: {s1b_runs: 1, reruns: 0, rebuilds: 0}   # official one-shot (pre-flight dev run accounted separately as s1b_runs 0, zero outputs); wall 271.0 s (binding 7200 s per amendment 1; the frozen prereg_frozen.md text still echoes the pre-amendment 5400 s — hierarchy documented)
+
+amendments:
+  - id: "1"
+    date: "2026-09-23"
+    file: "TASK_PACKET_AMENDMENT_1.md"
+    trigger: "principal supplied the mature binary-construction pointer /mnt/d/Code/qkd-reconciliation-lab; read-only recon confirmed production MSD machinery + exact-F4 fit; the pandas-capable interpreter additionally has numba (polar_core dependency)"
+    effect: "adds fourth arm B-lab (read-only lab import: polar_core 3GPP-PW per-plane SC + msd_conditional exact-F4 shift-invariant tables, hard-prefix soft-metric MSD, uniform k_i=K_sym); gate G1c (lab-arm oracle); tertiary paired metric; budget wall 7200 s; revised acceptance IDs; lab provenance recorded in notes.md"
+  - id: "2"
+    date: "2026-09-23"
+    file: "TASK_PACKET_AMENDMENT_2.md"
+    trigger: "free-route run STOPPED at G1c (zero official consumption, fully diagnosed, no tuning): the lab decoder's f-node is min-sum (approximate), so exact-brute-MAP can never pass for it; exact-SC substitution proved 0/600 => property mismatch, not integration defect"
+    effect: "G1c redefined to an independently coded MIN-SUM MIRROR oracle (integration fidelity; 0 hard mismatches, ties <=1e-9); the min-sum-vs-exact-MAP divergence counts (observed 5/6/7 per 200 at q=4/8/16, n=4 only, magnitudes 0.24-27.9) must be measured and recorded as a documented property of the B-lab baseline; consumed pre-flight accounted as s1b_runs 0 with zero official outputs"
+
+ids:   # operator reports; main thread accepts; operator never self-accepts
+  S1B-P_draft_check: pass
+  S1B-1_prereg_and_one_run: pass
+  S1B-2_gates: pass               # G0 bit-exact 12/12 vs Step-1; G1/G1b 0 hard; G1c mirror 200/200 strict per q; G2 20/20 x4 arms; G3 smoke max 0.0195; G4 determinism
+  S1B-3_run_completeness: pass    # 12 cells x 4 arms x 1024 blocks x 16 seeds; pairing elementwise
+  S1B-4_metric_integrity: pass    # H_delta/f exact; 84/84 series stats exact; G0 equality; no threshold
+  S1B-5_write_scope: pass         # lab repo + comparison_bench byte-untouched (read-only imports)
+  S1B-6_no_claim: pass
+  review_focused_numerical: pass_with_comments   # fresh-instance reproductions 0 hard mismatches; mirror independence verified; corrections carried in the adjudication block
+
+adjudication: >
+  Main-thread adjudication 2026-09-23: Tier-X focused numerical review PASS_WITH_COMMENTS
+  (all gates and 84/84 series statistics independently recomputed exact; mirror-gate
+  independence verified; reviewer fresh-instance subsets reproduce 0 mismatches). RESULT
+  (synthetic L2, non-claim): soft-carrying MSD does NOT close the native gap — paired
+  Δ(Bsoft−A) >= 0 in 12/12 cells, strictly > 0 in 10/12 (2 exact zeros at q8/q16 R0.30);
+  cell-mean B-hard vs B-soft differences <= 0.0078125 everywhere (per-seed scatter
+  ±0.03125 — the "everywhere" reading is cell-mean level); the production min-sum B-lab
+  baseline is worse than native in 12/12 (max Δ(Blab−A) +0.8320 at q16 R0.60). Suite
+  consequence: the Step-1 candidate native-advantage signal survives the fair
+  soft-information binary baseline test at small q (still synthetic F4 only; cost and
+  real-data validation remain pending). Record corrections carried: "11/12" wording
+  superseded by "10/12 strictly positive + 2 zeros" (no artifact contains 11/12); the
+  min-sum-vs-exact approx-gap is recorded per the artifact (counts 5/6/7 per 200, n=4
+  only; magnitudes q4 0.0435–0.5772, q8 0.00614–0.5772, q16 0.00217–0.5772), superseding
+  the amendment free-text "0.24–27.9" scale; B-lab is labeled a min-sum-approximated
+  production reference — G1c certifies integration fidelity, not optimality. Hygiene:
+  the reviewer-created __pycache__ in this packet dir is removed at the milestone commit.
+
+decision_needed: null
+notes: >
+  Step-1 extension packet frozen by the main thread per the suite closure adjudication's
+  recorded next-step priority (same-caliber soft-information binary baseline). Free-model
+  execution per the user's instruction; the post-run focused numerical review stays on
+  primary reviewer-go (recorded). If the free-model route fails or returns an unusable
+  result, the primary coder-fast route continues from the same frozen packet (fallback
+  recorded). Output-root artifacts are worktree-only by convention (gitignored by design).

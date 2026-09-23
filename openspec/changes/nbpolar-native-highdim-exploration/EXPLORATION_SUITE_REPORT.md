@@ -242,3 +242,30 @@
 - Tier-X 非 claim（per AGENTS.md §10.4）：本套件一切探针均为 Tier-X（Step-3 为 paper-only tier-N/A），
   无 candidate/accepted token，无 status 变化，无 attempt 消耗可转为 claim 的证据；
   任何 claim-bearing 门均为 Tier-Y，需独立 own packet + freeze + Pre-EXECUTE/Pre-RESULT + 逐字授权。
+
+## 11. Post-closure extension — Step-1B soft-binary baseline（2026-09-23）
+
+> Closure 裁决记录的下一步优先项（同口径软信息二元基线对照）经用户 verbatim 授权
+> （「可以继续往下按照之前判决规划、推进，使用free shubagent」）后执行；本附录为该
+> 扩展探针的摘要，完整记录见 packet 与 decision-log 对应条目。
+
+- 出处：packet `.workbuddy/queue/NBPOLAR-EXPLORATION-STEP1B-SOFT-BASELINE/`
+  （amendments 1–2；STATUS adjudication 块，label
+  `NBPOLAR_EXPLORATION_STEP1B_SOFT_BASELINE_COMPLETE_DESCRIPTIVE`，review
+  `pass_with_comments`）→ 探针根 `step1b-soft-baseline/`（`results.json` keys
+  `freeze` / `gates` / `population` / `cells`）→ decision-log 2026-09-23 Step-1B 条目。
+- 设计（四臂配对，冻结 Step-1 envelope）：A 原生 q 元 polar SC；B-hard（Step-1 复现，
+  G0 位级对拍 12/12）；B-soft（精确软携带 MSD 条件化）；B-lab（生产级二元管线，
+  只读导入 `/mnt/d/Code/qkd-reconciliation-lab`：3GPP-PW 逐平面 SC + shift-invariant
+  MSD 表 + 硬前缀软度量；lab HEAD f9d3c25a 已记录）。Amendment 2：G1c 改为独立编码的
+  min-sum 镜像 oracle（lab f-node 为 min-sum，精确 MAP 永不可能通过；5/6/7 per 200 的
+  近似差距作为基线属性记录，非门失败）。
+- 结果（cell means；Δ = 配对逐种子均值；合成 L2、非 claim）：
+  - Δ(Bsoft−A)：q4 +0.0107/+0.1426/+0.2529/+0.0420；q8 0/+0.0117/+0.0869/+0.4180；
+    q16 0/+0.0010/+0.0117/+0.1113 ⇒ **≥0 12/12，严格为正 10/12**（2 个零平局）。
+  - Δ(Blab−A)：**12/12 全为正**（q8 R0.50 +0.4414；q16 R0.50 +0.4336；
+    q8 R0.60 +0.7373；q16 R0.60 **+0.8320**）。
+  - B-hard vs B-soft cell-mean 差异 ≤ 0.0078125（逐种子散布 ±0.03125）——软化本身
+    几乎不改变二元臂。
+- 读数：**软信息携带没有抹平原生优势**；Step-1 的候选原生优势信号在公平软基线对照下
+  存活（仍限合成 F4、小 n；成本与真实数据验证仍未做）。本附录不改变 §9/§10 任何边界。
