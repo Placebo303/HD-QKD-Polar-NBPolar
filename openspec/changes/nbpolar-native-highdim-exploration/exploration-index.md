@@ -129,3 +129,10 @@ only; no real data; no Tier-Y; no frozen-constant change).
 Durable records for the suite are batched at the milestone (AGENTS.md §10.4): one
 `docs/decision-log.md` entry + one `AGENT_PROJECT_MEMORY.md` update at suite close;
 probe-root artifacts remain worktree-only (gitignored by design).
+Independent audit (2026-09-23): reviewer-go adversarial full-suite audit
+PASS_WITH_COMMENTS — every value re-verified exact against the raw artifacts; two
+citation-level defects (D1 `mass_le1` naming; D2 Step-2 q4_R0.60 positive seeds
+2/16→3/16) corrected same-day across report/index/decision-log/memory, plus record
+hygiene (STATUS duplicate keys, G3 smoke exact value, M2 4dp note, M6 review ID).
+Record: decision-log suite entry (audit paragraph) + `EXPLORATION_SUITE_REPORT.md` §9;
+commit `433c7371`.

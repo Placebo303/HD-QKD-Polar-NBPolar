@@ -10,7 +10,8 @@
   所在仓库 `/mnt/d/Code/HD-QKD_Polar_Comparison-nbpolar`，分支 `codex/nbpolar-phase0`；
   计划验收 T1–T9（docs-only，零执行）提交 `4d5cf034`；
   Step-0 + M6 裁决簿记提交 `d802ff2d`；
-  套件执行收口提交 `8eeae0d9`（29 files）；未 push。
+  套件执行收口提交 `8eeae0d9`（29 files）；
+  总结报告 + 独立审计修正提交 `433c7371`（9 files）；未 push。
 - Authorization record（两次逐字用户指令，各自绑定范围记录在对应 packet 的 `STATUS.yaml` authorizations 块）：
   - 2026-09-23 隔夜委派，仅绑定 Step-0 探针：
     「顺着本本 exploration 往下推进，我要睡觉了，希望早上能直接看到你的完整准确诊断的 exploration」，
@@ -30,6 +31,7 @@
   3. Step-2 control redefinition（blind-uniform 简并后的 no-injection true-channel baseline 重定义）。
   One-shot 记账：每探针一次测量运行；Step-2 另有一次 gate-failed pre-measurement STOP
  （原 uniform control 下，零输出；amendment 3 下全新执行；从不存在可 rerun 的测量）。
+  套件收口后追加一次独立对抗式全套审计（reviewer-go，read-only，从原始产物重算）及其当日更正——见 §9；该审计未改变任何数值、裁决或边界事实。
 
 ## 1. 冻结不变性声明
 
@@ -207,7 +209,32 @@
   GF(32) split-dimension probe 后续；任何 real-data 执行。
   `tasks.md` 的 O1–O4 仍为 standing unauthorized 清单。
 
-## 9. 非 claim 声明
+## 9. 独立审计与当日更正（2026-09-23）
+
+- 审计方法：reviewer-go 独立对抗式全套审计（read-only；在 /tmp 用自有解释器与枚举器
+  从五个探针的原始 `results.json` 重算，不读任何总结文档）。
+- 审计结论：**PASS_WITH_COMMENTS**——全部 cell-mean 表（Step-1 12 格、Step-2 12 格）、
+  门计数（G1/G1a/G1b/G2/G3）、wall 时间、Step-3 行算术与三条套件读数均逐位 exact；
+  无任何数值、裁决或边界事实需要改动。
+- 引用级缺陷（当日更正；2 处；均不影响任何数值/裁决/边界）：
+  - **D1 `mass_le1` 命名消歧**：Step-0 `results.json` 存储键 `mass_le1` =
+    0.24617866847826086 仅指 \|Δ\|=1；"\|Δ\|≤1（含零 bin）= 200,192/200,192 = 1.0000"
+    为推导量（n_tail=0），与项目既有记号 `delta_mass_le1` 同义不同名。已在报告 §2、
+    `exploration-index.md` §8、`docs/decision-log.md`、`AGENT_PROJECT_MEMORY.md`
+    加区分标注。
+  - **D2 Step-2 q4_R0.60 正种子计数 2/16 → 3/16**（原始 g_succ 序列：+0.015625 @
+    seeds 2026092404/2026092407/2026092408；此前 2/16 系 focused-review 转述误差）。
+    已更正 5 处记载（本报告 §4/§8、Step-2 `STATUS.yaml`、decision-log 套件条目、
+    project memory）。
+- 记录卫生关闭（非阻断）：D3 四个 packet STATUS 的重复 `result: null` 键移除
+  （YAML last-key-wins 曾遮蔽裁决 label）；D4 G3 smoke 上限精确化为 0.01953125（5/256）；
+  D5 M2 三元组标注为 4 位小数冻结引用（源值 0.7562255859375/0.241943359375/
+  0.0018310546875）；D6 M6-addendum STATUS 补 `review_focused_numerical` ID。
+- 出处：审计发现与更正的完整记录见 `docs/decision-log.md` 2026-09-23 套件条目末段
+  （"Independent audit + same-day corrections"）；本报告 §2/§3/§4/§8 的更正标注即其落地；
+  提交 `433c7371`。结论：审计后全部裁决记录可安全引用。
+
+## 10. 非 claim 声明
 
 - 本报告不作任何 FER / efficiency / promotion / qualification / composable-key / security 表述。
 - Sim/real ledgers 分离：L2（合成）与 L3（描述性勘察）数值永不并入、永不数值对比、
