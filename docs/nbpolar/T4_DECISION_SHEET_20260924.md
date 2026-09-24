@@ -17,7 +17,7 @@
   R2 sizing 的唯一规划点仍是 C9 的 `p=3/14`（R-2 允许的 sizing 用途）。
 - T3 状态引用：T3 结构只读评审已回 **STRUCT-PASS**（decision-log 2026-09-24 条目，
   残留 F1–F5 非阻塞）；冻结通过判定在 T4 之后（§8 D3 读法）。
-- STATUS 核对时点：两 packet `STATUS.yaml` 状态串与 probe 快照数值的核对时点为 2026-09-24（§4 L105/L110、§10-8/9）。
+- STATUS 核对时点：两 packet `STATUS.yaml` 状态串与 probe 快照数值的核对时点为 2026-09-24（§4 L105/L110/§4 oracle-L2 与 k2-ramp 新增描述性段、§10-8/9/10/11）。
 
 ---
 
@@ -114,6 +114,15 @@ Wilson 复核行（冻结时填）：`n_Wilson(Δ,读法,p̂,z)=____`；若与�
   oracle exact：f=2.20 为 12/128，f=2.80 为 122/128，总计 134/768；
   undetected=0 全局隔离；decode_failed/resource_abort 全零；divergence defined 768/true 759 report-only；
   operational首次成功落在(2.20,2.80]，oracle先行；f≤2.20五点0/640与f=2.80的6/128共同构成‘结构性失败vs码率不够’分离的描述性输入 (非证据)；A2对照健康 (f=2.20/2.80零误)。
+   oracle-L2 全披露追加观测（**同样描述性非 claim、禁作Δ/阈值证据**，来源 `workspace/probes/oracle-l2-fulldisclosure/results.json`：Tier-X，N=1024，单点 sanity_k2N，2 cells（2 seeds×16 blocks=32 块），wall 53.39 s，reruns=0，status ok；ACC-09“H3 排除通路 sane”描述性）：
+   k1=10/k2=1024（=N）/d2 全集（0..1023），disclosed=5170 bits（f_book≈5.41819，tag excluded），H≈0.93183，kdb 5234；
+   oracle 臂 exact 32/32（per-seed 各 16/16），op 臂 32/32 verify_failed，undetected=0 全局隔离；divergence defined 32/true 32 report-only；
+   结论句仅允许：H3 排除、oracle-L2 通路 sane（描述性非 verdict）；以上合成观测仍不得作为 Δ 取值或阈值证据（解读禁令不变）。
+   k2 剂量 ramp 追加观测（**同样描述性非 claim、禁作Δ/阈值证据**，来源 `workspace/probes/k2-dose-ramp/results.json`：Tier-X，N=1024，k2∈{200,400,700,1024}×2 seeds×16 blocks=128 块，8/8 cells，wall 97.17 s，RSS 207 MiB，reruns=0，status ok；ACC-09“H2 倾向剂量敏感”描述性）：
+   disclosed={1050,2050,3550,5170} bits，f_book≈{1.10041,2.14841,3.72042,5.41819}（tag excluded）；
+   oracle exact 率：k2=200 为 0/32（per-seed 各 0/16），k2=400 为 2/32（per-seed 各 1/16），k2=700/1024 各 32/32（per-seed 各 16/16）；
+   op 四点均为 0/32（FER 1.0 平坦），undetected=0 全局隔离；divergence defined 128/true 128 report-only；
+   结论句仅允许：剂量形态陡升、H2 倾向（L2 构造剂量敏感），H1 失配倾向降级，皆描述性非 verdict；以上合成观测仍不得作为 Δ 取值或阈值证据（解读禁令不变）。
 - A1a 描述性注记（非证据）：链式闭合确认 B0 地板 f≈1.246（f2=1）/1.265（f2=2）；
   若 R2 目标 f 区间定在地板之上，测量只能复述平凡方案——目标区间归 §9/未来规划，
   本单不裁 f 目标。
@@ -186,6 +195,8 @@ Wilson 复核行（冻结时填）：`n_Wilson(Δ,读法,p̂,z)=____`；若与�
 7. w(Δ) 换算式 P5 本体（冻结时给出显式公式；本单模板只作算术示例）。
 8. A2/A3 扩样 packet（`workspace/a2a3-exp-packet/`，STATUS=READY_FOR_EXECUTE，已冻结，freeze ruling 2026-09-24；已执行快照：`workspace/probes/a2a3-synth-fcurve-n1024/results.json` status ok，probe_runs 1，wall 344.05 s）——与本单 §4 无关（扩样为合成 Tier-X，不消耗任何 R2 配额/预算）；与 S0–S9/S9 冻结判定无依赖。
 9. A3 工作点诊断 scan（`workspace/a3-scan-packet/`，probe a3-op-scan：同信道/配对/N=1024，只扩 f 网格 [1.30,1.40,1.60,1.80,2.20,2.80]；STATUS=READY_FOR_EXECUTE，已冻结，freeze ruling 2026-09-24，核对时点 2026-09-24）——同为合成 Tier-X，不消耗任何 R2 配额/预算；与 S0–S9/S9 冻结判定无依赖；目的：分离 A3 结构性失败 vs 码率不够；已执行 status ok, 48/48, wall 658.09s (核对时点2026-09-24)。
+10. k2 剂量 ramp packet 联动（`workspace/probes/k2-dose-ramp/`，Tier-X 合成：k2∈{200,400,700,1024}×2 seeds×16 blocks=128 块，8/8 cells，wall 97.17 s，status ok）——同为合成 Tier-X，不消耗任何 R2 配额/预算；与 S0–S9/S9 冻结判定无依赖；本单 §4 新增 k2-ramp 描述性段仅为量级参照（禁作Δ/阈值证据）。
+11. 预留：下一步 L2-SCL/构造单因子候选（待主线程另起 packet，本单不立项；本单不裁方法、不冻结阈值）。
 
 *本文件为 DRAFT 规划输入：不授权执行、不改变状态、不含数字主张。T4 裁定后由 T2 落表、
 T5 算术、T6 空骨架（`authorizations: []`）；T7–T9 仍 NOT AUTHORIZED。*
