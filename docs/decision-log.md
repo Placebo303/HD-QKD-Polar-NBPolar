@@ -24,6 +24,22 @@ Durable decisions and rejected alternatives for the HD-QKD_Polar_Comparison-nbpo
 
 ## Decisions
 
+## 2026-09-24 R2 T4 PI adjudication — route (c)+(b) selected, seven rulings, four PENDING block T5/T6 (contract NOT frozen, route lock NOT lifted)
+
+**Decision**: PI adjudicated the R2 T4 15-row ledger round as follows. (1) Route selection: R2 proceeds per option (c) — measure the existing M2 frozen working point (K1=319, K2=6492, original construction); algorithm research proceeds per option (b) — fixed-disclosure-L2 single-factor comparison; option (a) (unlocking SCL) is deferred, not selected. The two lines are prepared in parallel and neither substitutes for the other. (2) Seven T4 rulings: Δ = "计划可接受的单方法 FER 估计半宽" = 0.10; R-a; w(Δ) = Δ = 0.10; p = 3/14; Wilson z = 1.96; n = 65 有效完整块 (Wilson minimum 63, 65 taken conservative); actual intervals are reported as observed with no post-hoc half-width ≤ 0.10 guarantee. K_total stays at G2/G3 (fixed-f=1.3 is only a future rate-change planning direction and needs its own freeze). R-5 is removed and its mapping row deleted. Annex placement: FER body is the normative contract, acquisition draft is Annex A, ACQ §8 duration/scale token → C12, remaining budget/STOP → C13, INSUFFICIENT stays C11. D3 order T3→T4→T5→T6 (T3 STRUCT-PASS is a structural pass, not a freeze pass). Strong versions (binary pairing / f_eff / net key / low-FER targets) are moved out. (3) reviewer-go round verdict = pass with comments (5 non-blocking items); that review is neither a T4 freeze nor a probe-execution approval.
+
+**Context**: Attribution tightening recorded at T4: the oracle-L2 full-disclosure 32/32 exact is pathway sanity for that configuration only; the k2 dose ramp (disclosed 1050→5170 bits) changes the information set and the public-bit count simultaneously, so it proves neither a construction defect nor rules out low-disclosure insufficiency. Label discipline landed alongside: probe-local leanings/exclusions are L-H1/L-H2/L-H3 (single Tier-X synthetic probe, descriptive only); project-level H1/H2/H3 refer specifically to FUTURE_DIRECTION_PLAN usability / native-advantage / window-code-tradeoff and are confirmed or refuted by nothing in this round (`docs/nbpolar/FUTURE_DIRECTION_PLAN_20260924.md` footnote; `docs/nbpolar/T4_DECISION_SHEET_20260924.md` §4 label-discipline paragraph + L-H rename).
+
+**Alternatives considered**:
+- Select option (a) (unlocking SCL) now: not selected — deferred; the selected lines are (c)+(b) in parallel, mutually non-substituting.
+- Read the oracle-L2 32/32 or the k2 ramp slope as construction-defect evidence, or read the ramp as ruling out low-disclosure insufficiency: rejected — the ramp changes information set and public-bit count simultaneously, forbidding either single-factor reading.
+- Treat T3 STRUCT-PASS as a freeze pass, or reorder D3: rejected — D3 order is T3→T4→T5→T6; T3 is structural only.
+- Treat either Tier-X round this cycle as lifting the STATE.md:65 route lock: rejected — the lock is not lifted.
+- Back-derive the acquisition list, quotas, comparability conditions, or budget from n=65: forbidden — tasks.md:57 boundary.
+- Write probe leanings as "H2 proven", or cite Tier-X numbers / H-label readings as long-term conclusions: forbidden — descriptive only; project H labels are not mixed with probe L-H labels.
+
+**Consequences**: Four items remain PENDING and block T5/T6: (i) new acquisition source list, (ii) CAL/EVAL/RESERVE quotas, (iii) working-point comparability conditions, (iv) execution budget. The R2 contract is NOT frozen and must not be cited as settled wording. The STATE.md:65 route lock is NOT lifted. T5/T6 are NOT authorized. No FER/efficiency/qualification claim follows from this round.
+
 ## 2026-09-23 Free-route plan stage recorded — R2 measurement-contract + GF32 split-dim probe plans (docs-only; NOT authorized)
 
 **Decision**: Record the free-route plan stage as docs-only planning: two draft OpenSpec changes exist — `openspec/changes/nbpolar-r2-fer-measurement-contract/` and `openspec/changes/nbpolar-gf32-splitdim-probe/`, each with `proposal.md`, `design.md`, `tasks.md`. Authorization boundary, exactly as those documents record it: R2 **T7–T9** and GF32 **BT4–BT6** are **NOT AUTHORIZED** (the GF32 boundary number is BT4–BT6, not a typo), packet state `authorizations: []`. The user-stated ordering **reliable → efficiency → comparison** is recorded as **user-stated and NOT authorized**. This entry grants no authorization of any kind.

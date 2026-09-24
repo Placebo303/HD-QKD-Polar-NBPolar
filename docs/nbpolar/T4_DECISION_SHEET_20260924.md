@@ -90,6 +90,11 @@ Wilson 复核行（冻结时填）：`n_Wilson(Δ,读法,p̂,z)=____`；若与�
 
 ## §4 候选 Δ 档位与分辨力讨论（A2/A3 仅描述性输入，非证据）
 
+- 标签纪律（项目级 H vs 探针局部 L-H，不混用）：本单 §4 的探针局部倾向/排除一律记作
+  L-H1/L-H2/L-H3，仅指单个 Tier-X 合成探针内的描述性形态（非 verdict、非证据、
+  禁作Δ/阈值证据）；项目级 H1/H2/H3（未来规划 §5）不受本节任何语句证实或证伪。
+  历史 `results.json` 数值不动；未来结论句前缀使用 L-H。
+
 - 档位沿 C9 四档（0.114/0.100/0.080/0.050），对应 R-a 之 n≈50/65/100/259（§3）。
 - R2 适用的现实区间：Branch A（50–100）⇔ R-a 下 Δ∈[0.080,0.114]；
   Δ=0.050（R-a n=259）已出 Branch A，需 Branch A′（PI 另决）；R-b 下全部四档
@@ -114,15 +119,15 @@ Wilson 复核行（冻结时填）：`n_Wilson(Δ,读法,p̂,z)=____`；若与�
   oracle exact：f=2.20 为 12/128，f=2.80 为 122/128，总计 134/768；
   undetected=0 全局隔离；decode_failed/resource_abort 全零；divergence defined 768/true 759 report-only；
   operational首次成功落在(2.20,2.80]，oracle先行；f≤2.20五点0/640与f=2.80的6/128共同构成‘结构性失败vs码率不够’分离的描述性输入 (非证据)；A2对照健康 (f=2.20/2.80零误)。
-   oracle-L2 全披露追加观测（**同样描述性非 claim、禁作Δ/阈值证据**，来源 `workspace/probes/oracle-l2-fulldisclosure/results.json`：Tier-X，N=1024，单点 sanity_k2N，2 cells（2 seeds×16 blocks=32 块），wall 53.39 s，reruns=0，status ok；ACC-09“H3 排除通路 sane”描述性）：
+   oracle-L2 全披露追加观测（**同样描述性非 claim、禁作Δ/阈值证据**，来源 `workspace/probes/oracle-l2-fulldisclosure/results.json`：Tier-X，N=1024，单点 sanity_k2N，2 cells（2 seeds×16 blocks=32 块），wall 53.39 s，reruns=0，status ok；ACC-09“L-H3 排除通路 sane”描述性）：
    k1=10/k2=1024（=N）/d2 全集（0..1023），disclosed=5170 bits（f_book≈5.41819，tag excluded），H≈0.93183，kdb 5234；
    oracle 臂 exact 32/32（per-seed 各 16/16），op 臂 32/32 verify_failed，undetected=0 全局隔离；divergence defined 32/true 32 report-only；
-   结论句仅允许：H3 排除、oracle-L2 通路 sane（描述性非 verdict）；以上合成观测仍不得作为 Δ 取值或阈值证据（解读禁令不变）。
-   k2 剂量 ramp 追加观测（**同样描述性非 claim、禁作Δ/阈值证据**，来源 `workspace/probes/k2-dose-ramp/results.json`：Tier-X，N=1024，k2∈{200,400,700,1024}×2 seeds×16 blocks=128 块，8/8 cells，wall 97.17 s，RSS 207 MiB，reruns=0，status ok；ACC-09“H2 倾向剂量敏感”描述性）：
+   结论句仅允许：L-H3 排除、oracle-L2 通路 sane（描述性非 verdict）；以上合成观测仍不得作为 Δ 取值或阈值证据（解读禁令不变）。
+   k2 剂量 ramp 追加观测（**同样描述性非 claim、禁作Δ/阈值证据**，来源 `workspace/probes/k2-dose-ramp/results.json`：Tier-X，N=1024，k2∈{200,400,700,1024}×2 seeds×16 blocks=128 块，8/8 cells，wall 97.17 s，RSS 207 MiB，reruns=0，status ok；ACC-09“L-H2 倾向剂量敏感”描述性）：
    disclosed={1050,2050,3550,5170} bits，f_book≈{1.10041,2.14841,3.72042,5.41819}（tag excluded）；
    oracle exact 率：k2=200 为 0/32（per-seed 各 0/16），k2=400 为 2/32（per-seed 各 1/16），k2=700/1024 各 32/32（per-seed 各 16/16）；
    op 四点均为 0/32（FER 1.0 平坦），undetected=0 全局隔离；divergence defined 128/true 128 report-only；
-   结论句仅允许：剂量形态陡升、H2 倾向（L2 构造剂量敏感），H1 失配倾向降级，皆描述性非 verdict；以上合成观测仍不得作为 Δ 取值或阈值证据（解读禁令不变）。
+   结论句仅允许：剂量形态陡升、L-H2 倾向（L2 构造剂量敏感），L-H1 失配倾向降级，皆描述性非 verdict；以上合成观测仍不得作为 Δ 取值或阈值证据（解读禁令不变）。
 - A1a 描述性注记（非证据）：链式闭合确认 B0 地板 f≈1.246（f2=1）/1.265（f2=2）；
   若 R2 目标 f 区间定在地板之上，测量只能复述平凡方案——目标区间归 §9/未来规划，
   本单不裁 f 目标。
