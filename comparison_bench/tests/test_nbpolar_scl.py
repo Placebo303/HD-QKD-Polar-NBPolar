@@ -169,7 +169,13 @@ def check_l1_identity(logp, field, pos, val):
     assert res.u_candidates[0].tolist() == ref.u_hat.tolist()
     assert res.x_candidates[0].tolist() == ref.x_hat.tolist()
     undisclosed = [i for i in range(ref.u_hat.shape[0]) if i not in set(pos)]
-    assert res.path_metrics[0] == float(np.sum(ref.decision_log_scores[undisclosed]))
+    # Relative-tolerance compare, not exact `==`: scl.py accumulates
+    # path.metric by sequential += while this reference uses a vectorized
+    # np.sum -- float64 addition is not associative, so the two summation
+    # orders can land 1 ULP apart on the same values (observed here; fixed
+    # this session, 2026-09-27).
+    ref_sum = float(np.sum(ref.decision_log_scores[undisclosed]))
+    assert abs(res.path_metrics[0] - ref_sum) <= 1e-12 * max(1.0, abs(ref_sum))
 
 
 def test_l1_identity_gf4_n8():

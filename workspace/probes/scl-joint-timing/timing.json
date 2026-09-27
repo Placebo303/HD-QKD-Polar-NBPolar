@@ -1,0 +1,99 @@
+{
+  "probe_id": "scl-joint-timing",
+  "tier": "X",
+  "purpose": "T3 machine-budget estimation only; not a FER/efficiency/decoding-quality claim",
+  "channel": {
+    "name": "G1R2-matched@q1024",
+    "q": 1024,
+    "n": 32768,
+    "convention": "table[a,b]=pmf[(b-a)%q]",
+    "floor": 1e-15
+  },
+  "field": {
+    "name": "GF32 polynomial basis",
+    "primitive_polynomial": 37,
+    "alpha": 2
+  },
+  "f_book_target": 1.2,
+  "top_m_default": 4,
+  "disclosure_note": "fixed prefix positions (0..k-1) used for this timing-only probe, not the worst_k design rule used by T3 itself; decode wall time depends on N/list-width, not on which positions are disclosed",
+  "seed": 1,
+  "seed_note": "non-protocol seed=1; not FROZEN_RUN_SEED/FROZEN_TOEPLITZ_MASTER, not a banned seed",
+  "runs": [
+    {
+      "list_width_L": 4,
+      "top_m": 4,
+      "wall_s": 119.36355159094092,
+      "rss_bytes_before": 99151872,
+      "rss_bytes_after": 246542336,
+      "peak_rss_bytes": 246542336,
+      "crc_pass": false,
+      "label_exact": false,
+      "l1_survivor_count": 4,
+      "candidates_considered": 16,
+      "point_label": "A_D4_k1_301_k2_6120_share_0.0469",
+      "k1": 301,
+      "k2": 6120,
+      "seed": 1
+    },
+    {
+      "list_width_L": 8,
+      "top_m": 4,
+      "wall_s": 229.07467652508058,
+      "rss_bytes_before": 247590912,
+      "rss_bytes_after": 298844160,
+      "peak_rss_bytes": 298844160,
+      "crc_pass": false,
+      "label_exact": false,
+      "l1_survivor_count": 8,
+      "candidates_considered": 32,
+      "point_label": "A_D4_k1_301_k2_6120_share_0.0469",
+      "k1": 301,
+      "k2": 6120,
+      "seed": 1
+    },
+    {
+      "list_width_L": 16,
+      "top_m": 4,
+      "wall_s": 443.0458442160161,
+      "rss_bytes_before": 298844160,
+      "rss_bytes_after": 448942080,
+      "peak_rss_bytes": 448942080,
+      "crc_pass": false,
+      "label_exact": false,
+      "l1_survivor_count": 16,
+      "candidates_considered": 64,
+      "point_label": "A_D4_k1_301_k2_6120_share_0.0469",
+      "k1": 301,
+      "k2": 6120,
+      "seed": 1
+    },
+    {
+      "list_width_L": 16,
+      "top_m": 4,
+      "wall_s": 468.182786392048,
+      "rss_bytes_before": 448942080,
+      "rss_bytes_after": 448942080,
+      "peak_rss_bytes": 448942080,
+      "crc_pass": false,
+      "label_exact": false,
+      "l1_survivor_count": 16,
+      "candidates_considered": 64,
+      "point_label": "B_L2dominated_k1_578_k2_5843_share_0.09",
+      "k1": 578,
+      "k2": 5843,
+      "seed": 1
+    }
+  ],
+  "run_log": [
+    "starting point=A_D4_k1_301_k2_6120_share_0.0469 L=4 seed=1",
+    "done point=A_D4_k1_301_k2_6120_share_0.0469 L=4 wall_s=119.364 rss_bytes=246542336 label_exact=False crc_pass=False",
+    "starting point=A_D4_k1_301_k2_6120_share_0.0469 L=8 seed=1",
+    "done point=A_D4_k1_301_k2_6120_share_0.0469 L=8 wall_s=229.075 rss_bytes=298844160 label_exact=False crc_pass=False",
+    "starting point=A_D4_k1_301_k2_6120_share_0.0469 L=16 seed=1",
+    "done point=A_D4_k1_301_k2_6120_share_0.0469 L=16 wall_s=443.046 rss_bytes=448942080 label_exact=False crc_pass=False",
+    "starting point=B_L2dominated_k1_578_k2_5843_share_0.09 L=16 seed=1",
+    "done point=B_L2dominated_k1_578_k2_5843_share_0.09 L=16 wall_s=468.183 rss_bytes=448942080 label_exact=False crc_pass=False"
+  ],
+  "claims": "Tier-X non-claim timing-only measurement; writes only under workspace/probes/scl-joint-timing/"
+}

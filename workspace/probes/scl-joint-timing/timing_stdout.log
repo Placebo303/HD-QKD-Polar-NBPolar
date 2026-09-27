@@ -1,0 +1,9 @@
+starting point=A_D4_k1_301_k2_6120_share_0.0469 L=4 seed=1
+done point=A_D4_k1_301_k2_6120_share_0.0469 L=4 wall_s=119.364 rss_bytes=246542336 label_exact=False crc_pass=False
+starting point=A_D4_k1_301_k2_6120_share_0.0469 L=8 seed=1
+done point=A_D4_k1_301_k2_6120_share_0.0469 L=8 wall_s=229.075 rss_bytes=298844160 label_exact=False crc_pass=False
+starting point=A_D4_k1_301_k2_6120_share_0.0469 L=16 seed=1
+done point=A_D4_k1_301_k2_6120_share_0.0469 L=16 wall_s=443.046 rss_bytes=448942080 label_exact=False crc_pass=False
+starting point=B_L2dominated_k1_578_k2_5843_share_0.09 L=16 seed=1
+done point=B_L2dominated_k1_578_k2_5843_share_0.09 L=16 wall_s=468.183 rss_bytes=448942080 label_exact=False crc_pass=False
+WROTE /mnt/d/Code/HD-QKD_Polar_Comparison-nbpolar/workspace/probes/scl-joint-timing/timing.json
