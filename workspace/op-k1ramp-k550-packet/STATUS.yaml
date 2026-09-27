@@ -1,0 +1,75 @@
+packet_id: op-k1ramp-k550-packet
+probe_id: op-k1ramp-k550-base
+tier: X
+status: DESCRIPTIVE_TIER_X_REVIEWED
+route: OPERATIONAL_K1_DOSE_RAMP
+predecessor_probe: workspace/probes/l2-singlefactor-c1-k550
+user_authorization: BROAD_SYNTHETIC_WORK_AUTHORIZATION_GRANTED_IN_MAIN_CONVERSATION (inherited; no real data touched)
+execution_authorized_by_packet: true
+execution_gate: MAIN_THREAD_FREEZE_REVIEW_PASS_2026-09-27_ONE_SHOT
+freeze_review: workspace/op-k1ramp-k550-packet/FREEZE_REVIEW.md
+execution_transcript: workspace/op-k1ramp-k550-packet/EXECUTION_TRANSCRIPT.md
+focused_review: workspace/op-k1ramp-k550-packet/FOCUSED_REVIEW.md
+duplicate_run_note: workspace/op-k1ramp-k550-packet/DUPLICATE_RUN_NOTE.md
+adjudications:
+  DP-K1: operational k1 dose ramp selected; bounded list C2/C3/C4 NOT consumed (C1 already produced separation; restating information-set sensitivity yields no new information)
+  DP-K2: k1_grid = [10, 80, 160, 320, 450]; k2 = 550 fixed; d2 = worst_k(H2,550) shared; d1 = worst_k(H1,k1) per point
+  DP-K3: 2 seeds x 16 blocks = 32 blocks per point; single arm BASE; 160 blocks total
+  DP-K4: design_seed = 2026092600; DESIGN_MC = 128 (inherited) => d2 identical to C1 BASE set; run seeds 2026092701..2026092702
+  DP-K5: wall <= 600 s; RSS <= 1 GiB; check every block and every 32 design samples; breach => incomplete, no tuning
+parameters:
+  channel: F4@q1024
+  N: 1024
+  n_log: 10
+  k1_grid: [10, 80, 160, 320, 450]
+  k2_single: 550
+  k2_fallback: none
+  d1_rule: worst_k(H1, k1) recomputed per point
+  d2_rule: worst_k(H2,550) shared, identical to l2-singlefactor-c1-k550 BASE set
+  design_seed: 2026092600
+  design_mc: 128
+  run_seeds: [2026092701, 2026092702]
+  blocks_per_seed: 16
+  blocks_per_point: 32
+  blocks_total: 160
+  disclosed_bits_per_point: {10: 2800, 80: 3150, 160: 3550, 320: 4350, 450: 5000}
+  f_book_per_point: {10: 2.9344139789, 80: 3.301269, 160: 3.720419, 320: 4.558950, 450: 5.240079}
+  toeplitz_master: 2026091361
+  wall_s: 600
+  rss_GiB: 1
+  reruns_allowed: 0
+output_root: workspace/probes/op-k1ramp-k550-base
+result_path: workspace/probes/op-k1ramp-k550-base/results.json
+write_scope:
+  - workspace/probes/op-k1ramp-k550-base/results.json
+  - workspace/probes/op-k1ramp-k550-base/.numba_cache/
+execution:
+  result_status: ok
+  within_budget: true
+  probe_runs: 1
+  reruns: 0
+  cells: {expected: 10, completed: 10}
+  wall_s: 118.757
+  peak_rss_bytes: 216719360
+  stop_rules_triggered: []
+  per_point_operational_exact: {10: 0, 80: 30, 160: 32, 320: 32, 450: 32}
+  per_point_oracle_exact: {10: 32, 80: 32, 160: 32, 320: 32, 450: 32}
+  operational_totals: {exact: 126, undetected: 0, verify_failed: 34, decode_failed: 0, resource_abort: 0}
+  oracle_totals: {exact: 160, undetected: 0, verify_failed: 0, decode_failed: 0, resource_abort: 0}
+  key_dependent_bits_observed: [2864, 3214, 3614, 4414, 5064]
+  H_times_N: 954.1939276637445
+  independent_recount: totals match a separately-authored one-shot re-run of the same frozen configuration (workspace/probes/op-k1-ramp-k550/); see duplicate_run_note
+runtime_readonly_dependency:
+  module: qkd_recon.polar_core
+  sys_path: /mnt/d/Code/qkd-reconciliation-lab/src
+  policy: inherited code import only; no data reads or writes
+claim_boundary:
+  tier_x_non_claim: true
+  bookkeeping_only_dose_diagnostic: true
+  no_efficiency_or_operating_point_claim: true
+  automatic_continuation: false
+  real_data_or_artifact_access: forbidden
+  results_or_comparison_output_writes: forbidden
+git_boundary:
+  no_add_no_commit_no_push_no_stage: true
+  note: all git actions suspended pending explicit user instruction

@@ -1,0 +1,66 @@
+packet_id: op-k1ramp-fine-packet
+probe_id: op-k1ramp-fine-base
+tier: X
+status: DESCRIPTIVE_TIER_X_REVIEWED
+derived_from: workspace/probes/op-k1ramp-k550-base/run.py (mechanical string-level derivative)
+derived_from_detail: changed only output/cache paths, probe identifiers, K1_GRID=(20,40,60) with its K1_POINTS disclosed/f_book entries, and the derived count strings (3 points / 96 blocks); all other parameters, seeds, design, stop rules and the one-shot policy are byte-identical
+parent_openspec_change: openspec/changes/nbpolar-op-k1-ramp-k550
+user_authorization: BROAD_SYNTHETIC_WORK_AUTHORIZATION_GRANTED_IN_MAIN_CONVERSATION (inherited; no real data touched)
+execution_authorized_by_packet: true
+execution_gate: MAIN_THREAD_FREEZE_REVIEW_PASS_2026-09-27_ONE_SHOT
+adjudications:
+  DP-F1: fine interpolation band k1 = [20, 40, 60] selected to localize the operational break point between the coarse endpoints k1=10 (0/32) and k1=80 (30/32)
+  DP-F2: run seeds identical to the coarse ramp (2026092701..2026092702) and design_seed identically 2026092600 / DESIGN_MC 128, so both probes share the same (x,y) pairs and the same d2 set - dose effect free of sampling and construction differences
+  DP-F3: 2 seeds x 16 blocks = 32 blocks per point; single arm BASE; 96 blocks total
+  DP-F4: wall <= 600 s; RSS <= 1 GiB; identical stop rules and one-shot reruns=0 as the coarse probe
+parameters:
+  channel: F4@q1024
+  N: 1024
+  n_log: 10
+  k1_grid: [20, 40, 60]
+  k2_single: 550
+  d1_rule: worst_k(H1, k1) per point
+  d2_rule: worst_k(H2,550) shared (identical set across all three probes)
+  design_seed: 2026092600
+  design_mc: 128
+  run_seeds: [2026092701, 2026092702]
+  blocks_per_seed: 16
+  blocks_per_point: 32
+  blocks_total: 96
+  disclosed_bits_per_point: {20: 2850, 40: 2950, 60: 3050}
+  f_book_per_point: {20: 2.986795, 40: 3.091585, 60: 3.196376}
+  toeplitz_master: 2026091361
+  wall_s: 600
+  rss_GiB: 1
+  reruns_allowed: 0
+execution:
+  result_status: ok
+  within_budget: true
+  probe_runs: 1
+  reruns: 0
+  cells: {expected: 6, completed: 6}
+  wall_s: 85.682
+  peak_rss_bytes: 216227840
+  stop_rules_triggered: []
+  per_point_operational_exact: {20: 2, 40: 14, 60: 24}
+  per_point_oracle_exact: {20: 32, 40: 32, 60: 32}
+  key_dependent_bits_observed: [2914, 3014, 3114]
+output_root: workspace/probes/op-k1ramp-fine-base
+result_path: workspace/probes/op-k1ramp-fine-base/results.json
+write_scope:
+  - workspace/probes/op-k1ramp-fine-base/results.json
+  - workspace/probes/op-k1ramp-fine-base/.numba_cache/
+runtime_readonly_dependency:
+  module: qkd_recon.polar_core
+  sys_path: /mnt/d/Code/qkd-reconciliation-lab/src
+  policy: inherited code import only; no data reads or writes
+claim_boundary:
+  tier_x_non_claim: true
+  bookkeeping_only_dose_diagnostic: true
+  no_efficiency_or_operating_point_claim: true
+  automatic_continuation: false
+  real_data_or_artifact_access: forbidden
+  results_or_comparison_output_writes: forbidden
+git_boundary:
+  no_add_no_commit_no_push_no_stage: true
+  note: all git actions suspended pending explicit user instruction
