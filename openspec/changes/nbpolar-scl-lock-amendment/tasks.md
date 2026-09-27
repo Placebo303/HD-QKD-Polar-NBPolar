@@ -1,16 +1,46 @@
 # Tasks: SCL Lock Amendment
 
-Status: **draft — PENDING PI adjudication; grants no authorization; SCL
-remains locked until PI approves.**
+Status: **APPROVED by PI 2026-09-27 (T1 DECIDED)**. T1's ruling is recorded
+below verbatim (values); T2 (implementation) is authorized to start now; T3
+(Tier-X execution) is authorized conditional on T2's tests passing and
+main-thread confirmation. Real-data SCL use stays locked (D5, unchanged).
 
-- [ ] T1 — PI adjudication of this amendment. PI reviews `proposal.md` +
-  `design.md` and rules on: (i) accept / modify / reject the replacement
-  gate for lock items (a)/(b); (ii) whether an M2 true-L1-control re-run
-  (D2 option i) is required before, instead of, or alongside the synthetic
-  gate; (iii) CRC length; (iv) the L ∈ {4,8,16} ladder (as proposed, or
-  re-derived via `scl-synthetic-list-gate` design §(b)); (v) the D4
-  pre-written outcome-band edges. No task below starts before T1 records a
-  `DECIDED` ruling for each of (i)-(v). **[GATE — NOT AUTHORIZED without T1]**
+~~Status: **draft — PENDING PI adjudication; grants no authorization; SCL
+remains locked until PI approves.**~~ (superseded 2026-09-27; see
+`docs/decision-log.md` 2026-09-27 "PI 裁决三项" entry)
+
+- [x] T1 — **DECIDED by PI 2026-09-27** (verbatim record:
+  `docs/decision-log.md` 2026-09-27 "PI 裁决三项：SCL 锁修订 T1 = DECIDED..."
+  entry). PI reviewed `proposal.md` + `design.md` and ruled:
+  - **(i)** Accept: replace lock items (a)/(b) with the synthetic scoreboard
+    gate — for the **synthetic Tier-X scope only**.
+  - **(ii)** D2 **option (iii)**: run the synthetic gate in parallel with a
+    one-shot, read-only M2 real-data layer-failure attribution ("Analysis B"
+    — reads existing G2/G3 per-block records only; no decode; no raw-data
+    read).
+  - **(iii)** CRC length = **16 bits**, counted toward `f_book` exactly once.
+  - **(iv)** L ∈ **{4, 8, 16}** (accepted as proposed; not re-derived via the
+    `scl-synthetic-list-gate` design §(b) survival-curve procedure).
+  - **(v)** Outcome bands accepted **as proposed in D4**: L=16 operational
+    ≥15/16 at f≈1.20, oracle-consistent (no operational-exceeds-oracle
+    anomaly) ⇒ unlock-for-real-data-candidate; L=16 operational ≤12/16 ⇒
+    list-decoding insufficient, pivot to L2 construction/N; in between ⇒ one
+    bounded follow-up at the same point/ladder, no tuning.
+  - **Working point** (as ruled): channel `G1R2-matched@q1024`, explicit
+    `1e-15` floor, N=32768, f_book≈1.20, k1 share 4.69%
+    (`T6421_k1_301_k2_6120`), 16 blocks.
+  - **M=4 implementation constraint** (main-thread addition, binding for T2):
+    joint list decoding = L1 SCL of width L; take the top **M=4** L1
+    candidates ranked by joint metric (`log P(u1|y) + log P(u2|u1,y)`);
+    expand each into its own width-L L2 SCL; merge all resulting candidates
+    and rank by the same joint metric; return the first candidate that
+    passes CRC-16. Implementation lives in a new module — `scl.py`'s
+    existing single-layer `L=1` contract stays byte-for-byte reproducible
+    and its regression test is mandatory.
+  - Real-data SCL use **stays locked** (design D5, unchanged by this
+    ruling).
+  **[T1 CLOSED — T2 now AUTHORIZED to start; T3 conditionally authorized,
+  see below]**
 
 - [ ] T2 — Implement CRC + joint two-layer list scoring in a new code path
   alongside frozen `scl.py` (new module or additive extension per the PI's
@@ -25,15 +55,17 @@ remains locked until PI approves.**
   - CRC disclosure accounting: CRC bits counted toward `f_book` exactly once,
     consistent with the C10-style disclosure convention cited in
     `nbpolar-r2-fer-measurement-contract`.
-  **[GATE — NOT AUTHORIZED until T1 is DECIDED]**
+  **[AUTHORIZED — T1 DECIDED 2026-09-27; implement now]**
 
 - [ ] T3 — Tier-X probe: three-line prereg (`prereg.md`) + one frozen-command
   run + one `results.json` at the D4 working point (channel `G1R2-matched@q1024`,
   N=32768, f_book≈1.20, k1 share 4.69%) across L ∈ {4,8,16}; probe-root-only
   writes (`workspace/probes/<id>/`); focused numerical review (commands,
   completeness, arithmetic, truth isolation, write scope) per AGENTS.md §10.4
-  Tier-X rules — no Pre-EXECUTE/Pre-RESULT. **[GATE — NOT AUTHORIZED until T1
-  and T2 are complete and the PI explicitly authorizes execution]**
+  Tier-X rules — no Pre-EXECUTE/Pre-RESULT. **[CONDITIONALLY AUTHORIZED by
+  the T1 2026-09-27 ruling — execute once T2's focused tests pass and the
+  main thread confirms; the T1 ruling is itself the PI's Tier-X execution
+  authorization, no further authorization request needed]**
 
 - [ ] T4 — Record the T3 outcome against the T1-decided D4 bands in
   `docs/decision-log.md` (append-only) and, if the PI rules it in scope,

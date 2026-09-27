@@ -102,6 +102,8 @@
 **⑤ Owner / retrigger**：PI（冻结预算数）/ 实验室与运维（确认机器与并行度）；
 `retrigger=S4 quota vs budget reconciliation; conflict is escalated, never traded off`。
 
+**已裁决（2026-09-27）**：`D-ACQ-06 = O-6a ; wall_per_block = 40 s ; rss_per_block = 2 GiB ; wall_total = 5400 s ; machine_spec/parallelism = 本机单进程独占 ; 超预算即 STOP 不调参`（依据：G3 实测单臂单块 19.38–20.13 s、RSS 1.13 GiB，`.workbuddy/queue/NBPOLAR-M2-PRIOR-G3-CONFIRM/G3_ADJUDICATION.md:45`；详见 `docs/decision-log.md` 2026-09-27 条目）。D-ACQ-02/03/05 仍 PENDING，R2 合同仍未冻结。
+
 ---
 
 ## 明早最短裁定格式（PI 只需逐项填一行）

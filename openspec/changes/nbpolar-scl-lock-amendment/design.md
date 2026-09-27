@@ -1,8 +1,15 @@
 # Design: SCL Lock Amendment (proposal only — nothing authorized)
 
-Status: **draft — PENDING PI adjudication; grants no authorization; SCL
+Status: **APPROVED by PI 2026-09-27 (T1 DECIDED)** — `tasks.md` T1 records
+the PI's ruling on (i)-(v) below (D2 option (iii), CRC=16 bits, L∈{4,8,16},
+D4 outcome bands as proposed) plus the main-thread's M=4 joint-candidate
+implementation constraint. D1-D7 below remain the descriptive design record;
+D5 (real-data separation) is unchanged and still binding.
+
+~~Status: **draft — PENDING PI adjudication; grants no authorization; SCL
 remains locked until PI approves.** Every decision below is a planner
-proposal for the PI to accept, modify, or reject; none is frozen here.
+proposal for the PI to accept, modify, or reject; none is frozen here.~~
+(superseded 2026-09-27)
 
 ## D1 — Current lock, item-by-item status (as measured, verbatim-compatible)
 

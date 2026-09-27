@@ -122,6 +122,17 @@ L1 SCL starts only if all of the following are shown:
 
 Otherwise effort remains on L2 model, construction, disclosure or search.
 
+**2026-09-27 amendment note**: items (a) and (b) above are replaced, for the
+**synthetic Tier-X scope only**, by a scoreboard gate defined in
+`openspec/changes/nbpolar-scl-lock-amendment/` (T1 `DECIDED` by the PI on
+2026-09-27 — see `docs/decision-log.md` 2026-09-27 "PI 裁决三项" entry): CRC-16
+tie-break counted once toward `f_book`, L ∈ {4, 8, 16}, an M=4 joint-candidate
+carry-forward between L1 and L2 SCL, on the working point
+`G1R2-matched@q1024`, f_book≈1.20, k1 share 4.69% (16 blocks), with the D4
+pre-written outcome bands. Items (c)/(d)/(e) are unchanged by this amendment.
+Real-data L1 SCL use remains locked and is a separate Tier-Y gate with its own
+freeze and authorization (design D5); this note does not lift that lock.
+
 ## Stop rules
 
 - Do not tune on the three P18/P19 blocks.

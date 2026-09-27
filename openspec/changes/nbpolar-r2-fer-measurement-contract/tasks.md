@@ -87,9 +87,18 @@ future rate change. Only `DECIDED` rows enter the frozen body at T4 (see
 | D-ACQ-02 Source list | Which new acquisition sources may supply confirmation blocks | PI / lab contact | PENDING | retrigger=parsed new-source ledger arrival; no source is consumed before T4 |
 | D-ACQ-03 Partition quotas | Per-acquisition CAL / CHAR / HELDOUT / EVAL / RESERVE quotas under C11 | PI / lab contact | PENDING | retrigger=T5 quota arithmetic; quotas and acquisition capacity must be fixed before T5 |
 | D-ACQ-05 Comparability | Baseline and work-point tolerance/conditions | PI / lab contact | PENDING | retrigger=paired-design item; R2 remains single-method; work-point inputs required |
-| D-ACQ-06 Budget | Per-block and total wall/RSS limits and machine/parallelism constraints | PI / lab/operations | PENDING | retrigger=S4 quota-vs-budget reconciliation; conflict is escalated, never traded off |
+| D-ACQ-06 Budget | Per-block and total wall/RSS limits and machine/parallelism constraints | PI / lab/operations | **DECIDED 2026-09-27**: `O-6a ; wall_per_block = 40 s ; rss_per_block = 2 GiB ; wall_total = 5400 s ; machine_spec/parallelism = single-process exclusive on this machine ; stop_on_overbudget = STOP, no tuning` | closed — see `docs/decision-log.md` 2026-09-27 entry |
 
 PI-ready decision cards for the four blockers above (options, consequences, required external fields with units, non-adjudication consequences, owner; **no recommended values and no row state changed**) were prepared on 2026-09-27 at `docs/nbpolar/R2_T4_PI_DECISION_CARDS_20260927.md`. Rows remain `PENDING` until the PI adjudicates them.
+
+**2026-09-27 update**: D-ACQ-06 is now `DECIDED` (basis: G3 measured
+19.38–20.13 s/block, RSS 1.13 GiB,
+`.workbuddy/queue/NBPOLAR-M2-PRIOR-G3-CONFIRM/G3_ADJUDICATION.md:45`; full
+value and provenance in `docs/decision-log.md` 2026-09-27 "PI 裁决三项" entry
+and `R2_T4_PI_DECISION_CARDS_20260927.md` 卡 4 "已裁决" line). D-ACQ-02,
+D-ACQ-03, and D-ACQ-05 remain `PENDING`; T5/T6 stay blocked by
+GATE-T5/GATE-T6 (`tasks.md:57`) until those three are also decided. This
+does not freeze the R2 contract.
 
 D-ACQ-04 (Type0) and D-ACQ-08 (session count), as well as D-FER-04..07 and
 D-ACQ-01/07, remain `PENDING` because the T4 decision-log entry gives no

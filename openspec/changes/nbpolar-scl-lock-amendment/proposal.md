@@ -1,7 +1,13 @@
 # Change Proposal: nbpolar-scl-lock-amendment
 
-Status: **draft — PENDING PI adjudication; grants no authorization; SCL
-remains locked until PI approves**
+Status: **APPROVED by PI 2026-09-27 (T1 DECIDED)** — see `tasks.md` T1 for
+the ruling (i)-(v), the M=4 joint-candidate implementation constraint, and
+`docs/decision-log.md` 2026-09-27 "PI 裁决三项" entry. The synthetic
+scoreboard gate replaces lock items (a)/(b) for the **synthetic Tier-X scope
+only**; real-data SCL use stays locked (D5, unchanged).
+
+~~Status: **draft — PENDING PI adjudication; grants no authorization; SCL
+remains locked until PI approves**~~ (superseded 2026-09-27)
 
 ## Problem
 

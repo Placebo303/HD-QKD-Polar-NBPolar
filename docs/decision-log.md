@@ -5857,3 +5857,34 @@ Archive: `openspec/changes/nbpolar-native-highdim-exploration/` → `openspec/ch
 - 等 SCL 修正案落地后再统一沉淀本两条探针——否决：AGENTS.md §3 要求发现即记录（append-only），两条探针均已独立完成 review，不应延迟记录。
 
 **Consequences**: 产物落在 `workspace/probes/op-n32k-fine-f4/`（含 `run.py`/`prereg.md`/`results.json`/`run_stdout.log`）、`workspace/probes/op-n32k-matched/`（同样四件套）与 `workspace/op-n32k-fine-f4-packet/`、`workspace/op-n32k-matched-packet/`（各含 `STATUS.yaml`/`EXECUTION_TRANSCRIPT.md`/`FOCUSED_REVIEW.md`）。索引 `docs/nbpolar/DOCUMENT_INDEX.md` 增两行指向两份 packet 的 `FOCUSED_REVIEW.md`；`docs/nbpolar/STATE.md` §0 增补 3–4 行描述性总结（标注 `描述性 Tier-X`）。M2 状态串、R2 合同状态、G2/G3 冻结的 K1=319/K2=6492、`STATE.md:65` route lock 均**未改动**；本条目不构成任何新的 FER/效率/密钥率主张，不解除任何锁定；`openspec/changes/nbpolar-scl-lock-amendment/` 由并发子代理负责，本次沉淀操作未触碰该目录。
+
+## 2026-09-27 — PI 裁决三项：SCL 锁修订 T1 = DECIDED（合成计分门）、R2 D-ACQ-06 = DECIDED（预算）、G2/G3 分层归因分析 B 授权
+
+**Decision**: PI 在对话中对以下三项作出明确裁决（"都批准"），本条目落盘记录。三项裁决各自的执行效力仅限其对应文件内的具体条款；本条目本身不构成任何新的解码执行、解锁或状态变更。
+
+1. **SCL 锁修订** `openspec/changes/nbpolar-scl-lock-amendment/` **T1 = DECIDED**（按草案默认值裁定）：
+   (i) 接受用合成计分门替换锁条件 (a)/(b)（仅合成 Tier-X 范围；不改变真实数据 SCL 仍锁定，design D5 不变）；
+   (ii) 选 D2 option (iii)：合成门与一次只读的 M2 真实数据分层失败归因（分析 B，读既有 G2/G3 逐块记录，不解码、不读原始数据）并行进行；
+   (iii) CRC 长度 = 16 bit，计入披露（`f_book`），只计一次（沿用 C10-style 惯例）；
+   (iv) L ∈ {4, 8, 16}（按草案 D4 提议梯度，未经 `scl-synthetic-list-gate` 设计 §(b) 存活曲线程序重新推导）；
+   (v) 结局带（D4 pre-written outcome bands，按草案默认边界）：L=16 operational ≥15/16（且与 oracle 一致，无 operational 超 oracle 异常）⇒ unlock-for-real-data-candidate；≤12/16 ⇒ list decoding insufficient，转向 L2 构造/N；介于 12/16 与 15/16 之间 ⇒ 一次有界补测（同工作点、同 L 梯度），不调参。
+   工作点：`G1R2-matched@q1024` 信道（真实 G1R2 CAL32 三元组，显式 `1e-15` floor），N=32768，f_book≈1.20，k1 份额 4.69%（`T6421_k1_301_k2_6120`），16 blocks。
+   实现约束（主线程在裁决基础上补充，对 T2 具约束力）：联合列表译码 = L1 SCL 宽度 L；对每个 L1 候选取 joint metric（`log P(u1|y) + log P(u2|u1,y)`）排序，取前 **M=4** 条 L1 候选；各自展开为宽度 L 的 L2 SCL；合并全部候选并按同一 joint metric 排序；取第一个通过 CRC-16 校验的候选作为最终输出。新实现放在独立新模块，`scl.py` 现有单层 / `L=1` 契约保持逐字节可复现，其恒等回归测试为强制项。
+   授权范围：T2（实现 + 聚焦测试）现已授权开工；T3（Tier-X 一次性 launch）在 T2 测试通过且经主线程确认后方可执行——**本裁决已覆盖 T3 的 Tier-X 执行授权**，届时无需再单独请求授权，但 T2 完成 + 主线程确认这一顺序前提不变。
+   真实数据 SCL 使用仍按设计 D5 保持独立锁定，本裁决不触及。
+
+2. **R2 测量合同** `openspec/changes/nbpolar-r2-fer-measurement-contract/tasks.md` 的 **D-ACQ-06（执行预算）行：PENDING → DECIDED**，值：
+   `D-ACQ-06 = O-6a ; wall_per_block = 40 s ; rss_per_block = 2 GiB ; wall_total = 5400 s ; machine_spec/parallelism = 本机单进程独占 ; 超预算即 STOP 不调参`。
+   依据：G3 实测单臂单块 19.38–20.13 s、RSS 1.13 GiB（`.workbuddy/queue/NBPOLAR-M2-PRIOR-G3-CONFIRM/G3_ADJUDICATION.md:45`）；裁决值在实测基础上留有约 2× 余量。
+   其余 D-ACQ-02（源清单）/D-ACQ-03（分区配额）/D-ACQ-05（可比性）**保持 PENDING，本次未一并裁决**；R2 合同因这三项未决**仍未冻结**，T5/T6 仍受 `tasks.md:57` GATE-T5/GATE-T6 阻塞；T7/T8/T9 仍 NOT AUTHORIZED。`docs/nbpolar/R2_T4_PI_DECISION_CARDS_20260927.md` 卡 4（D-ACQ-06）末尾已追加"已裁决"一行，指向本条目。
+
+3. **分析 B 授权**：授权对 G2/G3 既有逐块输出记录做**只读** L1/L2 失败归因分析（不读原始数据、不解码、不新增 decoder 调用）；产物范围与写域限于分析文档/工件本身，不触碰 `.workbuddy/queue/NBPOLAR-M2-PRIOR-G2-DECODE/`、`NBPOLAR-M2-PRIOR-G3-CONFIRM/` 的既有 frozen 产物，不改动 M2 状态串，不改动冻结 K1=319/K2=6492。
+
+**Context**: 三项裁决发生在 2026-09-27 与 PI 的对话中（PI 原话"都批准"），覆盖 `nbpolar-scl-lock-amendment` proposal.md/design.md/tasks.md 的 T1 五项待裁（`tasks.md:6-13`）、R2 T4 四个阻塞项之一（`R2_T4_PI_DECISION_CARDS_20260927.md` 卡 4）、以及一项新的只读分析授权。本条目由文档/git 操作员子代理落盘；`comparison_bench/src/comparison_bench/formal_ir/nbpolar/`、`comparison_bench/tests/`、`workspace/analysis/g2g3-layer-attribution/` 由其他并发子代理实现，本次落盘不触碰这些目录。
+
+**Alternatives considered**:
+- 等 T2/T3 全部执行完成后再一次性记录 T1 裁决——否决：AGENTS.md §3 要求发现即记录（append-only），且 T1 裁决本身已构成独立、可执行的门槛变更，应立即落盘供后续实现引用。
+- 把 D-ACQ-06 的裁决连同其余三项阻塞一并强行裁定——否决：PI 本轮仅对 D-ACQ-06 给出具体数值，D-ACQ-02/03/05 仍待实验室/PI 后续输入；不得代裁未给值的行（`R2_T4_PI_DECISION_CARDS_20260927.md` 纪律：不填数值位）。
+- 把分析 B 的授权理解为同时解除 SCL 锁或改变 M2/G2/G3 冻结状态——否决：分析 B 是只读归因，proposal/design/tasks 明确其与 SCL 合成门"并行"而非替代或前置门槛，不产生新的状态串。
+
+**Consequences**: 本条目落盘后：`openspec/changes/nbpolar-scl-lock-amendment/{proposal.md,design.md,tasks.md}` 的状态行更新为 "APPROVED by PI 2026-09-27 (T1 DECIDED)"（保留原草案文字，原 draft 状态行以删除线标注被替代，不删除原文）；`tasks.md` T1 勾选并写入 (i)-(v) 裁决值与 M=4 实现约束，T2/T3 注明已授权条件；`openspec/changes/nbpolar-r2-fer-measurement-contract/tasks.md` D-ACQ-06 行状态改为 DECIDED 并写入裁决值；`docs/nbpolar/R2_T4_PI_DECISION_CARDS_20260927.md` 卡 4 末尾追加"已裁决"行；`docs/nbpolar/STATE.md` §0 与既有 SCL 锁定行追加裁决摘要；`docs/nbpolar/REAL_DATA_FEASIBILITY_STRATEGY.md` SCL entry gate 段追加指向修订 change 的说明；`docs/nbpolar/DOCUMENT_INDEX.md` 增一行指向修订 change。以上均为文档追加，不构成任何 git push、不触碰 `comparison_bench/src/comparison_bench/formal_ir/nbpolar/`、`comparison_bench/tests/`、`workspace/analysis/g2g3-layer-attribution/`。M2 状态串、R2 K1=319/K2=6492 冻结值、真实数据 SCL 锁定（D5）均**未改动**。
