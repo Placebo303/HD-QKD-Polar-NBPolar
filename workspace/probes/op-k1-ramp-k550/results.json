@@ -1,0 +1,3487 @@
+{
+  "probe_id": "op-k1-ramp-k550",
+  "tier": "X",
+  "status": "ok",
+  "probe_runs": 1,
+  "reruns": 0,
+  "within_budget": true,
+  "stop_rules_triggered": [],
+  "prereg": {
+    "path": "workspace/probes/op-k1-ramp-k550/prereg.md",
+    "entries": [
+      "Q",
+      "P",
+      "C"
+    ],
+    "note": "Q/P/C recorded verbatim in prereg.md; frozen parameters mirrored structurally under frozen_params; executed command = prereg C entry with interpreter/env mirrored under execution"
+  },
+  "frozen_params": {
+    "channel": {
+      "name": "F4@q1024",
+      "q": 1024,
+      "p_delta0": 0.75,
+      "p_delta_plus1": 0.24,
+      "p_delta_minus1": 0.005,
+      "residual_mass": 0.005,
+      "residual_spread_over": 1021,
+      "model": "y = (x + delta) mod 1024, x uniform"
+    },
+    "H": 0.9318300074841255,
+    "H_times_N": 954.1939276637445,
+    "N": 1024,
+    "n_log": 10,
+    "planes": 10,
+    "f_convention": "f = disclosed bits / (H * N); 64-bit Toeplitz tag EXCLUDED from f; A3 tag-inclusive leakage also reported via key_dependent_bits; f_book is BOOKKEEPING ONLY",
+    "k1_grid": [
+      10,
+      80,
+      160,
+      320,
+      450
+    ],
+    "k2_single": 550,
+    "k1_points": {
+      "10": {
+        "label": "k1_010",
+        "disclosed": 2800,
+        "f_book": 2.9344139789
+      },
+      "80": {
+        "label": "k1_080",
+        "disclosed": 3150,
+        "f_book": 3.3013
+      },
+      "160": {
+        "label": "k1_160",
+        "disclosed": 3550,
+        "f_book": 3.7204
+      },
+      "320": {
+        "label": "k1_320",
+        "disclosed": 4350,
+        "f_book": 4.5589
+      },
+      "450": {
+        "label": "k1_450",
+        "disclosed": 5000,
+        "f_book": 5.2401
+      }
+    },
+    "seeds": [
+      2026092701,
+      2026092702
+    ],
+    "blocks_per_seed": 16,
+    "blocks_per_point": 32,
+    "arms": [
+      "BASE"
+    ],
+    "design_seed": 2026092600,
+    "design_mc_samples": 128,
+    "scl_list_size": 8,
+    "g2_k1_k2_counts": [
+      319,
+      6492
+    ],
+    "a2_split_rule": "not_run (no A2 design/measurement in this probe; A2 summaries not_run)",
+    "a3_split_rule": "k1 dose ramp: d1=worst_k(H1,k1) PER CONFIG; d2=worst_k(H2,550) shared and set-identical to C1 BASE (same design_seed/DESIGN_MC); disclosed=5*(k1+550); k1 is a dose variable, NOT an efficiency claim",
+    "construction_ids": {
+      "BASE": "L2-BASE-P16-FROZEN"
+    },
+    "pairing": "per (seed, block): rng=default_rng([seed, block]); draw x=integers(0,1024,N) then delta=choice(1024,N,p=pmf); y=(x+delta)%1024; identical (x,y) reused across the k1 grid within that block and across op/oracle decoder arms",
+    "a3_semantics": "run_two_layer_block operational arm FER = (label_match == False); outcomes exact/verify_failed/decode_failed/undetected/resource_abort counted isolated, undetected never merged into success; oracle arm + candidate divergence report-only; toeplitz_master=2026091361",
+    "budget": {
+      "wall_s": 600.0,
+      "rss_bytes": 1073741824,
+      "check": "every block and every 32 design samples; breach -> immediate stop, status incomplete, no tuning"
+    },
+    "rerun_policy": "one-shot reruns=0: execution-error rerun NOT allowed; any error -> status execution_error/incomplete with traceback, no retry, no parameter/seed change",
+    "gates_removed_vs_C1": [
+      "identical_or_overlap_gte_495_design_gate (not applicable: single arm)"
+    ],
+    "gates_retained_vs_C1": [
+      "undetected_isolation_stop",
+      "budget_stop"
+    ],
+    "dose_discipline": "every k1 point is a bookkeeping-only dose diagnostic; no point may be called an efficiency operating point",
+    "deviations_from_C1": [
+      "K1_FROZEN=10 replaced by K1_GRID=(10,80,160,320,450); k2=550 unchanged",
+      "d1_shared replaced by per-config d1=worst_k(H1,k1)",
+      "CAND arm and the BASE/CAND d2 overlap design gate removed (single arm)",
+      "run seeds 2026092701..2026092702 (2 seeds x 16 blocks = 32 blocks per point); C1 used 4 seeds x 16 blocks",
+      "wall limit 600 s (C1: 200 s) to cover 160 blocks over 5 points",
+      "design seed 2026092600 and DESIGN_MC=128 UNCHANGED so d2 stays set-identical to C1 BASE"
+    ]
+  },
+  "execution": {
+    "interpreter": "/home/karel_303/.venvs/hd-qkd-polar-comparison/bin/python",
+    "env": {
+      "PYTHONDONTWRITEBYTECODE": "1",
+      "NUMBA_CACHE_DIR": "/mnt/d/Code/HD-QKD_Polar_Comparison-nbpolar/workspace/probes/op-k1-ramp-k550/.numba_cache",
+      "OMP_NUM_THREADS": "1",
+      "OPENBLAS_NUM_THREADS": "1",
+      "MKL_NUM_THREADS": "1",
+      "NUMBA_NUM_THREADS": "1",
+      "PYTHONPATH": "/mnt/d/Code/HD-QKD_Polar_Comparison-nbpolar/comparison_bench/src"
+    },
+    "invocation": "run.py invoked by the preregistered C command",
+    "python_version": "3.12.3",
+    "numpy_version": "2.4.4"
+  },
+  "design": {
+    "a2_Z0_per_plane": [
+      0.8631164775653201,
+      0.13903149785749888,
+      0.07295359411695171,
+      0.05374089937444135,
+      0.039825395766112576,
+      0.029812393283072176,
+      0.022642448131938032,
+      0.01752658085797369,
+      0.013885743919132708,
+      0.011299455777048755
+    ],
+    "a2_selection": "pooled worst-Z-first",
+    "a3_design_samples": 128,
+    "a3_H1_mean": 0.12726212930897193,
+    "a3_H2_mean": 1.269108966350481,
+    "joint_table_colsum_max_dev": 5.0959236830294685e-14,
+    "construction_ids": {
+      "BASE": "L2-BASE-P16-FROZEN"
+    }
+  },
+  "per_point": {
+    "10": {
+      "k1": 10,
+      "k2": 550,
+      "disclosed_bits": 2800,
+      "f_book": 2.9344139789,
+      "dose_semantics": "bookkeeping-only dose diagnostic",
+      "blocks": 32,
+      "seeds": 2,
+      "operational_outcomes": {
+        "exact": 0,
+        "undetected": 0,
+        "verify_failed": 32,
+        "decode_failed": 0,
+        "resource_abort": 0
+      },
+      "oracle_outcomes": {
+        "exact": 32,
+        "undetected": 0,
+        "verify_failed": 0,
+        "decode_failed": 0,
+        "resource_abort": 0
+      },
+      "key_dependent_bits_observed": [
+        2864
+      ]
+    },
+    "80": {
+      "k1": 80,
+      "k2": 550,
+      "disclosed_bits": 3150,
+      "f_book": 3.3013,
+      "dose_semantics": "bookkeeping-only dose diagnostic",
+      "blocks": 32,
+      "seeds": 2,
+      "operational_outcomes": {
+        "exact": 30,
+        "undetected": 0,
+        "verify_failed": 2,
+        "decode_failed": 0,
+        "resource_abort": 0
+      },
+      "oracle_outcomes": {
+        "exact": 32,
+        "undetected": 0,
+        "verify_failed": 0,
+        "decode_failed": 0,
+        "resource_abort": 0
+      },
+      "key_dependent_bits_observed": [
+        3214
+      ]
+    },
+    "160": {
+      "k1": 160,
+      "k2": 550,
+      "disclosed_bits": 3550,
+      "f_book": 3.7204,
+      "dose_semantics": "bookkeeping-only dose diagnostic",
+      "blocks": 32,
+      "seeds": 2,
+      "operational_outcomes": {
+        "exact": 32,
+        "undetected": 0,
+        "verify_failed": 0,
+        "decode_failed": 0,
+        "resource_abort": 0
+      },
+      "oracle_outcomes": {
+        "exact": 32,
+        "undetected": 0,
+        "verify_failed": 0,
+        "decode_failed": 0,
+        "resource_abort": 0
+      },
+      "key_dependent_bits_observed": [
+        3614
+      ]
+    },
+    "320": {
+      "k1": 320,
+      "k2": 550,
+      "disclosed_bits": 4350,
+      "f_book": 4.5589,
+      "dose_semantics": "bookkeeping-only dose diagnostic",
+      "blocks": 32,
+      "seeds": 2,
+      "operational_outcomes": {
+        "exact": 32,
+        "undetected": 0,
+        "verify_failed": 0,
+        "decode_failed": 0,
+        "resource_abort": 0
+      },
+      "oracle_outcomes": {
+        "exact": 32,
+        "undetected": 0,
+        "verify_failed": 0,
+        "decode_failed": 0,
+        "resource_abort": 0
+      },
+      "key_dependent_bits_observed": [
+        4414
+      ]
+    },
+    "450": {
+      "k1": 450,
+      "k2": 550,
+      "disclosed_bits": 5000,
+      "f_book": 5.2401,
+      "dose_semantics": "bookkeeping-only dose diagnostic",
+      "blocks": 32,
+      "seeds": 2,
+      "operational_outcomes": {
+        "exact": 32,
+        "undetected": 0,
+        "verify_failed": 0,
+        "decode_failed": 0,
+        "resource_abort": 0
+      },
+      "oracle_outcomes": {
+        "exact": 32,
+        "undetected": 0,
+        "verify_failed": 0,
+        "decode_failed": 0,
+        "resource_abort": 0
+      },
+      "key_dependent_bits_observed": [
+        5064
+      ]
+    }
+  },
+  "arms": {
+    "BASE": {
+      "f_target": 2.9344139789,
+      "f_label": "k1_010",
+      "k1": 10,
+      "k2": 550,
+      "D_planned": 2800,
+      "D_disclosed_a2": null,
+      "f_actual_a2": null,
+      "k_total": 560,
+      "bits_a3_disclosed": 2800,
+      "f_actual_a3": 2.93441397898595,
+      "info_per_plane_a2": null,
+      "a2_guard_swaps": [],
+      "a2_status": "not_run",
+      "d1_len": 10,
+      "d2_len": 550,
+      "arm": "BASE",
+      "construction_id": "L2-BASE-P16-FROZEN",
+      "per_cell": [
+        {
+          "arm": "BASE",
+          "f_target": 2.9344139789,
+          "f_label": "k1_010",
+          "k1": 10,
+          "k2": 550,
+          "seed": 2026092701,
+          "blocks": 16,
+          "a2_sc_frame_errors": null,
+          "a2_scl8_frame_errors": null,
+          "a3_op_frame_errors": 16,
+          "a2_sc_fer": null,
+          "a2_scl8_fer": null,
+          "a3_op_fer": 1.0,
+          "a3_oracle_exact": 16,
+          "a3_oracle_exact_rate": 1.0,
+          "a3_op_outcomes": {
+            "exact": 0,
+            "undetected": 0,
+            "verify_failed": 16,
+            "decode_failed": 0,
+            "resource_abort": 0
+          },
+          "a3_oracle_outcomes": {
+            "exact": 16,
+            "undetected": 0,
+            "verify_failed": 0,
+            "decode_failed": 0,
+            "resource_abort": 0
+          },
+          "a2_status": "not_run",
+          "delta_a3_minus_a2_sc": null,
+          "delta_a3_minus_a2_scl8": null
+        },
+        {
+          "arm": "BASE",
+          "f_target": 2.9344139789,
+          "f_label": "k1_010",
+          "k1": 10,
+          "k2": 550,
+          "seed": 2026092702,
+          "blocks": 16,
+          "a2_sc_frame_errors": null,
+          "a2_scl8_frame_errors": null,
+          "a3_op_frame_errors": 16,
+          "a2_sc_fer": null,
+          "a2_scl8_fer": null,
+          "a3_op_fer": 1.0,
+          "a3_oracle_exact": 16,
+          "a3_oracle_exact_rate": 1.0,
+          "a3_op_outcomes": {
+            "exact": 0,
+            "undetected": 0,
+            "verify_failed": 16,
+            "decode_failed": 0,
+            "resource_abort": 0
+          },
+          "a3_oracle_outcomes": {
+            "exact": 16,
+            "undetected": 0,
+            "verify_failed": 0,
+            "decode_failed": 0,
+            "resource_abort": 0
+          },
+          "a2_status": "not_run",
+          "delta_a3_minus_a2_sc": null,
+          "delta_a3_minus_a2_scl8": null
+        },
+        {
+          "arm": "BASE",
+          "f_target": 3.3013,
+          "f_label": "k1_080",
+          "k1": 80,
+          "k2": 550,
+          "seed": 2026092701,
+          "blocks": 16,
+          "a2_sc_frame_errors": null,
+          "a2_scl8_frame_errors": null,
+          "a3_op_frame_errors": 0,
+          "a2_sc_fer": null,
+          "a2_scl8_fer": null,
+          "a3_op_fer": 0.0,
+          "a3_oracle_exact": 16,
+          "a3_oracle_exact_rate": 1.0,
+          "a3_op_outcomes": {
+            "exact": 16,
+            "undetected": 0,
+            "verify_failed": 0,
+            "decode_failed": 0,
+            "resource_abort": 0
+          },
+          "a3_oracle_outcomes": {
+            "exact": 16,
+            "undetected": 0,
+            "verify_failed": 0,
+            "decode_failed": 0,
+            "resource_abort": 0
+          },
+          "a2_status": "not_run",
+          "delta_a3_minus_a2_sc": null,
+          "delta_a3_minus_a2_scl8": null
+        },
+        {
+          "arm": "BASE",
+          "f_target": 3.3013,
+          "f_label": "k1_080",
+          "k1": 80,
+          "k2": 550,
+          "seed": 2026092702,
+          "blocks": 16,
+          "a2_sc_frame_errors": null,
+          "a2_scl8_frame_errors": null,
+          "a3_op_frame_errors": 2,
+          "a2_sc_fer": null,
+          "a2_scl8_fer": null,
+          "a3_op_fer": 0.125,
+          "a3_oracle_exact": 16,
+          "a3_oracle_exact_rate": 1.0,
+          "a3_op_outcomes": {
+            "exact": 14,
+            "undetected": 0,
+            "verify_failed": 2,
+            "decode_failed": 0,
+            "resource_abort": 0
+          },
+          "a3_oracle_outcomes": {
+            "exact": 16,
+            "undetected": 0,
+            "verify_failed": 0,
+            "decode_failed": 0,
+            "resource_abort": 0
+          },
+          "a2_status": "not_run",
+          "delta_a3_minus_a2_sc": null,
+          "delta_a3_minus_a2_scl8": null
+        },
+        {
+          "arm": "BASE",
+          "f_target": 3.7204,
+          "f_label": "k1_160",
+          "k1": 160,
+          "k2": 550,
+          "seed": 2026092701,
+          "blocks": 16,
+          "a2_sc_frame_errors": null,
+          "a2_scl8_frame_errors": null,
+          "a3_op_frame_errors": 0,
+          "a2_sc_fer": null,
+          "a2_scl8_fer": null,
+          "a3_op_fer": 0.0,
+          "a3_oracle_exact": 16,
+          "a3_oracle_exact_rate": 1.0,
+          "a3_op_outcomes": {
+            "exact": 16,
+            "undetected": 0,
+            "verify_failed": 0,
+            "decode_failed": 0,
+            "resource_abort": 0
+          },
+          "a3_oracle_outcomes": {
+            "exact": 16,
+            "undetected": 0,
+            "verify_failed": 0,
+            "decode_failed": 0,
+            "resource_abort": 0
+          },
+          "a2_status": "not_run",
+          "delta_a3_minus_a2_sc": null,
+          "delta_a3_minus_a2_scl8": null
+        },
+        {
+          "arm": "BASE",
+          "f_target": 3.7204,
+          "f_label": "k1_160",
+          "k1": 160,
+          "k2": 550,
+          "seed": 2026092702,
+          "blocks": 16,
+          "a2_sc_frame_errors": null,
+          "a2_scl8_frame_errors": null,
+          "a3_op_frame_errors": 0,
+          "a2_sc_fer": null,
+          "a2_scl8_fer": null,
+          "a3_op_fer": 0.0,
+          "a3_oracle_exact": 16,
+          "a3_oracle_exact_rate": 1.0,
+          "a3_op_outcomes": {
+            "exact": 16,
+            "undetected": 0,
+            "verify_failed": 0,
+            "decode_failed": 0,
+            "resource_abort": 0
+          },
+          "a3_oracle_outcomes": {
+            "exact": 16,
+            "undetected": 0,
+            "verify_failed": 0,
+            "decode_failed": 0,
+            "resource_abort": 0
+          },
+          "a2_status": "not_run",
+          "delta_a3_minus_a2_sc": null,
+          "delta_a3_minus_a2_scl8": null
+        },
+        {
+          "arm": "BASE",
+          "f_target": 4.5589,
+          "f_label": "k1_320",
+          "k1": 320,
+          "k2": 550,
+          "seed": 2026092701,
+          "blocks": 16,
+          "a2_sc_frame_errors": null,
+          "a2_scl8_frame_errors": null,
+          "a3_op_frame_errors": 0,
+          "a2_sc_fer": null,
+          "a2_scl8_fer": null,
+          "a3_op_fer": 0.0,
+          "a3_oracle_exact": 16,
+          "a3_oracle_exact_rate": 1.0,
+          "a3_op_outcomes": {
+            "exact": 16,
+            "undetected": 0,
+            "verify_failed": 0,
+            "decode_failed": 0,
+            "resource_abort": 0
+          },
+          "a3_oracle_outcomes": {
+            "exact": 16,
+            "undetected": 0,
+            "verify_failed": 0,
+            "decode_failed": 0,
+            "resource_abort": 0
+          },
+          "a2_status": "not_run",
+          "delta_a3_minus_a2_sc": null,
+          "delta_a3_minus_a2_scl8": null
+        },
+        {
+          "arm": "BASE",
+          "f_target": 4.5589,
+          "f_label": "k1_320",
+          "k1": 320,
+          "k2": 550,
+          "seed": 2026092702,
+          "blocks": 16,
+          "a2_sc_frame_errors": null,
+          "a2_scl8_frame_errors": null,
+          "a3_op_frame_errors": 0,
+          "a2_sc_fer": null,
+          "a2_scl8_fer": null,
+          "a3_op_fer": 0.0,
+          "a3_oracle_exact": 16,
+          "a3_oracle_exact_rate": 1.0,
+          "a3_op_outcomes": {
+            "exact": 16,
+            "undetected": 0,
+            "verify_failed": 0,
+            "decode_failed": 0,
+            "resource_abort": 0
+          },
+          "a3_oracle_outcomes": {
+            "exact": 16,
+            "undetected": 0,
+            "verify_failed": 0,
+            "decode_failed": 0,
+            "resource_abort": 0
+          },
+          "a2_status": "not_run",
+          "delta_a3_minus_a2_sc": null,
+          "delta_a3_minus_a2_scl8": null
+        },
+        {
+          "arm": "BASE",
+          "f_target": 5.2401,
+          "f_label": "k1_450",
+          "k1": 450,
+          "k2": 550,
+          "seed": 2026092701,
+          "blocks": 16,
+          "a2_sc_frame_errors": null,
+          "a2_scl8_frame_errors": null,
+          "a3_op_frame_errors": 0,
+          "a2_sc_fer": null,
+          "a2_scl8_fer": null,
+          "a3_op_fer": 0.0,
+          "a3_oracle_exact": 16,
+          "a3_oracle_exact_rate": 1.0,
+          "a3_op_outcomes": {
+            "exact": 16,
+            "undetected": 0,
+            "verify_failed": 0,
+            "decode_failed": 0,
+            "resource_abort": 0
+          },
+          "a3_oracle_outcomes": {
+            "exact": 16,
+            "undetected": 0,
+            "verify_failed": 0,
+            "decode_failed": 0,
+            "resource_abort": 0
+          },
+          "a2_status": "not_run",
+          "delta_a3_minus_a2_sc": null,
+          "delta_a3_minus_a2_scl8": null
+        },
+        {
+          "arm": "BASE",
+          "f_target": 5.2401,
+          "f_label": "k1_450",
+          "k1": 450,
+          "k2": 550,
+          "seed": 2026092702,
+          "blocks": 16,
+          "a2_sc_frame_errors": null,
+          "a2_scl8_frame_errors": null,
+          "a3_op_frame_errors": 0,
+          "a2_sc_fer": null,
+          "a2_scl8_fer": null,
+          "a3_op_fer": 0.0,
+          "a3_oracle_exact": 16,
+          "a3_oracle_exact_rate": 1.0,
+          "a3_op_outcomes": {
+            "exact": 16,
+            "undetected": 0,
+            "verify_failed": 0,
+            "decode_failed": 0,
+            "resource_abort": 0
+          },
+          "a3_oracle_outcomes": {
+            "exact": 16,
+            "undetected": 0,
+            "verify_failed": 0,
+            "decode_failed": 0,
+            "resource_abort": 0
+          },
+          "a2_status": "not_run",
+          "delta_a3_minus_a2_sc": null,
+          "delta_a3_minus_a2_scl8": null
+        }
+      ],
+      "summaries": {
+        "a2_sc_fer": {
+          "series": [],
+          "mean": null,
+          "sample_std": null,
+          "range": null,
+          "n": 0,
+          "note": "not_run"
+        },
+        "a2_scl8_fer": {
+          "series": [],
+          "mean": null,
+          "sample_std": null,
+          "range": null,
+          "n": 0,
+          "note": "not_run"
+        },
+        "a3_op_fer": {
+          "series": [
+            1.0,
+            1.0,
+            0.0,
+            0.125,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          "mean": 0.2125,
+          "sample_std": 0.4168749479426921,
+          "range": [
+            0.0,
+            1.0
+          ],
+          "n": 10
+        },
+        "a3_oracle_exact_rate": {
+          "series": [
+            1.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0
+          ],
+          "mean": 1.0,
+          "sample_std": 0.0,
+          "range": [
+            1.0,
+            1.0
+          ],
+          "n": 10
+        },
+        "delta_a3_minus_a2_sc": {
+          "series": [],
+          "mean": null,
+          "sample_std": null,
+          "range": null,
+          "n": 0,
+          "note": "not_run"
+        },
+        "delta_a3_minus_a2_scl8": {
+          "series": [],
+          "mean": null,
+          "sample_std": null,
+          "range": null,
+          "n": 0,
+          "note": "not_run"
+        }
+      },
+      "delta_complete": true
+    }
+  },
+  "records": [
+    {
+      "seed": 2026092701,
+      "block": 0,
+      "k1": 10,
+      "k2": 550,
+      "f_label": "k1_010",
+      "operational": {
+        "label_match": false,
+        "tag_invoked": true,
+        "outcome": "verify_failed"
+      },
+      "oracle": {
+        "label_match": true,
+        "tag_invoked": true,
+        "outcome": "exact"
+      }
+    },
+    {
+      "seed": 2026092701,
+      "block": 1,
+      "k1": 10,
+      "k2": 550,
+      "f_label": "k1_010",
+      "operational": {
+        "label_match": false,
+        "tag_invoked": true,
+        "outcome": "verify_failed"
+      },
+      "oracle": {
+        "label_match": true,
+        "tag_invoked": true,
+        "outcome": "exact"
+      }
+    },
+    {
+      "seed": 2026092701,
+      "block": 2,
+      "k1": 10,
+      "k2": 550,
+      "f_label": "k1_010",
+      "operational": {
+        "label_match": false,
+        "tag_invoked": true,
+        "outcome": "verify_failed"
+      },
+      "oracle": {
+        "label_match": true,
+        "tag_invoked": true,
+        "outcome": "exact"
+      }
+    },
+    {
+      "seed": 2026092701,
+      "block": 3,
+      "k1": 10,
+      "k2": 550,
+      "f_label": "k1_010",
+      "operational": {
+        "label_match": false,
+        "tag_invoked": true,
+        "outcome": "verify_failed"
+      },
+      "oracle": {
+        "label_match": true,
+        "tag_invoked": true,
+        "outcome": "exact"
+      }
+    },
+    {
+      "seed": 2026092701,
+      "block": 4,
+      "k1": 10,
+      "k2": 550,
+      "f_label": "k1_010",
+      "operational": {
+        "label_match": false,
+        "tag_invoked": true,
+        "outcome": "verify_failed"
+      },
+      "oracle": {
+        "label_match": true,
+        "tag_invoked": true,
+        "outcome": "exact"
+      }
+    },
+    {
+      "seed": 2026092701,
+      "block": 5,
+      "k1": 10,
+      "k2": 550,
+      "f_label": "k1_010",
+      "operational": {
+        "label_match": false,
+        "tag_invoked": true,
+        "outcome": "verify_failed"
+      },
+      "oracle": {
+        "label_match": true,
+        "tag_invoked": true,
+        "outcome": "exact"
+      }
+    },
+    {
+      "seed": 2026092701,
+      "block": 6,
+      "k1": 10,
+      "k2": 550,
+      "f_label": "k1_010",
+      "operational": {
+        "label_match": false,
+        "tag_invoked": true,
+        "outcome": "verify_failed"
+      },
+      "oracle": {
+        "label_match": true,
+        "tag_invoked": true,
+        "outcome": "exact"
+      }
+    },
+    {
+      "seed": 2026092701,
+      "block": 7,
+      "k1": 10,
+      "k2": 550,
+      "f_label": "k1_010",
+      "operational": {
+        "label_match": false,
+        "tag_invoked": true,
+        "outcome": "verify_failed"
+      },
+      "oracle": {
+        "label_match": true,
+        "tag_invoked": true,
+        "outcome": "exact"
+      }
+    },
+    {
+      "seed": 2026092701,
+      "block": 8,
+      "k1": 10,
+      "k2": 550,
+      "f_label": "k1_010",
+      "operational": {
+        "label_match": false,
+        "tag_invoked": true,
+        "outcome": "verify_failed"
+      },
+      "oracle": {
+        "label_match": true,
+        "tag_invoked": true,
+        "outcome": "exact"
+      }
+    },
+    {
+      "seed": 2026092701,
+      "block": 9,
+      "k1": 10,
+      "k2": 550,
+      "f_label": "k1_010",
+      "operational": {
+        "label_match": false,
+        "tag_invoked": true,
+        "outcome": "verify_failed"
+      },
+      "oracle": {
+        "label_match": true,
+        "tag_invoked": true,
+        "outcome": "exact"
+      }
+    },
+    {
+      "seed": 2026092701,
+      "block": 10,
+      "k1": 10,
+      "k2": 550,
+      "f_label": "k1_010",
+      "operational": {
+        "label_match": false,
+        "tag_invoked": true,
+        "outcome": "verify_failed"
+      },
+      "oracle": {
+        "label_match": true,
+        "tag_invoked": true,
+        "outcome": "exact"
+      }
+    },
+    {
+      "seed": 2026092701,
+      "block": 11,
+      "k1": 10,
+      "k2": 550,
+      "f_label": "k1_010",
+      "operational": {
+        "label_match": false,
+        "tag_invoked": true,
+        "outcome": "verify_failed"
+      },
+      "oracle": {
+        "label_match": true,
+        "tag_invoked": true,
+        "outcome": "exact"
+      }
+    },
+    {
+      "seed": 2026092701,
+      "block": 12,
+      "k1": 10,
+      "k2": 550,
+      "f_label": "k1_010",
+      "operational": {
+        "label_match": false,
+        "tag_invoked": true,
+        "outcome": "verify_failed"
+      },
+      "oracle": {
+        "label_match": true,
+        "tag_invoked": true,
+        "outcome": "exact"
+      }
+    },
+    {
+      "seed": 2026092701,
+      "block": 13,
+      "k1": 10,
+      "k2": 550,
+      "f_label": "k1_010",
+      "operational": {
+        "label_match": false,
+        "tag_invoked": true,
+        "outcome": "verify_failed"
+      },
+      "oracle": {
+        "label_match": true,
+        "tag_invoked": true,
+        "outcome": "exact"
+      }
+    },
+    {
+      "seed": 2026092701,
+      "block": 14,
+      "k1": 10,
+      "k2": 550,
+      "f_label": "k1_010",
+      "operational": {
+        "label_match": false,
+        "tag_invoked": true,
+        "outcome": "verify_failed"
+      },
+      "oracle": {
+        "label_match": true,
+        "tag_invoked": true,
+        "outcome": "exact"
+      }
+    },
+    {
+      "seed": 2026092701,
+      "block": 15,
+      "k1": 10,
+      "k2": 550,
+      "f_label": "k1_010",
+      "operational": {
+        "label_match": false,
+        "tag_invoked": true,
+        "outcome": "verify_failed"
+      },
+      "oracle": {
+        "label_match": true,
+        "tag_invoked": true,
+        "outcome": "exact"
+      }
+    },
+    {
+      "seed": 2026092702,
+      "block": 0,
+      "k1": 10,
+      "k2": 550,
+      "f_label": "k1_010",
+      "operational": {
+        "label_match": false,
+        "tag_invoked": true,
+        "outcome": "verify_failed"
+      },
+      "oracle": {
+        "label_match": true,
+        "tag_invoked": true,
+        "outcome": "exact"
+      }
+    },
+    {
+      "seed": 2026092702,
+      "block": 1,
+      "k1": 10,
+      "k2": 550,
+      "f_label": "k1_010",
+      "operational": {
+        "label_match": false,
+        "tag_invoked": true,
+        "outcome": "verify_failed"
+      },
+      "oracle": {
+        "label_match": true,
+        "tag_invoked": true,
+        "outcome": "exact"
+      }
+    },
+    {
+      "seed": 2026092702,
+      "block": 2,
+      "k1": 10,
+      "k2": 550,
+      "f_label": "k1_010",
+      "operational": {
+        "label_match": false,
+        "tag_invoked": true,
+        "outcome": "verify_failed"
+      },
+      "oracle": {
+        "label_match": true,
+        "tag_invoked": true,
+        "outcome": "exact"
+      }
+    },
+    {
+      "seed": 2026092702,
+      "block": 3,
+      "k1": 10,
+      "k2": 550,
+      "f_label": "k1_010",
+      "operational": {
+        "label_match": false,
+        "tag_invoked": true,
+        "outcome": "verify_failed"
+      },
+      "oracle": {
+        "label_match": true,
+        "tag_invoked": true,
+        "outcome": "exact"
+      }
+    },
+    {
+      "seed": 2026092702,
+      "block": 4,
+      "k1": 10,
+      "k2": 550,
+      "f_label": "k1_010",
+      "operational": {
+        "label_match": false,
+        "tag_invoked": true,
+        "outcome": "verify_failed"
+      },
+      "oracle": {
+        "label_match": true,
+        "tag_invoked": true,
+        "outcome": "exact"
+      }
+    },
+    {
+      "seed": 2026092702,
+      "block": 5,
+      "k1": 10,
+      "k2": 550,
+      "f_label": "k1_010",
+      "operational": {
+        "label_match": false,
+        "tag_invoked": true,
+        "outcome": "verify_failed"
+      },
+      "oracle": {
+        "label_match": true,
+        "tag_invoked": true,
+        "outcome": "exact"
+      }
+    },
+    {
+      "seed": 2026092702,
+      "block": 6,
+      "k1": 10,
+      "k2": 550,
+      "f_label": "k1_010",
+      "operational": {
+        "label_match": false,
+        "tag_invoked": true,
+        "outcome": "verify_failed"
+      },
+      "oracle": {
+        "label_match": true,
+        "tag_invoked": true,
+        "outcome": "exact"
+      }
+    },
+    {
+      "seed": 2026092702,
+      "block": 7,
+      "k1": 10,
+      "k2": 550,
+      "f_label": "k1_010",
+      "operational": {
+        "label_match": false,
+        "tag_invoked": true,
+        "outcome": "verify_failed"
+      },
+      "oracle": {
+        "label_match": true,
+        "tag_invoked": true,
+        "outcome": "exact"
+      }
+    },
+    {
+      "seed": 2026092702,
+      "block": 8,
+      "k1": 10,
+      "k2": 550,
+      "f_label": "k1_010",
+      "operational": {
+        "label_match": false,
+        "tag_invoked": true,
+        "outcome": "verify_failed"
+      },
+      "oracle": {
+        "label_match": true,
+        "tag_invoked": true,
+        "outcome": "exact"
+      }
+    },
+    {
+      "seed": 2026092702,
+      "block": 9,
+      "k1": 10,
+      "k2": 550,
+      "f_label": "k1_010",
+      "operational": {
+        "label_match": false,
+        "tag_invoked": true,
+        "outcome": "verify_failed"
+      },
+      "oracle": {
+        "label_match": true,
+        "tag_invoked": true,
+        "outcome": "exact"
+      }
+    },
+    {
+      "seed": 2026092702,
+      "block": 10,
+      "k1": 10,
+      "k2": 550,
+      "f_label": "k1_010",
+      "operational": {
+        "label_match": false,
+        "tag_invoked": true,
+        "outcome": "verify_failed"
+      },
+      "oracle": {
+        "label_match": true,
+        "tag_invoked": true,
+        "outcome": "exact"
+      }
+    },
+    {
+      "seed": 2026092702,
+      "block": 11,
+      "k1": 10,
+      "k2": 550,
+      "f_label": "k1_010",
+      "operational": {
+        "label_match": false,
+        "tag_invoked": true,
+        "outcome": "verify_failed"
+      },
+      "oracle": {
+        "label_match": true,
+        "tag_invoked": true,
+        "outcome": "exact"
+      }
+    },
+    {
+      "seed": 2026092702,
+      "block": 12,
+      "k1": 10,
+      "k2": 550,
+      "f_label": "k1_010",
+      "operational": {
+        "label_match": false,
+        "tag_invoked": true,
+        "outcome": "verify_failed"
+      },
+      "oracle": {
+        "label_match": true,
+        "tag_invoked": true,
+        "outcome": "exact"
+      }
+    },
+    {
+      "seed": 2026092702,
+      "block": 13,
+      "k1": 10,
+      "k2": 550,
+      "f_label": "k1_010",
+      "operational": {
+        "label_match": false,
+        "tag_invoked": true,
+        "outcome": "verify_failed"
+      },
+      "oracle": {
+        "label_match": true,
+        "tag_invoked": true,
+        "outcome": "exact"
+      }
+    },
+    {
+      "seed": 2026092702,
+      "block": 14,
+      "k1": 10,
+      "k2": 550,
+      "f_label": "k1_010",
+      "operational": {
+        "label_match": false,
+        "tag_invoked": true,
+        "outcome": "verify_failed"
+      },
+      "oracle": {
+        "label_match": true,
+        "tag_invoked": true,
+        "outcome": "exact"
+      }
+    },
+    {
+      "seed": 2026092702,
+      "block": 15,
+      "k1": 10,
+      "k2": 550,
+      "f_label": "k1_010",
+      "operational": {
+        "label_match": false,
+        "tag_invoked": true,
+        "outcome": "verify_failed"
+      },
+      "oracle": {
+        "label_match": true,
+        "tag_invoked": true,
+        "outcome": "exact"
+      }
+    },
+    {
+      "seed": 2026092701,
+      "block": 0,
+      "k1": 80,
+      "k2": 550,
+      "f_label": "k1_080",
+      "operational": {
+        "label_match": true,
+        "tag_invoked": true,
+        "outcome": "exact"
+      },
+      "oracle": {
+        "label_match": true,
+        "tag_invoked": true,
+        "outcome": "exact"
+      }
+    },
+    {
+      "seed": 2026092701,
+      "block": 1,
+      "k1": 80,
+      "k2": 550,
+      "f_label": "k1_080",
+      "operational": {
+        "label_match": true,
+        "tag_invoked": true,
+        "outcome": "exact"
+      },
+      "oracle": {
+        "label_match": true,
+        "tag_invoked": true,
+        "outcome": "exact"
+      }
+    },
+    {
+      "seed": 2026092701,
+      "block": 2,
+      "k1": 80,
+      "k2": 550,
+      "f_label": "k1_080",
+      "operational": {
+        "label_match": true,
+        "tag_invoked": true,
+        "outcome": "exact"
+      },
+      "oracle": {
+        "label_match": true,
+        "tag_invoked": true,
+        "outcome": "exact"
+      }
+    },
+    {
+      "seed": 2026092701,
+      "block": 3,
+      "k1": 80,
+      "k2": 550,
+      "f_label": "k1_080",
+      "operational": {
+        "label_match": true,
+        "tag_invoked": true,
+        "outcome": "exact"
+      },
+      "oracle": {
+        "label_match": true,
+        "tag_invoked": true,
+        "outcome": "exact"
+      }
+    },
+    {
+      "seed": 2026092701,
+      "block": 4,
+      "k1": 80,
+      "k2": 550,
+      "f_label": "k1_080",
+      "operational": {
+        "label_match": true,
+        "tag_invoked": true,
+        "outcome": "exact"
+      },
+      "oracle": {
+        "label_match": true,
+        "tag_invoked": true,
+        "outcome": "exact"
+      }
+    },
+    {
+      "seed": 2026092701,
+      "block": 5,
+      "k1": 80,
+      "k2": 550,
+      "f_label": "k1_080",
+      "operational": {
+        "label_match": true,
+        "tag_invoked": true,
+        "outcome": "exact"
+      },
+      "oracle": {
+        "label_match": true,
+        "tag_invoked": true,
+        "outcome": "exact"
+      }
+    },
+    {
+      "seed": 2026092701,
+      "block": 6,
+      "k1": 80,
+      "k2": 550,
+      "f_label": "k1_080",
+      "operational": {
+        "label_match": true,
+        "tag_invoked": true,
+        "outcome": "exact"
+      },
+      "oracle": {
+        "label_match": true,
+        "tag_invoked": true,
+        "outcome": "exact"
+      }
+    },
+    {
+      "seed": 2026092701,
+      "block": 7,
+      "k1": 80,
+      "k2": 550,
+      "f_label": "k1_080",
+      "operational": {
+        "label_match": true,
+        "tag_invoked": true,
+        "outcome": "exact"
+      },
+      "oracle": {
+        "label_match": true,
+        "tag_invoked": true,
+        "outcome": "exact"
+      }
+    },
+    {
+      "seed": 2026092701,
+      "block": 8,
+      "k1": 80,
+      "k2": 550,
+      "f_label": "k1_080",
+      "operational": {
+        "label_match": true,
+        "tag_invoked": true,
+        "outcome": "exact"
+      },
+      "oracle": {
+        "label_match": true,
+        "tag_invoked": true,
+        "outcome": "exact"
+      }
+    },
+    {
+      "seed": 2026092701,
+      "block": 9,
+      "k1": 80,
+      "k2": 550,
+      "f_label": "k1_080",
+      "operational": {
+        "label_match": true,
+        "tag_invoked": true,
+        "outcome": "exact"
+      },
+      "oracle": {
+        "label_match": true,
+        "tag_invoked": true,
+        "outcome": "exact"
+      }
+    },
+    {
+      "seed": 2026092701,
+      "block": 10,
+      "k1": 80,
+      "k2": 550,
+      "f_label": "k1_080",
+      "operational": {
+        "label_match": true,
+        "tag_invoked": true,
+        "outcome": "exact"
+      },
+      "oracle": {
+        "label_match": true,
+        "tag_invoked": true,
+        "outcome": "exact"
+      }
+    },
+    {
+      "seed": 2026092701,
+      "block": 11,
+      "k1": 80,
+      "k2": 550,
+      "f_label": "k1_080",
+      "operational": {
+        "label_match": true,
+        "tag_invoked": true,
+        "outcome": "exact"
+      },
+      "oracle": {
+        "label_match": true,
+        "tag_invoked": true,
+        "outcome": "exact"
+      }
+    },
+    {
+      "seed": 2026092701,
+      "block": 12,
+      "k1": 80,
+      "k2": 550,
+      "f_label": "k1_080",
+      "operational": {
+        "label_match": true,
+        "tag_invoked": true,
+        "outcome": "exact"
+      },
+      "oracle": {
+        "label_match": true,
+        "tag_invoked": true,
+        "outcome": "exact"
+      }
+    },
+    {
+      "seed": 2026092701,
+      "block": 13,
+      "k1": 80,
+      "k2": 550,
+      "f_label": "k1_080",
+      "operational": {
+        "label_match": true,
+        "tag_invoked": true,
+        "outcome": "exact"
+      },
+      "oracle": {
+        "label_match": true,
+        "tag_invoked": true,
+        "outcome": "exact"
+      }
+    },
+    {
+      "seed": 2026092701,
+      "block": 14,
+      "k1": 80,
+      "k2": 550,
+      "f_label": "k1_080",
+      "operational": {
+        "label_match": true,
+        "tag_invoked": true,
+        "outcome": "exact"
+      },
+      "oracle": {
+        "label_match": true,
+        "tag_invoked": true,
+        "outcome": "exact"
+      }
+    },
+    {
+      "seed": 2026092701,
+      "block": 15,
+      "k1": 80,
+      "k2": 550,
+      "f_label": "k1_080",
+      "operational": {
+        "label_match": true,
+        "tag_invoked": true,
+        "outcome": "exact"
+      },
+      "oracle": {
+        "label_match": true,
+        "tag_invoked": true,
+        "outcome": "exact"
+      }
+    },
+    {
+      "seed": 2026092702,
+      "block": 0,
+      "k1": 80,
+      "k2": 550,
+      "f_label": "k1_080",
+      "operational": {
+        "label_match": true,
+        "tag_invoked": true,
+        "outcome": "exact"
+      },
+      "oracle": {
+        "label_match": true,
+        "tag_invoked": true,
+        "outcome": "exact"
+      }
+    },
+    {
+      "seed": 2026092702,
+      "block": 1,
+      "k1": 80,
+      "k2": 550,
+      "f_label": "k1_080",
+      "operational": {
+        "label_match": true,
+        "tag_invoked": true,
+        "outcome": "exact"
+      },
+      "oracle": {
+        "label_match": true,
+        "tag_invoked": true,
+        "outcome": "exact"
+      }
+    },
+    {
+      "seed": 2026092702,
+      "block": 2,
+      "k1": 80,
+      "k2": 550,
+      "f_label": "k1_080",
+      "operational": {
+        "label_match": true,
+        "tag_invoked": true,
+        "outcome": "exact"
+      },
+      "oracle": {
+        "label_match": true,
+        "tag_invoked": true,
+        "outcome": "exact"
+      }
+    },
+    {
+      "seed": 2026092702,
+      "block": 3,
+      "k1": 80,
+      "k2": 550,
+      "f_label": "k1_080",
+      "operational": {
+        "label_match": true,
+        "tag_invoked": true,
+        "outcome": "exact"
+      },
+      "oracle": {
+        "label_match": true,
+        "tag_invoked": true,
+        "outcome": "exact"
+      }
+    },
+    {
+      "seed": 2026092702,
+      "block": 4,
+      "k1": 80,
+      "k2": 550,
+      "f_label": "k1_080",
+      "operational": {
+        "label_match": false,
+        "tag_invoked": true,
+        "outcome": "verify_failed"
+      },
+      "oracle": {
+        "label_match": true,
+        "tag_invoked": true,
+        "outcome": "exact"
+      }
+    },
+    {
+      "seed": 2026092702,
+      "block": 5,
+      "k1": 80,
+      "k2": 550,
+      "f_label": "k1_080",
+      "operational": {
+        "label_match": true,
+        "tag_invoked": true,
+        "outcome": "exact"
+      },
+      "oracle": {
+        "label_match": true,
+        "tag_invoked": true,
+        "outcome": "exact"
+      }
+    },
+    {
+      "seed": 2026092702,
+      "block": 6,
+      "k1": 80,
+      "k2": 550,
+      "f_label": "k1_080",
+      "operational": {
+        "label_match": true,
+        "tag_invoked": true,
+        "outcome": "exact"
+      },
+      "oracle": {
+        "label_match": true,
+        "tag_invoked": true,
+        "outcome": "exact"
+      }
+    },
+    {
+      "seed": 2026092702,
+      "block": 7,
+      "k1": 80,
+      "k2": 550,
+      "f_label": "k1_080",
+      "operational": {
+        "label_match": false,
+        "tag_invoked": true,
+        "outcome": "verify_failed"
+      },
+      "oracle": {
+        "label_match": true,
+        "tag_invoked": true,
+        "outcome": "exact"
+      }
+    },
+    {
+      "seed": 2026092702,
+      "block": 8,
+      "k1": 80,
+      "k2": 550,
+      "f_label": "k1_080",
+      "operational": {
+        "label_match": true,
+        "tag_invoked": true,
+        "outcome": "exact"
+      },
+      "oracle": {
+        "label_match": true,
+        "tag_invoked": true,
+        "outcome": "exact"
+      }
+    },
+    {
+      "seed": 2026092702,
+      "block": 9,
+      "k1": 80,
+      "k2": 550,
+      "f_label": "k1_080",
+      "operational": {
+        "label_match": true,
+        "tag_invoked": true,
+        "outcome": "exact"
+      },
+      "oracle": {
+        "label_match": true,
+        "tag_invoked": true,
+        "outcome": "exact"
+      }
+    },
+    {
+      "seed": 2026092702,
+      "block": 10,
+      "k1": 80,
+      "k2": 550,
+      "f_label": "k1_080",
+      "operational": {
+        "label_match": true,
+        "tag_invoked": true,
+        "outcome": "exact"
+      },
+      "oracle": {
+        "label_match": true,
+        "tag_invoked": true,
+        "outcome": "exact"
+      }
+    },
+    {
+      "seed": 2026092702,
+      "block": 11,
+      "k1": 80,
+      "k2": 550,
+      "f_label": "k1_080",
+      "operational": {
+        "label_match": true,
+        "tag_invoked": true,
+        "outcome": "exact"
+      },
+      "oracle": {
+        "label_match": true,
+        "tag_invoked": true,
+        "outcome": "exact"
+      }
+    },
+    {
+      "seed": 2026092702,
+      "block": 12,
+      "k1": 80,
+      "k2": 550,
+      "f_label": "k1_080",
+      "operational": {
+        "label_match": true,
+        "tag_invoked": true,
+        "outcome": "exact"
+      },
+      "oracle": {
+        "label_match": true,
+        "tag_invoked": true,
+        "outcome": "exact"
+      }
+    },
+    {
+      "seed": 2026092702,
+      "block": 13,
+      "k1": 80,
+      "k2": 550,
+      "f_label": "k1_080",
+      "operational": {
+        "label_match": true,
+        "tag_invoked": true,
+        "outcome": "exact"
+      },
+      "oracle": {
+        "label_match": true,
+        "tag_invoked": true,
+        "outcome": "exact"
+      }
+    },
+    {
+      "seed": 2026092702,
+      "block": 14,
+      "k1": 80,
+      "k2": 550,
+      "f_label": "k1_080",
+      "operational": {
+        "label_match": true,
+        "tag_invoked": true,
+        "outcome": "exact"
+      },
+      "oracle": {
+        "label_match": true,
+        "tag_invoked": true,
+        "outcome": "exact"
+      }
+    },
+    {
+      "seed": 2026092702,
+      "block": 15,
+      "k1": 80,
+      "k2": 550,
+      "f_label": "k1_080",
+      "operational": {
+        "label_match": true,
+        "tag_invoked": true,
+        "outcome": "exact"
+      },
+      "oracle": {
+        "label_match": true,
+        "tag_invoked": true,
+        "outcome": "exact"
+      }
+    },
+    {
+      "seed": 2026092701,
+      "block": 0,
+      "k1": 160,
+      "k2": 550,
+      "f_label": "k1_160",
+      "operational": {
+        "label_match": true,
+        "tag_invoked": true,
+        "outcome": "exact"
+      },
+      "oracle": {
+        "label_match": true,
+        "tag_invoked": true,
+        "outcome": "exact"
+      }
+    },
+    {
+      "seed": 2026092701,
+      "block": 1,
+      "k1": 160,
+      "k2": 550,
+      "f_label": "k1_160",
+      "operational": {
+        "label_match": true,
+        "tag_invoked": true,
+        "outcome": "exact"
+      },
+      "oracle": {
+        "label_match": true,
+        "tag_invoked": true,
+        "outcome": "exact"
+      }
+    },
+    {
+      "seed": 2026092701,
+      "block": 2,
+      "k1": 160,
+      "k2": 550,
+      "f_label": "k1_160",
+      "operational": {
+        "label_match": true,
+        "tag_invoked": true,
+        "outcome": "exact"
+      },
+      "oracle": {
+        "label_match": true,
+        "tag_invoked": true,
+        "outcome": "exact"
+      }
+    },
+    {
+      "seed": 2026092701,
+      "block": 3,
+      "k1": 160,
+      "k2": 550,
+      "f_label": "k1_160",
+      "operational": {
+        "label_match": true,
+        "tag_invoked": true,
+        "outcome": "exact"
+      },
+      "oracle": {
+        "label_match": true,
+        "tag_invoked": true,
+        "outcome": "exact"
+      }
+    },
+    {
+      "seed": 2026092701,
+      "block": 4,
+      "k1": 160,
+      "k2": 550,
+      "f_label": "k1_160",
+      "operational": {
+        "label_match": true,
+        "tag_invoked": true,
+        "outcome": "exact"
+      },
+      "oracle": {
+        "label_match": true,
+        "tag_invoked": true,
+        "outcome": "exact"
+      }
+    },
+    {
+      "seed": 2026092701,
+      "block": 5,
+      "k1": 160,
+      "k2": 550,
+      "f_label": "k1_160",
+      "operational": {
+        "label_match": true,
+        "tag_invoked": true,
+        "outcome": "exact"
+      },
+      "oracle": {
+        "label_match": true,
+        "tag_invoked": true,
+        "outcome": "exact"
+      }
+    },
+    {
+      "seed": 2026092701,
+      "block": 6,
+      "k1": 160,
+      "k2": 550,
+      "f_label": "k1_160",
+      "operational": {
+        "label_match": true,
+        "tag_invoked": true,
+        "outcome": "exact"
+      },
+      "oracle": {
+        "label_match": true,
+        "tag_invoked": true,
+        "outcome": "exact"
+      }
+    },
+    {
+      "seed": 2026092701,
+      "block": 7,
+      "k1": 160,
+      "k2": 550,
+      "f_label": "k1_160",
+      "operational": {
+        "label_match": true,
+        "tag_invoked": true,
+        "outcome": "exact"
+      },
+      "oracle": {
+        "label_match": true,
+        "tag_invoked": true,
+        "outcome": "exact"
+      }
+    },
+    {
+      "seed": 2026092701,
+      "block": 8,
+      "k1": 160,
+      "k2": 550,
+      "f_label": "k1_160",
+      "operational": {
+        "label_match": true,
+        "tag_invoked": true,
+        "outcome": "exact"
+      },
+      "oracle": {
+        "label_match": true,
+        "tag_invoked": true,
+        "outcome": "exact"
+      }
+    },
+    {
+      "seed": 2026092701,
+      "block": 9,
+      "k1": 160,
+      "k2": 550,
+      "f_label": "k1_160",
+      "operational": {
+        "label_match": true,
+        "tag_invoked": true,
+        "outcome": "exact"
+      },
+      "oracle": {
+        "label_match": true,
+        "tag_invoked": true,
+        "outcome": "exact"
+      }
+    },
+    {
+      "seed": 2026092701,
+      "block": 10,
+      "k1": 160,
+      "k2": 550,
+      "f_label": "k1_160",
+      "operational": {
+        "label_match": true,
+        "tag_invoked": true,
+        "outcome": "exact"
+      },
+      "oracle": {
+        "label_match": true,
+        "tag_invoked": true,
+        "outcome": "exact"
+      }
+    },
+    {
+      "seed": 2026092701,
+      "block": 11,
+      "k1": 160,
+      "k2": 550,
+      "f_label": "k1_160",
+      "operational": {
+        "label_match": true,
+        "tag_invoked": true,
+        "outcome": "exact"
+      },
+      "oracle": {
+        "label_match": true,
+        "tag_invoked": true,
+        "outcome": "exact"
+      }
+    },
+    {
+      "seed": 2026092701,
+      "block": 12,
+      "k1": 160,
+      "k2": 550,
+      "f_label": "k1_160",
+      "operational": {
+        "label_match": true,
+        "tag_invoked": true,
+        "outcome": "exact"
+      },
+      "oracle": {
+        "label_match": true,
+        "tag_invoked": true,
+        "outcome": "exact"
+      }
+    },
+    {
+      "seed": 2026092701,
+      "block": 13,
+      "k1": 160,
+      "k2": 550,
+      "f_label": "k1_160",
+      "operational": {
+        "label_match": true,
+        "tag_invoked": true,
+        "outcome": "exact"
+      },
+      "oracle": {
+        "label_match": true,
+        "tag_invoked": true,
+        "outcome": "exact"
+      }
+    },
+    {
+      "seed": 2026092701,
+      "block": 14,
+      "k1": 160,
+      "k2": 550,
+      "f_label": "k1_160",
+      "operational": {
+        "label_match": true,
+        "tag_invoked": true,
+        "outcome": "exact"
+      },
+      "oracle": {
+        "label_match": true,
+        "tag_invoked": true,
+        "outcome": "exact"
+      }
+    },
+    {
+      "seed": 2026092701,
+      "block": 15,
+      "k1": 160,
+      "k2": 550,
+      "f_label": "k1_160",
+      "operational": {
+        "label_match": true,
+        "tag_invoked": true,
+        "outcome": "exact"
+      },
+      "oracle": {
+        "label_match": true,
+        "tag_invoked": true,
+        "outcome": "exact"
+      }
+    },
+    {
+      "seed": 2026092702,
+      "block": 0,
+      "k1": 160,
+      "k2": 550,
+      "f_label": "k1_160",
+      "operational": {
+        "label_match": true,
+        "tag_invoked": true,
+        "outcome": "exact"
+      },
+      "oracle": {
+        "label_match": true,
+        "tag_invoked": true,
+        "outcome": "exact"
+      }
+    },
+    {
+      "seed": 2026092702,
+      "block": 1,
+      "k1": 160,
+      "k2": 550,
+      "f_label": "k1_160",
+      "operational": {
+        "label_match": true,
+        "tag_invoked": true,
+        "outcome": "exact"
+      },
+      "oracle": {
+        "label_match": true,
+        "tag_invoked": true,
+        "outcome": "exact"
+      }
+    },
+    {
+      "seed": 2026092702,
+      "block": 2,
+      "k1": 160,
+      "k2": 550,
+      "f_label": "k1_160",
+      "operational": {
+        "label_match": true,
+        "tag_invoked": true,
+        "outcome": "exact"
+      },
+      "oracle": {
+        "label_match": true,
+        "tag_invoked": true,
+        "outcome": "exact"
+      }
+    },
+    {
+      "seed": 2026092702,
+      "block": 3,
+      "k1": 160,
+      "k2": 550,
+      "f_label": "k1_160",
+      "operational": {
+        "label_match": true,
+        "tag_invoked": true,
+        "outcome": "exact"
+      },
+      "oracle": {
+        "label_match": true,
+        "tag_invoked": true,
+        "outcome": "exact"
+      }
+    },
+    {
+      "seed": 2026092702,
+      "block": 4,
+      "k1": 160,
+      "k2": 550,
+      "f_label": "k1_160",
+      "operational": {
+        "label_match": true,
+        "tag_invoked": true,
+        "outcome": "exact"
+      },
+      "oracle": {
+        "label_match": true,
+        "tag_invoked": true,
+        "outcome": "exact"
+      }
+    },
+    {
+      "seed": 2026092702,
+      "block": 5,
+      "k1": 160,
+      "k2": 550,
+      "f_label": "k1_160",
+      "operational": {
+        "label_match": true,
+        "tag_invoked": true,
+        "outcome": "exact"
+      },
+      "oracle": {
+        "label_match": true,
+        "tag_invoked": true,
+        "outcome": "exact"
+      }
+    },
+    {
+      "seed": 2026092702,
+      "block": 6,
+      "k1": 160,
+      "k2": 550,
+      "f_label": "k1_160",
+      "operational": {
+        "label_match": true,
+        "tag_invoked": true,
+        "outcome": "exact"
+      },
+      "oracle": {
+        "label_match": true,
+        "tag_invoked": true,
+        "outcome": "exact"
+      }
+    },
+    {
+      "seed": 2026092702,
+      "block": 7,
+      "k1": 160,
+      "k2": 550,
+      "f_label": "k1_160",
+      "operational": {
+        "label_match": true,
+        "tag_invoked": true,
+        "outcome": "exact"
+      },
+      "oracle": {
+        "label_match": true,
+        "tag_invoked": true,
+        "outcome": "exact"
+      }
+    },
+    {
+      "seed": 2026092702,
+      "block": 8,
+      "k1": 160,
+      "k2": 550,
+      "f_label": "k1_160",
+      "operational": {
+        "label_match": true,
+        "tag_invoked": true,
+        "outcome": "exact"
+      },
+      "oracle": {
+        "label_match": true,
+        "tag_invoked": true,
+        "outcome": "exact"
+      }
+    },
+    {
+      "seed": 2026092702,
+      "block": 9,
+      "k1": 160,
+      "k2": 550,
+      "f_label": "k1_160",
+      "operational": {
+        "label_match": true,
+        "tag_invoked": true,
+        "outcome": "exact"
+      },
+      "oracle": {
+        "label_match": true,
+        "tag_invoked": true,
+        "outcome": "exact"
+      }
+    },
+    {
+      "seed": 2026092702,
+      "block": 10,
+      "k1": 160,
+      "k2": 550,
+      "f_label": "k1_160",
+      "operational": {
+        "label_match": true,
+        "tag_invoked": true,
+        "outcome": "exact"
+      },
+      "oracle": {
+        "label_match": true,
+        "tag_invoked": true,
+        "outcome": "exact"
+      }
+    },
+    {
+      "seed": 2026092702,
+      "block": 11,
+      "k1": 160,
+      "k2": 550,
+      "f_label": "k1_160",
+      "operational": {
+        "label_match": true,
+        "tag_invoked": true,
+        "outcome": "exact"
+      },
+      "oracle": {
+        "label_match": true,
+        "tag_invoked": true,
+        "outcome": "exact"
+      }
+    },
+    {
+      "seed": 2026092702,
+      "block": 12,
+      "k1": 160,
+      "k2": 550,
+      "f_label": "k1_160",
+      "operational": {
+        "label_match": true,
+        "tag_invoked": true,
+        "outcome": "exact"
+      },
+      "oracle": {
+        "label_match": true,
+        "tag_invoked": true,
+        "outcome": "exact"
+      }
+    },
+    {
+      "seed": 2026092702,
+      "block": 13,
+      "k1": 160,
+      "k2": 550,
+      "f_label": "k1_160",
+      "operational": {
+        "label_match": true,
+        "tag_invoked": true,
+        "outcome": "exact"
+      },
+      "oracle": {
+        "label_match": true,
+        "tag_invoked": true,
+        "outcome": "exact"
+      }
+    },
+    {
+      "seed": 2026092702,
+      "block": 14,
+      "k1": 160,
+      "k2": 550,
+      "f_label": "k1_160",
+      "operational": {
+        "label_match": true,
+        "tag_invoked": true,
+        "outcome": "exact"
+      },
+      "oracle": {
+        "label_match": true,
+        "tag_invoked": true,
+        "outcome": "exact"
+      }
+    },
+    {
+      "seed": 2026092702,
+      "block": 15,
+      "k1": 160,
+      "k2": 550,
+      "f_label": "k1_160",
+      "operational": {
+        "label_match": true,
+        "tag_invoked": true,
+        "outcome": "exact"
+      },
+      "oracle": {
+        "label_match": true,
+        "tag_invoked": true,
+        "outcome": "exact"
+      }
+    },
+    {
+      "seed": 2026092701,
+      "block": 0,
+      "k1": 320,
+      "k2": 550,
+      "f_label": "k1_320",
+      "operational": {
+        "label_match": true,
+        "tag_invoked": true,
+        "outcome": "exact"
+      },
+      "oracle": {
+        "label_match": true,
+        "tag_invoked": true,
+        "outcome": "exact"
+      }
+    },
+    {
+      "seed": 2026092701,
+      "block": 1,
+      "k1": 320,
+      "k2": 550,
+      "f_label": "k1_320",
+      "operational": {
+        "label_match": true,
+        "tag_invoked": true,
+        "outcome": "exact"
+      },
+      "oracle": {
+        "label_match": true,
+        "tag_invoked": true,
+        "outcome": "exact"
+      }
+    },
+    {
+      "seed": 2026092701,
+      "block": 2,
+      "k1": 320,
+      "k2": 550,
+      "f_label": "k1_320",
+      "operational": {
+        "label_match": true,
+        "tag_invoked": true,
+        "outcome": "exact"
+      },
+      "oracle": {
+        "label_match": true,
+        "tag_invoked": true,
+        "outcome": "exact"
+      }
+    },
+    {
+      "seed": 2026092701,
+      "block": 3,
+      "k1": 320,
+      "k2": 550,
+      "f_label": "k1_320",
+      "operational": {
+        "label_match": true,
+        "tag_invoked": true,
+        "outcome": "exact"
+      },
+      "oracle": {
+        "label_match": true,
+        "tag_invoked": true,
+        "outcome": "exact"
+      }
+    },
+    {
+      "seed": 2026092701,
+      "block": 4,
+      "k1": 320,
+      "k2": 550,
+      "f_label": "k1_320",
+      "operational": {
+        "label_match": true,
+        "tag_invoked": true,
+        "outcome": "exact"
+      },
+      "oracle": {
+        "label_match": true,
+        "tag_invoked": true,
+        "outcome": "exact"
+      }
+    },
+    {
+      "seed": 2026092701,
+      "block": 5,
+      "k1": 320,
+      "k2": 550,
+      "f_label": "k1_320",
+      "operational": {
+        "label_match": true,
+        "tag_invoked": true,
+        "outcome": "exact"
+      },
+      "oracle": {
+        "label_match": true,
+        "tag_invoked": true,
+        "outcome": "exact"
+      }
+    },
+    {
+      "seed": 2026092701,
+      "block": 6,
+      "k1": 320,
+      "k2": 550,
+      "f_label": "k1_320",
+      "operational": {
+        "label_match": true,
+        "tag_invoked": true,
+        "outcome": "exact"
+      },
+      "oracle": {
+        "label_match": true,
+        "tag_invoked": true,
+        "outcome": "exact"
+      }
+    },
+    {
+      "seed": 2026092701,
+      "block": 7,
+      "k1": 320,
+      "k2": 550,
+      "f_label": "k1_320",
+      "operational": {
+        "label_match": true,
+        "tag_invoked": true,
+        "outcome": "exact"
+      },
+      "oracle": {
+        "label_match": true,
+        "tag_invoked": true,
+        "outcome": "exact"
+      }
+    },
+    {
+      "seed": 2026092701,
+      "block": 8,
+      "k1": 320,
+      "k2": 550,
+      "f_label": "k1_320",
+      "operational": {
+        "label_match": true,
+        "tag_invoked": true,
+        "outcome": "exact"
+      },
+      "oracle": {
+        "label_match": true,
+        "tag_invoked": true,
+        "outcome": "exact"
+      }
+    },
+    {
+      "seed": 2026092701,
+      "block": 9,
+      "k1": 320,
+      "k2": 550,
+      "f_label": "k1_320",
+      "operational": {
+        "label_match": true,
+        "tag_invoked": true,
+        "outcome": "exact"
+      },
+      "oracle": {
+        "label_match": true,
+        "tag_invoked": true,
+        "outcome": "exact"
+      }
+    },
+    {
+      "seed": 2026092701,
+      "block": 10,
+      "k1": 320,
+      "k2": 550,
+      "f_label": "k1_320",
+      "operational": {
+        "label_match": true,
+        "tag_invoked": true,
+        "outcome": "exact"
+      },
+      "oracle": {
+        "label_match": true,
+        "tag_invoked": true,
+        "outcome": "exact"
+      }
+    },
+    {
+      "seed": 2026092701,
+      "block": 11,
+      "k1": 320,
+      "k2": 550,
+      "f_label": "k1_320",
+      "operational": {
+        "label_match": true,
+        "tag_invoked": true,
+        "outcome": "exact"
+      },
+      "oracle": {
+        "label_match": true,
+        "tag_invoked": true,
+        "outcome": "exact"
+      }
+    },
+    {
+      "seed": 2026092701,
+      "block": 12,
+      "k1": 320,
+      "k2": 550,
+      "f_label": "k1_320",
+      "operational": {
+        "label_match": true,
+        "tag_invoked": true,
+        "outcome": "exact"
+      },
+      "oracle": {
+        "label_match": true,
+        "tag_invoked": true,
+        "outcome": "exact"
+      }
+    },
+    {
+      "seed": 2026092701,
+      "block": 13,
+      "k1": 320,
+      "k2": 550,
+      "f_label": "k1_320",
+      "operational": {
+        "label_match": true,
+        "tag_invoked": true,
+        "outcome": "exact"
+      },
+      "oracle": {
+        "label_match": true,
+        "tag_invoked": true,
+        "outcome": "exact"
+      }
+    },
+    {
+      "seed": 2026092701,
+      "block": 14,
+      "k1": 320,
+      "k2": 550,
+      "f_label": "k1_320",
+      "operational": {
+        "label_match": true,
+        "tag_invoked": true,
+        "outcome": "exact"
+      },
+      "oracle": {
+        "label_match": true,
+        "tag_invoked": true,
+        "outcome": "exact"
+      }
+    },
+    {
+      "seed": 2026092701,
+      "block": 15,
+      "k1": 320,
+      "k2": 550,
+      "f_label": "k1_320",
+      "operational": {
+        "label_match": true,
+        "tag_invoked": true,
+        "outcome": "exact"
+      },
+      "oracle": {
+        "label_match": true,
+        "tag_invoked": true,
+        "outcome": "exact"
+      }
+    },
+    {
+      "seed": 2026092702,
+      "block": 0,
+      "k1": 320,
+      "k2": 550,
+      "f_label": "k1_320",
+      "operational": {
+        "label_match": true,
+        "tag_invoked": true,
+        "outcome": "exact"
+      },
+      "oracle": {
+        "label_match": true,
+        "tag_invoked": true,
+        "outcome": "exact"
+      }
+    },
+    {
+      "seed": 2026092702,
+      "block": 1,
+      "k1": 320,
+      "k2": 550,
+      "f_label": "k1_320",
+      "operational": {
+        "label_match": true,
+        "tag_invoked": true,
+        "outcome": "exact"
+      },
+      "oracle": {
+        "label_match": true,
+        "tag_invoked": true,
+        "outcome": "exact"
+      }
+    },
+    {
+      "seed": 2026092702,
+      "block": 2,
+      "k1": 320,
+      "k2": 550,
+      "f_label": "k1_320",
+      "operational": {
+        "label_match": true,
+        "tag_invoked": true,
+        "outcome": "exact"
+      },
+      "oracle": {
+        "label_match": true,
+        "tag_invoked": true,
+        "outcome": "exact"
+      }
+    },
+    {
+      "seed": 2026092702,
+      "block": 3,
+      "k1": 320,
+      "k2": 550,
+      "f_label": "k1_320",
+      "operational": {
+        "label_match": true,
+        "tag_invoked": true,
+        "outcome": "exact"
+      },
+      "oracle": {
+        "label_match": true,
+        "tag_invoked": true,
+        "outcome": "exact"
+      }
+    },
+    {
+      "seed": 2026092702,
+      "block": 4,
+      "k1": 320,
+      "k2": 550,
+      "f_label": "k1_320",
+      "operational": {
+        "label_match": true,
+        "tag_invoked": true,
+        "outcome": "exact"
+      },
+      "oracle": {
+        "label_match": true,
+        "tag_invoked": true,
+        "outcome": "exact"
+      }
+    },
+    {
+      "seed": 2026092702,
+      "block": 5,
+      "k1": 320,
+      "k2": 550,
+      "f_label": "k1_320",
+      "operational": {
+        "label_match": true,
+        "tag_invoked": true,
+        "outcome": "exact"
+      },
+      "oracle": {
+        "label_match": true,
+        "tag_invoked": true,
+        "outcome": "exact"
+      }
+    },
+    {
+      "seed": 2026092702,
+      "block": 6,
+      "k1": 320,
+      "k2": 550,
+      "f_label": "k1_320",
+      "operational": {
+        "label_match": true,
+        "tag_invoked": true,
+        "outcome": "exact"
+      },
+      "oracle": {
+        "label_match": true,
+        "tag_invoked": true,
+        "outcome": "exact"
+      }
+    },
+    {
+      "seed": 2026092702,
+      "block": 7,
+      "k1": 320,
+      "k2": 550,
+      "f_label": "k1_320",
+      "operational": {
+        "label_match": true,
+        "tag_invoked": true,
+        "outcome": "exact"
+      },
+      "oracle": {
+        "label_match": true,
+        "tag_invoked": true,
+        "outcome": "exact"
+      }
+    },
+    {
+      "seed": 2026092702,
+      "block": 8,
+      "k1": 320,
+      "k2": 550,
+      "f_label": "k1_320",
+      "operational": {
+        "label_match": true,
+        "tag_invoked": true,
+        "outcome": "exact"
+      },
+      "oracle": {
+        "label_match": true,
+        "tag_invoked": true,
+        "outcome": "exact"
+      }
+    },
+    {
+      "seed": 2026092702,
+      "block": 9,
+      "k1": 320,
+      "k2": 550,
+      "f_label": "k1_320",
+      "operational": {
+        "label_match": true,
+        "tag_invoked": true,
+        "outcome": "exact"
+      },
+      "oracle": {
+        "label_match": true,
+        "tag_invoked": true,
+        "outcome": "exact"
+      }
+    },
+    {
+      "seed": 2026092702,
+      "block": 10,
+      "k1": 320,
+      "k2": 550,
+      "f_label": "k1_320",
+      "operational": {
+        "label_match": true,
+        "tag_invoked": true,
+        "outcome": "exact"
+      },
+      "oracle": {
+        "label_match": true,
+        "tag_invoked": true,
+        "outcome": "exact"
+      }
+    },
+    {
+      "seed": 2026092702,
+      "block": 11,
+      "k1": 320,
+      "k2": 550,
+      "f_label": "k1_320",
+      "operational": {
+        "label_match": true,
+        "tag_invoked": true,
+        "outcome": "exact"
+      },
+      "oracle": {
+        "label_match": true,
+        "tag_invoked": true,
+        "outcome": "exact"
+      }
+    },
+    {
+      "seed": 2026092702,
+      "block": 12,
+      "k1": 320,
+      "k2": 550,
+      "f_label": "k1_320",
+      "operational": {
+        "label_match": true,
+        "tag_invoked": true,
+        "outcome": "exact"
+      },
+      "oracle": {
+        "label_match": true,
+        "tag_invoked": true,
+        "outcome": "exact"
+      }
+    },
+    {
+      "seed": 2026092702,
+      "block": 13,
+      "k1": 320,
+      "k2": 550,
+      "f_label": "k1_320",
+      "operational": {
+        "label_match": true,
+        "tag_invoked": true,
+        "outcome": "exact"
+      },
+      "oracle": {
+        "label_match": true,
+        "tag_invoked": true,
+        "outcome": "exact"
+      }
+    },
+    {
+      "seed": 2026092702,
+      "block": 14,
+      "k1": 320,
+      "k2": 550,
+      "f_label": "k1_320",
+      "operational": {
+        "label_match": true,
+        "tag_invoked": true,
+        "outcome": "exact"
+      },
+      "oracle": {
+        "label_match": true,
+        "tag_invoked": true,
+        "outcome": "exact"
+      }
+    },
+    {
+      "seed": 2026092702,
+      "block": 15,
+      "k1": 320,
+      "k2": 550,
+      "f_label": "k1_320",
+      "operational": {
+        "label_match": true,
+        "tag_invoked": true,
+        "outcome": "exact"
+      },
+      "oracle": {
+        "label_match": true,
+        "tag_invoked": true,
+        "outcome": "exact"
+      }
+    },
+    {
+      "seed": 2026092701,
+      "block": 0,
+      "k1": 450,
+      "k2": 550,
+      "f_label": "k1_450",
+      "operational": {
+        "label_match": true,
+        "tag_invoked": true,
+        "outcome": "exact"
+      },
+      "oracle": {
+        "label_match": true,
+        "tag_invoked": true,
+        "outcome": "exact"
+      }
+    },
+    {
+      "seed": 2026092701,
+      "block": 1,
+      "k1": 450,
+      "k2": 550,
+      "f_label": "k1_450",
+      "operational": {
+        "label_match": true,
+        "tag_invoked": true,
+        "outcome": "exact"
+      },
+      "oracle": {
+        "label_match": true,
+        "tag_invoked": true,
+        "outcome": "exact"
+      }
+    },
+    {
+      "seed": 2026092701,
+      "block": 2,
+      "k1": 450,
+      "k2": 550,
+      "f_label": "k1_450",
+      "operational": {
+        "label_match": true,
+        "tag_invoked": true,
+        "outcome": "exact"
+      },
+      "oracle": {
+        "label_match": true,
+        "tag_invoked": true,
+        "outcome": "exact"
+      }
+    },
+    {
+      "seed": 2026092701,
+      "block": 3,
+      "k1": 450,
+      "k2": 550,
+      "f_label": "k1_450",
+      "operational": {
+        "label_match": true,
+        "tag_invoked": true,
+        "outcome": "exact"
+      },
+      "oracle": {
+        "label_match": true,
+        "tag_invoked": true,
+        "outcome": "exact"
+      }
+    },
+    {
+      "seed": 2026092701,
+      "block": 4,
+      "k1": 450,
+      "k2": 550,
+      "f_label": "k1_450",
+      "operational": {
+        "label_match": true,
+        "tag_invoked": true,
+        "outcome": "exact"
+      },
+      "oracle": {
+        "label_match": true,
+        "tag_invoked": true,
+        "outcome": "exact"
+      }
+    },
+    {
+      "seed": 2026092701,
+      "block": 5,
+      "k1": 450,
+      "k2": 550,
+      "f_label": "k1_450",
+      "operational": {
+        "label_match": true,
+        "tag_invoked": true,
+        "outcome": "exact"
+      },
+      "oracle": {
+        "label_match": true,
+        "tag_invoked": true,
+        "outcome": "exact"
+      }
+    },
+    {
+      "seed": 2026092701,
+      "block": 6,
+      "k1": 450,
+      "k2": 550,
+      "f_label": "k1_450",
+      "operational": {
+        "label_match": true,
+        "tag_invoked": true,
+        "outcome": "exact"
+      },
+      "oracle": {
+        "label_match": true,
+        "tag_invoked": true,
+        "outcome": "exact"
+      }
+    },
+    {
+      "seed": 2026092701,
+      "block": 7,
+      "k1": 450,
+      "k2": 550,
+      "f_label": "k1_450",
+      "operational": {
+        "label_match": true,
+        "tag_invoked": true,
+        "outcome": "exact"
+      },
+      "oracle": {
+        "label_match": true,
+        "tag_invoked": true,
+        "outcome": "exact"
+      }
+    },
+    {
+      "seed": 2026092701,
+      "block": 8,
+      "k1": 450,
+      "k2": 550,
+      "f_label": "k1_450",
+      "operational": {
+        "label_match": true,
+        "tag_invoked": true,
+        "outcome": "exact"
+      },
+      "oracle": {
+        "label_match": true,
+        "tag_invoked": true,
+        "outcome": "exact"
+      }
+    },
+    {
+      "seed": 2026092701,
+      "block": 9,
+      "k1": 450,
+      "k2": 550,
+      "f_label": "k1_450",
+      "operational": {
+        "label_match": true,
+        "tag_invoked": true,
+        "outcome": "exact"
+      },
+      "oracle": {
+        "label_match": true,
+        "tag_invoked": true,
+        "outcome": "exact"
+      }
+    },
+    {
+      "seed": 2026092701,
+      "block": 10,
+      "k1": 450,
+      "k2": 550,
+      "f_label": "k1_450",
+      "operational": {
+        "label_match": true,
+        "tag_invoked": true,
+        "outcome": "exact"
+      },
+      "oracle": {
+        "label_match": true,
+        "tag_invoked": true,
+        "outcome": "exact"
+      }
+    },
+    {
+      "seed": 2026092701,
+      "block": 11,
+      "k1": 450,
+      "k2": 550,
+      "f_label": "k1_450",
+      "operational": {
+        "label_match": true,
+        "tag_invoked": true,
+        "outcome": "exact"
+      },
+      "oracle": {
+        "label_match": true,
+        "tag_invoked": true,
+        "outcome": "exact"
+      }
+    },
+    {
+      "seed": 2026092701,
+      "block": 12,
+      "k1": 450,
+      "k2": 550,
+      "f_label": "k1_450",
+      "operational": {
+        "label_match": true,
+        "tag_invoked": true,
+        "outcome": "exact"
+      },
+      "oracle": {
+        "label_match": true,
+        "tag_invoked": true,
+        "outcome": "exact"
+      }
+    },
+    {
+      "seed": 2026092701,
+      "block": 13,
+      "k1": 450,
+      "k2": 550,
+      "f_label": "k1_450",
+      "operational": {
+        "label_match": true,
+        "tag_invoked": true,
+        "outcome": "exact"
+      },
+      "oracle": {
+        "label_match": true,
+        "tag_invoked": true,
+        "outcome": "exact"
+      }
+    },
+    {
+      "seed": 2026092701,
+      "block": 14,
+      "k1": 450,
+      "k2": 550,
+      "f_label": "k1_450",
+      "operational": {
+        "label_match": true,
+        "tag_invoked": true,
+        "outcome": "exact"
+      },
+      "oracle": {
+        "label_match": true,
+        "tag_invoked": true,
+        "outcome": "exact"
+      }
+    },
+    {
+      "seed": 2026092701,
+      "block": 15,
+      "k1": 450,
+      "k2": 550,
+      "f_label": "k1_450",
+      "operational": {
+        "label_match": true,
+        "tag_invoked": true,
+        "outcome": "exact"
+      },
+      "oracle": {
+        "label_match": true,
+        "tag_invoked": true,
+        "outcome": "exact"
+      }
+    },
+    {
+      "seed": 2026092702,
+      "block": 0,
+      "k1": 450,
+      "k2": 550,
+      "f_label": "k1_450",
+      "operational": {
+        "label_match": true,
+        "tag_invoked": true,
+        "outcome": "exact"
+      },
+      "oracle": {
+        "label_match": true,
+        "tag_invoked": true,
+        "outcome": "exact"
+      }
+    },
+    {
+      "seed": 2026092702,
+      "block": 1,
+      "k1": 450,
+      "k2": 550,
+      "f_label": "k1_450",
+      "operational": {
+        "label_match": true,
+        "tag_invoked": true,
+        "outcome": "exact"
+      },
+      "oracle": {
+        "label_match": true,
+        "tag_invoked": true,
+        "outcome": "exact"
+      }
+    },
+    {
+      "seed": 2026092702,
+      "block": 2,
+      "k1": 450,
+      "k2": 550,
+      "f_label": "k1_450",
+      "operational": {
+        "label_match": true,
+        "tag_invoked": true,
+        "outcome": "exact"
+      },
+      "oracle": {
+        "label_match": true,
+        "tag_invoked": true,
+        "outcome": "exact"
+      }
+    },
+    {
+      "seed": 2026092702,
+      "block": 3,
+      "k1": 450,
+      "k2": 550,
+      "f_label": "k1_450",
+      "operational": {
+        "label_match": true,
+        "tag_invoked": true,
+        "outcome": "exact"
+      },
+      "oracle": {
+        "label_match": true,
+        "tag_invoked": true,
+        "outcome": "exact"
+      }
+    },
+    {
+      "seed": 2026092702,
+      "block": 4,
+      "k1": 450,
+      "k2": 550,
+      "f_label": "k1_450",
+      "operational": {
+        "label_match": true,
+        "tag_invoked": true,
+        "outcome": "exact"
+      },
+      "oracle": {
+        "label_match": true,
+        "tag_invoked": true,
+        "outcome": "exact"
+      }
+    },
+    {
+      "seed": 2026092702,
+      "block": 5,
+      "k1": 450,
+      "k2": 550,
+      "f_label": "k1_450",
+      "operational": {
+        "label_match": true,
+        "tag_invoked": true,
+        "outcome": "exact"
+      },
+      "oracle": {
+        "label_match": true,
+        "tag_invoked": true,
+        "outcome": "exact"
+      }
+    },
+    {
+      "seed": 2026092702,
+      "block": 6,
+      "k1": 450,
+      "k2": 550,
+      "f_label": "k1_450",
+      "operational": {
+        "label_match": true,
+        "tag_invoked": true,
+        "outcome": "exact"
+      },
+      "oracle": {
+        "label_match": true,
+        "tag_invoked": true,
+        "outcome": "exact"
+      }
+    },
+    {
+      "seed": 2026092702,
+      "block": 7,
+      "k1": 450,
+      "k2": 550,
+      "f_label": "k1_450",
+      "operational": {
+        "label_match": true,
+        "tag_invoked": true,
+        "outcome": "exact"
+      },
+      "oracle": {
+        "label_match": true,
+        "tag_invoked": true,
+        "outcome": "exact"
+      }
+    },
+    {
+      "seed": 2026092702,
+      "block": 8,
+      "k1": 450,
+      "k2": 550,
+      "f_label": "k1_450",
+      "operational": {
+        "label_match": true,
+        "tag_invoked": true,
+        "outcome": "exact"
+      },
+      "oracle": {
+        "label_match": true,
+        "tag_invoked": true,
+        "outcome": "exact"
+      }
+    },
+    {
+      "seed": 2026092702,
+      "block": 9,
+      "k1": 450,
+      "k2": 550,
+      "f_label": "k1_450",
+      "operational": {
+        "label_match": true,
+        "tag_invoked": true,
+        "outcome": "exact"
+      },
+      "oracle": {
+        "label_match": true,
+        "tag_invoked": true,
+        "outcome": "exact"
+      }
+    },
+    {
+      "seed": 2026092702,
+      "block": 10,
+      "k1": 450,
+      "k2": 550,
+      "f_label": "k1_450",
+      "operational": {
+        "label_match": true,
+        "tag_invoked": true,
+        "outcome": "exact"
+      },
+      "oracle": {
+        "label_match": true,
+        "tag_invoked": true,
+        "outcome": "exact"
+      }
+    },
+    {
+      "seed": 2026092702,
+      "block": 11,
+      "k1": 450,
+      "k2": 550,
+      "f_label": "k1_450",
+      "operational": {
+        "label_match": true,
+        "tag_invoked": true,
+        "outcome": "exact"
+      },
+      "oracle": {
+        "label_match": true,
+        "tag_invoked": true,
+        "outcome": "exact"
+      }
+    },
+    {
+      "seed": 2026092702,
+      "block": 12,
+      "k1": 450,
+      "k2": 550,
+      "f_label": "k1_450",
+      "operational": {
+        "label_match": true,
+        "tag_invoked": true,
+        "outcome": "exact"
+      },
+      "oracle": {
+        "label_match": true,
+        "tag_invoked": true,
+        "outcome": "exact"
+      }
+    },
+    {
+      "seed": 2026092702,
+      "block": 13,
+      "k1": 450,
+      "k2": 550,
+      "f_label": "k1_450",
+      "operational": {
+        "label_match": true,
+        "tag_invoked": true,
+        "outcome": "exact"
+      },
+      "oracle": {
+        "label_match": true,
+        "tag_invoked": true,
+        "outcome": "exact"
+      }
+    },
+    {
+      "seed": 2026092702,
+      "block": 14,
+      "k1": 450,
+      "k2": 550,
+      "f_label": "k1_450",
+      "operational": {
+        "label_match": true,
+        "tag_invoked": true,
+        "outcome": "exact"
+      },
+      "oracle": {
+        "label_match": true,
+        "tag_invoked": true,
+        "outcome": "exact"
+      }
+    },
+    {
+      "seed": 2026092702,
+      "block": 15,
+      "k1": 450,
+      "k2": 550,
+      "f_label": "k1_450",
+      "operational": {
+        "label_match": true,
+        "tag_invoked": true,
+        "outcome": "exact"
+      },
+      "oracle": {
+        "label_match": true,
+        "tag_invoked": true,
+        "outcome": "exact"
+      }
+    }
+  ],
+  "a3_outcomes_operational_total": {
+    "exact": 126,
+    "undetected": 0,
+    "verify_failed": 34,
+    "decode_failed": 0,
+    "resource_abort": 0
+  },
+  "a3_outcomes_oracle_total": {
+    "exact": 160,
+    "undetected": 0,
+    "verify_failed": 0,
+    "decode_failed": 0,
+    "resource_abort": 0
+  },
+  "a3_oracle_candidate_divergence": {
+    "defined": 160,
+    "true": 34,
+    "note": "report-only, no threshold"
+  },
+  "cells": {
+    "expected": 10,
+    "completed": 10
+  },
+  "wall_s": 118.95575040299445,
+  "peak_rss_bytes": 215814144,
+  "run_log": [
+    "A2 pooled-Z design done; Z0=[0.863116, 0.139031, 0.072954, 0.053741, 0.039825, 0.029812, 0.022642, 0.017527, 0.013886, 0.011299]",
+    "A3 MC genie design samples=128/128 complete=True wall=41.510",
+    "cell k1_010 k1=10 k2=550 seed=2026092701 blocks=16 arm=BASE A2=not_run fer_a3_op=1.0000 exact_or=16",
+    "cell k1_010 k1=10 k2=550 seed=2026092702 blocks=16 arm=BASE A2=not_run fer_a3_op=1.0000 exact_or=16",
+    "cell k1_080 k1=80 k2=550 seed=2026092701 blocks=16 arm=BASE A2=not_run fer_a3_op=0.0000 exact_or=16",
+    "cell k1_080 k1=80 k2=550 seed=2026092702 blocks=16 arm=BASE A2=not_run fer_a3_op=0.1250 exact_or=16",
+    "cell k1_160 k1=160 k2=550 seed=2026092701 blocks=16 arm=BASE A2=not_run fer_a3_op=0.0000 exact_or=16",
+    "cell k1_160 k1=160 k2=550 seed=2026092702 blocks=16 arm=BASE A2=not_run fer_a3_op=0.0000 exact_or=16",
+    "cell k1_320 k1=320 k2=550 seed=2026092701 blocks=16 arm=BASE A2=not_run fer_a3_op=0.0000 exact_or=16",
+    "cell k1_320 k1=320 k2=550 seed=2026092702 blocks=16 arm=BASE A2=not_run fer_a3_op=0.0000 exact_or=16",
+    "cell k1_450 k1=450 k2=550 seed=2026092701 blocks=16 arm=BASE A2=not_run fer_a3_op=0.0000 exact_or=16",
+    "cell k1_450 k1=450 k2=550 seed=2026092702 blocks=16 arm=BASE A2=not_run fer_a3_op=0.0000 exact_or=16"
+  ],
+  "claims": "Tier-X non-claim dose diagnostic only: no threshold, no significance wording, no H-label conclusion, no pass/fail verdict, no candidate/accepted token, no attempt accounting, no real/artifact data, no R2 sizing input, writes only under workspace/probes/op-k1-ramp-k550/; every k1 point is a bookkeeping-only dose diagnostic and NOT an efficiency operating point"
+}

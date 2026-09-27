@@ -1,0 +1,130 @@
+packet_id: op-k1-ramp-k550-packet
+probe_id: op-k1-ramp-k550
+tier: X
+status: DESCRIPTIVE_TIER_X_REVIEWED_DOSE_DIAGNOSTIC
+route: OPERATIONAL_K1_DOSE_RAMP_SINGLE_FACTOR
+predecessor_probe: workspace/probes/l2-singlefactor-c1-k550
+predecessor_status: DESCRIPTIVE_TIER_X_REVIEWED_WITH_LIMITATIONS
+predecessor_note: C1 produced a strong oracle-branch split (BASE 64/64 vs CAND 0/64) but operational 0/64 verify_failed; k1 was never varied in this series
+authorizations:
+  basis: BROAD_SYNTHETIC_WORK_AUTHORIZATION_GRANTED_IN_MAIN_CONVERSATION (as recorded in the C1 packet STATUS user_authorization) + MAIN_THREAD_FREEZE_REVIEW_PASS (P3)
+  real_data_touched: false
+  statement: This packet touches no real or protected data; it is synthetic-only Tier-X. No Tier-Y, no decode on real blocks.
+execution_authorized_by_packet: true
+execution_gate: P3_FREEZE_REVIEW_PASS_THEN_P4_ONE_SHOT
+freeze_review_verdict: FREEZE_REVIEW_PASS_7_OF_7
+freeze_review: workspace/op-k1-ramp-k550-packet/FREEZE_REVIEW.md
+execution_transcript: workspace/op-k1-ramp-k550-packet/EXECUTION_TRANSCRIPT.md
+
+adjudications:
+  DP-K1_theme:
+    decision: operational k1 dose ramp
+    not_selected: bounded-list candidates C2 / C3 / C4
+    rationale: >-
+      C1 already produced a strong separation on the oracle branch; repeating the
+      "information-set sensitivity" observation yields no new information. The
+      operational branch is FER=1.0 on every measured point so far (C1 k1=10/k2=550;
+      k2-dose-ramp k2 in {200,400,700,1024}), and k1 has never been scanned as a
+      single factor in the new series. Per AGENTS.md 1.1 the informative action is
+      to locate the first operational breakpoint.
+    authority: NEXT_L2_PROBE_DESIGN_20260925.md section 4 ACC criterion A ("next step decided by the main thread")
+    decided_by: main thread (overnight P1)
+  DP-K2_grid:
+    k1_grid: [10, 80, 160, 320, 450]
+    k2_single: 550
+    k2_fallback: none
+    base_rule: worst_k(H2,550)
+    d1_rule: worst_k(H1,k1)  # per grid point; d1_shared becomes per-config
+    bounded_points: 5
+    single_run: true
+  DP-K3_sample:
+    run_seeds: [2026092701, 2026092702]
+    blocks_per_seed: 16
+    blocks_per_point: 32
+    arms: [BASE]
+    arm_count: 1
+    total_blocks: 160
+  DP-K4_seeds:
+    design_seed: 2026092600
+    design_mc: 128
+    alignment_note: >-
+      design_seed and DESIGN_MC unchanged from C1, therefore d2=worst_k(H2,550) is
+      the SAME set as C1 BASE and the k1=10 point realigns with the C1 anchor.
+  DP-K5_budget:
+    wall_s: 600
+    rss_GiB: 1
+    check_cadence: every 32 design samples and every block
+    on_breach: status=incomplete, stop, no tuning
+    reruns_allowed: 0
+  dose_semantics:
+    rule: every k1 point is a bookkeeping-only dose diagnostic
+    forbidden: calling any k1 point an efficiency operating point
+    disclosed_formula: 5*(k1+k2)
+    bookkeeping_reference:
+      HN: 954.18
+      k1_10: {disclosed_bits: 2800, f_book: 2.9344139789, note: C1 anchor}
+      k1_80: {disclosed_bits: 3150, f_book: 3.3013}
+      k1_160: {disclosed_bits: 3550, f_book: 3.7204, note: cross-checks the 3550 point of k2-dose-ramp}
+      k1_320: {disclosed_bits: 4350, f_book: 4.5589}
+      k1_450: {disclosed_bits: 5000, f_book: 5.2401}
+
+parameters:
+  channel: F4@q1024
+  N: 1024
+  n_log: 10
+  k1_grid: [10, 80, 160, 320, 450]
+  k2_single: 550
+  toeplitz_master: 2026091361
+  reruns_allowed: 0
+output_root: workspace/probes/op-k1-ramp-k550
+result_path: workspace/probes/op-k1-ramp-k550/results.json
+write_scope:
+  - workspace/probes/op-k1-ramp-k550/results.json
+  - workspace/probes/op-k1-ramp-k550/.numba_cache/
+authoring_files:
+  - openspec/changes/nbpolar-op-k1-ramp-k550/proposal.md
+  - openspec/changes/nbpolar-op-k1-ramp-k550/design.md
+  - openspec/changes/nbpolar-op-k1-ramp-k550/tasks.md
+  - workspace/probes/op-k1-ramp-k550/prereg.md
+  - workspace/probes/op-k1-ramp-k550/run.py
+  - workspace/op-k1-ramp-k550-packet/TASK_PACKET.md
+  - workspace/op-k1-ramp-k550-packet/STATUS.yaml
+  - workspace/op-k1-ramp-k550-packet/FREEZE_REVIEW.md
+  - workspace/op-k1-ramp-k550-packet/EXECUTION_TRANSCRIPT.md
+  - workspace/op-k1-ramp-k550-packet/FOCUSED_REVIEW.md
+execution:
+  started_utc: '2026-09-26T19:01:06+00:00'
+  ended_utc: '2026-09-26T19:03:06+00:00'
+  direct_exit_code: 0
+  probe_runs: 1
+  reruns: 0
+  result_status: ok
+  within_budget: true
+  wall_s: 118.95575040299445
+  peak_rss_bytes: 215814144
+  cells_expected: 10
+  cells_completed: 10
+  stop_rules_triggered: []
+  stderr_note: WSL localhost/NAT proxy diagnostic only; no Python traceback
+  transcript: workspace/op-k1-ramp-k550-packet/EXECUTION_TRANSCRIPT.md
+runtime_readonly_dependency:
+  module: qkd_recon.polar_core
+  sys_path: /mnt/d/Code/qkd-reconciliation-lab/src
+  policy: inherited code import only; no data reads or writes
+stop_rules:
+  - undetected_gt_0: immediate_stop_isolated
+  - wall_gt_600s_or_rss_gt_1GiB: incomplete_stop_no_tuning
+  - exception: execution_error_one_record_no_retry
+gates_removed_vs_C1:
+  - identical_or_overlap_gte_495_design_gate  # not applicable: single arm
+gates_retained_vs_C1:
+  - undetected_isolation_stop
+  - budget_stop
+claim_boundary:
+  tier_x_non_claim: true
+  automatic_continuation: false
+  real_data_or_artifact_access: forbidden
+  results_or_comparison_output_writes: forbidden
+  r2_sizing_input: forbidden
+  significance_wording: forbidden
+  h_label_conclusion: forbidden
