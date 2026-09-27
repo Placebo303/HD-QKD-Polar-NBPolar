@@ -1,0 +1,74 @@
+packet_id: op-kratio-scale-packet
+probe_id: op-kratio-scale
+tier: X
+status: DESCRIPTIVE_TIER_X_REVIEWED
+derived_from: workspace/probes/op-k1k2-split-560/run.py (mechanical string-level derivative + declared loop change)
+parent_openspec_change: openspec/changes/nbpolar-op-k1-ramp-k550
+user_authorization: BROAD_SYNTHETIC_WORK_AUTHORIZATION_GRANTED_IN_MAIN_CONVERSATION (inherited; no real data touched)
+execution_authorized_by_packet: true
+execution_gate: MAIN_THREAD_FREEZE_REVIEW_PASS_2026-09-27_ONE_SHOT
+adjudications:
+  DP-R1: theme = TOTAL-SCALE at a FIXED allocation ratio k1:k2 = 1:6; the ratio is a declared derived choice taken from the observed peak band of op-k1k2-split-560 (NOT an independently preregistered ratio)
+  DP-R2: K_TOTALS = [560, 448, 336, 280, 224]; K1_GRID = [80, 64, 48, 40, 32]; k2 = kt - k1 = [480, 384, 288, 240, 192]
+  DP-R3: disclosed = 5*(k1+k2) = 2800/2240/1680/1400/1120 bits; f_book 2.9344139789/2.347531/1.760648/1.467207/1.173766 (bookkeeping only)
+  DP-R4: d1 = worst_k(H1,k1) per point and d2 = worst_k(H2,k2) per point (same rule as the parent split probe)
+  DP-R5: design_seed 2026092600 / DESIGN_MC 128 inherited; run seeds 2026092701..2026092702 => same (x,y) pairs as all preceding probes
+  DP-R6: 2 seeds x 16 blocks = 32 blocks per total; single arm BASE; 160 blocks total
+  DP-R7: wall <= 600 s; RSS <= 1 GiB; identical stop rules; one-shot reruns=0
+parameters:
+  channel: F4@q1024
+  N: 1024
+  n_log: 10
+  allocation_ratio: "k1:k2 = 1:6 (declared derived choice)"
+  k_totals: [560, 448, 336, 280, 224]
+  k1_grid: [80, 64, 48, 40, 32]
+  k2_by_k1: {80: 480, 64: 384, 48: 288, 40: 240, 32: 192}
+  design_seed: 2026092600
+  design_mc: 128
+  run_seeds: [2026092701, 2026092702]
+  blocks_per_seed: 16
+  blocks_per_point: 32
+  blocks_total: 160
+  disclosed_bits_per_point: {80: 2800, 64: 2240, 48: 1680, 40: 1400, 32: 1120}
+  f_book_per_point: {80: 2.9344139789, 64: 2.347531, 48: 1.760648, 40: 1.467207, 32: 1.173766}
+  toeplitz_master: 2026091361
+  wall_s: 600
+  rss_GiB: 1
+  reruns_allowed: 0
+execution:
+  result_status: ok
+  within_budget: true
+  probe_runs: 1
+  reruns: 0
+  cells: {expected: 10, completed: 10}
+  wall_s: 115.022
+  peak_rss_bytes: 215396352
+  stop_rules_triggered: []
+  per_point_operational_exact: {T560: 28, T448: 0, T336: 0, T280: 0, T224: 0}
+  per_point_oracle_exact: {T560: 30, T448: 0, T336: 0, T280: 0, T224: 0}
+  operational_totals: {exact: 28, undetected: 0, verify_failed: 132, decode_failed: 0, resource_abort: 0}
+  oracle_totals: {exact: 30, undetected: 0, verify_failed: 130, decode_failed: 0, resource_abort: 0}
+  key_dependent_bits_observed: [1184, 1464, 1744, 2304, 2864]
+  lowest_total_with_nonzero_operational: 560
+output_root: workspace/probes/op-kratio-scale
+result_path: workspace/probes/op-kratio-scale/results.json
+write_scope:
+  - workspace/probes/op-kratio-scale/results.json
+  - workspace/probes/op-kratio-scale/.numba_cache/
+runtime_readonly_dependency:
+  module: qkd_recon.polar_core
+  sys_path: /mnt/d/Code/qkd-reconciliation-lab/src
+  policy: inherited code import only; no data reads or writes
+claim_boundary:
+  tier_x_non_claim: true
+  bookkeeping_only_total_scale_diagnostic: true
+  no_efficiency_or_operating_point_claim: true
+  no_real_data_extrapolation: true
+  ratio_is_derived_choice_from_preceding_probe: true
+  low_f_unreachability_not_established: true
+  automatic_continuation: false
+  real_data_or_artifact_access: forbidden
+  results_or_comparison_output_writes: forbidden
+git_boundary:
+  no_add_no_commit_no_push_no_stage: true
+  note: all git actions suspended pending explicit user instruction

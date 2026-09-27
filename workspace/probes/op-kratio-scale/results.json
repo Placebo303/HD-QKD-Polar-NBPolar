@@ -1,0 +1,3482 @@
+{
+  "probe_id": "op-kratio-scale",
+  "tier": "X",
+  "status": "ok",
+  "probe_runs": 1,
+  "reruns": 0,
+  "within_budget": true,
+  "stop_rules_triggered": [],
+  "prereg": {
+    "path": "workspace/probes/op-kratio-scale/prereg.md",
+    "entries": [
+      "Q",
+      "P",
+      "C"
+    ],
+    "note": "Q/P/C recorded verbatim in prereg.md; frozen parameters mirrored structurally under frozen_params; executed command = prereg C entry with interpreter/env mirrored under execution"
+  },
+  "frozen_params": {
+    "channel": {
+      "name": "F4@q1024",
+      "q": 1024,
+      "p_delta0": 0.75,
+      "p_delta_plus1": 0.24,
+      "p_delta_minus1": 0.005,
+      "residual_mass": 0.005,
+      "residual_spread_over": 1021,
+      "model": "y = (x + delta) mod 1024, x uniform"
+    },
+    "H": 0.9318300074841255,
+    "H_times_N": 954.1939276637445,
+    "N": 1024,
+    "n_log": 10,
+    "planes": 10,
+    "f_convention": "f = disclosed bits / (H * N); 64-bit Toeplitz tag EXCLUDED from f (convention carried from predecessors for comparability); A3 tag-inclusive leakage also reported via key_dependent_bits",
+    "single_factor": "TOTAL-SCALE at fixed allocation ratio k1:k2 = 1:6 (peak ratio observed in op-k1k2-split-560); totals [560, 448, 336, 280, 224] descend 560..224 with disclosed 2800..1120 bits; k1 grid = [80, 64, 48, 40, 32]; d2 = worst_k(H2,k2) per point; d1 = worst_k(H1,k1) recomputed per point from the same frozen family rule",
+    "k1_grid": [
+      80,
+      64,
+      48,
+      40,
+      32
+    ],
+    "k2_single": 550,
+    "k1_points": {
+      "80": {
+        "label": "T560_k1_80_k2_480",
+        "disclosed": 2800,
+        "f_book": 2.9344139789
+      },
+      "64": {
+        "label": "T448_k1_64_k2_384",
+        "disclosed": 2240,
+        "f_book": 2.347531
+      },
+      "48": {
+        "label": "T336_k1_48_k2_288",
+        "disclosed": 1680,
+        "f_book": 1.760648
+      },
+      "40": {
+        "label": "T280_k1_40_k2_240",
+        "disclosed": 1400,
+        "f_book": 1.467207
+      },
+      "32": {
+        "label": "T224_k1_32_k2_192",
+        "disclosed": 1120,
+        "f_book": 1.173766
+      }
+    },
+    "seeds": [
+      2026092701,
+      2026092702
+    ],
+    "blocks_per_seed": 16,
+    "blocks_per_point": 32,
+    "design_seed": 2026092600,
+    "design_mc_samples": 128,
+    "scl_list_size": 8,
+    "g2_k1_k2_counts": [
+      319,
+      6492
+    ],
+    "a2_split_rule": "not_run (no A2 design/measurement in this probe; A2 summaries not_run)",
+    "a3_split_rule": "FROZEN total-scale grid: k1 varies over [80, 64, 48, 40, 32] at the fixed allocation ratio k1:k2=1:6, so total k and disclosed bits vary together (2800/2240/1680/1400/1120 bits); (f_book bookkeeping only, NOT efficiency points; tag excluded); d1=worst_k(H1,k1) per point; d2=worst_k(H2,k2) per point; same H1/H2 design vectors as C1 (design_seed=2026092600, DESIGN_MC=128)",
+    "construction_ids": {
+      "BASE": "A3-BASE-D1-WORST-H1-KGRID-D2-WORST-H2-550"
+    },
+    "pairing": "per (seed, block): rng=default_rng([seed, block]); draw x=integers(0,1024,N) then delta=choice(1024,N,p=pmf); y=(x+delta)%1024; identical (x,y) reused across the k1 grid via the same (seed,block) index",
+    "a3_semantics": "run_two_layer_block operational arm FER = (label_match == False); outcomes exact/verify_failed/decode_failed/undetected/resource_abort counted isolated, undetected never merged into success; oracle arm + candidate divergence report-only; toeplitz_master=2026091361",
+    "budget": {
+      "wall_s": 600.0,
+      "rss_bytes": 1073741824,
+      "check": "every block and every 32 design samples; breach -> immediate stop, status incomplete, no tuning"
+    },
+    "rerun_policy": "one-shot reruns=0: execution-error rerun NOT allowed; any error -> status execution_error/incomplete with traceback, no retry, no parameter/seed change",
+    "deviations_from_plan_A_rows": [
+      "N=1024 (plan A2/A3 row: N=2^15) - packet-frozen Tier-X scale-up, same as predecessor",
+      "160 blocks total (5 totals at fixed 1:6 ratio x 2 seeds x 16; plan completion: >=1000 blocks) - Tier-X downscale one-shot",
+      "k1 grid [80, 64, 48, 40, 32] with disclosed 2800..1120 bits across totals; every point is a bookkeeping-only dose diagnostic and NOT an efficiency point; no point may be described as a usable operating point",
+      "channel is parametric F4@q1024 (plan: measured-ternary synthetic) - predecessor froze F4",
+      "A3 runs the two-layer GF32 path of the current M2 code (raw GF1024 SC infeasible at q=1024)",
+      "64-bit Toeplitz tag excluded from f (convention carried from predecessors for comparability); tag still executed inside A3",
+      "A2 not run (no A2 design/measurement; A2 summaries not_run) - predecessor froze cost saving",
+      "non-claim Tier-X: no pass/fail threshold, no significance wording, no Wilson interval, no scoreboard row, no R2 sizing input"
+    ]
+  },
+  "execution": {
+    "interpreter": "/home/karel_303/.venvs/hd-qkd-polar-comparison/bin/python",
+    "env": {
+      "PYTHONDONTWRITEBYTECODE": "1",
+      "NUMBA_CACHE_DIR": "/mnt/d/Code/HD-QKD_Polar_Comparison-nbpolar/workspace/probes/op-kratio-scale/.numba_cache",
+      "OMP_NUM_THREADS": "1",
+      "OPENBLAS_NUM_THREADS": "1",
+      "MKL_NUM_THREADS": "1",
+      "NUMBA_NUM_THREADS": "1",
+      "PYTHONPATH": "/mnt/d/Code/HD-QKD_Polar_Comparison-nbpolar/comparison_bench/src"
+    },
+    "invocation": "run.py invoked by the preregistered C command",
+    "python_version": "3.12.3",
+    "numpy_version": "2.4.4"
+  },
+  "design": {
+    "a2_Z0_per_plane": [
+      0.8631164775653201,
+      0.13903149785749888,
+      0.07295359411695171,
+      0.05374089937444135,
+      0.039825395766112576,
+      0.029812393283072176,
+      0.022642448131938032,
+      0.01752658085797369,
+      0.013885743919132708,
+      0.011299455777048755
+    ],
+    "a2_selection": "pooled worst-Z-first",
+    "a3_design_samples": 128,
+    "a3_H1_mean": 0.12726212930897193,
+    "a3_H2_mean": 1.269108966350481,
+    "joint_table_colsum_max_dev": 5.0959236830294685e-14,
+    "construction_ids": {
+      "BASE": "A3-BASE-D1-WORST-H1-KGRID-D2-WORST-H2-550"
+    }
+  },
+  "points": [
+    {
+      "f_target": 2.9344139789,
+      "f_label": "T560_k1_80_k2_480",
+      "k1": 80,
+      "D_planned": 2800,
+      "D_disclosed_a2": null,
+      "f_actual_a2": null,
+      "k_total": 560,
+      "k2": 480,
+      "bits_a3_disclosed": 2800,
+      "f_actual_a3": 2.93441397898595,
+      "info_per_plane_a2": null,
+      "a2_guard_swaps": [],
+      "a2_status": "not_run",
+      "construction_id": "A3-BASE-D1-WORST-H1-KGRID-D2-WORST-H2-550",
+      "d1_len": 80,
+      "d2_len": 480,
+      "per_seed": [
+        {
+          "f_target": 2.9344139789,
+          "f_label": "T560_k1_80_k2_480",
+          "k1": 80,
+          "k2": 480,
+          "seed": 2026092701,
+          "blocks": 16,
+          "a2_sc_frame_errors": null,
+          "a2_scl8_frame_errors": null,
+          "a3_op_frame_errors": 2,
+          "a2_sc_fer": null,
+          "a2_scl8_fer": null,
+          "a3_op_fer": 0.125,
+          "a3_oracle_exact": 14,
+          "a3_oracle_exact_rate": 0.875,
+          "a3_op_outcomes": {
+            "exact": 14,
+            "undetected": 0,
+            "verify_failed": 2,
+            "decode_failed": 0,
+            "resource_abort": 0
+          },
+          "a3_oracle_outcomes": {
+            "exact": 14,
+            "undetected": 0,
+            "verify_failed": 2,
+            "decode_failed": 0,
+            "resource_abort": 0
+          },
+          "a2_status": "not_run",
+          "delta_a3_minus_a2_sc": null,
+          "delta_a3_minus_a2_scl8": null
+        },
+        {
+          "f_target": 2.9344139789,
+          "f_label": "T560_k1_80_k2_480",
+          "k1": 80,
+          "k2": 480,
+          "seed": 2026092702,
+          "blocks": 16,
+          "a2_sc_frame_errors": null,
+          "a2_scl8_frame_errors": null,
+          "a3_op_frame_errors": 2,
+          "a2_sc_fer": null,
+          "a2_scl8_fer": null,
+          "a3_op_fer": 0.125,
+          "a3_oracle_exact": 16,
+          "a3_oracle_exact_rate": 1.0,
+          "a3_op_outcomes": {
+            "exact": 14,
+            "undetected": 0,
+            "verify_failed": 2,
+            "decode_failed": 0,
+            "resource_abort": 0
+          },
+          "a3_oracle_outcomes": {
+            "exact": 16,
+            "undetected": 0,
+            "verify_failed": 0,
+            "decode_failed": 0,
+            "resource_abort": 0
+          },
+          "a2_status": "not_run",
+          "delta_a3_minus_a2_sc": null,
+          "delta_a3_minus_a2_scl8": null
+        }
+      ],
+      "operational_totals": {
+        "exact": 28,
+        "undetected": 0,
+        "verify_failed": 4,
+        "decode_failed": 0,
+        "resource_abort": 0
+      },
+      "oracle_totals": {
+        "exact": 30,
+        "undetected": 0,
+        "verify_failed": 2,
+        "decode_failed": 0,
+        "resource_abort": 0
+      },
+      "summaries": {
+        "a3_op_fer": {
+          "series": [
+            0.125,
+            0.125
+          ],
+          "mean": 0.125,
+          "sample_std": 0.0,
+          "range": [
+            0.125,
+            0.125
+          ],
+          "n": 2
+        },
+        "a3_oracle_exact_rate": {
+          "series": [
+            0.875,
+            1.0
+          ],
+          "mean": 0.9375,
+          "sample_std": 0.08838834764831845,
+          "range": [
+            0.875,
+            1.0
+          ],
+          "n": 2
+        },
+        "a2_sc_fer": {
+          "series": [],
+          "mean": null,
+          "sample_std": null,
+          "range": null,
+          "n": 0,
+          "note": "not_run"
+        },
+        "a2_scl8_fer": {
+          "series": [],
+          "mean": null,
+          "sample_std": null,
+          "range": null,
+          "n": 0,
+          "note": "not_run"
+        }
+      },
+      "delta_complete": true
+    },
+    {
+      "f_target": 2.347531,
+      "f_label": "T448_k1_64_k2_384",
+      "k1": 64,
+      "D_planned": 2240,
+      "D_disclosed_a2": null,
+      "f_actual_a2": null,
+      "k_total": 448,
+      "k2": 384,
+      "bits_a3_disclosed": 2240,
+      "f_actual_a3": 2.3475311831887598,
+      "info_per_plane_a2": null,
+      "a2_guard_swaps": [],
+      "a2_status": "not_run",
+      "construction_id": "A3-BASE-D1-WORST-H1-KGRID-D2-WORST-H2-550",
+      "d1_len": 64,
+      "d2_len": 384,
+      "per_seed": [
+        {
+          "f_target": 2.347531,
+          "f_label": "T448_k1_64_k2_384",
+          "k1": 64,
+          "k2": 384,
+          "seed": 2026092701,
+          "blocks": 16,
+          "a2_sc_frame_errors": null,
+          "a2_scl8_frame_errors": null,
+          "a3_op_frame_errors": 16,
+          "a2_sc_fer": null,
+          "a2_scl8_fer": null,
+          "a3_op_fer": 1.0,
+          "a3_oracle_exact": 0,
+          "a3_oracle_exact_rate": 0.0,
+          "a3_op_outcomes": {
+            "exact": 0,
+            "undetected": 0,
+            "verify_failed": 16,
+            "decode_failed": 0,
+            "resource_abort": 0
+          },
+          "a3_oracle_outcomes": {
+            "exact": 0,
+            "undetected": 0,
+            "verify_failed": 16,
+            "decode_failed": 0,
+            "resource_abort": 0
+          },
+          "a2_status": "not_run",
+          "delta_a3_minus_a2_sc": null,
+          "delta_a3_minus_a2_scl8": null
+        },
+        {
+          "f_target": 2.347531,
+          "f_label": "T448_k1_64_k2_384",
+          "k1": 64,
+          "k2": 384,
+          "seed": 2026092702,
+          "blocks": 16,
+          "a2_sc_frame_errors": null,
+          "a2_scl8_frame_errors": null,
+          "a3_op_frame_errors": 16,
+          "a2_sc_fer": null,
+          "a2_scl8_fer": null,
+          "a3_op_fer": 1.0,
+          "a3_oracle_exact": 0,
+          "a3_oracle_exact_rate": 0.0,
+          "a3_op_outcomes": {
+            "exact": 0,
+            "undetected": 0,
+            "verify_failed": 16,
+            "decode_failed": 0,
+            "resource_abort": 0
+          },
+          "a3_oracle_outcomes": {
+            "exact": 0,
+            "undetected": 0,
+            "verify_failed": 16,
+            "decode_failed": 0,
+            "resource_abort": 0
+          },
+          "a2_status": "not_run",
+          "delta_a3_minus_a2_sc": null,
+          "delta_a3_minus_a2_scl8": null
+        }
+      ],
+      "operational_totals": {
+        "exact": 0,
+        "undetected": 0,
+        "verify_failed": 32,
+        "decode_failed": 0,
+        "resource_abort": 0
+      },
+      "oracle_totals": {
+        "exact": 0,
+        "undetected": 0,
+        "verify_failed": 32,
+        "decode_failed": 0,
+        "resource_abort": 0
+      },
+      "summaries": {
+        "a3_op_fer": {
+          "series": [
+            1.0,
+            1.0
+          ],
+          "mean": 1.0,
+          "sample_std": 0.0,
+          "range": [
+            1.0,
+            1.0
+          ],
+          "n": 2
+        },
+        "a3_oracle_exact_rate": {
+          "series": [
+            0.0,
+            0.0
+          ],
+          "mean": 0.0,
+          "sample_std": 0.0,
+          "range": [
+            0.0,
+            0.0
+          ],
+          "n": 2
+        },
+        "a2_sc_fer": {
+          "series": [],
+          "mean": null,
+          "sample_std": null,
+          "range": null,
+          "n": 0,
+          "note": "not_run"
+        },
+        "a2_scl8_fer": {
+          "series": [],
+          "mean": null,
+          "sample_std": null,
+          "range": null,
+          "n": 0,
+          "note": "not_run"
+        }
+      },
+      "delta_complete": true
+    },
+    {
+      "f_target": 1.760648,
+      "f_label": "T336_k1_48_k2_288",
+      "k1": 48,
+      "D_planned": 1680,
+      "D_disclosed_a2": null,
+      "f_actual_a2": null,
+      "k_total": 336,
+      "k2": 288,
+      "bits_a3_disclosed": 1680,
+      "f_actual_a3": 1.76064838739157,
+      "info_per_plane_a2": null,
+      "a2_guard_swaps": [],
+      "a2_status": "not_run",
+      "construction_id": "A3-BASE-D1-WORST-H1-KGRID-D2-WORST-H2-550",
+      "d1_len": 48,
+      "d2_len": 288,
+      "per_seed": [
+        {
+          "f_target": 1.760648,
+          "f_label": "T336_k1_48_k2_288",
+          "k1": 48,
+          "k2": 288,
+          "seed": 2026092701,
+          "blocks": 16,
+          "a2_sc_frame_errors": null,
+          "a2_scl8_frame_errors": null,
+          "a3_op_frame_errors": 16,
+          "a2_sc_fer": null,
+          "a2_scl8_fer": null,
+          "a3_op_fer": 1.0,
+          "a3_oracle_exact": 0,
+          "a3_oracle_exact_rate": 0.0,
+          "a3_op_outcomes": {
+            "exact": 0,
+            "undetected": 0,
+            "verify_failed": 16,
+            "decode_failed": 0,
+            "resource_abort": 0
+          },
+          "a3_oracle_outcomes": {
+            "exact": 0,
+            "undetected": 0,
+            "verify_failed": 16,
+            "decode_failed": 0,
+            "resource_abort": 0
+          },
+          "a2_status": "not_run",
+          "delta_a3_minus_a2_sc": null,
+          "delta_a3_minus_a2_scl8": null
+        },
+        {
+          "f_target": 1.760648,
+          "f_label": "T336_k1_48_k2_288",
+          "k1": 48,
+          "k2": 288,
+          "seed": 2026092702,
+          "blocks": 16,
+          "a2_sc_frame_errors": null,
+          "a2_scl8_frame_errors": null,
+          "a3_op_frame_errors": 16,
+          "a2_sc_fer": null,
+          "a2_scl8_fer": null,
+          "a3_op_fer": 1.0,
+          "a3_oracle_exact": 0,
+          "a3_oracle_exact_rate": 0.0,
+          "a3_op_outcomes": {
+            "exact": 0,
+            "undetected": 0,
+            "verify_failed": 16,
+            "decode_failed": 0,
+            "resource_abort": 0
+          },
+          "a3_oracle_outcomes": {
+            "exact": 0,
+            "undetected": 0,
+            "verify_failed": 16,
+            "decode_failed": 0,
+            "resource_abort": 0
+          },
+          "a2_status": "not_run",
+          "delta_a3_minus_a2_sc": null,
+          "delta_a3_minus_a2_scl8": null
+        }
+      ],
+      "operational_totals": {
+        "exact": 0,
+        "undetected": 0,
+        "verify_failed": 32,
+        "decode_failed": 0,
+        "resource_abort": 0
+      },
+      "oracle_totals": {
+        "exact": 0,
+        "undetected": 0,
+        "verify_failed": 32,
+        "decode_failed": 0,
+        "resource_abort": 0
+      },
+      "summaries": {
+        "a3_op_fer": {
+          "series": [
+            1.0,
+            1.0
+          ],
+          "mean": 1.0,
+          "sample_std": 0.0,
+          "range": [
+            1.0,
+            1.0
+          ],
+          "n": 2
+        },
+        "a3_oracle_exact_rate": {
+          "series": [
+            0.0,
+            0.0
+          ],
+          "mean": 0.0,
+          "sample_std": 0.0,
+          "range": [
+            0.0,
+            0.0
+          ],
+          "n": 2
+        },
+        "a2_sc_fer": {
+          "series": [],
+          "mean": null,
+          "sample_std": null,
+          "range": null,
+          "n": 0,
+          "note": "not_run"
+        },
+        "a2_scl8_fer": {
+          "series": [],
+          "mean": null,
+          "sample_std": null,
+          "range": null,
+          "n": 0,
+          "note": "not_run"
+        }
+      },
+      "delta_complete": true
+    },
+    {
+      "f_target": 1.467207,
+      "f_label": "T280_k1_40_k2_240",
+      "k1": 40,
+      "D_planned": 1400,
+      "D_disclosed_a2": null,
+      "f_actual_a2": null,
+      "k_total": 280,
+      "k2": 240,
+      "bits_a3_disclosed": 1400,
+      "f_actual_a3": 1.467206989492975,
+      "info_per_plane_a2": null,
+      "a2_guard_swaps": [],
+      "a2_status": "not_run",
+      "construction_id": "A3-BASE-D1-WORST-H1-KGRID-D2-WORST-H2-550",
+      "d1_len": 40,
+      "d2_len": 240,
+      "per_seed": [
+        {
+          "f_target": 1.467207,
+          "f_label": "T280_k1_40_k2_240",
+          "k1": 40,
+          "k2": 240,
+          "seed": 2026092701,
+          "blocks": 16,
+          "a2_sc_frame_errors": null,
+          "a2_scl8_frame_errors": null,
+          "a3_op_frame_errors": 16,
+          "a2_sc_fer": null,
+          "a2_scl8_fer": null,
+          "a3_op_fer": 1.0,
+          "a3_oracle_exact": 0,
+          "a3_oracle_exact_rate": 0.0,
+          "a3_op_outcomes": {
+            "exact": 0,
+            "undetected": 0,
+            "verify_failed": 16,
+            "decode_failed": 0,
+            "resource_abort": 0
+          },
+          "a3_oracle_outcomes": {
+            "exact": 0,
+            "undetected": 0,
+            "verify_failed": 16,
+            "decode_failed": 0,
+            "resource_abort": 0
+          },
+          "a2_status": "not_run",
+          "delta_a3_minus_a2_sc": null,
+          "delta_a3_minus_a2_scl8": null
+        },
+        {
+          "f_target": 1.467207,
+          "f_label": "T280_k1_40_k2_240",
+          "k1": 40,
+          "k2": 240,
+          "seed": 2026092702,
+          "blocks": 16,
+          "a2_sc_frame_errors": null,
+          "a2_scl8_frame_errors": null,
+          "a3_op_frame_errors": 16,
+          "a2_sc_fer": null,
+          "a2_scl8_fer": null,
+          "a3_op_fer": 1.0,
+          "a3_oracle_exact": 0,
+          "a3_oracle_exact_rate": 0.0,
+          "a3_op_outcomes": {
+            "exact": 0,
+            "undetected": 0,
+            "verify_failed": 16,
+            "decode_failed": 0,
+            "resource_abort": 0
+          },
+          "a3_oracle_outcomes": {
+            "exact": 0,
+            "undetected": 0,
+            "verify_failed": 16,
+            "decode_failed": 0,
+            "resource_abort": 0
+          },
+          "a2_status": "not_run",
+          "delta_a3_minus_a2_sc": null,
+          "delta_a3_minus_a2_scl8": null
+        }
+      ],
+      "operational_totals": {
+        "exact": 0,
+        "undetected": 0,
+        "verify_failed": 32,
+        "decode_failed": 0,
+        "resource_abort": 0
+      },
+      "oracle_totals": {
+        "exact": 0,
+        "undetected": 0,
+        "verify_failed": 32,
+        "decode_failed": 0,
+        "resource_abort": 0
+      },
+      "summaries": {
+        "a3_op_fer": {
+          "series": [
+            1.0,
+            1.0
+          ],
+          "mean": 1.0,
+          "sample_std": 0.0,
+          "range": [
+            1.0,
+            1.0
+          ],
+          "n": 2
+        },
+        "a3_oracle_exact_rate": {
+          "series": [
+            0.0,
+            0.0
+          ],
+          "mean": 0.0,
+          "sample_std": 0.0,
+          "range": [
+            0.0,
+            0.0
+          ],
+          "n": 2
+        },
+        "a2_sc_fer": {
+          "series": [],
+          "mean": null,
+          "sample_std": null,
+          "range": null,
+          "n": 0,
+          "note": "not_run"
+        },
+        "a2_scl8_fer": {
+          "series": [],
+          "mean": null,
+          "sample_std": null,
+          "range": null,
+          "n": 0,
+          "note": "not_run"
+        }
+      },
+      "delta_complete": true
+    },
+    {
+      "f_target": 1.173766,
+      "f_label": "T224_k1_32_k2_192",
+      "k1": 32,
+      "D_planned": 1120,
+      "D_disclosed_a2": null,
+      "f_actual_a2": null,
+      "k_total": 224,
+      "k2": 192,
+      "bits_a3_disclosed": 1120,
+      "f_actual_a3": 1.1737655915943799,
+      "info_per_plane_a2": null,
+      "a2_guard_swaps": [],
+      "a2_status": "not_run",
+      "construction_id": "A3-BASE-D1-WORST-H1-KGRID-D2-WORST-H2-550",
+      "d1_len": 32,
+      "d2_len": 192,
+      "per_seed": [
+        {
+          "f_target": 1.173766,
+          "f_label": "T224_k1_32_k2_192",
+          "k1": 32,
+          "k2": 192,
+          "seed": 2026092701,
+          "blocks": 16,
+          "a2_sc_frame_errors": null,
+          "a2_scl8_frame_errors": null,
+          "a3_op_frame_errors": 16,
+          "a2_sc_fer": null,
+          "a2_scl8_fer": null,
+          "a3_op_fer": 1.0,
+          "a3_oracle_exact": 0,
+          "a3_oracle_exact_rate": 0.0,
+          "a3_op_outcomes": {
+            "exact": 0,
+            "undetected": 0,
+            "verify_failed": 16,
+            "decode_failed": 0,
+            "resource_abort": 0
+          },
+          "a3_oracle_outcomes": {
+            "exact": 0,
+            "undetected": 0,
+            "verify_failed": 16,
+            "decode_failed": 0,
+            "resource_abort": 0
+          },
+          "a2_status": "not_run",
+          "delta_a3_minus_a2_sc": null,
+          "delta_a3_minus_a2_scl8": null
+        },
+        {
+          "f_target": 1.173766,
+          "f_label": "T224_k1_32_k2_192",
+          "k1": 32,
+          "k2": 192,
+          "seed": 2026092702,
+          "blocks": 16,
+          "a2_sc_frame_errors": null,
+          "a2_scl8_frame_errors": null,
+          "a3_op_frame_errors": 16,
+          "a2_sc_fer": null,
+          "a2_scl8_fer": null,
+          "a3_op_fer": 1.0,
+          "a3_oracle_exact": 0,
+          "a3_oracle_exact_rate": 0.0,
+          "a3_op_outcomes": {
+            "exact": 0,
+            "undetected": 0,
+            "verify_failed": 16,
+            "decode_failed": 0,
+            "resource_abort": 0
+          },
+          "a3_oracle_outcomes": {
+            "exact": 0,
+            "undetected": 0,
+            "verify_failed": 16,
+            "decode_failed": 0,
+            "resource_abort": 0
+          },
+          "a2_status": "not_run",
+          "delta_a3_minus_a2_sc": null,
+          "delta_a3_minus_a2_scl8": null
+        }
+      ],
+      "operational_totals": {
+        "exact": 0,
+        "undetected": 0,
+        "verify_failed": 32,
+        "decode_failed": 0,
+        "resource_abort": 0
+      },
+      "oracle_totals": {
+        "exact": 0,
+        "undetected": 0,
+        "verify_failed": 32,
+        "decode_failed": 0,
+        "resource_abort": 0
+      },
+      "summaries": {
+        "a3_op_fer": {
+          "series": [
+            1.0,
+            1.0
+          ],
+          "mean": 1.0,
+          "sample_std": 0.0,
+          "range": [
+            1.0,
+            1.0
+          ],
+          "n": 2
+        },
+        "a3_oracle_exact_rate": {
+          "series": [
+            0.0,
+            0.0
+          ],
+          "mean": 0.0,
+          "sample_std": 0.0,
+          "range": [
+            0.0,
+            0.0
+          ],
+          "n": 2
+        },
+        "a2_sc_fer": {
+          "series": [],
+          "mean": null,
+          "sample_std": null,
+          "range": null,
+          "n": 0,
+          "note": "not_run"
+        },
+        "a2_scl8_fer": {
+          "series": [],
+          "mean": null,
+          "sample_std": null,
+          "range": null,
+          "n": 0,
+          "note": "not_run"
+        }
+      },
+      "delta_complete": true
+    }
+  ],
+  "records": [
+    {
+      "seed": 2026092701,
+      "block": 0,
+      "k1": 80,
+      "f_label": "T560_k1_80_k2_480",
+      "operational": {
+        "label_match": true,
+        "tag_invoked": true,
+        "outcome": "exact"
+      },
+      "oracle": {
+        "label_match": true,
+        "tag_invoked": true,
+        "outcome": "exact"
+      }
+    },
+    {
+      "seed": 2026092701,
+      "block": 1,
+      "k1": 80,
+      "f_label": "T560_k1_80_k2_480",
+      "operational": {
+        "label_match": true,
+        "tag_invoked": true,
+        "outcome": "exact"
+      },
+      "oracle": {
+        "label_match": true,
+        "tag_invoked": true,
+        "outcome": "exact"
+      }
+    },
+    {
+      "seed": 2026092701,
+      "block": 2,
+      "k1": 80,
+      "f_label": "T560_k1_80_k2_480",
+      "operational": {
+        "label_match": true,
+        "tag_invoked": true,
+        "outcome": "exact"
+      },
+      "oracle": {
+        "label_match": true,
+        "tag_invoked": true,
+        "outcome": "exact"
+      }
+    },
+    {
+      "seed": 2026092701,
+      "block": 3,
+      "k1": 80,
+      "f_label": "T560_k1_80_k2_480",
+      "operational": {
+        "label_match": true,
+        "tag_invoked": true,
+        "outcome": "exact"
+      },
+      "oracle": {
+        "label_match": true,
+        "tag_invoked": true,
+        "outcome": "exact"
+      }
+    },
+    {
+      "seed": 2026092701,
+      "block": 4,
+      "k1": 80,
+      "f_label": "T560_k1_80_k2_480",
+      "operational": {
+        "label_match": true,
+        "tag_invoked": true,
+        "outcome": "exact"
+      },
+      "oracle": {
+        "label_match": true,
+        "tag_invoked": true,
+        "outcome": "exact"
+      }
+    },
+    {
+      "seed": 2026092701,
+      "block": 5,
+      "k1": 80,
+      "f_label": "T560_k1_80_k2_480",
+      "operational": {
+        "label_match": true,
+        "tag_invoked": true,
+        "outcome": "exact"
+      },
+      "oracle": {
+        "label_match": true,
+        "tag_invoked": true,
+        "outcome": "exact"
+      }
+    },
+    {
+      "seed": 2026092701,
+      "block": 6,
+      "k1": 80,
+      "f_label": "T560_k1_80_k2_480",
+      "operational": {
+        "label_match": true,
+        "tag_invoked": true,
+        "outcome": "exact"
+      },
+      "oracle": {
+        "label_match": true,
+        "tag_invoked": true,
+        "outcome": "exact"
+      }
+    },
+    {
+      "seed": 2026092701,
+      "block": 7,
+      "k1": 80,
+      "f_label": "T560_k1_80_k2_480",
+      "operational": {
+        "label_match": true,
+        "tag_invoked": true,
+        "outcome": "exact"
+      },
+      "oracle": {
+        "label_match": true,
+        "tag_invoked": true,
+        "outcome": "exact"
+      }
+    },
+    {
+      "seed": 2026092701,
+      "block": 8,
+      "k1": 80,
+      "f_label": "T560_k1_80_k2_480",
+      "operational": {
+        "label_match": false,
+        "tag_invoked": true,
+        "outcome": "verify_failed"
+      },
+      "oracle": {
+        "label_match": false,
+        "tag_invoked": true,
+        "outcome": "verify_failed"
+      }
+    },
+    {
+      "seed": 2026092701,
+      "block": 9,
+      "k1": 80,
+      "f_label": "T560_k1_80_k2_480",
+      "operational": {
+        "label_match": true,
+        "tag_invoked": true,
+        "outcome": "exact"
+      },
+      "oracle": {
+        "label_match": true,
+        "tag_invoked": true,
+        "outcome": "exact"
+      }
+    },
+    {
+      "seed": 2026092701,
+      "block": 10,
+      "k1": 80,
+      "f_label": "T560_k1_80_k2_480",
+      "operational": {
+        "label_match": false,
+        "tag_invoked": true,
+        "outcome": "verify_failed"
+      },
+      "oracle": {
+        "label_match": false,
+        "tag_invoked": true,
+        "outcome": "verify_failed"
+      }
+    },
+    {
+      "seed": 2026092701,
+      "block": 11,
+      "k1": 80,
+      "f_label": "T560_k1_80_k2_480",
+      "operational": {
+        "label_match": true,
+        "tag_invoked": true,
+        "outcome": "exact"
+      },
+      "oracle": {
+        "label_match": true,
+        "tag_invoked": true,
+        "outcome": "exact"
+      }
+    },
+    {
+      "seed": 2026092701,
+      "block": 12,
+      "k1": 80,
+      "f_label": "T560_k1_80_k2_480",
+      "operational": {
+        "label_match": true,
+        "tag_invoked": true,
+        "outcome": "exact"
+      },
+      "oracle": {
+        "label_match": true,
+        "tag_invoked": true,
+        "outcome": "exact"
+      }
+    },
+    {
+      "seed": 2026092701,
+      "block": 13,
+      "k1": 80,
+      "f_label": "T560_k1_80_k2_480",
+      "operational": {
+        "label_match": true,
+        "tag_invoked": true,
+        "outcome": "exact"
+      },
+      "oracle": {
+        "label_match": true,
+        "tag_invoked": true,
+        "outcome": "exact"
+      }
+    },
+    {
+      "seed": 2026092701,
+      "block": 14,
+      "k1": 80,
+      "f_label": "T560_k1_80_k2_480",
+      "operational": {
+        "label_match": true,
+        "tag_invoked": true,
+        "outcome": "exact"
+      },
+      "oracle": {
+        "label_match": true,
+        "tag_invoked": true,
+        "outcome": "exact"
+      }
+    },
+    {
+      "seed": 2026092701,
+      "block": 15,
+      "k1": 80,
+      "f_label": "T560_k1_80_k2_480",
+      "operational": {
+        "label_match": true,
+        "tag_invoked": true,
+        "outcome": "exact"
+      },
+      "oracle": {
+        "label_match": true,
+        "tag_invoked": true,
+        "outcome": "exact"
+      }
+    },
+    {
+      "seed": 2026092702,
+      "block": 0,
+      "k1": 80,
+      "f_label": "T560_k1_80_k2_480",
+      "operational": {
+        "label_match": true,
+        "tag_invoked": true,
+        "outcome": "exact"
+      },
+      "oracle": {
+        "label_match": true,
+        "tag_invoked": true,
+        "outcome": "exact"
+      }
+    },
+    {
+      "seed": 2026092702,
+      "block": 1,
+      "k1": 80,
+      "f_label": "T560_k1_80_k2_480",
+      "operational": {
+        "label_match": true,
+        "tag_invoked": true,
+        "outcome": "exact"
+      },
+      "oracle": {
+        "label_match": true,
+        "tag_invoked": true,
+        "outcome": "exact"
+      }
+    },
+    {
+      "seed": 2026092702,
+      "block": 2,
+      "k1": 80,
+      "f_label": "T560_k1_80_k2_480",
+      "operational": {
+        "label_match": true,
+        "tag_invoked": true,
+        "outcome": "exact"
+      },
+      "oracle": {
+        "label_match": true,
+        "tag_invoked": true,
+        "outcome": "exact"
+      }
+    },
+    {
+      "seed": 2026092702,
+      "block": 3,
+      "k1": 80,
+      "f_label": "T560_k1_80_k2_480",
+      "operational": {
+        "label_match": true,
+        "tag_invoked": true,
+        "outcome": "exact"
+      },
+      "oracle": {
+        "label_match": true,
+        "tag_invoked": true,
+        "outcome": "exact"
+      }
+    },
+    {
+      "seed": 2026092702,
+      "block": 4,
+      "k1": 80,
+      "f_label": "T560_k1_80_k2_480",
+      "operational": {
+        "label_match": false,
+        "tag_invoked": true,
+        "outcome": "verify_failed"
+      },
+      "oracle": {
+        "label_match": true,
+        "tag_invoked": true,
+        "outcome": "exact"
+      }
+    },
+    {
+      "seed": 2026092702,
+      "block": 5,
+      "k1": 80,
+      "f_label": "T560_k1_80_k2_480",
+      "operational": {
+        "label_match": true,
+        "tag_invoked": true,
+        "outcome": "exact"
+      },
+      "oracle": {
+        "label_match": true,
+        "tag_invoked": true,
+        "outcome": "exact"
+      }
+    },
+    {
+      "seed": 2026092702,
+      "block": 6,
+      "k1": 80,
+      "f_label": "T560_k1_80_k2_480",
+      "operational": {
+        "label_match": true,
+        "tag_invoked": true,
+        "outcome": "exact"
+      },
+      "oracle": {
+        "label_match": true,
+        "tag_invoked": true,
+        "outcome": "exact"
+      }
+    },
+    {
+      "seed": 2026092702,
+      "block": 7,
+      "k1": 80,
+      "f_label": "T560_k1_80_k2_480",
+      "operational": {
+        "label_match": false,
+        "tag_invoked": true,
+        "outcome": "verify_failed"
+      },
+      "oracle": {
+        "label_match": true,
+        "tag_invoked": true,
+        "outcome": "exact"
+      }
+    },
+    {
+      "seed": 2026092702,
+      "block": 8,
+      "k1": 80,
+      "f_label": "T560_k1_80_k2_480",
+      "operational": {
+        "label_match": true,
+        "tag_invoked": true,
+        "outcome": "exact"
+      },
+      "oracle": {
+        "label_match": true,
+        "tag_invoked": true,
+        "outcome": "exact"
+      }
+    },
+    {
+      "seed": 2026092702,
+      "block": 9,
+      "k1": 80,
+      "f_label": "T560_k1_80_k2_480",
+      "operational": {
+        "label_match": true,
+        "tag_invoked": true,
+        "outcome": "exact"
+      },
+      "oracle": {
+        "label_match": true,
+        "tag_invoked": true,
+        "outcome": "exact"
+      }
+    },
+    {
+      "seed": 2026092702,
+      "block": 10,
+      "k1": 80,
+      "f_label": "T560_k1_80_k2_480",
+      "operational": {
+        "label_match": true,
+        "tag_invoked": true,
+        "outcome": "exact"
+      },
+      "oracle": {
+        "label_match": true,
+        "tag_invoked": true,
+        "outcome": "exact"
+      }
+    },
+    {
+      "seed": 2026092702,
+      "block": 11,
+      "k1": 80,
+      "f_label": "T560_k1_80_k2_480",
+      "operational": {
+        "label_match": true,
+        "tag_invoked": true,
+        "outcome": "exact"
+      },
+      "oracle": {
+        "label_match": true,
+        "tag_invoked": true,
+        "outcome": "exact"
+      }
+    },
+    {
+      "seed": 2026092702,
+      "block": 12,
+      "k1": 80,
+      "f_label": "T560_k1_80_k2_480",
+      "operational": {
+        "label_match": true,
+        "tag_invoked": true,
+        "outcome": "exact"
+      },
+      "oracle": {
+        "label_match": true,
+        "tag_invoked": true,
+        "outcome": "exact"
+      }
+    },
+    {
+      "seed": 2026092702,
+      "block": 13,
+      "k1": 80,
+      "f_label": "T560_k1_80_k2_480",
+      "operational": {
+        "label_match": true,
+        "tag_invoked": true,
+        "outcome": "exact"
+      },
+      "oracle": {
+        "label_match": true,
+        "tag_invoked": true,
+        "outcome": "exact"
+      }
+    },
+    {
+      "seed": 2026092702,
+      "block": 14,
+      "k1": 80,
+      "f_label": "T560_k1_80_k2_480",
+      "operational": {
+        "label_match": true,
+        "tag_invoked": true,
+        "outcome": "exact"
+      },
+      "oracle": {
+        "label_match": true,
+        "tag_invoked": true,
+        "outcome": "exact"
+      }
+    },
+    {
+      "seed": 2026092702,
+      "block": 15,
+      "k1": 80,
+      "f_label": "T560_k1_80_k2_480",
+      "operational": {
+        "label_match": true,
+        "tag_invoked": true,
+        "outcome": "exact"
+      },
+      "oracle": {
+        "label_match": true,
+        "tag_invoked": true,
+        "outcome": "exact"
+      }
+    },
+    {
+      "seed": 2026092701,
+      "block": 0,
+      "k1": 64,
+      "f_label": "T448_k1_64_k2_384",
+      "operational": {
+        "label_match": false,
+        "tag_invoked": true,
+        "outcome": "verify_failed"
+      },
+      "oracle": {
+        "label_match": false,
+        "tag_invoked": true,
+        "outcome": "verify_failed"
+      }
+    },
+    {
+      "seed": 2026092701,
+      "block": 1,
+      "k1": 64,
+      "f_label": "T448_k1_64_k2_384",
+      "operational": {
+        "label_match": false,
+        "tag_invoked": true,
+        "outcome": "verify_failed"
+      },
+      "oracle": {
+        "label_match": false,
+        "tag_invoked": true,
+        "outcome": "verify_failed"
+      }
+    },
+    {
+      "seed": 2026092701,
+      "block": 2,
+      "k1": 64,
+      "f_label": "T448_k1_64_k2_384",
+      "operational": {
+        "label_match": false,
+        "tag_invoked": true,
+        "outcome": "verify_failed"
+      },
+      "oracle": {
+        "label_match": false,
+        "tag_invoked": true,
+        "outcome": "verify_failed"
+      }
+    },
+    {
+      "seed": 2026092701,
+      "block": 3,
+      "k1": 64,
+      "f_label": "T448_k1_64_k2_384",
+      "operational": {
+        "label_match": false,
+        "tag_invoked": true,
+        "outcome": "verify_failed"
+      },
+      "oracle": {
+        "label_match": false,
+        "tag_invoked": true,
+        "outcome": "verify_failed"
+      }
+    },
+    {
+      "seed": 2026092701,
+      "block": 4,
+      "k1": 64,
+      "f_label": "T448_k1_64_k2_384",
+      "operational": {
+        "label_match": false,
+        "tag_invoked": true,
+        "outcome": "verify_failed"
+      },
+      "oracle": {
+        "label_match": false,
+        "tag_invoked": true,
+        "outcome": "verify_failed"
+      }
+    },
+    {
+      "seed": 2026092701,
+      "block": 5,
+      "k1": 64,
+      "f_label": "T448_k1_64_k2_384",
+      "operational": {
+        "label_match": false,
+        "tag_invoked": true,
+        "outcome": "verify_failed"
+      },
+      "oracle": {
+        "label_match": false,
+        "tag_invoked": true,
+        "outcome": "verify_failed"
+      }
+    },
+    {
+      "seed": 2026092701,
+      "block": 6,
+      "k1": 64,
+      "f_label": "T448_k1_64_k2_384",
+      "operational": {
+        "label_match": false,
+        "tag_invoked": true,
+        "outcome": "verify_failed"
+      },
+      "oracle": {
+        "label_match": false,
+        "tag_invoked": true,
+        "outcome": "verify_failed"
+      }
+    },
+    {
+      "seed": 2026092701,
+      "block": 7,
+      "k1": 64,
+      "f_label": "T448_k1_64_k2_384",
+      "operational": {
+        "label_match": false,
+        "tag_invoked": true,
+        "outcome": "verify_failed"
+      },
+      "oracle": {
+        "label_match": false,
+        "tag_invoked": true,
+        "outcome": "verify_failed"
+      }
+    },
+    {
+      "seed": 2026092701,
+      "block": 8,
+      "k1": 64,
+      "f_label": "T448_k1_64_k2_384",
+      "operational": {
+        "label_match": false,
+        "tag_invoked": true,
+        "outcome": "verify_failed"
+      },
+      "oracle": {
+        "label_match": false,
+        "tag_invoked": true,
+        "outcome": "verify_failed"
+      }
+    },
+    {
+      "seed": 2026092701,
+      "block": 9,
+      "k1": 64,
+      "f_label": "T448_k1_64_k2_384",
+      "operational": {
+        "label_match": false,
+        "tag_invoked": true,
+        "outcome": "verify_failed"
+      },
+      "oracle": {
+        "label_match": false,
+        "tag_invoked": true,
+        "outcome": "verify_failed"
+      }
+    },
+    {
+      "seed": 2026092701,
+      "block": 10,
+      "k1": 64,
+      "f_label": "T448_k1_64_k2_384",
+      "operational": {
+        "label_match": false,
+        "tag_invoked": true,
+        "outcome": "verify_failed"
+      },
+      "oracle": {
+        "label_match": false,
+        "tag_invoked": true,
+        "outcome": "verify_failed"
+      }
+    },
+    {
+      "seed": 2026092701,
+      "block": 11,
+      "k1": 64,
+      "f_label": "T448_k1_64_k2_384",
+      "operational": {
+        "label_match": false,
+        "tag_invoked": true,
+        "outcome": "verify_failed"
+      },
+      "oracle": {
+        "label_match": false,
+        "tag_invoked": true,
+        "outcome": "verify_failed"
+      }
+    },
+    {
+      "seed": 2026092701,
+      "block": 12,
+      "k1": 64,
+      "f_label": "T448_k1_64_k2_384",
+      "operational": {
+        "label_match": false,
+        "tag_invoked": true,
+        "outcome": "verify_failed"
+      },
+      "oracle": {
+        "label_match": false,
+        "tag_invoked": true,
+        "outcome": "verify_failed"
+      }
+    },
+    {
+      "seed": 2026092701,
+      "block": 13,
+      "k1": 64,
+      "f_label": "T448_k1_64_k2_384",
+      "operational": {
+        "label_match": false,
+        "tag_invoked": true,
+        "outcome": "verify_failed"
+      },
+      "oracle": {
+        "label_match": false,
+        "tag_invoked": true,
+        "outcome": "verify_failed"
+      }
+    },
+    {
+      "seed": 2026092701,
+      "block": 14,
+      "k1": 64,
+      "f_label": "T448_k1_64_k2_384",
+      "operational": {
+        "label_match": false,
+        "tag_invoked": true,
+        "outcome": "verify_failed"
+      },
+      "oracle": {
+        "label_match": false,
+        "tag_invoked": true,
+        "outcome": "verify_failed"
+      }
+    },
+    {
+      "seed": 2026092701,
+      "block": 15,
+      "k1": 64,
+      "f_label": "T448_k1_64_k2_384",
+      "operational": {
+        "label_match": false,
+        "tag_invoked": true,
+        "outcome": "verify_failed"
+      },
+      "oracle": {
+        "label_match": false,
+        "tag_invoked": true,
+        "outcome": "verify_failed"
+      }
+    },
+    {
+      "seed": 2026092702,
+      "block": 0,
+      "k1": 64,
+      "f_label": "T448_k1_64_k2_384",
+      "operational": {
+        "label_match": false,
+        "tag_invoked": true,
+        "outcome": "verify_failed"
+      },
+      "oracle": {
+        "label_match": false,
+        "tag_invoked": true,
+        "outcome": "verify_failed"
+      }
+    },
+    {
+      "seed": 2026092702,
+      "block": 1,
+      "k1": 64,
+      "f_label": "T448_k1_64_k2_384",
+      "operational": {
+        "label_match": false,
+        "tag_invoked": true,
+        "outcome": "verify_failed"
+      },
+      "oracle": {
+        "label_match": false,
+        "tag_invoked": true,
+        "outcome": "verify_failed"
+      }
+    },
+    {
+      "seed": 2026092702,
+      "block": 2,
+      "k1": 64,
+      "f_label": "T448_k1_64_k2_384",
+      "operational": {
+        "label_match": false,
+        "tag_invoked": true,
+        "outcome": "verify_failed"
+      },
+      "oracle": {
+        "label_match": false,
+        "tag_invoked": true,
+        "outcome": "verify_failed"
+      }
+    },
+    {
+      "seed": 2026092702,
+      "block": 3,
+      "k1": 64,
+      "f_label": "T448_k1_64_k2_384",
+      "operational": {
+        "label_match": false,
+        "tag_invoked": true,
+        "outcome": "verify_failed"
+      },
+      "oracle": {
+        "label_match": false,
+        "tag_invoked": true,
+        "outcome": "verify_failed"
+      }
+    },
+    {
+      "seed": 2026092702,
+      "block": 4,
+      "k1": 64,
+      "f_label": "T448_k1_64_k2_384",
+      "operational": {
+        "label_match": false,
+        "tag_invoked": true,
+        "outcome": "verify_failed"
+      },
+      "oracle": {
+        "label_match": false,
+        "tag_invoked": true,
+        "outcome": "verify_failed"
+      }
+    },
+    {
+      "seed": 2026092702,
+      "block": 5,
+      "k1": 64,
+      "f_label": "T448_k1_64_k2_384",
+      "operational": {
+        "label_match": false,
+        "tag_invoked": true,
+        "outcome": "verify_failed"
+      },
+      "oracle": {
+        "label_match": false,
+        "tag_invoked": true,
+        "outcome": "verify_failed"
+      }
+    },
+    {
+      "seed": 2026092702,
+      "block": 6,
+      "k1": 64,
+      "f_label": "T448_k1_64_k2_384",
+      "operational": {
+        "label_match": false,
+        "tag_invoked": true,
+        "outcome": "verify_failed"
+      },
+      "oracle": {
+        "label_match": false,
+        "tag_invoked": true,
+        "outcome": "verify_failed"
+      }
+    },
+    {
+      "seed": 2026092702,
+      "block": 7,
+      "k1": 64,
+      "f_label": "T448_k1_64_k2_384",
+      "operational": {
+        "label_match": false,
+        "tag_invoked": true,
+        "outcome": "verify_failed"
+      },
+      "oracle": {
+        "label_match": false,
+        "tag_invoked": true,
+        "outcome": "verify_failed"
+      }
+    },
+    {
+      "seed": 2026092702,
+      "block": 8,
+      "k1": 64,
+      "f_label": "T448_k1_64_k2_384",
+      "operational": {
+        "label_match": false,
+        "tag_invoked": true,
+        "outcome": "verify_failed"
+      },
+      "oracle": {
+        "label_match": false,
+        "tag_invoked": true,
+        "outcome": "verify_failed"
+      }
+    },
+    {
+      "seed": 2026092702,
+      "block": 9,
+      "k1": 64,
+      "f_label": "T448_k1_64_k2_384",
+      "operational": {
+        "label_match": false,
+        "tag_invoked": true,
+        "outcome": "verify_failed"
+      },
+      "oracle": {
+        "label_match": false,
+        "tag_invoked": true,
+        "outcome": "verify_failed"
+      }
+    },
+    {
+      "seed": 2026092702,
+      "block": 10,
+      "k1": 64,
+      "f_label": "T448_k1_64_k2_384",
+      "operational": {
+        "label_match": false,
+        "tag_invoked": true,
+        "outcome": "verify_failed"
+      },
+      "oracle": {
+        "label_match": false,
+        "tag_invoked": true,
+        "outcome": "verify_failed"
+      }
+    },
+    {
+      "seed": 2026092702,
+      "block": 11,
+      "k1": 64,
+      "f_label": "T448_k1_64_k2_384",
+      "operational": {
+        "label_match": false,
+        "tag_invoked": true,
+        "outcome": "verify_failed"
+      },
+      "oracle": {
+        "label_match": false,
+        "tag_invoked": true,
+        "outcome": "verify_failed"
+      }
+    },
+    {
+      "seed": 2026092702,
+      "block": 12,
+      "k1": 64,
+      "f_label": "T448_k1_64_k2_384",
+      "operational": {
+        "label_match": false,
+        "tag_invoked": true,
+        "outcome": "verify_failed"
+      },
+      "oracle": {
+        "label_match": false,
+        "tag_invoked": true,
+        "outcome": "verify_failed"
+      }
+    },
+    {
+      "seed": 2026092702,
+      "block": 13,
+      "k1": 64,
+      "f_label": "T448_k1_64_k2_384",
+      "operational": {
+        "label_match": false,
+        "tag_invoked": true,
+        "outcome": "verify_failed"
+      },
+      "oracle": {
+        "label_match": false,
+        "tag_invoked": true,
+        "outcome": "verify_failed"
+      }
+    },
+    {
+      "seed": 2026092702,
+      "block": 14,
+      "k1": 64,
+      "f_label": "T448_k1_64_k2_384",
+      "operational": {
+        "label_match": false,
+        "tag_invoked": true,
+        "outcome": "verify_failed"
+      },
+      "oracle": {
+        "label_match": false,
+        "tag_invoked": true,
+        "outcome": "verify_failed"
+      }
+    },
+    {
+      "seed": 2026092702,
+      "block": 15,
+      "k1": 64,
+      "f_label": "T448_k1_64_k2_384",
+      "operational": {
+        "label_match": false,
+        "tag_invoked": true,
+        "outcome": "verify_failed"
+      },
+      "oracle": {
+        "label_match": false,
+        "tag_invoked": true,
+        "outcome": "verify_failed"
+      }
+    },
+    {
+      "seed": 2026092701,
+      "block": 0,
+      "k1": 48,
+      "f_label": "T336_k1_48_k2_288",
+      "operational": {
+        "label_match": false,
+        "tag_invoked": true,
+        "outcome": "verify_failed"
+      },
+      "oracle": {
+        "label_match": false,
+        "tag_invoked": true,
+        "outcome": "verify_failed"
+      }
+    },
+    {
+      "seed": 2026092701,
+      "block": 1,
+      "k1": 48,
+      "f_label": "T336_k1_48_k2_288",
+      "operational": {
+        "label_match": false,
+        "tag_invoked": true,
+        "outcome": "verify_failed"
+      },
+      "oracle": {
+        "label_match": false,
+        "tag_invoked": true,
+        "outcome": "verify_failed"
+      }
+    },
+    {
+      "seed": 2026092701,
+      "block": 2,
+      "k1": 48,
+      "f_label": "T336_k1_48_k2_288",
+      "operational": {
+        "label_match": false,
+        "tag_invoked": true,
+        "outcome": "verify_failed"
+      },
+      "oracle": {
+        "label_match": false,
+        "tag_invoked": true,
+        "outcome": "verify_failed"
+      }
+    },
+    {
+      "seed": 2026092701,
+      "block": 3,
+      "k1": 48,
+      "f_label": "T336_k1_48_k2_288",
+      "operational": {
+        "label_match": false,
+        "tag_invoked": true,
+        "outcome": "verify_failed"
+      },
+      "oracle": {
+        "label_match": false,
+        "tag_invoked": true,
+        "outcome": "verify_failed"
+      }
+    },
+    {
+      "seed": 2026092701,
+      "block": 4,
+      "k1": 48,
+      "f_label": "T336_k1_48_k2_288",
+      "operational": {
+        "label_match": false,
+        "tag_invoked": true,
+        "outcome": "verify_failed"
+      },
+      "oracle": {
+        "label_match": false,
+        "tag_invoked": true,
+        "outcome": "verify_failed"
+      }
+    },
+    {
+      "seed": 2026092701,
+      "block": 5,
+      "k1": 48,
+      "f_label": "T336_k1_48_k2_288",
+      "operational": {
+        "label_match": false,
+        "tag_invoked": true,
+        "outcome": "verify_failed"
+      },
+      "oracle": {
+        "label_match": false,
+        "tag_invoked": true,
+        "outcome": "verify_failed"
+      }
+    },
+    {
+      "seed": 2026092701,
+      "block": 6,
+      "k1": 48,
+      "f_label": "T336_k1_48_k2_288",
+      "operational": {
+        "label_match": false,
+        "tag_invoked": true,
+        "outcome": "verify_failed"
+      },
+      "oracle": {
+        "label_match": false,
+        "tag_invoked": true,
+        "outcome": "verify_failed"
+      }
+    },
+    {
+      "seed": 2026092701,
+      "block": 7,
+      "k1": 48,
+      "f_label": "T336_k1_48_k2_288",
+      "operational": {
+        "label_match": false,
+        "tag_invoked": true,
+        "outcome": "verify_failed"
+      },
+      "oracle": {
+        "label_match": false,
+        "tag_invoked": true,
+        "outcome": "verify_failed"
+      }
+    },
+    {
+      "seed": 2026092701,
+      "block": 8,
+      "k1": 48,
+      "f_label": "T336_k1_48_k2_288",
+      "operational": {
+        "label_match": false,
+        "tag_invoked": true,
+        "outcome": "verify_failed"
+      },
+      "oracle": {
+        "label_match": false,
+        "tag_invoked": true,
+        "outcome": "verify_failed"
+      }
+    },
+    {
+      "seed": 2026092701,
+      "block": 9,
+      "k1": 48,
+      "f_label": "T336_k1_48_k2_288",
+      "operational": {
+        "label_match": false,
+        "tag_invoked": true,
+        "outcome": "verify_failed"
+      },
+      "oracle": {
+        "label_match": false,
+        "tag_invoked": true,
+        "outcome": "verify_failed"
+      }
+    },
+    {
+      "seed": 2026092701,
+      "block": 10,
+      "k1": 48,
+      "f_label": "T336_k1_48_k2_288",
+      "operational": {
+        "label_match": false,
+        "tag_invoked": true,
+        "outcome": "verify_failed"
+      },
+      "oracle": {
+        "label_match": false,
+        "tag_invoked": true,
+        "outcome": "verify_failed"
+      }
+    },
+    {
+      "seed": 2026092701,
+      "block": 11,
+      "k1": 48,
+      "f_label": "T336_k1_48_k2_288",
+      "operational": {
+        "label_match": false,
+        "tag_invoked": true,
+        "outcome": "verify_failed"
+      },
+      "oracle": {
+        "label_match": false,
+        "tag_invoked": true,
+        "outcome": "verify_failed"
+      }
+    },
+    {
+      "seed": 2026092701,
+      "block": 12,
+      "k1": 48,
+      "f_label": "T336_k1_48_k2_288",
+      "operational": {
+        "label_match": false,
+        "tag_invoked": true,
+        "outcome": "verify_failed"
+      },
+      "oracle": {
+        "label_match": false,
+        "tag_invoked": true,
+        "outcome": "verify_failed"
+      }
+    },
+    {
+      "seed": 2026092701,
+      "block": 13,
+      "k1": 48,
+      "f_label": "T336_k1_48_k2_288",
+      "operational": {
+        "label_match": false,
+        "tag_invoked": true,
+        "outcome": "verify_failed"
+      },
+      "oracle": {
+        "label_match": false,
+        "tag_invoked": true,
+        "outcome": "verify_failed"
+      }
+    },
+    {
+      "seed": 2026092701,
+      "block": 14,
+      "k1": 48,
+      "f_label": "T336_k1_48_k2_288",
+      "operational": {
+        "label_match": false,
+        "tag_invoked": true,
+        "outcome": "verify_failed"
+      },
+      "oracle": {
+        "label_match": false,
+        "tag_invoked": true,
+        "outcome": "verify_failed"
+      }
+    },
+    {
+      "seed": 2026092701,
+      "block": 15,
+      "k1": 48,
+      "f_label": "T336_k1_48_k2_288",
+      "operational": {
+        "label_match": false,
+        "tag_invoked": true,
+        "outcome": "verify_failed"
+      },
+      "oracle": {
+        "label_match": false,
+        "tag_invoked": true,
+        "outcome": "verify_failed"
+      }
+    },
+    {
+      "seed": 2026092702,
+      "block": 0,
+      "k1": 48,
+      "f_label": "T336_k1_48_k2_288",
+      "operational": {
+        "label_match": false,
+        "tag_invoked": true,
+        "outcome": "verify_failed"
+      },
+      "oracle": {
+        "label_match": false,
+        "tag_invoked": true,
+        "outcome": "verify_failed"
+      }
+    },
+    {
+      "seed": 2026092702,
+      "block": 1,
+      "k1": 48,
+      "f_label": "T336_k1_48_k2_288",
+      "operational": {
+        "label_match": false,
+        "tag_invoked": true,
+        "outcome": "verify_failed"
+      },
+      "oracle": {
+        "label_match": false,
+        "tag_invoked": true,
+        "outcome": "verify_failed"
+      }
+    },
+    {
+      "seed": 2026092702,
+      "block": 2,
+      "k1": 48,
+      "f_label": "T336_k1_48_k2_288",
+      "operational": {
+        "label_match": false,
+        "tag_invoked": true,
+        "outcome": "verify_failed"
+      },
+      "oracle": {
+        "label_match": false,
+        "tag_invoked": true,
+        "outcome": "verify_failed"
+      }
+    },
+    {
+      "seed": 2026092702,
+      "block": 3,
+      "k1": 48,
+      "f_label": "T336_k1_48_k2_288",
+      "operational": {
+        "label_match": false,
+        "tag_invoked": true,
+        "outcome": "verify_failed"
+      },
+      "oracle": {
+        "label_match": false,
+        "tag_invoked": true,
+        "outcome": "verify_failed"
+      }
+    },
+    {
+      "seed": 2026092702,
+      "block": 4,
+      "k1": 48,
+      "f_label": "T336_k1_48_k2_288",
+      "operational": {
+        "label_match": false,
+        "tag_invoked": true,
+        "outcome": "verify_failed"
+      },
+      "oracle": {
+        "label_match": false,
+        "tag_invoked": true,
+        "outcome": "verify_failed"
+      }
+    },
+    {
+      "seed": 2026092702,
+      "block": 5,
+      "k1": 48,
+      "f_label": "T336_k1_48_k2_288",
+      "operational": {
+        "label_match": false,
+        "tag_invoked": true,
+        "outcome": "verify_failed"
+      },
+      "oracle": {
+        "label_match": false,
+        "tag_invoked": true,
+        "outcome": "verify_failed"
+      }
+    },
+    {
+      "seed": 2026092702,
+      "block": 6,
+      "k1": 48,
+      "f_label": "T336_k1_48_k2_288",
+      "operational": {
+        "label_match": false,
+        "tag_invoked": true,
+        "outcome": "verify_failed"
+      },
+      "oracle": {
+        "label_match": false,
+        "tag_invoked": true,
+        "outcome": "verify_failed"
+      }
+    },
+    {
+      "seed": 2026092702,
+      "block": 7,
+      "k1": 48,
+      "f_label": "T336_k1_48_k2_288",
+      "operational": {
+        "label_match": false,
+        "tag_invoked": true,
+        "outcome": "verify_failed"
+      },
+      "oracle": {
+        "label_match": false,
+        "tag_invoked": true,
+        "outcome": "verify_failed"
+      }
+    },
+    {
+      "seed": 2026092702,
+      "block": 8,
+      "k1": 48,
+      "f_label": "T336_k1_48_k2_288",
+      "operational": {
+        "label_match": false,
+        "tag_invoked": true,
+        "outcome": "verify_failed"
+      },
+      "oracle": {
+        "label_match": false,
+        "tag_invoked": true,
+        "outcome": "verify_failed"
+      }
+    },
+    {
+      "seed": 2026092702,
+      "block": 9,
+      "k1": 48,
+      "f_label": "T336_k1_48_k2_288",
+      "operational": {
+        "label_match": false,
+        "tag_invoked": true,
+        "outcome": "verify_failed"
+      },
+      "oracle": {
+        "label_match": false,
+        "tag_invoked": true,
+        "outcome": "verify_failed"
+      }
+    },
+    {
+      "seed": 2026092702,
+      "block": 10,
+      "k1": 48,
+      "f_label": "T336_k1_48_k2_288",
+      "operational": {
+        "label_match": false,
+        "tag_invoked": true,
+        "outcome": "verify_failed"
+      },
+      "oracle": {
+        "label_match": false,
+        "tag_invoked": true,
+        "outcome": "verify_failed"
+      }
+    },
+    {
+      "seed": 2026092702,
+      "block": 11,
+      "k1": 48,
+      "f_label": "T336_k1_48_k2_288",
+      "operational": {
+        "label_match": false,
+        "tag_invoked": true,
+        "outcome": "verify_failed"
+      },
+      "oracle": {
+        "label_match": false,
+        "tag_invoked": true,
+        "outcome": "verify_failed"
+      }
+    },
+    {
+      "seed": 2026092702,
+      "block": 12,
+      "k1": 48,
+      "f_label": "T336_k1_48_k2_288",
+      "operational": {
+        "label_match": false,
+        "tag_invoked": true,
+        "outcome": "verify_failed"
+      },
+      "oracle": {
+        "label_match": false,
+        "tag_invoked": true,
+        "outcome": "verify_failed"
+      }
+    },
+    {
+      "seed": 2026092702,
+      "block": 13,
+      "k1": 48,
+      "f_label": "T336_k1_48_k2_288",
+      "operational": {
+        "label_match": false,
+        "tag_invoked": true,
+        "outcome": "verify_failed"
+      },
+      "oracle": {
+        "label_match": false,
+        "tag_invoked": true,
+        "outcome": "verify_failed"
+      }
+    },
+    {
+      "seed": 2026092702,
+      "block": 14,
+      "k1": 48,
+      "f_label": "T336_k1_48_k2_288",
+      "operational": {
+        "label_match": false,
+        "tag_invoked": true,
+        "outcome": "verify_failed"
+      },
+      "oracle": {
+        "label_match": false,
+        "tag_invoked": true,
+        "outcome": "verify_failed"
+      }
+    },
+    {
+      "seed": 2026092702,
+      "block": 15,
+      "k1": 48,
+      "f_label": "T336_k1_48_k2_288",
+      "operational": {
+        "label_match": false,
+        "tag_invoked": true,
+        "outcome": "verify_failed"
+      },
+      "oracle": {
+        "label_match": false,
+        "tag_invoked": true,
+        "outcome": "verify_failed"
+      }
+    },
+    {
+      "seed": 2026092701,
+      "block": 0,
+      "k1": 40,
+      "f_label": "T280_k1_40_k2_240",
+      "operational": {
+        "label_match": false,
+        "tag_invoked": true,
+        "outcome": "verify_failed"
+      },
+      "oracle": {
+        "label_match": false,
+        "tag_invoked": true,
+        "outcome": "verify_failed"
+      }
+    },
+    {
+      "seed": 2026092701,
+      "block": 1,
+      "k1": 40,
+      "f_label": "T280_k1_40_k2_240",
+      "operational": {
+        "label_match": false,
+        "tag_invoked": true,
+        "outcome": "verify_failed"
+      },
+      "oracle": {
+        "label_match": false,
+        "tag_invoked": true,
+        "outcome": "verify_failed"
+      }
+    },
+    {
+      "seed": 2026092701,
+      "block": 2,
+      "k1": 40,
+      "f_label": "T280_k1_40_k2_240",
+      "operational": {
+        "label_match": false,
+        "tag_invoked": true,
+        "outcome": "verify_failed"
+      },
+      "oracle": {
+        "label_match": false,
+        "tag_invoked": true,
+        "outcome": "verify_failed"
+      }
+    },
+    {
+      "seed": 2026092701,
+      "block": 3,
+      "k1": 40,
+      "f_label": "T280_k1_40_k2_240",
+      "operational": {
+        "label_match": false,
+        "tag_invoked": true,
+        "outcome": "verify_failed"
+      },
+      "oracle": {
+        "label_match": false,
+        "tag_invoked": true,
+        "outcome": "verify_failed"
+      }
+    },
+    {
+      "seed": 2026092701,
+      "block": 4,
+      "k1": 40,
+      "f_label": "T280_k1_40_k2_240",
+      "operational": {
+        "label_match": false,
+        "tag_invoked": true,
+        "outcome": "verify_failed"
+      },
+      "oracle": {
+        "label_match": false,
+        "tag_invoked": true,
+        "outcome": "verify_failed"
+      }
+    },
+    {
+      "seed": 2026092701,
+      "block": 5,
+      "k1": 40,
+      "f_label": "T280_k1_40_k2_240",
+      "operational": {
+        "label_match": false,
+        "tag_invoked": true,
+        "outcome": "verify_failed"
+      },
+      "oracle": {
+        "label_match": false,
+        "tag_invoked": true,
+        "outcome": "verify_failed"
+      }
+    },
+    {
+      "seed": 2026092701,
+      "block": 6,
+      "k1": 40,
+      "f_label": "T280_k1_40_k2_240",
+      "operational": {
+        "label_match": false,
+        "tag_invoked": true,
+        "outcome": "verify_failed"
+      },
+      "oracle": {
+        "label_match": false,
+        "tag_invoked": true,
+        "outcome": "verify_failed"
+      }
+    },
+    {
+      "seed": 2026092701,
+      "block": 7,
+      "k1": 40,
+      "f_label": "T280_k1_40_k2_240",
+      "operational": {
+        "label_match": false,
+        "tag_invoked": true,
+        "outcome": "verify_failed"
+      },
+      "oracle": {
+        "label_match": false,
+        "tag_invoked": true,
+        "outcome": "verify_failed"
+      }
+    },
+    {
+      "seed": 2026092701,
+      "block": 8,
+      "k1": 40,
+      "f_label": "T280_k1_40_k2_240",
+      "operational": {
+        "label_match": false,
+        "tag_invoked": true,
+        "outcome": "verify_failed"
+      },
+      "oracle": {
+        "label_match": false,
+        "tag_invoked": true,
+        "outcome": "verify_failed"
+      }
+    },
+    {
+      "seed": 2026092701,
+      "block": 9,
+      "k1": 40,
+      "f_label": "T280_k1_40_k2_240",
+      "operational": {
+        "label_match": false,
+        "tag_invoked": true,
+        "outcome": "verify_failed"
+      },
+      "oracle": {
+        "label_match": false,
+        "tag_invoked": true,
+        "outcome": "verify_failed"
+      }
+    },
+    {
+      "seed": 2026092701,
+      "block": 10,
+      "k1": 40,
+      "f_label": "T280_k1_40_k2_240",
+      "operational": {
+        "label_match": false,
+        "tag_invoked": true,
+        "outcome": "verify_failed"
+      },
+      "oracle": {
+        "label_match": false,
+        "tag_invoked": true,
+        "outcome": "verify_failed"
+      }
+    },
+    {
+      "seed": 2026092701,
+      "block": 11,
+      "k1": 40,
+      "f_label": "T280_k1_40_k2_240",
+      "operational": {
+        "label_match": false,
+        "tag_invoked": true,
+        "outcome": "verify_failed"
+      },
+      "oracle": {
+        "label_match": false,
+        "tag_invoked": true,
+        "outcome": "verify_failed"
+      }
+    },
+    {
+      "seed": 2026092701,
+      "block": 12,
+      "k1": 40,
+      "f_label": "T280_k1_40_k2_240",
+      "operational": {
+        "label_match": false,
+        "tag_invoked": true,
+        "outcome": "verify_failed"
+      },
+      "oracle": {
+        "label_match": false,
+        "tag_invoked": true,
+        "outcome": "verify_failed"
+      }
+    },
+    {
+      "seed": 2026092701,
+      "block": 13,
+      "k1": 40,
+      "f_label": "T280_k1_40_k2_240",
+      "operational": {
+        "label_match": false,
+        "tag_invoked": true,
+        "outcome": "verify_failed"
+      },
+      "oracle": {
+        "label_match": false,
+        "tag_invoked": true,
+        "outcome": "verify_failed"
+      }
+    },
+    {
+      "seed": 2026092701,
+      "block": 14,
+      "k1": 40,
+      "f_label": "T280_k1_40_k2_240",
+      "operational": {
+        "label_match": false,
+        "tag_invoked": true,
+        "outcome": "verify_failed"
+      },
+      "oracle": {
+        "label_match": false,
+        "tag_invoked": true,
+        "outcome": "verify_failed"
+      }
+    },
+    {
+      "seed": 2026092701,
+      "block": 15,
+      "k1": 40,
+      "f_label": "T280_k1_40_k2_240",
+      "operational": {
+        "label_match": false,
+        "tag_invoked": true,
+        "outcome": "verify_failed"
+      },
+      "oracle": {
+        "label_match": false,
+        "tag_invoked": true,
+        "outcome": "verify_failed"
+      }
+    },
+    {
+      "seed": 2026092702,
+      "block": 0,
+      "k1": 40,
+      "f_label": "T280_k1_40_k2_240",
+      "operational": {
+        "label_match": false,
+        "tag_invoked": true,
+        "outcome": "verify_failed"
+      },
+      "oracle": {
+        "label_match": false,
+        "tag_invoked": true,
+        "outcome": "verify_failed"
+      }
+    },
+    {
+      "seed": 2026092702,
+      "block": 1,
+      "k1": 40,
+      "f_label": "T280_k1_40_k2_240",
+      "operational": {
+        "label_match": false,
+        "tag_invoked": true,
+        "outcome": "verify_failed"
+      },
+      "oracle": {
+        "label_match": false,
+        "tag_invoked": true,
+        "outcome": "verify_failed"
+      }
+    },
+    {
+      "seed": 2026092702,
+      "block": 2,
+      "k1": 40,
+      "f_label": "T280_k1_40_k2_240",
+      "operational": {
+        "label_match": false,
+        "tag_invoked": true,
+        "outcome": "verify_failed"
+      },
+      "oracle": {
+        "label_match": false,
+        "tag_invoked": true,
+        "outcome": "verify_failed"
+      }
+    },
+    {
+      "seed": 2026092702,
+      "block": 3,
+      "k1": 40,
+      "f_label": "T280_k1_40_k2_240",
+      "operational": {
+        "label_match": false,
+        "tag_invoked": true,
+        "outcome": "verify_failed"
+      },
+      "oracle": {
+        "label_match": false,
+        "tag_invoked": true,
+        "outcome": "verify_failed"
+      }
+    },
+    {
+      "seed": 2026092702,
+      "block": 4,
+      "k1": 40,
+      "f_label": "T280_k1_40_k2_240",
+      "operational": {
+        "label_match": false,
+        "tag_invoked": true,
+        "outcome": "verify_failed"
+      },
+      "oracle": {
+        "label_match": false,
+        "tag_invoked": true,
+        "outcome": "verify_failed"
+      }
+    },
+    {
+      "seed": 2026092702,
+      "block": 5,
+      "k1": 40,
+      "f_label": "T280_k1_40_k2_240",
+      "operational": {
+        "label_match": false,
+        "tag_invoked": true,
+        "outcome": "verify_failed"
+      },
+      "oracle": {
+        "label_match": false,
+        "tag_invoked": true,
+        "outcome": "verify_failed"
+      }
+    },
+    {
+      "seed": 2026092702,
+      "block": 6,
+      "k1": 40,
+      "f_label": "T280_k1_40_k2_240",
+      "operational": {
+        "label_match": false,
+        "tag_invoked": true,
+        "outcome": "verify_failed"
+      },
+      "oracle": {
+        "label_match": false,
+        "tag_invoked": true,
+        "outcome": "verify_failed"
+      }
+    },
+    {
+      "seed": 2026092702,
+      "block": 7,
+      "k1": 40,
+      "f_label": "T280_k1_40_k2_240",
+      "operational": {
+        "label_match": false,
+        "tag_invoked": true,
+        "outcome": "verify_failed"
+      },
+      "oracle": {
+        "label_match": false,
+        "tag_invoked": true,
+        "outcome": "verify_failed"
+      }
+    },
+    {
+      "seed": 2026092702,
+      "block": 8,
+      "k1": 40,
+      "f_label": "T280_k1_40_k2_240",
+      "operational": {
+        "label_match": false,
+        "tag_invoked": true,
+        "outcome": "verify_failed"
+      },
+      "oracle": {
+        "label_match": false,
+        "tag_invoked": true,
+        "outcome": "verify_failed"
+      }
+    },
+    {
+      "seed": 2026092702,
+      "block": 9,
+      "k1": 40,
+      "f_label": "T280_k1_40_k2_240",
+      "operational": {
+        "label_match": false,
+        "tag_invoked": true,
+        "outcome": "verify_failed"
+      },
+      "oracle": {
+        "label_match": false,
+        "tag_invoked": true,
+        "outcome": "verify_failed"
+      }
+    },
+    {
+      "seed": 2026092702,
+      "block": 10,
+      "k1": 40,
+      "f_label": "T280_k1_40_k2_240",
+      "operational": {
+        "label_match": false,
+        "tag_invoked": true,
+        "outcome": "verify_failed"
+      },
+      "oracle": {
+        "label_match": false,
+        "tag_invoked": true,
+        "outcome": "verify_failed"
+      }
+    },
+    {
+      "seed": 2026092702,
+      "block": 11,
+      "k1": 40,
+      "f_label": "T280_k1_40_k2_240",
+      "operational": {
+        "label_match": false,
+        "tag_invoked": true,
+        "outcome": "verify_failed"
+      },
+      "oracle": {
+        "label_match": false,
+        "tag_invoked": true,
+        "outcome": "verify_failed"
+      }
+    },
+    {
+      "seed": 2026092702,
+      "block": 12,
+      "k1": 40,
+      "f_label": "T280_k1_40_k2_240",
+      "operational": {
+        "label_match": false,
+        "tag_invoked": true,
+        "outcome": "verify_failed"
+      },
+      "oracle": {
+        "label_match": false,
+        "tag_invoked": true,
+        "outcome": "verify_failed"
+      }
+    },
+    {
+      "seed": 2026092702,
+      "block": 13,
+      "k1": 40,
+      "f_label": "T280_k1_40_k2_240",
+      "operational": {
+        "label_match": false,
+        "tag_invoked": true,
+        "outcome": "verify_failed"
+      },
+      "oracle": {
+        "label_match": false,
+        "tag_invoked": true,
+        "outcome": "verify_failed"
+      }
+    },
+    {
+      "seed": 2026092702,
+      "block": 14,
+      "k1": 40,
+      "f_label": "T280_k1_40_k2_240",
+      "operational": {
+        "label_match": false,
+        "tag_invoked": true,
+        "outcome": "verify_failed"
+      },
+      "oracle": {
+        "label_match": false,
+        "tag_invoked": true,
+        "outcome": "verify_failed"
+      }
+    },
+    {
+      "seed": 2026092702,
+      "block": 15,
+      "k1": 40,
+      "f_label": "T280_k1_40_k2_240",
+      "operational": {
+        "label_match": false,
+        "tag_invoked": true,
+        "outcome": "verify_failed"
+      },
+      "oracle": {
+        "label_match": false,
+        "tag_invoked": true,
+        "outcome": "verify_failed"
+      }
+    },
+    {
+      "seed": 2026092701,
+      "block": 0,
+      "k1": 32,
+      "f_label": "T224_k1_32_k2_192",
+      "operational": {
+        "label_match": false,
+        "tag_invoked": true,
+        "outcome": "verify_failed"
+      },
+      "oracle": {
+        "label_match": false,
+        "tag_invoked": true,
+        "outcome": "verify_failed"
+      }
+    },
+    {
+      "seed": 2026092701,
+      "block": 1,
+      "k1": 32,
+      "f_label": "T224_k1_32_k2_192",
+      "operational": {
+        "label_match": false,
+        "tag_invoked": true,
+        "outcome": "verify_failed"
+      },
+      "oracle": {
+        "label_match": false,
+        "tag_invoked": true,
+        "outcome": "verify_failed"
+      }
+    },
+    {
+      "seed": 2026092701,
+      "block": 2,
+      "k1": 32,
+      "f_label": "T224_k1_32_k2_192",
+      "operational": {
+        "label_match": false,
+        "tag_invoked": true,
+        "outcome": "verify_failed"
+      },
+      "oracle": {
+        "label_match": false,
+        "tag_invoked": true,
+        "outcome": "verify_failed"
+      }
+    },
+    {
+      "seed": 2026092701,
+      "block": 3,
+      "k1": 32,
+      "f_label": "T224_k1_32_k2_192",
+      "operational": {
+        "label_match": false,
+        "tag_invoked": true,
+        "outcome": "verify_failed"
+      },
+      "oracle": {
+        "label_match": false,
+        "tag_invoked": true,
+        "outcome": "verify_failed"
+      }
+    },
+    {
+      "seed": 2026092701,
+      "block": 4,
+      "k1": 32,
+      "f_label": "T224_k1_32_k2_192",
+      "operational": {
+        "label_match": false,
+        "tag_invoked": true,
+        "outcome": "verify_failed"
+      },
+      "oracle": {
+        "label_match": false,
+        "tag_invoked": true,
+        "outcome": "verify_failed"
+      }
+    },
+    {
+      "seed": 2026092701,
+      "block": 5,
+      "k1": 32,
+      "f_label": "T224_k1_32_k2_192",
+      "operational": {
+        "label_match": false,
+        "tag_invoked": true,
+        "outcome": "verify_failed"
+      },
+      "oracle": {
+        "label_match": false,
+        "tag_invoked": true,
+        "outcome": "verify_failed"
+      }
+    },
+    {
+      "seed": 2026092701,
+      "block": 6,
+      "k1": 32,
+      "f_label": "T224_k1_32_k2_192",
+      "operational": {
+        "label_match": false,
+        "tag_invoked": true,
+        "outcome": "verify_failed"
+      },
+      "oracle": {
+        "label_match": false,
+        "tag_invoked": true,
+        "outcome": "verify_failed"
+      }
+    },
+    {
+      "seed": 2026092701,
+      "block": 7,
+      "k1": 32,
+      "f_label": "T224_k1_32_k2_192",
+      "operational": {
+        "label_match": false,
+        "tag_invoked": true,
+        "outcome": "verify_failed"
+      },
+      "oracle": {
+        "label_match": false,
+        "tag_invoked": true,
+        "outcome": "verify_failed"
+      }
+    },
+    {
+      "seed": 2026092701,
+      "block": 8,
+      "k1": 32,
+      "f_label": "T224_k1_32_k2_192",
+      "operational": {
+        "label_match": false,
+        "tag_invoked": true,
+        "outcome": "verify_failed"
+      },
+      "oracle": {
+        "label_match": false,
+        "tag_invoked": true,
+        "outcome": "verify_failed"
+      }
+    },
+    {
+      "seed": 2026092701,
+      "block": 9,
+      "k1": 32,
+      "f_label": "T224_k1_32_k2_192",
+      "operational": {
+        "label_match": false,
+        "tag_invoked": true,
+        "outcome": "verify_failed"
+      },
+      "oracle": {
+        "label_match": false,
+        "tag_invoked": true,
+        "outcome": "verify_failed"
+      }
+    },
+    {
+      "seed": 2026092701,
+      "block": 10,
+      "k1": 32,
+      "f_label": "T224_k1_32_k2_192",
+      "operational": {
+        "label_match": false,
+        "tag_invoked": true,
+        "outcome": "verify_failed"
+      },
+      "oracle": {
+        "label_match": false,
+        "tag_invoked": true,
+        "outcome": "verify_failed"
+      }
+    },
+    {
+      "seed": 2026092701,
+      "block": 11,
+      "k1": 32,
+      "f_label": "T224_k1_32_k2_192",
+      "operational": {
+        "label_match": false,
+        "tag_invoked": true,
+        "outcome": "verify_failed"
+      },
+      "oracle": {
+        "label_match": false,
+        "tag_invoked": true,
+        "outcome": "verify_failed"
+      }
+    },
+    {
+      "seed": 2026092701,
+      "block": 12,
+      "k1": 32,
+      "f_label": "T224_k1_32_k2_192",
+      "operational": {
+        "label_match": false,
+        "tag_invoked": true,
+        "outcome": "verify_failed"
+      },
+      "oracle": {
+        "label_match": false,
+        "tag_invoked": true,
+        "outcome": "verify_failed"
+      }
+    },
+    {
+      "seed": 2026092701,
+      "block": 13,
+      "k1": 32,
+      "f_label": "T224_k1_32_k2_192",
+      "operational": {
+        "label_match": false,
+        "tag_invoked": true,
+        "outcome": "verify_failed"
+      },
+      "oracle": {
+        "label_match": false,
+        "tag_invoked": true,
+        "outcome": "verify_failed"
+      }
+    },
+    {
+      "seed": 2026092701,
+      "block": 14,
+      "k1": 32,
+      "f_label": "T224_k1_32_k2_192",
+      "operational": {
+        "label_match": false,
+        "tag_invoked": true,
+        "outcome": "verify_failed"
+      },
+      "oracle": {
+        "label_match": false,
+        "tag_invoked": true,
+        "outcome": "verify_failed"
+      }
+    },
+    {
+      "seed": 2026092701,
+      "block": 15,
+      "k1": 32,
+      "f_label": "T224_k1_32_k2_192",
+      "operational": {
+        "label_match": false,
+        "tag_invoked": true,
+        "outcome": "verify_failed"
+      },
+      "oracle": {
+        "label_match": false,
+        "tag_invoked": true,
+        "outcome": "verify_failed"
+      }
+    },
+    {
+      "seed": 2026092702,
+      "block": 0,
+      "k1": 32,
+      "f_label": "T224_k1_32_k2_192",
+      "operational": {
+        "label_match": false,
+        "tag_invoked": true,
+        "outcome": "verify_failed"
+      },
+      "oracle": {
+        "label_match": false,
+        "tag_invoked": true,
+        "outcome": "verify_failed"
+      }
+    },
+    {
+      "seed": 2026092702,
+      "block": 1,
+      "k1": 32,
+      "f_label": "T224_k1_32_k2_192",
+      "operational": {
+        "label_match": false,
+        "tag_invoked": true,
+        "outcome": "verify_failed"
+      },
+      "oracle": {
+        "label_match": false,
+        "tag_invoked": true,
+        "outcome": "verify_failed"
+      }
+    },
+    {
+      "seed": 2026092702,
+      "block": 2,
+      "k1": 32,
+      "f_label": "T224_k1_32_k2_192",
+      "operational": {
+        "label_match": false,
+        "tag_invoked": true,
+        "outcome": "verify_failed"
+      },
+      "oracle": {
+        "label_match": false,
+        "tag_invoked": true,
+        "outcome": "verify_failed"
+      }
+    },
+    {
+      "seed": 2026092702,
+      "block": 3,
+      "k1": 32,
+      "f_label": "T224_k1_32_k2_192",
+      "operational": {
+        "label_match": false,
+        "tag_invoked": true,
+        "outcome": "verify_failed"
+      },
+      "oracle": {
+        "label_match": false,
+        "tag_invoked": true,
+        "outcome": "verify_failed"
+      }
+    },
+    {
+      "seed": 2026092702,
+      "block": 4,
+      "k1": 32,
+      "f_label": "T224_k1_32_k2_192",
+      "operational": {
+        "label_match": false,
+        "tag_invoked": true,
+        "outcome": "verify_failed"
+      },
+      "oracle": {
+        "label_match": false,
+        "tag_invoked": true,
+        "outcome": "verify_failed"
+      }
+    },
+    {
+      "seed": 2026092702,
+      "block": 5,
+      "k1": 32,
+      "f_label": "T224_k1_32_k2_192",
+      "operational": {
+        "label_match": false,
+        "tag_invoked": true,
+        "outcome": "verify_failed"
+      },
+      "oracle": {
+        "label_match": false,
+        "tag_invoked": true,
+        "outcome": "verify_failed"
+      }
+    },
+    {
+      "seed": 2026092702,
+      "block": 6,
+      "k1": 32,
+      "f_label": "T224_k1_32_k2_192",
+      "operational": {
+        "label_match": false,
+        "tag_invoked": true,
+        "outcome": "verify_failed"
+      },
+      "oracle": {
+        "label_match": false,
+        "tag_invoked": true,
+        "outcome": "verify_failed"
+      }
+    },
+    {
+      "seed": 2026092702,
+      "block": 7,
+      "k1": 32,
+      "f_label": "T224_k1_32_k2_192",
+      "operational": {
+        "label_match": false,
+        "tag_invoked": true,
+        "outcome": "verify_failed"
+      },
+      "oracle": {
+        "label_match": false,
+        "tag_invoked": true,
+        "outcome": "verify_failed"
+      }
+    },
+    {
+      "seed": 2026092702,
+      "block": 8,
+      "k1": 32,
+      "f_label": "T224_k1_32_k2_192",
+      "operational": {
+        "label_match": false,
+        "tag_invoked": true,
+        "outcome": "verify_failed"
+      },
+      "oracle": {
+        "label_match": false,
+        "tag_invoked": true,
+        "outcome": "verify_failed"
+      }
+    },
+    {
+      "seed": 2026092702,
+      "block": 9,
+      "k1": 32,
+      "f_label": "T224_k1_32_k2_192",
+      "operational": {
+        "label_match": false,
+        "tag_invoked": true,
+        "outcome": "verify_failed"
+      },
+      "oracle": {
+        "label_match": false,
+        "tag_invoked": true,
+        "outcome": "verify_failed"
+      }
+    },
+    {
+      "seed": 2026092702,
+      "block": 10,
+      "k1": 32,
+      "f_label": "T224_k1_32_k2_192",
+      "operational": {
+        "label_match": false,
+        "tag_invoked": true,
+        "outcome": "verify_failed"
+      },
+      "oracle": {
+        "label_match": false,
+        "tag_invoked": true,
+        "outcome": "verify_failed"
+      }
+    },
+    {
+      "seed": 2026092702,
+      "block": 11,
+      "k1": 32,
+      "f_label": "T224_k1_32_k2_192",
+      "operational": {
+        "label_match": false,
+        "tag_invoked": true,
+        "outcome": "verify_failed"
+      },
+      "oracle": {
+        "label_match": false,
+        "tag_invoked": true,
+        "outcome": "verify_failed"
+      }
+    },
+    {
+      "seed": 2026092702,
+      "block": 12,
+      "k1": 32,
+      "f_label": "T224_k1_32_k2_192",
+      "operational": {
+        "label_match": false,
+        "tag_invoked": true,
+        "outcome": "verify_failed"
+      },
+      "oracle": {
+        "label_match": false,
+        "tag_invoked": true,
+        "outcome": "verify_failed"
+      }
+    },
+    {
+      "seed": 2026092702,
+      "block": 13,
+      "k1": 32,
+      "f_label": "T224_k1_32_k2_192",
+      "operational": {
+        "label_match": false,
+        "tag_invoked": true,
+        "outcome": "verify_failed"
+      },
+      "oracle": {
+        "label_match": false,
+        "tag_invoked": true,
+        "outcome": "verify_failed"
+      }
+    },
+    {
+      "seed": 2026092702,
+      "block": 14,
+      "k1": 32,
+      "f_label": "T224_k1_32_k2_192",
+      "operational": {
+        "label_match": false,
+        "tag_invoked": true,
+        "outcome": "verify_failed"
+      },
+      "oracle": {
+        "label_match": false,
+        "tag_invoked": true,
+        "outcome": "verify_failed"
+      }
+    },
+    {
+      "seed": 2026092702,
+      "block": 15,
+      "k1": 32,
+      "f_label": "T224_k1_32_k2_192",
+      "operational": {
+        "label_match": false,
+        "tag_invoked": true,
+        "outcome": "verify_failed"
+      },
+      "oracle": {
+        "label_match": false,
+        "tag_invoked": true,
+        "outcome": "verify_failed"
+      }
+    }
+  ],
+  "per_label_note": "outcomes are counted per k1 point and globally; undetected is isolated and never merged into success; both arms failing together must not be attributed to L-H1 alone",
+  "a3_outcomes_operational_total": {
+    "exact": 28,
+    "undetected": 0,
+    "verify_failed": 132,
+    "decode_failed": 0,
+    "resource_abort": 0
+  },
+  "a3_outcomes_oracle_total": {
+    "exact": 30,
+    "undetected": 0,
+    "verify_failed": 130,
+    "decode_failed": 0,
+    "resource_abort": 0
+  },
+  "a3_oracle_candidate_divergence": {
+    "defined": 160,
+    "true": 59,
+    "note": "report-only, no threshold"
+  },
+  "a3_key_dependent_bits_observed": [
+    1184,
+    1464,
+    1744,
+    2304,
+    2864
+  ],
+  "cells": {
+    "expected": 10,
+    "completed": 10
+  },
+  "wall_s": 115.02243094600271,
+  "peak_rss_bytes": 215396352,
+  "run_log": [
+    "A2 pooled-Z design done; Z0=[0.863116, 0.139031, 0.072954, 0.053741, 0.039825, 0.029812, 0.022642, 0.017527, 0.013886, 0.011299]",
+    "A3 MC genie design samples=128/128 complete=True wall=39.714",
+    "cell T560_k1_80_k2_480 k1=80 k2=480 seed=2026092701 blocks=16 A2=not_run fer_a3_op=0.1250 op_exact=14 oracle_exact=14",
+    "cell T560_k1_80_k2_480 k1=80 k2=480 seed=2026092702 blocks=16 A2=not_run fer_a3_op=0.1250 op_exact=14 oracle_exact=16",
+    "cell T448_k1_64_k2_384 k1=64 k2=384 seed=2026092701 blocks=16 A2=not_run fer_a3_op=1.0000 op_exact=0 oracle_exact=0",
+    "cell T448_k1_64_k2_384 k1=64 k2=384 seed=2026092702 blocks=16 A2=not_run fer_a3_op=1.0000 op_exact=0 oracle_exact=0",
+    "cell T336_k1_48_k2_288 k1=48 k2=288 seed=2026092701 blocks=16 A2=not_run fer_a3_op=1.0000 op_exact=0 oracle_exact=0",
+    "cell T336_k1_48_k2_288 k1=48 k2=288 seed=2026092702 blocks=16 A2=not_run fer_a3_op=1.0000 op_exact=0 oracle_exact=0",
+    "cell T280_k1_40_k2_240 k1=40 k2=240 seed=2026092701 blocks=16 A2=not_run fer_a3_op=1.0000 op_exact=0 oracle_exact=0",
+    "cell T280_k1_40_k2_240 k1=40 k2=240 seed=2026092702 blocks=16 A2=not_run fer_a3_op=1.0000 op_exact=0 oracle_exact=0",
+    "cell T224_k1_32_k2_192 k1=32 k2=192 seed=2026092701 blocks=16 A2=not_run fer_a3_op=1.0000 op_exact=0 oracle_exact=0",
+    "cell T224_k1_32_k2_192 k1=32 k2=192 seed=2026092702 blocks=16 A2=not_run fer_a3_op=1.0000 op_exact=0 oracle_exact=0"
+  ],
+  "claims": "Tier-X non-claim planning evidence only: no threshold, no significance/better-than-baseline/construction-invalid/prior-attribution wording, no pass/fail verdict, no discriminating-separation A/B ruling, no auto-continuation list, no candidate/accepted token, no attempt accounting, no real/artifact data, no R2 sizing input, no efficiency/operating-point claim for any k1 value, writes only under workspace/probes/op-kratio-scale/"
+}
