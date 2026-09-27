@@ -1,0 +1,48 @@
+probe_id: p16-vs-matched-design
+tier: X
+nature: non-claim synthetic probe (planning evidence only)
+status: ok
+reruns: 0
+authorization: PI-authorized Tier-X probe continuation per AGENTS.md Section 10.4 / docs/nbpolar/PROBE_TIER.md; operator packet delivered inline by the coordinator (2026-09-28)
+write_scope:
+  - workspace/probes/p16-vs-matched-design/
+no_writes_outside_scope: true
+forbidden_touched: false
+results_file: workspace/probes/p16-vs-matched-design/results.json
+wall_s: 2021.13
+peak_rss_bytes: 1060495360
+peak_rss_gib: 0.988
+within_budget: true
+budget:
+  wall_limit_s: 3600
+  rss_limit_bytes: 2147483648
+design:
+  design_seed: 2026093000
+  design_mc: 64
+  sanity_pass: true
+  sanity_abs_diff: 3.2757870294553015e-05
+  sanity_tol: 0.01
+p16_source:
+  path: .workbuddy/queue/NBPOLAR-PHASE4-P16-N32768-OPERATIONAL-F13/operational_f13_gate/construction_and_allocation.json
+  inner_freeze_sha256: 055c906472dd2a09761761b18aceb5f31d8b5db19bac658721f8dc49c3faea1b
+  matches_g2_freeze_digest: true
+  raw_data_read: false
+results_summary:
+  k1: 319
+  k2: 6492
+  f_book: 1.272821531730456
+  jaccard_l1: 0.9274924471299094
+  jaccard_l2: 0.9720534629404617
+  P16_operational_exact: "30/32"
+  WK_operational_exact: "30/32"
+  P16_failing_blocks: [[2026092811, 1], [2026092811, 3]]
+  WK_failing_blocks: [[2026092811, 1], [2026092811, 4]]
+  all_failures_pure_l2: true
+review:
+  scope: focused Tier-X review (commands, completeness, arithmetic, truth isolation, write-scope) -- NOT Pre-EXECUTE/Pre-RESULT
+  performed: false
+  note: recorded for the next milestone-batched review pass per PROBE_TIER.md; no candidate/accepted token or pass/fail verdict issued here
+no_candidate_or_accepted_token: true
+no_pass_fail_verdict: true
+no_attempt_accounting: true
+no_ledger_update: true
