@@ -1,0 +1,106 @@
+packet_id: l2-singlefactor-c1-k550-packet
+probe_id: l2-singlefactor-c1-k550
+tier: X
+status: DESCRIPTIVE_TIER_X_REVIEWED_WITH_LIMITATIONS
+route: C1_REVERSE_SHANNON_INFORMATION_SET_CONTROL
+predecessor_probe: workspace/probes/l2-singlefactor-k550
+predecessor_status: DESCRIPTIVE_STOP_REVIEW_LIMITED
+predecessor_note: C3 design sets overlapped 550/550 and stopped before measurement; no decoder outcome from that run
+user_authorization: BROAD_SYNTHETIC_WORK_AUTHORIZATION_GRANTED_IN_MAIN_CONVERSATION
+execution_authorized_by_packet: true
+execution_gate: MAIN_THREAD_FREEZE_REVIEW_PASS_2026-09-26_ONE_SHOT_COMPLETED
+freeze_review: workspace/l2-singlefactor-c1-k550-packet/FREEZE_REVIEW.md
+execution_transcript: workspace/l2-singlefactor-c1-k550-packet/EXECUTION_TRANSCRIPT.md
+parameters:
+  channel: F4@q1024
+  N: 1024
+  n_log: 10
+  k1: 10
+  k2_single: 550
+  k2_fallback: none
+  base_rule: worst_k(H2,550)
+  cand_rule: best_k(H2,550), ascending stable H2 sort, ascending-index tie-break
+  design_seed: 2026092600
+  design_mc: 128
+  run_seeds: [2026092601, 2026092602, 2026092603, 2026092604]
+  blocks_per_seed_per_arm: 16
+  blocks_per_arm: 64
+  disclosed_bits: 2800
+  toeplitz_master: 2026091361
+  overlap_gate_min: 495
+  wall_s: 200
+  rss_GiB: 1
+  reruns_allowed: 0
+output_root: workspace/probes/l2-singlefactor-c1-k550
+result_path: workspace/probes/l2-singlefactor-c1-k550/results.json
+write_scope:
+  - workspace/probes/l2-singlefactor-c1-k550/results.json
+  - workspace/probes/l2-singlefactor-c1-k550/.numba_cache/
+authoring_files:
+  - openspec/changes/nbpolar-l2-c1-k550-probe/proposal.md
+  - openspec/changes/nbpolar-l2-c1-k550-probe/design.md
+  - openspec/changes/nbpolar-l2-c1-k550-probe/tasks.md
+  - workspace/probes/l2-singlefactor-c1-k550/prereg.md
+  - workspace/probes/l2-singlefactor-c1-k550/run.py
+  - workspace/l2-singlefactor-c1-k550-packet/TASK_PACKET.md
+  - workspace/l2-singlefactor-c1-k550-packet/PROMPT.md
+  - workspace/l2-singlefactor-c1-k550-packet/AUTHORIZATION_PROMPT.md
+  - workspace/l2-singlefactor-c1-k550-packet/STATUS.yaml
+acceptance:
+  C1-P1: OPENSPEC_SCOPE_RECORDED
+  C1-P2: PREREG_3_LINE_QPC_AND_COMMAND_VERIFIED
+  C1-P3: PREDECESSOR_DERIVED_C1_SELECTION_STRUCTURALLY_VERIFIED_NOT_EXECUTED
+  C1-P4: PACKET_FROZEN_BY_MAINTHREAD_REVIEW_PASS
+  C1-P5: T0_PARSE_IMPORT_AND_TINY_ORDER_PASS_NO_MAIN_OR_MEASUREMENT
+  C1-X1: PASS_BRANCH_OUTPUT_ABSENCE_AND_PREFLIGHT
+  C1-X2: PASS_EXACT_ONE_SHOT_EXIT_0_RERUNS_0
+  C1-X3: PASS_RESULT_SCOPE_AND_DESCRIPTIVE_ONLY_PENDING_REVIEW
+  C1-X4: PASS_TRANSCRIPT_AND_STATUS_RECORDED
+runtime_readonly_dependency:
+  module: qkd_recon.polar_core
+  sys_path: /mnt/d/Code/qkd-reconciliation-lab/src
+  policy: inherited code import only; no data reads or writes
+t0_side_effect:
+  path: workspace/probes/l2-singlefactor-c1-k550/.numba_cache/
+  observed: empty scoped cache directories created by import
+  results_json_created: false
+  design_mc_or_decoder_called: false
+execution:
+  started_utc: '2026-09-25T17:48:46.7838389+00:00'
+  ended_utc: '2026-09-25T17:50:27.7161041+00:00'
+  direct_exit_code: 0
+  probe_runs: 1
+  reruns: 0
+  result_status: ok
+  within_budget: true
+  wall_s: 99.90650193498004
+  peak_rss_bytes: 215662592
+  cells_expected: 8
+  cells_completed: 8
+  d2_overlap_count: 76
+  d2_jaccard: 0.07421875
+  d2_identical: false
+  per_seed_oracle:
+    '2026092601': {BASE_exact: 16, BASE_verify_failed: 0, CAND_exact: 0, CAND_verify_failed: 16}
+    '2026092602': {BASE_exact: 16, BASE_verify_failed: 0, CAND_exact: 0, CAND_verify_failed: 16}
+    '2026092603': {BASE_exact: 16, BASE_verify_failed: 0, CAND_exact: 0, CAND_verify_failed: 16}
+    '2026092604': {BASE_exact: 16, BASE_verify_failed: 0, CAND_exact: 0, CAND_verify_failed: 16}
+  operational_totals:
+    BASE: {exact: 0, undetected: 0, verify_failed: 64, decode_failed: 0, resource_abort: 0}
+    CAND: {exact: 0, undetected: 0, verify_failed: 64, decode_failed: 0, resource_abort: 0}
+  oracle_totals:
+    BASE: {exact: 64, undetected: 0, verify_failed: 0, decode_failed: 0, resource_abort: 0}
+    CAND: {exact: 0, undetected: 0, verify_failed: 64, decode_failed: 0, resource_abort: 0}
+  focused_numerical_review: PASS_WITH_LIMITATIONS_DESCRIPTIVE_ONLY
+  review_record: workspace/l2-singlefactor-c1-k550-packet/FOCUSED_REVIEW.md
+scientific_acceptance: false
+stop_rules:
+  - identical_or_overlap_gte_495: non_discriminating_before_measurement
+  - undetected_gt_0: immediate_stop_isolated
+  - wall_gt_200s_or_rss_gt_1GiB: incomplete_stop
+  - exception: execution_error_one_record_no_retry
+claim_boundary:
+  tier_x_non_claim: true
+  automatic_continuation: false
+  real_data_or_artifact_access: forbidden
+  results_or_comparison_output_writes: forbidden
