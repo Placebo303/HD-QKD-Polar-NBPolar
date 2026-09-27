@@ -1,0 +1,76 @@
+packet_id: op-k1k2-split-packet
+probe_id: op-k1k2-split-560
+tier: X
+status: DESCRIPTIVE_TIER_X_REVIEWED
+derived_from: workspace/probes/op-k1ramp-k550-base/run.py (mechanical string-level derivative + declared semantic lines)
+parent_openspec_change: openspec/changes/nbpolar-op-k1-ramp-k550
+user_authorization: BROAD_SYNTHETIC_WORK_AUTHORIZATION_GRANTED_IN_MAIN_CONVERSATION (inherited; no real data touched)
+execution_authorized_by_packet: true
+execution_gate: MAIN_THREAD_FREEZE_REVIEW_PASS_2026-09-27_ONE_SHOT
+freeze_review: workspace/op-k1k2-split-packet/FREEZE_REVIEW.md
+execution_transcript: workspace/op-k1k2-split-packet/EXECUTION_TRANSCRIPT.md
+focused_review: workspace/op-k1k2-split-packet/FOCUSED_REVIEW.md
+adjudications:
+  DP-S1: theme = k1/k2 SPLIT at FIXED total disclosure (k1+k2=560, 2800 bits, identical f at every point) - tests allocation, not dose magnitude
+  DP-S2: k1 grid = [10, 40, 80, 160, 240, 320, 400, 480]; k2 = 560 - k1 per point
+  DP-S3: d1 = worst_k(H1,k1) per point AND d2 = worst_k(H2,k2) per point (both from the frozen family rule; declared semantic change relative to the shared-d2 parent because k2 now varies)
+  DP-S4: design_seed 2026092600 / DESIGN_MC 128 inherited => H1/H2 design vectors identical to C1 and to the two preceding probes; run seeds 2026092701..2026092702 => same (x,y) pairs
+  DP-S5: 2 seeds x 16 blocks = 32 blocks per point; single arm BASE; 256 blocks total
+  DP-S6: wall <= 600 s; RSS <= 1 GiB; identical stop rules; one-shot reruns=0
+parameters:
+  channel: F4@q1024
+  N: 1024
+  n_log: 10
+  total_k: 560
+  k1_grid: [10, 40, 80, 160, 240, 320, 400, 480]
+  k2_by_k1: {10: 550, 40: 520, 80: 480, 160: 400, 240: 320, 320: 240, 400: 160, 480: 80}
+  d1_rule: worst_k(H1, k1) per point
+  d2_rule: worst_k(H2, k2) per point
+  design_seed: 2026092600
+  design_mc: 128
+  run_seeds: [2026092701, 2026092702]
+  blocks_per_seed: 16
+  blocks_per_point: 32
+  blocks_total: 256
+  disclosed_bits_per_point: 2800 (constant across all points)
+  f_actual_per_point: 2.93441397898595 (constant across all points)
+  f_book_per_point: 2.9344139789 (constant; bookkeeping only)
+  toeplitz_master: 2026091361
+  wall_s: 600
+  rss_GiB: 1
+  reruns_allowed: 0
+execution:
+  result_status: ok
+  within_budget: true
+  probe_runs: 1
+  reruns: 0
+  cells: {expected: 16, completed: 16}
+  wall_s: 159.388
+  peak_rss_bytes: 215060480
+  stop_rules_triggered: []
+  per_point_operational_exact: {k1_10: 0, k1_40: 14, k1_80: 28, k1_160: 1, k1_240: 0, k1_320: 0, k1_400: 0, k1_480: 0}
+  per_point_oracle_exact: {k1_10: 32, k1_40: 32, k1_80: 30, k1_160: 1, k1_240: 0, k1_320: 0, k1_400: 0, k1_480: 0}
+  operational_totals: {exact: 43, undetected: 0, verify_failed: 213, decode_failed: 0, resource_abort: 0}
+  oracle_totals: {exact: 95, undetected: 0, verify_failed: 161, decode_failed: 0, resource_abort: 0}
+  key_dependent_bits_observed: [2864]
+  constant_disclosure_confirmed: true
+output_root: workspace/probes/op-k1k2-split-560
+result_path: workspace/probes/op-k1k2-split-560/results.json
+write_scope:
+  - workspace/probes/op-k1k2-split-560/results.json
+  - workspace/probes/op-k1k2-split-560/.numba_cache/
+runtime_readonly_dependency:
+  module: qkd_recon.polar_core
+  sys_path: /mnt/d/Code/qkd-reconciliation-lab/src
+  policy: inherited code import only; no data reads or writes
+claim_boundary:
+  tier_x_non_claim: true
+  bookkeeping_only_dose_allocation_diagnostic: true
+  no_efficiency_or_operating_point_claim: true
+  no_real_data_extrapolation: true
+  automatic_continuation: false
+  real_data_or_artifact_access: forbidden
+  results_or_comparison_output_writes: forbidden
+git_boundary:
+  no_add_no_commit_no_push_no_stage: true
+  note: all git actions suspended pending explicit user instruction
