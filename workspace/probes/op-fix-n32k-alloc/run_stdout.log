@@ -1,0 +1,19 @@
+A3 MC genie design samples=64/64 complete=True wall=860.091
+cell T7023_k1_329_k2_6694 k1=329 k2=6694 seed=2026092903 blocks=8 A2=not_run fer_a3_op=1.0000 op_exact=0 oracle_exact=6 wall=1023.0
+cell T7023_k1_329_k2_6694 k1=329 k2=6694 seed=2026092904 blocks=8 A2=not_run fer_a3_op=1.0000 op_exact=0 oracle_exact=6 wall=1188.6
+cell T7023_k1_632_k2_6391 k1=632 k2=6391 seed=2026092903 blocks=8 A2=not_run fer_a3_op=1.0000 op_exact=0 oracle_exact=2 wall=1352.4
+cell T7023_k1_632_k2_6391 k1=632 k2=6391 seed=2026092904 blocks=8 A2=not_run fer_a3_op=1.0000 op_exact=0 oracle_exact=0 wall=1515.9
+cell T7023_k1_983_k2_6040 k1=983 k2=6040 seed=2026092903 blocks=8 A2=not_run fer_a3_op=1.0000 op_exact=0 oracle_exact=0 wall=1679.5
+cell T7023_k1_983_k2_6040 k1=983 k2=6040 seed=2026092904 blocks=8 A2=not_run fer_a3_op=1.0000 op_exact=0 oracle_exact=0 wall=1843.3
+cell T7023_k1_1405_k2_5618 k1=1405 k2=5618 seed=2026092903 blocks=8 A2=not_run fer_a3_op=1.0000 op_exact=0 oracle_exact=0 wall=2007.4
+cell T7023_k1_1405_k2_5618 k1=1405 k2=5618 seed=2026092904 blocks=8 A2=not_run fer_a3_op=1.0000 op_exact=0 oracle_exact=0 wall=2171.7
+cell T7939_k1_372_k2_7567 k1=372 k2=7567 seed=2026092903 blocks=8 A2=not_run fer_a3_op=1.0000 op_exact=0 oracle_exact=8 wall=2336.3
+cell T7939_k1_372_k2_7567 k1=372 k2=7567 seed=2026092904 blocks=8 A2=not_run fer_a3_op=1.0000 op_exact=0 oracle_exact=8 wall=2500.0
+cell T7939_k1_715_k2_7224 k1=715 k2=7224 seed=2026092903 blocks=8 A2=not_run fer_a3_op=1.0000 op_exact=0 oracle_exact=8 wall=2663.5
+cell T7939_k1_715_k2_7224 k1=715 k2=7224 seed=2026092904 blocks=8 A2=not_run fer_a3_op=1.0000 op_exact=0 oracle_exact=8 wall=2827.0
+cell T7939_k1_1111_k2_6828 k1=1111 k2=6828 seed=2026092903 blocks=8 A2=not_run fer_a3_op=0.2500 op_exact=6 oracle_exact=6 wall=2990.3
+cell T7939_k1_1111_k2_6828 k1=1111 k2=6828 seed=2026092904 blocks=8 A2=not_run fer_a3_op=0.1250 op_exact=7 oracle_exact=7 wall=3153.9
+cell T7939_k1_1588_k2_6351 k1=1588 k2=6351 seed=2026092903 blocks=8 A2=not_run fer_a3_op=0.7500 op_exact=2 oracle_exact=2 wall=3317.5
+cell T7939_k1_1588_k2_6351 k1=1588 k2=6351 seed=2026092904 blocks=8 A2=not_run fer_a3_op=1.0000 op_exact=0 oracle_exact=0 wall=3481.1
+WROTE /mnt/d/Code/HD-QKD_Polar_Comparison-nbpolar/workspace/probes/op-fix-n32k-alloc/results.json
+STATUS ok WITHIN True CELLS {'expected': 16, 'completed': 16} WALL 3481.066

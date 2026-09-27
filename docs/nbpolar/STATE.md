@@ -9,6 +9,8 @@
 
 > **⚠ 已撤回（2026-09-27 补充）**：下方 C1–C3 三条结论已撤回。根因是合成两层 GF32 探针本地内联的先验表构造符号写反（`table[a,b]=pmf[(a-b)%Q]`，应为 `pmf[(b-a)%Q]`），把镜像信道喂给了译码器；详见 `docs/decision-log.md` 2026-09-27「合成两层 GF32 探针 table 符号缺陷确认」条目。**真实数据 M2 状态不受影响**（`prior_m2.py` 拟合/展开路径与本缺陷无关）。
 
+> **符号修正后重跑（2026-09-27，描述性 Tier-X，`DESCRIPTIVE_TIER_X_REVIEWED`，独立 FOCUSED_REVIEW 双 PASS）**：`op-fix-n1024-alloc`（N=1024，设计 H1+H2=0.931679）与 `op-fix-n32k-alloc`（N=32768，设计 H1+H2=0.931629）均对齐信道真值 `H_F4=0.931830`。用修正表，N=32768 在 `f_book=1.30` 时 operational exact 在占比 14% 处升至 13/16，而真实数据占比 4.7%（319/6811）处 operational 仍为 0/16（oracle 同点 16/16）——本合成信道下低占比处失效的是 L1 译码层；`f_book=1.15` 在全部四个占比上 operational 均为 0/16；N=1024 网格上 operational 峰值占比随 `f` 增大右移。边界：合成 F4 尾部质量非零（`p_delta_rest=0.005` 分散于 1021 符号），真实 G1R2 CAL32 `q_rest=0`，占比最优点**不可**外推到真实冻结口径 K1=319/K2=6492；无 FER/效率/R2 sizing/晋级主张。详见 `docs/decision-log.md` 2026-09-27「符号修正后重跑分配网格」条目，`workspace/op-fix-n1024-alloc-packet/FOCUSED_REVIEW.md`，`workspace/op-fix-n32k-alloc-packet/FOCUSED_REVIEW.md`。
+
 > 全部为合成域 Tier-X、non-claim；不改任何状态串，不作 FER/效率/晋级/R2 sizing 输入。汇总见 `docs/nbpolar/SYNTHESIS_20260927.md`。
 
 - **范围**：六个合成 Tier-X 探针（C1 + k1 剂量粗/细网格 + 固定总量配比 + 固定配比缩放 + 低总量配比 + 峰带细化），F4@q1024、N=1024、每点 32 blocks、各自 one-shot。

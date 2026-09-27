@@ -5813,3 +5813,21 @@ Archive: `openspec/changes/nbpolar-native-highdim-exploration/` → `openspec/ch
 - 等修正重跑完成后再统一沉淀本记录——否决：AGENTS.md §3 要求发现即记录（append-only），不得"先不发后补"；修正重跑作为独立后续记录。
 
 **Consequences**: 修正重跑 `op-fix-n1024-alloc` / `op-fix-n32k-alloc`（均为 Tier-X）正在进行中，由另一并发子代理负责，本条目及本次沉淀操作不触碰其 `workspace/probes/op-fix-*/`、`workspace/op-fix-*-packet/` 目录。索引 `docs/nbpolar/DOCUMENT_INDEX.md` 增两行（指向 `op-n32k-ratio` packet/FOCUSED_REVIEW 与本条目）。`docs/nbpolar/STATE.md` §0 起首插入撤回提示并对 C1–C3 三行加 `（已撤回）`前缀；`docs/nbpolar/{SYNTHESIS_20260927,T4_DECISION_SHEET_20260924,NEXT_L2_PROBE_DESIGN_20260925,OVERNIGHT_PLAN_20260927}.md` 标题下追加更正横幅。M2 状态串、R2 合同状态、G2/G3 冻结的 K1=319/K2=6492、`STATE.md:65` route lock 均**未改动**；本次沉淀操作仅追加文档与 STATUS.yaml 标注，不产生任何新的 FER/效率/密钥率主张，不解除任何锁定，不构成任何 git push。本条目 append-only，既有条目未修改。
+
+## 2026-09-27 — 符号修正后重跑分配网格 `op-fix-n1024-alloc` / `op-fix-n32k-alloc`（Tier-X 描述性，独立 FOCUSED_REVIEW 双 PASS）
+
+**Decision**: 记录上条目（table 符号缺陷）之后的两个修正重跑 Tier-X 探针，状态串均为 `DESCRIPTIVE_TIER_X_REVIEWED`：`workspace/op-fix-n1024-alloc-packet/FOCUSED_REVIEW.md`（verdict PASS）与 `workspace/op-fix-n32k-alloc-packet/FOCUSED_REVIEW.md`（verdict PASS）。两者的先验表/`Wmat` 均已改为 `table[a,b]=pmf[(b-a)%Q]`（对应生成模型 `y=(x+delta)%Q` 下 `P(Bob=b|Alice=a)`），设计侧熵校验：N=1024 下 `H1+H2=0.9316790188`（≈0.931679）、N=32768 下 `H1+H2=0.9316288769`（≈0.931629），均对齐信道真值 `H_F4=0.9318300075`（差 ≤0.0002），确认符号修正后 genie-SC 均值不再随 N 漂移。仅描述性观察，不构成 claim：
+(i) 用修正后的表，N=32768 在 `f_book=1.30` 时，operational exact 在 k1 占比 14% 处升至 13/16（oracle 13/16 同点持平），而真实数据占比 4.7%（319/6811）处 operational 为 0/16、oracle 却是 16/16——在该合成信道下，低占比处失效的是 L1 译码层，而非 L2 信息集不足；
+(ii) `f_book=1.15` 在全部四个占比（4.69/9/14/20%）上 operational exact 均为 0/16；
+(iii) N=1024 网格上，operational 峰值对应的 k1 占比随 `f` 增大而右移（`f=1.30` 峰值占比 9%[8/32] 与 14%[7/32] 相当；`f=1.60` 峰值在 20%[29/32]；`f=2.00` 在 20–30%[32/32] 饱和）。
+
+**Context**: N=1024 网格（15 点：total∈{248,305,382} × share∈{4.7,9,14,20,30}%，2 seeds × 32 blocks/点）：operational exact/32 —— f1.30: 0/8/7/1/0；f1.60: 0/12/26/29/12；f2.00: 3/19/30/32/32；oracle exact/32 —— f1.30: 27/22/12/2/0；f1.60: 32/32/32/29/12；f2.00: 全 32。N=32768 网格（8 点：total∈{7023,7939} × share∈{4.69,9,14,20}%，2 seeds × 16 blocks/点）：operational exact/16 —— f1.15: 0/0/0/0；f1.30: 0/0/13/2；oracle exact/16 —— f1.15: 12/2/0/0；f1.30: 16/16/13/2。两份 `results.json`（`workspace/probes/op-fix-n1024-alloc/results.json`、`workspace/probes/op-fix-n32k-alloc/results.json`）逐点复核与上述数字一致；两份独立 FOCUSED_REVIEW 均确认 diff-vs-predecessor 仅含已授权改动（符号修正 + 新网格/种子/输出根，未触碰冻结 M2/two-layer/toeplitz/worst_k/undetected 隔离/rng 逻辑）、prereg-vs-run 逐项匹配、算术复算匹配、`undetected`/`decode_failed`/`resource_abort` 全程隔离为 0、预算内（N=1024 wall 261.5 s≤1200，RSS 0.20 GiB≤1；N=32768 wall 3481.1 s≤5400，RSS 1.13 GiB≤4）、`reruns=0`、写域仅限各自 probe/packet 目录。
+
+**Boundaries（不得外推）**：本探针合成信道 F4@q1024 的残余尾部质量 `p_delta_rest=0.005` 分散在其余 1021 个符号上（非零），而真实数据 G1R2 CAL32 三元组 `q_rest=0`（`.workbuddy/queue/NBPOLAR-M2-PRIOR-G1R2-W200-CIRCULAR/G1R2_ADJUDICATION.md`）——两信道的尾部结构不同，本探针的占比最优点**不得**套用或外推到真实冻结口径 K1=319/K2=6492。本条目不含任何 FER/效率/R2 sizing 输入/晋级主张；Tier-X non-claim，不解除 `STATE.md:65` route lock，不改变 M2 = `VALIDATED_AT_FROZEN_CONTRACT`、R2 合同未冻结的状态。
+
+**Alternatives considered**:
+- 把 14% 占比处 13/16 的回升读作可用工作点或效率证据——否决：bookkeeping-only 分配诊断，与真实 K1/K2 冻结配比无关；Tier-X 禁止产生 claim。
+- 把真实占比 4.7% 处 operational 0/16 读作"该真实工作点在此合成信道下不可行"的证据——否决：合成 F4 与真实经验信道尾部结构（`q_rest`）不同，不可外推；真实数据 G2/G3 已在其自身冻结口径上独立测得 11/14、8/14。
+- 用本探针的 f_book 网格反推或修改 R2 测量合同的 f/份额取值——否决：违反 AGENTS.md §10.4 Tier-X 禁止事项（不得作为 R2 sizing 输入）。
+
+**Consequences**: 产物落在 `workspace/probes/op-fix-n1024-alloc/`、`workspace/probes/op-fix-n32k-alloc/`（各含 `run.py`/`prereg.md`/`results.json`/`run_stdout.log`；N=1024 探针另有 `prelaunch_check.py`）与 `workspace/op-fix-n1024-alloc-packet/`、`workspace/op-fix-n32k-alloc-packet/`（各含 `STATUS.yaml`/`EXECUTION_TRANSCRIPT.md`/`FOCUSED_REVIEW.md`）。索引 `docs/nbpolar/DOCUMENT_INDEX.md` 增两行指向两份 `FOCUSED_REVIEW.md`；`docs/nbpolar/STATE.md` §0 增补 3–4 行描述性总结（标注 `描述性 Tier-X`）。M2 状态串、R2 合同状态、G2/G3 冻结的 K1=319/K2=6492、`STATE.md:65` route lock 均**未改动**；不构成任何新的 FER/效率/密钥率主张，不解除任何锁定。

@@ -1,0 +1,36 @@
+probe_id: op-fix-n32k-alloc
+tier: X
+claim_bearing: false
+authorized_by: PI (Tier-X probe authorization relayed by main thread, 2026-09-27)
+probe_root: workspace/probes/op-fix-n32k-alloc/
+packet_root: workspace/op-fix-n32k-alloc-packet/
+predecessor: workspace/probes/op-n32k-ratio/
+delta_note: table/Wmat sign fix (pmf[(a-b)%Q] -> pmf[(b-a)%Q]) + grid f_book {1.15,1.30} replacing {1.30,1.60} + new seeds/output-root; DESIGN_MC/BLOCKS/design_seed unchanged from op-n32k-ratio; sign fix confirmed by workspace/op-n32k-ratio-packet/FOCUSED_REVIEW.md
+state: executed_awaiting_focused_review
+prereg_frozen: 2026-09-27T12:56+08:00
+results_json_absent_before_launch: true
+launch_gate: after op-fix-n1024-alloc finishes (satisfied: op-fix-n1024-alloc completed 2026-09-27T13:02+08:00, status ok)
+prelaunch_sanity:
+  genie_H1_plus_H2_N1024_signfixed_shared_check: 0.9317
+  channel_H: 0.93183
+  abs_diff: 0.0002
+  within_0p05: true
+  note: full N=32768 design-pass sanity deferred to the actual run per freeze (N=1024/256 quick check permitted)
+  ast_format_mismatches: 0
+launched: 2026-09-27T13:04+08:00
+run_status: ok
+within_budget: true
+wall_s: 3481.066
+peak_rss_bytes: 1208664064
+design_H1_mean: 0.09426256853168727
+design_H2_mean: 0.8373663083818641
+design_H1_plus_H2_actual_run: 0.9316288769135513
+design_mc: 64
+blocks_per_point: 16
+cells: {expected: 16, completed: 16}
+budget: {wall_s: 5400, rss_gib: 4}
+reruns: 0
+execution_error_records: none
+operational_totals: {exact: 15, undetected: 0, verify_failed: 113, decode_failed: 0, resource_abort: 0}
+oracle_totals: {exact: 61, undetected: 0, verify_failed: 67, decode_failed: 0, resource_abort: 0}
+key_dependent_bits_observed: [35179, 39759]

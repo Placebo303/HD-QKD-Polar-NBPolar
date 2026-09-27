@@ -1,0 +1,33 @@
+A3 MC genie design samples=128/128 complete=True wall=38.693
+cell T248_k1_12_k2_236 k1=12 k2=236 seed=2026092901 blocks=16 A2=not_run fer_a3_op=1.0000 op_exact=0 oracle_exact=14 wall=46.0
+cell T248_k1_12_k2_236 k1=12 k2=236 seed=2026092902 blocks=16 A2=not_run fer_a3_op=1.0000 op_exact=0 oracle_exact=13 wall=53.3
+cell T248_k1_22_k2_226 k1=22 k2=226 seed=2026092901 blocks=16 A2=not_run fer_a3_op=0.7500 op_exact=4 oracle_exact=11 wall=60.5
+cell T248_k1_22_k2_226 k1=22 k2=226 seed=2026092902 blocks=16 A2=not_run fer_a3_op=0.7500 op_exact=4 oracle_exact=11 wall=67.8
+cell T248_k1_35_k2_213 k1=35 k2=213 seed=2026092901 blocks=16 A2=not_run fer_a3_op=0.8125 op_exact=3 oracle_exact=5 wall=75.1
+cell T248_k1_35_k2_213 k1=35 k2=213 seed=2026092902 blocks=16 A2=not_run fer_a3_op=0.7500 op_exact=4 oracle_exact=7 wall=82.4
+cell T248_k1_50_k2_198 k1=50 k2=198 seed=2026092901 blocks=16 A2=not_run fer_a3_op=0.9375 op_exact=1 oracle_exact=1 wall=90.0
+cell T248_k1_50_k2_198 k1=50 k2=198 seed=2026092902 blocks=16 A2=not_run fer_a3_op=1.0000 op_exact=0 oracle_exact=1 wall=97.6
+cell T248_k1_74_k2_174 k1=74 k2=174 seed=2026092901 blocks=16 A2=not_run fer_a3_op=1.0000 op_exact=0 oracle_exact=0 wall=105.4
+cell T248_k1_74_k2_174 k1=74 k2=174 seed=2026092902 blocks=16 A2=not_run fer_a3_op=1.0000 op_exact=0 oracle_exact=0 wall=113.0
+cell T305_k1_14_k2_291 k1=14 k2=291 seed=2026092901 blocks=16 A2=not_run fer_a3_op=1.0000 op_exact=0 oracle_exact=16 wall=120.3
+cell T305_k1_14_k2_291 k1=14 k2=291 seed=2026092902 blocks=16 A2=not_run fer_a3_op=1.0000 op_exact=0 oracle_exact=16 wall=127.5
+cell T305_k1_27_k2_278 k1=27 k2=278 seed=2026092901 blocks=16 A2=not_run fer_a3_op=0.5625 op_exact=7 oracle_exact=16 wall=135.0
+cell T305_k1_27_k2_278 k1=27 k2=278 seed=2026092902 blocks=16 A2=not_run fer_a3_op=0.6875 op_exact=5 oracle_exact=16 wall=142.6
+cell T305_k1_43_k2_262 k1=43 k2=262 seed=2026092901 blocks=16 A2=not_run fer_a3_op=0.1250 op_exact=14 oracle_exact=16 wall=149.8
+cell T305_k1_43_k2_262 k1=43 k2=262 seed=2026092902 blocks=16 A2=not_run fer_a3_op=0.2500 op_exact=12 oracle_exact=16 wall=157.5
+cell T305_k1_61_k2_244 k1=61 k2=244 seed=2026092901 blocks=16 A2=not_run fer_a3_op=0.1250 op_exact=14 oracle_exact=14 wall=165.0
+cell T305_k1_61_k2_244 k1=61 k2=244 seed=2026092902 blocks=16 A2=not_run fer_a3_op=0.0625 op_exact=15 oracle_exact=15 wall=172.3
+cell T305_k1_92_k2_213 k1=92 k2=213 seed=2026092901 blocks=16 A2=not_run fer_a3_op=0.6875 op_exact=5 oracle_exact=5 wall=179.8
+cell T305_k1_92_k2_213 k1=92 k2=213 seed=2026092902 blocks=16 A2=not_run fer_a3_op=0.5625 op_exact=7 oracle_exact=7 wall=187.3
+cell T382_k1_18_k2_364 k1=18 k2=364 seed=2026092901 blocks=16 A2=not_run fer_a3_op=0.8750 op_exact=2 oracle_exact=16 wall=194.9
+cell T382_k1_18_k2_364 k1=18 k2=364 seed=2026092902 blocks=16 A2=not_run fer_a3_op=0.9375 op_exact=1 oracle_exact=16 wall=202.3
+cell T382_k1_34_k2_348 k1=34 k2=348 seed=2026092901 blocks=16 A2=not_run fer_a3_op=0.3125 op_exact=11 oracle_exact=16 wall=209.7
+cell T382_k1_34_k2_348 k1=34 k2=348 seed=2026092902 blocks=16 A2=not_run fer_a3_op=0.5000 op_exact=8 oracle_exact=16 wall=217.1
+cell T382_k1_53_k2_329 k1=53 k2=329 seed=2026092901 blocks=16 A2=not_run fer_a3_op=0.0000 op_exact=16 oracle_exact=16 wall=224.5
+cell T382_k1_53_k2_329 k1=53 k2=329 seed=2026092902 blocks=16 A2=not_run fer_a3_op=0.1250 op_exact=14 oracle_exact=16 wall=231.8
+cell T382_k1_76_k2_306 k1=76 k2=306 seed=2026092901 blocks=16 A2=not_run fer_a3_op=0.0000 op_exact=16 oracle_exact=16 wall=239.3
+cell T382_k1_76_k2_306 k1=76 k2=306 seed=2026092902 blocks=16 A2=not_run fer_a3_op=0.0000 op_exact=16 oracle_exact=16 wall=246.7
+cell T382_k1_115_k2_267 k1=115 k2=267 seed=2026092901 blocks=16 A2=not_run fer_a3_op=0.0000 op_exact=16 oracle_exact=16 wall=254.2
+cell T382_k1_115_k2_267 k1=115 k2=267 seed=2026092902 blocks=16 A2=not_run fer_a3_op=0.0000 op_exact=16 oracle_exact=16 wall=261.5
+WROTE /mnt/d/Code/HD-QKD_Polar_Comparison-nbpolar/workspace/probes/op-fix-n1024-alloc/results.json
+STATUS ok WITHIN True CELLS {'expected': 30, 'completed': 30} WALL 261.503
