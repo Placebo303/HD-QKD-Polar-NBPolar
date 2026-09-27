@@ -66,6 +66,13 @@ remains locked until PI approves.**~~ (superseded 2026-09-27; see
   the T1 2026-09-27 ruling — execute once T2's focused tests pass and the
   main thread confirms; the T1 ruling is itself the PI's Tier-X execution
   authorization, no further authorization request needed]**
+  **T1 addendum (PI 2026-09-27, after G2/G3 layer attribution
+  `workspace/analysis/g2g3-layer-attribution/REPORT.md`)**: real-data B-arm
+  failures are 8/9 L2-only (L1 exact), while the synthetic D4 point fails in
+  L1. T3 therefore measures a **second working point** on the same channel:
+  f_book≈1.20, k1 share 9% (`T6421_k1_578_k2_5843`; SC op 0/16, oracle
+  0/16 ⇒ L2-dominated), same L ladder, same outcome bands applied per point.
+  The D4 point (share 4.69%) is unchanged.
 
 - [ ] T4 — Record the T3 outcome against the T1-decided D4 bands in
   `docs/decision-log.md` (append-only) and, if the PI rules it in scope,

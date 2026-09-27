@@ -5888,3 +5888,13 @@ Archive: `openspec/changes/nbpolar-native-highdim-exploration/` → `openspec/ch
 - 把分析 B 的授权理解为同时解除 SCL 锁或改变 M2/G2/G3 冻结状态——否决：分析 B 是只读归因，proposal/design/tasks 明确其与 SCL 合成门"并行"而非替代或前置门槛，不产生新的状态串。
 
 **Consequences**: 本条目落盘后：`openspec/changes/nbpolar-scl-lock-amendment/{proposal.md,design.md,tasks.md}` 的状态行更新为 "APPROVED by PI 2026-09-27 (T1 DECIDED)"（保留原草案文字，原 draft 状态行以删除线标注被替代，不删除原文）；`tasks.md` T1 勾选并写入 (i)-(v) 裁决值与 M=4 实现约束，T2/T3 注明已授权条件；`openspec/changes/nbpolar-r2-fer-measurement-contract/tasks.md` D-ACQ-06 行状态改为 DECIDED 并写入裁决值；`docs/nbpolar/R2_T4_PI_DECISION_CARDS_20260927.md` 卡 4 末尾追加"已裁决"行；`docs/nbpolar/STATE.md` §0 与既有 SCL 锁定行追加裁决摘要；`docs/nbpolar/REAL_DATA_FEASIBILITY_STRATEGY.md` SCL entry gate 段追加指向修订 change 的说明；`docs/nbpolar/DOCUMENT_INDEX.md` 增一行指向修订 change。以上均为文档追加，不构成任何 git push、不触碰 `comparison_bench/src/comparison_bench/formal_ir/nbpolar/`、`comparison_bench/tests/`、`workspace/analysis/g2g3-layer-attribution/`。M2 状态串、R2 K1=319/K2=6492 冻结值、真实数据 SCL 锁定（D5）均**未改动**。
+
+## 2026-09-27 — SCL 合成门 T3 增加 L2 主导工作点（PI 批准）
+
+**Decision**: `nbpolar-scl-lock-amendment` T3 在原 D4 点（G1R2-matched@q1024，N=32768，f_book≈1.20，k1 份额 4.69%）之外，增加第二个工作点：同信道、f_book≈1.20、k1 份额 9%（`T6421_k1_578_k2_5843`，SC op 0/16、oracle 0/16，失败在 L2）。L ∈ {4,8,16}、CRC-16、M=4、结局带（≥15/16 / ≤12/16）逐点适用。PI 于对话中批准（"可以的，继续"）。
+
+**Context**: G2/G3 逐块分层归因（`workspace/analysis/g2g3-layer-attribution/REPORT.md`，commit a769ad45，只读、描述性）：真实数据 B 臂（M2@32f）9 个失败块中 8 个为纯 L2 失败（`l1_exact=True`），1 个含 L1 错误；A2 失败 28/28 含 L1 错误。合成匹配信道 op-n32k-matched 在 f≈1.30/4.69% 的 3 个失败块全部在 L1（oracle 16/16）⇒ i.i.d. 三元组模型低估真实 L2 难度；原 D4 点只检验 SCL 修 L1 的能力，与真实失败模式不一致。
+
+**Alternatives**: (1) 只保留 D4 点——否决：通过也无法支持真实数据迁移；(2) 以 L2 主导点替换 D4 点——否决：D4 点已由 T1 裁决，保留作 L1 维度对照。
+
+**Consequences**: T3 机器时间约翻倍；真实数据 SCL 仍锁定；另列候选方向（未授权）：构造复现真实 L2 难度的合成信道（时间相关/先验失配 δ 模型），待 T3 后决定。不改 M2 状态串、不改 K1/K2=319/6492、R2 仍未冻结。
