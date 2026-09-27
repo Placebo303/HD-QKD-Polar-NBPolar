@@ -107,6 +107,7 @@ remains locked until PI approves.**~~ (superseded 2026-09-27; see
   verbatim authorization text and starts no real-data touch.
   **[NOT AUTHORIZED — skeleton only, empty authorization list by
   construction]**
+  2026-09-28 真实数据描述性重解（非 Tier-Y、非门）结果见 decision-log；T5 骨架仍暂缓。
 
 ## Standing rule
 

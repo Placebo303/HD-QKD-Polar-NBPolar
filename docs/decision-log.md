@@ -24,6 +24,21 @@ Durable decisions and rejected alternatives for the HD-QKD_Polar_Comparison-nbpo
 
 ## Decisions
 
+## 2026-09-28 真实数据 G2/G3 B 臂失败块 SCL 重解（描述性诊断，PI 授权）
+
+**Decision**: 记录 `workspace/m2_scl_rescue_g2g3/` 一次性执行的结果与验收。授权原话（PI，2026-09-28）："授权，用 SCL L=16 重解那 9 个失败块，可以继续往下推进"。Pre-EXECUTE 结论 `PASS_WITH_COMMENTS`（唯一发现是 RSS 2GiB 预算只做事后记录、非实时轮询/未在超出时中止；主线程已接受为非阻塞，理由见 `PRE_EXECUTE_REVIEW.md`/`STATUS.yaml` D5 裁决：`workspace/probes/scl-gate-t3/results.json` 同配置 N=32768/L=16 下每 16-block 批次 RSS 峰值约 0.65GiB，8-way 并行仍在 WSL 15GB 预算内）。Pre-RESULT 结论 `PASS`（独立复核见 `PRE_RESULT_REVIEW.md`）。
+
+**Context**: 保真性——9/9 个目标块的 SC 复现结果与各自 `per_block_outcomes.jsonl` 的五个字段（`outcome`/`first_error_coordinate`/`first_error_layer`/`l1_exact`/`hard_l2_exact`）全部一致，无一处不匹配。结果——CRC-16 辅助 joint SCL(L=16, top_m=4) 对同批 9 个失败块重解，救回 8/9（G2 2/3，G3 6/6）；G2 block 5 仍失败，L2 有 78 个错误符号；`undetected=0`，`decode_failed=0`。记账——`kdb`（不含 CRC）为 34119，含 CRC 后为 34135；`f_book`：G2 不含 CRC 1.2747448953789544 / 含 CRC 1.2753426830727925；G3 不含 CRC 1.267506841182456 / 含 CRC 1.268101234613064；G3 的 `h_total_bits=0.8214782076249098` 由 G3 自身的 CAL 拟合现算，非沿用他处常量。执行史——attempt 1 在任何测量之前就死于实现缺陷（`run.py` 对 G2/G3 两个 session 各自触发一次 `_load_g2_decoder_chain`，pandas stub 的 fail-closed 保护在同进程第二次加载时抛出 `ValueError: pandas.__spec__ is None`），已修复为在 `main()` 中只加载一次再传参给两个 session，并重启一次；attempt 1 记作 pre-measurement 实现缺陷重启、不计入 `reruns`（`STATUS.yaml counters.reruns=0`）。
+
+**结论只允许使用这一句（逐字）**："在 SC 冻结路径下失败的 9 个真实数据 B 臂块中，CRC-16 辅助 joint SCL(L=16, top_m=4) 对同批失败块重解，救回 8/9（G2 2/3、G3 6/6），undetected=0；SCL 是否会保持或破坏 SC 原本成功的 19 个块，本次未在真实数据上测试，不作声称。"
+
+**Alternatives considered**:
+- 把这次重解合成为一个新的 FER 数字，或用它改写 M2/G2/G3 的状态字符串：拒绝——这是描述性诊断，不产生阈值/合格判定，不计入任何 Tier-Y attempt 预算，K1=319/K2=6492 不变，R2 仍未冻结。
+- 把 attempt 1 计为一次 rerun：拒绝——它在任何目标块测量发生之前就已因实现缺陷失败（0 个 part 文件产出），符合 AGENTS.md 认可的"测量前实现缺陷重启"例外。
+- 把真实数据 SCL 视为已采纳的基线，或据此解锁真实数据 SCL 锁：拒绝——design D5（`openspec/changes/nbpolar-scl-lock-amendment/`）未变，真实数据 SCL 仍锁定；本次只是一次 PI 授权的一次性描述性重解。
+
+**Consequences**: 主线程建议的下一步——若要得到完整的 28 块（9 个失败块 + 19 个原本成功块）描述性 SCL 结果，需要在那 19 个块上另行跑 SCL，这需要 PI 另行授权；本次结果不能外推到那 19 个块是否会被 SCL 保持或破坏。合成对照记录（描述性，非可比幅值）：P16 与匹配设计在合成 N=32768 网格上打平（均 30/32 附近的区域），i.i.d. 匹配合成信道在真实合同 f_book 附近取得约 30/32，而真实 SC 在同一合同下为 G2 11/14、G3 8/14——说明真实信道与 i.i.d. 模型之间存在描述性差距。明确边界：不合成 FER；不改变 M2 状态串；不改 K1/K2；R2 仍未冻结；真实数据 SCL 仍不是已采纳的基线。
+
 ## 2026-09-24 R2 T4 PI adjudication — route (c)+(b) selected, seven rulings, four PENDING block T5/T6 (contract NOT frozen, route lock NOT lifted)
 
 **Decision**: PI adjudicated the R2 T4 15-row ledger round as follows. (1) Route selection: R2 proceeds per option (c) — measure the existing M2 frozen working point (K1=319, K2=6492, original construction); algorithm research proceeds per option (b) — fixed-disclosure-L2 single-factor comparison; option (a) (unlocking SCL) is deferred, not selected. The two lines are prepared in parallel and neither substitutes for the other. (2) Seven T4 rulings: Δ = "计划可接受的单方法 FER 估计半宽" = 0.10; R-a; w(Δ) = Δ = 0.10; p = 3/14; Wilson z = 1.96; n = 65 有效完整块 (Wilson minimum 63, 65 taken conservative); actual intervals are reported as observed with no post-hoc half-width ≤ 0.10 guarantee. K_total stays at G2/G3 (fixed-f=1.3 is only a future rate-change planning direction and needs its own freeze). R-5 is removed and its mapping row deleted. Annex placement: FER body is the normative contract, acquisition draft is Annex A, ACQ §8 duration/scale token → C12, remaining budget/STOP → C13, INSUFFICIENT stays C11. D3 order T3→T4→T5→T6 (T3 STRUCT-PASS is a structural pass, not a freeze pass). Strong versions (binary pairing / f_eff / net key / low-FER targets) are moved out. (3) reviewer-go round verdict = pass with comments (5 non-blocking items); that review is neither a T4 freeze nor a probe-execution approval.

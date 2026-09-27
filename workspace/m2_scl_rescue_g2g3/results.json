@@ -1,0 +1,769 @@
+{
+  "authorization": {
+    "source": "AUTHORIZATION_PROMPT.md (this directory)",
+    "verbatim": "\u6388\u6743\uff0c\u7528 SCL L=16 \u91cd\u89e3\u90a3 9 \u4e2a\u5931\u8d25\u5757\uff0c\u53ef\u4ee5\u7ee7\u7eed\u5f80\u4e0b\u63a8\u8fdb",
+    "when": "2026-09-28",
+    "who": "PI"
+  },
+  "blocks": [
+    {
+      "arm": "B_M2_32f_candidate",
+      "block_index": 1,
+      "error": null,
+      "fidelity": {
+        "actual": {
+          "first_error_coordinate": 1253,
+          "first_error_layer": "L2",
+          "hard_l2_exact": false,
+          "l1_exact": true,
+          "outcome": "verify_failed"
+        },
+        "eval_frames": [
+          2526,
+          2653
+        ],
+        "expected": {
+          "first_error_coordinate": 1253,
+          "first_error_layer": "L2",
+          "hard_l2_exact": false,
+          "l1_exact": true,
+          "outcome": "verify_failed"
+        },
+        "match": true,
+        "mismatches": []
+      },
+      "rescue": {
+        "accepted": true,
+        "candidates_considered": 64,
+        "crc_bits": 16,
+        "crc_hat": 37766,
+        "crc_pass": true,
+        "crc_true": 37766,
+        "exact": true,
+        "hard_l2_exact_scl": true,
+        "joint_metric": -0.8747780691594498,
+        "l1_error_symbols_scl": 0,
+        "l1_exact_scl": true,
+        "l1_survivor_count": 16,
+        "l2_error_symbols_scl": 0,
+        "label_exact": true,
+        "list_width_L": 16,
+        "m1": -0.010917173090969262,
+        "m2": -0.8638608960684805,
+        "metric_provenance": {
+          "crc": "CRC-16/CCITT-FALSE, poly=0x1021, init=0xFFFF, MSB-first, no reflect, no xorout",
+          "l1_provenance": "PRIOR_ONLY",
+          "l2_provenance": "CANDIDATE_CONDITIONED",
+          "label_convention": "s = low + 32*high per position (two_layer.py LABEL_SCALE=32)",
+          "merge_rule": "joint_metric desc, tie-break (l1_rank, l2_rank) asc",
+          "prune_rule": "top_l_prune",
+          "top_m_default": 4,
+          "top_m_requested": 4
+        },
+        "tag_pass": true,
+        "top_m_requested": 4,
+        "top_m_used": 4,
+        "undetected": false,
+        "verify_failed": false
+      },
+      "resources": {
+        "budget_rss_gib": 2.0,
+        "budget_wall_s": 1200.0,
+        "rss_gib_peak_advisory": 0.5383529663085938,
+        "wall_fidelity_s": 22.93148937006481,
+        "wall_rescue_s": 589.6712439989205,
+        "wall_total_s": 612.6027534849709
+      },
+      "session": "G2",
+      "status": "ok"
+    },
+    {
+      "arm": "B_M2_32f_candidate",
+      "block_index": 5,
+      "error": null,
+      "fidelity": {
+        "actual": {
+          "first_error_coordinate": 978,
+          "first_error_layer": "L2",
+          "hard_l2_exact": false,
+          "l1_exact": true,
+          "outcome": "verify_failed"
+        },
+        "eval_frames": [
+          3038,
+          3165
+        ],
+        "expected": {
+          "first_error_coordinate": 978,
+          "first_error_layer": "L2",
+          "hard_l2_exact": false,
+          "l1_exact": true,
+          "outcome": "verify_failed"
+        },
+        "match": true,
+        "mismatches": []
+      },
+      "rescue": {
+        "accepted": false,
+        "candidates_considered": 64,
+        "crc_bits": 16,
+        "crc_hat": 64091,
+        "crc_pass": false,
+        "crc_true": 50013,
+        "exact": false,
+        "hard_l2_exact_scl": false,
+        "joint_metric": -6.347343762844853,
+        "l1_error_symbols_scl": 0,
+        "l1_exact_scl": true,
+        "l1_survivor_count": 16,
+        "l2_error_symbols_scl": 78,
+        "label_exact": false,
+        "list_width_L": 16,
+        "m1": -5.993829008714724e-06,
+        "m2": -6.3473377690158435,
+        "metric_provenance": {
+          "crc": "CRC-16/CCITT-FALSE, poly=0x1021, init=0xFFFF, MSB-first, no reflect, no xorout",
+          "l1_provenance": "PRIOR_ONLY",
+          "l2_provenance": "CANDIDATE_CONDITIONED",
+          "label_convention": "s = low + 32*high per position (two_layer.py LABEL_SCALE=32)",
+          "merge_rule": "joint_metric desc, tie-break (l1_rank, l2_rank) asc",
+          "prune_rule": "top_l_prune",
+          "top_m_default": 4,
+          "top_m_requested": 4
+        },
+        "tag_pass": false,
+        "top_m_requested": 4,
+        "top_m_used": 4,
+        "undetected": false,
+        "verify_failed": true
+      },
+      "resources": {
+        "budget_rss_gib": 2.0,
+        "budget_wall_s": 1200.0,
+        "rss_gib_peak_advisory": 0.5399322509765625,
+        "wall_fidelity_s": 23.34193947503809,
+        "wall_rescue_s": 585.9378899760777,
+        "wall_total_s": 609.279857164016
+      },
+      "session": "G2",
+      "status": "ok"
+    },
+    {
+      "arm": "B_M2_32f_candidate",
+      "block_index": 12,
+      "error": null,
+      "fidelity": {
+        "actual": {
+          "first_error_coordinate": 2000,
+          "first_error_layer": "L2",
+          "hard_l2_exact": false,
+          "l1_exact": true,
+          "outcome": "verify_failed"
+        },
+        "eval_frames": [
+          3934,
+          4061
+        ],
+        "expected": {
+          "first_error_coordinate": 2000,
+          "first_error_layer": "L2",
+          "hard_l2_exact": false,
+          "l1_exact": true,
+          "outcome": "verify_failed"
+        },
+        "match": true,
+        "mismatches": []
+      },
+      "rescue": {
+        "accepted": true,
+        "candidates_considered": 64,
+        "crc_bits": 16,
+        "crc_hat": 24789,
+        "crc_pass": true,
+        "crc_true": 24789,
+        "exact": true,
+        "hard_l2_exact_scl": true,
+        "joint_metric": -1.5449166773440022,
+        "l1_error_symbols_scl": 0,
+        "l1_exact_scl": true,
+        "l1_survivor_count": 16,
+        "l2_error_symbols_scl": 0,
+        "label_exact": true,
+        "list_width_L": 16,
+        "m1": -0.00077600643806593,
+        "m2": -1.5441406709059362,
+        "metric_provenance": {
+          "crc": "CRC-16/CCITT-FALSE, poly=0x1021, init=0xFFFF, MSB-first, no reflect, no xorout",
+          "l1_provenance": "PRIOR_ONLY",
+          "l2_provenance": "CANDIDATE_CONDITIONED",
+          "label_convention": "s = low + 32*high per position (two_layer.py LABEL_SCALE=32)",
+          "merge_rule": "joint_metric desc, tie-break (l1_rank, l2_rank) asc",
+          "prune_rule": "top_l_prune",
+          "top_m_default": 4,
+          "top_m_requested": 4
+        },
+        "tag_pass": true,
+        "top_m_requested": 4,
+        "top_m_used": 4,
+        "undetected": false,
+        "verify_failed": false
+      },
+      "resources": {
+        "budget_rss_gib": 2.0,
+        "budget_wall_s": 1200.0,
+        "rss_gib_peak_advisory": 0.5398292541503906,
+        "wall_fidelity_s": 22.971346987062134,
+        "wall_rescue_s": 580.8061528380495,
+        "wall_total_s": 603.7775424469728
+      },
+      "session": "G2",
+      "status": "ok"
+    },
+    {
+      "arm": "B_M2_32f_candidate",
+      "block_index": 0,
+      "error": null,
+      "fidelity": {
+        "actual": {
+          "first_error_coordinate": 6611,
+          "first_error_layer": "L2",
+          "hard_l2_exact": false,
+          "l1_exact": true,
+          "outcome": "verify_failed"
+        },
+        "eval_frames": [
+          2398,
+          2525
+        ],
+        "expected": {
+          "first_error_coordinate": 6611,
+          "first_error_layer": "L2",
+          "hard_l2_exact": false,
+          "l1_exact": true,
+          "outcome": "verify_failed"
+        },
+        "match": true,
+        "mismatches": []
+      },
+      "rescue": {
+        "accepted": true,
+        "candidates_considered": 64,
+        "crc_bits": 16,
+        "crc_hat": 15700,
+        "crc_pass": true,
+        "crc_true": 15700,
+        "exact": true,
+        "hard_l2_exact_scl": true,
+        "joint_metric": -0.940555814550676,
+        "l1_error_symbols_scl": 0,
+        "l1_exact_scl": true,
+        "l1_survivor_count": 16,
+        "l2_error_symbols_scl": 0,
+        "label_exact": true,
+        "list_width_L": 16,
+        "m1": -0.18862400963234655,
+        "m2": -0.7519318049183294,
+        "metric_provenance": {
+          "crc": "CRC-16/CCITT-FALSE, poly=0x1021, init=0xFFFF, MSB-first, no reflect, no xorout",
+          "l1_provenance": "PRIOR_ONLY",
+          "l2_provenance": "CANDIDATE_CONDITIONED",
+          "label_convention": "s = low + 32*high per position (two_layer.py LABEL_SCALE=32)",
+          "merge_rule": "joint_metric desc, tie-break (l1_rank, l2_rank) asc",
+          "prune_rule": "top_l_prune",
+          "top_m_default": 4,
+          "top_m_requested": 4
+        },
+        "tag_pass": true,
+        "top_m_requested": 4,
+        "top_m_used": 4,
+        "undetected": false,
+        "verify_failed": false
+      },
+      "resources": {
+        "budget_rss_gib": 2.0,
+        "budget_wall_s": 1200.0,
+        "rss_gib_peak_advisory": 0.549346923828125,
+        "wall_fidelity_s": 22.920153331011534,
+        "wall_rescue_s": 587.8951153950766,
+        "wall_total_s": 610.8153096339665
+      },
+      "session": "G3",
+      "status": "ok"
+    },
+    {
+      "arm": "B_M2_32f_candidate",
+      "block_index": 1,
+      "error": null,
+      "fidelity": {
+        "actual": {
+          "first_error_coordinate": 911,
+          "first_error_layer": "L2",
+          "hard_l2_exact": false,
+          "l1_exact": true,
+          "outcome": "verify_failed"
+        },
+        "eval_frames": [
+          2526,
+          2653
+        ],
+        "expected": {
+          "first_error_coordinate": 911,
+          "first_error_layer": "L2",
+          "hard_l2_exact": false,
+          "l1_exact": true,
+          "outcome": "verify_failed"
+        },
+        "match": true,
+        "mismatches": []
+      },
+      "rescue": {
+        "accepted": true,
+        "candidates_considered": 64,
+        "crc_bits": 16,
+        "crc_hat": 48401,
+        "crc_pass": true,
+        "crc_true": 48401,
+        "exact": true,
+        "hard_l2_exact_scl": true,
+        "joint_metric": -3.0808662854171778,
+        "l1_error_symbols_scl": 0,
+        "l1_exact_scl": true,
+        "l1_survivor_count": 16,
+        "l2_error_symbols_scl": 0,
+        "label_exact": true,
+        "list_width_L": 16,
+        "m1": -9.599587641056164e-05,
+        "m2": -3.080770289540767,
+        "metric_provenance": {
+          "crc": "CRC-16/CCITT-FALSE, poly=0x1021, init=0xFFFF, MSB-first, no reflect, no xorout",
+          "l1_provenance": "PRIOR_ONLY",
+          "l2_provenance": "CANDIDATE_CONDITIONED",
+          "label_convention": "s = low + 32*high per position (two_layer.py LABEL_SCALE=32)",
+          "merge_rule": "joint_metric desc, tie-break (l1_rank, l2_rank) asc",
+          "prune_rule": "top_l_prune",
+          "top_m_default": 4,
+          "top_m_requested": 4
+        },
+        "tag_pass": true,
+        "top_m_requested": 4,
+        "top_m_used": 4,
+        "undetected": false,
+        "verify_failed": false
+      },
+      "resources": {
+        "budget_rss_gib": 2.0,
+        "budget_wall_s": 1200.0,
+        "rss_gib_peak_advisory": 0.5521240234375,
+        "wall_fidelity_s": 22.97241007105913,
+        "wall_rescue_s": 581.8430030989693,
+        "wall_total_s": 604.8155164880445
+      },
+      "session": "G3",
+      "status": "ok"
+    },
+    {
+      "arm": "B_M2_32f_candidate",
+      "block_index": 2,
+      "error": null,
+      "fidelity": {
+        "actual": {
+          "first_error_coordinate": 119,
+          "first_error_layer": "L2",
+          "hard_l2_exact": false,
+          "l1_exact": true,
+          "outcome": "verify_failed"
+        },
+        "eval_frames": [
+          2654,
+          2781
+        ],
+        "expected": {
+          "first_error_coordinate": 119,
+          "first_error_layer": "L2",
+          "hard_l2_exact": false,
+          "l1_exact": true,
+          "outcome": "verify_failed"
+        },
+        "match": true,
+        "mismatches": []
+      },
+      "rescue": {
+        "accepted": true,
+        "candidates_considered": 64,
+        "crc_bits": 16,
+        "crc_hat": 53126,
+        "crc_pass": true,
+        "crc_true": 53126,
+        "exact": true,
+        "hard_l2_exact_scl": true,
+        "joint_metric": -1.8473226734004151,
+        "l1_error_symbols_scl": 0,
+        "l1_exact_scl": true,
+        "l1_survivor_count": 16,
+        "l2_error_symbols_scl": 0,
+        "label_exact": true,
+        "list_width_L": 16,
+        "m1": -5.42469132476809e-06,
+        "m2": -1.8473172487090903,
+        "metric_provenance": {
+          "crc": "CRC-16/CCITT-FALSE, poly=0x1021, init=0xFFFF, MSB-first, no reflect, no xorout",
+          "l1_provenance": "PRIOR_ONLY",
+          "l2_provenance": "CANDIDATE_CONDITIONED",
+          "label_convention": "s = low + 32*high per position (two_layer.py LABEL_SCALE=32)",
+          "merge_rule": "joint_metric desc, tie-break (l1_rank, l2_rank) asc",
+          "prune_rule": "top_l_prune",
+          "top_m_default": 4,
+          "top_m_requested": 4
+        },
+        "tag_pass": true,
+        "top_m_requested": 4,
+        "top_m_used": 4,
+        "undetected": false,
+        "verify_failed": false
+      },
+      "resources": {
+        "budget_rss_gib": 2.0,
+        "budget_wall_s": 1200.0,
+        "rss_gib_peak_advisory": 0.5567779541015625,
+        "wall_fidelity_s": 23.701622389955446,
+        "wall_rescue_s": 586.8901491099969,
+        "wall_total_s": 610.591795183951
+      },
+      "session": "G3",
+      "status": "ok"
+    },
+    {
+      "arm": "B_M2_32f_candidate",
+      "block_index": 4,
+      "error": null,
+      "fidelity": {
+        "actual": {
+          "first_error_coordinate": 175,
+          "first_error_layer": "L2",
+          "hard_l2_exact": false,
+          "l1_exact": true,
+          "outcome": "verify_failed"
+        },
+        "eval_frames": [
+          2910,
+          3037
+        ],
+        "expected": {
+          "first_error_coordinate": 175,
+          "first_error_layer": "L2",
+          "hard_l2_exact": false,
+          "l1_exact": true,
+          "outcome": "verify_failed"
+        },
+        "match": true,
+        "mismatches": []
+      },
+      "rescue": {
+        "accepted": true,
+        "candidates_considered": 64,
+        "crc_bits": 16,
+        "crc_hat": 41829,
+        "crc_pass": true,
+        "crc_true": 41829,
+        "exact": true,
+        "hard_l2_exact_scl": true,
+        "joint_metric": -2.1174166404766535,
+        "l1_error_symbols_scl": 0,
+        "l1_exact_scl": true,
+        "l1_survivor_count": 16,
+        "l2_error_symbols_scl": 0,
+        "label_exact": true,
+        "list_width_L": 16,
+        "m1": -5.960103326341489e-05,
+        "m2": -2.11735703944339,
+        "metric_provenance": {
+          "crc": "CRC-16/CCITT-FALSE, poly=0x1021, init=0xFFFF, MSB-first, no reflect, no xorout",
+          "l1_provenance": "PRIOR_ONLY",
+          "l2_provenance": "CANDIDATE_CONDITIONED",
+          "label_convention": "s = low + 32*high per position (two_layer.py LABEL_SCALE=32)",
+          "merge_rule": "joint_metric desc, tie-break (l1_rank, l2_rank) asc",
+          "prune_rule": "top_l_prune",
+          "top_m_default": 4,
+          "top_m_requested": 4
+        },
+        "tag_pass": true,
+        "top_m_requested": 4,
+        "top_m_used": 4,
+        "undetected": false,
+        "verify_failed": false
+      },
+      "resources": {
+        "budget_rss_gib": 2.0,
+        "budget_wall_s": 1200.0,
+        "rss_gib_peak_advisory": 0.5188789367675781,
+        "wall_fidelity_s": 23.98854541196488,
+        "wall_rescue_s": 587.6877324050292,
+        "wall_total_s": 611.6762994560413
+      },
+      "session": "G3",
+      "status": "ok"
+    },
+    {
+      "arm": "B_M2_32f_candidate",
+      "block_index": 10,
+      "error": null,
+      "fidelity": {
+        "actual": {
+          "first_error_coordinate": 1207,
+          "first_error_layer": "L2",
+          "hard_l2_exact": false,
+          "l1_exact": true,
+          "outcome": "verify_failed"
+        },
+        "eval_frames": [
+          3678,
+          3805
+        ],
+        "expected": {
+          "first_error_coordinate": 1207,
+          "first_error_layer": "L2",
+          "hard_l2_exact": false,
+          "l1_exact": true,
+          "outcome": "verify_failed"
+        },
+        "match": true,
+        "mismatches": []
+      },
+      "rescue": {
+        "accepted": true,
+        "candidates_considered": 64,
+        "crc_bits": 16,
+        "crc_hat": 48643,
+        "crc_pass": true,
+        "crc_true": 48643,
+        "exact": true,
+        "hard_l2_exact_scl": true,
+        "joint_metric": -0.9405332411854788,
+        "l1_error_symbols_scl": 0,
+        "l1_exact_scl": true,
+        "l1_survivor_count": 16,
+        "l2_error_symbols_scl": 0,
+        "label_exact": true,
+        "list_width_L": 16,
+        "m1": -0.0019095079102482856,
+        "m2": -0.9386237332752305,
+        "metric_provenance": {
+          "crc": "CRC-16/CCITT-FALSE, poly=0x1021, init=0xFFFF, MSB-first, no reflect, no xorout",
+          "l1_provenance": "PRIOR_ONLY",
+          "l2_provenance": "CANDIDATE_CONDITIONED",
+          "label_convention": "s = low + 32*high per position (two_layer.py LABEL_SCALE=32)",
+          "merge_rule": "joint_metric desc, tie-break (l1_rank, l2_rank) asc",
+          "prune_rule": "top_l_prune",
+          "top_m_default": 4,
+          "top_m_requested": 4
+        },
+        "tag_pass": true,
+        "top_m_requested": 4,
+        "top_m_used": 4,
+        "undetected": false,
+        "verify_failed": false
+      },
+      "resources": {
+        "budget_rss_gib": 2.0,
+        "budget_wall_s": 1200.0,
+        "rss_gib_peak_advisory": 0.5684432983398438,
+        "wall_fidelity_s": 23.015529660042375,
+        "wall_rescue_s": 586.2038983360399,
+        "wall_total_s": 609.2194813779788
+      },
+      "session": "G3",
+      "status": "ok"
+    },
+    {
+      "arm": "B_M2_32f_candidate",
+      "block_index": 11,
+      "error": null,
+      "fidelity": {
+        "actual": {
+          "first_error_coordinate": 379,
+          "first_error_layer": "L2",
+          "hard_l2_exact": false,
+          "l1_exact": false,
+          "outcome": "verify_failed"
+        },
+        "eval_frames": [
+          3806,
+          3933
+        ],
+        "expected": {
+          "first_error_coordinate": 379,
+          "first_error_layer": "L2",
+          "hard_l2_exact": false,
+          "l1_exact": false,
+          "outcome": "verify_failed"
+        },
+        "match": true,
+        "mismatches": []
+      },
+      "rescue": {
+        "accepted": true,
+        "candidates_considered": 64,
+        "crc_bits": 16,
+        "crc_hat": 46523,
+        "crc_pass": true,
+        "crc_true": 46523,
+        "exact": true,
+        "hard_l2_exact_scl": true,
+        "joint_metric": -3.0033574176155025,
+        "l1_error_symbols_scl": 0,
+        "l1_exact_scl": true,
+        "l1_survivor_count": 16,
+        "l2_error_symbols_scl": 0,
+        "label_exact": true,
+        "list_width_L": 16,
+        "m1": -1.4327724793225223,
+        "m2": -1.57058493829298,
+        "metric_provenance": {
+          "crc": "CRC-16/CCITT-FALSE, poly=0x1021, init=0xFFFF, MSB-first, no reflect, no xorout",
+          "l1_provenance": "PRIOR_ONLY",
+          "l2_provenance": "CANDIDATE_CONDITIONED",
+          "label_convention": "s = low + 32*high per position (two_layer.py LABEL_SCALE=32)",
+          "merge_rule": "joint_metric desc, tie-break (l1_rank, l2_rank) asc",
+          "prune_rule": "top_l_prune",
+          "top_m_default": 4,
+          "top_m_requested": 4
+        },
+        "tag_pass": true,
+        "top_m_requested": 4,
+        "top_m_used": 4,
+        "undetected": false,
+        "verify_failed": false
+      },
+      "resources": {
+        "budget_rss_gib": 2.0,
+        "budget_wall_s": 1200.0,
+        "rss_gib_peak_advisory": 0.5648536682128906,
+        "wall_fidelity_s": 20.102457511005923,
+        "wall_rescue_s": 469.16446915699635,
+        "wall_total_s": 489.2669526989339
+      },
+      "session": "G3",
+      "status": "ok"
+    }
+  ],
+  "claims": "No significance test, no threshold, no pass/fail verdict, no candidate/accepted promotion, no change to NBPOLAR_M2_PRIOR_G2_SUCCESS / NBPOLAR_M2_PRIOR_G3_SUCCESS / M2 status ladder, no attempt counted. n_rescued_exact / 9 is a raw descriptive count only, and is WITHHELD entirely (see summary.note) when fidelity_compromised=true (main-thread ruling D3, 2026-09-28).",
+  "classification": "Descriptive real-data re-decode diagnostic; NOT a Tier-X synthetic probe (reads real .ttbin data) and NOT a Tier-Y decision gate (no threshold, no success/fail verdict, no state-string change, no candidate/accepted token, consumes no new EVAL data -- the 9 blocks were already decoded and recorded by G2/G3). See TASK_PACKET.md for the main-thread classification question.",
+  "fidelity_compromised": false,
+  "frozen_params": {
+    "arm": "B_M2_32f_candidate",
+    "construction_digest": "055c906472dd2a09761761b18aceb5f31d8b5db19bac658721f8dc49c3faea1b",
+    "crc_bits_extra": 16,
+    "eval_seed": {
+      "G2": 2026093001,
+      "G3": 2026100101
+    },
+    "k1": 319,
+    "k2": 6492,
+    "list_width_L": 16,
+    "n": 32768,
+    "tag_master": {
+      "G2": 2026103001,
+      "G3": 2026110101
+    },
+    "top_m": 4
+  },
+  "per_session": {
+    "G2": {
+      "align_peak": {
+        "bin_ps_used": 100,
+        "corr_argmax": 4096,
+        "corr_bins": 8192,
+        "corr_max": 30058.0,
+        "corr_nonzero": 8191,
+        "peak_center_ps": 50,
+        "peak_sigma_ps": 112.45189572400645,
+        "peak_to_bg": 1366.2727272727273,
+        "sampled_t0": 300000,
+        "sampled_t1": 7940289,
+        "scan_range_ps_used": 409600,
+        "status": "ok"
+      },
+      "f_book_no_crc": 1.2747448953789544,
+      "f_book_with_crc": 1.2753426830727925,
+      "h_total_bits": 0.8168138204133305,
+      "kdb_no_crc": 34119,
+      "kdb_with_crc": 34135,
+      "n_frames": 4921,
+      "n_pairs": 1259992
+    },
+    "G3": {
+      "align_peak": {
+        "bin_ps_used": 100,
+        "corr_argmax": 4096,
+        "corr_bins": 8192,
+        "corr_max": 30482.0,
+        "corr_nonzero": 8192,
+        "peak_center_ps": 50,
+        "peak_sigma_ps": 114.43029692866367,
+        "peak_to_bg": 1385.5454545454545,
+        "sampled_t0": 300000,
+        "sampled_t1": 8054971,
+        "scan_range_ps_used": 409600,
+        "status": "ok"
+      },
+      "f_book_no_crc": 1.267506841182456,
+      "f_book_with_crc": 1.268101234613064,
+      "h_total_bits": 0.8214782076249098,
+      "kdb_no_crc": 34119,
+      "kdb_with_crc": 34135,
+      "n_frames": 4991,
+      "n_pairs": 1277938
+    }
+  },
+  "probe_id": "m2-scl-rescue-g2g3",
+  "summary": {
+    "n_errors_or_aborts": 0,
+    "n_fidelity_mismatch": 0,
+    "n_fidelity_ok": 9,
+    "n_rescued_exact": 8,
+    "n_still_failed": 1,
+    "n_targets": 9,
+    "n_undetected": 0
+  },
+  "targets": [
+    {
+      "block_index": 1,
+      "session": "G2"
+    },
+    {
+      "block_index": 5,
+      "session": "G2"
+    },
+    {
+      "block_index": 12,
+      "session": "G2"
+    },
+    {
+      "block_index": 0,
+      "session": "G3"
+    },
+    {
+      "block_index": 1,
+      "session": "G3"
+    },
+    {
+      "block_index": 2,
+      "session": "G3"
+    },
+    {
+      "block_index": 4,
+      "session": "G3"
+    },
+    {
+      "block_index": 10,
+      "session": "G3"
+    },
+    {
+      "block_index": 11,
+      "session": "G3"
+    }
+  ],
+  "timing": {
+    "wall_s_total": 1152.0212268829346
+  }
+}

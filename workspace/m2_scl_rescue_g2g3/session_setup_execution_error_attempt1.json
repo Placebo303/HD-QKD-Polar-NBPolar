@@ -1,0 +1,51 @@
+{
+  "attempt": 1,
+  "status": "execution_error_pre_measurement",
+  "note": "Died during session-context setup, entirely before any raw-data read/CAL-fit/decode for the affected session (G3), and before any per-block fidelity/rescue call for ANY block. Zero SC/SCL/tag calls on protected EVAL data occurred. Zero part_*.json / results.json were written. Excluded from the reruns counter per AGENTS.md Tier-X convention ('an implementation-defect death before any measurement may be relaunched once after a fix, error record kept as results.execution_error_attempt1.json; no parameter/seed change') and coordinator instruction (2026-09-28): '如果在任何测量开始之前就因为实现缺陷死掉,可以保留 *_execution_error_attempt1.json,修好后重启一次'.",
+  "command": "PYTHONDONTWRITEBYTECODE=1 OMP_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 MKL_NUM_THREADS=1 NUMBA_NUM_THREADS=1 PYTHONPATH=/mnt/d/Code/HD-QKD_Polar_Comparison-nbpolar /home/karel_303/.venvs/timetagger/bin/python /mnt/d/Code/HD-QKD_Polar_Comparison-nbpolar/workspace/m2_scl_rescue_g2g3/run.py",
+  "launch_mechanism": "Bash tool run_in_background wrapping a foreground `wsl.exe -e bash -c \"<command above>\"` (no nohup/&, no cd, absolute paths only)",
+  "started_at_utc": "2026-09-27T17:43:38Z",
+  "failed_at_utc_approx": "2026-09-27T17:43:58Z",
+  "exit_code": 1,
+  "measurement_state_before_death": {
+    "sessions_setup_completed": ["G2"],
+    "sessions_setup_crashed": ["G3"],
+    "blocks_decoded": 0,
+    "sc_calls_on_protected": 0,
+    "scl_calls_on_protected": 0,
+    "tag_invocations": 0,
+    "part_files_written": 0,
+    "results_json_written": false,
+    "g2_setup_partial_output": {
+      "h_total_bits": 0.816814,
+      "f_book_no_crc": 1.274745,
+      "f_book_with_crc": 1.275343
+    }
+  },
+  "stdout_stderr_verbatim": [
+    "[setup] reproducing G2 session context (raw read + align + CAL fit)...",
+    "[setup] G2 ready: H_total=0.816814 bits, f_book_no_crc=1.274745, f_book_with_crc=1.275343",
+    "[setup] reproducing G3 session context (raw read + align + CAL fit)...",
+    "Traceback (most recent call last):",
+    "  File \"/mnt/d/Code/HD-QKD_Polar_Comparison-nbpolar/workspace/m2_scl_rescue_g2g3/run.py\", line 689, in <module>",
+    "    raise SystemExit(main())",
+    "                     ^^^^^^",
+    "  File \"/mnt/d/Code/HD-QKD_Polar_Comparison-nbpolar/workspace/m2_scl_rescue_g2g3/run.py\", line 566, in main",
+    "    _CTX[session] = _reproduce_session_context(mod, session)",
+    "                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^",
+    "  File \"/mnt/d/Code/HD-QKD_Polar_Comparison-nbpolar/workspace/m2_scl_rescue_g2g3/run.py\", line 184, in _reproduce_session_context",
+    "    chain, scl_joint_mod = _load_scl_joint(mod)",
+    "                           ^^^^^^^^^^^^^^^^^^^^",
+    "  File \"/mnt/d/Code/HD-QKD_Polar_Comparison-nbpolar/workspace/m2_scl_rescue_g2g3/run.py\", line 157, in _load_scl_joint",
+    "    chain = mod._load_g2_decoder_chain()",
+    "            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^",
+    "  File \"/mnt/d/Code/HD-QKD_Polar_Comparison-nbpolar/scripts/m2_prior_validation.py\", line 2038, in _load_g2_decoder_chain",
+    "    if importlib.util.find_spec(\"pandas\") is None and \"pandas\" not in sys.modules:",
+    "       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^",
+    "  File \"<frozen importlib.util>\", line 112, in find_spec",
+    "ValueError: pandas.__spec__ is None"
+  ],
+  "root_cause": "run.py (attempt 1) called mod._load_g2_decoder_chain() twice in one process (once per session, via _load_scl_joint), not once. The frozen function's own pandas-absent guard installs a spec-less fail-closed stub into sys.modules['pandas'] on its first call; on the second call in the SAME process, its own re-check 'importlib.util.find_spec(\"pandas\") is None' raises ValueError instead of returning None, because CPython's find_spec refuses to compute a spec for a module already present in sys.modules with __spec__=None. This is a latent property of the frozen scripts/m2_prior_validation.py::_load_g2_decoder_chain (never modified, never will be) that only manifests when called more than once per process -- G2/G3's own production bodies (run_stage_g2/run_stage_g3_decode) each call it exactly once per process, so it was never previously exercised.",
+  "fix_applied": "run.py refactored: chain/scl_joint_mod are now loaded ONCE in main() (via _load_scl_joint(mod)) and passed as explicit parameters into _reproduce_session_context(mod, chain, scl_joint_mod, session) for both G2 and G3, instead of each session loading its own copy. No change to scripts/m2_prior_validation.py or any other frozen file. No parameter/seed/K/window/MOD/tag_master/eval_seed change of any kind.",
+  "rerun_policy": "This attempt is excluded from the reruns counter (STATUS.yaml counters.reruns stays 0); attempt 2, launched after this fix with identical frozen parameters, is the one and only measurement attempt."
+}

@@ -1,0 +1,166 @@
+# STATUS — m2-scl-rescue-g2g3 (descriptive SCL(L=16) rescue re-decode of the 9
+# known real-data B-arm verify_failed EVAL blocks from G2/G3). Classification
+# RULED (main_thread_rulings D1 below): "真实数据描述性诊断" (real-data
+# descriptive diagnostic), reviewed at Tier-Y rigor, zero attempt-budget
+# impact, no threshold/verdict/state-string change. See TASK_PACKET.md §0/§7
+# for the original open-question text (kept verbatim) and the "Main-thread
+# rulings" section for the resolutions.
+packet: m2-scl-rescue-g2g3
+location: workspace/m2_scl_rescue_g2g3/   # RULED (D2): stays here, not workspace/probes/, not .workbuddy/queue/
+branch: codex/nbpolar-phase0
+depends_on:
+  G2: .workbuddy/queue/NBPOLAR-M2-PRIOR-G2-DECODE/   # result NBPOLAR_M2_PRIOR_G2_SUCCESS; read-only source of the 3 target blocks
+  G3: .workbuddy/queue/NBPOLAR-M2-PRIOR-G3-CONFIRM/  # result recorded in G3_ADJUDICATION.md; read-only source of the 6 target blocks
+  attribution: workspace/analysis/g2g3-layer-attribution/REPORT.md  # source of the frozen 9-block target list
+  scl_module: nbpolar-scl-lock-amendment (T2 scl_joint.py, T3 SCL gate PASS_WITH_COMMENTS)  # 94cc907a / 2628b86b
+venv: /home/karel_303/.venvs/timetagger/bin/python  # SAME venv as G2/G3 (needs the TimeTagger shim + the fail-closed pandas stub); NOT the synthetic-probe venv
+authorizations:
+  - who: PI
+    when: "2026-09-28"
+    verbatim: "授权，用 SCL L=16 重解那 9 个失败块，可以继续往下推进"
+    scope: "covers running run.py's SCL(L=16,M=4,CRC-16) re-decode of the 9 named blocks under the frozen params in prereg.md; does not itself substitute for the independent Pre-EXECUTE review below"
+    source: AUTHORIZATION_PROMPT.md
+freeze_and_implementation_authorized: true   # PI authorization above covers writing run.py + this packet
+execution_authorized: true                   # main thread, 2026-09-28, after Pre-EXECUTE PASS_WITH_COMMENTS (see pre_execute_review below)
+decoder_modification: false                  # frozen: sc.py/scl.py/scl_joint.py/two_layer.py/transform.py/algebra.py/prior*.py/operational_f13*.py/m2_prior_validation.py never modified; run.py only imports+calls them
+classification: "real-data descriptive diagnostic"  # RULED D1 (2026-09-28); reviewed at Tier-Y rigor (Pre-EXECUTE AND Pre-RESULT both required); no threshold, no pass/fail verdict, no state-string change, counts as ZERO attempts against any Tier-Y attempt budget
+state: completed_descriptive
+next_gate: PRE_RESULT_REVIEW   # independent reviewer must check results.json/EXECUTION_TRANSCRIPT.md before any adjudication/decision-log citation
+pre_execute_review: {state: done, reviewer: reviewer-go, verdict: PASS_WITH_COMMENTS, evidence: workspace/m2_scl_rescue_g2g3/PRE_EXECUTE_REVIEW.md, accepted_comment: "finding 7: RSS 2GiB budget recorded post-hoc only (VmHWM advisory), not live-polled/aborted-on; main thread accepts as non-blocking because the T3 precedent (workspace/probes/scl-gate-t3/results.json) empirically shows ~0.65GiB/16-block batch at the same N=32768/L=16, and 8-way parallel stays within the WSL 15GB budget", when_accepted: "2026-09-28"}
+pre_result_review: {state: not_started, reviewer: null, verdict: null}  # required before results.json is treated as a finished artifact / referenced in any adjudication doc
+counters: {attempts: 2, reruns: 0, sc_calls_on_protected: 27, scl_calls_on_protected: 45, tag_invocations: 36}
+# attempt 1 excluded from reruns (pre-measurement implementation-defect death, see attempt_1 below); attempt 2 is the sole measurement.
+# sc/scl/tag counts are ANALYTICALLY computed from run.py's fixed call structure (not separately instrumented in results.json):
+#   sc_calls_on_protected = 3/block (fidelity check: L1 + hard-L2 + oracle-L2, via the reused run_g2_block) x 9 blocks = 27
+#   scl_calls_on_protected = 5/block (rescue: 1 L1 SCL + top_m_used(=4, all blocks) L2 SCL) x 9 blocks = 45
+#   tag_invocations = 4/block (fidelity: tag_true+tag_hat via run_g2_block's counted _tag_fn; rescue: tag_true+tag_hat via direct chain.toeplitz_tag, uncounted by any wrapper) x 9 blocks = 36
+execution:
+  authorized_by: main_thread
+  authorized_when: "2026-09-28"
+  launch_mechanism: "Bash tool run_in_background wrapping a foreground `wsl.exe -e bash -c \"...\"` running prereg.md's C-line command verbatim (no nohup/&, no cd -- absolute paths only, to avoid drvfs mount races)"
+  reruns: 0  # attempt 1 (pre-measurement defect death) does not count as a rerun; attempt 2 is the one and only measurement attempt
+  attempt_1:
+    started_at_utc: "2026-09-27T17:43:38Z"
+    failed_at_utc_approx: "2026-09-27T17:43:58Z"
+    status: execution_error_pre_measurement
+    exit_code: 1
+    error: "ValueError: pandas.__spec__ is None, inside scripts/m2_prior_validation.py::_load_g2_decoder_chain, triggered by run.py calling it twice in one process (once per session)"
+    measurement_occurred: false
+    record: workspace/m2_scl_rescue_g2g3/session_setup_execution_error_attempt1.json
+    fix: "run.py refactored to load the decoder chain + scl_joint module ONCE in main() and pass it into _reproduce_session_context for both sessions, instead of once per session. No frozen file touched. No parameter/seed change."
+    rechecked_after_fix: {py_compile: pass, ast_percent_format_check: {expressions_found: 0, mismatches: 0}}
+  attempt_2:
+    started_at_utc: "2026-09-27T17:57:55Z"
+    finished_at_utc: "2026-09-27T18:17:07Z"  # approx: started_at_utc + wall_s_total(1152.02s) from results.json["timing"]
+    status: ok
+    exit_code: 0
+    wall_s_total: 1152.0212268829346
+    stdout_summary: "DONE fidelity_ok=9/9 fidelity_mismatch=0 rescued_exact=8 still_failed=1 undetected=0 errors_or_aborts=0 wall_s=1152.0"
+    results_json: workspace/m2_scl_rescue_g2g3/results.json
+    part_files: [part_G2_01.json, part_G2_05.json, part_G2_12.json, part_G3_00.json, part_G3_01.json, part_G3_02.json, part_G3_04.json, part_G3_10.json, part_G3_11.json]
+    fidelity_compromised: false
+    transcript: workspace/m2_scl_rescue_g2g3/EXECUTION_TRANSCRIPT.md
+main_thread_rulings:
+  - id: D1_classification
+    when: "2026-09-28"
+    decision: >-
+      Classified as "真实数据描述性诊断" (real-data descriptive diagnostic).
+      Review rigor matches Tier-Y (independent Pre-EXECUTE AND Pre-RESULT
+      both required); no threshold, no pass/fail verdict, no state-string
+      change, and it counts as ZERO attempts against any attempt budget
+      anywhere.
+    resolves: Q1_classification
+  - id: D2_output_root
+    when: "2026-09-28"
+    decision: "Keep workspace/m2_scl_rescue_g2g3/. No move to workspace/probes/."
+    resolves: Q2_output_root
+  - id: D3_fidelity_stop_scope
+    when: "2026-09-28"
+    decision: >-
+      Fidelity check stays per-block (unchanged implementation). ADDED: if
+      ANY of the 9 blocks returns STOPPED_FIDELITY_MISMATCH, results.json
+      top level gets fidelity_compromised=true and results.json["summary"]
+      reports per-block counts ONLY (n_targets/n_fidelity_ok/
+      n_fidelity_mismatch/n_errors_or_aborts) -- the aggregate rescue tally
+      (n_rescued_exact/n_still_failed/n_undetected) is withheld from summary
+      in that case. Implemented in run.py::main().
+    resolves: R1_fidelity_stop_scope  # TASK_PACKET.md §7
+  - id: D4_budget_mechanism
+    when: "2026-09-28"
+    decision: "Accepted as specified: per-block soft check + parent-process hard terminate() at budget+120s. No change."
+    resolves: R2_budget_mechanism  # TASK_PACKET.md §7
+  - id: F1_accepted_definition_correction
+    when: "2026-09-28"
+    decision: >-
+      Corrected accepted = crc_pass AND tag_pass (was tag_pass alone in the
+      first draft), to match the workspace/probes/scl-gate-t3 gate
+      convention. crc_pass and tag_pass both recorded as separate fields
+      regardless. exact = accepted AND label_exact; undetected = accepted
+      AND NOT label_exact (isolated); verify_failed = NOT accepted.
+      Implemented in run.py::_rescue_block(). prereg.md left byte-unchanged
+      (frozen pre-registration record); TASK_PACKET.md/run.py are
+      authoritative for this formula going forward.
+  - id: D5_pre_execute_rss_comment_accepted
+    when: "2026-09-28"
+    decision: >-
+      Accepted the sole Pre-EXECUTE PASS_WITH_COMMENTS finding (finding 7:
+      RSS budget recorded post-hoc only, not live-polled) as non-blocking.
+      Rationale: same-config empirical precedent (workspace/probes/scl-gate-t3)
+      shows ~0.65GiB peak per 16-block SCL-joint batch at the identical
+      N=32768/L=16 point, and 8-way parallelism stays well within the WSL
+      15GB budget. No code change required before execution.
+    resolves: PRE_EXECUTE_REVIEW.md finding 7
+open_questions_for_main_thread:  # kept verbatim (原文不删); see resolved_by / main_thread_rulings above for the answers
+  - id: Q1_classification
+    resolved_by: D1_classification
+    text: >-
+      This diagnostic reads real .ttbin data (so it is not Tier-X per
+      AGENTS.md §10.4, which forbids real-data access) but renders no
+      threshold/pass-fail verdict and changes no state string (so it is not a
+      Tier-Y decision gate either). It reuses the already-consumed G2/G3 EVAL
+      blocks rather than drawing new ones. TASK_PACKET.md proposes treating it
+      as a bespoke "descriptive real-data re-decode diagnostic" reviewed by
+      the same focused Pre-EXECUTE/Pre-RESULT discipline as a Tier-Y run
+      (minus the threshold/verdict machinery, since there is no threshold).
+      Main thread must confirm or redirect this classification before
+      Pre-EXECUTE review is requested.
+  - id: Q2_output_root
+    resolved_by: D2_output_root
+    text: >-
+      AGENTS.md §10.4 pins Tier-X probe output to workspace/probes/<id>/.
+      The PI-authorized task explicitly named workspace/m2_scl_rescue_g2g3/
+      instead. Followed the explicit instruction; flagging the naming-
+      convention deviation in case the main thread wants it moved under
+      workspace/probes/ for consistency (a rename before first execution is
+      free; after execution it would need care since results.json/parts are
+      additive-only artifacts).
+artifacts_prepared:
+  - workspace/m2_scl_rescue_g2g3/run.py
+  - workspace/m2_scl_rescue_g2g3/TASK_PACKET.md
+  - workspace/m2_scl_rescue_g2g3/prereg.md
+  - workspace/m2_scl_rescue_g2g3/STATUS.yaml
+  - workspace/m2_scl_rescue_g2g3/AUTHORIZATION_PROMPT.md
+  - workspace/m2_scl_rescue_g2g3/PRE_EXECUTE_REVIEW.md
+artifacts_produced:  # renamed from artifacts_pending_execution -- all now exist
+  - workspace/m2_scl_rescue_g2g3/session_setup_execution_error_attempt1.json  # attempt 1, pre-measurement death
+  - workspace/m2_scl_rescue_g2g3/results.json
+  - workspace/m2_scl_rescue_g2g3/part_G2_01.json
+  - workspace/m2_scl_rescue_g2g3/part_G2_05.json
+  - workspace/m2_scl_rescue_g2g3/part_G2_12.json
+  - workspace/m2_scl_rescue_g2g3/part_G3_00.json
+  - workspace/m2_scl_rescue_g2g3/part_G3_01.json
+  - workspace/m2_scl_rescue_g2g3/part_G3_02.json
+  - workspace/m2_scl_rescue_g2g3/part_G3_04.json
+  - workspace/m2_scl_rescue_g2g3/part_G3_10.json
+  - workspace/m2_scl_rescue_g2g3/part_G3_11.json
+  - workspace/m2_scl_rescue_g2g3/EXECUTION_TRANSCRIPT.md
+static_selfcheck:
+  py_compile: pass
+  ast_percent_format_check: {expressions_found: 0, mismatches: 0, verdict: pass}
+  input_paths_exist: {inventory_json: pass, raw_ttbin_g2: pass, raw_ttbin_g3: pass, construction_json: pass, per_block_outcomes_g2: pass, per_block_outcomes_g3: pass}
+  timing_estimate: "see TASK_PACKET.md §Timing; ~600s/block SCL compute (empirical N=32768/L=16 precedent from workspace/probes/scl-gate-t3/results.json), 8-way parallel => ~1200s compute wall + 2 sequential session-setup passes (raw read+align+CAL fit, each likely well under budget) => rough total wall estimate 25-35 min; NOT itself budgeted beyond the per-block 1200s/2GiB caps"
+  rechecked_after_ruling: {when: "2026-09-28", reason: "F1 accepted-formula fix + D3 fidelity_compromised logic added to run.py", py_compile: pass, ast_percent_format_check: {expressions_found: 0, mismatches: 0, verdict: pass}, execution: "still NOT run (prep-only, per instruction)"}
+  rechecked_after_attempt1_fix: {when: "2026-09-27T17:57Z", reason: "load-once fix for the pandas.__spec__ double-load defect", py_compile: pass, ast_percent_format_check: {expressions_found: 0, mismatches: 0, verdict: pass}}
+result: {id: null, summary: "executed (attempt 2, exit 0): fidelity_ok=9/9, rescued_exact=8/9, still_failed=1/9, undetected=0, errors_or_aborts=0, fidelity_compromised=false, wall_s=1152.02", decision_needed: "independent Pre-RESULT review of results.json/EXECUTION_TRANSCRIPT.md; no adjudication rendered by the operator"}
+pre_result_review: PASS
+main_thread_acceptance: accepted_descriptive (2026-09-28)
