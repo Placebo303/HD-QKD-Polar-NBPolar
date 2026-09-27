@@ -1,0 +1,140 @@
+# STATUS — NBPOLAR-M2-PRIOR-STAGE3-MEASUREMENT
+# Execution requires the main thread to paste AUTHORIZATION_PROMPT.md verbatim (AGENTS.md §10.1).
+# `authorizations` below binds: empty == not authorized; non-empty == verbatim paste recorded at that stage.
+# 本包本身不授权任何事；执行需主线粘贴 verbatim 授权后方可进行（授权记录见 authorizations）。
+# 执行需主线粘贴 verbatim 授权后方可进行，本包本身不授权任何事。
+packet: NBPOLAR-M2-PRIOR-STAGE3-MEASUREMENT
+branch: codex/nbpolar-phase0
+change: openspec/changes/archive/2026-09-22-nbpolar-prior-rebaseline   # D6 Stage-3 measurement set (preregistered cap + per-block λ decomposition), parallel to G4
+venv: /home/karel_303/.venvs/timetagger/bin/python   # TO-CONFIRM at freeze; packet-local builder only
+nature: Tier-Y one-shot RECORD/MEASURE gate — no decode, no SC, no tags, no raw-data read, no re-derivation, no decode re-run; measures already-executed G2/G3 per-block disclosure against a preregistered cap
+stage: PACKET_DRAFT
+result: null
+next_gate: USER_AUTHORIZATION_PENDING
+authorizations: []   # EMPTY == NOT AUTHORIZED. Record verbatim AUTHORIZED BY line here only after main-thread paste.
+authorizations_note: "Upon authorization record here: who, date, exact AUTHORIZED BY line, one_shot, measure_only_no_decode."
+
+m2_state_at_dispatch: VALIDATED_AT_FROZEN_CONTRACT   # STATE.md §4.1, 2nd rung; R2 FER gate and R3 efficiency gate NOT done
+ladder_effect: >
+  Stage-3 PASS records ONLY the Stage-3 conjunct of the D6 validation-gates row. No
+  promotion, no demotion: M2 stays VALIDATED_AT_FROZEN_CONTRACT; R2 FER
+  (FER_MEASURED_AT_CONTRACT) and R3 efficiency (EFFICIENCY_ACCOUNTED) remain outstanding
+  under their own preregistered packets and are never substituted by Stage-3; the
+  READY_FOR_QUALIFICATION conjunct additionally needs sample-size + G4 + independent
+  Pre-RESULT. No level skipping; partial decomposition cannot pass Stage-3; Stage-3
+  produces no new FER/efficiency number and no claim of any kind.
+
+precondition: "VOID unless G3 stands accepted as NBPOLAR_M2_PRIOR_G3_SUCCESS AND G4 stands COMPLETE as NBPOLAR_M2_PRIOR_G4_INVENTORY_COMPLETE with M2 at VALIDATED_AT_FROZEN_CONTRACT; verified by main thread before dispatch"
+
+g4_relation: "G4 COMPLETE is a read-only INPUT to Stage-3 (inventory values as frozen). Stage-3 computes no inventory row, lists no CAL frame, edits no G4 artifact. D6 requires G4 AND Stage-3 (plus R2/R3 gates) before any claim-bearing statement — neither substitutes for the other."
+
+frozen_constants:            # verbatim; any change requires a NEW freeze; do not guess
+  N: 32768
+  K1: 319
+  K2: 6492
+  p16_digest: 055c906472dd2a09761761b18aceb5f31d8b5db19bac658721f8dc49c3faea1b   # inner P16 procedure digest; Stage-3 computes no digest
+  W_P: 200
+  W_S: 500
+  MOD: CIRCULAR
+  skip: 702                      # INHERITED_NOT_DERIVED
+  frame_pairs: 256
+  floor: 1e-15
+  chunk: 512                     # chunk_rows
+  bin: 200 ps                    # pairing bin_width_ps=200 (NOT the alignment scan bin=100 ps; Stage-3 derives neither)
+  g2_tag_master: 2026103001      # INHERITED (EVAL_SEED 2026093001; TAG_MASTER = EVAL_SEED + 10000)
+  g3_tag_master: 2026110101      # EVAL_SEED 2026100101, same frozen rule
+  census_sigma: 114.43029692866367   # FROZEN QUOTED VALUE ONLY — citation requires "frozen quoted, not recomputed in Stage-3"; recomputation => STOP
+not_in_this_freeze: >-          # not restated/verified/computed by Stage-3; needing them => new freeze
+  other census constants (d, period_ps, threshold_ps, gate_ps); gate values (B_tail 2.0e-4, delta_min 0.020,
+  Wilson z=1.96) — N/A for Stage-3 unless explicitly bound inside the frozen cap formula at Phase A.
+
+to_freeze_at_phase_a:        # null/absent at Phase A => hard STOP, never a default; operator sets no number
+  cap_object: TO-FREEZE        # {kind, value_or_formula, unit, source_artifacts, comparison_rule}; no frozen numeric basis in D6/spec/STATE; mainline decision required (Open Q1); recommended: closed-form scalar bound cap = F(frozen H source, frozen f or margin, N), preregistered before use
+  decomposition_caliber: TO-FREEZE   # per-block λ column list + Müller eq 11/13 H(q)->empirical H(X|Y) substitution wording; exactly one frozen option (Open Q2); recommended Option A in TASK_PACKET.md
+  budget: TO-FREEZE            # PROPOSED: {wall_s_max: 300, rss_gib_max: 2, threads: 1}; frozen at authorization
+  outcome_strings: TO-FREEZE   # PROPOSED: NBPOLAR_M2_PRIOR_STAGE3_MEASUREMENT_COMPLETE / NBPOLAR_M2_PRIOR_STAGE3_MEASUREMENT_INCOMPLETE_BLOCKED; frozen at authorization
+  rebuild_rule: TO-FREEZE      # PROPOSED: exactly one corrective rebuild, only after a zero-output crash, accounted here
+
+inputs_read_only:              # every path must exist at Phase A; missing => STOP (full manifest in TASK_PACKET.md)
+  contract_and_rules:
+    - openspec/changes/archive/2026-09-22-nbpolar-prior-rebaseline/design.md   # D6 Stage-3 definition; D3; D7
+    - openspec/specs/nbpolar-prior-rebaseline/spec.md                            # validation-gates (Stage-3 as claim precondition)
+    - docs/nbpolar/STATE.md                                                     # §4.1 ladder (Stage-3 position; R2/R3 relation; no skipping)
+    - docs/SECURITY_MODEL.md                                                    # CAL/prior accounting note (read-only; NOT edited)
+    - docs/nbpolar/MACRO_PLAN_20260921.md                                       # §5 Stage 3 boundary; §9 F3 Release pattern (boundary only)
+    - docs/nbpolar/REAL_DATA_CORRECTION_ROADMAP_20260922.md                     # R2/R3/Stage-3 ownership (boundary only)
+  g4_template_and_values:
+    - .workbuddy/queue/NBPOLAR-M2-PRIOR-G4-INVENTORY/TASK_PACKET.md
+    - .workbuddy/queue/NBPOLAR-M2-PRIOR-G4-INVENTORY/AUTHORIZATION_PROMPT.md
+    - .workbuddy/queue/NBPOLAR-M2-PRIOR-G4-INVENTORY/STATUS.yaml
+    - .workbuddy/queue/NBPOLAR-M2-PRIOR-G4-INVENTORY/g4_freeze_config.json
+    - .workbuddy/queue/NBPOLAR-M2-PRIOR-G4-INVENTORY/g4_inventory.json
+    - .workbuddy/queue/NBPOLAR-M2-PRIOR-G4-INVENTORY/g4_counts.json
+  g1_g1r2_g2_g3:                 # packet docs + frozen workspace derived artifacts; full path list enumerated verbatim in s3_freeze_config.json at Phase A
+    - .workbuddy/queue/NBPOLAR-M2-PRIOR-G1-REALDATA-NLL/                        # TASK_PACKET + FREEZE docs + STATUS + g1_freeze_config.json + G1_ADJUDICATION.md
+    - workspace/m2_prior_validation/20260113_SHG_Type2PPLN_3s/                  # g1.json, delta_profiles.json, cal_ids*.json, run logs
+    - .workbuddy/queue/NBPOLAR-M2-PRIOR-G1R2-W200-CIRCULAR/                      # TASK_PACKET + DELTA_REVIEW + STATUS + g1r2_freeze_config.json + G1R2_ADJUDICATION.md
+    - workspace/m2_prior_validation/20260113_SHG_Type2PPLN_3s_g1r2/              # g1.json, delta_profiles.json, cal_ids*.json, run logs
+    - .workbuddy/queue/NBPOLAR-M2-PRIOR-G2-DECODE/                               # TASK_PACKET + g2_freeze.md + STATUS + g2_freeze_config.json + G2_ADJUDICATION.md
+    - workspace/m2_prior_validation/20260113_SHG_Type2PPLN_3s_g2/                # g2_summary.json, per_block_outcomes.jsonl, cal_ids.json, run_log.md
+    - .workbuddy/queue/NBPOLAR-M2-PRIOR-G3-CONFIRM/                              # TASK_PACKET + STATUS + g3_freeze_config.json + adjudications + PRE_RESULT_REVIEW + PROCESS_DEVIATION
+    - workspace/m2_prior_validation/20260113_SHG_Type2PPLN_3s_2_g3/              # g3.json, g3_summary.json, per_block_outcomes.jsonl, cal_ids.json, run_log.md
+  construction:
+    - .workbuddy/queue/NBPOLAR-PHASE4-P16-N32768-OPERATIONAL-F13/operational_f13_gate/construction_and_allocation.json
+  excluded_explicitly:
+    - raw SHG acquisition files            # never read
+    - workspace/dual_rule_census_20260921.py and census packet outputs   # sigma quoted from G3 artifacts + decision-log only
+    - S8/S9 synthetic probe parameters ; Stage-1 test outputs            # explicitly OUT; S9 never cited as FER/efficiency evidence
+    - results/ ; comparison_bench/outputs_comparison/                     # never read, never written
+    - workspace/ ; workspace/probes/                                       # never written (single output route: this packet dir only)
+    - sibling checkouts ../HD-QKD_Polar_Comparison* ; ../HD-QKD_Polar_Release
+
+outputs_planned:               # all NEW additive files inside this packet dir; nothing exists yet; never overwrite
+  - .workbuddy/queue/NBPOLAR-M2-PRIOR-STAGE3-MEASUREMENT/s3_freeze_config.json        # Phase A: manifest + TO-FREEZE cap + decomposition caliber + budget + outcome strings
+  - .workbuddy/queue/NBPOLAR-M2-PRIOR-STAGE3-MEASUREMENT/s3_lambda_decomposition.json # Phase B: machine-countable per-block rows
+  - .workbuddy/queue/NBPOLAR-M2-PRIOR-STAGE3-MEASUREMENT/s3_lambda_decomposition.md   # Phase B: human report + cap block + cross-check + no-claim
+  - .workbuddy/queue/NBPOLAR-M2-PRIOR-STAGE3-MEASUREMENT/s3_counts.json                # Phase B: counts by stage + cap-comparison summary + cross_check + sc_calls 0
+  - .workbuddy/queue/NBPOLAR-M2-PRIOR-STAGE3-MEASUREMENT/s3_run_log.md
+artifacts_produced_phase_b: null   # operator record after authorized build only (facts; no self-acceptance)
+
+write_scope: "this packet dir ONLY (plus this STATUS.yaml). No results/ writes, no comparison_bench writes, no workspace/ or workspace/probes/ writes, no verdict/freeze artifact overwrites. Single output route: the five s3_* files above are the complete output set."
+
+outcome_strings_proposed:    # PROPOSED -> FROZEN at authorization, BEFORE the build
+  complete: NBPOLAR_M2_PRIOR_STAGE3_MEASUREMENT_COMPLETE
+  incomplete: NBPOLAR_M2_PRIOR_STAGE3_MEASUREMENT_INCOMPLETE_BLOCKED
+  crash_before_any_output: no state string — counters/reason only; corrective-rebuild rule applies
+
+budget_proposed: {wall_s_max: 300, rss_gib_max: 2, threads: 1}   # PROPOSED TO-FREEZE (G4-analogue); decode 900 s budget is N/A
+counters: {s3_runs: 0, reruns: 0, rebuilds: 0, sc_calls_on_protected: 0, tag_invocations: 0}
+
+ids:                            # operator reports; main thread accepts; operator never self-accepts; all pending (draft)
+  S3-0_preconditions: pending
+  S3-1_traceability: pending
+  S3-2_per_block_decomposition: pending
+  S3-3_cap_preregistration_and_comparison: pending
+  S3-4_numeric_consistency: pending
+  S3-5_no_claim_scope: pending
+  R1_preresult: pending
+  R2_adjudication: pending
+
+undetected_isolation: >-
+  G2/G3 undetected counts (0/42 each, as frozen in their artifacts) enter only as isolated
+  rows/columns and are never merged into any lambda total, cap comparison, or success
+  number. Stage-3 asserts no success, no FER, no efficiency, no qualification, no
+  promotion, no composable key, and never cites S9 as FER/efficiency evidence.
+recount_cross_check_frozen:     # computed sums must equal these; mismatch => STOP, frozen numbers stand
+  key_bits: 1432998             # 34119 x 42 per stage (G2 and G3 as recorded)
+  public_bits: 13765206         # 327743 x 42 per stage (G2 and G3 as recorded)
+  tags: 42                      # per stage: G2 tag_master 2026103001; G3 tag_master 2026110101
+  g4_two_stage_sums_quoted_only: "key 2865996 / public 27530412 are G2+G3 TWO-STAGE accumulations, NOT per-stage or orbit totals; citation must be per-stage only"
+
+discipline_kept_from_g4: [one_shot_no_rerun, independent_pre_execute, independent_pre_result, verbatim_authorization, undetected_isolation, disclosure_recount, to_freeze_non_null, ambiguity_stop, participation_disclosure, no_claim_scope, no_in_packet_log_memory_index_updates]
+decode_specific_na: [three_arm_decode, eval_blocks, complete_blocks_only, wilson_gate, B_tail, delta_min, g_blocks, sc_calls, tag_generation, decode_budget_900s, shg2_first_contact_closure, alignment_reproduction_gate, cal_padding_prohibition_as_frame_rule]
+result: null
+decision_needed: null
+notes: >
+  Packet drafted as docs-only planning output (no code, no execution, no raw-data read; new
+  packet dir confirmed absent before creation). Stage-3 = D6 measurement set parallel to G4
+  (preregistered cap + per-block λ decomposition); no decode re-run, no frozen-constant
+  change. Cap + decomposition caliber are TO-FREEZE with recommendations only (Open Q1/Q2);
+  any fresh real-data execution is a separately authorized item (Open Q4).
