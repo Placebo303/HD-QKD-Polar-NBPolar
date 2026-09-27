@@ -26,7 +26,7 @@
 | G2 三臂 one-shot SUCCESS | `NBPOLAR_M2_PRIOR_G2_SUCCESS`（`G2_ADJUDICATION.md`） | SHG `_1`、w=200/CIRCULAR、冻 K1=319/K2=6492：B(M2@32f) **11/14** vs A2(M0@32f) **0/14** 严格 Wilson 不重叠；A1 描述性；`undetected` 0/42 |
 | G1R2 描述性 PASS | `NBPOLAR_M2_PRIOR_G1R2_COMPLETE_DESCRIPTIVE` | 窄窗下 δ-tail/NLL 门 PASS；δ-tail PASS 系 S11 推论 |
 | G1 bounded negative | `NBPOLAR_M2_PRIOR_G1_COMPLETE_ADJUDICATED_BOUNDED_NEGATIVE` | w=500/LINEAR 上 ±1 前提不成立；**不**证伪机制，**不**证伪 M2 于所有源 |
-| M2 状态 | **CANDIDATE** | G3 通过前不变；无 FER/效率/晋级主张 |
+| M2 状态 | **VALIDATED_AT_FROZEN_CONTRACT** | G3 SUCCESS 后进入（2026-09-22，`G3_ADJUDICATION.md`，仅第二级）；无 FER/效率/晋级主张 |
 | 数据 | 冻结 ladder **耗尽** | never-decoded 101 frames → 32f CAL 后 69 &lt; 1 block；仅 SHG 新采集可验证 |
 | 缺口 | **全项目无 FER 阈值** | Stage 0 未收口项；Müller eq(11) 要求 FER 进 `f_eff` |
 
