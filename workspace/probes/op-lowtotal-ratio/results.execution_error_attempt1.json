@@ -1,0 +1,9 @@
+{
+  "probe_id": "op-lowtotal-ratio",
+  "tier": "X",
+  "status": "execution_error",
+  "probe_runs": 1,
+  "reruns": 0,
+  "error_traceback": "Traceback (most recent call last):\n  File \"/mnt/d/Code/HD-QKD_Polar_Comparison-nbpolar/workspace/probes/op-lowtotal-ratio/run.py\", line 440, in <module>\n    out = main()\n          ^^^^^^\n  File \"/mnt/d/Code/HD-QKD_Polar_Comparison-nbpolar/workspace/probes/op-lowtotal-ratio/run.py\", line 396, in main\n    \"a3_split_rule\": \"FROZEN bounded low-total ratio grid: 8 points over totals 448 and 336 with varying k1 shares, disclosed 2240 or 1680 bits per point; (f_book bookkeeping only, NOT efficiency points; tag excluded); d1=worst_k(H1,k1) per point; d2=worst_k(H2,k2) per point; same H1/H2 design vectors as C1 (design_seed=%d, DESIGN_MC=%d)\" % (list(K1_GRID), DESIGN_SEED, DESIGN_MC),\n                     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\nTypeError: %d format: a real number is required, not list\n",
+  "wall_s": 160.01421972108074
+}

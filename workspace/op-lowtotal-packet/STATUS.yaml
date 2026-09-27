@@ -1,0 +1,85 @@
+packet_id: op-lowtotal-packet
+probe_id: op-lowtotal-ratio
+tier: X
+status: DESCRIPTIVE_TIER_X_REVIEWED
+derived_from: workspace/probes/op-kratio-scale/run.py (mechanical string-level derivative + declared loop change)
+parent_openspec_change: openspec/changes/nbpolar-op-k1-ramp-k550
+user_authorization: BROAD_SYNTHETIC_WORK_AUTHORIZATION_GRANTED_IN_MAIN_CONVERSATION (inherited; no real data touched)
+execution_authorized_by_packet: true
+execution_gate: MAIN_THREAD_FREEZE_REVIEW_PASS_2026-09-27_ONE_SHOT
+incident:
+  first_launch: execution_error (TypeError at run.py:396 - string placeholder removed by a text fix); no records, no points, no verdict
+  error_record_preserved: workspace/probes/op-lowtotal-ratio/results.execution_error_attempt1.json
+  disposition: implementation-defect fix + single measurement launch, per the repository precedent that a patch followed by a first run is not a Tier-Y rerun when no verdict/outcome existed
+adjudications:
+  DP-L1: theme = bounded low-total RATIO SEARCH at the two totals that collapsed under the fixed 1:6 ratio (448 and 336)
+  DP-L2: bounded 8-point grid = totals (448, 336) x four k1 shares each (ratios ~1:13, 1:6, 1:3.67, 1:2.5), (k1,k2) = (32,416),(64,384),(96,352),(128,320),(24,312),(48,288),(72,264),(96,240)
+  DP-L3: disclosed = 2240 bits at total 448 and 1680 bits at total 336 (f_book 2.347531 / 1.760648, bookkeeping only)
+  DP-L4: d1 = worst_k(H1,k1) per point and d2 = worst_k(H2,k2) per point
+  DP-L5: design_seed 2026092600 / DESIGN_MC 128 inherited; run seeds 2026092701..2026092702
+  DP-L6: 2 seeds x 16 blocks = 32 blocks per point; single arm BASE; 256 blocks total
+  DP-L7: wall <= 600 s; RSS <= 1 GiB; identical stop rules; one-shot reruns=0
+  DP-L8: bounded grid fixed before launch (8 points); not an open sweep; no successor route granted
+parameters:
+  channel: F4@q1024
+  N: 1024
+  n_log: 10
+  totals: [448, 336]
+  points: [[32, 416], [64, 384], [96, 352], [128, 320], [24, 312], [48, 288], [72, 264], [96, 240]]
+  design_seed: 2026092600
+  design_mc: 128
+  run_seeds: [2026092701, 2026092702]
+  blocks_per_seed: 16
+  blocks_per_point: 32
+  blocks_total: 256
+  disclosed_bits: {448: 2240, 336: 1680}
+  f_book: {448: 2.347531, 336: 1.760648}
+  toeplitz_master: 2026091361
+  wall_s: 600
+  rss_GiB: 1
+  reruns_allowed: 0
+execution:
+  result_status: ok
+  within_budget: true
+  probe_runs: 1
+  reruns: 0
+  cells: {expected: 16, completed: 16}
+  wall_s: 158.752
+  peak_rss_bytes: 215760896
+  stop_rules_triggered: []
+  per_point_operational_exact:
+    T448_k1_32_k2_416: 1
+    T448_k1_64_k2_384: 0
+    T448_k1_96_k2_352: 0
+    T448_k1_128_k2_320: 0
+    T336_k1_24_k2_312: 0
+    T336_k1_48_k2_288: 0
+    T336_k1_72_k2_264: 0
+    T336_k1_96_k2_240: 0
+  per_point_oracle_exact: {T448_k1_32_k2_416: 5, others: 0}
+  operational_totals: {exact: 1, undetected: 0, verify_failed: 255, decode_failed: 0, resource_abort: 0}
+  oracle_totals: {exact: 5, undetected: 0, verify_failed: 251, decode_failed: 0, resource_abort: 0}
+  key_dependent_bits_observed: [1744, 2304]
+  aggregation_key: f_label (required because k1=96 occurs at both totals)
+output_root: workspace/probes/op-lowtotal-ratio
+result_path: workspace/probes/op-lowtotal-ratio/results.json
+write_scope:
+  - workspace/probes/op-lowtotal-ratio/results.json
+  - workspace/probes/op-lowtotal-ratio/results.execution_error_attempt1.json
+  - workspace/probes/op-lowtotal-ratio/.numba_cache/
+runtime_readonly_dependency:
+  module: qkd_recon.polar_core
+  sys_path: /mnt/d/Code/qkd-reconciliation-lab/src
+  policy: inherited code import only; no data reads or writes
+claim_boundary:
+  tier_x_non_claim: true
+  bookkeeping_only_bounded_ratio_search: true
+  no_efficiency_or_operating_point_claim: true
+  no_real_data_extrapolation: true
+  bounded_grid_not_open_sweep: true
+  automatic_continuation: false
+  real_data_or_artifact_access: forbidden
+  results_or_comparison_output_writes: forbidden
+git_boundary:
+  no_add_no_commit_no_push_no_stage: true
+  note: all git actions suspended pending explicit user instruction
