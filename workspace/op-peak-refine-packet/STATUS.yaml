@@ -1,0 +1,71 @@
+packet_id: op-peak-refine-packet
+probe_id: op-peak-refine
+tier: X
+status: DESCRIPTIVE_TIER_X_REVIEWED
+derived_from: workspace/probes/op-k1k2-split-560/run.py (mechanical string-level derivative)
+parent_openspec_change: openspec/changes/nbpolar-op-k1-ramp-k550
+user_authorization: BROAD_SYNTHETIC_WORK_AUTHORIZATION_GRANTED_IN_MAIN_CONVERSATION (inherited; no real data touched)
+execution_authorized_by_packet: true
+execution_gate: MAIN_THREAD_FREEZE_REVIEW_PASS_2026-09-27_ONE_SHOT
+adjudications:
+  DP-P1: refinement of the already-measured peak band of op-k1k2-split-560; total held at k1+k2=560 (2800 bits at every point)
+  DP-P2: K1_GRID = [60, 100, 120]; k2 = 560 - k1 = [500, 460, 440]
+  DP-P3: d1 = worst_k(H1,k1) per point and d2 = worst_k(H2,k2) per point (unchanged frozen family rule)
+  DP-P4: design_seed 2026092600 / DESIGN_MC 128 inherited; run seeds 2026092701..2026092702 => same (x,y) pairs
+  DP-P5: 2 seeds x 16 blocks = 32 blocks per point; single arm BASE; 96 blocks total
+  DP-P6: wall <= 600 s; RSS <= 1 GiB; identical stop rules; one-shot reruns=0
+  DP-P7: bounded 3-point refinement of a measured band, not an open sweep; aggregation key k1 verified unique
+parameters:
+  channel: F4@q1024
+  N: 1024
+  n_log: 10
+  total_k: 560
+  k1_grid: [60, 100, 120]
+  k2_by_k1: {60: 500, 100: 460, 120: 440}
+  design_seed: 2026092600
+  design_mc: 128
+  run_seeds: [2026092701, 2026092702]
+  blocks_per_seed: 16
+  blocks_per_point: 32
+  blocks_total: 96
+  disclosed_bits_per_point: 2800 (constant)
+  f_book_per_point: 2.9344139789 (constant)
+  toeplitz_master: 2026091361
+  wall_s: 600
+  rss_GiB: 1
+  reruns_allowed: 0
+execution:
+  result_status: ok
+  within_budget: true
+  probe_runs: 1
+  reruns: 0
+  cells: {expected: 6, completed: 6}
+  wall_s: 84.256
+  peak_rss_bytes: 215613440
+  stop_rules_triggered: []
+  per_point_operational_exact: {k1_60: 24, k1_100: 26, k1_120: 20}
+  per_point_oracle_exact: {k1_60: 32, k1_100: 26, k1_120: 20}
+  operational_totals: {exact: 70, undetected: 0, verify_failed: 26, decode_failed: 0, resource_abort: 0}
+  oracle_totals: {exact: 78, undetected: 0, verify_failed: 18, decode_failed: 0, resource_abort: 0}
+  key_dependent_bits_observed: [2864]
+  peak_band_bracketed: "k1 in [60,120] at total 560"
+output_root: workspace/probes/op-peak-refine
+result_path: workspace/probes/op-peak-refine/results.json
+write_scope:
+  - workspace/probes/op-peak-refine/results.json
+  - workspace/probes/op-peak-refine/.numba_cache/
+runtime_readonly_dependency:
+  module: qkd_recon.polar_core
+  sys_path: /mnt/d/Code/qkd-reconciliation-lab/src
+  policy: inherited code import only; no data reads or writes
+claim_boundary:
+  tier_x_non_claim: true
+  bookkeeping_only_allocation_diagnostic: true
+  no_efficiency_or_operating_point_claim: true
+  no_real_data_extrapolation: true
+  automatic_continuation: false
+  real_data_or_artifact_access: forbidden
+  results_or_comparison_output_writes: forbidden
+git_boundary:
+  no_add_no_commit_no_push_no_stage: true
+  note: all git actions suspended pending explicit user instruction
