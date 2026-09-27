@@ -1,0 +1,49 @@
+packet_id: oracle-l2-packet
+probe_id: oracle-l2-fulldisclosure
+tier: X
+status: READY_FOR_EXECUTE
+predecessor_probe: workspace/probes/a2a3-synth-fcurve-n1024
+predecessor_status: ok
+cross_ref_running: workspace/probes/a3-op-scan
+cross_ref_note: a3-op-scan still running at draft time, read-only, do-not-touch; this probe is independent
+prereg: workspace/probes/oracle-l2-fulldisclosure/prereg.md
+prereg_status: FROZEN_BACKFILLED_20260924
+task_packet: workspace/oracle-l2-packet/TASK_PACKET.md
+prompt: workspace/oracle-l2-packet/PROMPT.md
+authorization_prompt: workspace/oracle-l2-packet/AUTHORIZATION_PROMPT.md
+params:
+  channel: F4@q1024
+  N: 1024
+  n_log: 10
+  k1: 10
+  k2: 1024
+  d2: all
+  seeds: [2026092401, 2026092402]
+  blocks_per_cell: 16
+  design_seed: 2026092400
+  design_mc: 128
+  toeplitz_master: 2026091361
+  a2_run: false
+budget:
+  wall_s: 300
+  rss_GiB: 2
+reruns_allowed: 0
+write_scope:
+  - workspace/probes/oracle-l2-fulldisclosure/results.json
+freeze_gates:
+  - DP-O1_entry_path_TBD
+  - DP-O2_k2N_legality
+  - DP-O3_seeds_minimal
+  - DP-O4_t4_linkage
+authorizations:
+  - "PI 2026-09-24 overall-advancement authorization (方向规划与合成 Tier-X 推进, user message: 都可以给你授权/意为推进别问了)"
+  - "main-thread freeze ruling 2026-09-24: DP-O1 entry path resolved — no independent wrapper script exists (C self-contained; backfilled from a3-op-scan C-body lines 6-435 with frozen replacements (a)-(i) verified; WALL 900→300 ratified as TASK_PACKET §3 budget requirement, not invention); DP-O2 k2=N=1024/d2=all legality accepted (interface allows any power of two, k1/k2<=n; disclosed 5170/f≈5.42 overdose sanity accepted; d1 worst-first-10); DP-O3 seeds [2401,2402] 32-block minimal set accepted; DP-O4 synthetic-only, no R2 quota/budget consumed, descriptive H-split input only"
+  - "authorization text pasted verbatim in operator delegation prompt (main thread, 2026-09-24)"
+notes: >-
+  Main-thread freeze completed 2026-09-24: prereg C backfilled and single-line
+  wall-string fix (wall_s>900→wall_s>300) applied; mapping independently
+  verified; packet now READY_FOR_EXECUTE for ONE single Tier-X run per
+  AUTHORIZATION_PROMPT.md. Expected 2 cells, 32 blocks; budget wall<=300s /
+  RSS<=2GiB; reruns=0; operator must not self-authorize any further run.
+post_hoc_annotation: INVALIDATED_BY_TABLE_SIGN_DEFECT_20260927
+post_hoc_note: this probe family's inline table = pmf[(a-b)%Q] should be pmf[(b-a)%Q] (mirror channel); see docs/decision-log.md 2026-09-27 "合成两层 GF32 探针 table 符号缺陷确认".

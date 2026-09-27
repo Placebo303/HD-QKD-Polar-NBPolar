@@ -1,0 +1,65 @@
+packet_id: l2-singlefactor-packet
+probe_id: l2-singlefactor-k200
+tier: X
+status: READY_FOR_EXECUTE
+predecessor_probe: workspace/probes/k2-dose-ramp
+predecessor_status: ok
+predecessor_note: k2=200 point op+oracle both failed (no solo L-H1 attribution); L98 worst_k, L244 d1_shared, L250 d2=worst_k(H2,k2); oracle-L2 full-disclosure 32/32 exact path-sanity only
+cross_ref_readonly:
+  - workspace/probes/oracle-l2-fulldisclosure
+  - workspace/k2-ramp-packet
+cross_ref_note: all read-only do-not-touch; this probe is an independent single-factor construction-ordering test, no disturbance
+prereg: workspace/probes/l2-singlefactor-k200/prereg.md
+prereg_status: FROZEN_VERIFIED_20260925_B1_RESOLVED
+task_packet: workspace/l2-singlefactor-packet/TASK_PACKET.md
+prompt: workspace/l2-singlefactor-packet/PROMPT.md
+authorization_prompt: workspace/l2-singlefactor-packet/AUTHORIZATION_PROMPT.md
+params:
+  channel: F4@q1024
+  N: 1024
+  n_log: 10
+  k1: 10
+  d1: worst-first-10-shared
+  k2_single: 200
+  base_id: L2-BASE-P16-FROZEN
+  base_d2_rule: worst_k(H2,200) probe-local (k2-dose-ramp L250 same formula)
+  cand_id: L2-CAND-PRODORDER-01
+  cand_d2_rule: sorted(disclosure_order_from_stats(e2_mean,h2_mean)[:200]) e-first (construction.py:99, __init__ exported; e2/h2 same MC genie rows/prior/seeds/MC/blocks as H2, zero new SC calls; pending DP-B1 verification)
+  disclosed_bits: 1050
+  f_book: 1.10041
+  kdb: 1114
+  seeds: [2026092401, 2026092402]
+  blocks_per_arm_per_seed: 16
+  blocks_total: 64
+  cells_expected: 4
+  design_seed: 2026092400
+  design_mc: 128
+  toeplitz_master: 2026091361
+  a2_run: false
+  numba_dir: /tmp/opencode/l2_singlefactor_numba
+  out: workspace/probes/l2-singlefactor-k200/results.json
+budget:
+  wall_s: 200
+  rss_GiB: 1
+reruns_allowed: 0
+write_scope:
+  - workspace/probes/l2-singlefactor-k200/results.json
+freeze_gates:
+  - DP-B1_cand_definition_e2h2_source_VERIFY_BACKFILL
+  - DP-B2_five_fixed_single_grid_legality
+  - DP-B3_budget_write_scope_oneshot_linkage
+  - DP-B4_d2_overlap_gate_NONDISCRIMINATING_STOP
+authorizations:
+  - "PI 2026-09-24/25 route authorization: R2=(c) frozen-M2 workpoint; algorithm track=(b) fixed-disclosure L2 single-factor; (a) SCL unlock not selected (user message 2026-09-24)"
+  - "main-thread freeze ruling 2026-09-25 DP-B1..DP-B4: DP-B1 CAND verified (frozen fn import at prereg L19, no copied impl, no hand-written order; call row L277 np.sort(disclosure_order_from_stats(e2,h2)[:K2_SINGLE]); e2/h2 accumulated L214-215 and normalized L220-221 from the SAME MC genie rows as H2 — same ORACLE_CONDITIONED prior, same gather_p2_metrics, same design_seed 2026092400/DESIGN_MC 128, same sample blocks, zero new SC calls; H2!=h declared; core algorithm rows zero-change confirmed by reviewer F5); DP-B2 five-fixed single k2=200 grid accepted; DP-B3 budget wall<=200s/RSS<=1GiB, write-scope results.json only, one-shot reruns=0, T4/R2 linkage accepted; DP-B4 d2-overlap pre-measurement gate accepted (identical -> non_discriminating, stop before measurement, one run one record)"
+  - "B1 resolution 2026-09-25: main thread chose option (a) — undetected immediate-stop implemented in C at prereg rows 361-364 (arm loop), 374-375 (block loop), 377-378 (seed loop); P row L5 and C now consistent; py_compile OK; status falls to incomplete when triggered, never ok"
+  - "authorization text pasted verbatim in operator delegation prompt (main thread, 2026-09-25)"
+notes: >-
+  Main-thread freeze completed 2026-09-25. Packet READY_FOR_EXECUTE for ONE single Tier-X run
+  per AUTHORIZATION_PROMPT.md only. Expected 4 cells (2 arms x 2 seeds), 64 blocks;
+  BASE=L2-BASE-P16-FROZEN worst_k(H2,200) vs CAND=L2-CAND-PRODORDER-01 e-first order[:200];
+  budget wall<=200s / RSS<=1GiB; reruns=0; operator must not self-authorize any further run.
+  Reading discipline: descriptive only, no significance wording, no solo L-H1 attribution
+  (both arms fail at k2=200), L-H3 exclusion is probe-local only.
+post_hoc_annotation: INVALIDATED_BY_TABLE_SIGN_DEFECT_20260927
+post_hoc_note: this probe family's inline table = pmf[(a-b)%Q] should be pmf[(b-a)%Q] (mirror channel); see docs/decision-log.md 2026-09-27 "合成两层 GF32 探针 table 符号缺陷确认".

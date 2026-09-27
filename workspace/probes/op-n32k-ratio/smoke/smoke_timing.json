@@ -1,0 +1,9 @@
+{
+  "label": "NON-RESULT timing smoke (seed 1, 1 design sample, 1 block, k1=715,k2=7224; d1/d2 from 1-sample H)",
+  "design_sample_s": 14.151857825927436,
+  "block_s": 21.91158163791988,
+  "block_op_outcome": "verify_failed",
+  "block_oracle_outcome": "verify_failed",
+  "peak_rss_bytes": 430637056,
+  "total_s": 36.084672261960804
+}

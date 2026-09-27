@@ -1,0 +1,48 @@
+packet_id: a3-scan-packet
+probe_id: a3-op-scan
+tier: X
+status: READY_FOR_EXECUTE
+predecessor_probe: workspace/probes/a2a3-synth-fcurve-n1024
+predecessor_status: ok
+prereg: workspace/probes/a3-op-scan/prereg.md
+task_packet: workspace/a3-scan-packet/TASK_PACKET.md
+prompt: workspace/a3-scan-packet/PROMPT.md
+authorization_prompt: workspace/a3-scan-packet/AUTHORIZATION_PROMPT.md
+params:
+  channel: F4@q1024
+  N: 1024
+  n_log: 10
+  planes: 10
+  f_grid: [1.30, 1.40, 1.60, 1.80, 2.20, 2.80]
+  seeds: [2026092401, 2026092402, 2026092403, 2026092404, 2026092405, 2026092406, 2026092407, 2026092408]
+  blocks_per_cell: 16
+  design_seed: 2026092400
+  design_mc: 128
+  scl_L: 8
+  g2_ratio: [319, 6492]
+budget:
+  wall_s: 900
+  rss_GiB: 2
+reruns_allowed: 0
+write_scope:
+  - workspace/probes/a3-op-scan/results.json
+freeze_gates:
+  - DP-S1_f_grid_single_factor
+  - DP-S2_abs_values
+  - DP-S3_cost_blocks_16_or_12
+  - DP-S4_all_fail_interpretation_and_linkage
+  - DP-S5_numba_dir
+  - DP-S6_t4_linkage
+authorizations:
+  - "PI 2026-09-24 overall-advancement authorization (方向规划与合成 Tier-X 推进, user message: 都可以给你授权/意为推进别问了)"
+  - "main-thread freeze ruling 2026-09-24: DP-S1 f-grid {1.30,1.40,1.60,1.80,2.20,2.80} accepted as single-factor change (C-entry algorithm code verified byte-identical to a2a3-synth-fcurve-n1024 predecessor by main-thread line-by-line read; only F_GRID/OUT/probe_id/NUMBA dir/metadata text differ; Zall[i]=z present in both); DP-S2 expected values independently recomputed and closed (D {1240,1336,1527,1718,2099,2672}; kt {248,267,305,344,420,534}; (k1,k2) {(12,236),(13,254),(14,291),(16,328),(20,400),(25,509)}; disclosed {1240,1335,1525,1720,2100,2670}; f_actual {1.29953,1.39909,1.59821,1.80257,2.20081,2.79817}); DP-S3 ACCEPT-16 (blocks 16, expected wall ~650-700s < 900s, risk <20%); DP-S4 all-fail at f=2.8 accepted as legitimate completed finding, no extra exploration; DP-S5 NUMBA dir /tmp/opencode/a3_op_scan_numba accepted; DP-S6 synthetic-only, no R2 quota/budget consumed, descriptive T4 input only"
+  - "authorization text pasted verbatim in operator delegation prompt (main thread, 2026-09-24)"
+notes: >-
+  Main-thread freeze adjudication completed 2026-09-24: single-factor design verified
+  (only f grid extended upward from predecessor; A2 retained as sanity control);
+  mapping derivation independently recomputed and closed; no invented rules.
+  Packet now READY_FOR_EXECUTE for ONE single Tier-X run per AUTHORIZATION_PROMPT.md.
+  Expected 48 cells (6 f x 8 seeds), 768 blocks; budget wall<=900s / RSS<=2GiB;
+  reruns=0; operator must not self-authorize any further run.
+post_hoc_annotation: INVALIDATED_BY_TABLE_SIGN_DEFECT_20260927
+post_hoc_note: this probe family's inline table = pmf[(a-b)%Q] should be pmf[(b-a)%Q] (mirror channel); see docs/decision-log.md 2026-09-27 "合成两层 GF32 探针 table 符号缺陷确认".

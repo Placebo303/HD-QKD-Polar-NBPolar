@@ -5773,3 +5773,43 @@ Archive: `openspec/changes/nbpolar-native-highdim-exploration/` → `openspec/ch
 - 对高 k1 端双分支共同退化作 L-H 归因——否决：既有规则禁止失败的单因归因。
 
 **Consequences**: 产物落在 `workspace/probes/op-peak-refine/` 与 `workspace/op-peak-refine-packet/`。本夜共六个 Tier-X 合成探针、六次冻结评审、七次 launch（含一次缺陷重跑 = 六次测量）、五次独立数值复核。至 08:00 停表前不再新增探针。M2 状态串、R2 合同、G2/G3 冻结的 K1=319/K2=6492、`STATE.md:65` route lock 均未改动；本夜未执行任何 git 动作。
+
+## 2026-09-27 — 合成两层 GF32 探针 table 符号缺陷确认；15 项 Tier-X 结论撤回为 `INVALIDATED_BY_TABLE_SIGN_DEFECT_20260927`（真实数据 M2 不受影响）
+
+**Decision**: 主线程裁定确认一个跨探针的实现缺陷。本夜及此前一系列独立、内联的合成两层 GF32 Tier-X 探针脚本（各自的 `run.py`）在构造译码先验表时把方向写反了：生成模型为 `y=(x+dd)%Q`（Alice=x，high=x>>5/low=x&31；Bob=y），按 `[Alice,Bob]=P(A|B)` 契约（`comparison_bench/src/comparison_bench/formal_ir/nbpolar/prior.py:11`），正确表应为 `table[a,b]=pmf[(b-a)%Q]`，但实际代码写的是 `table = pmf[(np.arange(Q)[:, None] - np.arange(Q)[None, :]) % Q]`，即 `table[a,b]=pmf[(a-b)%Q]`——喂给译码器的是**镜像信道**；`Wmat`（Z-construction 用表）同一形式、同一缺陷。在 F4（`p(+1)=0.24, p(-1)=0.005`）下二者显著不同，两种符号约定都能通过模块自身的 `colsum==1` 合法性检查，因此流水线里没有任何环节能拦住它。
+
+证据（独立 focused review `workspace/op-n32k-ratio-packet/FOCUSED_REVIEW.md` Part 2，脚本 `workspace/probes/op-n32k-ratio/review_scratch/check_table_sign.py`，用仓库自身的 `prior.py`/`sc.py`/`two_layer.py` 小 N 复算）：AS-CODED 表在 N=1024 下 genie `H1+H2=1.3946`，几乎精确复现 `op-peak-refine` 实测的 `1.3963`（H1=0.1273,H2=1.2691，DESIGN_MC=128 下的残差为蒙特卡洛噪声）；同 N 下修正表（`pmf[(b-a)%Q]`）得 `0.9356`，对齐信道真值 `H_F4=0.9318300075`。AS-CODED 之和随 N 增长（N=256→1024：1.336→1.395），与 `op-n32k-ratio`（N=32768）实测继续升至 1.531 一致——失配模型下的 genie-SC 均值在极化下不是熵守恒的，会随 N 漂移。发现于 2026-09-27 `op-n32k-ratio` focused review 期间。
+
+**受影响（15 项；均撤回其作为"匹配译码"证据的结论；描述性记录、`results.json`、transcript 本身保留，不删除、不改写，仅追加撤回标注）**：
+
+1. `l2-singlefactor-c1-k550`（原状态 `DESCRIPTIVE_TIER_X_REVIEWED_WITH_LIMITATIONS`）→ 本文件 2026-09-27 C1 条目（~L5637 起）
+2. `op-k1-ramp-k550`（原 `DESCRIPTIVE_TIER_X_REVIEWED_DOSE_DIAGNOSTIC`）→ 本文件 ~L5662-5698
+3. `op-k1ramp-k550-base`、`op-k1ramp-fine-base`（原均 `DESCRIPTIVE_TIER_X_REVIEWED`）→ 本文件 ~L5696
+4. `op-k1k2-split-560`（原 `DESCRIPTIVE_TIER_X_REVIEWED`）→ 本文件 ~L5723
+5. `op-kratio-scale`（原 `DESCRIPTIVE_TIER_X_REVIEWED`）→ 本文件 ~L5737
+6. `op-lowtotal-ratio`（原 `DESCRIPTIVE_TIER_X_REVIEWED`）→ 本文件 ~L5751
+7. `op-peak-refine`（原 `DESCRIPTIVE_TIER_X_REVIEWED`）→ 本文件 ~L5765（紧邻上条）
+8. `op-n32k-ratio`（`workspace/op-n32k-ratio-packet/`，本日执行；8 个点 × 双臂 operational/oracle 皆 0/16，即缺陷本身的发现现场）
+9. `a2a3-synth-fcurve` → `docs/nbpolar/T4_DECISION_SHEET_20260924.md` ~L100 附近段
+10. `a2a3-synth-fcurve-n1024` → T4 sheet ~L110-111
+11. `a3-op-scan` → T4 sheet ~L115
+12. `k2-dose-ramp` → T4 sheet ~L126，`docs/nbpolar/OVERNIGHT_PLAN_20260927.md` ~L41
+13. `oracle-l2-fulldisclosure` → T4 sheet ~L122
+14. `l2-singlefactor-k200` → `docs/nbpolar/NEXT_L2_PROBE_DESIGN_20260925.md` ~L29-45
+15. `l2-singlefactor-k550`（设计阶段：预注册重合门 `overlap_gate_min=495` 于 550/550 全重合处触发 `non_discriminating`，测量从未执行，状态 `DESCRIPTIVE_STOP_REVIEW_LIMITED`；其 `TASK_PACKET.md:21,35` 记录的是正确的 `pmf[(b-a)%Q]` 契约文字，但用于计算重合度的执行代码 `run.py` 沿用了同一 `(a-b)` 缺陷表，故仍需一并标注，即便无译码计数受影响）
+
+以上 15 项（含有 `STATUS.yaml` 的 packet：条目 1–8、10–15；条目 9 无独立 packet 目录，仅在 T4 决策单中以引用形式存在）均加注 `post_hoc_annotation: INVALIDATED_BY_TABLE_SIGN_DEFECT_20260927`。
+
+**未受影响（已核实）**：真实数据路径 `comparison_bench/src/comparison_bench/formal_ir/prior_m2.py`（拟合与展开共用同一约定 `a==(b+1)` ↔ q+1，与本缺陷的合成内联表构造无关）⇒ G1/G1R2/G2/G3/G4 各项裁决与 M2 `VALIDATED_AT_FROZEN_CONTRACT` 状态**不变**；2026-09-23 归档探索套件（`s1_screen.py`/`s1b_screen.py`/`s2_transfer.py`，用的是自洽的相反轴序，不受本缺陷影响）；S8/S9 主体（经验实测数据、自洽先验，不受影响）。
+
+**op-n32k-ratio 独立 focused review 结论（同一评审两部分）**：**Part 1 执行完整性 PASS**（diff、写域、预算、`undetected` 隔离、算术逐项复核无误）；**Part 2 operator 因果解释 REJECTED**——operator 在该探针记录中给出的"≈1.64 bit 两层披露信息论地板"解释被独立复核否定：N=32768 处 1.531 与信道真值 `H=0.9318` 的差距由本符号缺陷（镜像信道）主导，不构成真实的两层披露地板；该探针本身是暴露缺陷的现场，其"8 点、双臂全 0/16"读数保留为**描述性事实**，但不再支持任何关于分配地板的因果陈述。
+
+**Context**: 缺陷在 2026-09-27 `op-n32k-ratio` 独立 focused review 中发现（Part 2 排查设计熵异常增长的根因）；`run.py` 的这一行在 `op-peak-refine`→`op-n32k-ratio` 一系列探针间被逐字继承，此前六次冻结评审与数值复核均未触及先验表构造本身的符号方向（复核重点是参数/预算/隔离/写域，非表构造正确性），因此未在更早节点被拦截。缺陷只存在于这些独立 Tier-X 探针脚本各自的内联合成 circulant 构造中；真实数据 G1R2 CAL32 管线直接从经验 Alice|Bob 计数拟合先验（`.workbuddy/queue/NBPOLAR-M2-PRIOR-G1R2-W200-CIRCULAR/G1R2_ADJUDICATION.md`），从不重建合成 delta-circulant，故不暴露于此缺陷。
+
+**Alternatives considered**:
+- 就地改写受影响条目的历史读数或结论句——否决：AGENTS.md §3/§10.1（append-only；不得删除或改写既有条目）；改为追加撤回标注。
+- 认为该缺陷同样影响真实数据 M2/G1–G4 链——否决：`prior_m2.py` 拟合/展开路径与本缺陷的合成内联表构造无共享代码，且约定不同（`a==(b+1)`），已独立核实。
+- 将 `op-n32k-ratio` 的"0/16 全零"读数连同其因果解释一起撤回为不存在——否决：描述性计数事实本身仍真实发生且被独立复核确认执行完整性 PASS；只撤回 operator 的因果归因（地板 vs 缺陷），不删除测量记录。
+- 等修正重跑完成后再统一沉淀本记录——否决：AGENTS.md §3 要求发现即记录（append-only），不得"先不发后补"；修正重跑作为独立后续记录。
+
+**Consequences**: 修正重跑 `op-fix-n1024-alloc` / `op-fix-n32k-alloc`（均为 Tier-X）正在进行中，由另一并发子代理负责，本条目及本次沉淀操作不触碰其 `workspace/probes/op-fix-*/`、`workspace/op-fix-*-packet/` 目录。索引 `docs/nbpolar/DOCUMENT_INDEX.md` 增两行（指向 `op-n32k-ratio` packet/FOCUSED_REVIEW 与本条目）。`docs/nbpolar/STATE.md` §0 起首插入撤回提示并对 C1–C3 三行加 `（已撤回）`前缀；`docs/nbpolar/{SYNTHESIS_20260927,T4_DECISION_SHEET_20260924,NEXT_L2_PROBE_DESIGN_20260925,OVERNIGHT_PLAN_20260927}.md` 标题下追加更正横幅。M2 状态串、R2 合同状态、G2/G3 冻结的 K1=319/K2=6492、`STATE.md:65` route lock 均**未改动**；本次沉淀操作仅追加文档与 STATUS.yaml 标注，不产生任何新的 FER/效率/密钥率主张，不解除任何锁定，不构成任何 git push。本条目 append-only，既有条目未修改。

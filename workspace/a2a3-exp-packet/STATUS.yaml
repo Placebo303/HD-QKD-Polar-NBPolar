@@ -1,0 +1,48 @@
+packet_id: a2a3-exp-packet
+probe_id: a2a3-synth-fcurve-n1024
+tier: X
+status: READY_FOR_EXECUTE
+predecessor_probe: workspace/probes/a2a3-synth-fcurve
+predecessor_status: ok
+prereg: workspace/probes/a2a3-synth-fcurve-n1024/prereg.md
+task_packet: workspace/a2a3-exp-packet/TASK_PACKET.md
+prompt: workspace/a2a3-exp-packet/PROMPT.md
+authorization_prompt: workspace/a2a3-exp-packet/AUTHORIZATION_PROMPT.md
+params:
+  channel: F4@q1024
+  N: 1024
+  n_log: 10
+  planes: 10
+  f_grid: [1.10, 1.15, 1.20]
+  seeds: [2026092401, 2026092402, 2026092403, 2026092404, 2026092405, 2026092406, 2026092407, 2026092408]
+  blocks_per_cell: 16
+  design_seed: 2026092400
+  design_mc: 128
+  scl_L: 8
+  g2_ratio: [319, 6492]
+budget:
+  wall_s: 900
+  rss_GiB: 2
+reruns_allowed: 0
+write_scope:
+  - workspace/probes/a2a3-synth-fcurve-n1024/results.json
+freeze_gates:
+  - DP-1_nlog
+  - DP-2_abs_values
+  - DP-3_a2_polar_core
+  - DP-4_a3_n1024
+  - DP-5_design_mc
+  - DP-6_new_seeds
+  - DP-7_numba_dir
+  - DP-8_t4_linkage
+authorizations:
+  - "PI 2026-09-24 overall-advancement authorization (方向规划与合成 Tier-X 推进, user message: 都可以给你授权/意为推进别问了)"
+  - "main-thread freeze ruling 2026-09-24: DP-1 NLOG=10 accepted; DP-2 expected values accepted (independently recomputed, in-run governing); DP-3/DP-4 accepted with STOP-if-reject rules; DP-5 DESIGN_MC=128 accepted; DP-6 seeds 2026092405..08 accepted; DP-7 NUMBA dir /tmp/opencode/a2a3_n1024_numba accepted; DP-8 no R2 quota consumption confirmed"
+  - "authorization text pasted verbatim in operator delegation prompt (main thread, 2026-09-24)"
+notes: >-
+  Main-thread freeze adjudication completed 2026-09-24: mapping derivation (D/kt/k1/k2/disclosed/f_actual)
+  independently recomputed by main thread and closed; predecessor byte-form confirmed (only N/NLOG/seeds/NUMBA dir changed,
+  formula lines identical); no invented mapping (PL-03 confirmed). Packet now READY_FOR_EXECUTE for ONE single
+  Tier-X run per AUTHORIZATION_PROMPT.md; operator must not self-authorize any further run (reruns=0).
+post_hoc_annotation: INVALIDATED_BY_TABLE_SIGN_DEFECT_20260927
+post_hoc_note: this probe family's inline table = pmf[(a-b)%Q] should be pmf[(b-a)%Q] (mirror channel); see docs/decision-log.md 2026-09-27 "合成两层 GF32 探针 table 符号缺陷确认".

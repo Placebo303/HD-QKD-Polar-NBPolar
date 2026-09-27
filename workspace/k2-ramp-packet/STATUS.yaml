@@ -1,0 +1,60 @@
+packet_id: k2-ramp-packet
+probe_id: k2-dose-ramp
+tier: X
+status: READY_FOR_EXECUTE
+predecessor_probe: workspace/probes/oracle-l2-fulldisclosure
+predecessor_status: ok
+predecessor_note: oracle 32/32 exact per-seed 16/16, op 32/32 verify_failed, undetected 0, H=0.9318300075, k1=10/k2=1024/d2 full, kdb 5234=5170+64, wall 53.39s
+cross_ref_readonly:
+  - workspace/probes/a3-op-scan
+  - workspace/probes/a2a3-synth-fcurve-n1024
+  - workspace/oracle-l2-packet
+cross_ref_note: all read-only do-not-touch; this ramp is independent dose discriminator, no disturbance
+prereg: workspace/probes/k2-dose-ramp/prereg.md
+prereg_status: FROZEN_VERIFIED_20260924
+task_packet: workspace/k2-ramp-packet/TASK_PACKET.md
+prompt: workspace/k2-ramp-packet/PROMPT.md
+authorization_prompt: workspace/k2-ramp-packet/AUTHORIZATION_PROMPT.md
+params:
+  channel: F4@q1024
+  N: 1024
+  n_log: 10
+  k1: 10
+  d1: worst-first-10-shared
+  k2_grid: [200, 400, 700, 1024]
+  d2_rule: worst-first-prefix-per-k2 (k2=1024 d2=all=full-prefix)
+  disclosed_bits: [1050, 2050, 3550, 5170]
+  f_book: [1.10041, 2.14841, 3.72042, 5.41819]
+  kdb: [1114, 2114, 3614, 5234]
+  seeds: [2026092401, 2026092402]
+  blocks_per_cell: 16
+  blocks_total: 128
+  cells_expected: 8
+  design_seed: 2026092400
+  design_mc: 128
+  toeplitz_master: 2026091361
+  a2_run: false
+  numba_dir: /tmp/opencode/k2_dose_ramp_numba
+  out: workspace/probes/k2-dose-ramp/results.json
+budget:
+  wall_s: 600
+  rss_GiB: 2
+reruns_allowed: 0
+write_scope:
+  - workspace/probes/k2-dose-ramp/results.json
+freeze_gates:
+  - DP-K1_c_derivation_mapping
+  - DP-K2_k2_grid_d2_disclosed_legality
+  - DP-K3_seeds_blocks_budget
+  - DP-K4_t4_r2_linkage
+authorizations:
+  - "PI 2026-09-24 overall-advancement authorization (方向规划与合成 Tier-X 推进, user message: 都可以给你授权/意为推进别问了)"
+  - "main-thread freeze ruling 2026-09-24: DP-K1 C-derivation verified (byte-derived from oracle-l2-fulldisclosure C-body; only K2_GRID/d2-rule/OUT/probe_id/NUMBA/WALL changed; wall-string wall_s>600 correct; no new entry invention); DP-K2 k2={200,400,700,1024}/d2-prefix/all-equivalence/disclosed={1050,2050,3550,5170}/f_book={1.10041,2.14841,3.72042,5.41819}/kdb={1114,2114,3614,5234} independently recomputed and closed; DP-K3 seeds [2401,2402]x16=32/point total 128 + wall600/RSS2GiB + A2-not-run accepted; DP-K4 synthetic-only no-R2-quota non-evidence undetected-isolated read-only-no-disturbance accepted"
+  - "authorization text pasted verbatim in operator delegation prompt (main thread, 2026-09-24)"
+notes: >-
+  Main-thread freeze completed 2026-09-24: mapping independently verified;
+  packet now READY_FOR_EXECUTE for ONE single Tier-X run per AUTHORIZATION_PROMPT.md.
+  Expected 8 cells, 128 blocks; budget wall<=600s / RSS<=2GiB; reruns=0;
+  operator must not self-authorize any further run.
+post_hoc_annotation: INVALIDATED_BY_TABLE_SIGN_DEFECT_20260927
+post_hoc_note: this probe family's inline table = pmf[(a-b)%Q] should be pmf[(b-a)%Q] (mirror channel); see docs/decision-log.md 2026-09-27 "合成两层 GF32 探针 table 符号缺陷确认".

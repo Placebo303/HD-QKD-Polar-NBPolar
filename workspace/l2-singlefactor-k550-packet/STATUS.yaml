@@ -1,0 +1,94 @@
+packet_id: l2-singlefactor-k550-packet
+probe_id: l2-singlefactor-k550
+tier: X
+status: DESCRIPTIVE_STOP_REVIEW_LIMITED
+predecessor_probe: workspace/probes/l2-singlefactor-k200
+predecessor_status: ok
+predecessor_note: k200 point op+oracle both failed 0/32 (no solo L-H1 attribution: both arms failing together must not be attributed to L-H1 alone); BASE/CAND d2 overlap 199/200; C-body L8..L539 is the byte-derive baseline
+cross_ref_readonly:
+  - workspace/probes/k2-dose-ramp
+  - workspace/probes/oracle-l2-fulldisclosure
+  - workspace/l2-singlefactor-packet
+cross_ref_note: all read-only do-not-touch; k2-ramp 400-end oracle 2/32 and 700-end oracle 32/32 bracket the unmeasured k2=550 interpolation point; this probe is an independent single-factor construction-ordering test (C3 h-first), no disturbance
+prereg: workspace/probes/l2-singlefactor-k550/prereg.md
+prereg_status: FROZEN_VERIFIED_20260925
+task_packet: workspace/l2-singlefactor-k550-packet/TASK_PACKET.md
+prompt: workspace/l2-singlefactor-k550-packet/PROMPT.md
+authorization_prompt: workspace/l2-singlefactor-k550-packet/AUTHORIZATION_PROMPT.md
+params:
+  channel: F4@q1024
+  N: 1024
+  n_log: 10
+  k1: 10
+  d1: worst-first-10-shared
+  k2_single: 550
+  k2_fallback: none
+  base_id: L2-BASE-P16-FROZEN
+  base_d2_rule: worst_k(H2,550) probe-local (H2 = row Shannon entropy, ORACLE_CONDITIONED)
+  cand_id: L2-CAND-PRODORDER-03
+  cand_d2_rule: sorted(disclosure_order_from_stats(h2_mean,e2_mean)[:550]) h-first C3 (construction.py:99, __init__ exported; e2/h2 same MC genie rows/prior/seeds/MC/blocks as H2, zero new SC calls; C1/C2/C4 excluded; DP-N1 verification recorded in main-thread freeze note)
+  disclosed_bits: 2800
+  f_book: 2.93441
+  kdb: 2864
+  seeds: [2026092501, 2026092502, 2026092503, 2026092504]
+  blocks_per_arm_per_seed: 16
+  blocks_per_arm: 64
+  blocks_total: 128
+  cells_expected: 8
+  design_seed: 2026092500
+  design_mc: 128
+  overlap_gate_min: 495
+  toeplitz_master: 2026091361
+  a2_run: false
+  numba_dir: /tmp/opencode/l2_singlefactor_k550_numba
+  out: workspace/probes/l2-singlefactor-k550/results.json
+budget:
+  wall_s: 200
+  rss_GiB: 1
+reruns_allowed: 0
+write_scope:
+  - workspace/probes/l2-singlefactor-k550/results.json
+freeze_gates:
+  - DP-N1_cand_C3_hfirst_definition_e2h2_source_AND_overlap_gate_495_PI_DECIDED
+  - DP-N2_k2_550_single_no_fallback_grid_legality_PI_DECIDED
+  - DP-N3_four_seeds_x16_sample_PI_DECIDED
+  - DP-N4_descriptive_readout_wording_no_AB_ruling_PI_DECIDED
+  - DP-N5_budget_write_scope_oneshot_and_verbatim_authorization_recorded; one-shot result present; execution provenance limited
+authorizations:
+  - "PI ruling 2026-09-25 N1..N6 (C3 h-first CAND; overlap gate >=495/550 -> non_discriminating pre-measurement stop; k2=550 single point no fallback, disclosed 2800 f_book~=2.93441 bookkeeping non-efficiency, unmeasured interpolation point bracketed by k2-ramp 400-end 2/32 and 700-end 32/32, must not be pre-called non-floor, if floor/ceiling then end truthfully without changing point or adding samples; 4 seeds x16 blocks=64 blocks/arm, design seed 2026092500, run seeds 2026092501..2026092504 frozen after prereg; descriptive readout with per-seed counts, paired discordance two directions, totals, overlap, isolated anomaly counts; delete discriminating-separation A/B ruling and auto-continuation list; I-1..I-3 not opened)"
+  - "PI 2026-09-25 N5: packet preparation and review approved; EXECUTION NOT YET AUTHORIZED until main-thread freeze of exact command, 200s/1GiB cap, single run, write scope, stop rules, then verbatim authorization paste"
+  - "main-thread freeze verification 2026-09-25: DP-N1 verified byte-by-byte (prereg L19 frozen-fn import `from ...construction import disclosure_order_from_stats`; L278 call `np.sort(disclosure_order_from_stats(h2, e2)[:K2_SINGLE])`; no hand-written order, no copied implementation; e2/h2 accumulated L214-215 and normalized L220-221 from the SAME MC genie rows as H2, zero new SC calls; H2!=h declared; overlap gate L287/301 OVERLAP_NONDISCRIMINATING_MIN=495 with identical logic inter==k and union==k); DP-N2 verified (L32-37 K2_GRID=(550,), disclosed 2800, f_book 2.9344139789, k2_fallback none); DP-N3 verified (L41-44 seeds 2026092501..2504, BLOCKS 16, DESIGN_SEED 2026092500, DESIGN_MC 128); DP-N4 verified (descriptive readout wording, no A/B ruling, no auto-continuation, forbidden wordings absent); DP-N5 frozen (exact command = prereg C entry, wall<=200s, RSS<=1GiB, one-shot reruns=0, write scope results.json only, undetected immediate stop preserved from k200 at L366-369/379-380/382-383)"
+  - "reviewer-go freeze review 2026-09-25: pass with comments, no blocking issues"
+  - "authorization text pasted verbatim in operator delegation prompt (main thread, 2026-09-25)"
+focused_review:
+  path: workspace/l2-singlefactor-k550-packet/FOCUSED_REVIEW.md
+  status: DESCRIPTIVE_STOP_REVIEW_LIMITED
+  reviewed_at: 2026-09-26
+  result_status: non_discriminating
+  probe_runs: 1
+  reruns: 0
+  measurement_cells_expected: 8
+  measurement_cells_completed: 0
+  claims_promoted: false
+  exact_invocation_independently_persisted: false
+  exit_code_persisted: false
+notes: >-
+  Historical pre-execution authorization and freeze entries above are retained
+  as provenance for the packet's earlier state; they are superseded for the
+  current lifecycle by DESCRIPTIVE_STOP_REVIEW_LIMITED. The one-shot result
+  passed the preregistered pre-measurement overlap stop and stayed within the
+  recorded budget. No measurement cells ran; this does not establish decoder
+  performance, FER, or a scientific claim. The focused review records that the
+  prereg C command is present and the result asserts its verbatim use, but the
+  actual invocation and process exit code were not independently persisted, so
+  full execution-provenance review is limited. I-1..I-3 remain unopened. Keep
+  descriptive-only wording, no automatic continuation, and no R2 sizing or
+  claim promotion; both arms failing together must not be attributed to L-H1
+  alone, and L-H3 exclusion remains probe-local.
+post_hoc_annotation: INVALIDATED_BY_TABLE_SIGN_DEFECT_20260927
+post_hoc_note: >-
+  measurement never ran (pre-registered overlap gate stopped before decode), so no
+  decode count is affected; TASK_PACKET.md:21,35 already states the correct
+  pmf[(b-a)%Q] contract, but the executed run.py used the same (a-b) mirror-channel
+  table as the rest of this probe family for computing overlap; see docs/decision-log.md
+  2026-09-27 "合成两层 GF32 探针 table 符号缺陷确认".

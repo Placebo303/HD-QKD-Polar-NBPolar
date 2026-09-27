@@ -1,5 +1,7 @@
 # 2026-09-27 隔夜合成备忘录（SYNTHESIS）— 五个 Tier-X 探针的证据链
 
+> ⚠ 2026-09-27 更正：本文引用的合成两层 GF32 探针（`op-k1ramp-k550-base`、`op-k1ramp-fine-base`、`op-k1k2-split-560`、`op-kratio-scale`、`op-lowtotal-ratio`、`op-peak-refine`）使用了镜像信道表（table 符号缺陷），其计数不构成匹配译码证据；见 decision-log 2026-09-27。
+
 - **性质**：主线程综合备忘，**规划输入**。不含执行授权、不改状态串、不含任何真实数据结论、
   不含 FER/效率/密钥主张、不作 R2 sizing 输入。
 - **证据域**：**合成 F4@q1024**，`N=1024`，M2 双层 GF32 SC/oracle 路径，`toeplitz_master=2026091361`，

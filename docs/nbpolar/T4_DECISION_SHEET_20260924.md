@@ -1,5 +1,7 @@
 # T4 决策单（DECISION SHEET）— 2026-09-24 — **DRAFT**
 
+> ⚠ 2026-09-27 更正：本文引用的合成两层 GF32 探针（`a2a3-synth-fcurve`、`a2a3-synth-fcurve-n1024`、`a3-op-scan`、`k2-dose-ramp`、`oracle-l2-fulldisclosure`）使用了镜像信道表（table 符号缺陷），其计数不构成匹配译码证据；见 decision-log 2026-09-27。
+
 - 性质：**规划输入 DRAFT**。不冻结任何阈值、不授予任何授权、不改变任何状态串、
   不含任何 FER/效率/密钥数字主张。M2 状态保持 `VALIDATED_AT_FROZEN_CONTRACT` 不变；
   `STATE.md`、两份 2026-09-22 草稿、R2 合同草稿、openspec 均不因本文件改变。
@@ -111,23 +113,23 @@ Wilson 复核行（冻结时填）：`n_Wilson(Δ,读法,p̂,z)=____`；若与�
   A3 operational 臂 384/384 verify_failed，且 oracle 臂（genie 真高层）同样 384/384——暂仅否定“披露集/高层选择为唯一原因”的解释；究竟是低层码/校验机制还是码率不够，待 a3-op-scan 分离（描述性）；
   A2 FER：f=1.10 SC/SCL8 均 1.0000；f=1.15 为 0.969±0.033 / 0.945±0.052；f=1.20 为 0.953±0.044 / 0.906±0.075——该合成配置（N=256/1024，F4，f≤1.2）下未观测到恢复；
   配对 ΔFER（A3−A2）：f=1.10 为 0；f=1.15 为 +0.031/+0.055；f=1.20 为 +0.047/+0.094（SC/SCL8），随 f 扩大；
-  以上合成观测仍不得作为 Δ 取值或阈值证据（解读禁令不变）；A1a 链式闭合（地板 1.246/1.265）注记不变。
+  以上合成观测仍不得作为 Δ 取值或阈值证据（解读禁令不变）；A1a 链式闭合（地板 1.246/1.265）注记不变。（已撤回：table 符号缺陷；`a2a3-synth-fcurve`/`a2a3-synth-fcurve-n1024` 均适用，见 decision-log 2026-09-27）
   a3-op-scan 追加观测（**同样描述性非 claim、禁作Δ/阈值证据**，来源 `workspace/probes/a3-op-scan/results.json`：Tier-X，N=1024，6 f 点 {1.30,1.40,1.60,1.80,2.20,2.80}×8 seeds×16 blocks=768 块，48/48，wall 658.09 s，RSS 0.36 GiB，reruns=0，status ok）：
   A2-SC FER 均值：f=1.30→0.8125，f=1.40→≈0.5312（约值，截断），f=1.60→≈0.1562（约值，截断），f=1.80→0.0234，f=2.20→0，f=2.80→0（SCL8 同步，对照健康）；
   A3op FER 均值：f=1.30–2.20 全 1.0000，f=2.80→0.9531；
   A3op exact：f≤2.20 合计 0/640，f=2.80 为 6/128（seed 分布 2404×1/2405×1/2407×2/2408×2，其余 4 seeds（2401/02/03/2406）为 0），总计 6/768；
   oracle exact：f=2.20 为 12/128，f=2.80 为 122/128，总计 134/768；
   undetected=0 全局隔离；decode_failed/resource_abort 全零；divergence defined 768/true 759 report-only；
-  operational首次成功落在(2.20,2.80]，oracle先行；f≤2.20五点0/640与f=2.80的6/128共同构成‘结构性失败vs码率不够’分离的描述性输入 (非证据)；A2对照健康 (f=2.20/2.80零误)。
+  operational首次成功落在(2.20,2.80]，oracle先行；f≤2.20五点0/640与f=2.80的6/128共同构成‘结构性失败vs码率不够’分离的描述性输入 (非证据)；A2对照健康 (f=2.20/2.80零误)。（已撤回：table 符号缺陷，见 decision-log 2026-09-27）
    oracle-L2 全披露追加观测（**同样描述性非 claim、禁作Δ/阈值证据**，来源 `workspace/probes/oracle-l2-fulldisclosure/results.json`：Tier-X，N=1024，单点 sanity_k2N，2 cells（2 seeds×16 blocks=32 块），wall 53.39 s，reruns=0，status ok；ACC-09“L-H3 排除通路 sane”描述性）：
    k1=10/k2=1024（=N）/d2 全集（0..1023），disclosed=5170 bits（f_book≈5.41819，tag excluded），H≈0.93183，kdb 5234；
    oracle 臂 exact 32/32（per-seed 各 16/16），op 臂 32/32 verify_failed，undetected=0 全局隔离；divergence defined 32/true 32 report-only；
-   结论句仅允许：L-H3 排除、oracle-L2 通路 sane（描述性非 verdict）；以上合成观测仍不得作为 Δ 取值或阈值证据（解读禁令不变）。
+   结论句仅允许：L-H3 排除、oracle-L2 通路 sane（描述性非 verdict）；以上合成观测仍不得作为 Δ 取值或阈值证据（解读禁令不变）。（已撤回：table 符号缺陷，见 decision-log 2026-09-27）
    k2 剂量 ramp 追加观测（**同样描述性非 claim、禁作Δ/阈值证据**，来源 `workspace/probes/k2-dose-ramp/results.json`：Tier-X，N=1024，k2∈{200,400,700,1024}×2 seeds×16 blocks=128 块，8/8 cells，wall 97.17 s，RSS 207 MiB，reruns=0，status ok；ACC-09“L-H2 倾向剂量敏感”描述性）：
    disclosed={1050,2050,3550,5170} bits，f_book≈{1.10041,2.14841,3.72042,5.41819}（tag excluded）；
    oracle exact 率：k2=200 为 0/32（per-seed 各 0/16），k2=400 为 2/32（per-seed 各 1/16），k2=700/1024 各 32/32（per-seed 各 16/16）；
    op 四点均为 0/32（FER 1.0 平坦），undetected=0 全局隔离；divergence defined 128/true 128 report-only；
-   结论句仅允许：剂量形态陡升、L-H2 倾向（L2 构造剂量敏感），L-H1 失配倾向降级，皆描述性非 verdict；以上合成观测仍不得作为 Δ 取值或阈值证据（解读禁令不变）。
+   结论句仅允许：剂量形态陡升、L-H2 倾向（L2 构造剂量敏感），L-H1 失配倾向降级，皆描述性非 verdict；以上合成观测仍不得作为 Δ 取值或阈值证据（解读禁令不变）。（已撤回：table 符号缺陷，见 decision-log 2026-09-27）
 - A1a 描述性注记（非证据）：链式闭合确认 B0 地板 f≈1.246（f2=1）/1.265（f2=2）；
   若 R2 目标 f 区间定在地板之上，测量只能复述平凡方案——目标区间归 §9/未来规划，
   本单不裁 f 目标。

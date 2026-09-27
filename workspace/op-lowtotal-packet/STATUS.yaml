@@ -83,3 +83,5 @@ claim_boundary:
 git_boundary:
   no_add_no_commit_no_push_no_stage: true
   note: all git actions suspended pending explicit user instruction
+post_hoc_annotation: INVALIDATED_BY_TABLE_SIGN_DEFECT_20260927
+post_hoc_note: run.py's table = pmf[(a-b)%Q] should be pmf[(b-a)%Q] (mirror channel); see docs/decision-log.md 2026-09-27 "合成两层 GF32 探针 table 符号缺陷确认".
