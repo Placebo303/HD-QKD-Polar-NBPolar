@@ -1,0 +1,29 @@
+# STATUS — GF32 split-dim signal probe (skeleton; BT2 output)
+packet: gf32-splitdim-signal
+change: openspec/changes/nbpolar-gf32-splitdim-probe/
+branch: codex/nbpolar-phase0
+tier: X                # Tier-X probe — explicitly NOT Tier-Y
+authorizations: []     # empty by construction; BT3 verbatim gate NOT GRANTED
+probe_root: workspace/probes/gf32-splitdim-signal/
+next_gate: BT3_PI_VERBATIM_AUTHORIZATION_NOT_GRANTED
+counters: {probe_runs: 0, sc_calls_on_protected: 0, reruns: 0}
+ids:
+  GF32-BT1-PREREG: null   # drafted; main-thread adjudication pending
+  GF32-BT2-PACKET: null   # drafted; main-thread adjudication pending
+  GF32-BT3: not_authorized
+  GF32-BT4: not_authorized
+  GF32-BT5: not_authorized
+  GF32-BT6: not_authorized
+artifacts:
+  - workspace/probes/gf32-splitdim-signal/prereg.md
+  - workspace/probes/gf32-splitdim-signal/TASK_PACKET.md
+  - workspace/probes/gf32-splitdim-signal/STATUS.yaml
+result: {id: null, summary: null, decision_needed: null}
+notes:
+  - id: GF32-BT3-COND          # docs-only pre-BT3 condition fixes; no execution, no authorization
+    scope: "allowed writes only: design.md / TASK_PACKET.md / STATUS.yaml; prereg P line untouched"
+    GF32-BT3-COND-30: "design.md adds D2c V7R3/V54 sibling-negative distinction record (GF32xGF32 two-stage single-level structure vs V7R3 multilayer; q=32 per-stage alphabet vs V54 Q_SUB=32 production shell), citing archive step-3 §7:187-196; enters frozen piece by prereg P's existing design reference; explicit P-line citation, if judged required, = main-thread refreeze decision (P untouched)."
+    GF32-BT3-COND-31: "dFER = FER_B - FER_A unified across prereg METRIC (frozen definition), design D4, TASK_PACKET schema; dFER IS included in results.json completeness criterion (focused review D6) - missing dFER = incomplete record, reported as such."
+    GF32-BT3-COND-32: "无版本留痕风险 + 待主线程裁定: .gitignore:22 (workspace/probes/*) ignores this probe root (verified: git check-ignore -v matches all three files to .gitignore:22; git status empty on probe root) -> no git version trace for packet/prereg/results.json. Proposal only: allow-list append '!workspace/probes/gf32-splitdim-signal/' alongside .gitignore:23-37. Operator MUST NOT edit .gitignore (outside D7 write scope); awaiting main-thread adjudication."
+    GF32-BT3-COND-33: "AUTHORIZATION_PROMPT.md absent by construction: at BT3 main thread must paste the FULL verbatim authorization text (link insufficient); prereg C-line backfilled only after BT3 and recorded verbatim in results.json; P line not modified (frozen at BT1)."
+    bt3_ready: false            # conditions are docs records only; BT3 still requires PI verbatim authorization - NOT GRANTED
