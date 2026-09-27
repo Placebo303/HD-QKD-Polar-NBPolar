@@ -1,0 +1,16 @@
+A3 MC genie design samples=64/64 complete=True wall=856.634
+design sanity H1+H2=0.931629 vs H=0.931830 diff=0.000201 pass=True
+cell T7328_k1_806_k2_6522 k1=806 k2=6522 seed=2026093001 blocks=8 fer_a3_op=1.0000 op_exact=0 oracle_exact=2 wall=1020.3
+cell T7328_k1_806_k2_6522 k1=806 k2=6522 seed=2026093002 blocks=8 fer_a3_op=0.7500 op_exact=2 oracle_exact=6 wall=1184.1
+cell T7328_k1_1026_k2_6302 k1=1026 k2=6302 seed=2026093001 blocks=8 fer_a3_op=1.0000 op_exact=0 oracle_exact=0 wall=1347.3
+cell T7328_k1_1026_k2_6302 k1=1026 k2=6302 seed=2026093002 blocks=8 fer_a3_op=0.8750 op_exact=1 oracle_exact=1 wall=1510.8
+cell T7328_k1_1246_k2_6082 k1=1246 k2=6082 seed=2026093001 blocks=8 fer_a3_op=1.0000 op_exact=0 oracle_exact=0 wall=1674.5
+cell T7328_k1_1246_k2_6082 k1=1246 k2=6082 seed=2026093002 blocks=8 fer_a3_op=1.0000 op_exact=0 oracle_exact=0 wall=1838.3
+cell T7634_k1_840_k2_6794 k1=840 k2=6794 seed=2026093001 blocks=8 fer_a3_op=0.6250 op_exact=3 oracle_exact=7 wall=2001.6
+cell T7634_k1_840_k2_6794 k1=840 k2=6794 seed=2026093002 blocks=8 fer_a3_op=0.6250 op_exact=3 oracle_exact=8 wall=2165.1
+cell T7634_k1_1069_k2_6565 k1=1069 k2=6565 seed=2026093001 blocks=8 fer_a3_op=0.5000 op_exact=4 oracle_exact=4 wall=2328.4
+cell T7634_k1_1069_k2_6565 k1=1069 k2=6565 seed=2026093002 blocks=8 fer_a3_op=0.2500 op_exact=6 oracle_exact=6 wall=2492.8
+cell T7634_k1_1298_k2_6336 k1=1298 k2=6336 seed=2026093001 blocks=8 fer_a3_op=1.0000 op_exact=0 oracle_exact=0 wall=2656.3
+cell T7634_k1_1298_k2_6336 k1=1298 k2=6336 seed=2026093002 blocks=8 fer_a3_op=0.8750 op_exact=1 oracle_exact=1 wall=2820.3
+WROTE /mnt/d/Code/HD-QKD_Polar_Comparison-nbpolar/workspace/probes/op-n32k-fine-f4/results.json
+STATUS ok WITHIN True CELLS {'expected': 12, 'completed': 12} WALL 2820.295

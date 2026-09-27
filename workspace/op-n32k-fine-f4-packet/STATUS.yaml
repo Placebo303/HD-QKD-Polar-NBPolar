@@ -1,0 +1,35 @@
+probe_id: op-n32k-fine-f4
+tier: X
+claim_bearing: false
+authorized_by: PI (Tier-X probe authorization relayed by main thread, 2026-09-27)
+probe_root: workspace/probes/op-n32k-fine-f4/
+packet_root: workspace/op-n32k-fine-f4-packet/
+predecessor: workspace/probes/op-fix-n32k-alloc/ (reviewed PASS, sign-fixed)
+delta_note: grid f_book {1.20,1.25} replacing {1.15,1.30}; k1 share {0.11,0.14,0.17} replacing {319/6811,0.09,0.14,0.20}; new seeds/output-root; added in-run post-design sanity assertion (|H1+H2-H|<=0.01, STOP on violation); design_seed/DESIGN_MC/channel/BLOCKS unchanged (design reused-equivalent)
+state: executed_awaiting_focused_review
+prereg_frozen: 2026-09-27T14:20+08:00 (local; approx, see EXECUTION_TRANSCRIPT)
+results_json_absent_before_launch: true
+ast_format_check: {format_exprs: 8, mismatches: 0, result: PASS}
+label_uniqueness_check: {n_labels: 6, n_unique: 6, result: PASS}
+launch_attempt_1: FAILED (WSL VM torn down / mount race before the process could start; no
+  process, no log file, no results.json written -- see EXECUTION_TRANSCRIPT S4 incident note;
+  not counted as a probe rerun since no measurement or implementation-defect execution occurred)
+launched: 2026-09-27T14:27:03+08:00 (host `date`; WSL PID 1303073)
+run_status: ok
+within_budget: true
+wall_s: 2820.2952588569606
+peak_rss_bytes: 1188827136
+design_H1_mean: 0.09426256853168727
+design_H2_mean: 0.8373663083818641
+design_H1_plus_H2_actual_run: 0.9316288769135513
+design_sanity_abs_diff: 0.0002011305705741373
+design_sanity_pass: true
+design_mc: 64
+blocks_per_point: 16
+cells: {expected: 12, completed: 12}
+budget: {wall_s: 4000, rss_gib: 4}
+reruns: 0
+execution_error_records: none
+operational_totals: {exact: 20, undetected: 0, verify_failed: 76, decode_failed: 0, resource_abort: 0}
+oracle_totals: {exact: 35, undetected: 0, verify_failed: 61, decode_failed: 0, resource_abort: 0}
+key_dependent_bits_observed: [36704, 38234]

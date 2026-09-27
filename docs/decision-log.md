@@ -5831,3 +5831,29 @@ Archive: `openspec/changes/nbpolar-native-highdim-exploration/` → `openspec/ch
 - 用本探针的 f_book 网格反推或修改 R2 测量合同的 f/份额取值——否决：违反 AGENTS.md §10.4 Tier-X 禁止事项（不得作为 R2 sizing 输入）。
 
 **Consequences**: 产物落在 `workspace/probes/op-fix-n1024-alloc/`、`workspace/probes/op-fix-n32k-alloc/`（各含 `run.py`/`prereg.md`/`results.json`/`run_stdout.log`；N=1024 探针另有 `prelaunch_check.py`）与 `workspace/op-fix-n1024-alloc-packet/`、`workspace/op-fix-n32k-alloc-packet/`（各含 `STATUS.yaml`/`EXECUTION_TRANSCRIPT.md`/`FOCUSED_REVIEW.md`）。索引 `docs/nbpolar/DOCUMENT_INDEX.md` 增两行指向两份 `FOCUSED_REVIEW.md`；`docs/nbpolar/STATE.md` §0 增补 3–4 行描述性总结（标注 `描述性 Tier-X`）。M2 状态串、R2 合同状态、G2/G3 冻结的 K1=319/K2=6492、`STATE.md:65` route lock 均**未改动**；不构成任何新的 FER/效率/密钥率主张，不解除任何锁定。
+
+## 2026-09-27 — N=32768 分配网格补充探针：F4 细网格 `op-n32k-fine-f4`（A1）与真实匹配信道 `op-n32k-matched`（A2）（Tier-X 描述性，独立 FOCUSED_REVIEW 复核）
+
+**Decision**: 记录两个 2026-09-27 Tier-X 描述性探针，均已完成独立 focused numerical review（`workspace/op-n32k-fine-f4-packet/FOCUSED_REVIEW.md`、`workspace/op-n32k-matched-packet/FOCUSED_REVIEW.md`，同一份评审文档覆盖两者）。
+
+- **A1** `op-n32k-fine-f4`（F4@q1024，N=32768，H=0.9318300074841255，沿用 `op-fix-n32k-alloc` 的符号修正表与 design_seed）：verdict **PASS**，状态 `DESCRIPTIVE_TIER_X_REVIEWED`。k1 占比细网格 {11%,14%,17%} × f_book∈{1.20,1.25}；operational exact/16 —— f1.20: 2/1/0，f1.25: 6/10/1；oracle exact/16 —— f1.20: 8/1/0，f1.25: 15/10/1。
+- **A2** `op-n32k-matched`（信道匹配真实 G1R2 CAL32 三元组：p(δ=0)=0.7562、p(δ=-1)=0.2419、p(δ=+1)=0.0018，其余 1021 个偏移量为 0，renormalized 求和为 1；H=0.8165136251021449；N=32768，新 design_seed，因信道改变不复用 A1 设计）：verdict **PASS_WITH_COMMENTS**，状态 `DESCRIPTIVE_TIER_X_REVIEWED_WITH_COMMENTS`。k1 占比 {2%,4.69%,9%,14%} × f_book∈{1.15,1.20,1.30}；operational exact/16 —— f1.15: 0/1/0/0，f1.20: 0/10/0/0，f1.30: 0/13/14/4；oracle exact/16 —— f1.15: 5/1/0/0，f1.20: 14/13/0/0，f1.30: 16/16/14/4。另有 25 个 `decode_failed`（源于 1021 个 exact-zero delta 信元导致的零似然冲突；runner 路径未使用任何 floor，`apply_explicit_floor` 存在但本次未启用；独立复核确认与 `undetected`/成功计数隔离，`decode_failed` 未人为压低 exact 计数——`T6956_k1_139` 处 oracle 达 16/16 说明该失效由分配（L1 位数不足）驱动，而非数值噪声）。
+
+**描述性观察（不构成结论，non-claim）**：
+(i) 在真实匹配信道上，真实数据占比 4.69% 在 f∈[1.20,1.30] 已接近该网格测得的最优占比（f1.30 时 13/16 vs 该网格全局最优 14/16 于占比 14%）——即 A1（F4）网格此前测得的高占比最优点主要由 F4 自身的残余尾部质量驱动，并非普适现象；
+(ii) 匹配信道在 f≈1.30 的 13–14/16 与真实数据 G2/G3 在 f≈1.275 实测的 11/14、8/14 方向一致——但这是跨域对照，不构成幅值可比性；
+(iii) SC 最优点在 f≈1.20 时为 10/16（匹配信道）/2/16（F4）；f=1.15 时两信道均 ≤1/16——分配杠杆本身在 f≤1.20 时未达到此前提议的 M-usable FER≤0.02 目标；oracle 在 f1.20 的小占比处已达 13–14/16。
+
+**规划含义（非结论）**：以上观察指向译码器强度（SCL）是下一个杠杆；SCL 锁定修正案正在另行起草中（`openspec/changes/nbpolar-scl-lock-amendment/`，由并发子代理负责，本条目及本次沉淀操作不触碰其目录）。
+
+**Boundaries（不得外推）**：Tier-X non-claim，合成域为主（A2 信道参数取自真实经验先验但 (x,y) 抽样仍为合成绘制，非真实帧）；不含任何 FER/效率/R2 sizing 输入/晋级主张；不解除 `STATE.md:65` route lock；不改变 M2 = `VALIDATED_AT_FROZEN_CONTRACT`、R2 合同未冻结的状态；冻结 K1/K2=319/6492 不变。
+
+**Context**: A1 是 `op-fix-n32k-alloc` 的细网格延伸（k1 占比网格从 {4.69,9,14,20}% 加密到 {11,14,17}%，f_book 限定 {1.20,1.25}），设计"reused-equivalent"（沿用同一 channel/design_seed/DESIGN_MC）。A2 是新信道探针（channel 改变 ⇒ 新 design_seed=2026093000），信道参数取自 `.workbuddy/queue/NBPOLAR-M2-PRIOR-G1R2-W200-CIRCULAR/G1R2_ADJUDICATION.md` 记录的真实 G1R2 CAL32 三元组，renormalize 后 p(δ=0)=0.7562756275627562、p(δ=+1)=0.0018001800180018、p(δ=-1)=0.24192419241924193，H=0.8165136251021449（对齐冻结预期 ≈0.8166，误差在舍入范围内）。两探针均沿用 `op-fix-n32k-alloc` 之后的符号修正表 `table[a,b]=pmf[(b-a)%Q]`。独立 focused review 逐点复核：H(F4)/H(matched) 重算一致；totals `round(f*H*N/5)`=7328/7634（A1）、6154/6421/6956（A2）；全部 18 个 `k1=round(share*total)` 精确匹配；`stop_rules_triggered=[]` 且 `undetected=0` 贯穿所有点位与两个全局汇总；A1 launch 首次尝试因 WSL VM 卸载竞争在任何进程启动前死亡（无 stdout、无 results.json），正确排除出 rerun 计数，第二次尝试为唯一测量；A2 单次干净启动，按预注册顺序在 A1 完成后才启动。预算：A1 wall=2820.3s（≤4000s），RSS≈1.19GiB；A2 wall=2520.4s（≤6000s），RSS≈1.20GiB；两者 reruns=0，cells completed=expected（12/12、24/24）。评审附带一条非阻塞 comment：`decode_failed` 是相对 F4 前驱（该处发生次数为 0）的新增结果类别；任何未来 claim-bearing（Tier-Y）对该匹配信道的使用，须应用与真实数据一致的显式 1e-15 floor 惯例，避免 `decode_failed` 在小 k1 占比工作点处成为承重项。
+
+**Alternatives considered**:
+- 把匹配信道 f≈1.30 的 13–14/16 读作与真实 G2/G3（11/14、8/14）幅值可比的效率证据——否决：跨域对照仅方向一致，合成信道的抽样机制、码长下的有限效应与真实帧统计不同，Tier-X 禁止产生 claim。
+- 把 25 个 `decode_failed` 计入 FER 分母或从 exact 计数中扣除——否决：独立复核已确认这些是零似然冲突的硬中止（genuine zero-likelihood conflicts），非"未检出"错误；`undetected` 隔离规则与 FOCUSED_REVIEW 第 6/7 条一致，不得合并入成功/FER。
+- 直接把本次占比最优点（14%/f1.30）作为 SCL 锁定修正案的输入参数——否决：本条目仅是描述性观察，SCL 修正案由并发子代理独立起草，其冻结参数须走自己的 freeze/review 流程，不得由本 Tier-X 观察直接决定。
+- 等 SCL 修正案落地后再统一沉淀本两条探针——否决：AGENTS.md §3 要求发现即记录（append-only），两条探针均已独立完成 review，不应延迟记录。
+
+**Consequences**: 产物落在 `workspace/probes/op-n32k-fine-f4/`（含 `run.py`/`prereg.md`/`results.json`/`run_stdout.log`）、`workspace/probes/op-n32k-matched/`（同样四件套）与 `workspace/op-n32k-fine-f4-packet/`、`workspace/op-n32k-matched-packet/`（各含 `STATUS.yaml`/`EXECUTION_TRANSCRIPT.md`/`FOCUSED_REVIEW.md`）。索引 `docs/nbpolar/DOCUMENT_INDEX.md` 增两行指向两份 packet 的 `FOCUSED_REVIEW.md`；`docs/nbpolar/STATE.md` §0 增补 3–4 行描述性总结（标注 `描述性 Tier-X`）。M2 状态串、R2 合同状态、G2/G3 冻结的 K1=319/K2=6492、`STATE.md:65` route lock 均**未改动**；本条目不构成任何新的 FER/效率/密钥率主张，不解除任何锁定；`openspec/changes/nbpolar-scl-lock-amendment/` 由并发子代理负责，本次沉淀操作未触碰该目录。

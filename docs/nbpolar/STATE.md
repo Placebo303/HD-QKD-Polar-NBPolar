@@ -21,6 +21,8 @@
 - **描述性对照**：真实 K1 占比 = 319/6811 ≈ 4.7%，合成峰带 k1 占比 ≈ 14–18%（仅描述，不构成推荐，不外推）。
 - **状态不变**：M2 = `VALIDATED_AT_FROZEN_CONTRACT`；R2 合同**未冻结**（D-ACQ-02/03/05/06 仍 PENDING，决策卡见 `docs/nbpolar/R2_T4_PI_DECISION_CARDS_20260927.md`）；冻结 K1/K2 = 319/6492 不变；SCL 锁定。
 
+> **N=32768 分配网格补充探针（2026-09-27，描述性 Tier-X，`op-n32k-fine-f4` PASS / `op-n32k-matched` PASS_WITH_COMMENTS）**：F4 细网格 `op-n32k-fine-f4`（占比 11/14/17%）operational exact/16 —— f1.20: 2/1/0，f1.25: 6/10/1（oracle 8/1/0、15/10/1）。真实匹配信道 `op-n32k-matched`（信道=真实 G1R2 CAL32 三元组 p0=0.7562/p(δ=-1)=0.2419/p(+1)=0.0018，H=0.81651；占比 2/4.69/9/14%）operational exact/16 —— f1.15: 0/1/0/0，f1.20: 0/10/0/0，f1.30: 0/13/14/4（oracle 5/1/0/0、14/13/0/0、16/16/14/4；另有 25 个隔离的 `decode_failed`，零似然冲突，未使用 floor）。描述性观察：真实占比 4.69% 在 f≈1.20–1.30 已接近该网格最优（13/16 vs 全局最优 14/16）；匹配信道 f≈1.30 的 13–14/16 与真实 G2/G3 在 f≈1.275 的 11/14、8/14 方向一致（跨域对照，非幅值可比）；分配杠杆在 f≤1.20 未达到 M-usable FER≤0.02 目标（SC 最优仅 10/16 于 f1.20）。规划含义（非结论）：下一杠杆是译码器强度（SCL），修正案另行起草中。详见 `docs/decision-log.md` 2026-09-27「N=32768 分配网格补充探针」条目，`workspace/op-n32k-fine-f4-packet/FOCUSED_REVIEW.md`，`workspace/op-n32k-matched-packet/FOCUSED_REVIEW.md`。
+
 ## 如果只读三件事
 
 1. **leading-candidate 机制（非收敛根因）**：证据指向 M0 非参数先验的先验/地板处理（零 cell 得概率地板 1e-15；每个落地板的真 −1 delta 约 40.42 bits 伪罚；每 block ~44.7 个真 −1 中仅 ~30.4 落在 TRAIN 零 −1 列；S9 合成 B 11/16 vs A 0/16，描述性，见 §1）——但码率、构造、分配、时间相关均**未排除**；54.8σ 余量仅是理想模型下"无码率 binding 证据"，非证伪。

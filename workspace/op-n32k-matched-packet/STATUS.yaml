@@ -1,0 +1,50 @@
+probe_id: op-n32k-matched
+tier: X
+claim_bearing: false
+authorized_by: PI (Tier-X probe authorization relayed by main thread, 2026-09-27)
+probe_root: workspace/probes/op-n32k-matched/
+packet_root: workspace/op-n32k-matched-packet/
+predecessor: workspace/probes/op-n32k-fine-f4/ (probe A1, same session)
+delta_note: channel replaced F4@q1024 -> G1R2-matched (delta pmf from real CAL32 G1R2 triple 0.7562/0.2419/0.0018/0, renormalized to sum 1, raw sum 0.9999); new design_seed=2026093000 (channel changed => new design, not reused-equivalent); grid f_book {1.15,1.20,1.30} x k1 share {0.02,0.0469,0.09,0.14} = 12 points; new seeds; new output root; budget wall<=6000s
+state: executed_awaiting_focused_review
+launch_gate: after op-n32k-fine-f4 (probe A1) finishes (satisfied: A1 completed 2026-09-27T15:14 local, status ok)
+results_json_absent_before_launch: true
+launched: 2026-09-27T15:16:41+08:00 (host `date`; WSL PID 1304555)
+run_status: ok
+within_budget: true
+wall_s: 2520.3979777740315
+peak_rss_bytes: 1198931968
+design_H1_mean: 0.025466380451338196
+design_H2_mean: 0.7910800025267729
+design_H1_plus_H2_actual_run: 0.8165463829781111
+design_sanity_abs_diff: 3.275787596623836e-05
+design_sanity_pass: true
+design_mc: 64
+blocks_per_point: 16
+cells: {expected: 24, completed: 24}
+budget: {wall_s: 6000, rss_gib: 4}
+reruns: 0
+execution_error_records: none
+operational_totals: {exact: 42, undetected: 0, verify_failed: 125, decode_failed: 25, resource_abort: 0}
+oracle_totals: {exact: 83, undetected: 0, verify_failed: 109, decode_failed: 0, resource_abort: 0}
+key_dependent_bits_observed: [1445, 1505, 1630, 30834, 32169, 34780, 34844]
+kdb_note: >
+  Unlike op-n32k-fine-f4 (F4 channel, decode_failed=0 everywhere), this run shows
+  operational decode_failed=25 total, concentrated at 4 of 12 points. kdb values 1445/1505/1630
+  equal 5*k1 exactly for the three points with decode_failed at low-k1 shares (289,301,326) --
+  consistent with layer-1-only failure before any layer-2/tag disclosure. Value 34780 (=5*6956,
+  the T6956 total WITHOUT the +64 tag) appears alongside 34844 (=34780+64, the tag-inclusive
+  value) -- consistent with T6956_k1_139's decode_failed=14 cases failing after full two-layer
+  disclosure but before/without invoking the 64-bit tag. This is descriptive only (inherited,
+  unmodified outcome/kdb semantics); not interpreted further by the operator.
+
+ast_format_check: {format_exprs: 10, mismatches: 0, result: PASS}
+label_uniqueness_check: {n_labels: 12, n_unique: 12, result: PASS}
+source_precision_note: >
+  Task-frozen channel values (0.7562/0.2419/0.0018) are 4-decimal roundings of the source
+  file's exact circular-triple figures (q0=0.7562255859375, q+1=0.241943359375,
+  q-1=0.0018310546875, q_rest=0, which sum to exactly 1.0 with no renormalization needed).
+  The task packet explicitly froze the rounded 4-decimal values and explicitly instructed
+  renormalization (raw sum 0.9999); implemented exactly as frozen, not substituted with the
+  source file's fuller precision -- recorded here as an observation, not changed (operator
+  must not redefine requirements).
