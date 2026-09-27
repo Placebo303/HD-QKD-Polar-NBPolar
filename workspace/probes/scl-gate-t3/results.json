@@ -1,0 +1,282 @@
+{
+  "probe_id": "scl-gate-t3",
+  "tier": "X",
+  "status": "ok",
+  "design_status": "ok",
+  "design_sanity": {
+    "H1_mean": 0.025466380496784773,
+    "H2_mean": 0.7910800025271746,
+    "sum": 0.8165463830239593,
+    "H": 0.8165136251536648,
+    "abs_diff": 3.2757870294553015e-05,
+    "tol": 0.01,
+    "pass": true
+  },
+  "H": 0.8165136251536648,
+  "HN": 26755.518469035287,
+  "points": {
+    "A": {
+      "label": "A_T6421_k1_301_k2_6120",
+      "total": 6421,
+      "k1": 301,
+      "k2": 6120,
+      "share": 0.0469,
+      "op_n32k_matched_exact": "10/16",
+      "disclosed_bits_no_crc": 32105,
+      "disclosed_bits_with_crc": 32121,
+      "f_book_no_crc": 1.1999393709060722,
+      "f_book_with_crc": 1.200537378379503,
+      "key_dependent_bits": 32185
+    },
+    "B": {
+      "label": "B_T6421_k1_578_k2_5843",
+      "total": 6421,
+      "k1": 578,
+      "k2": 5843,
+      "share": 0.09,
+      "op_n32k_matched_exact": "0/16",
+      "disclosed_bits_no_crc": 32105,
+      "disclosed_bits_with_crc": 32121,
+      "f_book_no_crc": 1.1999393709060722,
+      "f_book_with_crc": 1.200537378379503,
+      "key_dependent_bits": 32185
+    }
+  },
+  "sc_part_status": "ok",
+  "sc_part_wall_s": 635.2690688690636,
+  "sc_part_peak_rss_bytes": 893898752,
+  "sc_part_stop_reasons": [],
+  "rows": [
+    {
+      "point": "A",
+      "L": 16,
+      "top_m": 4,
+      "part_status": "ok",
+      "part_wall_s": 9580.776578620891,
+      "part_peak_rss_bytes": 692912128,
+      "n_scl_blocks": 16,
+      "n_oracle_blocks": 16,
+      "n_sc_blocks": 16,
+      "sc_totals": {
+        "exact": 10,
+        "undetected": 0,
+        "verify_failed": 6,
+        "decode_failed": 0,
+        "resource_abort": 0
+      },
+      "scl_totals": {
+        "exact": 16,
+        "undetected": 0,
+        "verify_failed": 0,
+        "decode_failed": 0,
+        "resource_abort": 0
+      },
+      "oracle_totals": {
+        "exact": 16,
+        "undetected": 0,
+        "verify_failed": 0,
+        "decode_failed": 0,
+        "resource_abort": 0
+      },
+      "flips_vs_sc": {
+        "paired_blocks": 16,
+        "sc_fail_scl_success": 6,
+        "sc_success_scl_fail": 0
+      }
+    },
+    {
+      "point": "A",
+      "L": 4,
+      "top_m": 4,
+      "part_status": "ok",
+      "part_wall_s": 2597.4512943909504,
+      "part_peak_rss_bytes": 645136384,
+      "n_scl_blocks": 16,
+      "n_oracle_blocks": 16,
+      "n_sc_blocks": 16,
+      "sc_totals": {
+        "exact": 10,
+        "undetected": 0,
+        "verify_failed": 6,
+        "decode_failed": 0,
+        "resource_abort": 0
+      },
+      "scl_totals": {
+        "exact": 13,
+        "undetected": 0,
+        "verify_failed": 3,
+        "decode_failed": 0,
+        "resource_abort": 0
+      },
+      "oracle_totals": {
+        "exact": 14,
+        "undetected": 0,
+        "verify_failed": 2,
+        "decode_failed": 0,
+        "resource_abort": 0
+      },
+      "flips_vs_sc": {
+        "paired_blocks": 16,
+        "sc_fail_scl_success": 3,
+        "sc_success_scl_fail": 0
+      }
+    },
+    {
+      "point": "A",
+      "L": 8,
+      "top_m": 4,
+      "part_status": "ok",
+      "part_wall_s": 4916.700938550057,
+      "part_peak_rss_bytes": 659451904,
+      "n_scl_blocks": 16,
+      "n_oracle_blocks": 16,
+      "n_sc_blocks": 16,
+      "sc_totals": {
+        "exact": 10,
+        "undetected": 0,
+        "verify_failed": 6,
+        "decode_failed": 0,
+        "resource_abort": 0
+      },
+      "scl_totals": {
+        "exact": 15,
+        "undetected": 0,
+        "verify_failed": 1,
+        "decode_failed": 0,
+        "resource_abort": 0
+      },
+      "oracle_totals": {
+        "exact": 15,
+        "undetected": 0,
+        "verify_failed": 1,
+        "decode_failed": 0,
+        "resource_abort": 0
+      },
+      "flips_vs_sc": {
+        "paired_blocks": 16,
+        "sc_fail_scl_success": 5,
+        "sc_success_scl_fail": 0
+      }
+    },
+    {
+      "point": "B",
+      "L": 16,
+      "top_m": 4,
+      "part_status": "ok",
+      "part_wall_s": 9600.167283921968,
+      "part_peak_rss_bytes": 688594944,
+      "n_scl_blocks": 16,
+      "n_oracle_blocks": 16,
+      "n_sc_blocks": 16,
+      "sc_totals": {
+        "exact": 0,
+        "undetected": 0,
+        "verify_failed": 16,
+        "decode_failed": 0,
+        "resource_abort": 0
+      },
+      "scl_totals": {
+        "exact": 7,
+        "undetected": 0,
+        "verify_failed": 9,
+        "decode_failed": 0,
+        "resource_abort": 0
+      },
+      "oracle_totals": {
+        "exact": 7,
+        "undetected": 0,
+        "verify_failed": 9,
+        "decode_failed": 0,
+        "resource_abort": 0
+      },
+      "flips_vs_sc": {
+        "paired_blocks": 16,
+        "sc_fail_scl_success": 7,
+        "sc_success_scl_fail": 0
+      }
+    },
+    {
+      "point": "B",
+      "L": 4,
+      "top_m": 4,
+      "part_status": "ok",
+      "part_wall_s": 2612.474369404954,
+      "part_peak_rss_bytes": 648749056,
+      "n_scl_blocks": 16,
+      "n_oracle_blocks": 16,
+      "n_sc_blocks": 16,
+      "sc_totals": {
+        "exact": 0,
+        "undetected": 0,
+        "verify_failed": 16,
+        "decode_failed": 0,
+        "resource_abort": 0
+      },
+      "scl_totals": {
+        "exact": 1,
+        "undetected": 0,
+        "verify_failed": 15,
+        "decode_failed": 0,
+        "resource_abort": 0
+      },
+      "oracle_totals": {
+        "exact": 1,
+        "undetected": 0,
+        "verify_failed": 15,
+        "decode_failed": 0,
+        "resource_abort": 0
+      },
+      "flips_vs_sc": {
+        "paired_blocks": 16,
+        "sc_fail_scl_success": 1,
+        "sc_success_scl_fail": 0
+      }
+    },
+    {
+      "point": "B",
+      "L": 8,
+      "top_m": 4,
+      "part_status": "ok",
+      "part_wall_s": 4937.8514699389925,
+      "part_peak_rss_bytes": 656101376,
+      "n_scl_blocks": 16,
+      "n_oracle_blocks": 16,
+      "n_sc_blocks": 16,
+      "sc_totals": {
+        "exact": 0,
+        "undetected": 0,
+        "verify_failed": 16,
+        "decode_failed": 0,
+        "resource_abort": 0
+      },
+      "scl_totals": {
+        "exact": 3,
+        "undetected": 0,
+        "verify_failed": 13,
+        "decode_failed": 0,
+        "resource_abort": 0
+      },
+      "oracle_totals": {
+        "exact": 3,
+        "undetected": 0,
+        "verify_failed": 13,
+        "decode_failed": 0,
+        "resource_abort": 0
+      },
+      "flips_vs_sc": {
+        "paired_blocks": 16,
+        "sc_fail_scl_success": 3,
+        "sc_success_scl_fail": 0
+      }
+    }
+  ],
+  "scl_part_files": [
+    "/mnt/d/Code/HD-QKD_Polar_Comparison-nbpolar/workspace/probes/scl-gate-t3/part_SCL_A_L16.json",
+    "/mnt/d/Code/HD-QKD_Polar_Comparison-nbpolar/workspace/probes/scl-gate-t3/part_SCL_A_L4.json",
+    "/mnt/d/Code/HD-QKD_Polar_Comparison-nbpolar/workspace/probes/scl-gate-t3/part_SCL_A_L8.json",
+    "/mnt/d/Code/HD-QKD_Polar_Comparison-nbpolar/workspace/probes/scl-gate-t3/part_SCL_B_L16.json",
+    "/mnt/d/Code/HD-QKD_Polar_Comparison-nbpolar/workspace/probes/scl-gate-t3/part_SCL_B_L4.json",
+    "/mnt/d/Code/HD-QKD_Polar_Comparison-nbpolar/workspace/probes/scl-gate-t3/part_SCL_B_L8.json"
+  ],
+  "claims": "Tier-X non-claim planning evidence only: no threshold, no pass/fail verdict, no candidate/accepted token, no attempt accounting, no real/artifact data, writes only under workspace/probes/scl-gate-t3/"
+}

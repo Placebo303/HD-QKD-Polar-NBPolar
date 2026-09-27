@@ -5898,3 +5898,30 @@ Archive: `openspec/changes/nbpolar-native-highdim-exploration/` → `openspec/ch
 **Alternatives**: (1) 只保留 D4 点——否决：通过也无法支持真实数据迁移；(2) 以 L2 主导点替换 D4 点——否决：D4 点已由 T1 裁决，保留作 L1 维度对照。
 
 **Consequences**: T3 机器时间约翻倍；真实数据 SCL 仍锁定；另列候选方向（未授权）：构造复现真实 L2 难度的合成信道（时间相关/先验失配 δ 模型），待 T3 后决定。不改 M2 状态串、不改 K1/K2=319/6492、R2 仍未冻结。
+
+## 2026-09-27 — SCL 合成门 T3 执行结果与主线程裁决（Tier-X，独立 focused review PASS_WITH_COMMENTS）；T5 暂缓
+
+**Decision**: `nbpolar-scl-lock-amendment` T2（CRC-16 联合 M=4 两层 SCL 新模块 `scl_joint.py` + 聚焦测试，22 passed）与 T3（Tier-X one-shot 探针 `scl-gate-t3`）均已完成，独立 focused review（`workspace/scl-gate-t3-packet/FOCUSED_REVIEW.md`）判定 **PASS_WITH_COMMENTS**（两条非阻断评论：F6a prereg C 条目文字与 attempt1 实际命令行不完全一致，判断为终端捕获交织瑕疵而非数据问题；F10 packet 目录此前不存在，因执行 subagent 中途因 API 用量上限中断）。主线程按 T1 冻结的判定线（PI 2026-09-27 裁决：L=16 operational ≥15/16 且与 oracle 一致 ⇒ unlock-for-real-data-candidate；≤12/16 ⇒ list-decoding-insufficient）逐点裁决如下。
+
+工作点：`G1R2-matched@q1024`，显式 `1e-15` floor，N=32768，f_book_no_crc=1.1999393709060722（含 CRC-16 f_book_with_crc=1.200537378379503），每点 16 blocks，SCL 与 SC 逐块配对（`sample_pmf` 抽样与 `op-n32k-matched` 逐字节一致）。
+
+- **A 点**（`T6421_k1_301_k2_6120`，k1 份额 4.69%）：SC exact 10/16 → SCL exact L4=13/16、L8=15/16、L16=16/16；oracle exact 14/16、15/16、16/16（与 SCL 逐 L 一致，L16 处 oracle 亦 16/16）；相对 SC 的修复/损坏（sc_fail_scl_success/sc_success_scl_fail）= 3/0（L4）、5/0（L8）、6/0（L16）。
+- **B 点**（`T6421_k1_578_k2_5843`，k1 份额 9%）：SC exact 0/16 → SCL exact L4=1/16、L8=3/16、L16=7/16；oracle exact 1/16、3/16、7/16（与 SCL 逐块完全相同，即 SCL 联合解码在该点等价于 L1-已知 oracle 路径）；修复/损坏 = 1/0（L4）、3/0（L8）、7/0（L16）。
+- 全部 6 行 `undetected=0`、`decode_failed=0`（隔离，未与 exact/FER 合并）。
+
+**裁决（按 T1 判定线逐点适用）**：
+- A 点：L=16 为 16/16 ≥ 15/16，且与 oracle 一致（无 operational 超 oracle 异常）⇒ **`unlock-for-real-data-candidate`**（L1 主导情形下的判定结果）。
+- B 点：L=16 为 7/16 ≤ 12/16 ⇒ **`list-decoding-insufficient`**（L2 主导情形），按 D4 预写结局转向 L2 构造 / N 方向。
+- 综合：真实数据 G2/G3 的失败块中 8/9（M2@32f B 臂）为纯 L2 失败（`workspace/analysis/g2g3-layer-attribution/REPORT.md`，commit `a769ad45`），对应本探针的 B 类工作点，而非 A 类。因此 **T5（真实数据 Tier-Y 骨架准备）暂缓，不自动准备**——A 档 unlock 只覆盖 L1 主导情形，与真实数据的 L2 主导失败模式不匹配，直接据此准备真实数据骨架会误导下一步方向。
+
+**描述性观察（non-claim，不外推）**：B 点 k2=5843 比 A 点 k2=6120 少 277 个符号（约 1385 bit，同一 total=6421 下 k1 更大），SCL 与 oracle 在 B 点逐块完全相同，说明该点的瓶颈是 **L2 披露不足**而非 L1 错误传播；SCL 在该点仍修复 7/16 且无一损坏（sc_success_scl_fail=0）。L 每翻倍，B 点成功块数近似翻倍（1→3→7）——此为单点单次测量的描述，不构成缩放律，不外推到其他工作点或真实数据。
+
+**Boundaries（不得外推）**：Tier-X non-claim；合成 `G1R2-matched@q1024` 信道参数取自真实先验但 (x,y) 抽样仍为合成绘制，非真实帧；不含 FER/效率/R2 sizing/晋级主张；不解除 `STATE.md:65` route lock；不改变 M2 = `VALIDATED_AT_FROZEN_CONTRACT`、R2 合同未冻结的状态；冻结 K1/K2=319/6492 不变；真实数据 SCL 使用仍按设计 D5 独立锁定（本裁决仅解除**合成 Tier-X 门**范围内的锁定条件 (a)/(b)，如 T1 已裁决）。
+
+**Alternatives considered**:
+- 仅按 A 点结果宣布 SCL 对真实数据"解锁候选"并立即准备 T5——否决：真实失败模式（G2/G3 8/9 纯 L2）与 A 点（L1 主导）不匹配，B 点（L2 主导）才是 7/16 ≤ 12/16 的 list-decoding-insufficient 判定，若忽略 B 点直接推进 T5 会构成误导性外推。
+- 把 B 点"SCL 与 oracle 逐块完全相同"读作构造缺陷或 SCL 实现 bug——否决：`workspace/scl-gate-t3-packet/FOCUSED_REVIEW.md` F4 已独立复核确认这是 k1 份额更大（L1 已几乎全部可由 top_m=4 联合展开恢复）下的预期数学后果，非实现异常。
+- 把 L 翻倍时 B 点成功块数近似翻倍（1→3→7）读作可外推的缩放律并据此推荐更大 L——否决：单点单次 one-shot 测量，AGENTS.md §10.4 禁止 Tier-X 产生 claim 或指导性推荐。
+- 等 B 点也达到 unlock 判定线后再统一记录——否决：AGENTS.md §3 要求发现即记录（append-only），T1 判定线本身要求逐点独立适用，不应合并等待。
+
+**Consequences**: T2 产物 `comparison_bench/src/comparison_bench/formal_ir/nbpolar/scl_joint.py`、`comparison_bench/tests/test_nbpolar_scl_joint.py`、`comparison_bench/tests/test_nbpolar_scl.py`（新增相对容差断言，见 `workspace/probes/scl-joint-timing/CODE_REVIEW.md`）、`workspace/probes/scl-joint-timing/`（timing 探针 + code review + review_scratch）。T3 产物 `workspace/probes/scl-gate-t3/`（run.py/aggregate.py/launch/relaunch 脚本/prereg.md/design.json/6 个 part_SCL_*.json + part_SC.json/results.json/日志）与 `workspace/scl-gate-t3-packet/`（`FOCUSED_REVIEW.md` + 新建 `STATUS.yaml`，记录 launch 事故与聚合中断经过）。`openspec/changes/nbpolar-scl-lock-amendment/tasks.md` T2/T3/T4 勾选，T5 标注暂缓（指向本条目）；`docs/nbpolar/STATE.md` §0 增补摘要；`docs/nbpolar/DOCUMENT_INDEX.md` 增两行索引。M2 状态串、R2 合同状态、G2/G3 冻结的 K1=319/K2=6492、`STATE.md:65` route lock、真实数据 SCL 锁定（D5）均**未改动**。

@@ -1,0 +1,31 @@
+Attempt 1 (implementation-defect death before any measurement; kept per
+prereg.md rerun_policy, then relaunched once via relaunch_scl_attempt2.sh).
+
+Command (single-line `&&`/`&` combination -- root cause: bash grammar binds
+`&&` tighter than `&`, so `A && B && C && CMD1 & CMD2 & CMD3 & ... & wait`
+backgrounds the WHOLE `A&&B&&C&&CMD1` chain as one job; only CMD1 (here the
+SC arm) ran inside a subshell that actually executed `cd`/`PROBE=`/`PY=`/
+`export`. CMD2..CMD7 (the 6 SCL/oracle workers) were forked from the
+original shell, which never ran those statements, so $PROBE/$PY were empty
+in their subshells):
+
+wsl.exe -e bash -c 'cd /mnt/d/Code/HD-QKD_Polar_Comparison-nbpolar && PROBE=workspace/probes/scl-gate-t3 && PY=/home/karel_303/.venvs/hd-qkd-polar-comparison/bin/python && export PYTHONDONTWRITEBYTECODE=1 NUMBA_CACHE_DIR=$PROBE/.numba_cache OMP_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 MKL_NUM_THREADS=1 NUMBA_NUM_THREADS=1 && date && "$PY" "$PROBE/run.py" sc > "$PROBE/log_sc.txt" 2>&1 & "$PY" "$PROBE/run.py" scl --point A --L 4 > "$PROBE/log_scl_A_L4.txt" 2>&1 & "$PY" "$PROBE/run.py" scl --point B --L 4 > "$PROBE/log_scl_B_L4.txt" 2>&1 & "$PY" "$PROBE/run.py" scl --point A --L 8 > "$PROBE/log_scl_A_L8.txt" 2>&1 & "$PY" "$PROBE/run.py" scl --point B --L 8 > "$PROBE/log_scl_B_L8.txt" 2>&1 & "$PY" "$PROBE/run.py" scl --point A --L 16 > "$PROBE/log_scl_A_L16.txt" 2>&1 & "$PY" "$PROBE/run.py" scl --point B --L 16 > "$PROBE/log_scl_B_L16.txt" 2>&1 & wait; echo ALL_7_WORKERS_DONE; date'
+
+Captured combined stdout/stderr (interleaved across the 7 backgrounded
+shells; this is the operator's terminal capture, not a probe-written file):
+
+Sun Sep 27 18:16:54 CST 2026
+bash: line 1: /log_scl_B_L16.ALL_7_WORKERS_DONE
+L8.txt: Permission denied
+bash: line 1: /log_scl_A_L16.txt: Permission denied
+bash: line 1: /log_scl_B_L4.txt: Permission denied
+bash: line 1: /log_scl_A_L4.txt: Permission denied
+bash: line 1: /log_scl_A_L8.txt: Permission denied
+[exited with code 0]
+
+Outcome: part_SC.json / log_sc.txt were written correctly (SC arm ran
+inside the correctly-configured subshell). No part_SCL_*.json files were
+created (confirmed by directory listing before relaunch) -- all 6 SCL/
+oracle workers died at the shell-redirection stage, before invoking Python
+at all, i.e. before drawing a single block. Zero measurement lost; this is
+a pure launch-mechanics defect, not a change to any frozen parameter.

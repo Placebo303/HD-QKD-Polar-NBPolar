@@ -1,0 +1,24 @@
+state: reviewed
+focused_review: PASS_WITH_COMMENTS
+tier: X
+reruns: 0
+
+launch_incident: >
+  attempt1's 6 SCL/oracle workers died before any measurement due to a shell
+  redirection/subshell-grouping bug (only the SC arm executed inside the
+  correct subshell); confirmed 0 measurement loss (no part_SCL_*.json existed
+  at the attempt1 timestamp). Relaunched once via relaunch_scl_attempt2.sh,
+  no parameters/seeds/L changed -- covered by the prereg's one-shot
+  "implementation-defect death before measurement" rerun exception.
+
+aggregation_note: >
+  The execution subagent was interrupted mid-aggregation by an API usage
+  cap after all 7 part_*.json files (part_SC.json + 6 part_SCL_*.json) had
+  completed successfully. The main thread ran the frozen aggregate.py on
+  2026-09-27 around 21:2x to produce results.json from the existing part
+  files; no other changes were made.
+
+references:
+  results: workspace/probes/scl-gate-t3/results.json
+  focused_review: workspace/scl-gate-t3-packet/FOCUSED_REVIEW.md
+  decision_log_entry: "docs/decision-log.md 2026-09-27 'SCL 合成门 T3 执行结果与主线程裁决'"

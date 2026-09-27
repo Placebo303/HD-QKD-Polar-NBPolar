@@ -25,6 +25,8 @@
 
 > **PI 裁决（2026-09-27，落盘见 `docs/decision-log.md` 同日"PI 裁决三项"条目）**：SCL 锁对**合成 Tier-X 门**部分解除（按 `openspec/changes/nbpolar-scl-lock-amendment/` 修订，T1 DECIDED：CRC-16 计入披露、L∈{4,8,16}、M=4 联合候选实现约束、工作点 `G1R2-matched@q1024` f_book≈1.20 / k1 份额 4.69%，16 blocks）；**真实数据 SCL 仍锁定**（design D5 不变）。R2 测量合同 D-ACQ-06（执行预算）已 DECIDED（`wall_per_block=40s`/`rss_per_block=2GiB`/`wall_total=5400s`/本机单进程独占，超预算 STOP 不调参）；D-ACQ-02/03/05 仍 PENDING，R2 合同**仍未冻结**。另授权一项只读 G2/G3 逐块记录分层失败归因分析（Analysis B，不读原始数据、不解码）。以上均不改 M2 状态串、不改冻结 K1=319/K2=6492。
 
+> **SCL 合成门 T2/T3 执行结果（2026-09-27，Tier-X，独立 focused review PASS_WITH_COMMENTS，`workspace/scl-gate-t3-packet/FOCUSED_REVIEW.md`）**：T2 新模块 `scl_joint.py`（CRC-16 联合 M=4 两层 SCL）+ 聚焦测试 22 passed。T3 在 `G1R2-matched@q1024`（N=32768，f_book≈1.20）两点各 16 blocks：A 点（k1 份额 4.69%）SC 10/16 → SCL/oracle 在 L16 均 16/16 ⇒ 按 T1 判定线 **unlock-for-real-data-candidate**（L1 主导情形）；B 点（k1 份额 9%）SC 0/16 → SCL/oracle 在 L16 均 7/16（逐块完全相同）⇒ **list-decoding-insufficient**（L2 主导情形）。全部 `undetected=0`、`decode_failed=0`。真实数据 G2/G3 失败块 8/9 为纯 L2（对应 B 类而非 A 类）⇒ **T5（真实数据 Tier-Y 骨架）暂缓，不自动准备**。详见 `docs/decision-log.md` 2026-09-27「SCL 合成门 T3 执行结果与主线程裁决」条目。不改 M2 状态串、不改冻结 K1=319/K2=6492、R2 仍未冻结、真实数据 SCL 仍锁定（D5）。
+
 ## 如果只读三件事
 
 1. **leading-candidate 机制（非收敛根因）**：证据指向 M0 非参数先验的先验/地板处理（零 cell 得概率地板 1e-15；每个落地板的真 −1 delta 约 40.42 bits 伪罚；每 block ~44.7 个真 −1 中仅 ~30.4 落在 TRAIN 零 −1 列；S9 合成 B 11/16 vs A 0/16，描述性，见 §1）——但码率、构造、分配、时间相关均**未排除**；54.8σ 余量仅是理想模型下"无码率 binding 证据"，非证伪。

@@ -42,7 +42,7 @@ remains locked until PI approves.**~~ (superseded 2026-09-27; see
   **[T1 CLOSED — T2 now AUTHORIZED to start; T3 conditionally authorized,
   see below]**
 
-- [ ] T2 — Implement CRC + joint two-layer list scoring in a new code path
+- [x] T2 — **DONE 2026-09-27.** Implement CRC + joint two-layer list scoring in a new code path
   alongside frozen `scl.py` (new module or additive extension per the PI's
   T1 ruling on interface placement; `scl.py`'s existing `L=1`/single-field
   contract stays byte-for-byte reproducible). Focused tests required before
@@ -56,8 +56,14 @@ remains locked until PI approves.**~~ (superseded 2026-09-27; see
     consistent with the C10-style disclosure convention cited in
     `nbpolar-r2-fer-measurement-contract`.
   **[AUTHORIZED — T1 DECIDED 2026-09-27; implement now]**
+  **[DONE 2026-09-27]** New module `comparison_bench/src/comparison_bench/formal_ir/nbpolar/scl_joint.py`
+  + `comparison_bench/tests/test_nbpolar_scl_joint.py`; `test_nbpolar_scl.py`
+  gained one relative-tolerance assertion fix at the `L1` identity check
+  (float64 summation-order 1-ULP gap between `scl.py`'s `+=` accumulation
+  and the reference's vectorized `np.sum`; see
+  `workspace/probes/scl-joint-timing/CODE_REVIEW.md`). 22 passed, 0 failed.
 
-- [ ] T3 — Tier-X probe: three-line prereg (`prereg.md`) + one frozen-command
+- [x] T3 — **DONE 2026-09-27.** Tier-X probe: three-line prereg (`prereg.md`) + one frozen-command
   run + one `results.json` at the D4 working point (channel `G1R2-matched@q1024`,
   N=32768, f_book≈1.20, k1 share 4.69%) across L ∈ {4,8,16}; probe-root-only
   writes (`workspace/probes/<id>/`); focused numerical review (commands,
@@ -73,14 +79,28 @@ remains locked until PI approves.**~~ (superseded 2026-09-27; see
   f_book≈1.20, k1 share 9% (`T6421_k1_578_k2_5843`; SC op 0/16, oracle
   0/16 ⇒ L2-dominated), same L ladder, same outcome bands applied per point.
   The D4 point (share 4.69%) is unchanged.
+  **[DONE 2026-09-27]** Independent focused review
+  `workspace/scl-gate-t3-packet/FOCUSED_REVIEW.md` = PASS_WITH_COMMENTS. Full
+  result and adjudication recorded verbatim in `docs/decision-log.md`
+  2026-09-27 "SCL 合成门 T3 执行结果与主线程裁决" entry: A point
+  (`T6421_k1_301_k2_6120`, share 4.69%) L16 operational 16/16, oracle-consistent
+  ⇒ `unlock-for-real-data-candidate` (L1-dominated case); B point
+  (`T6421_k1_578_k2_5843`, share 9%) L16 operational 7/16 ⇒
+  `list-decoding-insufficient` (L2-dominated case).
 
-- [ ] T4 — Record the T3 outcome against the T1-decided D4 bands in
+- [x] T4 — **DONE 2026-09-27.** Record the T3 outcome against the T1-decided D4 bands in
   `docs/decision-log.md` (append-only) and, if the PI rules it in scope,
   a `docs/nbpolar/STATE.md` §0 sync line. This does not change the SCL lock
   string by itself — only T1's ruling can do that. **[NOT AUTHORIZED by this
   change; requires the PI's own decision-log/STATE update decision]**
+  **[DONE 2026-09-27]** Recorded in `docs/decision-log.md` 2026-09-27 "SCL
+  合成门 T3 执行结果与主线程裁决" entry (see T3 above) and in
+  `docs/nbpolar/STATE.md` §0. Per that entry's adjudication, T5 below is
+  deferred rather than auto-prepared.
 
-- [ ] T5 — If T3/T4 land in the "unlock-for-real-data-candidate" band: prepare
+- [ ] T5 — **暂缓（见 decision-log 2026-09-27 "SCL 合成门 T3 执行结果与主线程裁决"）。**
+  A 点 unlock 仅覆盖 L1 主导情形，真实数据 G2/G3 失败模式 8/9 为纯 L2（B 类），
+  两者不匹配，故不自动准备真实数据 Tier-Y 骨架。If T3/T4 land in the "unlock-for-real-data-candidate" band: prepare
   (do not execute) a real-data Tier-Y packet skeleton (`TASK_PACKET.md`,
   `PROMPT.md`, `STATUS.yaml`, `AUTHORIZATION_PROMPT.md` with
   `authorizations: []`) per AGENTS.md §10.1/§10.4. This task produces no
