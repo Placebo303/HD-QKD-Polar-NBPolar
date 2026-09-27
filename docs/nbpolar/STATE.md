@@ -5,6 +5,18 @@
 > 凡 `描述性` = Tier-X / Tier-Y descriptive-only，non-claim，不作 FER/效率/晋级证据。
 > **⚠ 2026-09-22 G3（主线 R2 已裁决）**：G3 接受 `NBPOLAR_M2_PRIOR_G3_SUCCESS`；**M2 = `VALIDATED_AT_FROZEN_CONTRACT`**（仅第二级）。三个独立评审真实发生且通过（transcript：Pre-EXECUTE `ses_f37a…` 12/12、DELTA `ses_f379…`、Pre-RESULT `ses_f377…` MAY PROCEED），但断言时未落盘；在盘独立 Pre-RESULT（`PRE_RESULT_REVIEW.md` 8/8）已补。STATUS G3-1 系转录滞后（18:02:14 关闭）。两主线程碰撞产生两条虚假时间断言（F5/F6，维持标注）。`3f5b374a` 的"Pre-EXECUTE 从未执行"系矫枉过正，已纠正（F17）。见 `.workbuddy/queue/NBPOLAR-M2-PRIOR-G3-CONFIRM/G3_PROCESS_DEVIATION.md`。
 
+## §0 2026-09-27 更新（合成 Tier-X，描述性）
+
+> 全部为合成域 Tier-X、non-claim；不改任何状态串，不作 FER/效率/晋级/R2 sizing 输入。汇总见 `docs/nbpolar/SYNTHESIS_20260927.md`。
+
+- **范围**：六个合成 Tier-X 探针（C1 + k1 剂量粗/细网格 + 固定总量配比 + 固定配比缩放 + 低总量配比 + 峰带细化），F4@q1024、N=1024、每点 32 blocks、各自 one-shot。
+- **C1**：k1=10 时 operational 0/32 而 oracle 32/32 ⇒ operational 全灭的一阶原因是 **L1 披露不足**，不是 L2 信息集。
+- **C2**：固定总量 560（2800 bits，f_book≈2.93）下，仅改 k1/k2 配比即可使 operational 从 0/32 升至 28/32；峰值为平台，k1≈80–100 最高，宽约 k1∈[60,120]。
+- **C3**：最优配比随总量移动；总量 448 最高仅 1/32，总量 336 全零。
+- **⚠ 主线程 caveat（新，重要）**：合成 N=1024 比真实 N=32768 短 32×；N=1024 下 f≈2.93 的地板很可能由**有限码长损失**主导，因此 C3 / SYNTHESIS §4 的"仅靠重分配到不了 f≈1.27"**不得**套用到真实区间——真实 G2/G3 已在 f≈1.275 取得 11/14 与 8/14。N=32768 合成配比跟进探针进行中（id `op-n32k-ratio`）。
+- **描述性对照**：真实 K1 占比 = 319/6811 ≈ 4.7%，合成峰带 k1 占比 ≈ 14–18%（仅描述，不构成推荐，不外推）。
+- **状态不变**：M2 = `VALIDATED_AT_FROZEN_CONTRACT`；R2 合同**未冻结**（D-ACQ-02/03/05/06 仍 PENDING，决策卡见 `docs/nbpolar/R2_T4_PI_DECISION_CARDS_20260927.md`）；冻结 K1/K2 = 319/6492 不变；SCL 锁定。
+
 ## 如果只读三件事
 
 1. **leading-candidate 机制（非收敛根因）**：证据指向 M0 非参数先验的先验/地板处理（零 cell 得概率地板 1e-15；每个落地板的真 −1 delta 约 40.42 bits 伪罚；每 block ~44.7 个真 −1 中仅 ~30.4 落在 TRAIN 零 −1 列；S9 合成 B 11/16 vs A 0/16，描述性，见 §1）——但码率、构造、分配、时间相关均**未排除**；54.8σ 余量仅是理想模型下"无码率 binding 证据"，非证伪。
