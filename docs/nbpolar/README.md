@@ -21,6 +21,9 @@ packet is P20A, an injected-only resource-classification and endpoint-
 instrumentation repair awaiting explicit authorization. No new protected-data
 read or decoder experiment is authorized.
 
+> 2026-09-23 note: the G1–G4 packet sequence (including G3) has superseded
+> P20A as the next packet; authoritative status lives in `STATE.md`.
+
 See `REAL_DATA_FEASIBILITY_STRATEGY.md` for the current route and stop rules.
 
 The first implementation target is a native GF(32) source-polarization code:

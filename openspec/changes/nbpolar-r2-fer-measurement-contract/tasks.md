@@ -68,20 +68,33 @@ PI adjudicates the ledger to `DECIDED` / `DEFERRED` / `NOT_APPLICABLE`:
 
 Only `DECIDED` rows are frozen into the contract body (D3). Blocking gate for T5.
 
-- Needs user authorization: **PI decision required** (planner cannot self-adjudicate).
+- Needs PI adjudication for the remaining PENDING rows; the partial 2026-09-24
+  record does not complete T4. This does not authorize acquisition or execution.
 
-### T4 pending table (all PENDING; owner=PI; planner does not self-adjudicate)
+### T4 current status (partial PI adjudication; as of 2026-09-24)
 
-Frozen numbers are unchanged (Δ=0.10, R-a, w=0.10, p=3/14, z=1.96, n=65,
-K1=319/K2=6492). Only `DECIDED` rows enter the frozen body at T4 (see
+The PI recorded a partial T4 adjudication in `docs/decision-log.md` (2026-09-24
+R2 T4 PI adjudication). D-FER-01..03 are explicitly decided and transcribed in
+the contract ledger. The same entry identifies four remaining inputs that block
+T5/T6: D-ACQ-02/03/05/06. Other rows without an explicit row-level disposition
+remain `PENDING`; do not infer their states from the aggregate decision text.
+The current K_total remains at G2/G3 (K1=319/K2=6492); this does not freeze a
+future rate change. Only `DECIDED` rows enter the frozen body at T4 (see
 `tasks.md:57` for the T4 gate).
 
-| Pending item | Question | Owner | State | Retrigger |
+| Explicit T5/T6 blocker | Question | Owner | State | Retrigger |
 |---|---|---|---|---|
-| Source list (来源) | Which acquisition sources may supply confirmation blocks | PI | PENDING | retrigger=parsed ledger arrival; no source is consumed before T4 |
-| CAL-EVAL-RESERVE partition | Per-acquisition CAL / EVAL / RESERVE quotas under C10/C11 (mutually exclusive, never reflow) | PI | PENDING | retrigger=T5 quota arithmetic; must be fixed before T5 |
-| Comparability conditions (可比条件) | Same pairing/contract/`undetected` convention required for any comparison row | PI | PENDING | retrigger=paired-design item; R2 rows stay single-method until decided |
-| Budget numbers (预算) | Wall/RSS/quota budget per C13 (D-ACQ-06) | PI | PENDING | retrigger=S4 quota vs budget reconciliation; conflict is escalated, never traded off |
+| D-ACQ-02 Source list | Which new acquisition sources may supply confirmation blocks | PI / lab contact | PENDING | retrigger=parsed new-source ledger arrival; no source is consumed before T4 |
+| D-ACQ-03 Partition quotas | Per-acquisition CAL / CHAR / HELDOUT / EVAL / RESERVE quotas under C11 | PI / lab contact | PENDING | retrigger=T5 quota arithmetic; quotas and acquisition capacity must be fixed before T5 |
+| D-ACQ-05 Comparability | Baseline and work-point tolerance/conditions | PI / lab contact | PENDING | retrigger=paired-design item; R2 remains single-method; work-point inputs required |
+| D-ACQ-06 Budget | Per-block and total wall/RSS limits and machine/parallelism constraints | PI / lab/operations | PENDING | retrigger=S4 quota-vs-budget reconciliation; conflict is escalated, never traded off |
+
+PI-ready decision cards for the four blockers above (options, consequences, required external fields with units, non-adjudication consequences, owner; **no recommended values and no row state changed**) were prepared on 2026-09-27 at `docs/nbpolar/R2_T4_PI_DECISION_CARDS_20260927.md`. Rows remain `PENDING` until the PI adjudicates them.
+
+D-ACQ-04 (Type0) and D-ACQ-08 (session count), as well as D-FER-04..07 and
+D-ACQ-01/07, remain `PENDING` because the T4 decision-log entry gives no
+row-specific state for them. The session and Type0 questions cross-reference
+the four open-input items; this note does not add separate PI decisions.
 
 ### GATE-T5 — quota arithmetic gate
 
