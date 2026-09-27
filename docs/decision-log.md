@@ -5633,3 +5633,143 @@ Archive: `openspec/changes/nbpolar-native-highdim-exploration/` → `openspec/ch
 - Treat the PASS (or the T3 STRUCT-PASS) as a freeze verdict: rejected — freeze belongs to T4 PI adjudication per design D3.
 
 **Consequences**: Next gate is PI adjudication of the §9 decision items; no measurement value or claim recorded. This entry is append-only; existing entries are unmodified.
+
+## 2026-09-27 — C1 Tier-X 合成探针沉淀 `DESCRIPTIVE_TIER_X_REVIEWED_WITH_LIMITATIONS`（隔夜 P0；docs-only；不 commit / 不 push / 不改状态串）
+
+**Decision**: 把 L2 构造单因子线（algorithm 线 (b)）的 **C1 探针**全流程沉淀为可复现的仓库记录，状态串定为一句话：`DESCRIPTIVE_TIER_X_REVIEWED_WITH_LIMITATIONS`。
+事实集合（逐字来自 `workspace/l2-singlefactor-c1-k550/results.json` 与 `workspace/l2-singlefactor-c1-k550-packet/{STATUS.yaml,EXECUTION_TRANSCRIPT.md,FOCUSED_REVIEW.md}`）：
+
+- d2 设计集重合 **76/550**，`jaccard=0.07421875`，`identical=false` ⇒ 未触发 `overlap_gate_min=495` 的 `non_discriminating` 停测门，8/8 cells 全部测量。
+- **oracle-L2**：BASE（`worst_k(H2,550)`）**64/64 exact**；CAND（`best_k(H2,550)`）**0/64 exact**；per-seed 4/4 方向一致（每 seed 16/16 vs 0/16），配对不一致 `base_only_exact=64 / cand_only_exact=0`。
+- **operational**：两臂均 **0/64 exact、64/64 `verify_failed`**。
+- 隔离项：`undetected=0`、`decode_failed=0`、`resource_abort=0`（四组全零）。
+- 预算：wall **99.90650193498004 s** ≤ 200 s；peak RSS **215662592 B（≈0.201 GiB）** ≤ 1 GiB；`probe_runs=1 / reruns=0`；直连 exit code 0。
+- 披露 `disclosed=2800 bits`（`5*(k1+k2)`，k1=10/k2=550）；64-bit tag **不计入** bookkeeping f、计入 2864 observed key-dependent bits。
+
+独立 focused numerical review 结论 `PASS_WITH_LIMITATIONS_DESCRIPTIVE_ONLY`；主线程裁定：**仅作为该冻结合成点上的描述性 Tier-X 对照**（C1 是刻意构造的低信息反向对照，**不是改进算法**）；`scientific_acceptance: false`；无 token、无晋级、无自动续命。
+
+**Context**: C1 已在 2026-09-25 17:48:46–17:50:27 UTC one-shot 执行完毕并通过 focused review，但仓库层沉淀（decision-log / index / memory / commit 清单）尚未补齐，构成 L2 构造线的 provenance 欠账。本条目由隔夜自动化 P0 阶段写入，属 `docs/nbpolar/OVERNIGHT_PLAN_20260927.md` §2 P0 的动作之一。
+
+**Alternatives considered**:
+
+- 把 C1 的 oracle 分支 64/64 vs 0/64 当成"信息集构造有效"的正向证据并晋级 —— 否决：CAND 是刻意构造的反向对照，且 operational 分支在同一批块上恒为 `verify_failed`，该读数只能支持"oracle 分支对 L2 信息集敏感"这一描述性事实。
+- 把 C1 的数字用作 R2 的 sizing / 样本量输入 —— 否决：Tier-X non-claim，且 R2 合同 NOT frozen、D-ACQ-02/03/05/06 仍 PENDING。
+- 由本阶段执行 `git add/commit` 完成沉淀 —— 否决：隔夜 git 边界（Git Safety Protocol + 用户无明确指示）要求本夜一律挂起 git 动作，只产出 commit-ready 清单。
+
+**Consequences**: 索引 `docs/nbpolar/DOCUMENT_INDEX.md` 增一行指向 `workspace/l2-singlefactor-c1-k550-packet/FOCUSED_REVIEW.md`；`.codebuddy/memory/2026-09-27.md` 与 `.workbuddy/memory/2026-09-27.md` 各记一条；commit-ready 清单写入 `workspace/COMMIT_READY_20260927.md`（**未执行任何 git 动作**）。
+**不产生**：任何 FER / 效率 / 密钥率主张；任何状态串变更（`STATE.md` rung/ladder、M2 状态串、G2/G3 冻结 K1=319/K2=6492 一律未改）；任何 archive / push / route-lock 解除。本条目 append-only，既有条目未修改。
+
+## 2026-09-27 — `op-k1-ramp-k550` Tier-X k1 剂量 ramp 一次性执行与描述性裁定 `DESCRIPTIVE_TIER_X_REVIEWED_DOSE_DIAGNOSTIC`（隔夜 P1–P5）
+
+**Decision**: 完成一次 **operational k1 剂量单因子 Tier-X 探针**（`workspace/probes/op-k1-ramp-k550/`），one-shot 执行，`status=ok`、`probe_runs=1 / reruns=0`、`cells 10/10`，独立 focused numerical review `PASS_WITH_COMMENTS`；主线程裁定为**描述性 Tier-X 剂量诊断**，`scientific_acceptance: false`。
+
+事实集合（逐字来自 `results.json` 与 `workspace/op-k1-ramp-k550-packet/EXECUTION_TRANSCRIPT.md`）：
+
+| k1 | k2 | disclosed_bits | 观测 kdb (=D+64) | operational exact | operational verify_failed | oracle exact |
+|---:|---:|---:|---:|---:|---:|---:|
+| 10 | 550 | 2800 | 2864 | 0/32 | 32/32 | 32/32 |
+| 80 | 550 | 3150 | 3214 | 30/32 | 2/32 | 32/32 |
+| 160 | 550 | 3550 | 3614 | 32/32 | 0/32 | 32/32 |
+| 320 | 550 | 4350 | 4414 | 32/32 | 0/32 | 32/32 |
+| 450 | 550 | 5000 | 5064 | 32/32 | 0/32 | 32/32 |
+
+- 隔离项：五个点、两分支的 `undetected` / `decode_failed` / `resource_abort` **全为 0**；`stop_rules_triggered: []`。
+- 预算：wall **118.95575040299445 s** ≤ 600 s；peak RSS **215814144 B（≈0.201 GiB）** ≤ 1 GiB。
+- 起止：2026-09-26T19:01:06Z → 19:03:06Z；直连 exit code 0；stderr 仅 WSL localhost/NAT 代理诊断，无 Python traceback。
+- k1=10 点复现 C1 的 operational 全 `verify_failed` + oracle 全 exact，确认 `d2=worst_k(H2,550)` 与 C1 BASE 集同一（`design_seed=2026092600` / `DESIGN_MC=128` 未变）。
+
+**裁定结论句（唯一允许的结论形式）**：在 F4@q1024 / BASE `d2=worst_k(H2,550)` / `k2=550` 下，operational exact 计数在 **k1∈(10, 80]** 区间首次脱离 0。**描述性 Tier-X、非 claim。** 该区间是 5 点网格分辨率下的区间陈述，不是断点定位、不是门限。
+
+**Context**: C1（2026-09-25）与 `k2-dose-ramp` 给出单向事实 —— oracle 分支对 L2 信息集敏感（C1 BASE 64/64），但 operational 分支在 C1（k1=10）与 `k2-dose-ramp`（k2∈{200,400,700,1024}）上恒为全 `verify_failed`，而 k1 在该新系列中从未作为单因子变量扫描。按 `AGENTS.md` §1.1，本次动作为"定位 operational 路径的第一个断点"，而非改进算法尝试。有界列表 C2/C3/C4 **未消耗**。
+
+**Alternatives considered**:
+
+- 继续在 oracle 分支上做 C2/C3/C4 构造对照 —— 否决：C1 已产生强分离，重复"信息集敏感性"无新信息。
+- 把 k1≥160 的 32/32 读作效率改进 —— 否决并**明令禁止**：五个点全部是 **bookkeeping-only dose diagnostic**，**任何点都不得称为效率工作点**；`f_book` 从 2.9344 升到 5.2401，泄漏同步上升，operational 计数改善与泄漏上升不可分离解读。
+- 当场起第三个 packet 加密 `(10,80]` 区间 —— 否决：按计划 P5，下一步建议留给明天主线程，本夜不启动。
+- 把该结果用作 R2 sizing 输入 —— 否决：Tier-X non-claim，且 R2 合同 NOT frozen、D-ACQ-02/03/05/06 仍 PENDING。
+
+**Consequences**: 索引 `docs/nbpolar/DOCUMENT_INDEX.md` 增行；commit-ready 清单 `workspace/COMMIT_READY_20260927.md` 增批次；今日 memory 写入。**不产生**任何 FER / 效率 / 密钥率主张、任何状态串变更（rung/ladder、M2 状态串、G2/G3 冻结 K1=319/K2=6492 均未改）、任何 token/晋级/自动续命、任何 R2 数值填写。下一步（明早主线程）：(i) 在 `(10,80]` 内加密取样（需新 packet + freeze review + 明示授权）；(ii) 或转向剂量—泄漏权衡面；(iii) 逐层归因时须注意 k1=10 的 L1 剂量本身即可导致 operational 全灭。本条目 append-only，既有条目未修改。
+
+## 2026-09-27 — Tier-X k1 剂量探针：operational 首次脱离 0 位于 k1∈(10,20]，饱和于 k1=160（合成 F4@q1024；描述性，非 claim）
+
+**Decision**: 在冻结的合成 F4@q1024 + M2 双层 GF32 SC/oracle 路径上完成 **operational k1 剂量单因子探针**（粗网格 `op-k1ramp-k550-base` + 细网格 `op-k1ramp-fine-base`），结论串定为描述性 Tier-X 形态：`DESCRIPTIVE_TIER_X_REVIEWED`。逐点 operational exact 计数（每点 32 块、共享 `d2=worst_k(H2,550)`、`k2=550`、`d1=worst_k(H1,k1)`）：k1 = 10/20/40/60/80/160/320/450 → **0/32、2/32、14/32、24/32、30/32、32/32、32/32、32/32**；oracle 臂在所有点恒为 32/32。首次脱离 0 的区间为 **k1∈(10,20]**，随后单调上升并在 **k1=160** 饱和。所有披露值（2800–5000 bits）为 bookkeeping-only 剂量诊断，**非效率点、非工作点**。预算：粗网格 wall 118.757 s / RSS 0.202 GiB；细网格 wall 85.682 s / RSS 0.201 GiB；两者 `reruns=0`、`undetected=decode_failed=resource_abort=0`。
+
+**Context**: 该探针回应 C1（`l2-singlefactor-c1-k550`）暴露的瓶颈——C1 中 oracle 分支对 L2 信息集极度敏感（BASE 64/64 vs CAND 0/64）而 operational 两臂恒为 0/64，且 `k2-dose-ramp` 每个已测点上 operational 亦为 0/32。k1 在本机新系列中恒为 10、从未作为单因子变量扫描（历史 X05 的 `K1_GRID` 属旧的 K2=140 decoder-free 重放系列，不可比）。粗网格 k1=10 点复现了 C1 的 operational 全灭锚点，且其 oracle 臂为 32/32 ⇒ 低剂量下的 operational 失效不由 L2 信息集解释。同一冻结配置被独立实现并 one-shot 重跑一次（`workspace/probes/op-k1-ramp-k550/`），总计数字完全一致（op `exact 126 / verify_failed 34`、oracle `exact 160`、H/HN/H1/H2 逐位相同）⇒ 作为交叉验证，详见 `workspace/op-k1ramp-k550-packet/DUPLICATE_RUN_NOTE.md`。
+
+**Alternatives considered**:
+- 继续消耗有界列表 C2/C3/C4（再测 L2 信息集对照）——否决：C1 已产生强分离，重复"信息集敏感性"无新信息；operational 全灭才是阻塞项。
+- 把该曲线读作"L1 剂量应提高"的效率建议或工作点——否决：k1 全轴为 bookkeeping-only 剂量诊断；Tier-X 非 claim，不得进 R2 sizing 或晋级。
+- 归因到 L-H1/L-H2/L-H3 任一项目级假设——否决：单探针倾向不得写成已证实/证伪；oracle 臂全点 32/32 只排除"L2 信息集"这一解释，不构成正向归因。
+- 在真实数据上验证 K 分配问题——否决：真实数据执行需独立 packet + freeze review + 逐字授权，本夜未授权、未触碰。
+
+**Consequences**: 产物落在 `workspace/probes/op-k1ramp-k550-base/`、`workspace/probes/op-k1ramp-fine-base/` 及两个 packet 目录（各含 FREEZE_REVIEW / EXECUTION_TRANSCRIPT / FOCUSED_REVIEW / STATUS）。M2 状态串、R2 合同、G2/G3 冻结的 K1=319/K2=6492、`STATE.md:65` route lock 均**未改动**；本夜未执行任何 git 动作。是否把"K 分配"问题推到真实数据属独立决策，需另立 packet。
+
+## 2026-09-27 — 隔夜并发事故：同一冻结配置被一次性执行两次（已作为交叉验证收编，非污染）
+
+**Decision**: 记录并处置隔夜并发导致的**重复 one-shot 执行**。02:50 的自动化 tick 与人工会话在同一分钟内各自准备了同一冻结配置的 k1 剂量探针，分别在 `workspace/probes/op-k1ramp-k550-base/`（02:56:53）与 `workspace/probes/op-k1-ramp-k550/`（03:03:06）各产生一个 `results.json`。裁定：**前者为权威记录**（先写入，且带完整 freeze review / focused review / transcript），后者保留为**独立重跑的交叉验证**，不得另立为第二个科学结果；两者不得被表述为"两次重复实验"的统计意义样本。
+
+**Context**: 根因是自动化 tick 在读取 `workspace/overnight_state_20260927.md` 时，人工会话尚未写入 `last_heartbeat`，并发保护（心跳 < 6 分钟 ⇒ 跳过）无法生效。两套配置逐项相同（同一 grid、k2、d2、design seed/MC、run seeds、信道、先验、toeplitz master、单臂、`reruns=0`），且互不以对方输出为输入；未触碰真实数据、未跑 Tier-Y、未见结果后调参。
+
+**Alternatives considered**:
+- 删除其中一套以保持"单一 one-shot"记录——否决：删除产物破坏可审计性；两套总计数字一致，保留并标注更安全。
+- 把两套结果合并成一个"更大样本"的结论——否决：Tier-X 非 claim，禁止显著性/合并样本表述。
+- 判定为污染源并整体作废——否决：两套独立派生、独立执行、数字一致，无污染路径。
+
+**Consequences**: 新增 `workspace/op-k1ramp-k550-packet/DUPLICATE_RUN_NOTE.md` 固化该事故与处置规则；后续隔夜 tick 必须在动工前写心跳，任何会话打开 `workspace/probes/` 前须先读进度表。本条为 append-only。
+
+## 2026-09-27 — 固定总披露下的 k1/k2 配比探针：同预算改配比使 operational 由 0/32 升至 28/32（合成，描述性）
+
+**Decision**: 完成配比探针 `op-k1k2-split-560`（`k1+k2=560`，每点披露恒为 2800 bits、`f_actual` 恒为 `2.93441397898595`，`k1` ∈ {10,40,80,160,240,320,400,480}、`k2=560-k1`，`d1=worst_k(H1,k1)` 与 `d2=worst_k(H2,k2)` 均逐点重算）。operational exact /32：**0（k1=10/k2=550）、14（40/520）、28（80/480）、1（160/400）、0（240/320 及更大 k1）**；oracle 相应为 32、32、30、1、0、0、0、0。⇒ **单峰非单调，两端退化，最高值仅出现在 k1≈80（k2≈480）窄带**。预算：wall 159.388 s / RSS 0.200 GiB，16/16 cells，`reruns=0`，隔离项全零，`a3_key_dependent_bits_observed=[2864]`（单一值，佐证总披露恒定）。
+
+**Context**: 这是 k1 剂量探针的直接后续——前一探针证明总披露随 k1 增大而增大时 operational 能脱离 0（首次于 k1∈(10,20]，饱和于 k1=160），但那条曲线同时改变了预算，无法区分"加预算"与"改分配"。本探针把总披露钉死为 2800 bits（与 C1 及 k1=10 锚点同一预算），只改 k1/k2 分配比，因此读数只能归因于**分配**而非预算大小。基准点 k1=10/k2=550 即现行冻结配比形态。
+
+**Alternatives considered**:
+- 把峰值配比表述为效率改进或推荐工作点——否决：全轴为 bookkeeping-only 剂量/分配诊断；Tier-X 非 claim；不得进 R2 sizing 或晋级。
+- 把合成的峰值配比外推到真实数据的 K1=319/K2=6492——否决：合成 N=1024、F4 参数信道与真实 d=1024/N=32768 不同 N、不同信道、不同构造；比例外推属未授权推断。真实数据的 K 分配问题只能由独立 packet + freeze review + 逐字授权推进。
+- 对 k1≥240 处双分支同时归零作 L-H 归因——否决：既有规则要求失败不得单归因于某一标签原因。
+- 继续细化峰值带（如 k1∈{60,100,120}）——本夜未做；若做须另起 packet + freeze review，且不得由本条授权。
+
+**Consequences**: 产物落在 `workspace/probes/op-k1k2-split-560/` 与 `workspace/op-k1k2-split-packet/`（FREEZE_REVIEW / EXECUTION_TRANSCRIPT / FOCUSED_REVIEW / STATUS）。M2 状态串、R2 合同、G2/G3 冻结的 K1=319/K2=6492、`STATE.md:65` route lock 均**未改动**；本夜未执行任何 git 动作。该结果**不构成**任何真实数据上的 K 重分配建议。
+
+## 2026-09-27 — 固定配比 1:6 下缩放总预算：低于 2800 bits 即失效（合成，描述性，不构成低 f 不可达结论）
+
+**Decision**: 完成缩放探针 `op-kratio-scale`：固定 `k1:k2 = 1:6`（取自 `op-k1k2-split-560` 观测峰带的**派生选择**，非独立预注册比值），总量 `K_TOTALS=(560,448,336,280,224)` ⇒ `k1/k2 = 80/480、64/384、48/288、40/240、32/192`，披露 `2800/2240/1680/1400/1120 bits`（`f_actual` 2.934414 / 2.347531 / 1.760648 / 1.467207 / 1.173766）。operational exact /32：**2800 → 28**，其余四点**均为 0**；oracle 相应为 30、0、0、0、0。⇒ 在该配比下，观测到仍能维持非零 operational 成功的最低总披露为 **2800 bits（f_actual 2.934414）**，它同时是本网格的最高披露点。预算：wall 115.022 s / RSS 0.201 GiB，10/10 cells，`reruns=0`，隔离项全零。
+
+**Context**: 前两个探针分别证明（a）剂量轴上 operational 能脱离 0 并饱和，（b）同预算下改配比能把 0/32 变成 28/32。本探针问的是下一个自然问题：在"好配比"下把总预算压低还能不能保持成功。答案是**不能**——从 2800 降到 2240 bits（仅 −20%）就完全归零，且两 seed 完全一致（sample_std=0），oracle 分支同步归零。
+
+**Alternatives considered**:
+- 把该结果读作"低 f 不可达"或"f≈1.27 目标无望"——否决：配比 1:6 是从 T=560 的峰带派生的，**低总量下的最优配比可能不同且尚未测量**；本探针只刻画同一配比内的缩放行为，不建立一般性的不可达性。
+- 把 2800 bits / f≈2.93 当作该方案的效率水平——否决：bookkeeping-only 诊断；Tier-X 非 claim；不得进 R2 sizing，不得与真实数据冻结预算或 f 目标作比较。
+- 对总量 ≤448 处双分支同时归零作 L-H 归因——否决：既有规则要求失败不得单归因于某一标签原因。
+- 继续在低总量上搜配比——本夜不做；必须另起 packet + freeze review，且不得由本条授权。
+
+**Consequences**: 产物落在 `workspace/probes/op-kratio-scale/` 与 `workspace/op-kratio-scale-packet/`（EXECUTION_TRANSCRIPT / FOCUSED_REVIEW / STATUS）。本夜四个探针（剂量 / 细网格 / 配比 / 缩放）全部完成并各自通过冻结评审与数值复核。M2 状态串、R2 合同、G2/G3 冻结的 K1=319/K2=6492、`STATE.md:65` route lock 均**未改动**；本夜未执行任何 git 动作。
+
+## 2026-09-27 — 低总量有界配比搜索：2240 bits 下最高仅 1/32，1680 bits 全零（合成，描述性；含一次 implementation-defect 重跑）
+
+**Decision**: 完成有界低总量配比探针 `op-lowtotal-ratio`：总 448 与 336 各四个 k1 配比（比例约 1:13 / 1:6 / 1:3.67 / 1:2.5，含 1:6 锚点），共 8 点、256 块。operational exact：**`T448_k1_32_k2_416` → 1/32（oracle 5/32）**，其余七点 0/32；总 336（1680 bits、f≈1.76）四点全零。预算 wall 158.752 s / RSS 0.201 GiB，16/16 cells，`reruns=0`，隔离项全零，`a3_key_dependent_bits_observed=[1744, 2304]`。
+
+**Context**: `op-kratio-scale` 显示固定 1:6 配比下总 448/336 全零，但那同时固定了配比，无法区分"总量不足"与"配比不当"。本探针在两个低总量上放开配比，答案是：**配比放开后也基本无法恢复**（最高 1/32），且出现非零的点在 `k1:k2≈1:13`，与总 560 的峰值 `≈1:6` 不同 ⇒ **最优配比随总量移动**，故不得把某一总量下的峰值配比外推到其它总量。
+
+**Alternatives considered**:
+- 把该结果读作"低 f 不可达"或"f≈1.27 无望"——否决：网格有界（8 点、两 seed、每点 32 块），未测其它配比/总量/构造/译码组合；Tier-X 非 claim，无阈值与显著性判据。可陈述的只有：在本夜的**合成**证据内，仅靠 K 分配层面的重分配不足以把工作点推向 f≈1.27 量级，要接近该目标更需要算法/构造/译码层面的改变。
+- 隐藏首次 launch 的 `execution_error`——否决：错误记录**保留**为 `results.execution_error_attempt1.json` 并在 transcript 中写明根因与处置。
+- 把第二次 launch 当作违规重跑——否决：首次 launch 无任何 records/points/verdict（纯 `execution_error`），不存在"看到结果后调参"；依仓库既有先例（patch 后的首次真跑不算 Tier-Y rerun），修复实现缺陷后的一次测量 launch 成立。
+- 对总 336 处双分支同时归零作 L-H 归因——否决：既有规则禁止失败的单因归因。
+
+**Consequences**: 产物落在 `workspace/probes/op-lowtotal-ratio/`（含保留的错误记录）与 `workspace/op-lowtotal-packet/`。本夜共五个 Tier-X 合成探针、五次冻结评审、五次执行（含一次缺陷重跑）、四次数值复核。第三次出现机械派生的字符串/格式化缺陷 ⇒ 该失败模式应固化为"每次派生必跑 AST 占位符与实参一致性检查 + 聚合键唯一性检查"。M2 状态串、R2 合同、G2/G3 冻结的 K1=319/K2=6492、`STATE.md:65` route lock 均未改动；本夜未执行任何 git 动作。
+
+## 2026-09-27 — 峰值带细化：峰顶位于 k1≈80–100、峰宽约 k1∈[60,120]（总 560，2800 bits 恒定；合成，描述性）
+
+**Decision**: 完成峰值带细化探针 `op-peak-refine`：总 `k1+k2=560` 恒定（每点 2800 bits，`a3_key_dependent_bits_observed=[2864]` 单一值佐证），`k1 ∈ {60,100,120}` ⇒ `k2 = 500/460/440`，`d1=worst_k(H1,k1)` 与 `d2=worst_k(H2,k2)` 逐点重算。operational exact /32：**k1=60 → 24、k1=100 → 26、k1=120 → 20**；oracle 相应为 32、26、20。与 `op-k1k2-split-560` 的已测点合并后，曲线为平滑单峰：**峰顶 k1≈80–100（28/32 与 26/32），峰宽约覆盖 k1∈[60,120]（24/26/20）**，两侧快速退化（k1=40→14、k1=160→1、k1≥240→0）。预算：wall 84.256 s / RSS 0.201 GiB，6/6 cells，`reruns=0`，隔离项全零。
+
+**Context**: 粗网格只在峰带内有一个点（k1=80 → 28/32），无法区分"尖峰"与"平台"。细化后确认是**平台**而非尖峰：峰带内三个点均在 20–28/32 区间，因此粗网格的读数被夹住（bracketed）而非孤立。同时观察到 oracle 臂比 operational 更早退化（k1=80→30、100→26、120→20），与"总预算固定下 L1 条件增强必然挤压 L2 条件"一致。
+
+**Alternatives considered**:
+- 把峰带平台读作"稳健可用工作区间"——否决：bookkeeping-only 分配诊断；Tier-X 非 claim；不得进 R2 sizing 或晋级，不得称为工作点。
+- 把峰顶位置外推到真实数据配比——否决：合成 N=1024 与真实 N=32768、d=1024、经验信道不同；外推属未授权推断。
+- 用峰带结果推翻总量/低总量探针的边界结论——否决：峰带仅在 2800 bits 处成立；总量降低后即便放开配比仍然坍塌（低总量有界搜索最高 1/32）。
+- 对高 k1 端双分支共同退化作 L-H 归因——否决：既有规则禁止失败的单因归因。
+
+**Consequences**: 产物落在 `workspace/probes/op-peak-refine/` 与 `workspace/op-peak-refine-packet/`。本夜共六个 Tier-X 合成探针、六次冻结评审、七次 launch（含一次缺陷重跑 = 六次测量）、五次独立数值复核。至 08:00 停表前不再新增探针。M2 状态串、R2 合同、G2/G3 冻结的 K1=319/K2=6492、`STATE.md:65` route lock 均未改动；本夜未执行任何 git 动作。
