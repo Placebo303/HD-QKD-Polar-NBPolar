@@ -34,7 +34,7 @@ classification: "real-data descriptive diagnostic"  # INHERITED (D1_classificati
 state: completed_descriptive   # attempt 1 completed exit 0; see execution.attempt_1 below and EXECUTION_TRANSCRIPT.md
 next_gate: PRE_RESULT_REVIEW   # independent reviewer must check results.json/EXECUTION_TRANSCRIPT.md before any adjudication/decision-log citation
 pre_execute_review: {state: done, reviewer: reviewer-go, verdict: PASS, evidence: workspace/m2_scl_check_g2g3_success/PRE_EXECUTE_REVIEW.md}
-pre_result_review: {state: not_started, reviewer: null, verdict: null}  # required before results.json is treated as a finished artifact / referenced in any adjudication doc
+pre_result_review: {state: done, reviewer: independent-subagent, verdict: PASS, record: PRE_RESULT_REVIEW.md}  # required before results.json is treated as a finished artifact / referenced in any adjudication doc
 counters: {attempts: 0, reruns: 0, sc_calls_on_protected: 0, scl_calls_on_protected: 0, tag_invocations: 0}
 # analytically-projected counts (NOT yet incurred; for the Pre-EXECUTE reviewer's reference, computed the same way the predecessor's were):
 #   projected sc_calls_on_protected = 3/block (fidelity check: L1 + hard-L2 + oracle-L2, via the reused run_g2_block) x 19 blocks = 57
@@ -156,10 +156,7 @@ static_selfcheck:
   target_block_confirmation: {g2_expected: "0,2,3,4,6,7,8,9,10,11,13 (11 blocks)", g2_actual_filtered: "0,2,3,4,6,7,8,9,10,11,13 (11 blocks)", g2_match: true, g3_expected: "3,5,6,7,8,9,12,13 (8 blocks)", g3_actual_filtered: "3,5,6,7,8,9,12,13 (8 blocks)", g3_match: true, total: 19, stop_triggered: false}
   timing_estimate: "see TASK_PACKET.md §6; ~600s/block SCL compute (empirical N=32768/L=16 precedent from workspace/probes/scl-gate-t3/results.json), 8-way parallel over 3 waves (8+8+3) => ~1800s compute wall + 2 sequential session-setup passes => rough total wall estimate ~35 min; NOT itself budgeted beyond the per-block 1200s/2GiB caps"
 result: {id: null, summary: "executed (attempt 1, exit 0): fidelity_ok=19/19, preserved_exact=19/19, broken=0, undetected=0, errors_or_aborts=0, fidelity_compromised=false, wall_s=1643.53", decision_needed: "independent Pre-RESULT review of results.json/EXECUTION_TRANSCRIPT.md; no adjudication rendered by the operator"}
-pre_result_review: null
-main_thread_acceptance: null
 main_thread_rulings_successor_2026_09_28:
   D_NEW1: "ACCEPTED — n_broken = rescue.verify_failed (mutually exclusive exact/undetected/verify_failed); predecessor's n_still_failed definition not carried over."
   D_NEW2: "ACCEPTED — authorization verbatim string corrected to this task's PI words; necessary factual correction, not a scope change."
-pre_result_review: PASS
 main_thread_acceptance: accepted_descriptive (2026-09-28)

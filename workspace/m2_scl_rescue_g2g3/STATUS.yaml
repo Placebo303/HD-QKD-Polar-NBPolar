@@ -27,7 +27,7 @@ classification: "real-data descriptive diagnostic"  # RULED D1 (2026-09-28); rev
 state: completed_descriptive
 next_gate: PRE_RESULT_REVIEW   # independent reviewer must check results.json/EXECUTION_TRANSCRIPT.md before any adjudication/decision-log citation
 pre_execute_review: {state: done, reviewer: reviewer-go, verdict: PASS_WITH_COMMENTS, evidence: workspace/m2_scl_rescue_g2g3/PRE_EXECUTE_REVIEW.md, accepted_comment: "finding 7: RSS 2GiB budget recorded post-hoc only (VmHWM advisory), not live-polled/aborted-on; main thread accepts as non-blocking because the T3 precedent (workspace/probes/scl-gate-t3/results.json) empirically shows ~0.65GiB/16-block batch at the same N=32768/L=16, and 8-way parallel stays within the WSL 15GB budget", when_accepted: "2026-09-28"}
-pre_result_review: {state: not_started, reviewer: null, verdict: null}  # required before results.json is treated as a finished artifact / referenced in any adjudication doc
+pre_result_review: {state: done, reviewer: independent-subagent, verdict: PASS, record: PRE_RESULT_REVIEW.md}  # required before results.json is treated as a finished artifact / referenced in any adjudication doc
 counters: {attempts: 2, reruns: 0, sc_calls_on_protected: 27, scl_calls_on_protected: 45, tag_invocations: 36}
 # attempt 1 excluded from reruns (pre-measurement implementation-defect death, see attempt_1 below); attempt 2 is the sole measurement.
 # sc/scl/tag counts are ANALYTICALLY computed from run.py's fixed call structure (not separately instrumented in results.json):
@@ -162,5 +162,4 @@ static_selfcheck:
   rechecked_after_ruling: {when: "2026-09-28", reason: "F1 accepted-formula fix + D3 fidelity_compromised logic added to run.py", py_compile: pass, ast_percent_format_check: {expressions_found: 0, mismatches: 0, verdict: pass}, execution: "still NOT run (prep-only, per instruction)"}
   rechecked_after_attempt1_fix: {when: "2026-09-27T17:57Z", reason: "load-once fix for the pandas.__spec__ double-load defect", py_compile: pass, ast_percent_format_check: {expressions_found: 0, mismatches: 0, verdict: pass}}
 result: {id: null, summary: "executed (attempt 2, exit 0): fidelity_ok=9/9, rescued_exact=8/9, still_failed=1/9, undetected=0, errors_or_aborts=0, fidelity_compromised=false, wall_s=1152.02", decision_needed: "independent Pre-RESULT review of results.json/EXECUTION_TRANSCRIPT.md; no adjudication rendered by the operator"}
-pre_result_review: PASS
 main_thread_acceptance: accepted_descriptive (2026-09-28)
