@@ -1,7 +1,11 @@
 # Design — nbpolar-data-use-rules-revision (proposal only — nothing authorized)
 
-Status: **draft — PENDING PI adjudication.** Every decision below is a
-planner proposal for the PI to accept, modify, or reject; none is frozen.
+Status: ~~draft — PENDING PI adjudication~~ **APPROVED by PI 2026-09-28 (T1
+DECIDED)**. Every decision below was a planner proposal; the PI has now ruled
+on all of it (2026-09-28, "按建议批准，继续推进") — see `tasks.md` T1 for the
+itemized (i)-(v) values. R1-R5 (D7) are adopted as standing rules; D6(ii)
+(n≈56, Wilson-upper) supersedes the frozen `n=65` per T1(ii); D8's source/
+stratification and decode-configuration proposals are adopted per T1(iii)-(iv).
 
 ## D1 — Security accounting already isolates K/tag/CRC (verified)
 

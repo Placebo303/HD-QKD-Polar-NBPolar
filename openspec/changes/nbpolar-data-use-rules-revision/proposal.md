@@ -1,9 +1,11 @@
 # Change Proposal: nbpolar-data-use-rules-revision
 
-Status: **draft — PENDING PI adjudication**
+Status: ~~draft — PENDING PI adjudication~~ **APPROVED by PI 2026-09-28 (T1 DECIDED)**
 Date opened: 2026-09-28
 Owner: planner (docs-only; no production code; AGENTS.md §4)
 PI authorization to draft: PI in-chat, 2026-09-28, "同意开始"
+PI adjudication: 2026-09-28, "按建议批准，继续推进" — T1(i)-(v) all ruled; see `tasks.md`
+T1 for the recorded values and `docs/decision-log.md` 2026-09-28 for the full entry.
 
 ## Problem
 

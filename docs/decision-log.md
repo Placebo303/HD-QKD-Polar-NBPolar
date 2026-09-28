@@ -24,6 +24,64 @@ Durable decisions and rejected alternatives for the HD-QKD_Polar_Comparison-nbpo
 
 ## Decisions
 
+## 2026-09-28 数据使用规则修订 R1-R5 采纳（T1 DECIDED，PI 裁决）
+
+**Decision**: 采纳 `openspec/changes/nbpolar-data-use-rules-revision/` 的 T1 PI 裁决。
+PI 裁决原话（2026-09-28，对话）："按建议批准，继续推进"。逐项裁定：
+(i) 采纳 R1–R5（`design.md` D7）为标准规则，落位 `AGENTS.md`（新增 "Data-use
+rules (R1-R5)" 小节）与 `docs/nbpolar/DATA_LEDGER.md`（新建，唯一权威数据账本）；
+(ii) `D-FER-03` 重新裁决：`n = 56`，按 Wilson 上界 `p≈0.1771`（来自 SCL(L=16)
+27/28 真实数据结果，2026-09-28 「真实数据 G2/G3 B 臂 28 块 SCL(L=16) 描述性合并」
+条目）、`z=1.96`、`w=0.10` 推导（`design.md` D6(ii)），**替代** `n=65`；原值 `n=65`
+与其 `p=3/14` 推导**保留、注明被替代**，不删除；
+(iii) `D-ACQ-02` 与 `D-ACQ-03` = SHG `_1`/`_2` 全会话共 64 块（每会话 32 块）：
+帧 0–1023（8 块，A1_CAL stratum）、1056–2397（10 块，余 62 帧不用，
+CHAR+HELDOUT stratum）、2398–4189（14 块，EVAL stratum，已解码）；CAL32 仍为
+1024–1055（32 帧，两会话均排除/牺牲）。`D-ACQ-05` = 结论适用域限定为
+2026-01-13 两次 SHG 采集自身条件；HELDOUT（1838–2397）与已解码的 EVAL
+（2398–4189）在报告中分层，不得合并为单一未分层 FER 数字；
+(iv) R2 候选译码配置 = M2 先验 + SCL(L=16, top_m=4, CRC-16) + K1=319/K2=6492 +
+P16，**接受为候选**，执行前须正式冻结（R2 自身 T4 仍是冻结合同的裁定者，本条
+不构成冻结）；
+(v) `participation_ledger.json` 的 `eval_blocks_per_session_formula` 字段命名
+需澄清（改名/加注），非 non-issue——数值本身无误，仅字段名易误读。
+
+**Context**: `nbpolar-data-use-rules-revision` proposal/design 的五项 citation-only
+诊断（详见该 change `proposal.md` Findings 1–5、`design.md` D1–D9）指出：(1) 安全
+记账已覆盖 K 坐标/tag/CRC/CAL 牺牲排除，重新解码已解码块不产生额外披露；
+(2) "decoder-touched 帧永不回流"规则的既述理由是统计选择偏差 (B) 与审计独立性
+(C)，并非披露/安全理由；(3) NB-Polar 现行五段切分相对二元基线对 EVAL 段极为吝啬
+（94% 帧被 CAL/CHAR/HELDOUT 占用），且从未被冻结为必要的互斥划分；(4) "数据耗尽"
+混淆了两个不重叠的批次——旧 P 系列（20260107/20260123，101 帧 never-decoded，
+32 帧 CAL 后剩 69 帧，真正 &lt;1 block 耗尽）与 SHG 2026-01-13 `_1`/`_2` 自身的
+RESERVE（29/99 帧，未耗尽，只是在当前 4190 帧固定前缀分段下小于一块）；
+(5) 冻结的 `n=65` 基于已被 2026-09-28 SCL 27/28 结果超越的旧点估计 `p=3/14`。
+
+**Alternatives considered**:
+- 维持 R1–R5 为不裁定的规划输入，不采纳为标准规则：拒绝——PI 明确裁决"按建议批准"，
+  五项均需落地为可执行规则。
+- `D-FER-03` 保持 `n=65` 不变：拒绝——PI 选择按新 `p`（Wilson 上界 0.1771，更保守）
+  重新裁决为 `n=56`；`design.md` D6(i) 的点估计式 `n≈14` 未被采纳（过于激进，
+  单次失败点估计不宜直接当精确值）。
+- 把 HELDOUT/EVAL 已使用帧合并为单一未分层 EVAL 池：拒绝——R2（b）要求按
+  model-selection 参与情况分层报告，不得掩盖选择自由度。
+- 把 `participation_ledger.json` 命名问题判为 non-issue、不修：拒绝——PI 明确
+  裁定需要修（T1(v)），即使数值本身无误。
+
+**Consequences**: `openspec/changes/nbpolar-data-use-rules-revision/{proposal,
+design,tasks}.md` 状态行改为 "APPROVED by PI 2026-09-28 (T1 DECIDED)"（原状态行
+保留删除线）；`tasks.md` T1 勾选，T2–T6 gated-open，按内容逐项推进并勾选。
+`docs/nbpolar/DATA_LEDGER.md` 新建为唯一权威账本（T2）。`docs/nbpolar/STATE.md`
+修正 §3 SECURITY_MODEL 陈旧陈述、ladder 耗尽括注、"contamination"标注（T3）。
+`AGENTS.md` 新增 "Data-use rules (R1-R5)" 小节（T4，本 change 即为该编辑所需的
+OpenSpec 依据）。`openspec/changes/nbpolar-r2-fer-measurement-contract/` 的
+`D-ACQ-02/03/05` 行 PENDING → DECIDED，`D-FER-03` 加注替代说明（T5）。
+`workspace/acq_inventory_20260928/participation_ledger.json` 字段改名+加注（T6）。
+R2 合同仍**未冻结**（D-FER-04..07、D-ACQ-01/04/06/07/08 等行仍 PENDING，需另行
+裁决）；T7（采集）/T8（译码执行）/T9（Pre-RESULT/数字发布）仍 **NOT AUTHORIZED**。
+本条目不授予任何采集或译码执行授权，不改变 M2/G2/G3 状态串，不改变冻结
+K1=319/K2=6492。
+
 ## 2026-09-28 真实数据 G2/G3 B 臂 28 块 SCL(L=16) 描述性合并：27/28（PI 授权）
 
 **Decision**: 记录 `workspace/m2_scl_check_g2g3_success/` 一次性执行的结果与验收，并与前驱包（`workspace/m2_scl_rescue_g2g3/`，commit `326594ca`）合并统计。授权原话（PI，2026-09-28）："授权，19 块也跑 SCL L=16"。Pre-EXECUTE 结论 `PASS`（见 `workspace/m2_scl_check_g2g3_success/PRE_EXECUTE_REVIEW.md`）。Pre-RESULT 结论 `PASS`（独立复核见 `workspace/m2_scl_check_g2g3_success/PRE_RESULT_REVIEW.md`）。
