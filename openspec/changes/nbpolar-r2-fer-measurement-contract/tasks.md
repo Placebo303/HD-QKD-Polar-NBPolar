@@ -1,8 +1,21 @@
 # Tasks — nbpolar-r2-fer-measurement-contract
 
-Status: **draft (docs-only).** Ordered T1→T9. T1–T6 are documentation tasks.
-T7–T9 are recorded here only to fix their boundary and are **NOT AUTHORIZED**
-by this change.
+Status: **FROZEN except PENDING-BUDGET (SCL wall)** (2026-09-28, second-round
+T4 PI adjudication "按建议批准" + P-1/P-2 + T3/T5/T6; see
+`docs/decision-log.md` 2026-09-28 "R2 剩余 8 项待决全部 DECIDED..." entry).
+All 15 `§5` ledger rows in `docs/nbpolar/R2_MEASUREMENT_CONTRACT_DRAFT_20260924.md`
+are now `DECIDED`; T3 structural freeze re-check PASS (see T3 section below);
+T5 quota arithmetic complete (16+20+28=64, margin 8); T6 packet skeleton
+written with `authorizations: []` (see `T6_PACKET_SKELETON_20260928.md`).
+**One open gap**: D-ACQ-06's budget numbers (`wall_per_block=40s`) were
+adjudicated under an **SC** cost model; R2's candidate execution path is
+**SCL(L=16, top_m=4, CRC-16)**, whose measured per-block cost is on the order
+of ~600s — incompatible with the frozen SC-derived number. This is flagged
+`PENDING-BUDGET`, not self-adjudicated (see T4 2026-09-28 round-2 update
+below). Until the PI supplies an SCL-specific budget ruling, **T7/T8/T9
+remain NOT AUTHORIZED** — unchanged by this update; nothing here grants
+execution. Ordered T1→T9. T1–T6 are documentation tasks. T7–T9 are recorded
+here only to fix their boundary and are **NOT AUTHORIZED** by this change.
 
 ---
 
@@ -119,6 +132,101 @@ D-ACQ-04 (Type0) and D-ACQ-08 (session count), as well as D-FER-04..07 and
 D-ACQ-01/07, remain `PENDING` because the T4 decision-log entry gives no
 row-specific state for them. The session and Type0 questions cross-reference
 the four open-input items; this note does not add separate PI decisions.
+
+**2026-09-28 update (round 2 — T4 COMPLETE)**: the PI adjudicated the
+remaining 8 rows (D-ACQ-01/04/07/08, D-FER-04/05/06/07) in conversation,
+approving the recommended values in
+`docs/nbpolar/R2_REMAINING_DECISIONS_20260928.md` verbatim ("按建议批准").
+All 15 `§5` ledger rows are now `DECIDED` — see
+`docs/nbpolar/R2_MEASUREMENT_CONTRACT_DRAFT_20260924.md` §5 for the
+transcribed values and `docs/decision-log.md` 2026-09-28 "R2 剩余 8 项待决全部
+DECIDED..." entry for full provenance. Summary:
+
+| ID | Value |
+|---|---|
+| D-ACQ-01 | O-1a: Branch A, 64-block pool, n=56, w=0.10 |
+| D-ACQ-04 | O-4a: Type0 not included |
+| D-ACQ-07 | O-7b: construction contract (W_P/W_S/MOD/skip/K1/K2/P16) inherited unchanged from G2/G3; **tag_master newly minted, single, shared across both sessions**: `eval_seed=2026092801` → `tag_master=2026102801` (per the established `tag_master = eval_seed + 10000` convention) |
+| D-ACQ-08 | O-8a: the two SHG sessions (`_1`/`_2`) satisfy the ≥2-session roadmap gate; no additional session needed |
+| D-FER-04 | O-4a: each session fits its own `H_total` from its own CAL32 triple — G2 (SHG `_1`) `H_total=0.8168138`; G3 (SHG `_2`) `H_total=0.8214782076249098` |
+| D-FER-05 | O-5a: adopt the existing `f_book_with_crc` accounting formula (CRC-16 + tag + K-coordinate disclosure, per-session `H_total`), with an explicit statement of its structural difference from Müller eq(11) (this protocol's K-coordinate disclosure is unconditional pre-decode, so `kdb_with_crc` is a per-block constant regardless of outcome — no Müller-style outcome-weighting is needed) |
+| D-FER-06 | O-6a: `undetected ≥ 1` ⇒ isolate the block, loud STOP statement, **defer** the `FER_MEASURED_AT_CONTRACT` verdict, escalate to PI |
+| D-FER-07 | O-7a: no per-acquisition-frame derived readings reported this round |
+
+**Two additional PI rulings beyond the per-row list** (given in the same
+conversation, resolving ambiguity the per-row recommendations did not
+themselves adjudicate):
+
+- **P-1** (resolves the D-ACQ-05 "must not merge into a single unstratified
+  FER number" ambiguity): a **pooled 64-block FER number is permitted**, but
+  the **same table must show the three strata side by side**
+  (`A1_CAL_characterization` / `HELDOUT_model_selection` /
+  `EVAL_already_decoded`) — never a pooled number alone. The `n=56`
+  DECIDED-threshold check uses the **pooled** denominator (D2 step, T5 below).
+- **P-2**: if D-FER-06's `undetected ≥ 1` STOP fires, that execution still
+  **counts as the one-shot Tier-Y attempt** — it must not be discarded and
+  rerun to obtain a "clean" (`undetected=0`) result. Whether to proceed to a
+  verdict after PI review, or whether any further measurement is needed, is a
+  **separate PI decision**, not something T4/T5/T6 or an execution agent may
+  decide unilaterally.
+
+This closes T4 for all 15 ledger rows. See T3/T5/T6 sections below for what
+this unblocks.
+
+### T3 — freeze structural re-check (2026-09-28, all rows DECIDED)
+
+With every `§5` ledger row now `DECIDED` (no `PENDING`/`DEFERRED` remaining),
+T3's freeze-pass verdict (deferred under R2-T2-FIX pending T4, see T3 task
+description below) is now judged:
+
+- C1–C14 clauses present exactly once, disjointness matrix (contract §4) no
+  conflicting overlap, R-2 string guard (contract §6), D6 Stage-3 isolation,
+  and the draft-red-line → C-ID total mapping (contract §7) — all carried
+  forward unchanged from the 2026-09-24 STRUCT-PASS (`docs/decision-log.md`
+  2026-09-24 "R2 measurement-contract T3 structural review STRUCT-PASS"
+  entry); no new clause conflict was introduced by transcribing the 8 newly
+  `DECIDED` values, since each value fills a slot the merged contract already
+  reserved for it (§5 rows existed for all 15 IDs since T2).
+- **Verdict: structural freeze PASS.** However, the freeze is **not a plain
+  `FROZEN`**: D-ACQ-06's budget figures were derived from **SC** timing
+  (G3 measured ~19–20 s/block), while R2's candidate decode path is
+  **SCL(L=16, top_m=4, CRC-16)**, whose measured per-block cost
+  (`workspace/scl-gate-t3-packet/`, `workspace/m2_scl_rescue_g2g3/` timing) is
+  on the order of ~600 s/block — roughly 15× the frozen `wall_per_block=40s`.
+  This mismatch was not covered by any of the 8 rows just decided and is
+  **not self-adjudicated here**. Overall change status is therefore
+  **`FROZEN except PENDING-BUDGET (SCL wall)`** (see status line at the top
+  of this file). See `T6_PACKET_SKELETON_20260928.md` for the flagged
+  suggested values (not frozen).
+
+### T5 — quota arithmetic (2026-09-28)
+
+Applying D2 (difference → w → n → quota) with all inputs now `DECIDED`:
+
+- Source: `docs/nbpolar/DATA_LEDGER.md` §7. Per session: `A1_CAL_characterization`
+  8 blocks + `HELDOUT_model_selection` 10 blocks + `EVAL_already_decoded` 14
+  blocks = 32 blocks/session.
+- Two sessions: `16 + 20 + 28 = 64` blocks total (matches
+  `DATA_LEDGER.md:50,70-71,75` "32+32=64" verbatim).
+- Against `D-FER-03`'s `n=56`: margin = `64 − 56 = 8` blocks (~12.5%).
+- **Threshold reading (per P-1)**: the `n=56` check applies to the **pooled**
+  denominator across all three strata (`64 ≥ 56` ⇒ meets threshold). Read
+  per-stratum instead, no single stratum reaches 56 (largest is EVAL at 28);
+  P-1 explicitly resolves this by mandating the pooled reading for the
+  threshold check while still requiring the per-stratum table alongside it.
+- No new acquisition is needed (`DATA_LEDGER.md` §7 gap = 0); budget
+  constraint check deferred to `PENDING-BUDGET` above (D-ACQ-06 SCL mismatch)
+  — T5's arithmetic itself does not depend on the wall-time budget number.
+
+### T6 — Tier-Y packet skeleton (2026-09-28)
+
+Written to `T6_PACKET_SKELETON_20260928.md` in this directory (frozen fields:
+execution config, 64-block list, new tag_master/eval_seed, judgment rule,
+mandatory report contents; `authorizations: []`, no `AUTHORIZATION_PROMPT.md`
+generated — per this task's "deferred by construction" clause below and
+proposal Scope OUT). The SCL wall-time budget is recorded there as a flagged
+**suggestion**, not a frozen value, pending the PI's supplemental D-ACQ-06
+ruling for the SCL path.
 
 ### GATE-T5 — quota arithmetic gate
 

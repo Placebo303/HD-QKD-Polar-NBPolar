@@ -24,6 +24,163 @@ Durable decisions and rejected alternatives for the HD-QKD_Polar_Comparison-nbpo
 
 ## Decisions
 
+## 2026-09-28 R2 剩余 8 项待决全部 DECIDED（PI 裁决"按建议批准"）+ P-1/P-2 补充裁决 + T3/T5/T6 冻结（PENDING SCL wall 预算）
+
+**Decision**: PI 在对话中对 `docs/nbpolar/R2_REMAINING_DECISIONS_20260928.md` 的
+"最短裁定格式"逐行给出裁决，原话："按建议批准"。全部 8 行按该文件 ③ 推荐值
+采纳为 `DECIDED`：
+
+- **D-ACQ-01**（分支/n/w）= `DECIDED`：O-1a——Branch A，64 块池、n=56、w=0.10；
+  不需要 Branch A′/B。
+- **D-ACQ-04**（Type0 纳入）= `DECIDED`：O-4a——不纳入；7 个 `Type0_nofilter_*`/
+  `Type2_*` 2026-01-20/21 会话本次未计帧、配置不匹配（resolution/normalization
+  层面，非光源层面），且 64 块 SHG 池已覆盖 n=56，无凑数必要。
+- **D-ACQ-07**（配对/构造契约沿用）= `DECIDED`：O-7b——构造契约
+  （W_P=200/W_S=500/CIRCULAR/skip=702/K1=319/K2=6492/P16 digest
+  `055c906472dd2a09761761b18aceb5f31d8b5db19bac658721f8dc49c3faea1b`，
+  decision-log:177,201 G2/G3 冻结值逐字沿用）沿用不变；**tag_master 为 R2 新铸造、
+  单一、两会话统一**的值，不复用 G2（`2026103001`）或 G3（`2026110101`）中任一个。
+  遵循既有 `tag_master = eval_seed + 10000` 惯例（`scripts/m2_prior_validation.py:
+  419-420,2848-2849`；G3 `EVAL_SEED 2026100101` → `tag_master 2026110101` 即
+  该惯例的已验证实例，decision-log:177）。R2 新值：**`eval_seed = 2026092801`
+  → `tag_master = 2026102801`**（生成依据：取本次裁决/冻结日期 2026-09-28 编码
+  为 `YYYYMMDD` + 会话序号 `01`；核对与既有 G2/G3 tag_master/eval_seed 值
+  `2026103001`/`2026110101`/`2026100101` 均不冲突）。**可复现性声明**：G2/G3
+  各自冻结 SC 结果（含各自 42 个 tag、`per_block_outcomes.jsonl`）与 2026-09-28
+  SCL 描述性合并（27/28）结果完全不受影响，仍在各自旧 tag_master 下保持；R2
+  执行后 64 块（含 28 个已解码 EVAL 块）会在新 tag_master 下重新计算 tag 字节值，
+  这些字节值与旧 artifact **不可逐字节比对**（预期行为），但 taxonomy 分类结果
+  预期一致（Toeplitz 通用哈希误判概率同量级，不因换 master 而系统性改变）。
+- **D-ACQ-08**（最低会话数 ≥2）= `DECIDED`：O-8a——两个 SHG session（`_1`/`_2`）
+  同批已满足路线图 R1 门"≥2 独立 session"；无需额外新会话。
+- **D-FER-04**（`H(q)`→经验 `H(X|Y)` 口径）= `DECIDED`：O-4a——每 session 用自己的
+  CAL32 M2 三元组拟合现算 `H_total`，不共享常量：**G2（SHG `_1`）
+  `H_total = 0.8168138`**（decision-log 本文件 2026-09-22 G1R2 条目）；**G3
+  （SHG `_2`）`H_total = 0.8214782076249098`**（decision-log 2026-09-28
+  「真实数据 G2/G3 B 臂失败块 SCL 重解」条目一带）。估计子：CAL32（32 帧，
+  1024-1055）该 session 自身三元组拟合，`fit_g2_arm`→`model_entropy_bits`
+  同一代码路径；raw-count MLE + 1e-15 floor，无额外偏差修正。CAL32 本身仍按
+  R3 排除，不进入 64 块池——仅复用其已算出的 `H_total` 数值（R1"解码≠消耗"
+  精神类比）。
+- **D-FER-05**（`f_FER` 记账式）= `DECIDED`：O-5a——采用既有
+  `f_book_with_crc` 公式：`kdb_no_crc = disclosed_bits_per_coordinate ×
+  (K1+K2) + tag_bits`；`kdb_with_crc = kdb_no_crc + 16`（CRC-16）；
+  `f_FER = kdb_with_crc / (H_total_bits × 32768)`，每 session 各自代入自己的
+  `H_total`（D-FER-04）。**含 CRC、含 tag、含失败块**：K 坐标披露在解码前无条件
+  发生，因此 `kdb_with_crc` 对每个有效 block（无论 exact/verify_failed/
+  decode_failed）为同一常数。**显式声明与 Müller eq(11) 的结构性差异**：本协议
+  （leak-then-decode）不需要 Müller 式"失败块整帧计入、成功块只计已用部分"的
+  加权，因为披露量本就与结果无关；R2 报告须用一句话写清此差异，不得暗示直接
+  照搬 Müller 加权。computed f（`f_book_with_crc`）与 stated f（当前冻结
+  K1=319/K2=6492 隐含设计目标，约 f≈1.275）须并排列出，不得只报一个。
+- **D-FER-06**（`undetected>0` 升级规则）= `DECIDED`：O-6a——`undetected ≥ 1`
+  ⇒ 单列该块 id + 摘要中大声 STOP 声明 + 该次测量**暂缓**判定
+  `FER_MEASURED_AT_CONTRACT`，升级 PI 复核后再定；不照常出数字（G2/G3 42/42
+  `undetected` 均为 0 的先例下，出现 ≥1 是明显偏离经验分布的异常信号，按
+  "歧义/异常⇒STOP、不猜测"处理最一致）。
+- **D-FER-07**（per-acquisition-frame 派生读数）= `DECIDED`：O-7a——R2 本次不报
+  任何 per-frame 派生读数；reconciliation block（32768 symbols）保持唯一统计
+  单位。
+
+**另有两项 PI 补充裁决（超出 `R2_REMAINING_DECISIONS_20260928.md` 逐行清单，PI
+在同一轮对话中一并给出）**：
+
+- **P-1（跨层汇总的读法，消解 D-ACQ-05 文字歧义）**：**允许**给出 64 块的
+  汇总 FER，但**同一张表必须同时分列三层**（从未解码的 `A1_CAL_characterization`
+  与 `HELDOUT_model_selection`（曾参与选模，标注分层）；已解码的
+  `EVAL_already_decoded`）。据此，`D-ACQ-05`（`tasks.md:89`）"HELDOUT 与已解码
+  EVAL 必须分层报告，不得合并为单一未分层 FER 数字"一句中的歧义（是否允许在
+  分层表之外**另给**一个汇总数字）按此裁定：汇总数字与分层表**必须同表并存**，
+  不得只给汇总、隐藏分层，也不得因为"不得合并"字面禁止一切汇总读数。n=56
+  达标判定以**跨层汇总分母**（64 块合并，D ≥ 56）为准。
+- **P-2（STOP 后的一次性预算）**：`undetected ≥ 1` 触发 D-FER-06 的 STOP 仍
+  **计入本次 Tier-Y one-shot 预算**——不得为了得到一份"干净"（`undetected=0`）
+  的结果而重跑；STOP 之后若要继续晋级判定或重新测量，须由 PI 另行裁决（不由
+  T4/T5/T6/本轮执行自动决定是否重跑）。
+
+**T3/T5/T6 执行记录（同一轮，本条目落盘于 `openspec/changes/
+nbpolar-r2-fer-measurement-contract/tasks.md` 与 `docs/nbpolar/
+R2_MEASUREMENT_CONTRACT_DRAFT_20260924.md`）**：
+
+- **T3**：以上 8 行全部转为 `DECIDED` 后，连同此前已 `DECIDED` 的 D-FER-01/02/03
+  与 D-ACQ-02/03/05/06，`§5` ledger 15 行**全部 `DECIDED`**（无 `PENDING`/
+  `DEFERRED` 残留）。据此判定**结构性冻结通过**（C1–C14 恰一、disjointness
+  矩阵无冲突重叠、红线映射总体性、R-2 guard、D6 Stage-3 隔离——均沿用
+  2026-09-24 STRUCT-PASS 的既有结论，未发现新增冲突）。但**冻结整体状态不是
+  纯 `FROZEN`**：D-ACQ-06 的预算数值（`wall_per_block=40s`）是按 **SC** 口径
+  裁定的，而 R2 候选执行路径是 **SCL(L=16, top_m=4, CRC-16)**，两者不兼容
+  （SCL 每块实测量级约 600 s，远超 SC 的 40 s/块）——这是一处未被
+  `R2_REMAINING_DECISIONS_20260928.md` 覆盖的新发现缺口，**本条目不越权自行
+  裁定** SCL 预算数字，标记为 `PENDING-BUDGET`（见下）。因此 change 整体状态
+  记为 **`FROZEN except PENDING-BUDGET (SCL wall)`**，而非完全 `FROZEN`。
+- **T5**（配额算术，`D2` 冻结方向 difference→w→n→quota）：源
+  `docs/nbpolar/DATA_LEDGER.md` §7 —— 每 session：`A1_CAL_characterization`
+  8 块 + `HELDOUT_model_selection` 10 块 + `EVAL_already_decoded` 14 块 = 32
+  块；两 session 合计 `16 + 20 + 28 = 64` 块（与 `DATA_LEDGER.md:50,70-71,75`
+  的 "32+32=64" 逐字一致）。对照 `D-FER-03` 的 `n=56`：余量 `64 − 56 = 8`
+  块（约 12.5%）。跨层汇总门槛（P-1 裁定）：`64 ≥ 56` 达标；若按任一单层
+  独立门槛读，最大层（EVAL 28）仍 `< 56`，不达标——故 n=56 达标判定明确按
+  P-1 的跨层汇总分母执行，不按单层分别判定。
+- **T6**（Tier-Y packet skeleton，`authorizations: []`）：冻结字段写入新文件
+  `openspec/changes/nbpolar-r2-fer-measurement-contract/T6_PACKET_SKELETON_20260928.md`
+  ——执行配置（M2 + SCL(L=16, top_m=4, CRC-16) + K1=319/K2=6492 + P16 digest +
+  W_P=200/W_S=500/CIRCULAR/skip=702）、64 块清单（每 session 3 段区间公式）、
+  新 tag_master=2026102801/eval_seed=2026092801、判定规则（有效分母
+  `D=exact+verify_failed+decode_failed`；`D<56⇒INSUFFICIENT⇒INCONCLUSIVE`；
+  否则 Wilson z=1.96 点估计+CI；`undetected≥1⇒` D-FER-06 STOP；P-1 汇总+分层
+  并列；P-2 STOP 计入 one-shot）、必含报告项清单、`AGENTS.md` §10.3
+  Pre-EXECUTE/Pre-RESULT 门仍适用。**未生成** `AUTHORIZATION_PROMPT.md`，
+  `authorizations: []` 恒空——`tasks.md` T6 "deferred by construction" 条款
+  与 proposal Scope OUT 均要求本次不产生任何授权文本；T7/T8/T9 仍
+  `NOT AUTHORIZED`。SCL 每块 wall 预算**未冻结**，仅在该 packet skeleton 中
+  以 `PENDING-BUDGET` 建议值标注（wall≤1200s/block、RSS≤2GiB、total
+  wall≤3h、8-way 并行、超预算 STOP、不调参）——建议值本身**不构成裁定**，
+  需要 PI 对 D-ACQ-06 的 SCL 场景做一次补充裁决方可转为 `DECIDED`。
+
+**Context**: `docs/nbpolar/R2_REMAINING_DECISIONS_20260928.md` 是 planner 为
+T4 剩余 8 行准备的"可一句话批准"推荐稿，性质是建议、不自裁不冻结
+（该文件页首声明）。本条目记录 PI 在对话中对该文件"最短裁定格式"部分给出的
+逐行裁决（"按建议批准"）与另外两项补充裁决（P-1/P-2），并记录由文档/git
+操作员子代理执行的 T3 结构判定、T5 配额算术、T6 packet skeleton 写入过程。
+D-FER-01/02/03（Wilson z=1.96/w=0.10/n=56）与 D-ACQ-02/03/05/06（源清单/配额/
+可比性适用域/预算-SC 口径）此前已 `DECIDED`（本文件 2026-09-24、2026-09-27、
+2026-09-28 各条目），本条目不重开这些行。
+
+**Alternatives considered**:
+- 把 SCL 每块 ~600s 与 D-ACQ-06 的 40s/块预算之间的冲突自行裁定为"沿用旧
+  40s/块数字，超时算 STOP"——否决：AGENTS.md §3"若实施暴露需求歧义，必须
+  停下"以及本次任务指令明确要求"这一项不要自行裁决，只标注
+  PENDING-BUDGET"；擅自裁定预算数字属于超出 coder-doc 角色的实质裁决。
+- 把 P-1 读作"完全不得给出任何汇总数字"（D-ACQ-05 原文的另一种可能读法）——
+  否决：PI 本轮明确裁定"允许"给出汇总数字，只是必须同表分层，采纳 PI 的
+  明确表述而非保留歧义。
+- 把 tag_master 沿用 G2 或 G3 任一旧值而非新铸造——否决：`D-ACQ-07` 已按
+  `R2_REMAINING_DECISIONS_20260928.md` O-7b 明确裁定新铸造；沿用旧值会让
+  "R2 是独立预注册测量"这一定位含糊，且两 session 各用各的旧 master 会让
+  64 块池在 tag 层面会话异构。
+- 现在就生成 `AUTHORIZATION_PROMPT.md` 供 PI 下次直接照抄授权——否决：
+  `tasks.md` T6"deferred by construction"条款与 proposal Scope OUT 明确
+  要求该 artifact 只能在日后明确用户指令下生成，本次任务指令也未要求生成；
+  且 SCL wall 预算这一项仍 `PENDING-BUDGET`，在预算补充裁决前生成授权文本
+  会造成误导（授权文本本应包含完整冻结预算）。
+
+**Consequences**: `openspec/changes/nbpolar-r2-fer-measurement-contract/
+tasks.md` 状态行更新为 `FROZEN except PENDING-BUDGET (SCL wall)`；T4 章节
+新增 2026-09-28（第二轮）更新，8 行 DECIDED + P-1/P-2；新增 T3/T5/T6 执行
+记录小节。`docs/nbpolar/R2_MEASUREMENT_CONTRACT_DRAFT_20260924.md` §5 ledger
+8 行 PENDING→DECIDED 并填值；D-ACQ-05 行加注 P-1；新增章节记录 P-2、T3/T5
+执行结果、指向 T6 packet skeleton 文件；§0 P7 行更新为已完全归位（除预算
+补充裁决外）。新文件
+`openspec/changes/nbpolar-r2-fer-measurement-contract/T6_PACKET_SKELETON_20260928.md`
+（`authorizations: []`）。`docs/nbpolar/STATE.md` §0 追加 2–3 行；
+`docs/nbpolar/DOCUMENT_INDEX.md` 增一行。**未改动**：`src/`、`experiments/`、
+`tools/`、`comparison_bench/src/`、`results/`、
+`comparison_bench/outputs_comparison/`（除已在 git status 中的测试夹具外）、
+`workspace/r2_fer_shg_64/`（未触碰，由另一 agent 负责）；M2/G2/G3 状态串、
+冻结 K1=319/K2=6492 均未改动；T7（采集）、T8（解码/测量执行）、T9
+（Pre-RESULT/数字发布）仍 **NOT AUTHORIZED**；无任何 git push。SCL 场景下
+D-ACQ-06 预算数字仍 `PENDING-BUDGET`，需要 PI 另行裁决方可执行 T7/T8。
+
 ## 2026-09-28 数据使用规则修订 R1-R5 采纳（T1 DECIDED，PI 裁决）
 
 **Decision**: 采纳 `openspec/changes/nbpolar-data-use-rules-revision/` 的 T1 PI 裁决。
