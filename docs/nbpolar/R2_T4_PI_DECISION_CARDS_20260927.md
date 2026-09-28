@@ -32,6 +32,8 @@
 **④ 若本轮不裁**：D-ACQ-02 保持 PENDING → 阻塞 T5/T6（`tasks.md:57` GATE-T5/GATE-T6）。
 **⑤ Owner / retrigger**：PI（裁决）/ 实验室联络人（提供清单）；`retrigger=parsed new-source ledger arrival; no source is consumed before T4`。
 
+**已裁决（2026-09-28，`nbpolar-data-use-rules-revision` T1）**：`D-ACQ-02 = SHG _1/_2 全会话`（不新增采集源）；值与出处见 `tasks.md` 阻塞表与 `docs/nbpolar/DATA_LEDGER.md` §7。
+
 ---
 
 ## 卡 2 — D-ACQ-03：五段分区配额 → C11（含 Type0 的 D-ACQ-04）
@@ -54,6 +56,8 @@
 
 **④ 若本轮不裁**：T5 无法运行；closure 块不足时无 `COMPLETE-BLOCKS-ONLY ⇒ INSUFFICIENT` 语义可依。
 **⑤ Owner / retrigger**：PI；`retrigger=T5 quota arithmetic; must be fixed before T5`。
+
+**已裁决（2026-09-28，`nbpolar-data-use-rules-revision` T1）**：每会话 32 块（0-1023→8 块 A1_CAL、1056-2397→10 块 CHAR+HELDOUT 余 62 帧不用、2398-4189→14 块 EVAL），CAL32 仍 1024-1055 排除；`Type0_handling` 未变（D-ACQ-04 仍 PENDING）。值与出处见 `tasks.md` 阻塞表与 `docs/nbpolar/DATA_LEDGER.md` §7。
 
 ---
 
@@ -78,6 +82,12 @@
 **④ 若本轮不裁**：FER 陈述适用域无法限定；任何跨工作点比较违反 C1/C12。
 **⑤ Owner / retrigger**：PI（裁决）/ 实验室联络人（提供工作点参数）；
 `retrigger=paired-design item; R2 rows stay single-method until decided`。
+
+**已裁决（2026-09-28，`nbpolar-data-use-rules-revision` T1）**：适用域限定为
+"仅适用于 2026-01-13 两次 SHG 采集自身条件"（配置逐字段核实一致，
+`workspace/acq_inventory_20260928/REPORT.md:26-68`）；`sessions_required`
+等一般新采集可比性问题仍 PENDING（本裁决不含新采集）。值与出处见 `tasks.md`
+阻塞表与 `docs/nbpolar/DATA_LEDGER.md` §7。
 
 ---
 

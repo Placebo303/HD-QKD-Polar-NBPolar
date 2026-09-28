@@ -39,6 +39,21 @@ a second normative source.
 | C13 | Budget numbers, wall/RSS/data volume, ≥2 sessions (D-ACQ-06/08) | ACQ annex |
 | C14 | Contract inheritance into later changes + `undetected>0` escalation (D-FER-06, D-ACQ-07) | both |
 
+**C10/C11 note (2026-09-28, `nbpolar-data-use-rules-revision` T1 DECIDED)**:
+from 2026-09-28, C10's "decoder-touched frames NEVER reflow into a
+confirmation sample" is read under the new data-use rules (R1-R5,
+`openspec/changes/nbpolar-data-use-rules-revision/design.md` D7) as: a
+decoder-touched block **may** be used again, but only under R2's discipline —
+pre-frozen method/parameters, full declared block set, no post-hoc tuning,
+and mandatory stratum labeling for any block that touched decoding or model
+selection (e.g. the `EVAL_already_decoded` / `HELDOUT_model_selection`
+strata in `docs/nbpolar/DATA_LEDGER.md` §7). Security bookkeeping continues
+to follow R1: reuse of an already-decoded block adds no disclosure beyond
+what that block's own decode already counted toward `beta_eff`/the key
+denominator (D1 of that change). This does not itself freeze D-ACQ-02/03 —
+see `tasks.md` for the transcribed `DECIDED` values — and does not change
+C4's `undetected` isolation or C5's taxonomy.
+
 **C5 note (run-state vs method status, kept strictly apart)**: the taxonomy in
 C5 is *run-state* semantics feeding the FER numerator/denominator arithmetic.
 It is **not** the method reporting `status` vocabulary (`reference`, `stub`,

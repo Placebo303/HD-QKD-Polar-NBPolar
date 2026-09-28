@@ -1,0 +1,68 @@
+{
+  "purpose": "Decoder-free frame census participation ledger, 2026-09-28 tasking (R2 candidate sourcing). Every session touched by workspace/acq_inventory_20260928/ (header getConfiguration() reads + frozen-chain frame counting) is logged here so future EVAL-participation adjudication can see exactly what contact occurred.",
+  "entries": [
+    {
+      "session": "20260113_SHG_Type2PPLN_3s",
+      "path": "/mnt/d/Data/Raw Data/2026.1.13/SHG_Type2PPLN_3s_2026-01-13_162106/SHG_Type2PPLN_3s_2026-01-13_162106.ttbin",
+      "contact_type": "header getConfiguration() read; decoder-free frame census (re-derivation of already-frozen G2 ledger for validation only, via _read_timetags_production -> _align_frozen -> _yield_sweep_selfcheck -> pair_narrow_nearest_unique(window=200) -> chunk_frames(skip=702))",
+      "date": "2026-09-28",
+      "tool": "workspace/acq_inventory_20260928/{read_config.py,count_frames.py} (scratch scripts; not committed to the repo)",
+      "produced_artifacts": "counts and self-check verdicts only (n_events, n_pairs, n_frames_post_skip=4219, ledger dict, alignment/sweep status); no frame content, no CAL fit, no decode, no tag computation written anywhere"
+    },
+    {
+      "session": "20260113_SHG_Type2PPLN_3s_2",
+      "path": "/mnt/d/Data/Raw Data/2026.1.13/SHG_Type2PPLN_3s_2_2026-01-13_162148/SHG_Type2PPLN_3s_2_2026-01-13_162148.ttbin",
+      "contact_type": "header getConfiguration() read; decoder-free frame census (re-derivation of already-frozen G3 ledger for validation only, via _read_timetags_g3_production -> _align_frozen -> _yield_sweep_selfcheck -> pair_narrow_nearest_unique(window=200) -> chunk_frames(skip=702))",
+      "date": "2026-09-28",
+      "tool": "workspace/acq_inventory_20260928/{read_config.py,count_frames.py} (scratch scripts; not committed to the repo)",
+      "produced_artifacts": "counts and self-check verdicts only (n_events, n_pairs, n_frames_post_skip=4289, ledger dict, alignment/sweep status); no frame content, no CAL fit, no decode, no tag computation written anywhere"
+    },
+    {
+      "session": "20260112_Type2PPLN_3s",
+      "path": "/mnt/d/Data/Raw Data/2026.1.12/Type2PPLN_3s_2026-01-12_165236.ttbin",
+      "contact_type": "header getConfiguration() read; decoder-free frame census attempt (via _read_timetags_production -> _align_frozen -> _yield_sweep_selfcheck -> pair_narrow_nearest_unique(window=200)); chunk_frames raised ValueError (stream shorter than skip) before any frame was formed",
+      "date": "2026-09-28",
+      "tool": "workspace/acq_inventory_20260928/{read_config.py,count_frames.py} (scratch scripts; not committed to the repo)",
+      "produced_artifacts": "counts only (n_events=3836088, n_pairs=4782, alignment/sweep status); no frame ever formed (chunk_frames refused: 4782 pairs < skip_pairs 179712); no CAL fit, no decode, no tag computation"
+    },
+    {
+      "session": "20260120_Type0_nofilter_500K_3s / _1M_3s / _1_5M_3s / _2M_3s",
+      "path": "/mnt/d/Data/Raw Data/2026.1.20/... (4 sessions)",
+      "contact_type": "header getConfiguration() read ONLY (no event-stream read of any kind in this 2026-09-28 pass)",
+      "date": "2026-09-28",
+      "tool": "workspace/acq_inventory_20260928/read_config.py",
+      "produced_artifacts": "acquisition config dict only (resolution/deadtime/trigger/delay/normalization fields etc., see configs.json); no timetag read, no frame count"
+    },
+    {
+      "session": "20260121_Type2_1M_3s / _1-5M_3s / _2M_3s",
+      "path": "/mnt/d/Data/Raw Data/2026.1.21/... (3 sessions)",
+      "contact_type": "header getConfiguration() read ONLY (no event-stream read of any kind in this 2026-09-28 pass)",
+      "date": "2026-09-28",
+      "tool": "workspace/acq_inventory_20260928/read_config.py",
+      "produced_artifacts": "acquisition config dict only; no timetag read, no frame count. Pre-existing usage (unrelated to this pass): these three ARE the frozen V25 empirical-channel sources (docs/decision-log.md:5417, F5), already consumed for CAL/training."
+    }
+  ],
+  "block_yield_options_if_reused_on_new_sessions": {
+    "context": "As of 2026-09-28, ZERO new (i.e. not SHG_1/_2, not the 3 V25 Type2 sessions) acquisitions are confirmed as usable EVAL block sources: the only header-config match to the reference (20260112_Type2PPLN_3s) has only 4,782 (N)-window=200 pairs total (INSUFFICIENT, 0 blocks); the other 7 acquisitions (4x Type0_nofilter, 3x Type2 V25) all show a header-config MISMATCH (resolution=Standard vs HighResB, normalization=True vs False, resolution_rms=2.0 vs 1.5 -- see configs.json). No session with matching config + unused + adequate pair count currently exists in the 10-acquisition inventory. The formulas below are therefore illustrative only (evaluated on the two REFERENCE sessions' own already-consumed frame budgets), not a concrete plan -- PI must decide whether to (i) relax the config-match requirement given the earlier PI ruling that Type0/SHG source differences have no IR effect (a different question from these ELECTRONICS/resolution-mode settings differing), (ii) seek new acquisitions, or (iii) accept 0 new EVAL sources from this inventory.",
+    "scheme_A_reference_segmentation_as_is": {
+      "description": "CAL(1024f, M0 incumbent) + CAL32(32f, M2 candidate) + CHAR(782f) + HELDOUT(560f) + EVAL(1792f=14x128) + RESERVE(remainder); mirrors g2_freeze_config.json/g3_freeze_config.json disjointness_matrix exactly.",
+      "fixed_overhead_frames": 4190,
+      "extra_eval_blocks_beyond_existing_14_formula": "floor((n_frames_post_skip - 4190) / 128) [only if n_frames_post_skip > 4190; CAL/CHAR/HELDOUT are fully consumed by the fixed 4190-frame prefix and never re-split down]",
+      "note": "Renamed 2026-09-28 from 'eval_blocks_per_session_formula' (nbpolar-data-use-rules-revision T1(v), design.md D9): this formula counts ONLY additional EVAL blocks available beyond the frame range 4190+ (i.e. beyond the existing frozen 14-block EVAL segment at frames 2398-4189, which is separately accounted for in DATA_LEDGER.md). It does NOT count the 14-block EVAL segment itself. The underlying numbers were never wrong -- this is a naming-clarity fix only, per docs/decision-log.md 2026-09-28 'data-use rules R1-R5 adopted' entry.",
+      "SHG_1_example": {"n_frames_post_skip": 4219, "extra_eval_blocks_beyond_the_14_already_used": 0, "reason": "reserve 29 frames < 128"},
+      "SHG_2_example": {"n_frames_post_skip": 4289, "extra_eval_blocks_beyond_the_14_already_used": 0, "reason": "reserve 99 frames < 128"},
+      "sessions_needed_for_65_blocks": "undetermined -- 0 currently known qualifying new sessions; would need sessions with (n_frames_post_skip - 4190) >= 128*k pairs, i.e. each additional full-tier session (~4200+ frames, matching the reference scale) yields ~0-1 extra blocks under this scheme; this segmentation is EVAL-block-poor by design (94% of frames go to CAL/CHAR/HELDOUT) and is NOT a realistic route to 65 new blocks without many new full-length sessions"
+    },
+    "scheme_B_high_eval_fraction_alternative": {
+      "description": "PI-suggested contrast scheme: CAL kept at 32 frames only (drop the 1024f A1 incumbent CAL and the 782f CHAR and 560f HELDOUT segments entirely), remainder split EVAL + a small RESERVE (e.g. RESERVE = one block's worth, 128f, held back per session as a spare/contingency; PI to set the actual RESERVE size).",
+      "eval_blocks_per_session_formula": "floor((n_frames_post_skip - 32 - RESERVE_frames) / 128)",
+      "SHG_1_example_RESERVE_0": {"n_frames_post_skip": 4219, "eval_blocks": 32, "calc": "floor((4219-32-0)/128)=32"},
+      "SHG_1_example_RESERVE_128": {"n_frames_post_skip": 4219, "eval_blocks": 31, "calc": "floor((4219-32-128)/128)=31"},
+      "SHG_2_example_RESERVE_0": {"n_frames_post_skip": 4289, "eval_blocks": 33, "calc": "floor((4289-32-0)/128)=33"},
+      "SHG_2_example_RESERVE_128": {"n_frames_post_skip": 4289, "eval_blocks": 32, "calc": "floor((4289-32-128)/128)=32"},
+      "sessions_needed_for_65_blocks": "at RESERVE=0: ceil(65/32.5)=~2 full-length (SHG-scale, ~4200-4300 post-skip frames) sessions; at RESERVE=128: ceil(65/31.5)=~3 sessions -- BUT this scheme has never been used on real data in this project (no frozen freeze config implements it) and would require a new OpenSpec change / freeze review before any real block could be drawn under it (AGENTS.md SS3/SS10.3); it also foregoes the large-CAL M0 incumbent arm entirely, which is a scientific-scope decision for the PI, not this inventory pass"
+    },
+    "caveat": "Neither scheme currently has an eligible NEW session to apply to (see context above); the per-session yield numbers are evaluated on SHG_1/SHG_2 purely to show what the two formulas WOULD give, since those are the only two sessions with an actually-measured n_frames_post_skip in this pass."
+  }
+}
+

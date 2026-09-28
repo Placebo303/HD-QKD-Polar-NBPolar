@@ -84,9 +84,9 @@ future rate change. Only `DECIDED` rows enter the frozen body at T4 (see
 
 | Explicit T5/T6 blocker | Question | Owner | State | Retrigger |
 |---|---|---|---|---|
-| D-ACQ-02 Source list | Which new acquisition sources may supply confirmation blocks | PI / lab contact | PENDING | retrigger=parsed new-source ledger arrival; no source is consumed before T4 |
-| D-ACQ-03 Partition quotas | Per-acquisition CAL / CHAR / HELDOUT / EVAL / RESERVE quotas under C11 | PI / lab contact | PENDING | retrigger=T5 quota arithmetic; quotas and acquisition capacity must be fixed before T5 |
-| D-ACQ-05 Comparability | Baseline and work-point tolerance/conditions | PI / lab contact | PENDING | retrigger=paired-design item; R2 remains single-method; work-point inputs required |
+| D-ACQ-02 Source list | Which new acquisition sources may supply confirmation blocks | PI / lab contact | **DECIDED 2026-09-28**: SHG `_1`/`_2`, full sessions — see `docs/nbpolar/DATA_LEDGER.md` §7 and `docs/decision-log.md` 2026-09-28 "数据使用规则修订 R1-R5 采纳" entry | closed — no further new-source ledger required for the 64-block candidate pool |
+| D-ACQ-03 Partition quotas | Per-acquisition CAL / CHAR / HELDOUT / EVAL / RESERVE quotas under C11 | PI / lab contact | **DECIDED 2026-09-28**: per session (32 blocks) — frames 0-1023 → 8 blocks (`A1_CAL_characterization` stratum); 1056-2397 → 10 blocks, 62-frame remainder unused (`HELDOUT_model_selection` stratum); 2398-4189 → 14 blocks (`EVAL_already_decoded` stratum); CAL32 stays 1024-1055 (32f, excluded). 64 blocks total across both sessions. See `docs/nbpolar/DATA_LEDGER.md` §7. | closed — quota arithmetic (T5) may now proceed on this input |
+| D-ACQ-05 Comparability | Baseline and work-point tolerance/conditions | PI / lab contact | **DECIDED 2026-09-28**: scope narrowed to "applies only to the two 2026-01-13 SHG acquisitions' own conditions" (config verified identical, `workspace/acq_inventory_20260928/REPORT.md:26-68`); HELDOUT (1838-2397) and the already-decoded EVAL (2398-4189) are reported in separate strata, not merged. General new-source comparability stays open for any future acquisition. | closed for this candidate pool — see `docs/decision-log.md` 2026-09-28 entry |
 | D-ACQ-06 Budget | Per-block and total wall/RSS limits and machine/parallelism constraints | PI / lab/operations | **DECIDED 2026-09-27**: `O-6a ; wall_per_block = 40 s ; rss_per_block = 2 GiB ; wall_total = 5400 s ; machine_spec/parallelism = single-process exclusive on this machine ; stop_on_overbudget = STOP, no tuning` | closed — see `docs/decision-log.md` 2026-09-27 entry |
 
 PI-ready decision cards for the four blockers above (options, consequences, required external fields with units, non-adjudication consequences, owner; **no recommended values and no row state changed**) were prepared on 2026-09-27 at `docs/nbpolar/R2_T4_PI_DECISION_CARDS_20260927.md`. Rows remain `PENDING` until the PI adjudicates them.
@@ -99,6 +99,21 @@ and `R2_T4_PI_DECISION_CARDS_20260927.md` 卡 4 "已裁决" line). D-ACQ-02,
 D-ACQ-03, and D-ACQ-05 remain `PENDING`; T5/T6 stay blocked by
 GATE-T5/GATE-T6 (`tasks.md:57`) until those three are also decided. This
 does not freeze the R2 contract.
+
+**2026-09-28 update**: D-ACQ-02, D-ACQ-03, and D-ACQ-05 are now `DECIDED`
+via `openspec/changes/nbpolar-data-use-rules-revision` T1 (PI, "按建议批准，
+继续推进") — values transcribed in the blocker table above and in
+`docs/nbpolar/DATA_LEDGER.md` §7. All four explicit T5/T6 blockers
+(D-ACQ-02/03/05/06) are now `DECIDED`; T5 quota arithmetic may proceed.
+This still does not by itself freeze the R2 contract — D-FER-04..07 and
+D-ACQ-01/04/07/08 remain `PENDING` (see below) and T3's freeze verdict is
+still outstanding. **D-FER-03 note**: the frozen `n=65` value (basis `p=3/14`)
+is superseded by a 2026-09-28 re-adjudication to `n=56`, derived from the
+Wilson-upper bound `p≈0.1771` on the SCL(L=16) 27/28 real-data result
+(`docs/decision-log.md` 2026-09-28 entries "真实数据 G2/G3 B 臂 28 块
+SCL(L=16) 描述性合并" and "数据使用规则修订 R1-R5 采纳"); the original `n=65`
+and its `p=3/14` derivation are retained below, annotated as superseded, not
+deleted.
 
 D-ACQ-04 (Type0) and D-ACQ-08 (session count), as well as D-FER-04..07 and
 D-ACQ-01/07, remain `PENDING` because the T4 decision-log entry gives no

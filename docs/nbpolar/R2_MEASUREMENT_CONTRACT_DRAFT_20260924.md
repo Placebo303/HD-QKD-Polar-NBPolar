@@ -150,6 +150,11 @@ FER = (# verify_failed + # decode_failed)
 - **T4 PI ruling (D-FER-02)**：Δ = 0.10 under the single-method R-a convention and
   `w(Δ) = Δ = 0.10`. The direction remains one-way (difference → w → n → quota);
   this does not choose any acquisition quota.
+- **指向说明（2026-09-28，`nbpolar-data-use-rules-revision` T1）**：本表的
+  `n=65`（基于 `p=3/14`）已被重新裁决为 **`n=56`**（基于 SCL(L=16) 真实数据
+  27/28 结果的 Wilson 上界 `p≈0.1771`，`z=1.96`，`w=0.10`）**替代**；`n=65`
+  行**保留、标注被替代**，不删除。详见 `docs/decision-log.md` 2026-09-28
+  「数据使用规则修订 R1-R5 采纳」条目与本 change `tasks.md` D-FER-03 note。
 - 注：**R-3 边界的唯一承载处 = 本条 C9（后果承载处 = C10 的 Branch B；§0 P3 已归位）**
   ——`FER < 0.003 @ 1000 samples` 系 R3 远期条件 aspiration，**不作 R2 sizing 依据**；
   百块量级在数学上不可触及该量级。FER §5 对账小节原文不逐字复制，其结论由 C9/C10 承载。
@@ -171,6 +176,12 @@ FER = (# verify_failed + # decode_failed)
   日期、产物 id；**decoder 接触过的帧 NEVER 回流为确认样本（ledger 永不回流，
   §7/§9 双向一致）**。G3 的 independence 系 decoder/model independence，非 no-prior-contact。
 - 来源：ACQ Annex A §2/§7/§9 + FER 草稿分支承接。
+- **指向说明（2026-09-28，`nbpolar-data-use-rules-revision` T1）**：`D-ACQ-02`
+  源清单已裁决 = SHG `_1`/`_2` 全会话（不新增采集源）；"decoder 接触过的帧
+  NEVER 回流"读法按新数据使用规则 R1/R2 收窄为——可复用，但须预冻结 + 全块
+  报告 + 分层标注（见本 change `design.md` C10/C11 note 与
+  `docs/nbpolar/DATA_LEDGER.md` §7）。详见 `tasks.md` D-ACQ-02 行与
+  `docs/decision-log.md` 2026-09-28 条目。
 
 ### C11 — 预留段配额、Type0、reservation-partition 矩阵、COMPLETE-BLOCKS-ONLY
 
@@ -184,6 +195,12 @@ FER = (# verify_failed + # decode_failed)
   INCONCLUSIVE——**永不垫块、永不复用、永不缩 N**（ladder 耗尽警示先例：never-decoded
   101 frames，32f CAL 后 69 < 1 block）。禁止「用尽后再找块」。
 - 来源：ACQ Annex A §4/§6。待 T4 裁定 D-ACQ-03/04。
+- **指向说明（2026-09-28，`nbpolar-data-use-rules-revision` T1）**：`D-ACQ-03`
+  配额已裁决 = 每会话 32 块（0-1023→8 块 A1_CAL、1056-2397→10 块
+  CHAR+HELDOUT 余 62 帧不用、2398-4189→14 块 EVAL），CAL32 仍 1024-1055
+  排除；`D-ACQ-04`（Type0）不受影响、仍 PENDING。互斥要求收窄为"CAL32 与
+  其余段互斥"（R3）。详见 `tasks.md` D-ACQ-03 行与 `docs/nbpolar/
+  DATA_LEDGER.md` §7。
 
 ### C12 — 噪声带 / 工作点可比性（D-ACQ-05）
 
@@ -195,6 +212,10 @@ FER = (# verify_failed + # decode_failed)
   not protocol identity) to C12. Annex A §8 remains the source text. This placement
   does not decide the D-ACQ-05 work-point tolerance or supply its missing lab inputs.
 - 来源：ACQ Annex A §5；D-ACQ-05 remains PENDING.
+- **指向说明（2026-09-28，`nbpolar-data-use-rules-revision` T1）**：`D-ACQ-05`
+  已裁决 = 适用域限定为"仅适用于 2026-01-13 两次 SHG 采集自身条件"（配置逐
+  字段核实一致，`workspace/acq_inventory_20260928/REPORT.md:26-68`）；一般
+  新采集可比性问题仍 PENDING。详见 `tasks.md` D-ACQ-05 行。
 
 ### C13 — 预算、wall/RSS/数据体积、≥2 sessions（D-ACQ-06/08）
 
@@ -291,16 +312,16 @@ open-decision 表，`deferred` 项不得被引为已冻结。
 |---|---|---|---|---|---|
 | D-FER-01 | C3 | CI 方法（Wilson z=1.96 vs exact） | `DECIDED` | Wilson 95% CI, z=1.96. PI ruling: decision-log, 2026-09-24 R2 T4. | 2026-09-24 |
 | D-FER-02 | C9 / D2 | 目标半宽 w（必须等于 Δ 导出值） | `DECIDED` | Δ=0.10; R-a; `w(Δ)=Δ=0.10`. PI ruling: decision-log, 2026-09-24 R2 T4. | 2026-09-24 |
-| D-FER-03 | C9 | 样本量 n（由 w 导出） | `DECIDED` | p=3/14 sizing input; n=65 valid complete blocks (Wilson minimum 63; 65 selected conservatively). Report observed intervals without a post-hoc half-width ≤0.10 guarantee. PI ruling: decision-log, 2026-09-24 R2 T4. | 2026-09-24 |
+| D-FER-03 | C9 | 样本量 n（由 w 导出） | `DECIDED` (2026-09-24 value **SUPERSEDED** 2026-09-28) | ~~p=3/14 sizing input; n=65 valid complete blocks (Wilson minimum 63; 65 selected conservatively).~~ **2026-09-28 按新 p 重新裁决 n=56（替代 65）**: Wilson-upper `p≈0.1771` on the SCL(L=16) real-data 27/28 result, `z=1.96`, `w=0.10` (`design.md` D6(ii) of `nbpolar-data-use-rules-revision`); `n=65` retained above as the superseded 2026-09-24 value, not deleted. Report observed intervals without a post-hoc half-width ≤0.10 guarantee. PI rulings: decision-log, 2026-09-24 R2 T4 and 2026-09-28 "数据使用规则修订 R1-R5 采纳". | 2026-09-24; superseded 2026-09-28 |
 | D-FER-04 | C6 | `H(q)`→经验 `H(X|Y)` 替换口径 | `PENDING` | — | — |
 | D-FER-05 | C7 | `f_FER` 记账式冻结 | `PENDING` | — | — |
 | D-FER-06 | C4/C14 | `undetected > 0` 升级规则 | `PENDING` | — | — |
 | D-FER-07 | C8 | per-frame 派生读数允许条件 | `PENDING` | — | — |
 | D-ACQ-01 | C10 | 执行分支（A / A′ / B）与目标 n、w | `PENDING` | — | — |
-| D-ACQ-02 | C10 | 采集源清单 | `PENDING` | Explicit T5/T6 blocker: PI source designation plus new-acquisition list and parsed participation ledger required; see Open Inputs item 1. | — |
-| D-ACQ-03 | C11 | 每 acquisition 预留段配额 | `PENDING` | Explicit T5/T6 blocker: PI partition rule/quotas and lab capacity confirmation required; see Open Inputs item 2. D-ACQ-04 remains separately PENDING. | — |
+| D-ACQ-02 | C10 | 采集源清单 | `DECIDED` | SHG `_1`/`_2`, full sessions (no new acquisition). PI ruling: decision-log, 2026-09-28 "数据使用规则修订 R1-R5 采纳"; values in `docs/nbpolar/DATA_LEDGER.md` §7. | 2026-09-28 |
+| D-ACQ-03 | C11 | 每 acquisition 预留段配额 | `DECIDED` | Per session (32 blocks): frames 0-1023 → 8 blocks (`A1_CAL_characterization`); 1056-2397 → 10 blocks, 62f unused (`HELDOUT_model_selection`); 2398-4189 → 14 blocks (`EVAL_already_decoded`); CAL32 stays 1024-1055 (32f, excluded). 64 blocks total. PI ruling: decision-log, 2026-09-28. D-ACQ-04 remains separately PENDING. | 2026-09-28 |
 | D-ACQ-04 | C11 | Type0 纳入与否及报告方式 | `PENDING` | — | — |
-| D-ACQ-05 | C12 | 噪声/工作点可接受差异带 | `PENDING` | Explicit T5/T6 blocker: PI comparability decision and lab work-point measurements required; see Open Inputs item 3. D-ACQ-08 remains separately PENDING. | — |
+| D-ACQ-05 | C12 | 噪声/工作点可接受差异带 | `DECIDED` | Scope narrowed to "applies only to the two 2026-01-13 SHG acquisitions' own conditions" (config verified identical, `workspace/acq_inventory_20260928/REPORT.md:26-68`). General new-source comparability remains open for any future acquisition. PI ruling: decision-log, 2026-09-28. D-ACQ-08 remains separately PENDING. | 2026-09-28 |
 | D-ACQ-06 | C13 | 预算数（单块 wall/RSS、总 wall/RSS） | `PENDING` | Explicit T5/T6 blocker: PI limits plus lab/operations machine and parallelism inputs required; see Open Inputs item 4. | — |
 | D-ACQ-07 | C14 | 配对/构造契约沿用 | `PENDING` | — | — |
 | D-ACQ-08 | C13 | 独立 session 最低会话数（≥2） | `PENDING` | — | — |
