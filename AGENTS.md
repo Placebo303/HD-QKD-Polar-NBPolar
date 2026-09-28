@@ -161,6 +161,25 @@ main-thread acceptance or scientific-scope decision.
 - Before adding any defensive mechanism, identify the concrete failure mode it prevents. If no realistic failure mode exists in this repository, omit it.
 - Do not generalize a one-off research script into a production framework unless explicitly requested.
 
+### 5.8 Data-use rules (R1-R5)
+
+Adopted 2026-09-28 (PI T1 DECIDED, `nbpolar-data-use-rules-revision`; full text
+`design.md` D7; durable ledger `docs/nbpolar/DATA_LEDGER.md` — query it before
+any "need new acquisition" claim).
+
+- **R1 (security)**: disclosures (K-coords/tag/CRC/CAL-sacrifice) are already
+  counted in `beta_eff`; reusing an already-decoded block adds no new
+  disclosure — "decode ≠ consume."
+- **R2 (statistics)**: an FER/efficiency number is valid only with pre-frozen
+  parameters, the full declared block set, and no post-hoc tuning; blocks that
+  touched model selection are labeled and reported in a separate stratum.
+- **R3 (segmentation)**: each session sacrifices only CAL32 (32f); remaining
+  frames are decode-eligible by default. Blocks stay 128 frames.
+- **R4 (sample size)**: `n` is recomputed when reference `p` changes; never
+  used to back-derive the acquisition quota policy itself.
+- **R5 (process)**: before asserting "new acquisition needed," check
+  `docs/nbpolar/DATA_LEDGER.md` and compute the actual gap.
+
 ---
 
 ## 6. OpenSpec Workflow
