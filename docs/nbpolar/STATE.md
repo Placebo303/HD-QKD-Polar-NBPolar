@@ -29,6 +29,8 @@
 
 > **真实数据 G2/G3 B 臂失败块 SCL 重解（2026-09-28，PI 授权，描述性诊断，Pre-EXECUTE `PASS_WITH_COMMENTS` / Pre-RESULT `PASS`）**：`workspace/m2_scl_rescue_g2g3/` 对 SC 冻结路径下失败的 9 个真实数据 B 臂块（G2 3 个 + G3 6 个）跑 CRC-16 辅助 joint SCL(L=16, top_m=4) 重解。9/9 块保真性核对（SC 复现 vs `per_block_outcomes.jsonl` 五字段）全部一致。救回 8/9（G2 2/3、G3 6/6，G2 block 5 仍失败，L2 有 78 个错误符号），`undetected=0`。**结论仅限**："在 SC 冻结路径下失败的 9 个真实数据 B 臂块中，CRC-16 辅助 joint SCL(L=16, top_m=4) 对同批失败块重解，救回 8/9（G2 2/3、G3 6/6），undetected=0；SCL 是否会保持或破坏 SC 原本成功的 19 个块，本次未在真实数据上测试，不作声称。" 不改 M2/G2/G3 状态串、不改冻结 K1=319/K2=6492、R2 仍未冻结、真实数据 SCL 仍不是已采纳基线（design D5 不变）。详见 `docs/decision-log.md` 2026-09-28「真实数据 G2/G3 B 臂失败块 SCL 重解（描述性诊断，PI 授权）」条目。
 
+> **真实数据 B 臂 28 块 SCL(L=16) 合并结果（2026-09-28，PI 授权"19 块也跑"，描述性诊断，Pre-EXECUTE `PASS` / Pre-RESULT `PASS`）**：`workspace/m2_scl_check_g2g3_success/` 对 SC 冻结路径下**成功**的 19 个真实数据 B 臂块（G2 11 个 + G3 8 个）跑同一 CRC-16 辅助 joint SCL(L=16, top_m=4) 做保真性保持检查，19/19 块保真核对全部通过（`preserved_exact=19`、`broken=0`、`undetected=0`）。与前驱包（`workspace/m2_scl_rescue_g2g3/`，commit `326594ca`，救回失败块 8/9）合并后，28 个真实数据 B 臂块（G2 14 + G3 14）在 SCL(L=16) 下合计 **27/28 exact**（G2 13/14、G3 14/14），仅 G2 block 5 仍 `verify_failed`（该块在 SC 与 SCL 两条路径下均失败，L2 有 78 个错误符号），`undetected=0`；对照同 28 块在 SC 下为 19/28（G2 11/14、G3 8/14）。**边界（不得外推）**：这不是 FER 门、不是 R2 结果、不是晋级依据；M2/G2/G3 状态串、冻结 K1=319/K2=6492 均未改动；R2 仍未冻结（D-ACQ-02/03/05 PENDING）；真实数据 SCL 仍不是已采纳基线（design D5 不变）。详见 `docs/decision-log.md` 2026-09-28「真实数据 G2/G3 B 臂 28 块 SCL(L=16) 描述性合并：27/28（PI 授权）」条目。
+
 ## 如果只读三件事
 
 1. **leading-candidate 机制（非收敛根因）**：证据指向 M0 非参数先验的先验/地板处理（零 cell 得概率地板 1e-15；每个落地板的真 −1 delta 约 40.42 bits 伪罚；每 block ~44.7 个真 −1 中仅 ~30.4 落在 TRAIN 零 −1 列；S9 合成 B 11/16 vs A 0/16，描述性，见 §1）——但码率、构造、分配、时间相关均**未排除**；54.8σ 余量仅是理想模型下"无码率 binding 证据"，非证伪。

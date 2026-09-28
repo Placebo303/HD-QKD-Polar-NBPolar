@@ -1,0 +1,1519 @@
+{
+  "authorization": {
+    "source": "AUTHORIZATION_PROMPT.md (this directory)",
+    "verbatim": "\u6388\u6743\uff0c19 \u5757\u4e5f\u8dd1 SCL L=16",
+    "when": "2026-09-28",
+    "who": "PI"
+  },
+  "blocks": [
+    {
+      "arm": "B_M2_32f_candidate",
+      "block_index": 0,
+      "error": null,
+      "fidelity": {
+        "actual": {
+          "first_error_coordinate": null,
+          "first_error_layer": null,
+          "hard_l2_exact": true,
+          "l1_exact": true,
+          "outcome": "exact"
+        },
+        "eval_frames": [
+          2398,
+          2525
+        ],
+        "expected": {
+          "first_error_coordinate": null,
+          "first_error_layer": null,
+          "hard_l2_exact": true,
+          "l1_exact": true,
+          "outcome": "exact"
+        },
+        "match": true,
+        "mismatches": []
+      },
+      "rescue": {
+        "accepted": true,
+        "candidates_considered": 64,
+        "crc_bits": 16,
+        "crc_hat": 56926,
+        "crc_pass": true,
+        "crc_true": 56926,
+        "exact": true,
+        "hard_l2_exact_scl": true,
+        "joint_metric": -0.01805438583375365,
+        "l1_error_symbols_scl": 0,
+        "l1_exact_scl": true,
+        "l1_survivor_count": 16,
+        "l2_error_symbols_scl": 0,
+        "label_exact": true,
+        "list_width_L": 16,
+        "m1": -1.1381544372811562e-05,
+        "m2": -0.018043004289380837,
+        "metric_provenance": {
+          "crc": "CRC-16/CCITT-FALSE, poly=0x1021, init=0xFFFF, MSB-first, no reflect, no xorout",
+          "l1_provenance": "PRIOR_ONLY",
+          "l2_provenance": "CANDIDATE_CONDITIONED",
+          "label_convention": "s = low + 32*high per position (two_layer.py LABEL_SCALE=32)",
+          "merge_rule": "joint_metric desc, tie-break (l1_rank, l2_rank) asc",
+          "prune_rule": "top_l_prune",
+          "top_m_default": 4,
+          "top_m_requested": 4
+        },
+        "tag_pass": true,
+        "top_m_requested": 4,
+        "top_m_used": 4,
+        "undetected": false,
+        "verify_failed": false
+      },
+      "resources": {
+        "budget_rss_gib": 2.0,
+        "budget_wall_s": 1200.0,
+        "rss_gib_peak_advisory": 0.5396614074707031,
+        "wall_fidelity_s": 20.69702642399352,
+        "wall_rescue_s": 525.0123113259906,
+        "wall_total_s": 545.7093563680537
+      },
+      "session": "G2",
+      "status": "ok"
+    },
+    {
+      "arm": "B_M2_32f_candidate",
+      "block_index": 2,
+      "error": null,
+      "fidelity": {
+        "actual": {
+          "first_error_coordinate": null,
+          "first_error_layer": null,
+          "hard_l2_exact": true,
+          "l1_exact": true,
+          "outcome": "exact"
+        },
+        "eval_frames": [
+          2654,
+          2781
+        ],
+        "expected": {
+          "first_error_coordinate": null,
+          "first_error_layer": null,
+          "hard_l2_exact": true,
+          "l1_exact": true,
+          "outcome": "exact"
+        },
+        "match": true,
+        "mismatches": []
+      },
+      "rescue": {
+        "accepted": true,
+        "candidates_considered": 64,
+        "crc_bits": 16,
+        "crc_hat": 43353,
+        "crc_pass": true,
+        "crc_true": 43353,
+        "exact": true,
+        "hard_l2_exact_scl": true,
+        "joint_metric": -0.1886442817762051,
+        "l1_error_symbols_scl": 0,
+        "l1_exact_scl": true,
+        "l1_survivor_count": 16,
+        "l2_error_symbols_scl": 0,
+        "label_exact": true,
+        "list_width_L": 16,
+        "m1": -1.1759312479867821e-05,
+        "m2": -0.18863252246372522,
+        "metric_provenance": {
+          "crc": "CRC-16/CCITT-FALSE, poly=0x1021, init=0xFFFF, MSB-first, no reflect, no xorout",
+          "l1_provenance": "PRIOR_ONLY",
+          "l2_provenance": "CANDIDATE_CONDITIONED",
+          "label_convention": "s = low + 32*high per position (two_layer.py LABEL_SCALE=32)",
+          "merge_rule": "joint_metric desc, tie-break (l1_rank, l2_rank) asc",
+          "prune_rule": "top_l_prune",
+          "top_m_default": 4,
+          "top_m_requested": 4
+        },
+        "tag_pass": true,
+        "top_m_requested": 4,
+        "top_m_used": 4,
+        "undetected": false,
+        "verify_failed": false
+      },
+      "resources": {
+        "budget_rss_gib": 2.0,
+        "budget_wall_s": 1200.0,
+        "rss_gib_peak_advisory": 0.5457038879394531,
+        "wall_fidelity_s": 20.64752439793665,
+        "wall_rescue_s": 524.5002526899334,
+        "wall_total_s": 545.1477909340756
+      },
+      "session": "G2",
+      "status": "ok"
+    },
+    {
+      "arm": "B_M2_32f_candidate",
+      "block_index": 3,
+      "error": null,
+      "fidelity": {
+        "actual": {
+          "first_error_coordinate": null,
+          "first_error_layer": null,
+          "hard_l2_exact": true,
+          "l1_exact": true,
+          "outcome": "exact"
+        },
+        "eval_frames": [
+          2782,
+          2909
+        ],
+        "expected": {
+          "first_error_coordinate": null,
+          "first_error_layer": null,
+          "hard_l2_exact": true,
+          "l1_exact": true,
+          "outcome": "exact"
+        },
+        "match": true,
+        "mismatches": []
+      },
+      "rescue": {
+        "accepted": true,
+        "candidates_considered": 64,
+        "crc_bits": 16,
+        "crc_hat": 58806,
+        "crc_pass": true,
+        "crc_true": 58806,
+        "exact": true,
+        "hard_l2_exact_scl": true,
+        "joint_metric": -1.1683518704822906,
+        "l1_error_symbols_scl": 0,
+        "l1_exact_scl": true,
+        "l1_survivor_count": 16,
+        "l2_error_symbols_scl": 0,
+        "label_exact": true,
+        "list_width_L": 16,
+        "m1": -2.049151320650263e-05,
+        "m2": -1.1683313789690841,
+        "metric_provenance": {
+          "crc": "CRC-16/CCITT-FALSE, poly=0x1021, init=0xFFFF, MSB-first, no reflect, no xorout",
+          "l1_provenance": "PRIOR_ONLY",
+          "l2_provenance": "CANDIDATE_CONDITIONED",
+          "label_convention": "s = low + 32*high per position (two_layer.py LABEL_SCALE=32)",
+          "merge_rule": "joint_metric desc, tie-break (l1_rank, l2_rank) asc",
+          "prune_rule": "top_l_prune",
+          "top_m_default": 4,
+          "top_m_requested": 4
+        },
+        "tag_pass": true,
+        "top_m_requested": 4,
+        "top_m_used": 4,
+        "undetected": false,
+        "verify_failed": false
+      },
+      "resources": {
+        "budget_rss_gib": 2.0,
+        "budget_wall_s": 1200.0,
+        "rss_gib_peak_advisory": 0.5446128845214844,
+        "wall_fidelity_s": 20.644636353943497,
+        "wall_rescue_s": 524.5860084410524,
+        "wall_total_s": 545.2306606509956
+      },
+      "session": "G2",
+      "status": "ok"
+    },
+    {
+      "arm": "B_M2_32f_candidate",
+      "block_index": 4,
+      "error": null,
+      "fidelity": {
+        "actual": {
+          "first_error_coordinate": null,
+          "first_error_layer": null,
+          "hard_l2_exact": true,
+          "l1_exact": true,
+          "outcome": "exact"
+        },
+        "eval_frames": [
+          2910,
+          3037
+        ],
+        "expected": {
+          "first_error_coordinate": null,
+          "first_error_layer": null,
+          "hard_l2_exact": true,
+          "l1_exact": true,
+          "outcome": "exact"
+        },
+        "match": true,
+        "mismatches": []
+      },
+      "rescue": {
+        "accepted": true,
+        "candidates_considered": 64,
+        "crc_bits": 16,
+        "crc_hat": 1585,
+        "crc_pass": true,
+        "crc_true": 1585,
+        "exact": true,
+        "hard_l2_exact_scl": true,
+        "joint_metric": -0.08371127971296093,
+        "l1_error_symbols_scl": 0,
+        "l1_exact_scl": true,
+        "l1_survivor_count": 16,
+        "l2_error_symbols_scl": 0,
+        "label_exact": true,
+        "list_width_L": 16,
+        "m1": -4.577384417088548e-07,
+        "m2": -0.08371082197451922,
+        "metric_provenance": {
+          "crc": "CRC-16/CCITT-FALSE, poly=0x1021, init=0xFFFF, MSB-first, no reflect, no xorout",
+          "l1_provenance": "PRIOR_ONLY",
+          "l2_provenance": "CANDIDATE_CONDITIONED",
+          "label_convention": "s = low + 32*high per position (two_layer.py LABEL_SCALE=32)",
+          "merge_rule": "joint_metric desc, tie-break (l1_rank, l2_rank) asc",
+          "prune_rule": "top_l_prune",
+          "top_m_default": 4,
+          "top_m_requested": 4
+        },
+        "tag_pass": true,
+        "top_m_requested": 4,
+        "top_m_used": 4,
+        "undetected": false,
+        "verify_failed": false
+      },
+      "resources": {
+        "budget_rss_gib": 2.0,
+        "budget_wall_s": 1200.0,
+        "rss_gib_peak_advisory": 0.5499229431152344,
+        "wall_fidelity_s": 20.63842439907603,
+        "wall_rescue_s": 525.1580736029427,
+        "wall_total_s": 545.7965106810443
+      },
+      "session": "G2",
+      "status": "ok"
+    },
+    {
+      "arm": "B_M2_32f_candidate",
+      "block_index": 6,
+      "error": null,
+      "fidelity": {
+        "actual": {
+          "first_error_coordinate": null,
+          "first_error_layer": null,
+          "hard_l2_exact": true,
+          "l1_exact": true,
+          "outcome": "exact"
+        },
+        "eval_frames": [
+          3166,
+          3293
+        ],
+        "expected": {
+          "first_error_coordinate": null,
+          "first_error_layer": null,
+          "hard_l2_exact": true,
+          "l1_exact": true,
+          "outcome": "exact"
+        },
+        "match": true,
+        "mismatches": []
+      },
+      "rescue": {
+        "accepted": true,
+        "candidates_considered": 64,
+        "crc_bits": 16,
+        "crc_hat": 12494,
+        "crc_pass": true,
+        "crc_true": 12494,
+        "exact": true,
+        "hard_l2_exact_scl": true,
+        "joint_metric": -0.2880837593017538,
+        "l1_error_symbols_scl": 0,
+        "l1_exact_scl": true,
+        "l1_survivor_count": 16,
+        "l2_error_symbols_scl": 0,
+        "label_exact": true,
+        "list_width_L": 16,
+        "m1": -0.25902007673403443,
+        "m2": -0.02906368256771935,
+        "metric_provenance": {
+          "crc": "CRC-16/CCITT-FALSE, poly=0x1021, init=0xFFFF, MSB-first, no reflect, no xorout",
+          "l1_provenance": "PRIOR_ONLY",
+          "l2_provenance": "CANDIDATE_CONDITIONED",
+          "label_convention": "s = low + 32*high per position (two_layer.py LABEL_SCALE=32)",
+          "merge_rule": "joint_metric desc, tie-break (l1_rank, l2_rank) asc",
+          "prune_rule": "top_l_prune",
+          "top_m_default": 4,
+          "top_m_requested": 4
+        },
+        "tag_pass": true,
+        "top_m_requested": 4,
+        "top_m_used": 4,
+        "undetected": false,
+        "verify_failed": false
+      },
+      "resources": {
+        "budget_rss_gib": 2.0,
+        "budget_wall_s": 1200.0,
+        "rss_gib_peak_advisory": 0.5514640808105469,
+        "wall_fidelity_s": 20.628041910007596,
+        "wall_rescue_s": 523.9814515219769,
+        "wall_total_s": 544.6095062589739
+      },
+      "session": "G2",
+      "status": "ok"
+    },
+    {
+      "arm": "B_M2_32f_candidate",
+      "block_index": 7,
+      "error": null,
+      "fidelity": {
+        "actual": {
+          "first_error_coordinate": null,
+          "first_error_layer": null,
+          "hard_l2_exact": true,
+          "l1_exact": true,
+          "outcome": "exact"
+        },
+        "eval_frames": [
+          3294,
+          3421
+        ],
+        "expected": {
+          "first_error_coordinate": null,
+          "first_error_layer": null,
+          "hard_l2_exact": true,
+          "l1_exact": true,
+          "outcome": "exact"
+        },
+        "match": true,
+        "mismatches": []
+      },
+      "rescue": {
+        "accepted": true,
+        "candidates_considered": 64,
+        "crc_bits": 16,
+        "crc_hat": 13269,
+        "crc_pass": true,
+        "crc_true": 13269,
+        "exact": true,
+        "hard_l2_exact_scl": true,
+        "joint_metric": -0.0763697299087532,
+        "l1_error_symbols_scl": 0,
+        "l1_exact_scl": true,
+        "l1_survivor_count": 16,
+        "l2_error_symbols_scl": 0,
+        "label_exact": true,
+        "list_width_L": 16,
+        "m1": -7.087129110383135e-05,
+        "m2": -0.07629885861764936,
+        "metric_provenance": {
+          "crc": "CRC-16/CCITT-FALSE, poly=0x1021, init=0xFFFF, MSB-first, no reflect, no xorout",
+          "l1_provenance": "PRIOR_ONLY",
+          "l2_provenance": "CANDIDATE_CONDITIONED",
+          "label_convention": "s = low + 32*high per position (two_layer.py LABEL_SCALE=32)",
+          "merge_rule": "joint_metric desc, tie-break (l1_rank, l2_rank) asc",
+          "prune_rule": "top_l_prune",
+          "top_m_default": 4,
+          "top_m_requested": 4
+        },
+        "tag_pass": true,
+        "top_m_requested": 4,
+        "top_m_used": 4,
+        "undetected": false,
+        "verify_failed": false
+      },
+      "resources": {
+        "budget_rss_gib": 2.0,
+        "budget_wall_s": 1200.0,
+        "rss_gib_peak_advisory": 0.5615921020507812,
+        "wall_fidelity_s": 20.706322665908374,
+        "wall_rescue_s": 524.4388518750202,
+        "wall_total_s": 545.14518627699
+      },
+      "session": "G2",
+      "status": "ok"
+    },
+    {
+      "arm": "B_M2_32f_candidate",
+      "block_index": 8,
+      "error": null,
+      "fidelity": {
+        "actual": {
+          "first_error_coordinate": null,
+          "first_error_layer": null,
+          "hard_l2_exact": true,
+          "l1_exact": true,
+          "outcome": "exact"
+        },
+        "eval_frames": [
+          3422,
+          3549
+        ],
+        "expected": {
+          "first_error_coordinate": null,
+          "first_error_layer": null,
+          "hard_l2_exact": true,
+          "l1_exact": true,
+          "outcome": "exact"
+        },
+        "match": true,
+        "mismatches": []
+      },
+      "rescue": {
+        "accepted": true,
+        "candidates_considered": 64,
+        "crc_bits": 16,
+        "crc_hat": 63677,
+        "crc_pass": true,
+        "crc_true": 63677,
+        "exact": true,
+        "hard_l2_exact_scl": true,
+        "joint_metric": -0.37861068691662275,
+        "l1_error_symbols_scl": 0,
+        "l1_exact_scl": true,
+        "l1_survivor_count": 16,
+        "l2_error_symbols_scl": 0,
+        "label_exact": true,
+        "list_width_L": 16,
+        "m1": -4.493463670310646e-06,
+        "m2": -0.37860619345295243,
+        "metric_provenance": {
+          "crc": "CRC-16/CCITT-FALSE, poly=0x1021, init=0xFFFF, MSB-first, no reflect, no xorout",
+          "l1_provenance": "PRIOR_ONLY",
+          "l2_provenance": "CANDIDATE_CONDITIONED",
+          "label_convention": "s = low + 32*high per position (two_layer.py LABEL_SCALE=32)",
+          "merge_rule": "joint_metric desc, tie-break (l1_rank, l2_rank) asc",
+          "prune_rule": "top_l_prune",
+          "top_m_default": 4,
+          "top_m_requested": 4
+        },
+        "tag_pass": true,
+        "top_m_requested": 4,
+        "top_m_used": 4,
+        "undetected": false,
+        "verify_failed": false
+      },
+      "resources": {
+        "budget_rss_gib": 2.0,
+        "budget_wall_s": 1200.0,
+        "rss_gib_peak_advisory": 0.5669403076171875,
+        "wall_fidelity_s": 20.644416397903115,
+        "wall_rescue_s": 523.460601845989,
+        "wall_total_s": 544.1050454019569
+      },
+      "session": "G2",
+      "status": "ok"
+    },
+    {
+      "arm": "B_M2_32f_candidate",
+      "block_index": 9,
+      "error": null,
+      "fidelity": {
+        "actual": {
+          "first_error_coordinate": null,
+          "first_error_layer": null,
+          "hard_l2_exact": true,
+          "l1_exact": true,
+          "outcome": "exact"
+        },
+        "eval_frames": [
+          3550,
+          3677
+        ],
+        "expected": {
+          "first_error_coordinate": null,
+          "first_error_layer": null,
+          "hard_l2_exact": true,
+          "l1_exact": true,
+          "outcome": "exact"
+        },
+        "match": true,
+        "mismatches": []
+      },
+      "rescue": {
+        "accepted": true,
+        "candidates_considered": 64,
+        "crc_bits": 16,
+        "crc_hat": 17423,
+        "crc_pass": true,
+        "crc_true": 17423,
+        "exact": true,
+        "hard_l2_exact_scl": true,
+        "joint_metric": -0.0022862336772419434,
+        "l1_error_symbols_scl": 0,
+        "l1_exact_scl": true,
+        "l1_survivor_count": 16,
+        "l2_error_symbols_scl": 0,
+        "label_exact": true,
+        "list_width_L": 16,
+        "m1": -0.00153311715344696,
+        "m2": -0.0007531165237949832,
+        "metric_provenance": {
+          "crc": "CRC-16/CCITT-FALSE, poly=0x1021, init=0xFFFF, MSB-first, no reflect, no xorout",
+          "l1_provenance": "PRIOR_ONLY",
+          "l2_provenance": "CANDIDATE_CONDITIONED",
+          "label_convention": "s = low + 32*high per position (two_layer.py LABEL_SCALE=32)",
+          "merge_rule": "joint_metric desc, tie-break (l1_rank, l2_rank) asc",
+          "prune_rule": "top_l_prune",
+          "top_m_default": 4,
+          "top_m_requested": 4
+        },
+        "tag_pass": true,
+        "top_m_requested": 4,
+        "top_m_used": 4,
+        "undetected": false,
+        "verify_failed": false
+      },
+      "resources": {
+        "budget_rss_gib": 2.0,
+        "budget_wall_s": 1200.0,
+        "rss_gib_peak_advisory": 0.5624961853027344,
+        "wall_fidelity_s": 20.622872803010978,
+        "wall_rescue_s": 524.2928296329919,
+        "wall_total_s": 544.9157373399939
+      },
+      "session": "G2",
+      "status": "ok"
+    },
+    {
+      "arm": "B_M2_32f_candidate",
+      "block_index": 10,
+      "error": null,
+      "fidelity": {
+        "actual": {
+          "first_error_coordinate": null,
+          "first_error_layer": null,
+          "hard_l2_exact": true,
+          "l1_exact": true,
+          "outcome": "exact"
+        },
+        "eval_frames": [
+          3678,
+          3805
+        ],
+        "expected": {
+          "first_error_coordinate": null,
+          "first_error_layer": null,
+          "hard_l2_exact": true,
+          "l1_exact": true,
+          "outcome": "exact"
+        },
+        "match": true,
+        "mismatches": []
+      },
+      "rescue": {
+        "accepted": true,
+        "candidates_considered": 64,
+        "crc_bits": 16,
+        "crc_hat": 64677,
+        "crc_pass": true,
+        "crc_true": 64677,
+        "exact": true,
+        "hard_l2_exact_scl": true,
+        "joint_metric": -0.02569490528524186,
+        "l1_error_symbols_scl": 0,
+        "l1_exact_scl": true,
+        "l1_survivor_count": 16,
+        "l2_error_symbols_scl": 0,
+        "label_exact": true,
+        "list_width_L": 16,
+        "m1": -9.001576624421901e-07,
+        "m2": -0.025694005127579415,
+        "metric_provenance": {
+          "crc": "CRC-16/CCITT-FALSE, poly=0x1021, init=0xFFFF, MSB-first, no reflect, no xorout",
+          "l1_provenance": "PRIOR_ONLY",
+          "l2_provenance": "CANDIDATE_CONDITIONED",
+          "label_convention": "s = low + 32*high per position (two_layer.py LABEL_SCALE=32)",
+          "merge_rule": "joint_metric desc, tie-break (l1_rank, l2_rank) asc",
+          "prune_rule": "top_l_prune",
+          "top_m_default": 4,
+          "top_m_requested": 4
+        },
+        "tag_pass": true,
+        "top_m_requested": 4,
+        "top_m_used": 4,
+        "undetected": false,
+        "verify_failed": false
+      },
+      "resources": {
+        "budget_rss_gib": 2.0,
+        "budget_wall_s": 1200.0,
+        "rss_gib_peak_advisory": 0.5662384033203125,
+        "wall_fidelity_s": 20.566805892041884,
+        "wall_rescue_s": 522.8976654859725,
+        "wall_total_s": 543.4644885850139
+      },
+      "session": "G2",
+      "status": "ok"
+    },
+    {
+      "arm": "B_M2_32f_candidate",
+      "block_index": 11,
+      "error": null,
+      "fidelity": {
+        "actual": {
+          "first_error_coordinate": null,
+          "first_error_layer": null,
+          "hard_l2_exact": true,
+          "l1_exact": true,
+          "outcome": "exact"
+        },
+        "eval_frames": [
+          3806,
+          3933
+        ],
+        "expected": {
+          "first_error_coordinate": null,
+          "first_error_layer": null,
+          "hard_l2_exact": true,
+          "l1_exact": true,
+          "outcome": "exact"
+        },
+        "match": true,
+        "mismatches": []
+      },
+      "rescue": {
+        "accepted": true,
+        "candidates_considered": 64,
+        "crc_bits": 16,
+        "crc_hat": 37000,
+        "crc_pass": true,
+        "crc_true": 37000,
+        "exact": true,
+        "hard_l2_exact_scl": true,
+        "joint_metric": -0.023167567791587962,
+        "l1_error_symbols_scl": 0,
+        "l1_exact_scl": true,
+        "l1_survivor_count": 16,
+        "l2_error_symbols_scl": 0,
+        "label_exact": true,
+        "list_width_L": 16,
+        "m1": -0.005765822383418523,
+        "m2": -0.01740174540816944,
+        "metric_provenance": {
+          "crc": "CRC-16/CCITT-FALSE, poly=0x1021, init=0xFFFF, MSB-first, no reflect, no xorout",
+          "l1_provenance": "PRIOR_ONLY",
+          "l2_provenance": "CANDIDATE_CONDITIONED",
+          "label_convention": "s = low + 32*high per position (two_layer.py LABEL_SCALE=32)",
+          "merge_rule": "joint_metric desc, tie-break (l1_rank, l2_rank) asc",
+          "prune_rule": "top_l_prune",
+          "top_m_default": 4,
+          "top_m_requested": 4
+        },
+        "tag_pass": true,
+        "top_m_requested": 4,
+        "top_m_used": 4,
+        "undetected": false,
+        "verify_failed": false
+      },
+      "resources": {
+        "budget_rss_gib": 2.0,
+        "budget_wall_s": 1200.0,
+        "rss_gib_peak_advisory": 0.5699958801269531,
+        "wall_fidelity_s": 20.653650411055423,
+        "wall_rescue_s": 521.387589727994,
+        "wall_total_s": 542.0412532310002
+      },
+      "session": "G2",
+      "status": "ok"
+    },
+    {
+      "arm": "B_M2_32f_candidate",
+      "block_index": 13,
+      "error": null,
+      "fidelity": {
+        "actual": {
+          "first_error_coordinate": null,
+          "first_error_layer": null,
+          "hard_l2_exact": true,
+          "l1_exact": true,
+          "outcome": "exact"
+        },
+        "eval_frames": [
+          4062,
+          4189
+        ],
+        "expected": {
+          "first_error_coordinate": null,
+          "first_error_layer": null,
+          "hard_l2_exact": true,
+          "l1_exact": true,
+          "outcome": "exact"
+        },
+        "match": true,
+        "mismatches": []
+      },
+      "rescue": {
+        "accepted": true,
+        "candidates_considered": 64,
+        "crc_bits": 16,
+        "crc_hat": 6832,
+        "crc_pass": true,
+        "crc_true": 6832,
+        "exact": true,
+        "hard_l2_exact_scl": true,
+        "joint_metric": -0.008424082213684389,
+        "l1_error_symbols_scl": 0,
+        "l1_exact_scl": true,
+        "l1_survivor_count": 16,
+        "l2_error_symbols_scl": 0,
+        "label_exact": true,
+        "list_width_L": 16,
+        "m1": -0.0006793864706384632,
+        "m2": -0.007744695743045925,
+        "metric_provenance": {
+          "crc": "CRC-16/CCITT-FALSE, poly=0x1021, init=0xFFFF, MSB-first, no reflect, no xorout",
+          "l1_provenance": "PRIOR_ONLY",
+          "l2_provenance": "CANDIDATE_CONDITIONED",
+          "label_convention": "s = low + 32*high per position (two_layer.py LABEL_SCALE=32)",
+          "merge_rule": "joint_metric desc, tie-break (l1_rank, l2_rank) asc",
+          "prune_rule": "top_l_prune",
+          "top_m_default": 4,
+          "top_m_requested": 4
+        },
+        "tag_pass": true,
+        "top_m_requested": 4,
+        "top_m_used": 4,
+        "undetected": false,
+        "verify_failed": false
+      },
+      "resources": {
+        "budget_rss_gib": 2.0,
+        "budget_wall_s": 1200.0,
+        "rss_gib_peak_advisory": 0.5694351196289062,
+        "wall_fidelity_s": 20.56290578795597,
+        "wall_rescue_s": 521.7604429649655,
+        "wall_total_s": 542.323361928924
+      },
+      "session": "G2",
+      "status": "ok"
+    },
+    {
+      "arm": "B_M2_32f_candidate",
+      "block_index": 3,
+      "error": null,
+      "fidelity": {
+        "actual": {
+          "first_error_coordinate": null,
+          "first_error_layer": null,
+          "hard_l2_exact": true,
+          "l1_exact": true,
+          "outcome": "exact"
+        },
+        "eval_frames": [
+          2782,
+          2909
+        ],
+        "expected": {
+          "first_error_coordinate": null,
+          "first_error_layer": null,
+          "hard_l2_exact": true,
+          "l1_exact": true,
+          "outcome": "exact"
+        },
+        "match": true,
+        "mismatches": []
+      },
+      "rescue": {
+        "accepted": true,
+        "candidates_considered": 64,
+        "crc_bits": 16,
+        "crc_hat": 6939,
+        "crc_pass": true,
+        "crc_true": 6939,
+        "exact": true,
+        "hard_l2_exact_scl": true,
+        "joint_metric": -0.26039238875872156,
+        "l1_error_symbols_scl": 0,
+        "l1_exact_scl": true,
+        "l1_survivor_count": 16,
+        "l2_error_symbols_scl": 0,
+        "label_exact": true,
+        "list_width_L": 16,
+        "m1": -0.009743107016421818,
+        "m2": -0.2506492817422997,
+        "metric_provenance": {
+          "crc": "CRC-16/CCITT-FALSE, poly=0x1021, init=0xFFFF, MSB-first, no reflect, no xorout",
+          "l1_provenance": "PRIOR_ONLY",
+          "l2_provenance": "CANDIDATE_CONDITIONED",
+          "label_convention": "s = low + 32*high per position (two_layer.py LABEL_SCALE=32)",
+          "merge_rule": "joint_metric desc, tie-break (l1_rank, l2_rank) asc",
+          "prune_rule": "top_l_prune",
+          "top_m_default": 4,
+          "top_m_requested": 4
+        },
+        "tag_pass": true,
+        "top_m_requested": 4,
+        "top_m_used": 4,
+        "undetected": false,
+        "verify_failed": false
+      },
+      "resources": {
+        "budget_rss_gib": 2.0,
+        "budget_wall_s": 1200.0,
+        "rss_gib_peak_advisory": 0.5672378540039062,
+        "wall_fidelity_s": 20.581915306975134,
+        "wall_rescue_s": 522.2213866079692,
+        "wall_total_s": 542.8033138359897
+      },
+      "session": "G3",
+      "status": "ok"
+    },
+    {
+      "arm": "B_M2_32f_candidate",
+      "block_index": 5,
+      "error": null,
+      "fidelity": {
+        "actual": {
+          "first_error_coordinate": null,
+          "first_error_layer": null,
+          "hard_l2_exact": true,
+          "l1_exact": true,
+          "outcome": "exact"
+        },
+        "eval_frames": [
+          3038,
+          3165
+        ],
+        "expected": {
+          "first_error_coordinate": null,
+          "first_error_layer": null,
+          "hard_l2_exact": true,
+          "l1_exact": true,
+          "outcome": "exact"
+        },
+        "match": true,
+        "mismatches": []
+      },
+      "rescue": {
+        "accepted": true,
+        "candidates_considered": 64,
+        "crc_bits": 16,
+        "crc_hat": 61723,
+        "crc_pass": true,
+        "crc_true": 61723,
+        "exact": true,
+        "hard_l2_exact_scl": true,
+        "joint_metric": -0.001752004580739101,
+        "l1_error_symbols_scl": 0,
+        "l1_exact_scl": true,
+        "l1_survivor_count": 16,
+        "l2_error_symbols_scl": 0,
+        "label_exact": true,
+        "list_width_L": 16,
+        "m1": -9.72635270551302e-05,
+        "m2": -0.0016547410536839708,
+        "metric_provenance": {
+          "crc": "CRC-16/CCITT-FALSE, poly=0x1021, init=0xFFFF, MSB-first, no reflect, no xorout",
+          "l1_provenance": "PRIOR_ONLY",
+          "l2_provenance": "CANDIDATE_CONDITIONED",
+          "label_convention": "s = low + 32*high per position (two_layer.py LABEL_SCALE=32)",
+          "merge_rule": "joint_metric desc, tie-break (l1_rank, l2_rank) asc",
+          "prune_rule": "top_l_prune",
+          "top_m_default": 4,
+          "top_m_requested": 4
+        },
+        "tag_pass": true,
+        "top_m_requested": 4,
+        "top_m_used": 4,
+        "undetected": false,
+        "verify_failed": false
+      },
+      "resources": {
+        "budget_rss_gib": 2.0,
+        "budget_wall_s": 1200.0,
+        "rss_gib_peak_advisory": 0.5672950744628906,
+        "wall_fidelity_s": 20.542110884096473,
+        "wall_rescue_s": 520.7604726670543,
+        "wall_total_s": 541.3026022179984
+      },
+      "session": "G3",
+      "status": "ok"
+    },
+    {
+      "arm": "B_M2_32f_candidate",
+      "block_index": 6,
+      "error": null,
+      "fidelity": {
+        "actual": {
+          "first_error_coordinate": null,
+          "first_error_layer": null,
+          "hard_l2_exact": true,
+          "l1_exact": true,
+          "outcome": "exact"
+        },
+        "eval_frames": [
+          3166,
+          3293
+        ],
+        "expected": {
+          "first_error_coordinate": null,
+          "first_error_layer": null,
+          "hard_l2_exact": true,
+          "l1_exact": true,
+          "outcome": "exact"
+        },
+        "match": true,
+        "mismatches": []
+      },
+      "rescue": {
+        "accepted": true,
+        "candidates_considered": 64,
+        "crc_bits": 16,
+        "crc_hat": 40635,
+        "crc_pass": true,
+        "crc_true": 40635,
+        "exact": true,
+        "hard_l2_exact_scl": true,
+        "joint_metric": -0.20509295932399443,
+        "l1_error_symbols_scl": 0,
+        "l1_exact_scl": true,
+        "l1_survivor_count": 16,
+        "l2_error_symbols_scl": 0,
+        "label_exact": true,
+        "list_width_L": 16,
+        "m1": -0.0020188222740493748,
+        "m2": -0.20307413704994506,
+        "metric_provenance": {
+          "crc": "CRC-16/CCITT-FALSE, poly=0x1021, init=0xFFFF, MSB-first, no reflect, no xorout",
+          "l1_provenance": "PRIOR_ONLY",
+          "l2_provenance": "CANDIDATE_CONDITIONED",
+          "label_convention": "s = low + 32*high per position (two_layer.py LABEL_SCALE=32)",
+          "merge_rule": "joint_metric desc, tie-break (l1_rank, l2_rank) asc",
+          "prune_rule": "top_l_prune",
+          "top_m_default": 4,
+          "top_m_requested": 4
+        },
+        "tag_pass": true,
+        "top_m_requested": 4,
+        "top_m_used": 4,
+        "undetected": false,
+        "verify_failed": false
+      },
+      "resources": {
+        "budget_rss_gib": 2.0,
+        "budget_wall_s": 1200.0,
+        "rss_gib_peak_advisory": 0.5684165954589844,
+        "wall_fidelity_s": 20.591725617996417,
+        "wall_rescue_s": 521.1733357890043,
+        "wall_total_s": 541.7650724210544
+      },
+      "session": "G3",
+      "status": "ok"
+    },
+    {
+      "arm": "B_M2_32f_candidate",
+      "block_index": 7,
+      "error": null,
+      "fidelity": {
+        "actual": {
+          "first_error_coordinate": null,
+          "first_error_layer": null,
+          "hard_l2_exact": true,
+          "l1_exact": true,
+          "outcome": "exact"
+        },
+        "eval_frames": [
+          3294,
+          3421
+        ],
+        "expected": {
+          "first_error_coordinate": null,
+          "first_error_layer": null,
+          "hard_l2_exact": true,
+          "l1_exact": true,
+          "outcome": "exact"
+        },
+        "match": true,
+        "mismatches": []
+      },
+      "rescue": {
+        "accepted": true,
+        "candidates_considered": 64,
+        "crc_bits": 16,
+        "crc_hat": 61631,
+        "crc_pass": true,
+        "crc_true": 61631,
+        "exact": true,
+        "hard_l2_exact_scl": true,
+        "joint_metric": -0.018996884917644577,
+        "l1_error_symbols_scl": 0,
+        "l1_exact_scl": true,
+        "l1_survivor_count": 16,
+        "l2_error_symbols_scl": 0,
+        "label_exact": true,
+        "list_width_L": 16,
+        "m1": -0.0005010283791079775,
+        "m2": -0.0184958565385366,
+        "metric_provenance": {
+          "crc": "CRC-16/CCITT-FALSE, poly=0x1021, init=0xFFFF, MSB-first, no reflect, no xorout",
+          "l1_provenance": "PRIOR_ONLY",
+          "l2_provenance": "CANDIDATE_CONDITIONED",
+          "label_convention": "s = low + 32*high per position (two_layer.py LABEL_SCALE=32)",
+          "merge_rule": "joint_metric desc, tie-break (l1_rank, l2_rank) asc",
+          "prune_rule": "top_l_prune",
+          "top_m_default": 4,
+          "top_m_requested": 4
+        },
+        "tag_pass": true,
+        "top_m_requested": 4,
+        "top_m_used": 4,
+        "undetected": false,
+        "verify_failed": false
+      },
+      "resources": {
+        "budget_rss_gib": 2.0,
+        "budget_wall_s": 1200.0,
+        "rss_gib_peak_advisory": 0.5657234191894531,
+        "wall_fidelity_s": 20.582865503965877,
+        "wall_rescue_s": 519.9450515279314,
+        "wall_total_s": 540.5279283580603
+      },
+      "session": "G3",
+      "status": "ok"
+    },
+    {
+      "arm": "B_M2_32f_candidate",
+      "block_index": 8,
+      "error": null,
+      "fidelity": {
+        "actual": {
+          "first_error_coordinate": null,
+          "first_error_layer": null,
+          "hard_l2_exact": true,
+          "l1_exact": true,
+          "outcome": "exact"
+        },
+        "eval_frames": [
+          3422,
+          3549
+        ],
+        "expected": {
+          "first_error_coordinate": null,
+          "first_error_layer": null,
+          "hard_l2_exact": true,
+          "l1_exact": true,
+          "outcome": "exact"
+        },
+        "match": true,
+        "mismatches": []
+      },
+      "rescue": {
+        "accepted": true,
+        "candidates_considered": 64,
+        "crc_bits": 16,
+        "crc_hat": 50524,
+        "crc_pass": true,
+        "crc_true": 50524,
+        "exact": true,
+        "hard_l2_exact_scl": true,
+        "joint_metric": -0.5691088842617148,
+        "l1_error_symbols_scl": 0,
+        "l1_exact_scl": true,
+        "l1_survivor_count": 16,
+        "l2_error_symbols_scl": 0,
+        "label_exact": true,
+        "list_width_L": 16,
+        "m1": -1.9743497300251256e-06,
+        "m2": -0.5691069099119848,
+        "metric_provenance": {
+          "crc": "CRC-16/CCITT-FALSE, poly=0x1021, init=0xFFFF, MSB-first, no reflect, no xorout",
+          "l1_provenance": "PRIOR_ONLY",
+          "l2_provenance": "CANDIDATE_CONDITIONED",
+          "label_convention": "s = low + 32*high per position (two_layer.py LABEL_SCALE=32)",
+          "merge_rule": "joint_metric desc, tie-break (l1_rank, l2_rank) asc",
+          "prune_rule": "top_l_prune",
+          "top_m_default": 4,
+          "top_m_requested": 4
+        },
+        "tag_pass": true,
+        "top_m_requested": 4,
+        "top_m_used": 4,
+        "undetected": false,
+        "verify_failed": false
+      },
+      "resources": {
+        "budget_rss_gib": 2.0,
+        "budget_wall_s": 1200.0,
+        "rss_gib_peak_advisory": 0.5652389526367188,
+        "wall_fidelity_s": 20.564706329954788,
+        "wall_rescue_s": 522.4175576660782,
+        "wall_total_s": 542.9822882249719
+      },
+      "session": "G3",
+      "status": "ok"
+    },
+    {
+      "arm": "B_M2_32f_candidate",
+      "block_index": 9,
+      "error": null,
+      "fidelity": {
+        "actual": {
+          "first_error_coordinate": null,
+          "first_error_layer": null,
+          "hard_l2_exact": true,
+          "l1_exact": true,
+          "outcome": "exact"
+        },
+        "eval_frames": [
+          3550,
+          3677
+        ],
+        "expected": {
+          "first_error_coordinate": null,
+          "first_error_layer": null,
+          "hard_l2_exact": true,
+          "l1_exact": true,
+          "outcome": "exact"
+        },
+        "match": true,
+        "mismatches": []
+      },
+      "rescue": {
+        "accepted": true,
+        "candidates_considered": 64,
+        "crc_bits": 16,
+        "crc_hat": 8973,
+        "crc_pass": true,
+        "crc_true": 8973,
+        "exact": true,
+        "hard_l2_exact_scl": true,
+        "joint_metric": -0.28371518583309635,
+        "l1_error_symbols_scl": 0,
+        "l1_exact_scl": true,
+        "l1_survivor_count": 16,
+        "l2_error_symbols_scl": 0,
+        "label_exact": true,
+        "list_width_L": 16,
+        "m1": -3.37857637652801e-06,
+        "m2": -0.28371180725671985,
+        "metric_provenance": {
+          "crc": "CRC-16/CCITT-FALSE, poly=0x1021, init=0xFFFF, MSB-first, no reflect, no xorout",
+          "l1_provenance": "PRIOR_ONLY",
+          "l2_provenance": "CANDIDATE_CONDITIONED",
+          "label_convention": "s = low + 32*high per position (two_layer.py LABEL_SCALE=32)",
+          "merge_rule": "joint_metric desc, tie-break (l1_rank, l2_rank) asc",
+          "prune_rule": "top_l_prune",
+          "top_m_default": 4,
+          "top_m_requested": 4
+        },
+        "tag_pass": true,
+        "top_m_requested": 4,
+        "top_m_used": 4,
+        "undetected": false,
+        "verify_failed": false
+      },
+      "resources": {
+        "budget_rss_gib": 2.0,
+        "budget_wall_s": 1200.0,
+        "rss_gib_peak_advisory": 0.5647544860839844,
+        "wall_fidelity_s": 19.749756181030534,
+        "wall_rescue_s": 478.6324470679974,
+        "wall_total_s": 498.3822207649937
+      },
+      "session": "G3",
+      "status": "ok"
+    },
+    {
+      "arm": "B_M2_32f_candidate",
+      "block_index": 12,
+      "error": null,
+      "fidelity": {
+        "actual": {
+          "first_error_coordinate": null,
+          "first_error_layer": null,
+          "hard_l2_exact": true,
+          "l1_exact": true,
+          "outcome": "exact"
+        },
+        "eval_frames": [
+          3934,
+          4061
+        ],
+        "expected": {
+          "first_error_coordinate": null,
+          "first_error_layer": null,
+          "hard_l2_exact": true,
+          "l1_exact": true,
+          "outcome": "exact"
+        },
+        "match": true,
+        "mismatches": []
+      },
+      "rescue": {
+        "accepted": true,
+        "candidates_considered": 64,
+        "crc_bits": 16,
+        "crc_hat": 40275,
+        "crc_pass": true,
+        "crc_true": 40275,
+        "exact": true,
+        "hard_l2_exact_scl": true,
+        "joint_metric": -1.8985451524649606,
+        "l1_error_symbols_scl": 0,
+        "l1_exact_scl": true,
+        "l1_survivor_count": 16,
+        "l2_error_symbols_scl": 0,
+        "label_exact": true,
+        "list_width_L": 16,
+        "m1": -0.09372481625963379,
+        "m2": -1.8048203362053268,
+        "metric_provenance": {
+          "crc": "CRC-16/CCITT-FALSE, poly=0x1021, init=0xFFFF, MSB-first, no reflect, no xorout",
+          "l1_provenance": "PRIOR_ONLY",
+          "l2_provenance": "CANDIDATE_CONDITIONED",
+          "label_convention": "s = low + 32*high per position (two_layer.py LABEL_SCALE=32)",
+          "merge_rule": "joint_metric desc, tie-break (l1_rank, l2_rank) asc",
+          "prune_rule": "top_l_prune",
+          "top_m_default": 4,
+          "top_m_requested": 4
+        },
+        "tag_pass": true,
+        "top_m_requested": 4,
+        "top_m_used": 4,
+        "undetected": false,
+        "verify_failed": false
+      },
+      "resources": {
+        "budget_rss_gib": 2.0,
+        "budget_wall_s": 1200.0,
+        "rss_gib_peak_advisory": 0.5653839111328125,
+        "wall_fidelity_s": 19.760093412944116,
+        "wall_rescue_s": 477.3144616649952,
+        "wall_total_s": 497.0745662120171
+      },
+      "session": "G3",
+      "status": "ok"
+    },
+    {
+      "arm": "B_M2_32f_candidate",
+      "block_index": 13,
+      "error": null,
+      "fidelity": {
+        "actual": {
+          "first_error_coordinate": null,
+          "first_error_layer": null,
+          "hard_l2_exact": true,
+          "l1_exact": true,
+          "outcome": "exact"
+        },
+        "eval_frames": [
+          4062,
+          4189
+        ],
+        "expected": {
+          "first_error_coordinate": null,
+          "first_error_layer": null,
+          "hard_l2_exact": true,
+          "l1_exact": true,
+          "outcome": "exact"
+        },
+        "match": true,
+        "mismatches": []
+      },
+      "rescue": {
+        "accepted": true,
+        "candidates_considered": 64,
+        "crc_bits": 16,
+        "crc_hat": 37026,
+        "crc_pass": true,
+        "crc_true": 37026,
+        "exact": true,
+        "hard_l2_exact_scl": true,
+        "joint_metric": -0.07072667560700087,
+        "l1_error_symbols_scl": 0,
+        "l1_exact_scl": true,
+        "l1_survivor_count": 16,
+        "l2_error_symbols_scl": 0,
+        "label_exact": true,
+        "list_width_L": 16,
+        "m1": -1.3384988082025033e-05,
+        "m2": -0.07071329061891884,
+        "metric_provenance": {
+          "crc": "CRC-16/CCITT-FALSE, poly=0x1021, init=0xFFFF, MSB-first, no reflect, no xorout",
+          "l1_provenance": "PRIOR_ONLY",
+          "l2_provenance": "CANDIDATE_CONDITIONED",
+          "label_convention": "s = low + 32*high per position (two_layer.py LABEL_SCALE=32)",
+          "merge_rule": "joint_metric desc, tie-break (l1_rank, l2_rank) asc",
+          "prune_rule": "top_l_prune",
+          "top_m_default": 4,
+          "top_m_requested": 4
+        },
+        "tag_pass": true,
+        "top_m_requested": 4,
+        "top_m_used": 4,
+        "undetected": false,
+        "verify_failed": false
+      },
+      "resources": {
+        "budget_rss_gib": 2.0,
+        "budget_wall_s": 1200.0,
+        "rss_gib_peak_advisory": 0.5651473999023438,
+        "wall_fidelity_s": 19.756061329040676,
+        "wall_rescue_s": 477.5491103490349,
+        "wall_total_s": 497.3051860780688
+      },
+      "session": "G3",
+      "status": "ok"
+    }
+  ],
+  "claims": "No significance test, no threshold, no pass/fail verdict, no candidate/accepted promotion, no change to NBPOLAR_M2_PRIOR_G2_SUCCESS / NBPOLAR_M2_PRIOR_G3_SUCCESS / M2 status ladder, no attempt counted. n_preserved_exact / 19 is a raw descriptive count only, and is WITHHELD entirely (see summary.note) when fidelity_compromised=true (main-thread ruling D3, 2026-09-28, inherited).",
+  "classification": "Descriptive real-data preservation-check diagnostic; delta-successor of m2-scl-rescue-g2g3 (commit 326594ca). NOT a Tier-X synthetic probe (reads real .ttbin data) and NOT a Tier-Y decision gate (no threshold, no success/fail verdict, no state-string change, no candidate/accepted token, consumes no new EVAL data -- the 19 blocks were already decoded and recorded by G2/G3, all with outcome=exact). Reviewed at the same rigor as the predecessor per main-thread ruling D1 (inherited, 2026-09-28). See TASK_PACKET.md for the inheritance record.",
+  "fidelity_compromised": false,
+  "frozen_params": {
+    "arm": "B_M2_32f_candidate",
+    "construction_digest": "055c906472dd2a09761761b18aceb5f31d8b5db19bac658721f8dc49c3faea1b",
+    "crc_bits_extra": 16,
+    "eval_seed": {
+      "G2": 2026093001,
+      "G3": 2026100101
+    },
+    "k1": 319,
+    "k2": 6492,
+    "list_width_L": 16,
+    "n": 32768,
+    "tag_master": {
+      "G2": 2026103001,
+      "G3": 2026110101
+    },
+    "top_m": 4
+  },
+  "per_session": {
+    "G2": {
+      "align_peak": {
+        "bin_ps_used": 100,
+        "corr_argmax": 4096,
+        "corr_bins": 8192,
+        "corr_max": 30058.0,
+        "corr_nonzero": 8191,
+        "peak_center_ps": 50,
+        "peak_sigma_ps": 112.45189572400645,
+        "peak_to_bg": 1366.2727272727273,
+        "sampled_t0": 300000,
+        "sampled_t1": 7940289,
+        "scan_range_ps_used": 409600,
+        "status": "ok"
+      },
+      "f_book_no_crc": 1.2747448953789544,
+      "f_book_with_crc": 1.2753426830727925,
+      "h_total_bits": 0.8168138204133305,
+      "kdb_no_crc": 34119,
+      "kdb_with_crc": 34135,
+      "n_frames": 4921,
+      "n_pairs": 1259992
+    },
+    "G3": {
+      "align_peak": {
+        "bin_ps_used": 100,
+        "corr_argmax": 4096,
+        "corr_bins": 8192,
+        "corr_max": 30482.0,
+        "corr_nonzero": 8192,
+        "peak_center_ps": 50,
+        "peak_sigma_ps": 114.43029692866367,
+        "peak_to_bg": 1385.5454545454545,
+        "sampled_t0": 300000,
+        "sampled_t1": 8054971,
+        "scan_range_ps_used": 409600,
+        "status": "ok"
+      },
+      "f_book_no_crc": 1.267506841182456,
+      "f_book_with_crc": 1.268101234613064,
+      "h_total_bits": 0.8214782076249098,
+      "kdb_no_crc": 34119,
+      "kdb_with_crc": 34135,
+      "n_frames": 4991,
+      "n_pairs": 1277938
+    }
+  },
+  "probe_id": "m2-scl-check-g2g3-success",
+  "summary": {
+    "n_broken": 0,
+    "n_errors_or_aborts": 0,
+    "n_fidelity_mismatch": 0,
+    "n_fidelity_ok": 19,
+    "n_preserved_exact": 19,
+    "n_targets": 19,
+    "n_undetected": 0
+  },
+  "targets": [
+    {
+      "block_index": 0,
+      "session": "G2"
+    },
+    {
+      "block_index": 2,
+      "session": "G2"
+    },
+    {
+      "block_index": 3,
+      "session": "G2"
+    },
+    {
+      "block_index": 4,
+      "session": "G2"
+    },
+    {
+      "block_index": 6,
+      "session": "G2"
+    },
+    {
+      "block_index": 7,
+      "session": "G2"
+    },
+    {
+      "block_index": 8,
+      "session": "G2"
+    },
+    {
+      "block_index": 9,
+      "session": "G2"
+    },
+    {
+      "block_index": 10,
+      "session": "G2"
+    },
+    {
+      "block_index": 11,
+      "session": "G2"
+    },
+    {
+      "block_index": 13,
+      "session": "G2"
+    },
+    {
+      "block_index": 3,
+      "session": "G3"
+    },
+    {
+      "block_index": 5,
+      "session": "G3"
+    },
+    {
+      "block_index": 6,
+      "session": "G3"
+    },
+    {
+      "block_index": 7,
+      "session": "G3"
+    },
+    {
+      "block_index": 8,
+      "session": "G3"
+    },
+    {
+      "block_index": 9,
+      "session": "G3"
+    },
+    {
+      "block_index": 12,
+      "session": "G3"
+    },
+    {
+      "block_index": 13,
+      "session": "G3"
+    }
+  ],
+  "timing": {
+    "wall_s_total": 1643.5277092456818
+  }
+}

@@ -1,0 +1,165 @@
+# STATUS — m2-scl-check-g2g3-success (descriptive SCL(L=16) preservation
+# check of the 19 known real-data B-arm outcome=exact EVAL blocks from
+# G2/G3). Delta-successor of workspace/m2_scl_rescue_g2g3/ (Pre-EXECUTE
+# PASS_WITH_COMMENTS, Pre-RESULT PASS; commit 326594ca), per AGENTS.md
+# §10.1 item 5 / §10.4's delta-successor fast path. Classification
+# INHERITED unchanged (D1_classification below): "真实数据描述性诊断"
+# (real-data descriptive diagnostic), reviewed at Tier-Y rigor, zero
+# attempt-budget impact, no threshold/verdict/state-string change.
+# EXECUTION AUTHORIZED (2026-09-28) after independent Pre-EXECUTE PASS
+# (see PRE_EXECUTE_REVIEW.md) and main-thread ACCEPTED rulings on
+# D_NEW1/D_NEW2 (below). No git write performed by this operator at any
+# point.
+packet: m2-scl-check-g2g3-success
+predecessor: workspace/m2_scl_rescue_g2g3/  # commit 326594ca; read-only base contract, not modified by this packet
+location: workspace/m2_scl_check_g2g3_success/   # new, additive-only directory (D2_output_root, inherited)
+branch: codex/nbpolar-phase0
+depends_on:
+  G2: .workbuddy/queue/NBPOLAR-M2-PRIOR-G2-DECODE/   # result NBPOLAR_M2_PRIOR_G2_SUCCESS; read-only source (via per_block_outcomes.jsonl) of the 11 target blocks
+  G3: .workbuddy/queue/NBPOLAR-M2-PRIOR-G3-CONFIRM/  # result recorded in G3_ADJUDICATION.md; read-only source (via per_block_outcomes.jsonl) of the 8 target blocks
+  target_confirmation: TASK_PACKET.md §2 (this packet's own preparation pass, 2026-09-28)  # source of the frozen 19-block target list, cross-checked against an independently stated expected list
+  scl_module: nbpolar-scl-lock-amendment (T2 scl_joint.py, T3 SCL gate PASS_WITH_COMMENTS)  # 94cc907a / 2628b86b -- SAME module the predecessor used, unmodified
+  predecessor_packet: workspace/m2_scl_rescue_g2g3/  # Pre-EXECUTE PASS_WITH_COMMENTS, Pre-RESULT PASS, commit 326594ca
+venv: /home/karel_303/.venvs/timetagger/bin/python  # SAME venv as G2/G3/the predecessor (needs the TimeTagger shim + the fail-closed pandas stub); NOT the synthetic-probe venv
+authorizations:
+  - who: PI
+    when: "2026-09-28"
+    verbatim: "授权，19 块也跑 SCL L=16"
+    scope: "extends the already-authorized SCL(L=16,M=4,CRC-16) methodology from the predecessor's 9 verify_failed blocks to these 19 outcome=exact blocks; covers running run.py's preservation-check re-decode of the 19 named blocks under the frozen params in prereg.md; does not itself substitute for the independent Pre-EXECUTE review below"
+    source: AUTHORIZATION_PROMPT.md
+freeze_and_implementation_authorized: true   # PI authorization above covers writing run.py + this packet
+execution_authorized: true                   # main thread, 2026-09-28, after Pre-EXECUTE PASS (see pre_execute_review below) and ACCEPTED D_NEW1/D_NEW2 rulings
+decoder_modification: false                  # frozen: sc.py/scl.py/scl_joint.py/two_layer.py/transform.py/algebra.py/prior*.py/operational_f13*.py/m2_prior_validation.py never modified; run.py only imports+calls them (identical to the predecessor)
+classification: "real-data descriptive diagnostic"  # INHERITED (D1_classification, below); reviewed at Tier-Y rigor (Pre-EXECUTE AND Pre-RESULT both required); no threshold, no pass/fail verdict, no state-string change, counts as ZERO attempts against any Tier-Y attempt budget
+state: completed_descriptive   # attempt 1 completed exit 0; see execution.attempt_1 below and EXECUTION_TRANSCRIPT.md
+next_gate: PRE_RESULT_REVIEW   # independent reviewer must check results.json/EXECUTION_TRANSCRIPT.md before any adjudication/decision-log citation
+pre_execute_review: {state: done, reviewer: reviewer-go, verdict: PASS, evidence: workspace/m2_scl_check_g2g3_success/PRE_EXECUTE_REVIEW.md}
+pre_result_review: {state: not_started, reviewer: null, verdict: null}  # required before results.json is treated as a finished artifact / referenced in any adjudication doc
+counters: {attempts: 0, reruns: 0, sc_calls_on_protected: 0, scl_calls_on_protected: 0, tag_invocations: 0}
+# analytically-projected counts (NOT yet incurred; for the Pre-EXECUTE reviewer's reference, computed the same way the predecessor's were):
+#   projected sc_calls_on_protected = 3/block (fidelity check: L1 + hard-L2 + oracle-L2, via the reused run_g2_block) x 19 blocks = 57
+#   projected scl_calls_on_protected = 5/block (preservation-check decode: 1 L1 SCL + top_m_used(<=4) L2 SCL) x 19 blocks = up to 95
+#   projected tag_invocations = 4/block x 19 blocks = 76
+execution:
+  authorized_by: main_thread
+  authorized_when: "2026-09-28"
+  launch_mechanism: "Bash tool run_in_background wrapping a foreground `wsl.exe -e bash -c \"...\"` running prereg.md's C-line command verbatim (no nohup/&, no cd -- absolute paths only, to avoid drvfs mount races)"
+  reruns: 0
+  attempt_1:
+    started_at_utc: "2026-09-28T05:53:42Z"
+    status: ok
+    exit_code: 0
+    wall_s_total: 1643.5277092456818
+    background_task_id: btaap3hf3
+    output_log: "C:\\Users\\admin\\AppData\\Local\\Temp\\claude\\D--Code-HD-QKD-Polar-Comparison-nbpolar\\dce2ace4-5c4b-428c-9ae4-911dbd7fbf22\\tasks\\btaap3hf3.output"
+    stdout_summary: "DONE fidelity_ok=19/19 fidelity_mismatch=0 preserved_exact=19 broken=0 undetected=0 errors_or_aborts=0 wall_s=1643.5"
+    results_json: workspace/m2_scl_check_g2g3_success/results.json
+    part_files: [part_G2_00.json, part_G2_02.json, part_G2_03.json, part_G2_04.json, part_G2_06.json, part_G2_07.json, part_G2_08.json, part_G2_09.json, part_G2_10.json, part_G2_11.json, part_G2_13.json, part_G3_03.json, part_G3_05.json, part_G3_06.json, part_G3_07.json, part_G3_08.json, part_G3_09.json, part_G3_12.json, part_G3_13.json]
+    fidelity_compromised: false
+    transcript: workspace/m2_scl_check_g2g3_success/EXECUTION_TRANSCRIPT.md
+    session_setup_execution_error: null  # no pre-measurement defect this attempt (unlike the predecessor's attempt 1); no rerun needed
+main_thread_rulings:  # INHERITED UNCHANGED from workspace/m2_scl_rescue_g2g3/STATUS.yaml, per this task's explicit instruction; not re-litigated here
+  - id: D1_classification
+    when: "2026-09-28"
+    inherited_from: workspace/m2_scl_rescue_g2g3/STATUS.yaml
+    decision: >-
+      Classified as "真实数据描述性诊断" (real-data descriptive diagnostic).
+      Review rigor matches Tier-Y (independent Pre-EXECUTE AND Pre-RESULT
+      both required); no threshold, no pass/fail verdict, no state-string
+      change, and it counts as ZERO attempts against any attempt budget
+      anywhere. Applies identically to this preservation-check packet.
+  - id: D2_output_root
+    when: "2026-09-28"
+    inherited_from: workspace/m2_scl_rescue_g2g3/STATUS.yaml
+    decision: "Keep the named directory (workspace/m2_scl_check_g2g3_success/). No move to workspace/probes/."
+  - id: D3_fidelity_stop_scope
+    when: "2026-09-28"
+    inherited_from: workspace/m2_scl_rescue_g2g3/STATUS.yaml
+    decision: >-
+      Fidelity check stays per-block (unchanged implementation). If ANY of
+      the 19 blocks returns STOPPED_FIDELITY_MISMATCH, results.json top
+      level gets fidelity_compromised=true and results.json["summary"]
+      reports per-block counts ONLY (n_targets/n_fidelity_ok/
+      n_fidelity_mismatch/n_errors_or_aborts) -- the aggregate
+      preservation-check tally (n_preserved_exact/n_broken/n_undetected) is
+      withheld from summary in that case. Implemented in run.py::main().
+  - id: D4_budget_mechanism
+    when: "2026-09-28"
+    inherited_from: workspace/m2_scl_rescue_g2g3/STATUS.yaml
+    decision: "Accepted as specified: per-block soft check + parent-process hard terminate() at budget+120s. No change."
+  - id: F1_accepted_definition_correction
+    when: "2026-09-28"
+    inherited_from: workspace/m2_scl_rescue_g2g3/STATUS.yaml
+    decision: >-
+      accepted = crc_pass AND tag_pass (matches the workspace/probes/scl-gate-t3
+      gate convention). crc_pass and tag_pass both recorded as separate
+      fields regardless. exact = accepted AND label_exact; undetected =
+      accepted AND NOT label_exact (isolated); verify_failed = NOT accepted.
+      Implemented in run.py::_rescue_block(). Identical formula, unchanged
+      code, in this packet.
+open_questions_for_main_thread:  # NEW to this packet; not present in the predecessor -- see TASK_PACKET.md §3 "Decision points" for full text
+  - id: D_NEW1_broken_definition
+    resolved_by: null
+    text: >-
+      This packet's n_broken is defined as "rescue.verify_failed is true"
+      (per the task instruction's literal wording), which differs from the
+      predecessor's n_still_failed ("NOT rescue.exact", which silently
+      double-counted undetected blocks within n_still_failed). This is a
+      cleaner, non-double-counting 3-way partition (exact/undetected/
+      verify_failed) and is exactly what this task's instruction specified,
+      but it is a definitional change relative to the predecessor and is
+      flagged here for main-thread visibility before Pre-EXECUTE review.
+  - id: D_NEW2_authorization_text_update
+    resolved_by: null
+    text: >-
+      run.py's results["authorization"]["verbatim"] field and the module
+      docstring's authorization line were updated to this task's own PI
+      quote ("授权，19 块也跑 SCL L=16") rather than left as the
+      predecessor's quote (which does not apply to this task and would be
+      factually wrong if left in place). This is a 4th class of change
+      beyond the three literally named in "只允许改三处" (TARGETS / output
+      directory / rescue-to-preservation-check prose), flagged here since
+      it was not one of those three named categories even though leaving
+      the stale quote in place would have been worse.
+artifacts_prepared:
+  - workspace/m2_scl_check_g2g3_success/run.py
+  - workspace/m2_scl_check_g2g3_success/TASK_PACKET.md
+  - workspace/m2_scl_check_g2g3_success/prereg.md
+  - workspace/m2_scl_check_g2g3_success/STATUS.yaml
+  - workspace/m2_scl_check_g2g3_success/AUTHORIZATION_PROMPT.md
+artifacts_produced:  # renamed from artifacts_pending_execution -- all now exist (attempt 1, exit 0)
+  - workspace/m2_scl_check_g2g3_success/results.json
+  - workspace/m2_scl_check_g2g3_success/part_G2_00.json
+  - workspace/m2_scl_check_g2g3_success/part_G2_02.json
+  - workspace/m2_scl_check_g2g3_success/part_G2_03.json
+  - workspace/m2_scl_check_g2g3_success/part_G2_04.json
+  - workspace/m2_scl_check_g2g3_success/part_G2_06.json
+  - workspace/m2_scl_check_g2g3_success/part_G2_07.json
+  - workspace/m2_scl_check_g2g3_success/part_G2_08.json
+  - workspace/m2_scl_check_g2g3_success/part_G2_09.json
+  - workspace/m2_scl_check_g2g3_success/part_G2_10.json
+  - workspace/m2_scl_check_g2g3_success/part_G2_11.json
+  - workspace/m2_scl_check_g2g3_success/part_G2_13.json
+  - workspace/m2_scl_check_g2g3_success/part_G3_03.json
+  - workspace/m2_scl_check_g2g3_success/part_G3_05.json
+  - workspace/m2_scl_check_g2g3_success/part_G3_06.json
+  - workspace/m2_scl_check_g2g3_success/part_G3_07.json
+  - workspace/m2_scl_check_g2g3_success/part_G3_08.json
+  - workspace/m2_scl_check_g2g3_success/part_G3_09.json
+  - workspace/m2_scl_check_g2g3_success/part_G3_12.json
+  - workspace/m2_scl_check_g2g3_success/part_G3_13.json
+  - workspace/m2_scl_check_g2g3_success/EXECUTION_TRANSCRIPT.md
+static_selfcheck:
+  py_compile: pass
+  ast_percent_format_check: {expressions_found: 0, mismatches: 0, verdict: pass}
+  input_paths_exist: {inventory_json: pass, raw_ttbin_g2: pass, raw_ttbin_g3: pass, construction_json: pass, per_block_outcomes_g2: pass, per_block_outcomes_g3: pass, new_output_dir_created_empty: pass, results_json_absent: pass}
+  target_block_confirmation: {g2_expected: "0,2,3,4,6,7,8,9,10,11,13 (11 blocks)", g2_actual_filtered: "0,2,3,4,6,7,8,9,10,11,13 (11 blocks)", g2_match: true, g3_expected: "3,5,6,7,8,9,12,13 (8 blocks)", g3_actual_filtered: "3,5,6,7,8,9,12,13 (8 blocks)", g3_match: true, total: 19, stop_triggered: false}
+  timing_estimate: "see TASK_PACKET.md §6; ~600s/block SCL compute (empirical N=32768/L=16 precedent from workspace/probes/scl-gate-t3/results.json), 8-way parallel over 3 waves (8+8+3) => ~1800s compute wall + 2 sequential session-setup passes => rough total wall estimate ~35 min; NOT itself budgeted beyond the per-block 1200s/2GiB caps"
+result: {id: null, summary: "executed (attempt 1, exit 0): fidelity_ok=19/19, preserved_exact=19/19, broken=0, undetected=0, errors_or_aborts=0, fidelity_compromised=false, wall_s=1643.53", decision_needed: "independent Pre-RESULT review of results.json/EXECUTION_TRANSCRIPT.md; no adjudication rendered by the operator"}
+pre_result_review: null
+main_thread_acceptance: null
+main_thread_rulings_successor_2026_09_28:
+  D_NEW1: "ACCEPTED — n_broken = rescue.verify_failed (mutually exclusive exact/undetected/verify_failed); predecessor's n_still_failed definition not carried over."
+  D_NEW2: "ACCEPTED — authorization verbatim string corrected to this task's PI words; necessary factual correction, not a scope change."
+pre_result_review: PASS
+main_thread_acceptance: accepted_descriptive (2026-09-28)

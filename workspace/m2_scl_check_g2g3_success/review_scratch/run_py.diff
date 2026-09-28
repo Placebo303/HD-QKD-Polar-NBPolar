@@ -1,0 +1,312 @@
+diff --git a/workspace/m2_scl_rescue_g2g3/run.py b/workspace/m2_scl_check_g2g3_success/run.py
+index 28abd768..8bc34263 100644
+--- a/workspace/m2_scl_rescue_g2g3/run.py
++++ b/workspace/m2_scl_check_g2g3_success/run.py
+@@ -1,31 +1,34 @@
+ #!/usr/bin/env python3
+-"""SCL(L=16, top_m=4, CRC-16) rescue attempt on the 9 known real-data B-arm
+-``verify_failed`` EVAL blocks from G2 (SHG `_1`) and G3 (SHG `_2`).
++"""SCL(L=16, top_m=4, CRC-16) preservation check on the 19 known real-data
++B-arm ``outcome=exact`` EVAL blocks from G2 (SHG `_1`) and G3 (SHG `_2`).
+ 
+ Authorization
+ -------------
+ PI, in-chat, 2026-09-28 (verbatim, recorded in ``AUTHORIZATION_PROMPT.md``
+-beside this file): "授权，用 SCL L=16 重解那 9 个失败块，可以继续往下推进".
++beside this file): "授权，19 块也跑 SCL L=16".
+ 
+ Question (descriptive, non-claim)
+ ----------------------------------
+-The 9 B-arm (``B_M2_32f_candidate``, M2 candidate + matched 32-frame CAL,
++The 19 B-arm (``B_M2_32f_candidate``, M2 candidate + matched 32-frame CAL,
+ w=200/CIRCULAR, frozen K1=319/K2=6492, P16 construction) real-data EVAL
+-blocks that came back ``verify_failed`` under the frozen SC operational
+-path (G2 blocks 1/5/12; G3 blocks 0/1/2/4/10/11 — see
+-``workspace/analysis/g2g3-layer-attribution/REPORT.md``) are re-decoded
+-with a CRC-16-aided two-layer joint SCL decoder
++blocks that came back ``outcome=exact`` under the frozen SC operational
++path (G2 blocks 0,2,3,4,6,7,8,9,10,11,13 -- 11 blocks; G3 blocks
++3,5,6,7,8,9,12,13 -- 8 blocks; both lists obtained by filtering the frozen
++``per_block_outcomes.jsonl`` for arm=``B_M2_32f_candidate`` and
++outcome=``exact``, cross-checked in this preparation pass against an
++independently stated expected list -- see TASK_PACKET.md §2 for the
++confirmation record) are re-decoded with the SAME CRC-16-aided two-layer
++joint SCL decoder used by the predecessor packet
+ (``comparison_bench/src/comparison_bench/formal_ir/nbpolar/scl_joint.py``,
+-``scl_joint_decode``, list_width_L=16, top_m=4) on the SAME EVAL data,
+-SAME CAL-fit M2 prior, SAME frozen P16 orders/K, SAME tag_master/seed per
+-session. How many of the 9 does it get exactly right (label-exact AND
+-accepted, where accepted = crc_pass AND tag_pass -- main-thread ruling F1,
+-2026-09-28, matching the T3 gate convention in
+-``workspace/probes/scl-gate-t3``)? This is a descriptive count, not a claim:
+-it does not change
++``scl_joint_decode``, list_width_L=16, top_m=4) on the SAME EVAL data, SAME
++CAL-fit M2 prior, SAME frozen P16 orders/K, SAME tag_master/seed per
++session. Does the previously-SC-exact outcome survive under SCL for all
++19, or does SCL break (``verify_failed``) or silently corrupt
++(``undetected``) any of them? This is a descriptive preservation check, not
++a claim: it does not change
+ ``NBPOLAR_M2_PRIOR_G2_SUCCESS`` / ``NBPOLAR_M2_PRIOR_G3_SUCCESS``, the M2
+ status ladder, or any G2/G3 Wilson-gate verdict, and it consumes NO new
+-EVAL data (these 9 blocks were already decoded and recorded by G2/G3).
++EVAL data (these 19 blocks were already decoded and recorded by G2/G3).
+ 
+ Reuse discipline (AGENTS.md §5.7, §10.1)
+ -----------------------------------------
+@@ -61,15 +64,22 @@ No change to ``sc.py``/``scl.py``/``scl_joint.py``/``two_layer.py``/
+ ``workspace/m2_prior_validation/...`` directory (this script only READS
+ those per-block outcome files, for the fidelity check). No change to any
+ G2/G3 packet dir, STATUS.yaml, or frozen state string. No new EVAL data
+-(only the 9 already-consumed blocks are touched). One-shot: reruns=0; a
++(only the 19 already-consumed blocks are touched). One-shot: reruns=0; a
+ rerun to fix an execution defect (never a parameter/seed change) must be
+ recorded as a separate attempt, never silently overwritten.
+ 
+ Output
+ ------
+-``workspace/m2_scl_rescue_g2g3/results.json`` (must be absent before this
+-script starts) plus one ``part_<SESSION>_<block>.json`` per target block.
+-Nothing is written outside this directory.
++``workspace/m2_scl_check_g2g3_success/results.json`` (must be absent before
++this script starts) plus one ``part_<SESSION>_<block>.json`` per target
++block. Nothing is written outside this directory.
++
++Derivation
++----------
++Delta-successor of ``workspace/m2_scl_rescue_g2g3/`` (Pre-EXECUTE
++PASS_WITH_COMMENTS, Pre-RESULT PASS; commit 326594ca), per AGENTS.md
++§10.1/§10.4's delta-successor fast path. See TASK_PACKET.md for the full
++diff against that predecessor's ``run.py``.
+ """
+ 
+ from __future__ import annotations
+@@ -90,12 +100,18 @@ if str(REPO_ROOT) not in sys.path:
+     sys.path.insert(0, str(REPO_ROOT))
+ 
+ # ---------------------------------------------------------------------------
+-# Frozen target set (verbatim from workspace/analysis/g2g3-layer-attribution/
+-# REPORT.md §3/§4: the 9 B_M2_32f_candidate verify_failed blocks).
++# Frozen target set: the 19 B_M2_32f_candidate blocks with outcome=exact in
++# the frozen per_block_outcomes.jsonl for G2/G3 (arm=B_M2_32f_candidate),
++# confirmed in this preparation pass (2026-09-28) against an independently
++# stated expected list (G2: 11 blocks; G3: 8 blocks) -- see TASK_PACKET.md
++# §2 for the confirmation record. A module constant, never derived from
++# input at runtime (matches the predecessor's E2_no_new_data discipline).
+ # ---------------------------------------------------------------------------
+ TARGETS = [
+-    ("G2", 1), ("G2", 5), ("G2", 12),
+-    ("G3", 0), ("G3", 1), ("G3", 2), ("G3", 4), ("G3", 10), ("G3", 11),
++    ("G2", 0), ("G2", 2), ("G2", 3), ("G2", 4), ("G2", 6), ("G2", 7),
++    ("G2", 8), ("G2", 9), ("G2", 10), ("G2", 11), ("G2", 13),
++    ("G3", 3), ("G3", 5), ("G3", 6), ("G3", 7), ("G3", 8), ("G3", 9),
++    ("G3", 12), ("G3", 13),
+ ]
+ 
+ ARM = "B_M2_32f_candidate"
+@@ -153,7 +169,7 @@ def _load_scl_joint(mod):
+     ``mod._load_g2_decoder_chain`` uses for the other frozen nbpolar leaves
+     (registers bare parent packages in ``sys.modules`` pointing at the real
+     directories, so the real file is executed with its own relative imports
+-    intact — no copy, no rewrite)."""
++    intact -- no copy, no rewrite)."""
+     chain = mod._load_g2_decoder_chain()
+     base_nb = "comparison_bench.src.comparison_bench.formal_ir.nbpolar"
+     scl_joint_mod = importlib.import_module(base_nb + ".scl_joint")
+@@ -182,20 +198,17 @@ def _reproduce_session_context(mod, chain, scl_joint_mod, session: str) -> dict:
+     nothing anywhere (including no G2/G3 out_root).
+ 
+     ``chain``/``scl_joint_mod`` are loaded ONCE by the caller (``main()``)
+-    and passed in, never re-loaded per session: attempt 1 (2026-09-28)
+-    called ``_load_scl_joint`` -> ``mod._load_g2_decoder_chain()`` once per
+-    session (twice total in one process) and died on the second call with
+-    ``ValueError: pandas.__spec__ is None`` -- the frozen loader's own
+-    pandas-absent guard (``importlib.util.find_spec("pandas") is None and
+-    "pandas" not in sys.modules``) is not safe to evaluate twice in one
+-    process once it has already installed its spec-less fail-closed stub
+-    into ``sys.modules["pandas"]`` on the first call. That death happened
+-    entirely inside decoder-chain/module loading, before any raw-data read,
+-    CAL fit, or decode call for the affected session -- zero measurement
+-    was ever attempted. Fix: load the chain/module once in ``main()``
+-    (identical singleton, valid for both sessions) instead of loading it
+-    fresh per session. See ``session_setup_execution_error_attempt1.json``
+-    for the full attempt-1 record."""
++    and passed in, never re-loaded per session: the predecessor packet's
++    attempt 1 (2026-09-28) called ``_load_scl_joint`` -> ``mod._load_g2_decoder_chain()``
++    once per session (twice total in one process) and died on the second
++    call with ``ValueError: pandas.__spec__ is None`` -- the frozen
++    loader's own pandas-absent guard (``importlib.util.find_spec("pandas")
++    is None and "pandas" not in sys.modules``) is not safe to evaluate
++    twice in one process once it has already installed its spec-less
++    fail-closed stub into ``sys.modules["pandas"]`` on the first call.
++    Fix (inherited from the predecessor, unchanged here): load the
++    chain/module once in ``main()`` (identical singleton, valid for both
++    sessions) instead of loading it fresh per session."""
+     cfg = SESSION_CFG[session]
+ 
+     identity = chain.verify_predecessor_construction(
+@@ -314,7 +327,14 @@ def _fidelity_check(mod, ctx: dict, session: str, block_index: int) -> dict:
+     """Re-run the SAME frozen SC block body (``run_g2_block``) G2/G3 used
+     for this one block, and diff the 5 recorded fields against the frozen
+     ``per_block_outcomes.jsonl`` row. Any diff => the caller must STOP
+-    before attempting the SCL rescue for this block."""
++    before attempting the SCL preservation check for this block.
++
++    Field comparison note: ``expected.get(k) != actual.get(k)`` is used
++    verbatim (unchanged from the predecessor); for the two nullable fields
++    (``first_error_coordinate``, ``first_error_layer``) both sides read
++    ``None``/``null`` for an exact-outcome block, and Python's ``!=``
++    correctly treats ``None != None`` as ``False`` (i.e. equal), so no
++    special-casing is needed for the empty-value comparison."""
+     eval_blocks = ctx["eval_blocks"]
+     s, e = eval_blocks[block_index]
+     bob = ctx["frames_b"][s : e + 1].ravel()
+@@ -359,7 +379,13 @@ def _rescue_block(mod, ctx: dict, session: str, block_index: int, alice: np.ndar
+     """CRC-16-aided joint SCL(L=16, top_m=4) re-decode of one block, scored
+     against Alice truth and the SAME per-block Toeplitz tag G2/G3 used
+     (same tag_master/eval_seed/block_index => same
+-    ``operational_seed_bits`` stream; only the disclosed CRC-16 is new)."""
++    ``operational_seed_bits`` stream; only the disclosed CRC-16 is new).
++
++    Name/schema kept identical to the predecessor's ``_rescue_block``
++    (same function name, same returned-dict keys, same "rescue" key in the
++    caller's part-file record) per this task's delta-successor scope: only
++    TARGETS, the output directory, and descriptive prose change; the
++    decode/accept/exact/undetected/verify_failed computation is untouched."""
+     chain = ctx["chain"]
+     scl_joint_mod = ctx["scl_joint_mod"]
+     prior_mod = ctx["prior_mod"]
+@@ -403,9 +429,10 @@ def _rescue_block(mod, ctx: dict, session: str, block_index: int, alice: np.ndar
+     l1_error_symbols_scl = int(np.sum(np.asarray(res.high_hat) != high_true))
+     l2_error_symbols_scl = int(np.sum(np.asarray(res.low_hat) != low_true))
+ 
+-    # Main-thread ruling F1 (2026-09-28): accepted must match the T3 gate
+-    # convention (workspace/probes/scl-gate-t3) -- CRC AND tag both pass, not
+-    # tag alone. crc_pass and tag_pass are both recorded separately below.
++    # Main-thread ruling F1 (2026-09-28, inherited unchanged from
++    # m2_scl_rescue_g2g3): accepted must match the T3 gate convention
++    # (workspace/probes/scl-gate-t3) -- CRC AND tag both pass, not tag
++    # alone. crc_pass and tag_pass are both recorded separately below.
+     accepted = bool(crc_pass and tag_pass)
+     exact = bool(accepted and label_exact)
+     undetected = bool(accepted and not label_exact)  # isolated; never merged into exact
+@@ -576,8 +603,8 @@ def main() -> int:
+     mod = _load_mod()
+     # Load the frozen decoder chain + scl_joint module ONCE (process-global
+     # singleton, valid for both sessions) -- NOT once per session. See
+-    # _reproduce_session_context's docstring / session_setup_execution_error_attempt1.json
+-    # for why a second per-session load previously crashed.
++    # _reproduce_session_context's docstring for why a second per-session
++    # load previously crashed the predecessor packet's attempt 1.
+     chain, scl_joint_mod = _load_scl_joint(mod)
+     global _CTX
+     _CTX["_mod"] = mod
+@@ -598,14 +625,20 @@ def main() -> int:
+ 
+     n_fidelity_ok = sum(1 for b in blocks if b["fidelity"] and b["fidelity"]["match"])
+     n_fidelity_mismatch = sum(1 for b in blocks if b["fidelity"] and not b["fidelity"]["match"])
+-    n_rescued_exact = sum(1 for b in blocks if b.get("rescue") and b["rescue"]["exact"])
+-    n_still_failed = sum(1 for b in blocks if b.get("rescue") and not b["rescue"]["exact"])
++    # Redefined per this task's instruction (2026-09-28): n_broken counts SCL
++    # verify_failed outcomes specifically (NOT "not exact", which would
++    # double-count undetected -- see TASK_PACKET.md diff notes for why this
++    # differs from the predecessor's n_still_failed, which was "not exact").
++    n_preserved_exact = sum(1 for b in blocks if b.get("rescue") and b["rescue"]["exact"])
++    n_broken = sum(1 for b in blocks if b.get("rescue") and b["rescue"]["verify_failed"])
+     n_undetected = sum(1 for b in blocks if b.get("rescue") and b["rescue"]["undetected"])
+     n_errors = sum(1 for b in blocks if str(b["status"]).startswith("error") or "resource_abort" in str(b["status"]))
+ 
+-    # Main-thread ruling D3 (2026-09-28): any single-block STOPPED_FIDELITY_MISMATCH
+-    # compromises the whole run's rescue tally -- flag it at top level and drop the
+-    # aggregate rescue counts from summary (per-block detail stays in "blocks").
++    # Main-thread ruling D3 (2026-09-28, inherited unchanged from
++    # m2_scl_rescue_g2g3 per the delta-successor fast path): any single-block
++    # STOPPED_FIDELITY_MISMATCH compromises the whole run's preservation-check
++    # tally -- flag it at top level and drop the aggregate preservation-check
++    # counts from summary (per-block detail stays in "blocks").
+     fidelity_compromised = bool(n_fidelity_mismatch > 0)
+     if fidelity_compromised:
+         summary = {
+@@ -615,9 +648,10 @@ def main() -> int:
+             "n_errors_or_aborts": n_errors,
+             "note": (
+                 "fidelity_compromised=true: at least one block failed the fidelity "
+-                "check, so NO aggregate rescue count is reported here (see "
+-                "results['blocks'][*]['rescue'] for whatever per-block rescue data "
+-                "did run; main-thread ruling D3, 2026-09-28)."
++                "check, so NO aggregate preservation-check count is reported here "
++                "(see results['blocks'][*]['rescue'] for whatever per-block SCL "
++                "preservation-check data did run; main-thread ruling D3, 2026-09-28, "
++                "inherited)."
+             ),
+         }
+     else:
+@@ -625,25 +659,28 @@ def main() -> int:
+             "n_targets": len(TARGETS),
+             "n_fidelity_ok": n_fidelity_ok,
+             "n_fidelity_mismatch": n_fidelity_mismatch,
+-            "n_rescued_exact": n_rescued_exact,
+-            "n_still_failed": n_still_failed,
++            "n_preserved_exact": n_preserved_exact,
++            "n_broken": n_broken,
+             "n_undetected": n_undetected,
+             "n_errors_or_aborts": n_errors,
+         }
+ 
+     results = {
+-        "probe_id": "m2-scl-rescue-g2g3",
++        "probe_id": "m2-scl-check-g2g3-success",
+         "classification": (
+-            "Descriptive real-data re-decode diagnostic; NOT a Tier-X synthetic probe "
+-            "(reads real .ttbin data) and NOT a Tier-Y decision gate (no threshold, no "
++            "Descriptive real-data preservation-check diagnostic; delta-successor of "
++            "m2-scl-rescue-g2g3 (commit 326594ca). NOT a Tier-X synthetic probe (reads "
++            "real .ttbin data) and NOT a Tier-Y decision gate (no threshold, no "
+             "success/fail verdict, no state-string change, no candidate/accepted token, "
+-            "consumes no new EVAL data -- the 9 blocks were already decoded and recorded "
+-            "by G2/G3). See TASK_PACKET.md for the main-thread classification question."
++            "consumes no new EVAL data -- the 19 blocks were already decoded and "
++            "recorded by G2/G3, all with outcome=exact). Reviewed at the same rigor as "
++            "the predecessor per main-thread ruling D1 (inherited, 2026-09-28). See "
++            "TASK_PACKET.md for the inheritance record."
+         ),
+         "authorization": {
+             "who": "PI",
+             "when": "2026-09-28",
+-            "verbatim": "授权，用 SCL L=16 重解那 9 个失败块，可以继续往下推进",
++            "verbatim": "授权，19 块也跑 SCL L=16",
+             "source": "AUTHORIZATION_PROMPT.md (this directory)",
+         },
+         "frozen_params": {
+@@ -679,9 +716,9 @@ def main() -> int:
+             "No significance test, no threshold, no pass/fail verdict, no "
+             "candidate/accepted promotion, no change to NBPOLAR_M2_PRIOR_G2_SUCCESS / "
+             "NBPOLAR_M2_PRIOR_G3_SUCCESS / M2 status ladder, no attempt counted. "
+-            "n_rescued_exact / 9 is a raw descriptive count only, and is WITHHELD "
++            "n_preserved_exact / 19 is a raw descriptive count only, and is WITHHELD "
+             "entirely (see summary.note) when fidelity_compromised=true (main-thread "
+-            "ruling D3, 2026-09-28)."
++            "ruling D3, 2026-09-28, inherited)."
+         ),
+         "timing": {"wall_s_total": time.time() - t0},
+     }
+@@ -689,15 +726,15 @@ def main() -> int:
+         json.dump(results, fh, indent=2, sort_keys=True)
+     if fidelity_compromised:
+         print(
+-            f"DONE fidelity_compromised=True fidelity_ok={n_fidelity_ok}/9 "
+-            f"fidelity_mismatch={n_fidelity_mismatch} (aggregate rescue counts "
+-            f"WITHHELD per D3) errors_or_aborts={n_errors} wall_s={time.time()-t0:.1f}",
++            f"DONE fidelity_compromised=True fidelity_ok={n_fidelity_ok}/19 "
++            f"fidelity_mismatch={n_fidelity_mismatch} (aggregate preservation-check "
++            f"counts WITHHELD per D3) errors_or_aborts={n_errors} wall_s={time.time()-t0:.1f}",
+             file=sys.stderr,
+         )
+     else:
+         print(
+-            f"DONE fidelity_ok={n_fidelity_ok}/9 fidelity_mismatch={n_fidelity_mismatch} "
+-            f"rescued_exact={n_rescued_exact} still_failed={n_still_failed} "
++            f"DONE fidelity_ok={n_fidelity_ok}/19 fidelity_mismatch={n_fidelity_mismatch} "
++            f"preserved_exact={n_preserved_exact} broken={n_broken} "
+             f"undetected={n_undetected} errors_or_aborts={n_errors} "
+             f"wall_s={time.time()-t0:.1f}",
+             file=sys.stderr,

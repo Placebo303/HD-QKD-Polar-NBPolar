@@ -24,6 +24,37 @@ Durable decisions and rejected alternatives for the HD-QKD_Polar_Comparison-nbpo
 
 ## Decisions
 
+## 2026-09-28 真实数据 G2/G3 B 臂 28 块 SCL(L=16) 描述性合并：27/28（PI 授权）
+
+**Decision**: 记录 `workspace/m2_scl_check_g2g3_success/` 一次性执行的结果与验收，并与前驱包（`workspace/m2_scl_rescue_g2g3/`，commit `326594ca`）合并统计。授权原话（PI，2026-09-28）："授权，19 块也跑 SCL L=16"。Pre-EXECUTE 结论 `PASS`（见 `workspace/m2_scl_check_g2g3_success/PRE_EXECUTE_REVIEW.md`）。Pre-RESULT 结论 `PASS`（独立复核见 `workspace/m2_scl_check_g2g3_success/PRE_RESULT_REVIEW.md`）。
+
+**Context**: 保真性——对 SC 冻结路径下**成功**的 19 个真实数据 B 臂块（G2 11 个 + G3 8 个）跑同一 CRC-16 辅助 joint SCL(L=16, top_m=4) 保真性保持检查，19/19 块保真核对全部通过：`preserved_exact=19`、`broken=0`、`undetected=0`。与前驱包（失败块救回 8/9）合并后，28 个真实数据 B 臂块（G2 14 + G3 14）在 SCL(L=16) 下合计：G2 13/14、G3 14/14，**合计 27/28**，`undetected=0`。仅 G2 block 5 在 SC 与 SCL 两条路径下均失败（L2 有 78 个错误符号）。对照：同一 28 块在 SC 冻结路径下为 **19/28**（G2 11/14、G3 8/14）。
+
+**结论只能用这一段（逐字引自 `workspace/m2_scl_check_g2g3_success/PRE_RESULT_REVIEW.md` 第 97–109 行，保留英文原文）**：
+
+> Applying the SCL-joint (L=16, top_m=4, CRC-16-aided) decoder
+> descriptively to all 28 already-decoded B-arm (`B_M2_32f_candidate`)
+> EVAL blocks from the G2/G3 real-data sessions — reusing the frozen SC
+> outcomes for classification rather than drawing any new EVAL data —
+> yields 27/28 blocks exact and 1/28 (G2 block 5) `verify_failed` under
+> SCL, with 0 `undetected` cases; adding the 16-bit CRC increases the
+> descriptive book rate `f_book` by ≈0.0006 (G2: 1.274745→1.275343,
+> Δ=0.000598; G3: 1.267507→1.268101, Δ=0.000594) over the no-CRC baseline.
+> This is a descriptive count only — SCL is not part of the frozen
+> operational decode contract, does not constitute an FER gate, an R2
+> decision, or any promotion criterion, and does not change
+> `NBPOLAR_M2_PRIOR_G2_SUCCESS`/`NBPOLAR_M2_PRIOR_G3_SUCCESS`/the M2
+> status ladder.
+
+明确边界：这不是 FER 门、不是 R2 结果、不是晋级依据；M2 状态串、K1=319/K2=6492、`NBPOLAR_M2_PRIOR_G2_SUCCESS`/`NBPOLAR_M2_PRIOR_G3_SUCCESS` 标签全部**未改动**；R2 测量合同仍未冻结（D-ACQ-02/03/05 仍 PENDING）；真实数据 SCL 仍不是已采纳的基线（design D5 不变）。
+
+**Alternatives considered**:
+- 把 27/28 合并结果读作真实数据 SCL 的 FER 数字或晋级证据：拒绝——这是描述性诊断，复用冻结 SC 结果做分类而非采集新 EVAL 数据，不产生阈值/合格判定，不计入任何 Tier-Y attempt 预算。
+- 把这 19 块的保真性检查结果并入 M2/G2/G3 状态串或 K1/K2 冻结值：拒绝——本包只是对已成功块做 SCL 保持性核查，不改变任何已裁决的状态字符串或冻结契约值。
+- 把 G2 block 5 的持续失败读作 SCL 实现缺陷：拒绝——`PRE_RESULT_REVIEW.md` 已确认该块在 SC 与 SCL 两条路径下均失败（L2 78 个错误符号），与前驱包裁决一致，非新发现的实现异常。
+
+**Consequences**（规划输入，非决定）：建议在 R2 测量合同草案中把 "M2 + SCL(L=16, M=4, CRC-16)" 列为候选译码配置之一，由 PI 另行裁决是否采纳；正式 FER 仍需在新采集的数据上按 R2 合同测量，不得用本次描述性合并结果替代。另需记录：真实数据 SC 与 i.i.d. 合成信道之间的差距仍未解释（合成匹配信道约 30/32 vs 真实数据 SC 19/28）；本条目不解决该差距，仅并入本次 SCL 描述性结果作为同一未解释差距的补充观察点。
+
 ## 2026-09-28 真实数据 G2/G3 B 臂失败块 SCL 重解（描述性诊断，PI 授权）
 
 **Decision**: 记录 `workspace/m2_scl_rescue_g2g3/` 一次性执行的结果与验收。授权原话（PI，2026-09-28）："授权，用 SCL L=16 重解那 9 个失败块，可以继续往下推进"。Pre-EXECUTE 结论 `PASS_WITH_COMMENTS`（唯一发现是 RSS 2GiB 预算只做事后记录、非实时轮询/未在超出时中止；主线程已接受为非阻塞，理由见 `PRE_EXECUTE_REVIEW.md`/`STATUS.yaml` D5 裁决：`workspace/probes/scl-gate-t3/results.json` 同配置 N=32768/L=16 下每 16-block 批次 RSS 峰值约 0.65GiB，8-way 并行仍在 WSL 15GB 预算内）。Pre-RESULT 结论 `PASS`（独立复核见 `PRE_RESULT_REVIEW.md`）。

@@ -108,6 +108,7 @@ remains locked until PI approves.**~~ (superseded 2026-09-27; see
   **[NOT AUTHORIZED — skeleton only, empty authorization list by
   construction]**
   2026-09-28 真实数据描述性重解（非 Tier-Y、非门）结果见 decision-log；T5 骨架仍暂缓。
+  2026-09-28 28 块描述性合并结果见 decision-log；T5 骨架仍暂缓，改由 R2 合同草案候选配置承接（待 PI 裁决）。
 
 ## Standing rule
 
