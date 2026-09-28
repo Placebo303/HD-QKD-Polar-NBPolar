@@ -50,6 +50,17 @@ post-skip 总帧数 4219（skip=702，window=200；`frame_census.json` 2026-09-2
 本会话 R2 候选合计：8（A1_CAL）+ 10（CHAR+HELDOUT，62 帧弃）+ 14（EVAL）= **32 块**
 （CAL32 32 帧排除；RESERVE 29 帧不足 1 块，不计入）。
 
+> **2026-09-29 接触记录（`r2-fer-shg-64`，M2+SCL(L=16,top_m=4,CRC-16) 解码）**：
+> 本会话 A1_CAL（8 块）、HELDOUT_model_selection（10 块）、
+> EVAL_already_decoded（14 块，此前已被 SC/SCL 解码过）三段合计 32 块全部
+> 参与本次 R2 FER 测量（`global_block_index` 0–31，session=G2）。A1_CAL/
+> HELDOUT 段是**首次**被任何解码器（SC 或 SCL）接触；EVAL 段按 R1"解码≠
+> 消耗"复用，不产生新披露。本会话结果 31/32 exact（失败块 `part_G2_23`，即
+> 此前的 G2 EVAL block 5，L2 78 错误符号，SC/SCL 两路径均失败）。详见
+> `workspace/r2_fer_shg_64/RESULT_SUMMARY.md`、`docs/decision-log.md`
+> 2026-09-29 条目。本行不改变本表其余各段"剩余"数字（RESERVE 29 帧仍未
+> 接触）。
+
 ## §2 SHG `_2`（`20260113_SHG_Type2PPLN_3s_2`，即 G3 参照会话）
 
 post-skip 总帧数 4289（skip=702，window=200；`frame_census.json` 2026-09-28
@@ -69,6 +80,17 @@ SCL 描述性结果（本会话 14/14 全部保持）与 RESERVE 帧数。
 
 本会话 R2 候选合计：8 + 10 + 14 = **32 块**（CAL32 排除；RESERVE 99 帧不足 1 块，
 不计入）。
+
+> **2026-09-29 接触记录（`r2-fer-shg-64`，M2+SCL(L=16,top_m=4,CRC-16) 解码）**：
+> 本会话 A1_CAL（8 块）、HELDOUT_model_selection（10 块）、
+> EVAL_already_decoded（14 块，此前已被 SC/SCL 解码过）三段合计 32 块全部
+> 参与本次 R2 FER 测量（`global_block_index` 32–63，session=G3）。A1_CAL/
+> HELDOUT 段是**首次**被任何解码器接触；EVAL 段复用不产生新披露。本会话
+> 结果 31/32 exact（失败块 `part_G3_38`，`A1_CAL_characterization`/
+> `never_decoded` 块，首次 SCL 观测，无历史对照）。详见
+> `workspace/r2_fer_shg_64/RESULT_SUMMARY.md`、`docs/decision-log.md`
+> 2026-09-29 条目。本行不改变本表其余各段"剩余"数字（RESERVE 99 帧仍未
+> 接触）。
 
 ## §3 两会话合计
 
@@ -137,7 +159,7 @@ Finding 4、`design.md` D5）。剩余：**0 块可用**。
 - CAL32（1024-1055，32 帧）在两会话中都保持**排除**，不计入 64 块
 
 **候选译码配置**（T1 PI 裁决 (iv)，执行前须正式冻结）：M2 先验 + SCL(L=16,
-top_m=4, CRC-16) + K1=319/K2=6492 + P16 构造顺序（`b4defb1e`，Tier-X focused
+top_m=4, CRC-16) + K1=319/K2=6492 + P16 构造（digest `055c906472dd…faea1b`；`b4defb1e` 为 P16-vs-matched Tier-X 探针的 commit，非 digest），Tier-X focused
 review PASS）。
 
 **适用域限定**（T1 PI 裁决 (iii)，即 D-ACQ-05）：结论仅适用于 2026-01-13 两次

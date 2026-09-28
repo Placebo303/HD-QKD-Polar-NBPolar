@@ -24,6 +24,77 @@ Durable decisions and rejected alternatives for the HD-QKD_Polar_Comparison-nbpo
 
 ## Decisions
 
+## 2026-09-29 R2 FER 测量 r2-fer-shg-64 主线程裁定：`FER_MEASURED_AT_CONTRACT`（M2 晋级第 3 级）
+
+**Decision**: 主线程对 `workspace/r2_fer_shg_64/` 的独立 Pre-RESULT 审查结论
+（`PRE_RESULT_REVIEW.md`，**PASS**，F1–F9 逐项独立复算零差异）进行裁定。按
+`STATUS.yaml` `pi_authorization_2026_09_28.verbatim` 冻结的判定规则：有效
+分母 `D=64 ≥ 56`（DECIDED 阈值），`undetected=0`（未触发 D-FER-06 的 STOP/
+暂缓条款），`fidelity_compromised=false`（28/28 EVAL 块保真核对一致）——三
+项条件同时满足，裁定为 **`FER_MEASURED_AT_CONTRACT`**。**M2 状态由
+`VALIDATED_AT_FROZEN_CONTRACT`（第 2 级）晋级为 `FER_MEASURED_AT_CONTRACT`
+（第 3 级）**，按 `docs/nbpolar/STATE.md` §4.1 晋级阶梯第二行进入。下一级门
+为 **R3**（效率门：verification-aware f_eff + 运行时/RSS 上界），尚未开始；
+本次裁定**不**晋级到 R3 或更高级（禁止跳级，§4.1 阶梯明文）。
+
+**Context**: `r2-fer-shg-64` 是 R2 测量合同（`openspec/changes/
+nbpolar-r2-fer-measurement-contract/`）冻结口径下的一次性 Tier-Y 执行——M2
+先验 + SCL(L=16, top_m=4, CRC-16)、K1=319/K2=6492、P16 冻结构造（digest
+`055c906472dd2a09761761b18aceb5f31d8b5db19bac658721f8dc49c3faea1b`）、
+W_P=200/W_S=500/CIRCULAR/skip=702、`tag_master=2026102801`/
+`eval_seed=2026092801`，在 SHG `_1`/`_2` 全会话冻结 64 块池
+（`docs/nbpolar/DATA_LEDGER.md` §7）上执行。PI 授权见 `STATUS.yaml`
+`pi_authorization_2026_09_28`（预算：每块 wall ≤ 1200 s、RSS ≤ 2 GiB、总
+wall ≤ 3 h、8 路并行、超预算 STOP 不调参；one-shot，reruns=0）。
+
+**数字（逐字取自 `results.json`/`PRE_RESULT_REVIEW.md`，完整表见
+`workspace/r2_fer_shg_64/RESULT_SUMMARY.md`）**：
+
+- pooled：`n_blocks=64, D=64, exact=62, verify_failed=2, undetected=0,
+  resource_abort=0`，`p̂=0.03125`，Wilson 95% CI `[0.008612, 0.106975]`。
+- `stratum_task`：`never_decoded` 27/28、`heldout_model_selection` 8/8、
+  `previously_decoded_eval` 27/28。
+- `stratum_official`（契约口径）：`A1_CAL_characterization` 15/16、
+  `HELDOUT_model_selection` 20/20、`EVAL_already_decoded` 27/28。
+- 分 session：G2 31/32（失败块 `part_G2_23`，即此前的 G2 EVAL block 5）、
+  G3 31/32（失败块 `part_G3_38`，`never_decoded` 块，首次 SCL 观测，无历史
+  对照）。
+- 记账：`kdb_no_crc=34119`、`kdb_with_crc=34135`（块常数，与解码结果无关，
+  D-FER-05 结构性说明）；`H_total` G2=0.8168138、G3=0.8214782；`f_book`
+  （含 CRC）G2=1.275343、G3=1.268101。
+- 保真：28/28 EVAL 块与 `per_block_outcomes.jsonl` 一致；与此前描述性 SCL
+  合并结果逐块一致率 28/28。
+- 执行：`reruns=0`，总 wall 4493 s，每块 534–574 s，RSS 0.52–0.58 GiB。
+- 适用域（D-ACQ-05）：仅限 2026-01-13 两次 SHG `Type2PPLN_3s` 采集自身条件。
+
+**允许的结论句**：在 M2 先验 + SCL(L=16, top_m=4, CRC-16)、K1=319/K2=6492、
+P16 冻结构造下，SHG `_1`/`_2` 全会话冻结 64 块池测得 p̂=0.03125（Wilson 95%
+CI [0.008612, 0.106975]），undetected=0，记账 f_book（含 CRC）≈1.268–1.275；
+仅适用于本次 2026-01-13 SHG 采集自身条件。
+
+**Caveats（不得省略，详见 `RESULT_SUMMARY.md` §7）**：(a) 仅 SCL 一臂，无
+同批二元基线对照，不得声称优于二元；(b) A1_CAL 与 HELDOUT 块是首次 SCL 观
+测，无历史对照；(c) 本次预算数字是 PI 为本次执行确认的值，不构成对
+D-ACQ-06 的一般性重裁；(d) 64 块样本 CI 较宽（上界 0.107）；(e) 吞吐约 60
+符号/s（每块 N=32768，约 550 s），远不满足实时。
+
+**Alternatives considered**:
+- 暂缓裁定，等待更大样本：拒绝——`D=64` 已过 DECIDED 阈值 `n=56`，
+  `undetected=0` 未触发 D-FER-06 的暂缓条款，P-2 明文本次结果无论好坏都
+  计入 one-shot 预算，不得为等更干净结果而拖延裁定。
+- 直接晋级到 R3 或 `READY_FOR_QUALIFICATION`：拒绝——§4.1 阶梯明文禁止跳级；
+  R3（效率门）与更高级晋级条件（≥2 独立 session 复现 + G4 + 独立 Pre-RESULT
+  全过）均未满足或未启动。
+
+**Consequences**: M2 主线状态串在 `docs/nbpolar/STATE.md` 顶部与 §4.1 更新为
+`FER_MEASURED_AT_CONTRACT`（原 `VALIDATED_AT_FROZEN_CONTRACT` 保留标注，未
+删除）。`openspec/changes/nbpolar-r2-fer-measurement-contract/tasks.md` T7/
+T8/T9 按实际执行情况标注（T7 以既有 SHG 数据替代新采集，T8 已执行，T9
+Pre-RESULT PASS + 本条目发布）；该 change 状态标为 `EXECUTED + ADJUDICATED
+2026-09-29`。下一步：规划 R3（效率门）任务包；本次不改变冻结 K1=319/
+K2=6492、不改变真实数据 SCL 锁定状态（design D5 不变，本次执行本身即是该
+锁定下的授权测量，不代表锁定解除为默认基线）。
+
 ## 2026-09-28 R2 剩余 8 项待决全部 DECIDED（PI 裁决"按建议批准"）+ P-1/P-2 补充裁决 + T3/T5/T6 冻结（PENDING SCL wall 预算）
 
 **Decision**: PI 在对话中对 `docs/nbpolar/R2_REMAINING_DECISIONS_20260928.md` 的

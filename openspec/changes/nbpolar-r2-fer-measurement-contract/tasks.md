@@ -1,6 +1,14 @@
 # Tasks — nbpolar-r2-fer-measurement-contract
 
-Status: **FROZEN except PENDING-BUDGET (SCL wall)** (2026-09-28, second-round
+Status: **EXECUTED + ADJUDICATED 2026-09-29** (`r2-fer-shg-64`, main-thread
+verdict `FER_MEASURED_AT_CONTRACT`; see `docs/decision-log.md` 2026-09-29
+entry and T7/T8/T9 sections below). PENDING-BUDGET (SCL wall) was resolved by
+the PI's separate `r2-fer-shg-64` authorization
+(`workspace/r2_fer_shg_64/STATUS.yaml` `pi_authorization_2026_09_28`), not by
+a change to this file's own frozen D-ACQ-06 row (kept as historical record
+below). Prior status line retained below for provenance.
+
+Status (2026-09-28, superseded above): **FROZEN except PENDING-BUDGET (SCL wall)** (2026-09-28, second-round
 T4 PI adjudication "按建议批准" + P-1/P-2 + T3/T5/T6; see
 `docs/decision-log.md` 2026-09-28 "R2 剩余 8 项待决全部 DECIDED..." entry).
 All 15 `§5` ledger rows in `docs/nbpolar/R2_MEASUREMENT_CONTRACT_DRAFT_20260924.md`
@@ -275,25 +283,60 @@ The skeleton contains no verbatim authorization text and grants nothing.
 
 ## T7 — Acquisition run
 
-**NOT AUTHORIZED** by this change. Out of scope (see Scope OUT). Recorded only
+~~**NOT AUTHORIZED** by this change. Out of scope (see Scope OUT). Recorded only
 to fix the boundary: no acquisition command, source, or schedule is approved
-here.
+here.~~
 
-- Needs user authorization: **NOT AUTHORIZED**.
+**[x] 2026-09-29 update — satisfied by substitution, not a new acquisition**:
+per the 2026-09-28 PI adjudication (D-ACQ-02/03/08, `docs/decision-log.md`
+2026-09-28 "数据使用规则修订 R1-R5 采纳" entry), no new acquisition run was
+needed or performed. T7 is closed by **substituting the existing frozen SHG
+`_1`/`_2` 64-block pool** (`docs/nbpolar/DATA_LEDGER.md` §7) for a fresh
+acquisition — the ledger already showed the gap at 0 (`n=56` target met by
+the existing 64 blocks). No raw-data read outside the already-inventoried
+sessions occurred.
+
+- Needs user authorization: **NOT AUTHORIZED for a *new* acquisition** (none
+  was requested or performed; N/A by substitution).
 
 ## T8 — Decode / measurement execution
 
-**NOT AUTHORIZED** by this change. No decode, no FER measurement, no real-data
-or synthetic execution is approved here.
+~~**NOT AUTHORIZED** by this change. No decode, no FER measurement, no real-data
+or synthetic execution is approved here.~~
 
-- Needs user authorization: **NOT AUTHORIZED**.
+**[x] 2026-09-29 update — executed under separate PI authorization**: the
+decode/measurement execution ran as `workspace/r2_fer_shg_64/` under the PI's
+explicit verbatim authorization recorded in
+`workspace/r2_fer_shg_64/STATUS.yaml` `pi_authorization_2026_09_28` (not this
+change's own text) plus independent Pre-EXECUTE round-2 PASS
+(`workspace/r2_fer_shg_64/PRE_EXECUTE_REVIEW_R2.md`). Exit code 0, 64/64
+blocks `status=="ok"`, `reruns=0`, one-shot. This T8 checkbox records that
+the boundary this task fixed has now been crossed **by explicit separate
+authorization**, not that this change itself authorized it.
+
+- Needs user authorization: satisfied by the separate PI verbatim
+  authorization above (not by this change's text).
 
 ## T9 — Pre-RESULT review / publication of any number
 
-**NOT AUTHORIZED** by this change. No FER value, OPERATOR_RETURN, or
-RESULT_SUMMARY may be produced from this change's work.
+~~**NOT AUTHORIZED** by this change. No FER value, OPERATOR_RETURN, or
+RESULT_SUMMARY may be produced from this change's work.~~
 
-- Needs user authorization: **NOT AUTHORIZED**.
+**[x] 2026-09-29 update — Pre-RESULT PASS + result published**: independent
+Pre-RESULT review PASS (`workspace/r2_fer_shg_64/PRE_RESULT_REVIEW.md`,
+findings F1–F9, zero discrepancies). Main-thread adjudication:
+**`FER_MEASURED_AT_CONTRACT`** (see `docs/decision-log.md` 2026-09-29 entry).
+Result published at `workspace/r2_fer_shg_64/RESULT_SUMMARY.md` (pooled +
+stratified tables side by side per P-1, selection-freedom table, undetected/
+resource_abort explicit 0, f/H side by side, applicable-scope statement,
+caveats (a)–(e), one permitted conclusion sentence). This T9 checkbox
+records that the boundary this task fixed has now been crossed **by the
+separate main-thread Pre-RESULT/adjudication act above**, not that this
+change's own text authorized publication.
+
+- Needs user authorization: satisfied by the separate PI authorization +
+  independent Pre-RESULT PASS + main-thread adjudication above (not by this
+  change's text).
 
 ---
 

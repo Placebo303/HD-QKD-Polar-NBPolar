@@ -1,0 +1,220 @@
+# STATUS — r2-fer-shg-64 (R2 formal FER measurement: M2 + SCL(L=16,
+# top_m=4, CRC-16) on the frozen 64-block SHG _1/_2 pool, DATA_LEDGER.md
+# §7). Delta-successor of workspace/m2_scl_check_g2g3_success/ (Pre-EXECUTE
+# PASS, Pre-RESULT PASS, attempt 1 completed exit 0, 2026-09-28), per
+# AGENTS.md §10.1 item 5 / §10.4's delta-successor fast path.
+#
+# Classification: Tier-Y decision-gate measurement (claim-bearing, one-shot,
+# real-data) -- NOT descriptive, NOT Tier-X. Requires independent
+# Pre-EXECUTE AND Pre-RESULT review (AGENTS.md §10.3), explicit PI
+# authorization, and counts as ONE attempt against the R2 one-shot budget.
+#
+# PREPARATION ONLY. No execution performed. No git write performed by this
+# operator at any point.
+packet: r2-fer-shg-64
+predecessor: workspace/m2_scl_check_g2g3_success/  # Pre-EXECUTE PASS, Pre-RESULT PASS, attempt 1 exit 0; read-only base contract, not modified by this packet
+location: workspace/r2_fer_shg_64/   # new, additive-only directory
+branch: codex/nbpolar-phase0
+depends_on:
+  data_ledger: docs/nbpolar/DATA_LEDGER.md §7   # 64-block pool definition (authoritative)
+  r2_contract: openspec/changes/nbpolar-r2-fer-measurement-contract/  # T1-T6 gate sequence; T4 ledger rows D-ACQ-01/04/07/08, D-FER-04/05/06/07 still PENDING as of this packet's preparation
+  r2_recommendations: docs/nbpolar/R2_REMAINING_DECISIONS_20260928.md  # planner recommendations for the remaining PENDING rows -- superseded by the T4-round-2 writeback below, kept for provenance
+  r2_t4_round2_writeback: docs/nbpolar/R2_MEASUREMENT_CONTRACT_DRAFT_20260924.md §9  # found during this prep pass: all 15 ledger rows now DECIDED, plus P-1/P-2 rulings and T3/T5/T6 execution records; see docs/decision-log.md 2026-09-28 "R2 剩余 8 项待决全部 DECIDED"
+  r2_t6_skeleton: openspec/changes/nbpolar-r2-fer-measurement-contract/T6_PACKET_SKELETON_20260928.md  # found during this prep pass: frozen execution config, tag_master=2026102801/eval_seed=2026092801, 64-block layout, judgment rule, PENDING-BUDGET (SCL wall) -- read-only, not modified
+  predecessor_packet: workspace/m2_scl_check_g2g3_success/  # decoder call / CAL-fit routine / budget-mechanism reuse basis
+  scl_module: nbpolar-scl-lock-amendment (T2 scl_joint.py, T3 SCL gate PASS_WITH_COMMENTS)  # SAME module the predecessor used, unmodified
+  outcomes_g2: workspace/m2_prior_validation/20260113_SHG_Type2PPLN_3s_g2/per_block_outcomes.jsonl  # read-only, EVAL fidelity-check comparison source
+  outcomes_g3: workspace/m2_prior_validation/20260113_SHG_Type2PPLN_3s_2_g3/per_block_outcomes.jsonl  # read-only, EVAL fidelity-check comparison source
+venv: /home/karel_303/.venvs/timetagger/bin/python  # SAME venv as G2/G3/the predecessor
+authorizations: []  # NOT YET GRANTED -- unlike the predecessor, AUTHORIZATION_PROMPT.md in this directory is a template awaiting PI's verbatim paste
+freeze_and_implementation_authorized: null  # this preparation pass proceeded under the operator's general "prepare the packet" instruction; PI authorization for the MEASUREMENT itself is a separate, not-yet-granted act (see AUTHORIZATION_PROMPT.md)
+execution_authorized: false
+decoder_modification: false  # frozen: sc.py/scl.py/scl_joint.py/two_layer.py/transform.py/algebra.py/prior*.py/operational_f13*.py/m2_prior_validation.py never modified; run.py only imports+calls them
+classification: "Tier-Y decision-gate measurement"  # claim-bearing, one-shot; requires independent Pre-EXECUTE AND Pre-RESULT review; counts as ONE attempt against the R2 attempt budget
+state: prepared_awaiting_contract_freeze_and_pre_execute
+next_gate: D_TAG_MASTER_SOURCE_confirmation_and_D_BUDGET_CONFLICT_resolution_then_PRE_EXECUTE_REVIEW
+# NOTE: this packet was drafted assuming the R2 contract T4 ledger rows (D-ACQ-01/04/07/08, D-FER-04/05/06/07)
+# were still PENDING. This preparation pass found that r2_t4_round2_writeback (above) already records all 15
+# rows DECIDED plus P-1/P-2, and r2_t6_skeleton (above) already records a frozen tag_master/eval_seed and
+# 64-block layout matching this packet's independently-derived block arithmetic. The remaining gate is narrower
+# than originally assumed: (a) main-thread cross-check of the T6 skeleton citation (D_TAG_MASTER_SOURCE, below)
+# and transcription of the two constants into run.py, plus (b) the PENDING-BUDGET (SCL wall) gap, which BOTH
+# this packet's own analysis AND the T6 skeleton independently identify as still open.
+pre_execute_review: {state: not_started, reviewer: null, verdict: null, evidence: null}
+pre_result_review: {state: not_started, reviewer: null, verdict: null, record: null}
+counters: {attempts: 0, reruns: 0, sc_calls_on_protected: 0, scl_calls_on_protected: 0, tag_invocations: 0}
+# analytically-projected counts (NOT yet incurred; for the Pre-EXECUTE reviewer's reference):
+#   projected sc_calls_on_protected = 1/block (SC arm: 1 call via run_g2_block, same as the predecessor's fidelity-check call) x 64 blocks = 64
+#     (NOTE: run_g2_block also issues an internal ORACLE_CONDITIONED oracle-L2 SC call per block per its own docstring -- so actual SC-decoder invocations
+#      are ~2/block; recorded here as "sc_calls_on_protected" at the run_g2_block-call granularity, matching the predecessor's own counting convention)
+#   projected scl_calls_on_protected = up to 5/block (1 L1 SCL + top_m_used<=4 L2 SCL) x 64 blocks = up to 320
+#   projected tag_invocations = 2/block (SC arm tag + SCL arm tag) x 64 blocks = 128
+execution:
+  authorized_by: null
+  authorized_when: null
+  launch_mechanism: null  # to be filled when execution is authorized; expected identical mechanism to the predecessor (foreground wsl.exe -e bash -c running prereg.md's C-line verbatim, launched via Bash run_in_background)
+  reruns: 0
+  attempt_1: null  # not started
+main_thread_rulings_inherited_unchanged:  # from workspace/m2_scl_check_g2g3_success/STATUS.yaml and its own predecessor chain
+  - id: F1_accepted_definition
+    inherited_from: workspace/m2_scl_check_g2g3_success/STATUS.yaml
+    decision: >-
+      accepted = crc_pass AND tag_pass (matches the workspace/probes/scl-gate-t3
+      gate convention). exact = accepted AND label_exact; undetected =
+      accepted AND NOT label_exact (isolated, never merged into exact);
+      verify_failed = NOT accepted. This packet additionally ANDs in
+      "NOT decode_failed" to accepted (D_NEW_DECODE_FAILED_BRANCH, below) --
+      a schema-completeness extension, not a redefinition, since
+      decode_failed is not expected to ever be true for the SCL arm.
+  - id: D4_budget_mechanism
+    inherited_from: workspace/m2_scl_check_g2g3_success/STATUS.yaml
+    decision: "Per-block soft check + parent-process hard terminate() at budget+120s margin. Numbers extended (not redefined) by this packet's PENDING-BUDGET item (see open_questions D_BUDGET_CONFLICT)."
+main_thread_rulings_explicitly_NOT_inherited:
+  - id: D3_fidelity_stop_scope
+    predecessor_form: >-
+      (workspace/m2_scl_check_g2g3_success, inherited from
+      workspace/m2_scl_rescue_g2g3): a fidelity mismatch on ANY target block
+      sets fidelity_compromised=true and withholds the AGGREGATE tally for
+      ALL targets.
+    this_packet_form: see open_questions D_NEW_FIDELITY_SCOPE (below) --
+      a mismatch excludes only the mismatched EVAL block; the other 63
+      blocks' taxonomy counts are NOT withheld. Flagged as a departure
+      requiring explicit main-thread ruling before Pre-EXECUTE, not
+      silently carried over or silently changed.
+open_questions_for_main_thread:  # ALL new to this packet; NONE resolved by this operator
+  - id: D_NEW_SEED_SCHEME
+    resolved_by: null
+    text: >-
+      A single tag_master shared by both sessions (D-ACQ-07 O-7b) requires
+      a globally-unique block_index (0..63) for seed derivation, since
+      operational_seed_bits(master, n, block_index) has no session/stratum
+      salt of its own. run.py implements global_block_index (G2 offset 0,
+      G3 offset 32) for this purpose. See TASK_PACKET.md §3/§4 for the full
+      evidence trail. Recommend: accept as specified (the only
+      self-consistent option under O-7b); this operator lacks authority to
+      rule on it.
+  - id: D_NEW_STRATUM_LABELS
+    resolved_by: null
+    text: >-
+      Dual per-block labeling (stratum_official per DECIDED D-ACQ-03;
+      stratum_task per this task's finer CHAR/HELDOUT split) is implemented
+      rather than picking one. See TASK_PACKET.md §3. Recommend: keep both;
+      confirm the R2 contract's frozen results.json schema (T6) expects
+      this dual field.
+  - id: D_NEW_FIDELITY_SCOPE
+    resolved_by: null
+    text: >-
+      Departure from ruling D3 (see main_thread_rulings_explicitly_NOT_inherited
+      above): a fidelity mismatch now excludes only the mismatched block,
+      not the whole 64-block tally. See TASK_PACKET.md §3. Recommend:
+      accept as specified given the 64-block pool's structure (most blocks
+      have no comparable record at all, so D3's original all-EVAL rationale
+      does not transfer), but requires explicit main-thread sign-off.
+  - id: D_NEW_DECODE_FAILED_BRANCH
+    resolved_by: null
+    text: >-
+      Defensive decode_failed branch added to the SCL arm for C5
+      five-way-taxonomy schema completeness; not expected to ever trigger
+      empirically. See TASK_PACKET.md §3. Recommend: accept as a no-op
+      safety net.
+  - id: D_TAG_MASTER_SOURCE
+    resolved_by: null
+    blocking: true
+    text: >-
+      run.py's R2_TAG_MASTER/R2_EVAL_SEED are left as None placeholders,
+      per this task's own originating instruction. This preparation pass
+      found openspec/changes/nbpolar-r2-fer-measurement-contract/T6_PACKET_SKELETON_20260928.md
+      §2, which records eval_seed=2026092801 / tag_master=2026102801
+      (single value shared by both sessions, D-ACQ-07 O-7b) with a stated
+      generation basis and collision check against prior masters. This
+      operator did not transcribe those integers into run.py (a
+      Tier-Y measurement's cryptographic tag/seed constants should be
+      copied in by the main thread after its own verification, not by an
+      operator's own reading of a doc during preparation). Main thread:
+      verify the T6 skeleton citation against docs/decision-log.md, then
+      fill run.py's two placeholder constants directly.
+  - id: D_BUDGET_CONFLICT
+    resolved_by: null
+    blocking: true
+    text: >-
+      This task's proposed budget (1200s/block wall, 2GiB/block RSS, 10800s
+      (3h) total wall, 8-way parallel) CONFLICTS with the currently-DECIDED
+      D-ACQ-06 (openspec/changes/nbpolar-r2-fer-measurement-contract/tasks.md,
+      2026-09-27: 40s/block wall, 2GiB/block RSS, 5400s total wall,
+      single-process exclusive, stop_on_overbudget=STOP). D-ACQ-06's basis
+      was SC-decoder timing (~19-20s/block, G3-measured); this measurement's
+      primary arm is SCL(L=16), empirically ~600s/block
+      (workspace/probes/scl-gate-t3/results.json; the predecessor's own
+      attempt-1: 1643.5s wall for 19 SCL blocks + 2x session setup). Running
+      under the literal DECIDED D-ACQ-06 numbers would resource_abort
+      essentially every block. This is the single highest-priority blocking
+      item in this packet -- see TASK_PACKET.md §5 for the full writeup.
+      NOT resolved by this operator; requires explicit main-thread / PI
+      re-adjudication of D-ACQ-06 (or a new budget ledger row) before
+      Pre-EXECUTE review can PASS.
+artifacts_prepared:
+  - workspace/r2_fer_shg_64/run.py
+  - workspace/r2_fer_shg_64/TASK_PACKET.md
+  - workspace/r2_fer_shg_64/prereg.md
+  - workspace/r2_fer_shg_64/STATUS.yaml
+  - workspace/r2_fer_shg_64/AUTHORIZATION_PROMPT.md
+artifacts_pending_execution:
+  - workspace/r2_fer_shg_64/results.json
+  - workspace/r2_fer_shg_64/part_<SESSION>_<global_block_index:02d>.json (64 files, G2_00..G2_31, G3_32..G3_63)
+  - workspace/r2_fer_shg_64/EXECUTION_TRANSCRIPT.md
+static_selfcheck:
+  py_compile: pass
+  ast_percent_format_check: {expressions_found: 0, mismatches: 0, verdict: pass}
+  input_paths_exist: {inventory_json: not_separately_checked_see_note, raw_ttbin_g2: pass, raw_ttbin_g3: pass, construction_json: pass, per_block_outcomes_g2: pass, per_block_outcomes_g3: pass, new_output_dir_created_empty: pass, results_json_absent: pass}
+  # note: workspace/data_intake_20260921/inventory.json existence was checked by the predecessor packet, not independently re-checked here (not a new dependency of this packet's run.py); all NEW dependencies of this packet were checked.
+  block_pool_confirmation: {a1_cal_blocks_per_session: 8, charheld_blocks_per_session: 10, charheld_unused_remainder_frames: 62, eval_blocks_per_session: 14, total_per_session: 32, total_pooled: 64, stratum_task_split_per_session: "14 never_decoded / 4 heldout_model_selection / 14 previously_decoded_eval", matches_data_ledger_section_7: true, stop_triggered: false}
+  outcomes_coverage_confirmation: {g2_arm_b_rows: 14, g2_exact: 11, g2_verify_failed: 3, g3_arm_b_rows: 14, g3_exact: 8, g3_verify_failed: 6, all_28_eval_blocks_have_comparable_record: true}
+  placeholder_guard_present: true  # R2_TAG_MASTER/R2_EVAL_SEED are None in run.py; _reproduce_session_context calls _fail() if either is still None (code-level, not just documentation)
+result: {id: null, summary: "not executed; preparation only", decision_needed: "main thread: (1) verify D_TAG_MASTER_SOURCE citation and fill R2_TAG_MASTER/R2_EVAL_SEED in run.py; (2) resolve D_BUDGET_CONFLICT (PENDING-BUDGET, SCL wall -- also independently flagged by the R2 contract's own T6 skeleton); (3) confirm D_NEW_SEED_SCHEME / D_NEW_FIDELITY_SCOPE / D_NEW_DECODE_FAILED_BRANCH (TASK_PACKET.md §3); D_NEW_STRATUM_LABELS confirmed additive/non-conflicting per T6 §5 step 8; then request independent Pre-EXECUTE review"}
+main_thread_acceptance: null  # not yet reviewed
+main_thread_rulings_r2_prep_2026_09_28:
+  D_TAG_MASTER_SOURCE: "VERIFIED and FILLED by main thread: R2_EVAL_SEED=2026092801, R2_TAG_MASTER=2026102801 (docs/decision-log.md 2026-09-28 R2 freeze entry; T6_PACKET_SKELETON_20260928.md §2)."
+  D_NEW_SEED_SCHEME: "ACCEPTED -- global_block_index 0..63 under the shared tag_master is required to avoid tag-seed reuse across sessions."
+  D_NEW_FIDELITY_SCOPE: "REJECTED as proposed; predecessor D3 semantics kept: any EVAL fidelity mismatch sets top-level fidelity_compromised=true (added to run.py by main thread) and the pooled result is NOT adjudicated (per-block listing only)."
+  D_NEW_DECODE_FAILED_BRANCH: "ACCEPTED (C5 five-way taxonomy completeness)."
+  D_NEW_STRATUM_LABELS: "ACCEPTED. stratum_task (14 never_decoded / 4 heldout_model_selection / 14 previously_decoded_eval per session) is the block-precise stratification used for P-1 reporting; stratum_official kept alongside for contract traceability."
+  D_BUDGET_CONFLICT: "PENDING PI -- to be confirmed inside the PI's authorization text (suggested: per-block wall<=1200 s, RSS<=2 GiB, total wall<=3 h, 8-way, STOP on overbudget, no tuning)."
+pre_execute_round1: {verdict: FAIL, finding: "F1 resource_abort_wall_post_scl block double-counted into D", record: PRE_EXECUTE_REVIEW.md}
+main_thread_fix_F1_2026_09_28: "_taxonomy_counts now counts only status=='ok' blocks; stop_undetected now scans ALL blocks' scl records (security signal not suppressed by budget abort). Awaiting Pre-EXECUTE round 2."
+pre_execute_round2: {verdict: PASS, record: PRE_EXECUTE_REVIEW_R2.md, note: "F1 fixed and regression-tested; supersedes the stale pre_execute_review.state=not_started field above"}
+execution_gate: "awaiting PI verbatim authorization text (which also resolves D_BUDGET_CONFLICT)"
+pi_authorization_2026_09_28:
+  who: PI (user, in chat)
+  when: "2026-09-28"
+  resolves: [D_BUDGET_CONFLICT]  # budget 1200 s/block, 2 GiB/block, 3 h total, 8-way, STOP on overbudget -- confirmed as formal budget for this execution
+  verbatim: "授权执行 r2-fer-shg-64：在 SHG _1/_2 全会话共 64 块（DATA_LEDGER.md §7 冻结清单：每会话帧 0–1023 共 8 块、1056–2335 共 10 块、2398–4189 共 14 块；CAL32 帧 1024–1055 不入池）上，用 M2 先验 + SCL(L=16, top_m=4, CRC-16)、K1=319/K2=6492、P16（digest 055c9064…faea1b）、W_P=200/W_S=500/CIRCULAR/skip=702 做一次性 FER 测量。tag_master=2026102801、eval_seed=2026092801。预算：每块 wall ≤ 1200 s、RSS ≤ 2 GiB、总 wall ≤ 3 h、8 路并行、超预算即 STOP 不调参（确认以此作为本次执行的正式预算）。判定规则：有效分母 D = exact + verify_failed + decode_failed，D < 56 判为 INSUFFICIENT，否则给出 Wilson 95% 点估计和置信区间；汇总数字必须与分层表同时报告（P-1）；只要 undetected ≥ 1，就单列、STOP、暂缓判定，并计入这次 one-shot（P-2）；28 个已解码块中任一保真检查不一致，就标为保真受损、不做判定。输出只写 workspace/r2_fer_shg_64/。one-shot，reruns=0（只允许修复实现缺陷后重启一次，绝不因为结果不理想而重跑）。本授权不替代 Pre-EXECUTE 和 Pre-RESULT 独立审查，也不替代主线程对 FER_MEASURED_AT_CONTRACT 的最终裁定。"
+execution_authorized: true  # PI verbatim authorization above + Pre-EXECUTE round 2 PASS
+execution_started:
+  when_utc: "2026-09-28T12:14:26Z"
+  when_local: "2026-09-28 20:14:26 (host local)"
+  preflight_confirmed: {results_json_absent: true, part_json_files_absent: true, r2_eval_seed: 2026092801, r2_tag_master: 2026102801}
+  operator: execution-only (no judgment rendered)
+execution_finished:
+  when_utc: "2026-09-28T13:29:48Z"
+  when_local: "2026-09-28 21:29:48 (host local)"
+  exit_code: 0
+  external_wall_s_approx: 4522  # launch (12:14:26Z) to results.json mtime (13:29:48Z)
+  script_internal_wall_s_total: 4493.360219240189  # results.json timing.wall_s_total
+  reruns: 0  # single attempt, no implementation-defect restart needed
+  part_files_written: 64  # of 64 expected; all status=="ok"
+  results_json_written: true
+  transcript: workspace/r2_fer_shg_64/EXECUTION_TRANSCRIPT.md
+  no_git_operations_performed: true
+  no_writes_outside_r2_fer_shg_64: true
+# state_2026_09_28 (superseded 2026-09-29 by main_thread_verdict/state below, kept for provenance): executed_awaiting_pre_result
+next_gate: independent_pre_result_review_then_main_thread_adjudication_of_FER_MEASURED_AT_CONTRACT  # gate cleared 2026-09-29, see below
+pre_result_review: {verdict: PASS, record: PRE_RESULT_REVIEW.md}
+main_thread_verdict: "FER_MEASURED_AT_CONTRACT (2026-09-29)"
+state: completed_adjudicated
+# 2026-09-29 main-thread adjudication: Pre-RESULT PASS (PRE_RESULT_REVIEW.md);
+# D=64>=56, undetected=0, fidelity_compromised=false => FER_MEASURED_AT_CONTRACT.
+# M2 promoted VALIDATED_AT_FROZEN_CONTRACT (rung 2) -> FER_MEASURED_AT_CONTRACT
+# (rung 3), per docs/nbpolar/STATE.md §4.1 ladder. Next gate: R3 (efficiency:
+# verification-aware f_eff + wall/RSS upper bound), not started; this
+# adjudication does not promote past rung 3. See RESULT_SUMMARY.md,
+# docs/decision-log.md 2026-09-29 entry, docs/nbpolar/STATE.md §0/§4.1.

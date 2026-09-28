@@ -1,0 +1,79 @@
+{
+  "arm": "B_M2_32f_candidate",
+  "error": null,
+  "eval_original_index": 2,
+  "fidelity": {
+    "actual": {
+      "first_error_coordinate": null,
+      "first_error_layer": null,
+      "hard_l2_exact": true,
+      "l1_exact": true,
+      "outcome": "exact"
+    },
+    "eval_frames": [
+      2654,
+      2781
+    ],
+    "expected": {
+      "first_error_coordinate": null,
+      "first_error_layer": null,
+      "hard_l2_exact": true,
+      "l1_exact": true,
+      "outcome": "exact"
+    },
+    "match": true,
+    "mismatches": []
+  },
+  "frame_end": 2781,
+  "frame_start": 2654,
+  "global_block_index": 20,
+  "local_index": 20,
+  "resources": {
+    "budget_rss_gib_per_block": 2.0,
+    "budget_wall_s_per_block": 1200.0,
+    "rss_gib_peak_advisory": 0.5663948059082031,
+    "wall_sc_s": 20.234251104993746,
+    "wall_scl_s": 527.4330155119533,
+    "wall_total_s": 547.669834156055
+  },
+  "sc_descriptive": null,
+  "scl": {
+    "accepted": true,
+    "candidates_considered": 64,
+    "crc_bits": 16,
+    "crc_hat": 43353,
+    "crc_pass": true,
+    "crc_true": 43353,
+    "decode_failed": false,
+    "exact": true,
+    "hard_l2_exact_scl": true,
+    "joint_metric": -0.1886442817762051,
+    "l1_error_symbols_scl": 0,
+    "l1_exact_scl": true,
+    "l1_survivor_count": 16,
+    "l2_error_symbols_scl": 0,
+    "label_exact": true,
+    "list_width_L": 16,
+    "m1": -1.1759312479867821e-05,
+    "m2": -0.18863252246372522,
+    "metric_provenance": {
+      "crc": "CRC-16/CCITT-FALSE, poly=0x1021, init=0xFFFF, MSB-first, no reflect, no xorout",
+      "l1_provenance": "PRIOR_ONLY",
+      "l2_provenance": "CANDIDATE_CONDITIONED",
+      "label_convention": "s = low + 32*high per position (two_layer.py LABEL_SCALE=32)",
+      "merge_rule": "joint_metric desc, tie-break (l1_rank, l2_rank) asc",
+      "prune_rule": "top_l_prune",
+      "top_m_default": 4,
+      "top_m_requested": 4
+    },
+    "tag_pass": true,
+    "top_m_requested": 4,
+    "top_m_used": 4,
+    "undetected": false,
+    "verify_failed": false
+  },
+  "session": "G2",
+  "status": "ok",
+  "stratum_official": "EVAL_already_decoded",
+  "stratum_task": "previously_decoded_eval"
+}
