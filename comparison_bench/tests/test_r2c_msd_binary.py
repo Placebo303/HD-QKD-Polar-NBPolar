@@ -108,7 +108,8 @@ def make_session(name, idx, d, n_log, seed, *, n_cal=8192, n_blocks=3, poison=Fa
 
 
 def small_cfg(**kw):
-    base = dict(n_log=10, d=64, list_size=8, m_design=16, m_root=512, de_samples=128, f3_bracket=(1.05, 2.2),
+    # small-scale: 0.3 target FER so that 0.3/n_active is resolvable with m_design=32 (p~ floor 0.5/33)
+    base = dict(n_log=10, d=64, list_size=8, m_design=32, genie_frames=64, genie_chunk=32, f3_target_fer=0.3, mu_steps=4,
                 n_workers=1, de_workers=1, design_chunk=8, wall_total_s=600.0)
     base.update(kw)
     return m.RunConfig(**base)
@@ -355,6 +356,27 @@ def test_T1c_rate_allocation_and_f_accounting():
         raise AssertionError("expected ValueError")
     except ValueError:
         pass
+    # ---- E2: vector mu, uniform shift, n_active, resolvable threshold
+    mu_vec = np.array([0.05, 0.05, 0.06, 0.07, 0.08, 0.09, 0.1, 0.05, 0.02, 0.0])
+    ks_v = m.layer_ks(caps, mu_vec, n)
+    hand_v = [int(math.floor(n * max(0.0, c - x))) for c, x in zip(caps, mu_vec)]
+    hand_v = [0 if k < 16 else k for k in hand_v]
+    assert list(ks_v) == hand_v
+    assert abs(m.f_of_mu(caps, mu_vec, n, h) - (sum(n - k for k in hand_v) + 64) / (h * n)) < 1e-15
+    assert np.all(m.shifted_mu(mu_vec, -1.0) == 0.0) and np.allclose(m.shifted_mu(mu_vec, 0.01), mu_vec + 0.01)
+    fs = [m.f_of_mu(caps, m.shifted_mu(mu_vec, dl), n, h) for dl in np.linspace(-0.2, 1.0, 300)]
+    assert all(b >= a for a, b in zip(fs, fs[1:])), "f must be monotone in the uniform shift"
+    for target in (8.5, 10.0, 11.5):
+        dl = m.solve_delta_for_f(caps, mu_vec, target, n, h)
+        f_hi = m.f_of_mu(caps, m.shifted_mu(mu_vec, dl), n, h)
+        assert f_hi >= target and f_hi - target < 5e-3
+        assert m.f_of_mu(caps, m.shifted_mu(mu_vec, dl - 1e-6), n, h) <= f_hi
+    lo_f = m.f_of_mu(caps, m.shifted_mu(mu_vec, -1.0), n, h)
+    assert m.solve_delta_for_f(caps, mu_vec, lo_f - 1.0, n, h) == -float(np.max(mu_vec))  # unreachable-low -> lower end
+    assert m.n_active_layers(caps, n) == 10 and m.n_active_layers(np.array([0.0004, 0.9]), n) == 1
+    # M_design vs 0.03/10: M=1024 -> e<=2 ; M=256 -> only e=0 (coarse) ; M=100 -> unresolvable (-1)
+    assert m.e_max_allowed(1024, 0.003) == 2 and m.e_max_allowed(256, 0.003) == 0 and m.e_max_allowed(100, 0.003) == -1
+    assert m.ptilde(2, 1024) <= 0.003 < m.ptilde(3, 1024)
 
 
 def test_T1d_de_root_sign_alignment_bsc_consistency():
@@ -391,6 +413,52 @@ def test_T1d_de_root_sign_alignment_bsc_consistency():
     assert (r > 0).mean() > 0.9
 
 
+def test_T1e_genie_stats_and_order_bsc_consistency():
+    """genie_sc_stats == independent scalar recursion (tiny N, min-sum) and, on a BSC, the genie order agrees with the
+    lab DE order (pre-registered: top-N/2 overlap >= 0.85)."""
+    L = lab()
+    n_log = 4
+    n = 1 << n_log
+    rng = np.random.default_rng(5)
+    llr = rng.normal(2.0, 2.5, size=(6, n))
+    u = rng.integers(0, 2, size=(6, n)).astype(np.int8)  # arbitrary true u (genie feeds it back)
+    Z, E, S = m.genie_sc_stats(llr, u)
+
+    def sc_scalar(al, us):  # one frame, returns (leaf s list)
+        out = np.zeros(len(al))
+
+        def rec(a, uu, off):
+            nn = len(a)
+            if nn == 1:
+                out[off] = a[0] * (1 - 2.0 * uu[0])
+                return np.array([uu[0]], dtype=np.int8)
+            h = nn // 2
+            l, r = a[:h], a[h:]
+            fl = np.sign(l) * np.sign(r) * np.minimum(np.abs(l), np.abs(r))
+            bl = rec(fl, uu[:h], off)
+            br = rec(r + (1 - 2.0 * bl) * l, uu[h:], off + h)
+            return np.concatenate([bl ^ br, br])
+        rec(np.asarray(al, float), us, 0)
+        return out
+
+    ss = np.stack([sc_scalar(llr[j], u[j]) for j in range(6)])
+    assert np.allclose(S, ss.sum(0)) and np.allclose(Z, np.exp(-ss / 2).sum(0)) and np.allclose(E, (ss < 0).sum(0) + 0.5 * (ss == 0).sum(0))
+    # BSC consistency
+    n_log, ber = 8, 0.11
+    n = 1 << n_log
+    lam = math.log((1 - ber) / ber)
+    rng = np.random.default_rng(1)
+    frames = 2048
+    a = np.zeros((frames, n), dtype=np.int8)
+    llr = np.where(rng.random((frames, n)) < ber, -lam, lam)  # all-zero codeword, BSC LLR
+    Z, E, S = m.genie_sc_stats(llr, a)
+    o_g = np.lexsort((-S / frames, Z / frames))
+    o_de = L.de.de_order_from_population(L.de.de_llr_populations(n_log, ber, n_samples=2048, seed=20260929))
+    ov = m.info_set_overlap(o_g, o_de, n // 2)
+    print(f"T1e: genie-vs-DE BSC top-N/2 overlap={ov:.3f}")
+    assert ov >= 0.85
+
+
 # =========================================================================== #
 # T2
 # =========================================================================== #
@@ -419,10 +487,27 @@ def test_T2a_small_end_to_end_accounting_and_consistency():
             assert abs(p["f_realized"] - hand_f) < 1e-12
             assert p["K_frozen"] == sum(n - int(k) for k in ks)
             # k only from caps and mu
-            mu = con["points"][lab_]["mu"]
+            mu = np.array(con["points"][lab_]["mu"])
             assert list(m.layer_ks(caps, mu, n)) == list(ks)
+            assert np.all(mu >= 0)
+            if lab_ != "F3":  # E2: F1/F2/F4 = F3 shape + uniform shift (truncated at 0)
+                mu3 = np.array(con["points"]["F3"]["mu"])
+                assert np.allclose(mu, np.maximum(0.0, mu3 + con["points"][lab_]["delta_vs_F3_shape"]))
+        # E2 F3 rule: every active layer meets p~_i <= 0.3 / n_active (small cfg) unless flagged; bisection bracket consistent
+        f3 = con["points"]["F3"]
+        thr = f3["layer_threshold_p_tilde"]
+        assert abs(thr - cfg.f3_target_fer / f3["n_active"]) < 1e-15
+        for L_ in f3["design_layers"]:
+            if not L_["disclosed"] and not any(fl.startswith(f"layer{L_['layer']}:") for fl in f3["flags"]):
+                assert L_["p_tilde"] <= thr + 1e-12, (L_, thr)
+        for i_, v in f3["layer_mu_bisection"].items():
+            passed = [t["mu"] for t in v["trace"] if t["passed"]]
+            failed = [t["mu"] for t in v["trace"] if not t["passed"]]
+            if passed and failed:
+                assert min(passed) == v["mu"] or v["mu"] in passed
+                assert max(failed) < min(passed), (i_, v["trace"])  # CRN design set -> monotone in mu at this scale
         f = [res["per_point"][l]["per_session"][s.name]["f_realized"] for l in m.POINT_LABELS]
-        assert f[0] < f[1] + 0.2 and f[3] > f[2]  # F4 = F3 + 0.10 (grid step)
+        assert f[3] > f[2]  # F4 = F3 + 0.10 (grid step)
         assert abs((f[3] - f[2]) - 0.10) < 0.02
     # taxonomy sane, undetected isolated, decode outcome fractions
     for lab_ in m.POINT_LABELS:
@@ -440,7 +525,8 @@ def test_T2b_no_test_block_leakage_signature_and_poison():
     # (1) signatures / AST: construction-side functions have no test-data parameter and never name test arrays
     bad_names = {"blocks", "block", "frames_a", "frames_b", "test", "a_sym", "b_sym", "session_input", "sessions_in"}
     for fn in (m.freeze_construction, m.compute_orders, m.build_f_grid, m.DesignEvaluator.__init__, m.DesignEvaluator.evaluate_many,
-               m.cv_select_pmf, m.invariance_check, m.build_channel, m.de_order, m.solve_mu_for_f, m.layer_ks):
+               m.cv_select_pmf, m.invariance_check, m.build_channel, m.genie_mc_order, m.solve_mu_for_f, m.layer_ks,
+               m.DesignEvaluator.solve_layer_mus, m.solve_delta_for_f, m.shifted_mu, m.n_active_layers, m.e_max_allowed, m.synth_layer_frames, m.genie_sc_stats):
         params = set(inspect.signature(fn).parameters)
         assert not (params & bad_names), (fn.__name__, params & bad_names)
         src = inspect.getsource(fn)
@@ -449,7 +535,7 @@ def test_T2b_no_test_block_leakage_signature_and_poison():
         assert not (names & {"frames_a", "frames_b", "blocks", "a_sym", "b_sym"}), (fn.__name__, names & {"frames_a", "frames_b", "blocks"})
     # (2) runtime: poisoned test frames (different blocks, same CAL) -> identical construction outputs
     d, n_log = 64, 10
-    cfg = small_cfg(d=d, n_log=n_log, m_design=8)
+    cfg = small_cfg(d=d, n_log=n_log)
     outs = []
     for poison in (False, True):
         sA, _ = make_session("G2", 0, d, n_log, seed=11, n_blocks=2, poison=poison)
@@ -551,11 +637,9 @@ def test_T2d_n32768_l16_synthetic_smoke_heavy():
     orders = []
     t0 = time.perf_counter()
     for i in range(layers):
-        root = m.de_root_llr(ch["tables"], ch["pmf"], i, d, layers, m_root=m.M_ROOT, seed=5 + i)
-        pop = L.de.de_llr_populations_from_root(root, cfg.n_log, n_samples=m.DE_SAMPLES, seed=m.DE_SEED)
-        orders.append(L.de.de_order_from_population(pop))
-        del pop
-        print(f"T2d: DE layer {i} done {time.perf_counter()-t0:.1f}s rss={m._peak_rss_gib():.2f}GiB", flush=True)
+        o, _ = m.genie_mc_order(L, ch["tables"], ch["pmf"], i, d, layers, cfg.n_log, seed=m.GENIE_SEED_BASE + i, frames=256)
+        orders.append(o)
+        print(f"T2d: genie layer {i} (256 frames) done {time.perf_counter()-t0:.1f}s rss={m._peak_rss_gib():.2f}GiB", flush=True)
     dec = L.scl.MsdSclDecoder()
     outcomes = {}
     for f in (1.6, 1.25):
@@ -568,27 +652,29 @@ def test_T2d_n32768_l16_synthetic_smoke_heavy():
     assert outcomes[1.6][0], outcomes  # generous rate margin must succeed on this synthetic channel
 
 
-def test_T2e_de_seed_sensitivity_heavy():
-    """Descriptive only (contract 4): info-set overlap of two DE seeds for one layer at N=32768."""
+def test_T2e_genie_construction_excludes_known_bad_positions_heavy():
+    """r2c-layer-diag layer 8 (M2-like channel: pmf 0/+-1 = .83/.085/.085, floor 1e-9 tail in the SAMPLED channel; model
+    tables from m2_pmf floor 1e-15): positions 16727/16943/16702 were declared perfect by sampled DE(m=1024) and are
+    confident-wrong-prone.  The genie-MC (4096 frames) order must keep them out of the info set at mu=0.084 (k=23141)."""
     if os.environ.get("R2C_HEAVY") != "1":
         return
     import time
     L = lab()
-    d = 1024
-    pmf = synth_pmf(d)
-    a0, b0 = sample_pairs(np.random.default_rng(3), pmf, 65536)
-    ch = m.build_channel(L, "P-M2", m.delta_counts(a0, b0, d), d)
+    d, layers, n_log = 1024, 10, 15
+    pt = np.full(d, 1e-9)
+    pt[0], pt[1], pt[-1] = 0.83, 0.085, 0.085
+    pt /= pt.sum()
+    ch = m.build_channel(L, "P-M2", pt * 1e9, d)
     layer = 8
-    root = m.de_root_llr(ch["tables"], ch["pmf"], layer, d, 10, m_root=m.M_ROOT, seed=5)
-    k = int(m.layer_ks(ch["caps"], 0.02, 1 << 15)[layer])
-    orders = []
-    for sd in (m.DE_SEED, m.DE_SEED + 1):
-        t0 = time.perf_counter()
-        pop = L.de.de_llr_populations_from_root(root, 15, n_samples=m.DE_SAMPLES, seed=sd)
-        orders.append(L.de.de_order_from_population(pop))
-        del pop
-        print(f"T2e: DE seed {sd} {time.perf_counter()-t0:.1f}s rss={m._peak_rss_gib():.2f}GiB", flush=True)
-    print(f"T2e: layer {layer} k={k} info-set overlap(two seeds)={m.info_set_overlap(orders[0], orders[1], k):.4f}")
+    k = int(m.layer_ks(ch["caps"], 0.084, 1 << n_log)[layer])
+    assert k == 23141
+    t0 = time.perf_counter()
+    order, st = m.genie_mc_order(L, ch["tables"], pt, layer, d, layers, n_log, seed=m.GENIE_SEED_BASE + layer, frames=m.GENIE_FRAMES)
+    print(f"T2e: genie layer 8 4096 frames {time.perf_counter()-t0:.1f}s")
+    info = set(order[:k].tolist())
+    bad = (16727, 16943, 16702)
+    print("T2e: bad positions in info set:", [b_ in info for b_ in bad], "Z:", [float(st["Z"][b_]) for b_ in bad], "sumZ(info)=", float(st["Z"][order[:k]].sum()))
+    assert not any(b_ in info for b_ in bad)
 
 
 # =========================================================================== #
@@ -681,7 +767,7 @@ def test_T3_full_flow_strict_replay_and_lab_untouched():
                  "frame_end": b["frame_end"], "status": "ok", "scl": {"exact": (b["local_index"] % 2 == 0), "undetected": False}}))
     recs = []
     for nw in (1, 2):
-        cfg = small_cfg(d=d, n_log=n_log, n_workers=nw, de_workers=nw, m_design=8)
+        cfg = small_cfg(d=d, n_log=n_log, n_workers=nw, de_workers=nw)
         out = fresh_dir() / "run"
         res = m.run_pipeline(L, cfg, sessions, out, tag_fn_factory(), nb_dir=nb_dir)
         recs.append((out, res))

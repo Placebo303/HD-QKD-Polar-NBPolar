@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""R2C strongest binary arm: conditional hard-prefix MSD + SCL(L=16, no CRC), DE construction,
+"""R2C strongest binary arm: conditional hard-prefix MSD + SCL(L=16, no CRC), genie-SC MC construction, per-layer mu_i,
 on the 64-block SHG `_1`/`_2` pool.  Tier-Y one-shot decision gate (contract:
 docs/nbpolar/R2C_STRONG_BINARY_MSD_CONTRACT_20260929.md).
 
@@ -154,7 +154,7 @@ def main(argv=None) -> int:
     if args.dry_run:
         out_dir = THIS_DIR / "dry_run"
         lab = m.load_lab(STAGE, LAB_SRC)
-        cfg = m.RunConfig(n_log=10, d=64, list_size=8, m_design=16, m_root=512, de_samples=128, f3_bracket=(1.05, 2.2),
+        cfg = m.RunConfig(n_log=10, d=64, list_size=8, m_design=32, genie_frames=64, genie_chunk=32, f3_target_fer=0.3, mu_steps=4,
                           n_workers=args.workers, de_workers=min(args.de_workers, 2), wall_total_s=1800.0)
         res = m.run_pipeline(lab, cfg, synthetic_sessions(m, 64, 10, 3), out_dir, make_tag_fn(), t_start=t_start)
         print("[dry-run] done (synthetic)", json.dumps(res.get("block_accounting", res)), file=sys.stderr)

@@ -1,4 +1,7 @@
-"""R2C strongest-binary arm: conditional hard-prefix MSD + SCL (no CRC), DE construction.
+"""R2C strongest-binary arm: conditional hard-prefix MSD + SCL (no CRC), genie-SC Monte Carlo construction.
+
+PI amendment 2026-09-29: E1 = genie-SC MC construction (replaces sampled DE, which is kept below but not
+used on the run path); E2 = per-layer mu_i from the design set (replaces the global margin).
 
 Library for ``workspace/r2c_strong_binary_msd_shg_64/`` (contract
 ``docs/nbpolar/R2C_STRONG_BINARY_MSD_CONTRACT_20260929.md``).  Operator-level
@@ -48,7 +51,9 @@ MIN_K = 16  # 5: lab min_k
 M_ROOT = 4096  # 4: DE root samples
 DE_SAMPLES = 1024  # 4: DE population m
 DE_SEED = 20260929  # 4: DE seed
-M_DESIGN = 256  # 5: design frames / layer / evaluation point
+M_DESIGN = 1024  # 5 (E2): design frames / layer / evaluation point (main-thread implementation choice: resolves 0.03/10)
+GENIE_FRAMES = 4096  # E1: genie-SC frames per layer
+GENIE_CHUNK = 256
 F1_TARGET = 1.20  # 5: F1
 F3_TARGET_FER = 0.03  # 5: F3 smoothed-sum threshold
 F4_OFFSET = 0.10  # 5: F4 = F3 + 0.10
@@ -62,11 +67,12 @@ M2_FLOOR = 1e-15  # prior_m2 frozen floor
 SLACK_MIN_CODEWORD_WALL_S = 2.0
 
 # Operator-chosen (NOT specified by the contract; flagged in TASK_PACKET.md):
-F3_BRACKET = (1.10, 1.90)  # f interval for the 4-step F3 bisection
-F3_STEPS = 4  # 5.4 "4 evaluations"
+MU_HI_MAX = 0.30  # E2: per-layer bisection upper bracket min(cap_i, MU_HI_MAX) [bits/symbol]
+MU_STEPS = 7  # E2: bisection steps per layer (resolution MU_HI_MAX/2^7 ~ 0.0023 bit)
 DESIGN_SEED_BASE = 20260929  # design-set RNG base (per session/layer)
 ROOT_SEED_BASE = 20260929  # DE root-sampling RNG base (per session/layer)
 NULL_SEED_BASE = 20260929  # residual-null RNG base
+GENIE_SEED_BASE = 20260929 + 7_000_000  # E1 genie-SC construction RNG base (per session/layer): distinct from design/null
 POINT_LABELS = ("F1", "F2", "F3", "F4")
 
 WALL_TOTAL_S = 6.0 * 3600.0  # 10 / D7
@@ -318,10 +324,79 @@ def info_set_overlap(order1: np.ndarray, order2: np.ndarray, k: int) -> float:
 
 
 # --------------------------------------------------------------------------- #
+# E1: genie-SC Monte Carlo construction (replaces sampled DE on the run path)
+# --------------------------------------------------------------------------- #
+def f_minsum(a: np.ndarray, b: np.ndarray) -> np.ndarray:
+    """Check-node rule of the native engine (min-sum)."""
+    return np.sign(a) * np.sign(b) * np.minimum(np.abs(a), np.abs(b))
+
+
+def genie_sc_stats(llr: np.ndarray, u: np.ndarray) -> tuple[np.ndarray, np.ndarray, np.ndarray]:
+    """Genie SC (true u fed back) over frames.  ``llr, u``: (F, N).  Returns per-leaf sums over frames of
+    (exp(-s/2), P[s<0]+0.5 P[s=0], s) with s = leaf LLR * (1 - 2 u_leaf) (sign-aligned to the true bit)."""
+    F, N = llr.shape
+    Z = np.zeros(N)
+    E = np.zeros(N)
+    S = np.zeros(N)
+
+    def rec(al, us, off):
+        n = al.shape[1]
+        if n == 1:
+            s = np.clip(al[:, 0] * (1 - 2.0 * us[:, 0]), -700, 700)
+            Z[off] += np.exp(-s / 2).sum()
+            E[off] += (s < 0).sum() + 0.5 * (s == 0).sum()
+            S[off] += s.sum()
+            return us.astype(np.int8)
+        h = n // 2
+        l, r = al[:, :h], al[:, h:]
+        bl = rec(f_minsum(l, r), us[:, :h], off)
+        br = rec(r + (1 - 2.0 * bl) * l, us[:, h:], off + h)
+        return np.concatenate([bl ^ br, br], axis=1)
+
+    rec(np.asarray(llr, dtype=np.float64), np.asarray(u, dtype=np.int8), 0)
+    return Z, E, S
+
+
+def synth_layer_frames(tables, pmf: np.ndarray, layer: int, d: int, layers: int, n: int, rng, nframes: int):
+    """Synthetic layer-``layer`` frames from a circulant pmf: true prefix, ``x`` = bit plane, ``llr`` = conditional LLR
+    (RNG stream: integers(a) then random(delta), (nframes, n))."""
+    cdf = np.cumsum(pmf)
+    cdf[-1] = 1.0
+    a = rng.integers(0, d, size=(nframes, n))
+    dl = np.minimum(np.searchsorted(cdf, rng.random((nframes, n))), d - 1)
+    b = (a + dl) % d
+    x = ((a >> (layers - 1 - int(layer))) & 1).astype(np.int8)
+    llr = tables.llr[int(layer)][a >> (layers - int(layer)), b]
+    return x, llr
+
+
+def genie_mc_order(lab, tables, pmf: np.ndarray, layer: int, d: int, layers: int, n_log: int, *, seed: int,
+                   frames: int = GENIE_FRAMES, chunk: int = GENIE_CHUNK) -> tuple[np.ndarray, dict]:
+    """Reliable-first order from genie-SC Monte Carlo: Z_j = mean exp(-s_j/2), ascending; ties broken by mean s
+    descending.  Uses only the (CAL32-fitted) ``pmf`` and its ``tables``."""
+    n = 1 << int(n_log)
+    rng = np.random.default_rng(int(seed))
+    Zt = np.zeros(n)
+    Et = np.zeros(n)
+    St = np.zeros(n)
+    for c0 in range(0, int(frames), int(chunk)):
+        cm = min(int(chunk), int(frames) - c0)
+        x, llr = synth_layer_frames(tables, pmf, layer, d, layers, n, rng, cm)
+        u = np.stack([encode(lab, x[j], n_log) for j in range(cm)])
+        Z, E, S = genie_sc_stats(llr, u)
+        Zt += Z
+        Et += E
+        St += S
+    Zm, Em, Sm = Zt / frames, Et / frames, St / frames
+    order = np.lexsort((-Sm, Zm)).astype(np.int64)
+    return order, {"Z": Zm, "Pe": Em, "S": Sm}
+
+
+# --------------------------------------------------------------------------- #
 # Rate allocation: k_i(mu), f(mu) (contract 5, 7)
 # --------------------------------------------------------------------------- #
 def layer_ks(caps: np.ndarray, mu: float, n: int, min_k: int = MIN_K) -> np.ndarray:
-    k = np.floor(n * np.maximum(0.0, np.asarray(caps, dtype=np.float64) - float(mu))).astype(np.int64)
+    k = np.floor(n * np.maximum(0.0, np.asarray(caps, dtype=np.float64) - np.asarray(mu, dtype=np.float64))).astype(np.int64)
     k[k < min_k] = 0  # whole-layer disclosure
     return k
 
@@ -352,6 +427,34 @@ def solve_mu_for_f(caps, target_f: float, n: int, h_total_bits: float, tag_bits:
         else:
             lo = mid
     return hi
+
+
+def shifted_mu(mu_shape, delta: float) -> np.ndarray:
+    """E2: per-layer margins ``mu_i + delta`` truncated to >= 0."""
+    return np.maximum(0.0, np.asarray(mu_shape, dtype=np.float64) + float(delta))
+
+
+def solve_delta_for_f(caps, mu_shape, target_f: float, n: int, h_total_bits: float, tag_bits: int = TAG_BITS) -> float:
+    """Smallest uniform shift delta with f(mu_shape + delta) >= target_f (f is a non-decreasing step function of delta).
+    Below the reachable minimum returns the lower end (all mu_i truncated to 0); above the maximum raises."""
+    caps = np.asarray(caps, dtype=np.float64)
+    lo, hi = -float(np.max(mu_shape)), float(np.max(caps))
+    if f_of_mu(caps, shifted_mu(mu_shape, hi), n, h_total_bits, tag_bits) < target_f:
+        raise ValueError("target f above the all-disclosed limit")
+    if f_of_mu(caps, shifted_mu(mu_shape, lo), n, h_total_bits, tag_bits) >= target_f:
+        return lo
+    for _ in range(80):
+        mid = 0.5 * (lo + hi)
+        if f_of_mu(caps, shifted_mu(mu_shape, mid), n, h_total_bits, tag_bits) >= target_f:
+            hi = mid
+        else:
+            lo = mid
+    return hi
+
+
+def n_active_layers(caps, n: int, min_k: int = MIN_K) -> int:
+    """Layers that are not whole-layer-disclosed at mu = 0 (E2: F3 budget split 0.03 / n_active)."""
+    return int(np.sum(np.floor(n * np.asarray(caps, dtype=np.float64)) >= min_k))
 
 
 # --------------------------------------------------------------------------- #
@@ -476,17 +579,16 @@ class RunConfig:
     d: int = D_SYMBOL
     list_size: int = LIST_SIZE
     m_design: int = M_DESIGN
-    m_root: int = M_ROOT
-    de_samples: int = DE_SAMPLES
-    de_seed: int = DE_SEED
+    genie_frames: int = GENIE_FRAMES
+    genie_chunk: int = GENIE_CHUNK
     f1: float = F1_TARGET
-    f3_bracket: tuple = F3_BRACKET
-    f3_steps: int = F3_STEPS
+    mu_hi_max: float = MU_HI_MAX
+    mu_steps: int = MU_STEPS
     f3_target_fer: float = F3_TARGET_FER
     f4_offset: float = F4_OFFSET
     tag_bits: int = TAG_BITS
     n_workers: int = 8
-    de_workers: int = 3
+    de_workers: int = 3  # construction (genie-MC) workers; name kept for the driver CLI (--de-workers)
     wall_total_s: float = WALL_TOTAL_S
     design_chunk: int = 8
 
@@ -547,20 +649,28 @@ def run_parallel(fn, args: list, n_workers: int) -> list:
         return pool.map(fn, args, chunksize=1)
 
 
-def _de_task(arg) -> dict:
+def _genie_task(arg) -> dict:
     sess, layer = arg
     S = _G["sessions"][sess]
     cfg = _G["cfg"]
     t0 = time.perf_counter()
-    order = de_order(_G["lab"], S["tables"], S["pmf"], layer, cfg.d, cfg.layers, cfg.n_log,
-                     root_seed=ROOT_SEED_BASE + 10 * S["idx"] + layer, de_seed=cfg.de_seed,
-                     m_root=cfg.m_root, n_samples=cfg.de_samples)
-    return {"session": sess, "layer": layer, "order": order, "wall_s": time.perf_counter() - t0, "rss_gib_peak": _peak_rss_gib()}
+    order, st = genie_mc_order(_G["lab"], S["tables"], S["pmf"], layer, cfg.d, cfg.layers, cfg.n_log,
+                               seed=GENIE_SEED_BASE + 1000 * S["idx"] + layer, frames=cfg.genie_frames, chunk=cfg.genie_chunk)
+    return {"session": sess, "layer": layer, "order": order, "z": st["Z"], "pe": st["Pe"], "wall_s": time.perf_counter() - t0,
+            "rss_gib_peak": _peak_rss_gib()}
 
 
-def _design_task(arg) -> dict:
-    """Design-set MC for one (session, layer, k): errors over ``m`` synthetic codewords (common random numbers)."""
-    sess, layer, k = arg
+def e_max_allowed(m_design: int, thr: float) -> int:
+    """Largest error count e with p~ = (e+0.5)/(M+1) <= thr (-1 if even e=0 exceeds thr: M too small to resolve thr)."""
+    e = -1
+    while ptilde(e + 1, m_design) <= thr:
+        e += 1
+    return e
+
+
+def _design_eval(sess: str, layer: int, k: int, e_max: int | None = None) -> dict:
+    """Design-set MC for one (session, layer, k): errors over ``m_design`` synthetic codewords (true prefix,
+    common random numbers across k).  With ``e_max`` the loop stops as soon as errors > e_max (``complete=False``)."""
     S = _G["sessions"][sess]
     cfg = _G["cfg"]
     lab = _G["lab"]
@@ -568,28 +678,75 @@ def _design_task(arg) -> dict:
     n, d, layers = cfg.n, cfg.d, cfg.layers
     mask = lab.polar.info_mask_from_order(S["orders"][layer], int(k), n)
     inv = (1 - mask.astype(np.int8))
-    cdf = np.cumsum(S["pmf"])
-    cdf[-1] = 1.0
-    table = S["tables"].llr[layer]
     rng = np.random.default_rng(DESIGN_SEED_BASE + 1000 * S["idx"] + layer)
     errs = 0
+    done = 0
     t_start = time.perf_counter()
     for c0 in range(0, cfg.m_design, cfg.design_chunk):
         cm = min(cfg.design_chunk, cfg.m_design - c0)
-        a = rng.integers(0, d, size=(cm, n))
-        dl = np.minimum(np.searchsorted(cdf, rng.random((cm, n))), d - 1)
-        b = (a + dl) % d
-        llr = table[a >> (layers - layer), b]  # true prefix (design assumption)
-        x = ((a >> (layers - 1 - layer)) & 1).astype(np.int8)
+        x, llr = synth_layer_frames(S["tables"], S["pmf"], layer, d, layers, n, rng, cm)
         u = np.stack([encode(lab, x[j], cfg.n_log) for j in range(cm)])
         frozen = (u * inv[None, :]).astype(np.uint8)
         u_hat, _, _ = dec.decode_batch(llr, mask, frozen, cfg.n_log, cfg.list_size)
         for j in range(cm):
             if not np.array_equal(encode(lab, u_hat[j], cfg.n_log), x[j]):
                 errs += 1
+        done += cm
+        if e_max is not None and errs > e_max:
+            break
     wall = time.perf_counter() - t_start
-    return {"session": sess, "layer": layer, "k": int(k), "errors": int(errs), "frames": int(cfg.m_design),
-            "wall_s": wall, "wall_per_codeword_s": wall / cfg.m_design, "rss_gib_peak": _peak_rss_gib()}
+    return {"session": sess, "layer": layer, "k": int(k), "errors": int(errs), "frames": int(done), "complete": bool(done == cfg.m_design),
+            "wall_s": wall, "wall_per_codeword_s": wall / max(done, 1), "rss_gib_peak": _peak_rss_gib()}
+
+
+def _design_task(arg) -> dict:
+    sess, layer, k = arg
+    return _design_eval(sess, layer, k)
+
+
+def _mu_task(arg) -> dict:
+    """E2: smallest-mu bisection for one (session, layer): p~_i(mu_i) <= thr.  mu = 0 is tried first (early exit on failure),
+    then ``mu_steps`` bisection steps on [0, min(cap_i, mu_hi_max)].  ``passed_eval`` is the complete evaluation at the result."""
+    sess, layer, thr = arg
+    S = _G["sessions"][sess]
+    cfg = _G["cfg"]
+    cap = float(S["caps"][layer])
+    e_max = e_max_allowed(cfg.m_design, thr)
+    if e_max < 0:
+        raise ValueError(f"m_design={cfg.m_design} cannot resolve per-layer threshold {thr:.5f} (p~ floor {ptilde(0, cfg.m_design):.5f})")
+    trace = []
+    best = {"mu": None, "eval": None}
+
+    def trial(mu):
+        k = int(layer_ks(np.array([cap]), mu, cfg.n)[0])
+        if k == 0:
+            trace.append({"mu": mu, "k": 0, "errors": 0, "complete": True, "passed": True, "whole_layer_disclosed": True})
+            return True, None
+        r = _design_eval(sess, layer, k, e_max)
+        ok = bool(r["complete"] and r["errors"] <= e_max)
+        trace.append({"mu": mu, "k": k, "errors": r["errors"], "frames": r["frames"], "complete": r["complete"], "passed": ok})
+        return ok, (r if ok else None)
+
+    ok0, r0 = trial(0.0)
+    if ok0:
+        return {"session": sess, "layer": layer, "mu": 0.0, "e_max": e_max, "thr": thr, "trace": trace, "eval": r0, "flags": []}
+    lo, hi0 = 0.0, min(cap, float(cfg.mu_hi_max))
+    hi = hi0
+    hi_verified = False
+    hi_eval = None
+    for _ in range(int(cfg.mu_steps)):
+        mid = 0.5 * (lo + hi)
+        ok, r = trial(mid)
+        if ok:
+            hi, hi_verified, hi_eval = mid, True, r
+        else:
+            lo = mid
+    flags = []
+    if not hi_verified:
+        ok, r = trial(hi0)  # never passed inside the bracket: evaluate the upper edge once (complete result recorded)
+        hi_eval = r if ok else _design_eval(sess, layer, int(layer_ks(np.array([cap]), hi0, cfg.n)[0]))
+        flags.append("mu_upper_bracket_edge_" + ("passes_unrefined" if ok else "FAILS_layer_design_target_not_met"))
+    return {"session": sess, "layer": layer, "mu": hi, "e_max": e_max, "thr": thr, "trace": trace, "eval": hi_eval, "flags": flags}
 
 
 def _block_job(arg) -> dict:
@@ -657,20 +814,22 @@ def _init_session_globals(cfg, lab, sessions: dict) -> None:
 
 
 def compute_orders(cfg: RunConfig, lab, cons: dict[str, dict]) -> dict:
-    """DE orders for every (session, layer) (parallel over ``cfg.de_workers``)."""
+    """E1: genie-SC MC orders for every (session, layer) (parallel over ``cfg.de_workers``); CAL32-derived models only."""
     sessions = {s: {"idx": c["idx"], "tables": c["channel"]["tables"], "pmf": c["channel"]["pmf"]} for s, c in cons.items()}
     _init_session_globals(cfg, lab, sessions)
     args = [(s, i) for s in cons for i in range(cfg.layers)]
-    res = run_parallel(_de_task, args, cfg.de_workers)
+    res = run_parallel(_genie_task, args, cfg.de_workers)
     orders = {s: [None] * cfg.layers for s in cons}
+    zs = {s: [None] * cfg.layers for s in cons}
     meta = {s: [None] * cfg.layers for s in cons}
     for r in res:
         orders[r["session"]][r["layer"]] = r["order"]
+        zs[r["session"]][r["layer"]] = r["z"]
         o = r["order"]
-        meta[r["session"]][r["layer"]] = {"wall_s": r["wall_s"], "rss_gib_peak": r["rss_gib_peak"],
+        meta[r["session"]][r["layer"]] = {"wall_s": r["wall_s"], "rss_gib_peak": r["rss_gib_peak"], "genie_frames": cfg.genie_frames,
                                           "order_head8": o[:8].tolist(), "order_tail8": o[-8:].tolist(),
                                           "order_sha256": hashlib.sha256(np.asarray(o, dtype=np.int64).tobytes()).hexdigest()}
-    return {"orders": orders, "meta": meta}
+    return {"orders": orders, "z": zs, "meta": meta}
 
 
 # --------------------------------------------------------------------------- #
@@ -681,17 +840,45 @@ def ptilde(errors: int, frames: int) -> float:
 
 
 class DesignEvaluator:
-    """Cached design-set MC; ``evaluate_many`` runs all missing (session, layer, k) tasks in one pool."""
+    """Cached design-set MC.  ``solve_layer_mus`` (E2 per-layer bisection) and ``evaluate_many`` share the cache of
+    COMPLETE evaluations keyed by (session, layer, k)."""
 
-    def __init__(self, cfg: RunConfig, lab, cons: dict, orders: dict):
+    def __init__(self, cfg: RunConfig, lab, cons: dict, orders: dict, zs: dict | None = None):
         self.cfg, self.lab, self.cons = cfg, lab, cons
-        self.sessions = {s: {"idx": c["idx"], "tables": c["channel"]["tables"], "pmf": c["channel"]["pmf"], "orders": orders[s]}
-                         for s, c in cons.items()}
+        self.sessions = {s: {"idx": c["idx"], "tables": c["channel"]["tables"], "pmf": c["channel"]["pmf"], "orders": orders[s],
+                             "caps": c["channel"]["caps"]} for s, c in cons.items()}
+        self.zs = zs
         self.cache: dict[tuple, dict] = {}
         self.n_eval = 0
         self.max_cw_wall = 0.0
 
-    def evaluate_many(self, reqs: list[tuple[str, float]]) -> list[dict]:
+    def solve_layer_mus(self) -> dict:
+        """E2 F3: per layer the smallest mu_i with p~_i <= 0.03 / n_active.  Returns {session: {...}}."""
+        cfg = self.cfg
+        _init_session_globals(cfg, self.lab, self.sessions)
+        thr, args = {}, []
+        for s, c in self.cons.items():
+            thr[s] = cfg.f3_target_fer / n_active_layers(c["channel"]["caps"], cfg.n)
+            args += [(s, i, thr[s]) for i in range(cfg.layers) if int(np.floor(cfg.n * c["channel"]["caps"][i])) >= MIN_K]
+        out = {s: {"mu": np.zeros(cfg.layers), "n_active": n_active_layers(c["channel"]["caps"], cfg.n), "layer_threshold": thr[s],
+                   "layers": {}} for s, c in self.cons.items()}
+        for r in run_parallel(_mu_task, args, cfg.n_workers):
+            o = out[r["session"]]
+            o["mu"][r["layer"]] = r["mu"]
+            o["layers"][r["layer"]] = {"mu": r["mu"], "e_max": r["e_max"], "trace": r["trace"], "flags": r["flags"]}
+            e = r["eval"]
+            if e is not None:
+                self.cache[(r["session"], r["layer"], e["k"])] = e
+                self.max_cw_wall = max(self.max_cw_wall, e["wall_per_codeword_s"])
+        for s, c in self.cons.items():  # inactive (whole-layer-disclosed at mu=0) layers: mu = cap (k = 0)
+            for i in range(cfg.layers):
+                if i not in out[s]["layers"]:
+                    out[s]["mu"][i] = float(c["channel"]["caps"][i])
+                    out[s]["layers"][i] = {"mu": out[s]["mu"][i], "e_max": None, "trace": [], "flags": ["inactive_layer_whole_disclosure"]}
+        return out
+
+    def evaluate_many(self, reqs: list[tuple[str, np.ndarray]]) -> list[dict]:
+        """reqs: (session, mu vector).  Missing (session, layer, k) design evaluations run in one pool (complete, no early exit)."""
         cfg = self.cfg
         plans = []
         need = []
@@ -717,81 +904,54 @@ class DesignEvaluator:
                     r = self.cache[(s, i, int(k))]
                     p = ptilde(r["errors"], r["frames"])
                     tot += p
-                    layers.append({"layer": i, "k": int(k), "disclosed": False, "errors": r["errors"], "frames": r["frames"], "p_tilde": p,
-                                   "wall_per_codeword_s": r["wall_per_codeword_s"]})
+                    rec = {"layer": i, "k": int(k), "disclosed": False, "errors": r["errors"], "frames": r["frames"], "p_tilde": p,
+                           "wall_per_codeword_s": r["wall_per_codeword_s"]}
+                    if self.zs is not None:  # union-bound style leading indicator on the genie-MC statistics
+                        rec["sum_Z_info_set"] = float(self.zs[s][i][self.sessions[s]["orders"][i][:int(k)]].sum())
+                    layers.append(rec)
             self.n_eval += 1
-            out.append({"session": s, "mu": mu, "f_realized": f_of_ks(ks, cfg.n, self.cons[s]["h_total_bits"], cfg.tag_bits),
+            out.append({"session": s, "mu": np.asarray(mu, dtype=np.float64), "f_realized": f_of_ks(ks, cfg.n, self.cons[s]["h_total_bits"], cfg.tag_bits),
                         "ks": ks, "sum_p_tilde": tot, "layers": layers})
         return out
 
 
 def _f_flags(target: float, realized: float) -> list:
     if realized - target > 0.02:
-        return [f"f_realized_exceeds_target_by_{realized - target:.3f}: f(mu=0) is above the target (model H > H_total?)"]
+        return [f"f_realized_exceeds_target_by_{realized - target:.3f}: f at the lowest reachable mu is above the target"]
     return []
 
 
 def build_f_grid(cfg: RunConfig, cons: dict, ev: DesignEvaluator, f_nb: dict[str, float]) -> dict:
-    """F1/F2/F3/F4 per session: mu by deterministic bisection; F3 by the 4-step design-set bisection."""
+    """E2 grid per session.  F3 = per-layer design bisection (mu_i); F1/F2/F4 = F3 shape shifted by a uniform delta
+    (mu_i + delta >= 0) to reach f = F1 / f_nb / f(F3) + 0.10.  Design-set only; no test block enters."""
     names = list(cons)
     caps = {s: cons[s]["channel"]["caps"] for s in names}
     hb = {s: cons[s]["h_total_bits"] for s in names}
-
-    def mu_of(s, f):
-        return solve_mu_for_f(caps[s], f, cfg.n, hb[s], cfg.tag_bits)
-
-    grid = {s: {} for s in names}
-    # F1, F2 (known f)
-    reqs = []
+    sol = ev.solve_layer_mus()
+    plan = []  # (session, label, f_target, mu vector, delta)
     for s in names:
-        for lab_, f in (("F1", cfg.f1), ("F2", f_nb[s])):
-            reqs.append((s, lab_, f, mu_of(s, f)))
-    res = ev.evaluate_many([(s, mu) for s, _, _, mu in reqs])
-    for (s, lab_, f, mu), r in zip(reqs, res):
-        grid[s][lab_] = {"label": lab_, "f_target": f, "mu": mu, "f_realized": r["f_realized"], "ks": r["ks"],
-                         "design_sum_p_tilde": r["sum_p_tilde"], "design_layers": r["layers"], "flags": _f_flags(f, r["f_realized"])}
-    # F3 bisection in f (lockstep across sessions)
-    br = {s: [float(cfg.f3_bracket[0]), float(cfg.f3_bracket[1])] for s in names}
-    ok_seen = {s: False for s in names}
-    trace = {s: [] for s in names}
-    best_eval = {s: None for s in names}
-    for step in range(cfg.f3_steps):
-        mids = {s: 0.5 * (br[s][0] + br[s][1]) for s in names}
-        mus = {s: mu_of(s, mids[s]) for s in names}
-        res = ev.evaluate_many([(s, mus[s]) for s in names])
-        for s, r in zip(names, res):
-            passed = r["sum_p_tilde"] <= cfg.f3_target_fer
-            trace[s].append({"step": step, "f_mid": mids[s], "mu": mus[s], "f_realized": r["f_realized"],
-                             "sum_p_tilde": r["sum_p_tilde"], "passed": bool(passed)})
-            if passed:
-                br[s][1] = mids[s]
-                ok_seen[s] = True
-                best_eval[s] = (mus[s], r)
+        mu3 = sol[s]["mu"]
+        f3 = f_of_mu(caps[s], mu3, cfg.n, hb[s], cfg.tag_bits)
+        targets = (("F1", cfg.f1), ("F2", f_nb[s]), ("F3", f3), ("F4", f3 + cfg.f4_offset))
+        for lab_, f in targets:
+            if lab_ == "F3":
+                plan.append((s, lab_, f3, mu3, 0.0))
             else:
-                br[s][0] = mids[s]
-    # F3 / F4
-    f4_reqs = []
-    for s in names:
-        f3 = br[s][1]
-        flags = []
-        if not ok_seen[s]:
-            flags.append("f3_upper_bracket_edge_unverified: no bisection step met the threshold")
-        if br[s][0] == float(cfg.f3_bracket[0]):
-            flags.append("f3_lower_bracket_edge: every evaluated midpoint met the threshold; true F3 may be lower")
-        mu3 = mu_of(s, f3)
-        if best_eval[s] is not None and best_eval[s][0] == mu3:
-            r3 = best_eval[s][1]
-        else:  # unverified upper edge: evaluate once so the design prediction is recorded
-            r3 = ev.evaluate_many([(s, mu3)])[0]
-        grid[s]["F3"] = {"label": "F3", "f_target": f3, "mu": mu3, "f_realized": r3["f_realized"], "ks": r3["ks"],
-                         "design_sum_p_tilde": r3["sum_p_tilde"], "design_layers": r3["layers"], "flags": flags + _f_flags(f3, r3["f_realized"]),
-                         "bisection_trace": trace[s], "bracket": list(cfg.f3_bracket)}
-        f4_reqs.append((s, f3 + cfg.f4_offset))
-    mus4 = [(s, mu_of(s, f)) for s, f in f4_reqs]
-    res = ev.evaluate_many(mus4)
-    for (s, f), (_, mu), r in zip(f4_reqs, mus4, res):
-        grid[s]["F4"] = {"label": "F4", "f_target": f, "mu": mu, "f_realized": r["f_realized"], "ks": r["ks"],
-                         "design_sum_p_tilde": r["sum_p_tilde"], "design_layers": r["layers"], "flags": _f_flags(f, r["f_realized"])}
+                dlt = solve_delta_for_f(caps[s], mu3, f, cfg.n, hb[s], cfg.tag_bits)
+                plan.append((s, lab_, f, shifted_mu(mu3, dlt), dlt))
+    res = ev.evaluate_many([(s, mu) for s, _, _, mu, _ in plan])
+    grid = {s: {} for s in names}
+    for (s, lab_, f, mu, dlt), r in zip(plan, res):
+        g = {"label": lab_, "f_target": f, "mu": [float(x) for x in mu], "delta_vs_F3_shape": dlt, "f_realized": r["f_realized"],
+             "ks": r["ks"], "design_sum_p_tilde": r["sum_p_tilde"], "design_layers": r["layers"],
+             "flags": _f_flags(f, r["f_realized"])}
+        if lab_ == "F3":
+            g["layer_mu_bisection"] = {str(i): v for i, v in sol[s]["layers"].items()}
+            g["n_active"] = sol[s]["n_active"]
+            g["layer_threshold_p_tilde"] = sol[s]["layer_threshold"]
+            for i, v in sol[s]["layers"].items():
+                g["flags"] += [f"layer{i}:{fl}" for fl in v["flags"] if not fl.startswith("inactive")]
+        grid[s][lab_] = g
     return grid
 
 
@@ -833,7 +993,7 @@ def calibrate_codeword_wall(cfg: RunConfig, lab, S: dict, layer: int, k: int) ->
 
 def run_pipeline(lab, cfg: RunConfig, sessions: list[SessionInput], out_dir: str | Path, tag_fn: Callable, *,
                  nb_dir: str | Path | None = None, t_start: float | None = None) -> dict:
-    """Construction -> design MC (F grid) -> block decoding -> aggregation.  Writes only under ``out_dir``."""
+    """CAL32 construction (genie-MC orders) -> design MC (per-layer mu, F grid) -> block decoding -> aggregation.  Writes only under ``out_dir``."""
     t_start = time.time() if t_start is None else t_start
     out = Path(out_dir)
     out.mkdir(parents=True, exist_ok=True)
@@ -861,7 +1021,7 @@ def run_pipeline(lab, cfg: RunConfig, sessions: list[SessionInput], out_dir: str
     k_cal = int(layer_ks(S0["channel"]["caps"], 0.02, cfg.n)[cfg.layers - 1]) or int(cfg.n // 2)
     t0_cw = calibrate_codeword_wall(cfg, lab, S0cal, cfg.layers - 1, k_cal)
     cw_limit = max(5.0 * t0_cw, SLACK_MIN_CODEWORD_WALL_S)
-    ev = DesignEvaluator(cfg, lab, cons, orders)
+    ev = DesignEvaluator(cfg, lab, cons, orders, do["z"])
     grid = build_f_grid(cfg, cons, ev, {s.name: s.f_nb for s in sessions})
 
     # 3. per-session frozen record
@@ -871,7 +1031,7 @@ def run_pipeline(lab, cfg: RunConfig, sessions: list[SessionInput], out_dir: str
         rec = {k: v for k, v in c.items() if k != "channel"}
         rec["channel"] = {"source": c["cv"]["source"], "caps": c["channel"]["caps"], "sum_caps": c["channel"]["sum_caps"],
                           "joint_mi_bits": c["channel"]["joint_mi_bits"], "pmf_entropy_bits": c["channel"]["pmf_entropy_bits"], "pmf_head8": c["channel"]["pmf"][:8], "pmf_tail8": c["channel"]["pmf"][-8:]}
-        rec["de_orders"] = do["meta"][s.name]
+        rec["genie_orders"] = do["meta"][s.name]
         rec["points"] = {lab_: {k: v for k, v in p.items()} for lab_, p in g.items()}
         rec["timing"] = {"codeword_wall_ref_s": t0_cw, "codeword_wall_limit_s": cw_limit, "design_max_wall_per_codeword_s": ev.max_cw_wall}
         dump_json(out / f"construction_frozen_{s.name}.json", rec)
@@ -902,13 +1062,13 @@ def run_pipeline(lab, cfg: RunConfig, sessions: list[SessionInput], out_dir: str
     results_obj = aggregate(cfg, sessions, cons, grid, per_block, nb_dir)
     de_rss = [x["rss_gib_peak"] for s in sessions for x in do["meta"][s.name] if x["rss_gib_peak"] is not None]
     dz_rss = [r["rss_gib_peak"] for r in ev.cache.values() if r["rss_gib_peak"] is not None]
-    results_obj["resources"] = {"rss_gib_peak_de_tasks_max": max(de_rss) if de_rss else None,
+    results_obj["resources"] = {"rss_gib_peak_construction_tasks_max": max(de_rss) if de_rss else None,
                                 "rss_gib_peak_design_tasks_max": max(dz_rss) if dz_rss else None,
                                 "rss_gib_budget_per_process": RSS_GIB,
                                 "rss_over_budget": bool((de_rss and max(de_rss) > RSS_GIB) or (dz_rss and max(dz_rss) > RSS_GIB)),
                                 "note": "VmHWM of the worker process at task end (a reused pool worker reports its own high-water mark)"}
     results_obj["timing"] = {"wall_s_total": time.time() - t_start, "budget_wall_s_total": cfg.wall_total_s,
-                             "codeword_wall_ref_s": t0_cw, "codeword_wall_limit_s": cw_limit, "n_design_evaluations": ev.n_eval}
+                             "codeword_wall_ref_s": t0_cw, "codeword_wall_limit_s": cw_limit, "n_design_evaluations": ev.n_eval, "construction_wall_s_sum": sum(x["wall_s"] for s in sessions for x in do["meta"][s.name])}
     dump_json(out / "results.json", results_obj)
     return results_obj
 
