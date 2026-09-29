@@ -79,7 +79,7 @@ try:
     st = [json.load(open(drv._part_path(c["cfg"], b["global_block_index"])))["status"] for c in cfgs for b in blocks]
     assert set(st) == {"not_started_total_wall_budget"}, st
     print("total-wall not_started path ok")
-    drv.BUDGET_WALL_S_TOTAL = 7200.0
+    drv.BUDGET_WALL_S_TOTAL = 12600.0
 
     # startup guard
     drv.RESULTS_PATH = scratch / "results.json"
