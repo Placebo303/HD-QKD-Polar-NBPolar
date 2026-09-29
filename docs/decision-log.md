@@ -24,6 +24,13 @@ Durable decisions and rejected alternatives for the HD-QKD_Polar_Comparison-nbpo
 
 ## Decisions
 
+## 2026-09-30 PI 裁定：批准 M2 晋级 EFFICIENCY_ACCOUNTED（第 4 级）
+
+- 批准 M2 由 `FER_MEASURED_AT_CONTRACT`（第 3 级）晋级 `EFFICIENCY_ACCOUNTED`（第 4 级）；依据：R3 门四项完整性（(a)§3.2 每量有公式/数值/文件来源；(b)λ 分解表逐项；(c)运行时/RSS 表完整且上界论证写明；(d)独立审查 PASS）全满足（见 `docs/nbpolar/R3_EFFICIENCY_ACCOUNTING_20260930.md`、`workspace/closure_20260930/R3_REVIEW.md`）。
+- **晋级不代表 f≤1.3**，三档并列：f_book≈1.27 / 计入块失败后 f_eff≈1.31–1.32 / 95% CI 上界 f_eff_upper≈1.42–1.43；不得只引其中一档。
+- G2/G3 是否算 ≥2 独立会话**暂不裁定**：`READY_FOR_QUALIFICATION` 除独立会话外另需样本量达标（路线图目标约 1000 块上 FER<0.003，现有 64 块远远不够），故无论如何认定都升不上去；另 G3 与 G2 为同日同装置采集、独立性偏弱（项目曾在 G3 关把 G3 当独立会话用过）；建议未来为冲 READY 级做一次不同日期采集。
+- 后续方向：先做净密钥产出比较（已完成，见 `docs/nbpolar/NET_SECRET_KEY_COMPARISON_20260930.md`）。
+
 ## 2026-09-30 NB-Polar 收尾：R3 效率记账 + 总报告 + 仓库清理
 
 - R3 效率记账（`docs/nbpolar/R3_EFFICIENCY_ACCOUNTING_20260930.md`；脚本 `workspace/closure_20260930/r3_accounting.py` + 输出 `r3_accounting.json`）：R2 主工作点 f_book G2 1.2753426830727925 / G3 1.268101234613064；f_eff 点值 G2 1.3164827696235277 / G3 1.309007726052195；f_eff 上界（pooled）G2 1.428115221527847 / G3 1.4200063242812413；λ_cal 0.007751937984496124；ε_tag 5.421010862427522e-20；运行时上界 39.37917227298021 s/块（原生 L=32 最大值论证，非 L=16 实测）；λ 分解 8 项齐全；R3 门 (a)(b)(c)(d) 全满足，独立审查 PASS（`workspace/closure_20260930/R3_REVIEW.md`，BLOCKER 0 / MAJOR 0 / MINOR 2）→ 结论"R3 记账完成，建议 PI 批准 M2 晋级 EFFICIENCY_ACCOUNTED"。

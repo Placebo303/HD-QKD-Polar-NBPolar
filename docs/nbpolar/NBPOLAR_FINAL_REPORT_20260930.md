@@ -287,8 +287,8 @@ R2 主工作点记账（D_blk=34135，D_blk_noCRC=34119；失败块披露照付�
   逐项完整、(c) 运行时/RSS 表与上界论证完整、(d) 独立审查
   **PASS**（`workspace/closure_20260930/R3_REVIEW.md`：独立重算逐位一致，
   BLOCKER 0 / MAJOR 0 / MINOR 2）。四项全满足 ⇒
-  **R3 记账完成，建议 PI 批准 M2 晋级 EFFICIENCY_ACCOUNTED**
-  （是否晋级由 PI 决定；本报告不自行晋级）。
+  **R3 记账完成，2026-09-30 PI 已批准 M2 晋级 EFFICIENCY_ACCOUNTED**
+  （见 `docs/decision-log.md` 同日 PI 裁定条目；本报告不自行晋级）。
 
 ## 8. 工作点决定
 
@@ -338,10 +338,13 @@ R2B/R2E 与合成探针对照，来源：R3 主文档 §4 表）。
   主判定为 64 块汇总）。
   来源：`workspace/r2d_locate_f_k_g2/RESULT_REVIEW.md`、
   `workspace/r2e_fer_shg_64_L32_f124/RESULT_SUMMARY.md` §3.3。
-- L9：净密钥产出未计算（需 Eve 信息量估计；f_eff 只是披露侧记账，
-  不是净密钥比较）。
-  来源：`docs/nbpolar/REAL_DATA_CORRECTION_ROADMAP_20260922.md` §1（R3→R4 阶梯）、
-  R3 主文档 §7（仅对照 f≤1.3 期望，不作净密钥主张）。
+- L9（2026-09-30 已关闭）：净密钥产出比较已完成，
+  见 `docs/nbpolar/NET_SECRET_KEY_COMPARISON_20260930.md`
+  （`workspace/netkey_20260930/netkey.py` + `netkey.json` 纯案头重算）；
+  Eve 信息量 χ 无实测、仅参数化处理，净密钥产出差 Δr 与 χ 无关
+  （`Δr = −(f_eff,A − f_eff,B)·H(A|B)`）。原区分仍然成立：
+  f_eff 只是披露侧记账，不是净密钥比较本身。
+  来源：`docs/nbpolar/NET_SECRET_KEY_COMPARISON_20260930.md` §3/§5/§7。
 - 附加已裁定 caveats（一并陈述）：R2C F3/F4 的 0/64 的 Wilson 上界 0.0566 > 0.03，
   不能读作"已证明块失败率 ≤3%"（R2C RESULT_SUMMARY §7 第 6 条）；
   R2 只有 SCL 一臂、A1_CAL 与 HELDOUT 块是首次 SCL 观测、
@@ -373,7 +376,8 @@ R2B/R2E 与合成探针对照，来源：R3 主文档 §4 表）。
   后续可在二元臂上加 CRC 路径选择后再比较。
 - L2 构造/先验改进：失败几乎全在 L2；gbi23 难块未归因；
   L2 构造与 M2 先验的改进是主要算法杠杆。
-- 净密钥产出比较：需 Eve 信息量估计，f_eff 记账完成后才可进入。
+- 净密钥产出比较：已完成（见 `docs/nbpolar/NET_SECRET_KEY_COMPARISON_20260930.md`；
+  χ 无实测、仅参数化，Δr 与 χ 无关）。
 - 更多独立会话：适用域仅两次同日 SHG 采集；
   是否算作"≥2 独立 session"待 PI 裁定（见收尾回报 §8 问题 (c)）。
 - 实时化：吞吐远未实时，原生实现优化与运行时上界收紧。

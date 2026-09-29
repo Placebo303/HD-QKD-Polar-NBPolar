@@ -3,7 +3,7 @@
 > 先读本文，再按 `§6 延伸阅读` 顺序展开。细节一律链到源文档，不在此复述。
 > 本文件是 selective re-baseline：取代旧计划层叙述，保留已验证实现；旧条目作 provenance 保留。
 > 凡 `描述性` = Tier-X / Tier-Y descriptive-only，non-claim，不作 FER/效率/晋级证据。
-> **⚠ 2026-09-22 G3（主线 R2 已裁决）**：G3 接受 `NBPOLAR_M2_PRIOR_G3_SUCCESS`；~~**M2 = `VALIDATED_AT_FROZEN_CONTRACT`**（仅第二级）~~ **（2026-09-29 晋级：M2 = `FER_MEASURED_AT_CONTRACT`，第 3 级，见下方 §0 2026-09-29 与 §4.1）**。三个独立评审真实发生且通过（transcript：Pre-EXECUTE `ses_f37a…` 12/12、DELTA `ses_f379…`、Pre-RESULT `ses_f377…` MAY PROCEED），但断言时未落盘；在盘独立 Pre-RESULT（`PRE_RESULT_REVIEW.md` 8/8）已补。STATUS G3-1 系转录滞后（18:02:14 关闭）。两主线程碰撞产生两条虚假时间断言（F5/F6，维持标注）。`3f5b374a` 的"Pre-EXECUTE 从未执行"系矫枉过正，已纠正（F17）。见 `.workbuddy/queue/NBPOLAR-M2-PRIOR-G3-CONFIRM/G3_PROCESS_DEVIATION.md`。
+> **⚠ 2026-09-22 G3（主线 R2 已裁决）**：G3 接受 `NBPOLAR_M2_PRIOR_G3_SUCCESS`；~~**M2 = `VALIDATED_AT_FROZEN_CONTRACT`**（仅第二级）~~ ~~**（2026-09-29 晋级：M2 = `FER_MEASURED_AT_CONTRACT`，第 3 级，见下方 §0 2026-09-29 与 §4.1）**~~ **（2026-09-30 PI 批准晋级：M2 = `EFFICIENCY_ACCOUNTED`，第 4 级，见下方 §0 2026-09-30 PI 裁定与 §4.1）**。三个独立评审真实发生且通过（transcript：Pre-EXECUTE `ses_f37a…` 12/12、DELTA `ses_f379…`、Pre-RESULT `ses_f377…` MAY PROCEED），但断言时未落盘；在盘独立 Pre-RESULT（`PRE_RESULT_REVIEW.md` 8/8）已补。STATUS G3-1 系转录滞后（18:02:14 关闭）。两主线程碰撞产生两条虚假时间断言（F5/F6，维持标注）。`3f5b374a` 的"Pre-EXECUTE 从未执行"系矫枉过正，已纠正（F17）。见 `.workbuddy/queue/NBPOLAR-M2-PRIOR-G3-CONFIRM/G3_PROCESS_DEVIATION.md`。
 
 ## §0 2026-09-29 更新（R2 FER 门过，主线程裁定）
 
@@ -37,10 +37,10 @@
 > **R2C `r2c-strong-binary-msd-shg-64` 主线程裁定（2026-09-30）**：最强二元臂（硬前缀 MSD + SCL L=16，无 CRC，genie-MC 构造，逐层 μ_i）同一 64 块池：f=1.20 0/64 exact；f≈1.27（NB 同披露量）46/64（G2 30/32、G3 16/32）；f≈1.31 64/64；f≈1.41 64/64；undetected 0。Pre-RESULT PASS_WITH_COMMENTS。二元约 3% 块失败所需 f 在 1.28–1.313，**NB-Polar 领先约 0.01–0.04**（不可点估；二元未做 CRC/软前缀/更大 L，不宣称最优）。见 `workspace/r2c_strong_binary_msd_shg_64/RESULT_SUMMARY.md`。
 
 > **收尾（2026-09-30）**：R3 效率记账完成——f_book G2 1.275343 / G3 1.268101，f_eff 点值 G2 ≈1.3165 / G3 ≈1.3090（pooled 上界 G2 ≈1.428 / G3 ≈1.420），
-> 运行时上界 39.38 s/块（原生 L=32 最大值论证，非 L=16 实测），独立审查 PASS，结论句"**R3 记账完成，建议 PI 批准 M2 晋级 EFFICIENCY_ACCOUNTED**"
+> 运行时上界 39.38 s/块（原生 L=32 最大值论证，非 L=16 实测），独立审查 PASS
 > （见 `docs/nbpolar/R3_EFFICIENCY_ACCOUNTING_20260930.md`）。总报告 `docs/nbpolar/NBPOLAR_FINAL_REPORT_20260930.md`（11 章，独立审查 PASS）。
 > 仓库清理：`.gitignore` 追加 4 条原生编译产物规则；其余先存改动（stat 脏内容无变化的测试文件、pytest 证据、测试夹具）一律不碰不提交。
-> 待 PI 决定：是否批准晋级 `EFFICIENCY_ACCOUNTED` / 是否 push / G2+G3 是否算 ≥2 独立 session / 后续研究方向。M2 状态串不变。
+> **PI 2026-09-30 裁定：批准 M2 晋级 `EFFICIENCY_ACCOUNTED`（第 4 级）**。依据：R3 门四项完整性（(a)§3.2 每量有公式/数值/文件来源；(b)λ 分解表逐项；(c)运行时/RSS 表完整且上界论证写明；(d)独立审查 PASS）全满足。**晋级不代表 f≤1.3**：f_book≈1.27；计入块失败后 f_eff≈1.31–1.32；按 95% 置信区间上界 f_eff_upper≈1.42–1.43。三档并列，不得只引其中一档。`READY_FOR_QUALIFICATION` 仍不满足：64 块远不足路线图目标约 1000 块（FER<0.003）；G2/G3 是否算 ≥2 独立会话暂不裁定（同日同装置，独立性偏弱；建议未来做一次不同日期采集）。后续方向：先做净密钥产出比较（已完成，见 `docs/nbpolar/NET_SECRET_KEY_COMPARISON_20260930.md`）。
 
 ## §0 2026-09-27 更新（合成 Tier-X，描述性）
 
@@ -137,18 +137,20 @@
 ## §4.1 M2 promotion ladder（状态阶梯**定义**；本节不授予任何晋级）
 
 > 2026-09-22 主线裁定，源自 `docs/nbpolar/REAL_DATA_CORRECTION_ROADMAP_20260922.md` §5，并补入 G3 三态、失败分层口径与 G4。
-> ~~**M2 状态（2026-09-22 G3 裁决后）= `VALIDATED_AT_FROZEN_CONTRACT`**~~ **（2026-09-29 晋级：R2 门过，M2 = `FER_MEASURED_AT_CONTRACT`，第 3 级，见下方阶梯图与 `docs/decision-log.md` 2026-09-29 条目）**（第一道真实数据 decode 门 G2 + 独立 session 门 G3 双过，按本表第一行进入；仅第二级——R2 FER 门、R3 效率门仍未做，G4 inventory 已裁决 `NBPOLAR_M2_PRIOR_G4_INVENTORY_COMPLETE`（`G4_ADJUDICATION.md`；仅 `READY_FOR_QUALIFICATION` 合取项之一），禁止跳级）。晋级依据：pre-G3 的 "CANDIDATE until G3 passes" 规则（记于 G2 裁决）+ `g3_freeze_config.json` 17:00:07 的预注册门。**注意**：本 §4.1 阶梯文档本身写于 decode 后 ≈17:58（主线程 `ses_f3ffe4fc…`），不得引为 pre-decode preregistration；`0851b481` 的替换编辑已被 `3f5b374a` 恢复、本次提交 reaffirm。见 `G3_PROCESS_DEVIATION.md` F10。本表只定义状态的进入条件，不构成授权。
+> ~~**M2 状态（2026-09-22 G3 裁决后）= `VALIDATED_AT_FROZEN_CONTRACT`**~~ ~~**（2026-09-29 晋级：R2 门过，M2 = `FER_MEASURED_AT_CONTRACT`，第 3 级，见下方阶梯图与 `docs/decision-log.md` 2026-09-29 条目）**~~ **（2026-09-30 PI 批准晋级：R3 门过，M2 = `EFFICIENCY_ACCOUNTED`，第 4 级，见下方阶梯图与 `docs/decision-log.md` 2026-09-30 PI 裁定条目）**（第一道真实数据 decode 门 G2 + 独立 session 门 G3 双过，按本表第一行进入；2026-09-29 时仅第二级（R2 FER 门、R3 效率门当时仍未做；2026-09-30 两门均过，M2 已处第 4 级），G4 inventory 已裁决 `NBPOLAR_M2_PRIOR_G4_INVENTORY_COMPLETE`（`G4_ADJUDICATION.md`；仅 `READY_FOR_QUALIFICATION` 合取项之一），禁止跳级）。晋级依据：pre-G3 的 "CANDIDATE until G3 passes" 规则（记于 G2 裁决）+ `g3_freeze_config.json` 17:00:07 的预注册门。**注意**：本 §4.1 阶梯文档本身写于 decode 后 ≈17:58（主线程 `ses_f3ffe4fc…`），不得引为 pre-decode preregistration；`0851b481` 的替换编辑已被 `3f5b374a` 恢复、本次提交 reaffirm。见 `G3_PROCESS_DEVIATION.md` F10。本表只定义状态的进入条件，不构成授权。
 
 ```text
 CANDIDATE
   → (G3 预注册门 PASS)                                    VALIDATED_AT_FROZEN_CONTRACT
-  → (R2 门过：预注册 FER 口径 + 样本量达标)                 FER_MEASURED_AT_CONTRACT   ← R2 门过（2026-09-29，r2-fer-shg-64）：M2 现处于本级
-  → (R3 门过：verification-aware f_eff + 运行时/RSS 上界)   EFFICIENCY_ACCOUNTED
+  → (R2 门过：预注册 FER 口径 + 样本量达标)                 FER_MEASURED_AT_CONTRACT   ← R2 门过（2026-09-29，r2-fer-shg-64）
+  → (R3 门过：verification-aware f_eff + 运行时/RSS 上界)   EFFICIENCY_ACCOUNTED       ← R3 门过（2026-09-30，PI 批准晋级）：M2 现处于本级
   → (≥2 独立 session 复现 + 样本量 + G4 exhaustive
      public-message inventory + 独立 Pre-RESULT 全过)       READY_FOR_QUALIFICATION
 任一 FAIL 或 INCONCLUSIVE：回 CANDIDATE 或 BOUNDED_NEGATIVE。禁止跳级；
 禁止用合成 S9 推级；禁止用跨契约（G1 w=500 vs G1R2/G2 w=200）优劣叙事推级。
 ```
+
+> **2026-09-30 注**：`READY_FOR_QUALIFICATION` 仍不满足——样本量 64 块远不足路线图目标约 1000 块（FER<0.003）；G2/G3 是否算 ≥2 独立会话暂不裁定（同日同装置，独立性偏弱）；建议未来为冲这一级做一次不同日期采集。另：**晋级 `EFFICIENCY_ACCOUNTED` 不代表 f≤1.3**（f_book≈1.27 / f_eff≈1.31–1.32 / 95% CI 上界≈1.42–1.43，三档并列）。
 
 **G3 裁决三态 → 状态串**（**decode 之前**写入 packet，避免裁决夜现编）：
 

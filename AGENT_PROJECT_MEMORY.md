@@ -5,6 +5,8 @@
 - 待 PI 四项 [decision, open item]：是否批准晋级 EFFICIENCY_ACCOUNTED / 是否 push / G2+G3 是否算 ≥2 独立 session / 后续研究方向。源：docs/nbpolar/CLOSURE_PACKET_20260930.md §8、docs/decision-log.md 2026-09-30 收尾条目。
 - R3 口径复用（后续 R4/其他工作点沿用）[repo-observed, procedure, R3]：`f_eff = f_book/(1−p̂)`（失败块整块损失：披露照付、无产出）；`f_eff_upper = f_book/(1−Wilson上界)`（会话上界用会话 Wilson 上界，pooled 上界用 pooled Wilson 上界）；λ 分解 8 项固定语义：leak_IR 计入 f / CRC 计入 f 另报 noCRC / tag 计入 f / ε_tag=2^-64 仅安全参数不计入 f / FER 计入 f_eff / CAL_sacrifice（λ_cal=32/(32+4096)，分母 4096=每会话 64 块池帧数 32块×128帧）只入产出比不入 f / prior_reveal=0 / undetected 单列不并入成功或 FER。源：docs/nbpolar/R3_EFFICIENCY_ACCOUNTING_20260930.md §2–§3。
 - 运行时上界论证范式 [repo-observed, procedure, R3]：无原生 L=16 真实实测时，可用同原生代码 L=32 真实最大耗时作 L=16 上界（列表宽度减半 ⇒ 每块工作量严格更少）+ 等价标准 B（commit `8fcc9119` 判定线、`36025662` 配套 Cargo.lock）；引用时必须标注"论证得上界、非 L=16 实测"。源：docs/nbpolar/R3_EFFICIENCY_ACCOUNTING_20260930.md §4。
+- M2 状态 2026-09-30 PI 批准晋级 `EFFICIENCY_ACCOUNTED`（第 4 级）[decision, R3]：依据 R3 门四项完整性 + 独立审查 PASS；晋级不代表 f≤1.3（三档：f_book≈1.27 / f_eff≈1.31–1.32 / 95% CI 上界≈1.42–1.43）；`READY_FOR_QUALIFICATION` 仍不满足（64 块远不足约 1000 块；G2/G3 独立性未定，建议未来不同日期采集）。源：docs/nbpolar/STATE.md §0/§4.1、docs/decision-log.md 2026-09-30 PI 晋级条目。
+- 净密钥产出比较已完成 [repo-observed, R4]：f≈1.24（R2E）与 f≈1.27（R2）不可区分；NB vs 二元同披露 F2 点 G2 不可区分、G3 NB 更优（有构造失配 caveat），自洽点 R2 vs F3 全部不可区分；Δr 与 Eve 信息量 χ 无关（`Δr = −(f_eff,A − f_eff,B)·H(A|B)`）。源：docs/nbpolar/NET_SECRET_KEY_COMPARISON_20260930.md + workspace/netkey_20260930/netkey.json。
 
 ## 2026-09-29 R2E r2e-fer-shg-64-L32-f124 Tier-Y one-shot (R2B delta-successor; FER_MEASURED_AT_CONTRACT)
 
