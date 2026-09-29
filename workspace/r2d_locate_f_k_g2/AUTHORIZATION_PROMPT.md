@@ -1,0 +1,16 @@
+# AUTHORIZATION — r2d-locate-f-k-g2
+
+**Status: TEMPLATE. NOT YET GRANTED.** 由 PI 阅读后整段原样贴回聊天。链接不构成授权（AGENTS.md §10.1）。
+性质：Tier X 描述性定位探针（非 claim、非 Tier-Y 门、不改变任何状态）。
+
+---- 可直接复制的授权文本 ----
+
+授权执行 r2d-locate-f-k-g2（描述性真实数据定位探针，Tier X，非 claim）：仅在 SHG _1（G2）会话的 32 块上（DATA_LEDGER.md §7：帧 0–1023 共 8 块、1056–2335 共 10 块、2398–4189 共 14 块；CAL32 不入池）；G3 的 32 块完全不读取、不解码，保留为后续确认的干净层。解码器：M2 先验 + 原生 SCL（scl_joint_native.scl_joint_decode_native，L=32，top_m=4，CRC-16），P16、W_P=200/W_S=500/CIRCULAR/skip=702；不跑 SC 路径、不做 SC 保真门。网格 6 配置：f_target ∈ {1.22,1.24,1.26} × k1 share ∈ {0.0469,0.0380}，K_total=round(f·H̄·32768/5)，H̄=(0.8168138+0.8214782)/2；配置为 (K_total,k1,k2)：f1.22: 6549 / 307,6242 (share 0.0469)、249,6300 (0.0380)；f1.24: 6657 / 312,6345、253,6404；f1.26: 6764 / 317,6447、257,6507（G2 自身 H 下 f_book 含 CRC：1.226399/1.246574/1.266563；不含 CRC：1.225801/1.245976/1.265965）。共 6×32=192 次解码。eval_seed=2026092903，tag_master=2026102903；同一块在各配置间用同一 tag 种子（配置只改 K）。并行：4 个 worker 进程，每进程原生线程数 2（运行时覆盖 scl_joint_native._default_threads，冻结文件不改）。预算：每块每配置 wall ≤ 300 s，总 wall ≤ 3.5 h（超限后未开始的项记 not_started），RSS 每进程 ≤ 4 GiB，超预算即 STOP 不调参。输出只写 workspace/r2d_locate_f_k_g2/：results.json 汇报每配置 exact/verify_failed/decode_failed/undetected、Wilson 95% CI、L1/L2 失败归因、每块结果，以及与 R2（f≈1.27，L=16）、R2B（f=1.20，L=32）同块结果的描述性交叉表；undetected≥1 的配置单列并标记 STOP（不影响其他配置的描述性报告）。选择规则（预注册，机械执行）：取 G2 上 verify_failed≤1 的配置中 f 最小者，平局取 k1 share 0.0469；若无配置满足则报告并交 PI。此探针结果仅用于为后续在 G3+G2 分层上的正式 Tier-Y 测量选配置；G2 这 32 块此后在正式测量中须标为“selection-touched”分层（R2）。解释器 /home/karel_303/.venvs/hd-qkd-polar-comparison/bin/python。reruns=0（只允许修复实现缺陷后重启一次，绝不因为结果不理想而重跑）。本授权不改变任何科学状态，不替代主线程对结果的裁定。
+
+---- 授权文本结束 ----
+
+执行命令（授权后，WSL）：
+
+```
+PYTHONDONTWRITEBYTECODE=1 OMP_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 MKL_NUM_THREADS=1 NUMBA_NUM_THREADS=1 PYTHONPATH=/mnt/d/Code/HD-QKD_Polar_Comparison-nbpolar /home/karel_303/.venvs/hd-qkd-polar-comparison/bin/python /mnt/d/Code/HD-QKD_Polar_Comparison-nbpolar/workspace/r2d_locate_f_k_g2/run.py
+```

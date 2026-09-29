@@ -1,0 +1,16 @@
+# STATUS — r2d-locate-f-k-g2 (Tier X descriptive locating probe; PREPARATION ONLY, nothing executed)
+state: prepared_awaiting_authorization
+classification: tier_x_probe_non_claim
+based_on: workspace/r2b_fer_shg_64_L32_f120/run.py (unchanged)
+frozen:
+  session: G2 only (32 blocks); G3 never read
+  decoder: scl_joint_native.scl_joint_decode_native L=32 top_m=4 CRC-16
+  grid: {f_target: [1.22, 1.24, 1.26], k1_share: [0.0469, 0.0380]}
+  eval_seed: 2026092903
+  tag_master: 2026102903
+  workers: 4
+  native_threads_per_worker: 2
+  budget: {wall_s_per_task: 300, wall_s_total: 12600, rss_gib_per_process: 4}
+interpreter: /home/karel_303/.venvs/hd-qkd-polar-comparison/bin/python
+static_selfcheck: {ast_parse: pass, synthetic_smoke: pass}
+authorizations: []

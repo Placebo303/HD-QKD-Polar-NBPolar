@@ -1,0 +1,25 @@
+# STATUS — r2c-strong-binary-msd-shg-64
+# Contract: docs/nbpolar/R2C_STRONG_BINARY_MSD_CONTRACT_20260929.md (PI approved D1-D8 recommended, 2026-09-29)
+# Tier-Y one-shot, claim-bearing, real data. PREPARATION ONLY: nothing executed on real data.
+state: prepared_not_authorized
+classification: tier_y_decision_gate
+predecessors: [workspace/r2_fer_shg_64 (NB, read-only), workspace/r2_binary_baseline_shg_64 (R2B, read-only)]
+frozen:
+  arm: hard-prefix conditional MSD + SCL (no CRC), DE construction, global-margin rate allocation
+  layers: 10 (d=1024, layer 0 = MSB), N: 32768 per layer (n_log=15), list_size: 16, engine: lab msd_scl.cpp compact (min-sum)
+  design: {m_design: 256, m_root: 4096, de_samples: 1024, de_seed: 20260929}
+  f_grid: {F1: 1.20, F2: "NB f_book_with_crc per session (G2 1.2753426830727925, G3 1.268101234613064)", F3: "4-step design-set bisection (smallest f with sum p~ <= 0.03)", F4: "F3 + 0.10"}
+  tag_bits: 64
+  budget: {wall_s_total: 21600, rss_gib_per_process: 6, codeword_wall_abort: "5x T0 timing"}
+operator_chosen_not_in_contract: [F3_bracket=[1.10,1.90], design/root/null RNG seeds base 20260929, workers=8/DE workers=3, disclosed layers count p~=0]
+interpreter: /home/karel_303/.venvs/hd-qkd-polar-comparison/bin/python
+implementation:
+  module: comparison_bench/src/comparison_bench/formal_ir/nbpolar/r2c_msd_binary.py
+  tests: comparison_bench/tests/test_r2c_msd_binary.py (+ workspace/r2c_strong_binary_msd_shg_64/_test_run_driver.py)
+  driver: workspace/r2c_strong_binary_msd_shg_64/run.py
+authorizations: []
+pre_execute_review: {verdict: null, record: null}
+pre_result_review: {verdict: null, record: null}
+execution_started: null
+execution_finished: null
+main_thread_verdict: null
