@@ -1,0 +1,164 @@
+--- workspace/r2b_fer_shg_64_L32_f120/run.py	2026-09-29 14:46:09.269606400 +0800
++++ workspace/r2e_fer_shg_64_L32_f124/run.py	2026-09-29 19:48:15.412566200 +0800
+@@ -1,9 +1,9 @@
+ #!/usr/bin/env python3
+-"""R2B formal FER measurement: M2 + native SCL(L=32, top_m=4, CRC-16) at
+-f=1.20 (K_total=6442, k1=302/k2=6140) on the frozen 64-block SHG `_1`/`_2`
+-pool (DATA_LEDGER.md §7). Tier-Y one-shot delta-successor of
+-``workspace/r2_fer_shg_64/`` (FER_MEASURED_AT_CONTRACT, SCL L=16 scl_joint,
+-K1=319/K2=6492, f~1.27). Full delta: docs/nbpolar/R2B_L32_F120_DELTA_20260929.md.
++"""R2E formal FER measurement: M2 + native SCL(L=32, top_m=4, CRC-16) at
++f~1.24 (K_total=6657, k1=253/k2=6404; R2D-selected f1.24_s0380) on the frozen
++64-block SHG `_1`/`_2` pool (DATA_LEDGER.md §7). Tier-Y one-shot delta-successor
++of ``workspace/r2b_fer_shg_64_L32_f120/`` (executed, adjudicated). Full delta:
++docs/nbpolar/R2E_L32_F124_DELTA_20260929.md.
+ 
+ Authorization: NOT YET GRANTED (see STATUS.yaml / AUTHORIZATION_PROMPT.md).
+ 
+@@ -12,11 +12,12 @@
+ reproduction of scl_joint.
+ 
+ Delta vs predecessor (everything else inherited verbatim):
+- K (302/6140, shared K_total=6442), decoder (native, L=32), seeds
+- (eval 2026092902 / tag 2026102902), budget (serial, 300 s/block, 4 GiB,
+- 7200 s total with `_total_wall_exceeded` -> not_started), SC fidelity path
+- keeps the frozen K1=319/K2=6492 (SC path unchanged; the predecessor records
+- were produced under it), SCL path uses the new k1/k2.
++ K (253/6404, shared K_total=6657; R2B was 302/6140), seeds
++ (eval 2026092904 / tag 2026102904), new `stratum_selection` label
++ (G3 "clean" / G2 "selection_touched") + taxonomy table + clean-layer
++ descriptive Wilson + gbi-23 known-hard-block annotation. Decoder (native,
++ L=32, top_m=4), budget (serial, 300 s/block, 4 GiB, 7200 s total), SC
++ fidelity path (frozen K1=319/K2=6492) are inherited unchanged.
+ 
+ Non-goals / forbidden: no change to any frozen module; no write outside this
+ directory; no frame drawn outside the frozen 64-block pool; one-shot,
+@@ -24,7 +25,7 @@
+ 
+ Output
+ ------
+-``workspace/r2b_fer_shg_64_L32_f120/results.json`` (must be absent before this script
++``workspace/r2e_fer_shg_64_L32_f124/results.json`` (must be absent before this script
+ starts) plus one ``part_<SESSION>_<global_block_index:02d>.json`` per target
+ block (64 files). Nothing is written outside this directory.
+ """
+@@ -57,19 +58,20 @@
+ # ---------------------------------------------------------------------------
+ # Filled by main thread 2026-09-28 from the frozen R2 contract (docs/decision-log.md
+ # 2026-09-28 entry, lines ~45-46; T6_PACKET_SKELETON_20260928.md §2).
+-R2_EVAL_SEED = 2026092902
+-R2_TAG_MASTER = 2026102902  # = R2_EVAL_SEED + 10000 (R2B delta: new seeds)
++R2_EVAL_SEED = 2026092904
++R2_TAG_MASTER = 2026102904  # = R2_EVAL_SEED + 10000 (R2E delta: new seeds)
+ 
+ ARM = "B_M2_32f_candidate"
+ LIST_WIDTH_L = 32
+ TOP_M = 4
+-# --- R2B K delta: one shared K_total at f=1.20 ---------------------------------
+-H_BAR_FOR_K = (0.8168138 + 0.8214782) / 2.0
+-F_TARGET = 1.20
+-K_TOTAL = int(round(F_TARGET * H_BAR_FOR_K * 32768 / 5))
+-K1_R2B = int(round(0.0469 * K_TOTAL))
+-K2_R2B = K_TOTAL - K1_R2B
+-assert (K_TOTAL, K1_R2B, K2_R2B) == (6442, 302, 6140), (K_TOTAL, K1_R2B, K2_R2B)
++# --- R2E K delta: R2D-selected f1.24_s0380 (workspace/r2d_locate_f_k_g2/) -------
++# Frozen integers (k1_share=0.0380, f_target=1.24 per R2D grid); no recomputation.
++F_TARGET = 1.24
++K_TOTAL = 6657
++K1_R2B = 253  # name kept from R2B for minimal diff; value is R2E's k1
++K2_R2B = 6404
++assert (K_TOTAL, K1_R2B, K2_R2B) == (6657, 253, 6404), (K_TOTAL, K1_R2B, K2_R2B)
++KNOWN_HARD_GBI = 23  # R2D: fails L2 in every grid config; annotated, still in denominator
+ CRC_BITS_EXTRA = 16  # scl_joint.CRC_BITS; disclosed once per block, extra vs SC path
+ 
+ # --- Frozen frame-boundary constants (DATA_LEDGER.md §7; identical for both
+@@ -531,6 +533,12 @@
+     return None
+ 
+ 
++def _selection_label(session: str) -> str:
++    """R2 stratification: G3 never took part in R2D f/k selection -> clean;
++    G2 did -> selection_touched."""
++    return {"G3": "clean", "G2": "selection_touched"}[session]
++
++
+ def _part_path(global_block_index: int, session: str) -> Path:
+     return THIS_DIR / f"part_{session}_{global_block_index:02d}.json"
+ 
+@@ -590,6 +598,8 @@
+         "frame_end": block["frame_end"],
+         "stratum_official": block["stratum_official"],
+         "stratum_task": block["stratum_task"],
++        "stratum_selection": _selection_label(session),
++        "known_hard_block": bool(block["global_block_index"] == KNOWN_HARD_GBI),
+         "eval_original_index": block["eval_original_index"],
+         "arm": ARM,
+         "status": status,
+@@ -623,6 +633,8 @@
+         "frame_end": block["frame_end"],
+         "stratum_official": block["stratum_official"],
+         "stratum_task": block["stratum_task"],
++        "stratum_selection": _selection_label(block["session"]),
++        "known_hard_block": bool(block["global_block_index"] == KNOWN_HARD_GBI),
+         "eval_original_index": block["eval_original_index"],
+         "arm": ARM,
+         "status": reason,
+@@ -782,7 +794,17 @@
+     by_stratum_task = {}
+     for stratum in ("never_decoded", "heldout_model_selection", "previously_decoded_eval"):
+         by_stratum_task[stratum] = _taxonomy_counts([b for b in blocks if b["stratum_task"] == stratum])
++    by_stratum_selection = {}
++    for stratum in ("clean", "selection_touched"):
++        by_stratum_selection[stratum] = _taxonomy_counts([b for b in blocks if b["stratum_selection"] == stratum])
+     pooled = _taxonomy_counts(blocks)
++    # Known hard block (R2D): annotated, still counted in every denominator above.
++    known_hard = [
++        {"session": b["session"], "global_block_index": b["global_block_index"], "status": b["status"],
++         "scl": ({k: b["scl"][k] for k in ("exact", "verify_failed", "decode_failed", "undetected")} if b.get("scl") else None)}
++        for b in blocks if b.get("known_hard_block")
++    ]
++    clean_note = "n=32 descriptive only; the primary judgment is the 64-block pooled result"
+ 
+     # undetected is a security signal: STOP on ANY block's SCL record, including an
+     # over-budget (resource_abort_wall_post_scl) block excluded from the taxonomy (F1 fix).
+@@ -806,10 +828,10 @@
+     ]
+ 
+     results = {
+-        "probe_id": "r2b-fer-shg-64-L32-f120",
++        "probe_id": "r2e-fer-shg-64-L32-f124",
+         "classification": (
+-            "Tier-Y one-shot measurement of the NATIVE SCL implementation (scl_joint_native, L=32, f=1.20), "
+-            "frozen 64-block pool per DATA_LEDGER.md §7. Delta-successor of workspace/r2_fer_shg_64/ per "
++            "Tier-Y one-shot measurement of the NATIVE SCL implementation (scl_joint_native, L=32, f~1.24, K=6657/253/6404), "
++            "frozen 64-block pool per DATA_LEDGER.md §7. Delta-successor of workspace/r2b_fer_shg_64_L32_f120/ per "
+             "AGENTS.md §10.4; NOT a reproduction of scl_joint. Requires independent "
+             "Pre-EXECUTE AND Pre-RESULT review, explicit PI authorization, and main-thread "
+             "adjudication of FER_MEASURED_AT_CONTRACT (this script computes NO verdict string)."
+@@ -838,6 +860,7 @@
+             "construction_digest": mod.G2_CONSTRUCTION_DIGEST,
+             "tag_master_shared": R2_TAG_MASTER,
+             "eval_seed_shared": R2_EVAL_SEED,
++            "k_source": "R2D f1.24_s0380 (workspace/r2d_locate_f_k_g2/RESULT_REVIEW.md)",
+         },
+         "per_session": {
+             session: {
+@@ -855,6 +878,9 @@
+         "blocks": blocks,
+         "taxonomy_by_stratum_official": by_stratum_official,
+         "taxonomy_by_stratum_task": by_stratum_task,
++        "taxonomy_by_stratum_selection": by_stratum_selection,
++        "clean_layer_G3_descriptive": {"note": clean_note, **by_stratum_selection["clean"]},
++        "known_hard_block_gbi23": known_hard,
+         "taxonomy_pooled": pooled,
+         "stop_undetected": stop_undetected,
+         "fidelity_compromised": fidelity_compromised,
+@@ -865,6 +891,8 @@
+             "A1_CAL_characterization": "M0 (incumbent) prior fit only; not M2/NLL model selection.",
+             "HELDOUT_model_selection": "Participated in the NLL model-selection scoring gate (G1R2/G2/G3).",
+             "EVAL_already_decoded": "Not itself a model-selection step; decoded under the already-frozen candidate.",
++            "selection_G2": "G2 32 blocks took part in the R2D f/k selection (stratum_selection=selection_touched; R2 separate stratum).",
++            "selection_G3": "G3 32 blocks never took part in f/k selection (stratum_selection=clean).",
+         },
+         "claims": (
+             "No verdict string, no FER_MEASURED_AT_CONTRACT judgment, no candidate/accepted promotion "

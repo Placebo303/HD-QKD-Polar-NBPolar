@@ -1,0 +1,30 @@
+# STATUS — r2e-fer-shg-64-L32-f124
+# Delta-successor of workspace/r2b_fer_shg_64_L32_f120/ (FER_MEASURED_AT_CONTRACT).
+# Delta contract: docs/nbpolar/R2E_L32_F124_DELTA_20260929.md
+# Tier-Y one-shot, claim-bearing, real data. PREPARATION ONLY: nothing executed.
+state: prepared
+classification: tier_y_decision_gate
+predecessor: workspace/r2b_fer_shg_64_L32_f120
+k_source: workspace/r2d_locate_f_k_g2 (f1.24_s0380, descriptive; RESULT_REVIEW.md)
+frozen:
+  decoder: scl_joint_native.scl_joint_decode_native (rust)
+  list_width_L: 32
+  top_m: 4
+  k_total: 6657
+  k1: 253
+  k2: 6404
+  k1_sc_fidelity: 319
+  k2_sc_fidelity: 6492
+  eval_seed: 2026092904
+  tag_master: 2026102904
+  budget: {wall_s_per_block: 300, rss_gib_per_block: 4, wall_s_total: 7200, parallel: 1}
+  n_min_D: 56
+  strata_selection: {G3: clean, G2: selection_touched}
+  known_hard_block_gbi: 23
+interpreter: /home/karel_303/.venvs/hd-qkd-polar-comparison/bin/python
+static_selfcheck:
+  py_compile: pass
+  synthetic_smoke: pass   # _smoke_synthetic.py
+authorizations: []
+pre_execute_review: {verdict: null}
+pre_result_review: {verdict: null}
