@@ -1,0 +1,4 @@
+[setup] G2: H_total=0.816814 F2(NB f_book_with_crc)=1.275343 blocks=32 CAL symbols=8192
+[setup] G3: H_total=0.821478 F2(NB f_book_with_crc)=1.268101 blocks=32 CAL symbols=8192
+DONE lab_unchanged=True stop_undetected=False accounting_consistent=True wall_s=3428.3
+EXIT=0

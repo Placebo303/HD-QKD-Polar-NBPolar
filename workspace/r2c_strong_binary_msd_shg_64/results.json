@@ -1,0 +1,1425 @@
+{
+  "authorization": {
+    "source": "AUTHORIZATION_PROMPT.md (verbatim PI text recorded by the main thread)"
+  },
+  "block_accounting": {
+    "consistent": true,
+    "n_expected_block_points": 256,
+    "n_recorded": 256,
+    "status_counts": {
+      "ok": 256
+    }
+  },
+  "claims": "No verdict; counts, Wilson CIs and pairing tables only (contract 8).",
+  "lab_readonly_check": {
+    "engine_lib": "/mnt/d/Code/HD-QKD_Polar_Comparison-nbpolar/workspace/r2c_strong_binary_msd_shg_64/_stage/scl_cpp/msd_scl.so",
+    "git_status_after": [
+      " M README.md",
+      " M docs/README.md",
+      " M experiments/polar_vs_ldpc_fair_2026-01-07/polar_run.py",
+      "?? experiments/polar_vs_ldpc_fair_2026-01-07/v4_bestcfg/"
+    ],
+    "git_status_before": [
+      " M README.md",
+      " M docs/README.md",
+      " M experiments/polar_vs_ldpc_fair_2026-01-07/polar_run.py",
+      "?? experiments/polar_vs_ldpc_fair_2026-01-07/v4_bestcfg/"
+    ],
+    "lab_unchanged": true,
+    "n_src_files_after": 124,
+    "n_src_files_before": 124,
+    "used_files": [
+      {
+        "file": "src/qkd_recon/msd_conditional.py",
+        "git_diff_quiet": true,
+        "sha256": "f7beeb2b80a533dcda5c4967232af34ea9eb60715adc1fcca0dfddb6d45de586"
+      },
+      {
+        "file": "src/qkd_recon/scl_fast.py",
+        "git_diff_quiet": true,
+        "sha256": "5589d07abf2f4fe1b11973c1f6561168c010788bd5699992e785fdb546dd66e6"
+      },
+      {
+        "file": "src/qkd_recon/polar_core.py",
+        "git_diff_quiet": true,
+        "sha256": "982cd21d123b83a03d60eeea062e198ffe3c452cbc52a624506452c66b8d5bf9"
+      },
+      {
+        "file": "src/qkd_recon/de_frozen.py",
+        "git_diff_quiet": true,
+        "sha256": "f9136f6f08007aafce09303ea7831a9cea37ba4627a6fb4ff357502be3a3e113"
+      },
+      {
+        "file": "src/qkd_recon/scl_cpp/msd_scl.cpp",
+        "git_diff_quiet": true,
+        "sha256": "1dd8d6fd273a88db9d43372631008c29945466f8a47808db63100d79de42d34f"
+      }
+    ]
+  },
+  "per_point": {
+    "F1": {
+      "by_stratum_official": {
+        "A1_CAL_characterization": {
+          "D_below_56": true,
+          "D_valid_denominator": 16,
+          "decode_failed": 0,
+          "error": 0,
+          "exact": 0,
+          "n_entries": 16,
+          "not_started": 0,
+          "p_hat": 1.0,
+          "resource_abort": 0,
+          "undetected": 0,
+          "verify_failed": 16,
+          "wilson_95ci": {
+            "k": 16,
+            "lower": 0.8063865817272802,
+            "n": 16,
+            "p_hat": 1.0,
+            "upper": 1.0,
+            "z": 1.96
+          }
+        },
+        "EVAL_already_decoded": {
+          "D_below_56": true,
+          "D_valid_denominator": 28,
+          "decode_failed": 0,
+          "error": 0,
+          "exact": 0,
+          "n_entries": 28,
+          "not_started": 0,
+          "p_hat": 1.0,
+          "resource_abort": 0,
+          "undetected": 0,
+          "verify_failed": 28,
+          "wilson_95ci": {
+            "k": 28,
+            "lower": 0.8793527963418923,
+            "n": 28,
+            "p_hat": 1.0,
+            "upper": 1.0,
+            "z": 1.96
+          }
+        },
+        "HELDOUT_model_selection": {
+          "D_below_56": true,
+          "D_valid_denominator": 20,
+          "decode_failed": 0,
+          "error": 0,
+          "exact": 0,
+          "n_entries": 20,
+          "not_started": 0,
+          "p_hat": 1.0,
+          "resource_abort": 0,
+          "undetected": 0,
+          "verify_failed": 20,
+          "wilson_95ci": {
+            "k": 20,
+            "lower": 0.8388698745050667,
+            "n": 20,
+            "p_hat": 1.0,
+            "upper": 1.0,
+            "z": 1.96
+          }
+        }
+      },
+      "by_stratum_task": {
+        "heldout_model_selection": {
+          "D_below_56": true,
+          "D_valid_denominator": 8,
+          "decode_failed": 0,
+          "error": 0,
+          "exact": 0,
+          "n_entries": 8,
+          "not_started": 0,
+          "p_hat": 1.0,
+          "resource_abort": 0,
+          "undetected": 0,
+          "verify_failed": 8,
+          "wilson_95ci": {
+            "k": 8,
+            "lower": 0.6755843804891231,
+            "n": 8,
+            "p_hat": 1.0,
+            "upper": 1.0,
+            "z": 1.96
+          }
+        },
+        "never_decoded": {
+          "D_below_56": true,
+          "D_valid_denominator": 28,
+          "decode_failed": 0,
+          "error": 0,
+          "exact": 0,
+          "n_entries": 28,
+          "not_started": 0,
+          "p_hat": 1.0,
+          "resource_abort": 0,
+          "undetected": 0,
+          "verify_failed": 28,
+          "wilson_95ci": {
+            "k": 28,
+            "lower": 0.8793527963418923,
+            "n": 28,
+            "p_hat": 1.0,
+            "upper": 1.0,
+            "z": 1.96
+          }
+        },
+        "previously_decoded_eval": {
+          "D_below_56": true,
+          "D_valid_denominator": 28,
+          "decode_failed": 0,
+          "error": 0,
+          "exact": 0,
+          "n_entries": 28,
+          "not_started": 0,
+          "p_hat": 1.0,
+          "resource_abort": 0,
+          "undetected": 0,
+          "verify_failed": 28,
+          "wilson_95ci": {
+            "k": 28,
+            "lower": 0.8793527963418923,
+            "n": 28,
+            "p_hat": 1.0,
+            "upper": 1.0,
+            "z": 1.96
+          }
+        }
+      },
+      "measured_layer_errors": {
+        "G2": {
+          "blocks_with_layer_error": [
+            29,
+            32,
+            32,
+            32,
+            32,
+            32,
+            32,
+            32,
+            32,
+            32
+          ],
+          "first_error_layer_hist": {
+            "0": 29,
+            "1": 3
+          },
+          "n_ok_blocks": 32
+        },
+        "G3": {
+          "blocks_with_layer_error": [
+            25,
+            31,
+            32,
+            32,
+            32,
+            32,
+            32,
+            32,
+            32,
+            32
+          ],
+          "first_error_layer_hist": {
+            "0": 25,
+            "1": 6,
+            "2": 1
+          },
+          "n_ok_blocks": 32
+        }
+      },
+      "nb_scl_L16_pairing": {
+        "binary_undetected_blocks_counted_as_nonexact": [],
+        "excluded_blocks": [],
+        "frame_range_mismatch": [],
+        "note": "counts only; no win rate; binary L=16 no CRC vs NB-SCL L=16 CRC-16",
+        "table": {
+          "bin_exact_nb_exact": 0,
+          "bin_exact_nb_nonexact": 0,
+          "bin_nonexact_nb_exact": 62,
+          "bin_nonexact_nb_nonexact": 2,
+          "n": 64
+        }
+      },
+      "per_session": {
+        "G2": {
+          "K_frozen": 32055,
+          "design_sum_p_tilde": 5.164878048780486,
+          "f_realized": 1.2000214336491877,
+          "f_target": 1.2,
+          "ks": [
+            32715,
+            32715,
+            32663,
+            32558,
+            32326,
+            31754,
+            30456,
+            28397,
+            24741,
+            17300
+          ],
+          "mu": [
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0007037510534475735,
+            0.005391251053447571,
+            0.01945375105344757,
+            0.031172501053447578,
+            0.04054750105344757,
+            0.06398500105344757
+          ],
+          "tag_bits": 64,
+          "taxonomy": {
+            "D_below_56": true,
+            "D_valid_denominator": 32,
+            "decode_failed": 0,
+            "error": 0,
+            "exact": 0,
+            "n_entries": 32,
+            "not_started": 0,
+            "p_hat": 1.0,
+            "resource_abort": 0,
+            "undetected": 0,
+            "verify_failed": 32,
+            "wilson_95ci": {
+              "k": 32,
+              "lower": 0.8928172849426366,
+              "n": 32,
+              "p_hat": 1.0,
+              "upper": 1.0,
+              "z": 1.96
+            }
+          }
+        },
+        "G3": {
+          "K_frozen": 32238,
+          "design_sum_p_tilde": 5.433170731707316,
+          "f_realized": 1.2000060372190184,
+          "f_target": 1.2,
+          "ks": [
+            32715,
+            32715,
+            32662,
+            32557,
+            32344,
+            31769,
+            30542,
+            28397,
+            24489,
+            17252
+          ],
+          "mu": [
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            7.931963367808874e-05,
+            0.004766819633678086,
+            0.016485569633678088,
+            0.030548069633678093,
+            0.046954319633678084,
+            0.06336056963367809
+          ],
+          "tag_bits": 64,
+          "taxonomy": {
+            "D_below_56": true,
+            "D_valid_denominator": 32,
+            "decode_failed": 0,
+            "error": 0,
+            "exact": 0,
+            "n_entries": 32,
+            "not_started": 0,
+            "p_hat": 1.0,
+            "resource_abort": 0,
+            "undetected": 0,
+            "verify_failed": 32,
+            "wilson_95ci": {
+              "k": 32,
+              "lower": 0.8928172849426366,
+              "n": 32,
+              "p_hat": 1.0,
+              "upper": 1.0,
+              "z": 1.96
+            }
+          }
+        }
+      },
+      "pooled": {
+        "D_below_56": false,
+        "D_valid_denominator": 64,
+        "decode_failed": 0,
+        "error": 0,
+        "exact": 0,
+        "n_entries": 64,
+        "not_started": 0,
+        "p_hat": 1.0,
+        "resource_abort": 0,
+        "undetected": 0,
+        "verify_failed": 64,
+        "wilson_95ci": {
+          "k": 64,
+          "lower": 0.9433739770288436,
+          "n": 64,
+          "p_hat": 1.0,
+          "upper": 1.0,
+          "z": 1.96
+        }
+      }
+    },
+    "F2": {
+      "by_stratum_official": {
+        "A1_CAL_characterization": {
+          "D_below_56": true,
+          "D_valid_denominator": 16,
+          "decode_failed": 0,
+          "error": 0,
+          "exact": 14,
+          "n_entries": 16,
+          "not_started": 0,
+          "p_hat": 0.125,
+          "resource_abort": 0,
+          "undetected": 0,
+          "verify_failed": 2,
+          "wilson_95ci": {
+            "k": 2,
+            "lower": 0.034976749337057134,
+            "n": 16,
+            "p_hat": 0.125,
+            "upper": 0.3602333143674828,
+            "z": 1.96
+          }
+        },
+        "EVAL_already_decoded": {
+          "D_below_56": true,
+          "D_valid_denominator": 28,
+          "decode_failed": 0,
+          "error": 0,
+          "exact": 20,
+          "n_entries": 28,
+          "not_started": 0,
+          "p_hat": 0.2857142857142857,
+          "resource_abort": 0,
+          "undetected": 0,
+          "verify_failed": 8,
+          "wilson_95ci": {
+            "k": 8,
+            "lower": 0.15253815848329969,
+            "n": 28,
+            "p_hat": 0.2857142857142857,
+            "upper": 0.470596357370175,
+            "z": 1.96
+          }
+        },
+        "HELDOUT_model_selection": {
+          "D_below_56": true,
+          "D_valid_denominator": 20,
+          "decode_failed": 0,
+          "error": 0,
+          "exact": 12,
+          "n_entries": 20,
+          "not_started": 0,
+          "p_hat": 0.4,
+          "resource_abort": 0,
+          "undetected": 0,
+          "verify_failed": 8,
+          "wilson_95ci": {
+            "k": 8,
+            "lower": 0.21880396741419272,
+            "n": 20,
+            "p_hat": 0.4,
+            "upper": 0.613422057684794,
+            "z": 1.96
+          }
+        }
+      },
+      "by_stratum_task": {
+        "heldout_model_selection": {
+          "D_below_56": true,
+          "D_valid_denominator": 8,
+          "decode_failed": 0,
+          "error": 0,
+          "exact": 5,
+          "n_entries": 8,
+          "not_started": 0,
+          "p_hat": 0.375,
+          "resource_abort": 0,
+          "undetected": 0,
+          "verify_failed": 3,
+          "wilson_95ci": {
+            "k": 3,
+            "lower": 0.13684175946152105,
+            "n": 8,
+            "p_hat": 0.375,
+            "upper": 0.6942621454161981,
+            "z": 1.96
+          }
+        },
+        "never_decoded": {
+          "D_below_56": true,
+          "D_valid_denominator": 28,
+          "decode_failed": 0,
+          "error": 0,
+          "exact": 21,
+          "n_entries": 28,
+          "not_started": 0,
+          "p_hat": 0.25,
+          "resource_abort": 0,
+          "undetected": 0,
+          "verify_failed": 7,
+          "wilson_95ci": {
+            "k": 7,
+            "lower": 0.12676334942200781,
+            "n": 28,
+            "p_hat": 0.25,
+            "upper": 0.433560252407046,
+            "z": 1.96
+          }
+        },
+        "previously_decoded_eval": {
+          "D_below_56": true,
+          "D_valid_denominator": 28,
+          "decode_failed": 0,
+          "error": 0,
+          "exact": 20,
+          "n_entries": 28,
+          "not_started": 0,
+          "p_hat": 0.2857142857142857,
+          "resource_abort": 0,
+          "undetected": 0,
+          "verify_failed": 8,
+          "wilson_95ci": {
+            "k": 8,
+            "lower": 0.15253815848329969,
+            "n": 28,
+            "p_hat": 0.2857142857142857,
+            "upper": 0.470596357370175,
+            "z": 1.96
+          }
+        }
+      },
+      "measured_layer_errors": {
+        "G2": {
+          "blocks_with_layer_error": [
+            0,
+            0,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2
+          ],
+          "first_error_layer_hist": {
+            "2": 2,
+            "None": 30
+          },
+          "n_ok_blocks": 32
+        },
+        "G3": {
+          "blocks_with_layer_error": [
+            5,
+            12,
+            16,
+            16,
+            16,
+            16,
+            16,
+            16,
+            16,
+            16
+          ],
+          "first_error_layer_hist": {
+            "0": 5,
+            "1": 7,
+            "2": 4,
+            "None": 16
+          },
+          "n_ok_blocks": 32
+        }
+      },
+      "nb_scl_L16_pairing": {
+        "binary_undetected_blocks_counted_as_nonexact": [],
+        "excluded_blocks": [],
+        "frame_range_mismatch": [],
+        "note": "counts only; no win rate; binary L=16 no CRC vs NB-SCL L=16 CRC-16",
+        "table": {
+          "bin_exact_nb_exact": 44,
+          "bin_exact_nb_nonexact": 2,
+          "bin_nonexact_nb_exact": 18,
+          "bin_nonexact_nb_nonexact": 0,
+          "n": 64
+        }
+      },
+      "per_session": {
+        "G2": {
+          "K_frozen": 34071,
+          "design_sum_p_tilde": 0.07414634146341464,
+          "f_realized": 1.2753426830727925,
+          "f_target": 1.2753426830727925,
+          "ks": [
+            32661,
+            32661,
+            32532,
+            32350,
+            32064,
+            31492,
+            30194,
+            28136,
+            24480,
+            17039
+          ],
+          "mu": [
+            0.0016512494188123516,
+            0.0016512494188123516,
+            0.003994999418812351,
+            0.006338749418812351,
+            0.008682499418812353,
+            0.01336999941881235,
+            0.02743249941881235,
+            0.03915124941881235,
+            0.048526249418812346,
+            0.07196374941881235
+          ],
+          "tag_bits": 64,
+          "taxonomy": {
+            "D_below_56": true,
+            "D_valid_denominator": 32,
+            "decode_failed": 0,
+            "error": 0,
+            "exact": 30,
+            "n_entries": 32,
+            "not_started": 0,
+            "p_hat": 0.0625,
+            "resource_abort": 0,
+            "undetected": 0,
+            "verify_failed": 2,
+            "wilson_95ci": {
+              "k": 2,
+              "lower": 0.017310203195157234,
+              "n": 32,
+              "p_hat": 0.0625,
+              "upper": 0.2014746724800358,
+              "z": 1.96
+            }
+          }
+        },
+        "G3": {
+          "K_frozen": 34071,
+          "design_sum_p_tilde": 0.6302439024390245,
+          "f_realized": 1.268101234613064,
+          "f_target": 1.268101234613064,
+          "ks": [
+            32683,
+            32684,
+            32631,
+            32372,
+            32085,
+            31510,
+            30283,
+            28138,
+            24230,
+            16993
+          ],
+          "mu": [
+            0.0009566781652748384,
+            0.0009566781652748384,
+            0.0009566781652748384,
+            0.005644178165274839,
+            0.007987928165274839,
+            0.012675428165274836,
+            0.024394178165274834,
+            0.038456678165274844,
+            0.054862928165274834,
+            0.07126917816527484
+          ],
+          "tag_bits": 64,
+          "taxonomy": {
+            "D_below_56": true,
+            "D_valid_denominator": 32,
+            "decode_failed": 0,
+            "error": 0,
+            "exact": 16,
+            "n_entries": 32,
+            "not_started": 0,
+            "p_hat": 0.5,
+            "resource_abort": 0,
+            "undetected": 0,
+            "verify_failed": 16,
+            "wilson_95ci": {
+              "k": 16,
+              "lower": 0.33630614316859386,
+              "n": 32,
+              "p_hat": 0.5,
+              "upper": 0.6636938568314061,
+              "z": 1.96
+            }
+          }
+        }
+      },
+      "pooled": {
+        "D_below_56": false,
+        "D_valid_denominator": 64,
+        "decode_failed": 0,
+        "error": 0,
+        "exact": 46,
+        "n_entries": 64,
+        "not_started": 0,
+        "p_hat": 0.28125,
+        "resource_abort": 0,
+        "undetected": 0,
+        "verify_failed": 18,
+        "wilson_95ci": {
+          "k": 18,
+          "lower": 0.18593226105484584,
+          "n": 64,
+          "p_hat": 0.28125,
+          "upper": 0.40134162399503504,
+          "z": 1.96
+        }
+      }
+    },
+    "F3": {
+      "by_stratum_official": {
+        "A1_CAL_characterization": {
+          "D_below_56": true,
+          "D_valid_denominator": 16,
+          "decode_failed": 0,
+          "error": 0,
+          "exact": 16,
+          "n_entries": 16,
+          "not_started": 0,
+          "p_hat": 0.0,
+          "resource_abort": 0,
+          "undetected": 0,
+          "verify_failed": 0,
+          "wilson_95ci": {
+            "k": 0,
+            "lower": 0.0,
+            "n": 16,
+            "p_hat": 0.0,
+            "upper": 0.19361341827271994,
+            "z": 1.96
+          }
+        },
+        "EVAL_already_decoded": {
+          "D_below_56": true,
+          "D_valid_denominator": 28,
+          "decode_failed": 0,
+          "error": 0,
+          "exact": 28,
+          "n_entries": 28,
+          "not_started": 0,
+          "p_hat": 0.0,
+          "resource_abort": 0,
+          "undetected": 0,
+          "verify_failed": 0,
+          "wilson_95ci": {
+            "k": 0,
+            "lower": 0.0,
+            "n": 28,
+            "p_hat": 0.0,
+            "upper": 0.12064720365810762,
+            "z": 1.96
+          }
+        },
+        "HELDOUT_model_selection": {
+          "D_below_56": true,
+          "D_valid_denominator": 20,
+          "decode_failed": 0,
+          "error": 0,
+          "exact": 20,
+          "n_entries": 20,
+          "not_started": 0,
+          "p_hat": 0.0,
+          "resource_abort": 0,
+          "undetected": 0,
+          "verify_failed": 0,
+          "wilson_95ci": {
+            "k": 0,
+            "lower": 0.0,
+            "n": 20,
+            "p_hat": 0.0,
+            "upper": 0.16113012549493322,
+            "z": 1.96
+          }
+        }
+      },
+      "by_stratum_task": {
+        "heldout_model_selection": {
+          "D_below_56": true,
+          "D_valid_denominator": 8,
+          "decode_failed": 0,
+          "error": 0,
+          "exact": 8,
+          "n_entries": 8,
+          "not_started": 0,
+          "p_hat": 0.0,
+          "resource_abort": 0,
+          "undetected": 0,
+          "verify_failed": 0,
+          "wilson_95ci": {
+            "k": 0,
+            "lower": 0.0,
+            "n": 8,
+            "p_hat": 0.0,
+            "upper": 0.3244156195108769,
+            "z": 1.96
+          }
+        },
+        "never_decoded": {
+          "D_below_56": true,
+          "D_valid_denominator": 28,
+          "decode_failed": 0,
+          "error": 0,
+          "exact": 28,
+          "n_entries": 28,
+          "not_started": 0,
+          "p_hat": 0.0,
+          "resource_abort": 0,
+          "undetected": 0,
+          "verify_failed": 0,
+          "wilson_95ci": {
+            "k": 0,
+            "lower": 0.0,
+            "n": 28,
+            "p_hat": 0.0,
+            "upper": 0.12064720365810762,
+            "z": 1.96
+          }
+        },
+        "previously_decoded_eval": {
+          "D_below_56": true,
+          "D_valid_denominator": 28,
+          "decode_failed": 0,
+          "error": 0,
+          "exact": 28,
+          "n_entries": 28,
+          "not_started": 0,
+          "p_hat": 0.0,
+          "resource_abort": 0,
+          "undetected": 0,
+          "verify_failed": 0,
+          "wilson_95ci": {
+            "k": 0,
+            "lower": 0.0,
+            "n": 28,
+            "p_hat": 0.0,
+            "upper": 0.12064720365810762,
+            "z": 1.96
+          }
+        }
+      },
+      "measured_layer_errors": {
+        "G2": {
+          "blocks_with_layer_error": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "first_error_layer_hist": {
+            "None": 32
+          },
+          "n_ok_blocks": 32
+        },
+        "G3": {
+          "blocks_with_layer_error": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "first_error_layer_hist": {
+            "None": 32
+          },
+          "n_ok_blocks": 32
+        }
+      },
+      "nb_scl_L16_pairing": {
+        "binary_undetected_blocks_counted_as_nonexact": [],
+        "excluded_blocks": [],
+        "frame_range_mismatch": [],
+        "note": "counts only; no win rate; binary L=16 no CRC vs NB-SCL L=16 CRC-16",
+        "table": {
+          "bin_exact_nb_exact": 62,
+          "bin_exact_nb_nonexact": 2,
+          "bin_nonexact_nb_exact": 0,
+          "bin_nonexact_nb_nonexact": 0,
+          "n": 64
+        }
+      },
+      "per_session": {
+        "G2": {
+          "K_frozen": 35064,
+          "design_sum_p_tilde": 0.015609756097560976,
+          "f_realized": 1.3124428818216216,
+          "f_target": 1.3124428818216216,
+          "ks": [
+            32562,
+            32562,
+            32432,
+            32251,
+            31965,
+            31393,
+            30095,
+            28036,
+            24381,
+            16939
+          ],
+          "mu": [
+            0.0046875,
+            0.0046875,
+            0.007031249999999999,
+            0.009375,
+            0.01171875,
+            0.016406249999999997,
+            0.030468749999999996,
+            0.0421875,
+            0.0515625,
+            0.075
+          ],
+          "tag_bits": 64,
+          "taxonomy": {
+            "D_below_56": true,
+            "D_valid_denominator": 32,
+            "decode_failed": 0,
+            "error": 0,
+            "exact": 32,
+            "n_entries": 32,
+            "not_started": 0,
+            "p_hat": 0.0,
+            "resource_abort": 0,
+            "undetected": 0,
+            "verify_failed": 0,
+            "wilson_95ci": {
+              "k": 0,
+              "lower": 0.0,
+              "n": 32,
+              "p_hat": 0.0,
+              "upper": 0.1071827150573635,
+              "z": 1.96
+            }
+          }
+        },
+        "G3": {
+          "K_frozen": 35295,
+          "design_sum_p_tilde": 0.014634146341463415,
+          "f_realized": 1.3135723320545871,
+          "f_target": 1.3135723320545871,
+          "ks": [
+            32561,
+            32561,
+            32509,
+            32250,
+            31962,
+            31387,
+            30161,
+            28015,
+            24108,
+            16871
+          ],
+          "mu": [
+            0.0046875,
+            0.0046875,
+            0.0046875,
+            0.009375,
+            0.01171875,
+            0.016406249999999997,
+            0.028124999999999997,
+            0.0421875,
+            0.05859374999999999,
+            0.075
+          ],
+          "tag_bits": 64,
+          "taxonomy": {
+            "D_below_56": true,
+            "D_valid_denominator": 32,
+            "decode_failed": 0,
+            "error": 0,
+            "exact": 32,
+            "n_entries": 32,
+            "not_started": 0,
+            "p_hat": 0.0,
+            "resource_abort": 0,
+            "undetected": 0,
+            "verify_failed": 0,
+            "wilson_95ci": {
+              "k": 0,
+              "lower": 0.0,
+              "n": 32,
+              "p_hat": 0.0,
+              "upper": 0.1071827150573635,
+              "z": 1.96
+            }
+          }
+        }
+      },
+      "pooled": {
+        "D_below_56": false,
+        "D_valid_denominator": 64,
+        "decode_failed": 0,
+        "error": 0,
+        "exact": 64,
+        "n_entries": 64,
+        "not_started": 0,
+        "p_hat": 0.0,
+        "resource_abort": 0,
+        "undetected": 0,
+        "verify_failed": 0,
+        "wilson_95ci": {
+          "k": 0,
+          "lower": 0.0,
+          "n": 64,
+          "p_hat": 0.0,
+          "upper": 0.056626022971156334,
+          "z": 1.96
+        }
+      }
+    },
+    "F4": {
+      "by_stratum_official": {
+        "A1_CAL_characterization": {
+          "D_below_56": true,
+          "D_valid_denominator": 16,
+          "decode_failed": 0,
+          "error": 0,
+          "exact": 16,
+          "n_entries": 16,
+          "not_started": 0,
+          "p_hat": 0.0,
+          "resource_abort": 0,
+          "undetected": 0,
+          "verify_failed": 0,
+          "wilson_95ci": {
+            "k": 0,
+            "lower": 0.0,
+            "n": 16,
+            "p_hat": 0.0,
+            "upper": 0.19361341827271994,
+            "z": 1.96
+          }
+        },
+        "EVAL_already_decoded": {
+          "D_below_56": true,
+          "D_valid_denominator": 28,
+          "decode_failed": 0,
+          "error": 0,
+          "exact": 28,
+          "n_entries": 28,
+          "not_started": 0,
+          "p_hat": 0.0,
+          "resource_abort": 0,
+          "undetected": 0,
+          "verify_failed": 0,
+          "wilson_95ci": {
+            "k": 0,
+            "lower": 0.0,
+            "n": 28,
+            "p_hat": 0.0,
+            "upper": 0.12064720365810762,
+            "z": 1.96
+          }
+        },
+        "HELDOUT_model_selection": {
+          "D_below_56": true,
+          "D_valid_denominator": 20,
+          "decode_failed": 0,
+          "error": 0,
+          "exact": 20,
+          "n_entries": 20,
+          "not_started": 0,
+          "p_hat": 0.0,
+          "resource_abort": 0,
+          "undetected": 0,
+          "verify_failed": 0,
+          "wilson_95ci": {
+            "k": 0,
+            "lower": 0.0,
+            "n": 20,
+            "p_hat": 0.0,
+            "upper": 0.16113012549493322,
+            "z": 1.96
+          }
+        }
+      },
+      "by_stratum_task": {
+        "heldout_model_selection": {
+          "D_below_56": true,
+          "D_valid_denominator": 8,
+          "decode_failed": 0,
+          "error": 0,
+          "exact": 8,
+          "n_entries": 8,
+          "not_started": 0,
+          "p_hat": 0.0,
+          "resource_abort": 0,
+          "undetected": 0,
+          "verify_failed": 0,
+          "wilson_95ci": {
+            "k": 0,
+            "lower": 0.0,
+            "n": 8,
+            "p_hat": 0.0,
+            "upper": 0.3244156195108769,
+            "z": 1.96
+          }
+        },
+        "never_decoded": {
+          "D_below_56": true,
+          "D_valid_denominator": 28,
+          "decode_failed": 0,
+          "error": 0,
+          "exact": 28,
+          "n_entries": 28,
+          "not_started": 0,
+          "p_hat": 0.0,
+          "resource_abort": 0,
+          "undetected": 0,
+          "verify_failed": 0,
+          "wilson_95ci": {
+            "k": 0,
+            "lower": 0.0,
+            "n": 28,
+            "p_hat": 0.0,
+            "upper": 0.12064720365810762,
+            "z": 1.96
+          }
+        },
+        "previously_decoded_eval": {
+          "D_below_56": true,
+          "D_valid_denominator": 28,
+          "decode_failed": 0,
+          "error": 0,
+          "exact": 28,
+          "n_entries": 28,
+          "not_started": 0,
+          "p_hat": 0.0,
+          "resource_abort": 0,
+          "undetected": 0,
+          "verify_failed": 0,
+          "wilson_95ci": {
+            "k": 0,
+            "lower": 0.0,
+            "n": 28,
+            "p_hat": 0.0,
+            "upper": 0.12064720365810762,
+            "z": 1.96
+          }
+        }
+      },
+      "measured_layer_errors": {
+        "G2": {
+          "blocks_with_layer_error": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "first_error_layer_hist": {
+            "None": 32
+          },
+          "n_ok_blocks": 32
+        },
+        "G3": {
+          "blocks_with_layer_error": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "first_error_layer_hist": {
+            "None": 32
+          },
+          "n_ok_blocks": 32
+        }
+      },
+      "nb_scl_L16_pairing": {
+        "binary_undetected_blocks_counted_as_nonexact": [],
+        "excluded_blocks": [],
+        "frame_range_mismatch": [],
+        "note": "counts only; no win rate; binary L=16 no CRC vs NB-SCL L=16 CRC-16",
+        "table": {
+          "bin_exact_nb_exact": 62,
+          "bin_exact_nb_nonexact": 2,
+          "bin_nonexact_nb_exact": 0,
+          "bin_nonexact_nb_nonexact": 0,
+          "n": 64
+        }
+      },
+      "per_session": {
+        "G2": {
+          "K_frozen": 37741,
+          "design_sum_p_tilde": 0.006829268292682926,
+          "f_realized": 1.4124602353469142,
+          "f_target": 1.4124428818216217,
+          "ks": [
+            32294,
+            32294,
+            32165,
+            31983,
+            31697,
+            31125,
+            29827,
+            27769,
+            24113,
+            16672
+          ],
+          "mu": [
+            0.012851200590687353,
+            0.012851200590687353,
+            0.015194950590687354,
+            0.017538700590687354,
+            0.019882450590687356,
+            0.024569950590687353,
+            0.03863245059068735,
+            0.05035120059068736,
+            0.05972620059068735,
+            0.08316370059068735
+          ],
+          "tag_bits": 64,
+          "taxonomy": {
+            "D_below_56": true,
+            "D_valid_denominator": 32,
+            "decode_failed": 0,
+            "error": 0,
+            "exact": 32,
+            "n_entries": 32,
+            "not_started": 0,
+            "p_hat": 0.0,
+            "resource_abort": 0,
+            "undetected": 0,
+            "verify_failed": 0,
+            "wilson_95ci": {
+              "k": 0,
+              "lower": 0.0,
+              "n": 32,
+              "p_hat": 0.0,
+              "upper": 0.1071827150573635,
+              "z": 1.96
+            }
+          }
+        },
+        "G3": {
+          "K_frozen": 37987,
+          "design_sum_p_tilde": 0.004878048780487806,
+          "f_realized": 1.4135790267544075,
+          "f_target": 1.4135723320545872,
+          "ks": [
+            32292,
+            32292,
+            32239,
+            31981,
+            31693,
+            31118,
+            29892,
+            27746,
+            23839,
+            16601
+          ],
+          "mu": [
+            0.012899684492255484,
+            0.012899684492255484,
+            0.012899684492255484,
+            0.017587184492255485,
+            0.019930934492255484,
+            0.02461843449225548,
+            0.03633718449225548,
+            0.050399684492255487,
+            0.06680593449225547,
+            0.08321218449225548
+          ],
+          "tag_bits": 64,
+          "taxonomy": {
+            "D_below_56": true,
+            "D_valid_denominator": 32,
+            "decode_failed": 0,
+            "error": 0,
+            "exact": 32,
+            "n_entries": 32,
+            "not_started": 0,
+            "p_hat": 0.0,
+            "resource_abort": 0,
+            "undetected": 0,
+            "verify_failed": 0,
+            "wilson_95ci": {
+              "k": 0,
+              "lower": 0.0,
+              "n": 32,
+              "p_hat": 0.0,
+              "upper": 0.1071827150573635,
+              "z": 1.96
+            }
+          }
+        }
+      },
+      "pooled": {
+        "D_below_56": false,
+        "D_valid_denominator": 64,
+        "decode_failed": 0,
+        "error": 0,
+        "exact": 64,
+        "n_entries": 64,
+        "not_started": 0,
+        "p_hat": 0.0,
+        "resource_abort": 0,
+        "undetected": 0,
+        "verify_failed": 0,
+        "wilson_95ci": {
+          "k": 0,
+          "lower": 0.0,
+          "n": 64,
+          "p_hat": 0.0,
+          "upper": 0.056626022971156334,
+          "z": 1.96
+        }
+      }
+    }
+  },
+  "per_session_construction": {
+    "G2": {
+      "caps": [
+        0.9984032298145495,
+        0.9984032298245321,
+        0.9968064596658065,
+        0.9936129193406873,
+        0.9872258386865186,
+        0.9744516773761682,
+        0.9489033547544369,
+        0.897806709510447,
+        0.7956134190221975,
+        0.5919593415913201
+      ],
+      "caps_consistency": {
+        "diff_bits": 6.5503158452884236e-15,
+        "exceeds_0.03_bit": false,
+        "h_total_bits": 0.8168138204133305,
+        "layers_minus_sum_caps": 0.816813820413337,
+        "sum_caps": 9.183186179586663
+      },
+      "cv": {
+        "cv_ll_per_symbol_phist": -0.6994533578403952,
+        "cv_ll_per_symbol_pm2": -0.5663391597187821,
+        "folds": 8,
+        "hist_minus_m2": -0.13311419812161307,
+        "n_used": 8192,
+        "source": "P-M2",
+        "tie_threshold_nat": 0.005
+      },
+      "f_nb_target_F2": 1.2753426830727925,
+      "h_total_bits": 0.8168138204133305,
+      "invariance": {
+        "R_marginal": 1.0094443224247749,
+        "R_max": 1.25,
+        "R_resid": 1.06381217865193,
+        "compatible": true,
+        "marginal_l1_null": 0.27789306640625,
+        "marginal_l1_real": 0.280517578125,
+        "null_groups": 20,
+        "null_seed": 20260929,
+        "resid_mean_null": 0.26296402440322675,
+        "resid_mean_real": 0.2797443317074759
+      },
+      "source": "P-M2"
+    },
+    "G3": {
+      "caps": [
+        0.9983932016027748,
+        0.9983932016127566,
+        0.9967864032422554,
+        0.9935728064935851,
+        0.9871456129923143,
+        0.9742912259877595,
+        0.9485824519776195,
+        0.8971649039568123,
+        0.794329807914928,
+        0.5898621765943066
+      ],
+      "caps_consistency": {
+        "diff_bits": -2.098321516541546e-14,
+        "exceeds_0.03_bit": false,
+        "h_total_bits": 0.8214782076249098,
+        "layers_minus_sum_caps": 0.8214782076248888,
+        "sum_caps": 9.178521792375111
+      },
+      "cv": {
+        "cv_ll_per_symbol_phist": -0.702646251829742,
+        "cv_ll_per_symbol_pm2": -0.5695327988327655,
+        "folds": 8,
+        "hist_minus_m2": -0.13311345299697652,
+        "n_used": 8192,
+        "source": "P-M2",
+        "tie_threshold_nat": 0.005
+      },
+      "f_nb_target_F2": 1.268101234613064,
+      "h_total_bits": 0.8214782076249098,
+      "invariance": {
+        "R_marginal": 0.9893899204244032,
+        "R_max": 1.25,
+        "R_resid": 1.038189801761377,
+        "compatible": true,
+        "marginal_l1_null": 0.276123046875,
+        "marginal_l1_real": 0.273193359375,
+        "null_groups": 20,
+        "null_seed": 20260930,
+        "resid_mean_null": 0.26267553930883036,
+        "resid_mean_real": 0.2727070660825974
+      },
+      "source": "P-M2"
+    }
+  },
+  "point_labels": [
+    "F1",
+    "F2",
+    "F3",
+    "F4"
+  ],
+  "probe_id": "r2c-strong-binary-msd-shg-64",
+  "resources": {
+    "note": "VmHWM of the worker process at task end (a reused pool worker reports its own high-water mark)",
+    "rss_gib_budget_per_process": 6.0,
+    "rss_gib_peak_construction_tasks_max": 0.760833740234375,
+    "rss_gib_peak_design_tasks_max": 0.2729682922363281,
+    "rss_over_budget": false
+  },
+  "stop_undetected": false,
+  "stratum_note": "stratum_official / stratum_task tables are shown with every pooled number (P-1, R2 9.2); A1_CAL_characterization and HELDOUT_model_selection blocks touched model selection in earlier work (R2 labels) and are a separate stratum; the pooled denominator D is the cross-stratum total (n=56 rule).",
+  "timing": {
+    "budget_wall_s_total": 21600.0,
+    "codeword_wall_limit_s": 2.0,
+    "codeword_wall_ref_s": 0.18314735300373286,
+    "construction_wall_s_sum": 423.62336722994223,
+    "n_design_evaluations": 8,
+    "wall_s_total": 3426.6812403202057
+  },
+  "undetected_block_ids": []
+}

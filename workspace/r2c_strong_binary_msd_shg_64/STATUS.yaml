@@ -1,7 +1,7 @@
 # STATUS — r2c-strong-binary-msd-shg-64
 # Contract: docs/nbpolar/R2C_STRONG_BINARY_MSD_CONTRACT_20260929.md (PI approved D1-D8 recommended, 2026-09-29)
 # Tier-Y one-shot, claim-bearing, real data. PREPARATION ONLY: nothing executed on real data.
-state: authorized_executing
+state: executed_adjudicated
 classification: tier_y_decision_gate
 predecessors: [workspace/r2_fer_shg_64 (NB, read-only), workspace/r2_binary_baseline_shg_64 (R2B, read-only)]
 frozen:
@@ -19,7 +19,7 @@ implementation:
   driver: workspace/r2c_strong_binary_msd_shg_64/run.py
 authorizations: [{by: PI, date: 2026-09-29, record: AUTHORIZATION_RECORD.md}]
 pre_execute_review: {verdict: PASS_WITH_COMMENTS, record: PRE_EXECUTE_REVIEW.md}
-pre_result_review: {verdict: null, record: null}
+pre_result_review: {verdict: PASS_WITH_COMMENTS, record: PRE_RESULT_REVIEW.md}
 execution_started: null
 execution_finished: null
 main_thread_verdict: null

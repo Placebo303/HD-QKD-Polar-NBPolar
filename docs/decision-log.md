@@ -24,6 +24,12 @@ Durable decisions and rejected alternatives for the HD-QKD_Polar_Comparison-nbpo
 
 ## Decisions
 
+## 2026-09-30 R2C 最强二元臂裁定 MEASURED_AT_CONTRACT；PI 保持 f≈1.27 为主工作点
+
+- R2C（硬前缀 MSD + SCL L=16，无 CRC，genie-MC 构造，逐层 μ_i；同一 64 块池）22:53–23:51（3428 s），undetected 0，lab 未改动。F1 f=1.20：0/64 exact；F2 f≈1.275/1.268（NB 同披露量）：46/64（G2 30/32、G3 16/32）；F3 f≈1.312/1.314：64/64（Wilson 上界 0.057）；F4 f≈1.41：64/64。构造：不变性 R 0.99–1.06、CV 选 P-M2（优 0.133 nat）、Σcaps 与 H_total 一致至 1e-14。Pre-RESULT PASS_WITH_COMMENTS。
+- 与 NB（M2+SCL L=16，f≈1.27，2/64）比：二元约 3% 块失败所需 f 在 1.28–1.313，NB 领先约 0.01–0.04（不可点估）；二元未做 CRC/软前缀/更大 L，不宣称二元最优。冻结二元基线（f≈4.1–4.8）与最强二元的差距主要来自构造与码率分配。
+- R2E（f≈1.24, L=32）61/64 后，PI 决定**保持 f≈1.27（L=16）为主工作点**，f≈1.24/L=32 记为已测备选点；依据：两点 FER 不可区分，而净密钥产出对 FER 更敏感（泄漏节省约 0.025 bit/符号），且 L=32 解码开销约翻倍。
+
 ## 2026-09-29 R2E r2e-fer-shg-64-L32-f124 裁定：FER_MEASURED_AT_CONTRACT
 61/64 exact，3 verify_failed，0 decode_failed；D=64≥56；p̂=0.047 Wilson 95% [0.016,0.129]；undetected 0；fidelity 28/28；not_started/resource_abort 0。失败 3/3 为 verify_failed（L2）：gbi23（G2 已知难块，0/84）、gbi53（G3，8/8）、gbi59（G3，311/11972）；selection 分层 clean-G3 30/2 仅描述，主判定 64 块汇总。Pre-RESULT 独立审查 PASS（R1–R9 全项；run.log 缺 EXIT 行以 DONE+64parts+results.json+零Traceback 实质替代，未手工补写）。描述性：与 R2 f≈1.27 点未见可分辨劣化；工作点是否从 f≈1.27 换到 f≈1.24 由 PI 决定。
 

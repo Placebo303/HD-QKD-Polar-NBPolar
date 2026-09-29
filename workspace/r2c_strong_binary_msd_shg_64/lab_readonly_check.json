@@ -1,0 +1,45 @@
+{
+  "engine_lib": "/mnt/d/Code/HD-QKD_Polar_Comparison-nbpolar/workspace/r2c_strong_binary_msd_shg_64/_stage/scl_cpp/msd_scl.so",
+  "git_status_after": [
+    " M README.md",
+    " M docs/README.md",
+    " M experiments/polar_vs_ldpc_fair_2026-01-07/polar_run.py",
+    "?? experiments/polar_vs_ldpc_fair_2026-01-07/v4_bestcfg/"
+  ],
+  "git_status_before": [
+    " M README.md",
+    " M docs/README.md",
+    " M experiments/polar_vs_ldpc_fair_2026-01-07/polar_run.py",
+    "?? experiments/polar_vs_ldpc_fair_2026-01-07/v4_bestcfg/"
+  ],
+  "lab_unchanged": true,
+  "n_src_files_after": 124,
+  "n_src_files_before": 124,
+  "used_files": [
+    {
+      "file": "src/qkd_recon/msd_conditional.py",
+      "git_diff_quiet": true,
+      "sha256": "f7beeb2b80a533dcda5c4967232af34ea9eb60715adc1fcca0dfddb6d45de586"
+    },
+    {
+      "file": "src/qkd_recon/scl_fast.py",
+      "git_diff_quiet": true,
+      "sha256": "5589d07abf2f4fe1b11973c1f6561168c010788bd5699992e785fdb546dd66e6"
+    },
+    {
+      "file": "src/qkd_recon/polar_core.py",
+      "git_diff_quiet": true,
+      "sha256": "982cd21d123b83a03d60eeea062e198ffe3c452cbc52a624506452c66b8d5bf9"
+    },
+    {
+      "file": "src/qkd_recon/de_frozen.py",
+      "git_diff_quiet": true,
+      "sha256": "f9136f6f08007aafce09303ea7831a9cea37ba4627a6fb4ff357502be3a3e113"
+    },
+    {
+      "file": "src/qkd_recon/scl_cpp/msd_scl.cpp",
+      "git_diff_quiet": true,
+      "sha256": "1dd8d6fd273a88db9d43372631008c29945466f8a47808db63100d79de42d34f"
+    }
+  ]
+}
