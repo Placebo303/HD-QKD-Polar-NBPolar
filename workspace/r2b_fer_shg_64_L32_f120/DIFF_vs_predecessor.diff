@@ -1,0 +1,260 @@
+2,91c2,23
+< """R2 formal FER measurement: M2 + SCL(L=16, top_m=4, CRC-16) on the 64-block
+< SHG `_1`/`_2` pool (DATA_LEDGER.md §7), a Tier-Y one-shot decision-gate
+< measurement.
+< 
+< Authorization
+< -------------
+< **NOT YET GRANTED.** This file is a preparation-only artifact (operator
+< scope: build the packet, do not execute). ``R2_TAG_MASTER``/``R2_EVAL_SEED``
+< below are placeholders; ``main()`` refuses to run until the R2 contract (T6)
+< freezes them and the main thread copies the frozen integers in here, and
+< until PI authorization (verbatim, in ``AUTHORIZATION_PROMPT.md``) plus an
+< independent Pre-EXECUTE PASS are on record (see ``STATUS.yaml``).
+< 
+< Question (Tier-Y, claim-bearing; see prereg.md Q for the full text)
+< ---------------------------------------------------------------------
+< For the frozen 64-block pool (DATA_LEDGER.md §7: SHG `_1`/`_2`, full
+< sessions, 32 blocks each -- 8 `A1_CAL_characterization` + 10
+< `HELDOUT_model_selection` + 14 `EVAL_already_decoded`), what is the SCL(L=16,
+< top_m=4, CRC-16) taxonomy distribution (exact / verify_failed / decode_failed
+< / undetected / resource_abort), reported per official stratum and pooled,
+< with Wilson(z=1.96) CIs on the raw counts -- no verdict string, no
+< pass/fail, no `FER_MEASURED_AT_CONTRACT` judgment (that is a main-thread act,
+< not an operator act)?
+< 
+< Delta-successor basis (AGENTS.md §10.1/§10.4)
+< ------------------------------------------------
+< Delta-successor of ``workspace/m2_scl_check_g2g3_success/`` (Pre-EXECUTE
+< PASS, Pre-RESULT PASS, attempt 1 completed exit 0, 2026-09-28). Reuses,
+< UNCHANGED: the frozen post-processing chain (align/pair/chunk/CAL-fit via
+< ``scripts.m2_prior_validation``), the same M2 CAL32 three-way fit routine,
+< the same ``scl_joint_decode`` call (list_width_L=16, top_m=4), the same
+< ``accepted = crc_pass AND tag_pass`` / ``exact`` / ``undetected`` /
+< ``verify_failed`` definitions (main-thread ruling F1, inherited), the same
+< per-block budget-check mechanism (soft check + parent hard-terminate), and
+< the same one-shot/no-rerun discipline. See TASK_PACKET.md §0 for the full
+< delta table against that predecessor.
+< 
+< Differences from the predecessor (see TASK_PACKET.md §3 for the full diff)
+< -----------------------------------------------------------------------------
+< 1. TARGETS: 19 blocks (SC-exact-only subset of EVAL) -> 64 blocks (the full
+<    DATA_LEDGER §7 pool: A1_CAL + CHAR/HELDOUT + EVAL, both sessions).
+< 2. Fidelity check: only applies to the 28 EVAL blocks (per-block comparison
+<    against the frozen ``per_block_outcomes.jsonl`` row, STOP-on-mismatch,
+<    unchanged mechanism). The 36 never-decoded blocks (A1_CAL + CHAR/HELDOUT)
+<    get NO fidelity comparison (no prior record exists); instead they get a
+<    purely descriptive SC baseline decode (same ``run_g2_block`` call, no
+<    comparison, no gate, no STOP).
+< 3. tag_master/eval_seed: a NEW value, shared by both sessions (NOT G2's or
+<    G3's own inherited master) -- see ``R2_TAG_MASTER``/``R2_EVAL_SEED``
+<    placeholders below and TASK_PACKET.md's flagged decision
+<    D_NEW_SEED_SCHEME for why a session-and-stratum-unique
+<    ``global_block_index`` (0..63) is required once the master is shared.
+< 4. Output: raw taxonomy counts only (exact/verify_failed/decode_failed/
+<    undetected/resource_abort), Wilson CI per official stratum + pooled, no
+<    verdict string. ``stop_undetected=true`` at top level if undetected>=1
+<    anywhere. f_FER computed per session (kdb_with_crc/(H_total_bits*N)).
+< 5. Budget: PENDING-BUDGET (see TASK_PACKET.md and prereg.md P) -- the values
+<    below (1200s/block, 8-way parallel, 3h total) are the predecessor's own
+<    empirically-used numbers, NOT the currently-DECIDED D-ACQ-06 value
+<    (40s/block, single-process exclusive, 5400s total -- based on SC timing,
+<    not SCL timing). This conflict is UNRESOLVED and must be adjudicated by
+<    the main thread / PI before Pre-EXECUTE.
+< 6. reruns=0; a restart is allowed ONLY for a pre-measurement implementation
+<    defect (never a parameter/seed/threshold change), recorded as a separate
+<    attempt.
+< 
+< Reuse discipline (AGENTS.md §5.7, §10.1) -- unchanged from the predecessor
+< -----------------------------------------------------------------------------
+< This file imports and calls existing frozen functions; it does not copy or
+< re-derive any of their logic. See the predecessor's module docstring
+< (``workspace/m2_scl_check_g2g3_success/run.py``) for the full list of
+< reused symbols (``scripts.m2_prior_validation`` and
+< ``comparison_bench...nbpolar.scl_joint``); this file reuses the identical
+< set, plus ``run_g2_block`` for the descriptive SC baseline on never-decoded
+< blocks (an already-frozen, block-frame-range-generic function -- see
+< TASK_PACKET.md §4 for the evidence it is not EVAL-block-specific).
+< 
+< Non-goals / forbidden (frozen; matches TASK_PACKET.md)
+< -------------------------------------------------------
+< No change to ``sc.py``/``scl.py``/``scl_joint.py``/``two_layer.py``/
+< ``transform.py``/``algebra.py``/``prior.py``/``prior_m2.py``/
+< ``operational_f13*.py``/``m2_prior_validation.py``. No write under
+< ``results/``, ``comparison_bench/outputs_comparison/``, any existing
+< ``workspace/m2_prior_validation/...`` directory, any G2/G3
+< ``.workbuddy/queue/`` packet dir, or the predecessor's
+< ``workspace/m2_scl_check_g2g3_success/`` directory (read-only reference
+< only). No change to any status-ladder string
+< (``NBPOLAR_M2_PRIOR_G2_SUCCESS``/``NBPOLAR_M2_PRIOR_G3_SUCCESS``/M2 ladder).
+< No EVAL/CAL/HELDOUT frame drawn outside the frozen 64-block pool. One-shot:
+< reruns=0 except for a pre-measurement implementation-defect restart.
+---
+> """R2B formal FER measurement: M2 + native SCL(L=32, top_m=4, CRC-16) at
+> f=1.20 (K_total=6442, k1=302/k2=6140) on the frozen 64-block SHG `_1`/`_2`
+> pool (DATA_LEDGER.md §7). Tier-Y one-shot delta-successor of
+> ``workspace/r2_fer_shg_64/`` (FER_MEASURED_AT_CONTRACT, SCL L=16 scl_joint,
+> K1=319/K2=6492, f~1.27). Full delta: docs/nbpolar/R2B_L32_F120_DELTA_20260929.md.
+> 
+> Authorization: NOT YET GRANTED (see STATUS.yaml / AUTHORIZATION_PROMPT.md).
+> 
+> This measures the *native SCL implementation* (scl_joint_native, Rust whole
+> recursion; PI equivalence standard B, commit 8fcc9119 T-N1/T-N2), NOT a
+> reproduction of scl_joint.
+> 
+> Delta vs predecessor (everything else inherited verbatim):
+>  K (302/6140, shared K_total=6442), decoder (native, L=32), seeds
+>  (eval 2026092902 / tag 2026102902), budget (serial, 300 s/block, 4 GiB,
+>  7200 s total with `_total_wall_exceeded` -> not_started), SC fidelity path
+>  keeps the frozen K1=319/K2=6492 (SC path unchanged; the predecessor records
+>  were produced under it), SCL path uses the new k1/k2.
+> 
+> Non-goals / forbidden: no change to any frozen module; no write outside this
+> directory; no frame drawn outside the frozen 64-block pool; one-shot,
+> reruns=0 except a pre-measurement implementation-defect restart.
+95c27
+< ``workspace/r2_fer_shg_64/results.json`` (must be absent before this script
+---
+> ``workspace/r2b_fer_shg_64_L32_f120/results.json`` (must be absent before this script
+128,129c60,61
+< R2_EVAL_SEED = 2026092801
+< R2_TAG_MASTER = 2026102801  # = R2_EVAL_SEED + 10000 (G3 convention 2026100101 -> 2026110101)
+---
+> R2_EVAL_SEED = 2026092902
+> R2_TAG_MASTER = 2026102902  # = R2_EVAL_SEED + 10000 (R2B delta: new seeds)
+132c64
+< LIST_WIDTH_L = 16
+---
+> LIST_WIDTH_L = 32
+133a66,72
+> # --- R2B K delta: one shared K_total at f=1.20 ---------------------------------
+> H_BAR_FOR_K = (0.8168138 + 0.8214782) / 2.0
+> F_TARGET = 1.20
+> K_TOTAL = int(round(F_TARGET * H_BAR_FOR_K * 32768 / 5))
+> K1_R2B = int(round(0.0469 * K_TOTAL))
+> K2_R2B = K_TOTAL - K1_R2B
+> assert (K_TOTAL, K1_R2B, K2_R2B) == (6442, 302, 6140), (K_TOTAL, K1_R2B, K2_R2B)
+146,150c85,89
+< # --- Budget (PENDING-BUDGET; see module docstring point 5 and TASK_PACKET.md) ---
+< MAX_PARALLEL = 8
+< BUDGET_WALL_S_PER_BLOCK = 1200.0
+< BUDGET_RSS_GIB_PER_BLOCK = 2.0
+< BUDGET_WALL_S_TOTAL = 3.0 * 3600.0  # 3h; NEW vs the predecessor (which had no global wall cap)
+---
+> # --- Budget (R2B; PI authorization text) -------------------------------------
+> MAX_PARALLEL = 1  # serial; native library uses its default thread count
+> BUDGET_WALL_S_PER_BLOCK = 300.0
+> BUDGET_RSS_GIB_PER_BLOCK = 4.0
+> BUDGET_WALL_S_TOTAL = 2.0 * 3600.0
+151a91,98
+> _CLOCK = time.monotonic  # same mechanism as r2_binary_baseline_shg_64 `_total_wall_exceeded`
+> 
+> 
+> def _total_wall_exceeded(t_start: float) -> bool:
+>     """Total-wall check on the monotonic clock (strict >); mechanism copied from
+>     workspace/r2_binary_baseline_shg_64/run.py."""
+>     return (_CLOCK() - t_start) > BUDGET_WALL_S_TOTAL
+> 
+200c147,149
+<     return chain, scl_joint_mod
+---
+>     native_mod = importlib.import_module(base_nb + ".scl_joint_native")
+>     native_mod.native_backend_info()  # fail fast if no native library loads
+>     return chain, (scl_joint_mod, native_mod)
+292c241
+< def _reproduce_session_context(mod, chain, scl_joint_mod, session: str) -> dict:
+---
+> def _reproduce_session_context(mod, chain, mods, session: str) -> dict:
+302a252
+>     scl_joint_mod, native_mod = mods
+382c332
+<     kdb_no_crc = int(chain.disclosed_bits_per_coordinate * (mod.G2_K1 + mod.G2_K2) + chain.tag_bits)
+---
+>     kdb_no_crc = int(chain.disclosed_bits_per_coordinate * (K1_R2B + K2_R2B) + chain.tag_bits)
+390a341
+>         native_mod=native_mod,
+404,405c355,358
+<         k1=int(mod.G2_K1),
+<         k2=int(mod.G2_K2),
+---
+>         k1=int(K1_R2B),
+>         k2=int(K2_R2B),
+>         k1_sc=int(mod.G2_K1),  # SC fidelity/descriptive path: frozen 319/6492 (unchanged)
+>         k2_sc=int(mod.G2_K2),
+442,443c395,396
+<         k1=ctx["k1"],
+<         k2=ctx["k2"],
+---
+>         k1=ctx["k1_sc"],
+>         k2=ctx["k2_sc"],
+475c428
+<     """CRC-16-aided joint SCL(L=16, top_m=4) decode of one block, scored
+---
+>     """CRC-16-aided joint native SCL(L=32, top_m=4) decode of one block, scored
+496c449
+<     res = scl_joint_mod.scl_joint_decode(
+---
+>     res = ctx["native_mod"].scl_joint_decode_native(
+563a517,519
+>         "native_backend": ctx["native_mod"].native_backend_info(),
+>         "k1_scl": int(ctx["k1"]),
+>         "k2_scl": int(ctx["k2"]),
+698c654
+<         if not total_budget_hit and (time.time() - launch_start) > BUDGET_WALL_S_TOTAL:
+---
+>         if not total_budget_hit and _total_wall_exceeded(launch_start):
+715c671
+<                         _resource_abort_record(by_key[key], "resource_abort_total_wall_budget_not_started"),
+---
+>                         _resource_abort_record(by_key[key], "not_started_total_wall_budget"),
+764a721
+>     not_started = sum(1 for b in blocks if str(b["status"]).startswith("not_started"))
+775a733
+>         "not_started": not_started,
+787c745
+<     t0 = time.time()
+---
+>     t0 = _CLOCK()
+789c747
+<     chain, scl_joint_mod = _load_scl_joint(mod)
+---
+>     chain, (scl_joint_mod, native_mod) = _load_scl_joint(mod)
+801c759
+<         _CTX[session] = _reproduce_session_context(mod, chain, scl_joint_mod, session)
+---
+>         _CTX[session] = _reproduce_session_context(mod, chain, (scl_joint_mod, native_mod), session)
+844a803,806
+>     not_started_block_ids = [
+>         {"session": b["session"], "global_block_index": b["global_block_index"]}
+>         for b in blocks if str(b["status"]).startswith("not_started")
+>     ]
+847c809
+<         "probe_id": "r2-fer-shg-64",
+---
+>         "probe_id": "r2b-fer-shg-64-L32-f120",
+849,851c811,813
+<             "Tier-Y decision-gate measurement (real-data, claim-bearing, frozen 64-block pool "
+<             "per DATA_LEDGER.md §7). NOT descriptive/non-claim. Delta-successor of "
+<             "workspace/m2_scl_check_g2g3_success/ per AGENTS.md §10.1/§10.4. Requires independent "
+---
+>             "Tier-Y one-shot measurement of the NATIVE SCL implementation (scl_joint_native, L=32, f=1.20), "
+>             "frozen 64-block pool per DATA_LEDGER.md §7. Delta-successor of workspace/r2_fer_shg_64/ per "
+>             "AGENTS.md §10.4; NOT a reproduction of scl_joint. Requires independent "
+867a830,836
+>             "k_total": K_TOTAL,
+>             "f_target": F_TARGET,
+>             "k1_sc_fidelity": _CTX["G2"]["k1_sc"],
+>             "k2_sc_fidelity": _CTX["G2"]["k2_sc"],
+>             "decoder": "scl_joint_native.scl_joint_decode_native (Rust whole recursion), default native threads",
+>             "budget": {"wall_s_per_block": BUDGET_WALL_S_PER_BLOCK, "rss_gib_per_block": BUDGET_RSS_GIB_PER_BLOCK,
+>                        "wall_s_total": BUDGET_WALL_S_TOTAL, "max_parallel": MAX_PARALLEL},
+893a863
+>         "not_started_block_ids": not_started_block_ids,
+906c876
+<         "timing": {"wall_s_total": time.time() - t0},
+---
+>         "timing": {"wall_s_total": _CLOCK() - t0},
+915c885
+<         f"fidelity_mismatch={pooled['fidelity_mismatch']} wall_s={time.time()-t0:.1f}",
+---
+>         f"fidelity_mismatch={pooled['fidelity_mismatch']} wall_s={_CLOCK()-t0:.1f}",
