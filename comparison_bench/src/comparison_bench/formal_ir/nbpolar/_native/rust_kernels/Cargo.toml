@@ -1,0 +1,19 @@
+[package]
+name = "nbpolar_kernels"
+version = "0.1.0"
+edition = "2021"
+
+[lib]
+name = "nbpolar_kernels"
+crate-type = ["cdylib"]
+
+# Deliberately no [dependencies]: PI ruling 2026-09-29 requires this crate to
+# stay dependency-free (pure Rust, extern "C" cdylib, called from Python via
+# ctypes). Row-level parallelism uses only std::thread /
+# std::thread::available_parallelism (stable since Rust 1.59), no external
+# crate.
+
+[profile.release]
+opt-level = 3
+lto = true
+panic = "abort"
