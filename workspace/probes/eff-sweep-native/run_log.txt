@@ -1,0 +1,17 @@
+11:04:06 915179 99.7       19:46 /home/karel_303/.venvs/hd-qkd-polar-comparison/bin/python /mnt/d/Code/HD-QKD_Polar_Comparison-nbpolar/workspace/r2_binary_baseline_shg_64/run.py --authorize
+DONE 16 1.15 {'exact': 16, 'verify_failed': 16, 'undetected': 0, 'decode_failed': 0, 'crc_failed': 16, 'resource_abort': 0} wall/blk 23.493788375428267 elapsed 759.0373303890228
+11:24:20 915179 99.8       40:00 /home/karel_303/.venvs/hd-qkd-polar-comparison/bin/python /mnt/d/Code/HD-QKD_Polar_Comparison-nbpolar/workspace/r2_binary_baseline_shg_64/run.py --authorize
+DONE 16 1.18 {'exact': 29, 'verify_failed': 3, 'undetected': 0, 'decode_failed': 0, 'crc_failed': 3, 'resource_abort': 0} wall/blk 23.64705831239553 elapsed 1523.0151047706604
+DONE 16 1.2 {'exact': 29, 'verify_failed': 3, 'undetected': 0, 'decode_failed': 0, 'crc_failed': 3, 'resource_abort': 0} wall/blk 21.976880135483952 elapsed 2233.513057947159
+11:44:41 915179 99.8    01:00:21 /home/karel_303/.venvs/hd-qkd-polar-comparison/bin/python /mnt/d/Code/HD-QKD_Polar_Comparison-nbpolar/workspace/r2_binary_baseline_shg_64/run.py --authorize
+DONE 16 1.22 {'exact': 30, 'verify_failed': 2, 'undetected': 0, 'decode_failed': 0, 'crc_failed': 2, 'resource_abort': 0} wall/blk 23.10300253006426 elapsed 2980.091629743576
+12:04:50 915179 99.8    01:20:30 /home/karel_303/.venvs/hd-qkd-polar-comparison/bin/python /mnt/d/Code/HD-QKD_Polar_Comparison-nbpolar/workspace/r2_binary_baseline_shg_64/run.py --authorize
+DONE 16 1.25 {'exact': 31, 'verify_failed': 1, 'undetected': 0, 'decode_failed': 0, 'crc_failed': 1, 'resource_abort': 0} wall/blk 21.86891207363078 elapsed 3687.2659492492676
+12:25:05 NO_BINARY_PROCESS
+DONE 32 1.15 {'exact': 20, 'verify_failed': 12, 'undetected': 0, 'decode_failed': 0, 'crc_failed': 12, 'resource_abort': 0} wall/blk 41.303572771979816 elapsed 5016.293171644211
+12:45:32 NO_BINARY_PROCESS
+DONE 32 1.18 {'exact': 30, 'verify_failed': 2, 'undetected': 0, 'decode_failed': 0, 'crc_failed': 2, 'resource_abort': 0} wall/blk 39.360264687318704 elapsed 6283.068449258804
+13:06:04 NO_BINARY_PROCESS
+DONE 32 1.2 {'exact': 31, 'verify_failed': 1, 'undetected': 0, 'decode_failed': 0, 'crc_failed': 1, 'resource_abort': 0} wall/blk 39.61543052836714 elapsed 7558.041747331619
+13:26:06 NO_BINARY_PROCESS
+WROTE results.json 8784.26486492157

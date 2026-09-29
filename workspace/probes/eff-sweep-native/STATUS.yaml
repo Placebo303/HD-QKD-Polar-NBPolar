@@ -1,0 +1,6 @@
+probe: eff-sweep-native
+tier: X
+state: executed_complete
+reruns: 0
+blocks_per_point: 32 (not downscaled; est 2.1h < 4h, actual 8784 s)
+verdict: none (non-claim)

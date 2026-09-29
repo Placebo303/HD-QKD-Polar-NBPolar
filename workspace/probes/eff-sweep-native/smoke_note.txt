@@ -1,0 +1,1 @@
+est: L16 5x32x23s=3680s; L32 3x32x41s=3936s; total ~2.1h <4h -> keep 32 blocks/point

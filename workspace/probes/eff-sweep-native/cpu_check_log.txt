@@ -1,0 +1,8 @@
+11:04:06 915179 99.7       19:46 /home/karel_303/.venvs/hd-qkd-polar-comparison/bin/python /mnt/d/Code/HD-QKD_Polar_Comparison-nbpolar/workspace/r2_binary_baseline_shg_64/run.py --authorize
+11:24:20 915179 99.8       40:00 /home/karel_303/.venvs/hd-qkd-polar-comparison/bin/python /mnt/d/Code/HD-QKD_Polar_Comparison-nbpolar/workspace/r2_binary_baseline_shg_64/run.py --authorize
+11:44:41 915179 99.8    01:00:21 /home/karel_303/.venvs/hd-qkd-polar-comparison/bin/python /mnt/d/Code/HD-QKD_Polar_Comparison-nbpolar/workspace/r2_binary_baseline_shg_64/run.py --authorize
+12:04:50 915179 99.8    01:20:30 /home/karel_303/.venvs/hd-qkd-polar-comparison/bin/python /mnt/d/Code/HD-QKD_Polar_Comparison-nbpolar/workspace/r2_binary_baseline_shg_64/run.py --authorize
+12:25:05 NO_BINARY_PROCESS
+12:45:32 NO_BINARY_PROCESS
+13:06:04 NO_BINARY_PROCESS
+13:26:06 NO_BINARY_PROCESS
