@@ -24,6 +24,12 @@ Durable decisions and rejected alternatives for the HD-QKD_Polar_Comparison-nbpo
 
 ## Decisions
 
+## 2026-09-29 R2C 修订 E1/E2 批准；R2D G2 定位探针授权执行
+
+- Tier-X `r2c-layer-diag`（50ceb0d2）：R2C 二元臂 layer 8/9 大 margin 仍失败的主因是采样 DE(m=1024) 构造塌缩（坏位 Pe 0.1–0.4 被判完美）；genie-MC 构造下同 k layer 8 128/128→0/128，整块 0/24→24/24 exact。caps/LLR/前缀/min-sum 均排除为主因；全局 μ 过度保守（各层所需 μ≈0.02–0.08）。
+- PI："E1、E2 都同意"——E1 构造改 genie-SC MC（CAL32 模型合成，每层 4096 帧，min-sum 一致）；E2 逐层 μ_i 分配。写入 R2C 合同头部。
+- PI："按改后文本授权 r2d"——`workspace/r2d_locate_f_k_g2/`（G2 32 块 × 6 配置，描述性，非 Tier-Y），Pre-EXECUTE PASS_WITH_COMMENTS，同日开始执行。
+
 ## 2026-09-29 R2B `r2b-fer-shg-64-L32-f120` 主线程裁定：FER_MEASURED_AT_CONTRACT，f≈1.20 非可用工作点
 
 - 执行 15:06–16:09（wall 3782.5 s），64/64 ok：exact 50 / verify_failed 14 / decode_failed 0 / undetected 0；p̂=0.21875，Wilson 95% [0.135, 0.334]；SC 保真 28/28。Pre-RESULT（独立，逐块重算）PASS_WITH_COMMENTS，C1–C3 措辞修正已采纳。

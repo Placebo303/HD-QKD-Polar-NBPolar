@@ -2,6 +2,12 @@
 
 > **PI 裁决 2026-09-29："按建议批准 R2C"——§12 D1–D8 全部取"推荐"列**（D1(a) CAL32 内 CV 择优、平局取 P-M2；D2(a) STOP 交 PI；
 > D3(a) 仅 L=16；D4(a) 不加 CRC；D5(a) 全局 margin；D6(a) M_design=256 并行；D7 6 h wall / 6 GiB RSS；D8(a) 回退须 PI 知情）。
+> **PI 修订 2026-09-29（"E1、E2 都同意"，依据 Tier-X `workspace/probes/r2c-layer-diag/`，commit 50ceb0d2）**：
+> **E1** §4 构造由采样 DE(m=1024) 改为 genie-SC Monte Carlo 构造（仅用 CAL32 拟合模型合成帧，真前缀/真 u，每层 4096 帧，
+> 与译码器同一 min-sum f 节点，按 Z=mean(exp(−s/2)) 升序排序）；原因：采样 DE 在稀有事件路径上塌缩，把 Pe 0.1–0.4 的位判为完美。
+> **E2** §5 码率分配由全局 margin 改为逐层 μ_i（原 D5(b)）：每层按设计集控制失败率，Σ 块失败目标仍为 0.03；F1/F2 固定 f 点的逐层分配规则由实现冻结并经 Pre-EXECUTE 审查。
+> 其余条款不变。
+>
 > 实现（§11）已授权开始；真实数据执行（含 CAL32 读取）仍须 T0–T2 通过、Pre-EXECUTE 与逐字授权。
 >
 > 原状态：**DRAFT / PREPARED，未授权执行**。本文只冻结设计与实现任务清单；不实现驱动、不执行。
