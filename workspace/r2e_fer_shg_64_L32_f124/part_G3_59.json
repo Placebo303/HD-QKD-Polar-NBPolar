@@ -1,0 +1,88 @@
+{
+  "arm": "B_M2_32f_candidate",
+  "error": null,
+  "eval_original_index": 9,
+  "fidelity": {
+    "actual": {
+      "first_error_coordinate": null,
+      "first_error_layer": null,
+      "hard_l2_exact": true,
+      "l1_exact": true,
+      "outcome": "exact"
+    },
+    "eval_frames": [
+      3550,
+      3677
+    ],
+    "expected": {
+      "first_error_coordinate": null,
+      "first_error_layer": null,
+      "hard_l2_exact": true,
+      "l1_exact": true,
+      "outcome": "exact"
+    },
+    "match": true,
+    "mismatches": []
+  },
+  "frame_end": 3677,
+  "frame_start": 3550,
+  "global_block_index": 59,
+  "known_hard_block": false,
+  "local_index": 27,
+  "resources": {
+    "budget_rss_gib_per_block": 4.0,
+    "budget_wall_s_per_block": 300.0,
+    "rss_gib_peak_advisory": 1.3887062072753906,
+    "wall_sc_s": 19.80794927990064,
+    "wall_scl_s": 37.19757043290883,
+    "wall_total_s": 57.00948806502856
+  },
+  "sc_descriptive": null,
+  "scl": {
+    "accepted": false,
+    "candidates_considered": 128,
+    "crc_bits": 16,
+    "crc_hat": 28800,
+    "crc_pass": false,
+    "crc_true": 8973,
+    "decode_failed": false,
+    "exact": false,
+    "hard_l2_exact_scl": false,
+    "joint_metric": -132.91977671919977,
+    "k1_scl": 253,
+    "k2_scl": 6404,
+    "l1_error_symbols_scl": 311,
+    "l1_exact_scl": false,
+    "l1_survivor_count": 32,
+    "l2_error_symbols_scl": 11972,
+    "label_exact": false,
+    "list_width_L": 32,
+    "m1": -13.429594709186263,
+    "m2": -119.49018201001351,
+    "metric_provenance": {
+      "crc": "CRC-16/CCITT-FALSE, poly=0x1021, init=0xFFFF, MSB-first, no reflect, no xorout",
+      "engine": "scl_joint_native (ctypes, backend=rust)",
+      "l1_provenance": "PRIOR_ONLY",
+      "l2_provenance": "CANDIDATE_CONDITIONED",
+      "label_convention": "s = low + 32*high per position (two_layer.py LABEL_SCALE=32)",
+      "merge_rule": "joint_metric desc, tie-break (l1_rank, l2_rank) asc",
+      "prune_rule": "top_l_prune",
+      "top_m_default": 4,
+      "top_m_requested": 4
+    },
+    "native_backend": {
+      "backend": "rust",
+      "path": "/mnt/d/Code/HD-QKD_Polar_Comparison-nbpolar/comparison_bench/src/comparison_bench/formal_ir/nbpolar/_native/libnbpolar_kernels_rust.so"
+    },
+    "tag_pass": false,
+    "top_m_requested": 4,
+    "top_m_used": 4,
+    "undetected": false,
+    "verify_failed": true
+  },
+  "session": "G3",
+  "status": "ok",
+  "stratum_official": "EVAL_already_decoded",
+  "stratum_selection": "clean",
+  "stratum_task": "previously_decoded_eval"
+}

@@ -30,6 +30,8 @@
 
 > **R2B `r2b-fer-shg-64-L32-f120` 主线程裁定（2026-09-29）**：同一 64 块池，M2 + 原生 SCL(L=32)，K_total=6442（f_book≈1.20）：50/64 exact，p̂=0.219（Wilson [0.135, 0.334]），undetected 0，14/14 失败为 L2。Pre-RESULT PASS_WITH_COMMENTS。**f≈1.20 不是可用工作点**；合成 Tier-X 同点 p̂=0.031，真实点估计约 7 倍。M2 状态不变（`FER_MEASURED_AT_CONTRACT` 仍以 f≈1.27、L=16 的 R2 为准）。R2C（最强二元 MSD+SCL）合同 D1–D8 已批准，实现中。见 `workspace/r2b_fer_shg_64_L32_f120/RESULT_SUMMARY.md`。
 
+> **R2E `r2e-fer-shg-64-L32-f124` 主线程裁定（2026-09-29）**：R2D 选定 K 点（K_total=6657，f_book≈1.24）的正式 Tier-Y 测量，M2 + 原生 SCL(L=32)：61/64 exact，p̂=0.047（Wilson [0.016,0.129]），undetected 0；3/3 失败为 verify_failed（L2：gbi23 G2 已知难块 0/84、gbi53 G3 8/8、gbi59 G3 311/11972）。Pre-RESULT 独立审查 PASS（R1–R9；`run.log` 缺 EXIT 行以 DONE+64parts+`results.json`+零Traceback 实质替代，未手工补写）。分层：EVAL 25/3，其余层 0 失败；selection 分层 clean-G3 30/2 仅描述，主判定为 64 块汇总。描述性：与 R2 f≈1.27 点未见可分辨劣化。M2 状态不变（`FER_MEASURED_AT_CONTRACT` 仍以 f≈1.27、L=16 的 R2 为准）；工作点是否从 f≈1.27 换到 f≈1.24 由 PI 决定。见 `workspace/r2e_fer_shg_64_L32_f124/RESULT_SUMMARY.md`。
+
 ## §0 2026-09-27 更新（合成 Tier-X，描述性）
 
 > **⚠ 已撤回（2026-09-27 补充）**：下方 C1–C3 三条结论已撤回。根因是合成两层 GF32 探针本地内联的先验表构造符号写反（`table[a,b]=pmf[(a-b)%Q]`，应为 `pmf[(b-a)%Q]`），把镜像信道喂给了译码器；详见 `docs/decision-log.md` 2026-09-27「合成两层 GF32 探针 table 符号缺陷确认」条目。**真实数据 M2 状态不受影响**（`prior_m2.py` 拟合/展开路径与本缺陷无关）。

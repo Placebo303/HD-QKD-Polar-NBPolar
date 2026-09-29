@@ -24,6 +24,9 @@ Durable decisions and rejected alternatives for the HD-QKD_Polar_Comparison-nbpo
 
 ## Decisions
 
+## 2026-09-29 R2E r2e-fer-shg-64-L32-f124 裁定：FER_MEASURED_AT_CONTRACT
+61/64 exact，3 verify_failed，0 decode_failed；D=64≥56；p̂=0.047 Wilson 95% [0.016,0.129]；undetected 0；fidelity 28/28；not_started/resource_abort 0。失败 3/3 为 verify_failed（L2）：gbi23（G2 已知难块，0/84）、gbi53（G3，8/8）、gbi59（G3，311/11972）；selection 分层 clean-G3 30/2 仅描述，主判定 64 块汇总。Pre-RESULT 独立审查 PASS（R1–R9 全项；run.log 缺 EXIT 行以 DONE+64parts+results.json+零Traceback 实质替代，未手工补写）。描述性：与 R2 f≈1.27 点未见可分辨劣化；工作点是否从 f≈1.27 换到 f≈1.24 由 PI 决定。
+
 ## 2026-09-29 R2D G2 定位探针结果（描述性）：选中 f1.24_s0380
 
 - G2 32 块 × 6 配置，17:30–18:23（3174 s），undetected 0。exact：f1.22 27/27；f1.24 30(s0469)/31(s0380)；f1.26 31/31。独立结果审查 PASS_WITH_COMMENTS（`workspace/r2d_locate_f_k_g2/RESULT_REVIEW.md`）。

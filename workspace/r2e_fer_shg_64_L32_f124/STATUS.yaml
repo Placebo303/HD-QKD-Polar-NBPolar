@@ -1,8 +1,8 @@
 # STATUS — r2e-fer-shg-64-L32-f124
 # Delta-successor of workspace/r2b_fer_shg_64_L32_f120/ (FER_MEASURED_AT_CONTRACT).
 # Delta contract: docs/nbpolar/R2E_L32_F124_DELTA_20260929.md
-# Tier-Y one-shot, claim-bearing, real data. PREPARATION ONLY: nothing executed.
-state: prepared
+# Tier-Y one-shot, claim-bearing, real data. EXECUTED 2026-09-29: DONE 64/64.
+state: executed_adjudicated
 classification: tier_y_decision_gate
 predecessor: workspace/r2b_fer_shg_64_L32_f120
 k_source: workspace/r2d_locate_f_k_g2 (f1.24_s0380, descriptive; RESULT_REVIEW.md)
@@ -25,6 +25,9 @@ interpreter: /home/karel_303/.venvs/hd-qkd-polar-comparison/bin/python
 static_selfcheck:
   py_compile: pass
   synthetic_smoke: pass   # _smoke_synthetic.py
-authorizations: []
-pre_execute_review: {verdict: null}
-pre_result_review: {verdict: null}
+authorizations: [{by: PI, date: 2026-09-29T20:58:51+08:00, record: AUTHORIZATION_RECORD.md}]
+pre_execute_review: {verdict: PASS_WITH_COMMENTS, record: PRE_EXECUTE_REVIEW.md}
+pre_result_review: {verdict: PASS, record: PRE_RESULT_REVIEW.md}
+execution_started: "2026-09-29T21:23:00+08:00"
+execution_finished: "2026-09-29T22:25:41+08:00"  # results.json mtime 旁证（EXECUTION_START.txt 仅启动行，尾部 date 未落盘）
+main_thread_verdict: "FER_MEASURED_AT_CONTRACT: p_hat=3/64=0.047 Wilson [0.016,0.129], undetected 0, 3/3 verify_failed (L2); clean-G3 30/2 descriptive only"
