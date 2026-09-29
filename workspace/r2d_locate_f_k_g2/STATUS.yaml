@@ -1,5 +1,5 @@
 # STATUS — r2d-locate-f-k-g2 (Tier X descriptive locating probe; PREPARATION ONLY, nothing executed)
-state: authorized_executing
+state: executed_adjudicated
 classification: tier_x_probe_non_claim
 based_on: workspace/r2b_fer_shg_64_L32_f120/run.py (unchanged)
 frozen:

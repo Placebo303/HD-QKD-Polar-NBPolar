@@ -24,6 +24,12 @@ Durable decisions and rejected alternatives for the HD-QKD_Polar_Comparison-nbpo
 
 ## Decisions
 
+## 2026-09-29 R2D G2 定位探针结果（描述性）：选中 f1.24_s0380
+
+- G2 32 块 × 6 配置，17:30–18:23（3174 s），undetected 0。exact：f1.22 27/27；f1.24 30(s0469)/31(s0380)；f1.26 31/31。独立结果审查 PASS_WITH_COMMENTS（`workspace/r2d_locate_f_k_g2/RESULT_REVIEW.md`）。
+- 预注册规则机械选中 **f1.24_s0380**（K_total=6657, k1=253, k2=6404）。规则"≤1 失败"实际等价于只允许难块 gbi 23（所有配置均 L2 失败）；s0380 vs s0469 在 32 块下不可区分；f1.22 s0380 出现 L1 失败（gbi 26/27）。
+- 下一步：以 f1.24_s0380 做正式 Tier-Y 测量（64 块，G3 为干净层、G2 标 selection-touched），待 PI 授权。
+
 ## 2026-09-29 R2C 修订 E1/E2 批准；R2D G2 定位探针授权执行
 
 - Tier-X `r2c-layer-diag`（50ceb0d2）：R2C 二元臂 layer 8/9 大 margin 仍失败的主因是采样 DE(m=1024) 构造塌缩（坏位 Pe 0.1–0.4 被判完美）；genie-MC 构造下同 k layer 8 128/128→0/128，整块 0/24→24/24 exact。caps/LLR/前缀/min-sum 均排除为主因；全局 μ 过度保守（各层所需 μ≈0.02–0.08）。

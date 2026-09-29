@@ -1,0 +1,15 @@
+[setup] reproducing G2 context (G3 never read)...
+[setup] f1.22_s0469: K=6549 k1=307 k2=6242 f_book_crc=1.226399
+[setup] f1.22_s0380: K=6549 k1=249 k2=6300 f_book_crc=1.226399
+[setup] f1.24_s0469: K=6657 k1=312 k2=6345 f_book_crc=1.246574
+[setup] f1.24_s0380: K=6657 k1=253 k2=6404 f_book_crc=1.246574
+[setup] f1.26_s0469: K=6764 k1=317 k2=6447 f_book_crc=1.266563
+[setup] f1.26_s0380: K=6764 k1=257 k2=6507 f_book_crc=1.266563
+f1.22_s0469: exact=27 vf=5 df=0 ud=0 ns=0 err=0
+f1.22_s0380: exact=27 vf=5 df=0 ud=0 ns=0 err=0
+f1.24_s0469: exact=30 vf=2 df=0 ud=0 ns=0 err=0
+f1.24_s0380: exact=31 vf=1 df=0 ud=0 ns=0 err=0
+f1.26_s0469: exact=31 vf=1 df=0 ud=0 ns=0 err=0
+f1.26_s0380: exact=31 vf=1 df=0 ud=0 ns=0 err=0
+DONE selection={'selected': 'f1.24_s0380', 'qualifying': ['f1.24_s0380', 'f1.26_s0469', 'f1.26_s0380']} wall_s=3174.3
+EXIT=0
