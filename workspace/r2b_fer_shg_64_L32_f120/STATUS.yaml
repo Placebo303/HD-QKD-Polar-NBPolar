@@ -2,7 +2,7 @@
 # Delta-successor of workspace/r2_fer_shg_64/ (FER_MEASURED_AT_CONTRACT).
 # Delta contract: docs/nbpolar/R2B_L32_F120_DELTA_20260929.md
 # Tier-Y one-shot, claim-bearing, real data. PREPARATION ONLY: nothing executed.
-state: authorized_executing
+state: executed_adjudicated
 classification: tier_y_decision_gate
 predecessor: workspace/r2_fer_shg_64
 frozen:
@@ -26,7 +26,7 @@ static_selfcheck:
   env: {Swabian_TimeTagger: "2.22.6 via Swabian shim", native_backend: rust, nbpolar_scl_decode_f64: exported}
 authorizations: [{by: PI, date: 2026-09-29, record: AUTHORIZATION_RECORD.md}]
 pre_execute_review: {verdict: PASS_WITH_COMMENTS, record: PRE_EXECUTE_REVIEW.md}
-pre_result_review: {verdict: null, record: null}
-execution_started: null
-execution_finished: null
-main_thread_verdict: null
+pre_result_review: {verdict: PASS_WITH_COMMENTS, record: PRE_RESULT_REVIEW.md}
+execution_started: "2026-09-29T15:06:33+08:00"
+execution_finished: "2026-09-29T16:09:36+08:00"
+main_thread_verdict: "FER_MEASURED_AT_CONTRACT: p_hat=14/64=0.219 Wilson [0.135,0.334], undetected 0, 14/14 L2 failures; not a usable working point"

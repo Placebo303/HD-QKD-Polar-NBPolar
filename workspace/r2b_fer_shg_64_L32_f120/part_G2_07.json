@@ -1,0 +1,72 @@
+{
+  "arm": "B_M2_32f_candidate",
+  "error": null,
+  "eval_original_index": null,
+  "fidelity": null,
+  "frame_end": 1023,
+  "frame_start": 896,
+  "global_block_index": 7,
+  "local_index": 7,
+  "resources": {
+    "budget_rss_gib_per_block": 4.0,
+    "budget_wall_s_per_block": 300.0,
+    "rss_gib_peak_advisory": 1.3872528076171875,
+    "wall_sc_s": 19.8812718820991,
+    "wall_scl_s": 38.29390275396872,
+    "wall_total_s": 58.17519711796194
+  },
+  "sc_descriptive": {
+    "first_error_coordinate": null,
+    "first_error_layer": null,
+    "hard_l2_exact": true,
+    "l1_exact": true,
+    "note": "descriptive SC baseline; no comparison record exists; not a gate",
+    "outcome": "exact"
+  },
+  "scl": {
+    "accepted": false,
+    "candidates_considered": 128,
+    "crc_bits": 16,
+    "crc_hat": 49970,
+    "crc_pass": false,
+    "crc_true": 1588,
+    "decode_failed": false,
+    "exact": false,
+    "hard_l2_exact_scl": false,
+    "joint_metric": -5.238710719738919,
+    "k1_scl": 302,
+    "k2_scl": 6140,
+    "l1_error_symbols_scl": 0,
+    "l1_exact_scl": true,
+    "l1_survivor_count": 32,
+    "l2_error_symbols_scl": 46,
+    "label_exact": false,
+    "list_width_L": 32,
+    "m1": -0.00014089704924785996,
+    "m2": -5.238569822689671,
+    "metric_provenance": {
+      "crc": "CRC-16/CCITT-FALSE, poly=0x1021, init=0xFFFF, MSB-first, no reflect, no xorout",
+      "engine": "scl_joint_native (ctypes, backend=rust)",
+      "l1_provenance": "PRIOR_ONLY",
+      "l2_provenance": "CANDIDATE_CONDITIONED",
+      "label_convention": "s = low + 32*high per position (two_layer.py LABEL_SCALE=32)",
+      "merge_rule": "joint_metric desc, tie-break (l1_rank, l2_rank) asc",
+      "prune_rule": "top_l_prune",
+      "top_m_default": 4,
+      "top_m_requested": 4
+    },
+    "native_backend": {
+      "backend": "rust",
+      "path": "/mnt/d/Code/HD-QKD_Polar_Comparison-nbpolar/comparison_bench/src/comparison_bench/formal_ir/nbpolar/_native/libnbpolar_kernels_rust.so"
+    },
+    "tag_pass": false,
+    "top_m_requested": 4,
+    "top_m_used": 4,
+    "undetected": false,
+    "verify_failed": true
+  },
+  "session": "G2",
+  "status": "ok",
+  "stratum_official": "A1_CAL_characterization",
+  "stratum_task": "never_decoded"
+}

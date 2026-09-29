@@ -24,6 +24,13 @@ Durable decisions and rejected alternatives for the HD-QKD_Polar_Comparison-nbpo
 
 ## Decisions
 
+## 2026-09-29 R2B `r2b-fer-shg-64-L32-f120` 主线程裁定：FER_MEASURED_AT_CONTRACT，f≈1.20 非可用工作点
+
+- 执行 15:06–16:09（wall 3782.5 s），64/64 ok：exact 50 / verify_failed 14 / decode_failed 0 / undetected 0；p̂=0.21875，Wilson 95% [0.135, 0.334]；SC 保真 28/28。Pre-RESULT（独立，逐块重算）PASS_WITH_COMMENTS，C1–C3 措辞修正已采纳。
+- 分层：EVAL 24/4、HELDOUT 15/5、A1_CAL 11/5。失败 14/14 为 L2（L1 全对）；与前驱（f≈1.27, L=16）同块交叉 50/12/2/0。
+- 解读（主线程）：把 f 从 1.27 压到 1.20 的损失集中在 L2 码率余量，L=32 列表补不回；真实数据点估计为合成 Tier-X 同点的约 7 倍，合成 G1R2 信道对 L2 偏乐观。M2 状态不变。
+- 后续候选（待 PI）：(a) 在 f≈1.23–1.25 或改 k1/k2 分配（向 L2 倾斜）的描述性/Tier-X 探针，用真实分布而非 G1R2 合成；(b) 改进 L2 先验/构造。
+
 ## 2026-09-29 R2C 合同 D1–D8 按建议批准；R2B（L=32, f=1.20）PI 逐字授权并开始执行
 
 - PI 回复"按建议批准 R2C"：`docs/nbpolar/R2C_STRONG_BINARY_MSD_CONTRACT_20260929.md` §12 D1–D8 全部取推荐项；实现授权开始，真实数据执行仍须 Pre-EXECUTE + 逐字授权。

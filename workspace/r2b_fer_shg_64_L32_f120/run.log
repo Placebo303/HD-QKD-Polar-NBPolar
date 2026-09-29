@@ -1,0 +1,6 @@
+[setup] building G2 block descriptors + reproducing session context...
+[setup] G2 ready: H_total=0.816814 bits, f_book_with_crc=1.206410, blocks=32
+[setup] building G3 block descriptors + reproducing session context...
+[setup] G3 ready: H_total=0.821478 bits, f_book_with_crc=1.199560, blocks=32
+DONE n_blocks=64 pooled_D=64 pooled_exact=50 pooled_verify_failed=14 pooled_decode_failed=0 pooled_undetected=0 stop_undetected=False resource_abort=0 fidelity_mismatch=0 wall_s=3782.5
+EXIT=0

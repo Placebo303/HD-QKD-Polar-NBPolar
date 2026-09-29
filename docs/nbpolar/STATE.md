@@ -28,6 +28,8 @@
 > **二元基线 `r2-binary-baseline-shg-64` 主线程裁定（2026-09-29）**：SC 主臂 PASS_WITH_COMMENTS 已发布；CA-SCL 副臂 FAIL/INVALID（`decode_batch` 把冻结位当 0 的实现缺陷）。结论句：在 SHG `_1`/`_2` 同一 64 块池上，冻结原生二元 Polar 分层基线（独立比特面、SC、N=4096、PW 构造、MC 码率分配）在 f_book≈4.1–4.8 时块失败率为 0.61–0.94；同池 NB-Polar（M2+SCL L=16）在 f_book≈1.27 时失败率为 0.031。
 > caveats：独立层模型 f 下限≈2.57、网格未覆盖块失败率≈0.03 区间、f(m) 非单调属 MC 噪声、适用域仅限两次 SHG。下一步候选：修复 CA-SCL 后仅重跑 pass2（须 PI 授权）或另立条件化 MSD 合同；见 `docs/decision-log.md`、`workspace/r2_binary_baseline_shg_64/RESULT_SUMMARY.md`。
 
+> **R2B `r2b-fer-shg-64-L32-f120` 主线程裁定（2026-09-29）**：同一 64 块池，M2 + 原生 SCL(L=32)，K_total=6442（f_book≈1.20）：50/64 exact，p̂=0.219（Wilson [0.135, 0.334]），undetected 0，14/14 失败为 L2。Pre-RESULT PASS_WITH_COMMENTS。**f≈1.20 不是可用工作点**；合成 Tier-X 同点 p̂=0.031，真实点估计约 7 倍。M2 状态不变（`FER_MEASURED_AT_CONTRACT` 仍以 f≈1.27、L=16 的 R2 为准）。R2C（最强二元 MSD+SCL）合同 D1–D8 已批准，实现中。见 `workspace/r2b_fer_shg_64_L32_f120/RESULT_SUMMARY.md`。
+
 ## §0 2026-09-27 更新（合成 Tier-X，描述性）
 
 > **⚠ 已撤回（2026-09-27 补充）**：下方 C1–C3 三条结论已撤回。根因是合成两层 GF32 探针本地内联的先验表构造符号写反（`table[a,b]=pmf[(a-b)%Q]`，应为 `pmf[(b-a)%Q]`），把镜像信道喂给了译码器；详见 `docs/decision-log.md` 2026-09-27「合成两层 GF32 探针 table 符号缺陷确认」条目。**真实数据 M2 状态不受影响**（`prior_m2.py` 拟合/展开路径与本缺陷无关）。
