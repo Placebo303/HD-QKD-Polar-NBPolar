@@ -1,0 +1,38 @@
+[
+ {
+  "layer": 9,
+  "mu": 0.06,
+  "k": 17427,
+  "frames": 96,
+  "SCL_minsum_L1": 92,
+  "t_L1": 0.2,
+  "SCL_minsum_L4": 43,
+  "t_L4": 0.8,
+  "SCL_minsum_L16": 30,
+  "t_L16": 6.9,
+  "SCL_minsum_L32": 22,
+  "t_L32": 22.4,
+  "SCL_minsum_L64": 22,
+  "t_L64": 57.8,
+  "SC_numpy_minsum": 93,
+  "SC_numpy_exactboxplus": 82
+ },
+ {
+  "layer": 9,
+  "mu": 0.07,
+  "k": 17100,
+  "frames": 96,
+  "SCL_minsum_L1": 64,
+  "t_L1": 0.2,
+  "SCL_minsum_L4": 9,
+  "t_L4": 0.8,
+  "SCL_minsum_L16": 3,
+  "t_L16": 6.1,
+  "SCL_minsum_L32": 3,
+  "t_L32": 17.5,
+  "SCL_minsum_L64": 2,
+  "t_L64": 49.6,
+  "SC_numpy_minsum": 65,
+  "SC_numpy_exactboxplus": 49
+ }
+]

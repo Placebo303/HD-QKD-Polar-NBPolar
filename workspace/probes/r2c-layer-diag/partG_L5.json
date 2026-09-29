@@ -1,0 +1,36 @@
+[
+ {
+  "layer": 5,
+  "mu": 0.084,
+  "k": 29156,
+  "sumPe_freshMC2048_DE1024": 0.000732421875,
+  "n_bad_info(Pe>0.05)_DE1024": 0,
+  "overlap_vs_MC_DE1024": 0.9777061325284676,
+  "sumPe_freshMC2048_DE2400": 0.005126953125,
+  "n_bad_info(Pe>0.05)_DE2400": 0,
+  "overlap_vs_MC_DE2400": 0.9587391960488407,
+  "sumPe_freshMC2048_MC4096": 0.0,
+  "n_bad_info(Pe>0.05)_MC4096": 0,
+  "overlap_vs_MC_MC4096": 1.0,
+  "fer_DE2400": 0,
+  "fer_DE1024": 0,
+  "fer_MC4096": 0
+ },
+ {
+  "layer": 5,
+  "mu": 0.06,
+  "k": 29942,
+  "sumPe_freshMC2048_DE1024": 0.01220703125,
+  "n_bad_info(Pe>0.05)_DE1024": 0,
+  "overlap_vs_MC_DE1024": 0.9893126711642509,
+  "sumPe_freshMC2048_DE2400": 0.0068359375,
+  "n_bad_info(Pe>0.05)_DE2400": 0,
+  "overlap_vs_MC_DE2400": 0.9809965934139336,
+  "sumPe_freshMC2048_MC4096": 0.0,
+  "n_bad_info(Pe>0.05)_MC4096": 0,
+  "overlap_vs_MC_MC4096": 1.0,
+  "fer_DE2400": 0,
+  "fer_DE1024": 1,
+  "fer_MC4096": 0
+ }
+]

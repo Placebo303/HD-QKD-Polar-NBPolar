@@ -1,0 +1,20 @@
+[
+ {
+  "layer": 7,
+  "mu": 0.03,
+  "k": 28347,
+  "frames": 96,
+  "SCL_minsum_L1": 94,
+  "t_L1": 0.2,
+  "SCL_minsum_L4": 62,
+  "t_L4": 0.8,
+  "SCL_minsum_L16": 33,
+  "t_L16": 6.5,
+  "SCL_minsum_L32": 26,
+  "t_L32": 21.7,
+  "SCL_minsum_L64": 24,
+  "t_L64": 57.0,
+  "SC_numpy_minsum": 94,
+  "SC_numpy_exactboxplus": 91
+ }
+]

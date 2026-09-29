@@ -1,0 +1,3 @@
+Q: Why do layers 8/9 (LSB side) of the R2C hard-prefix MSD+SCL(L=16) arm still fail at large margin mu on the synthetic M2-like channel (pmf 0/±1 = .83/.085/.085, floor 1e-9, d=1024, N=32768)? Split into (a) caps_i vs exact H(b_i|y,b_<i), (b) DE m=1024/4096/16384 vs genie-MC(min-sum, 1024 frames) info sets + FER at same k, (c) LLR clipping/calibration vs exact posterior, (d) true vs decoded prefix, (e) min-sum vs exact boxplus / L.
+Params: 32-256 frames per point, fixed seeds 20260930+layer, frozen model = m2_pmf(true pmf) with floor 1e-15, clip 30, mu in {0.084 (design) plus f-derived}, L=16 unless stated; workers<=4; synthetic only.
+Command: .venv-free system python via WSL: python workspace/probes/r2c-layer-diag/diag.py [part]  -> results.json in same dir.
