@@ -1,0 +1,659 @@
+{
+  "frozen": {
+    "N_sym": 32768,
+    "K1": 319,
+    "K2": 6492,
+    "crc_bits": 16,
+    "tag_bits": 64,
+    "H_total": {
+      "G2": 0.8168138204133305,
+      "G3": 0.8214782076249098
+    },
+    "sources": {
+      "N/K1/K2/L/top_m": "workspace/r2_fer_shg_64/results.json:frozen_params",
+      "H_total": "workspace/r2_fer_shg_64/results.json:per_session.<G>.h_total_bits",
+      "crc_bits": "workspace/r2_fer_shg_64/results.json:frozen_params.crc_bits_extra 及 blocks[].scl.crc_bits",
+      "tag_bits": "workspace/r2c_strong_binary_msd_shg_64/results.json:per_point.F2.per_session.G2.tag_bits (=64)"
+    }
+  },
+  "D_blk": 34135,
+  "D_blk_noCRC": 34119,
+  "R2": {
+    "sessions": {
+      "G2": {
+        "H_total_bits": 0.8168138204133305,
+        "n_blocks": 32,
+        "n_fail": 1,
+        "fail_gbi": [
+          23
+        ],
+        "p_hat": 0.03125,
+        "wilson95": [
+          0.005537717362550945,
+          0.15744607800372734
+        ],
+        "f_book": 1.2753426830727925,
+        "f_book_noCRC": 1.2747448953789544,
+        "f_eff": 1.3164827696235277,
+        "f_eff_upper_session": 1.5136629831965038,
+        "f_eff_upper_pooled": 1.428115221527847
+      },
+      "G3": {
+        "H_total_bits": 0.8214782076249098,
+        "n_blocks": 32,
+        "n_fail": 1,
+        "fail_gbi": [
+          38
+        ],
+        "p_hat": 0.03125,
+        "wilson95": [
+          0.005537717362550945,
+          0.15744607800372734
+        ],
+        "f_book": 1.268101234613064,
+        "f_book_noCRC": 1.267506841182456,
+        "f_eff": 1.309007726052195,
+        "f_eff_upper_session": 1.505068342223768,
+        "f_eff_upper_pooled": 1.4200063242812413
+      }
+    },
+    "pooled": {
+      "n": 64,
+      "n_fail": 2,
+      "p_hat": 0.03125,
+      "wilson95": [
+        0.00861195771251659,
+        0.10697493882294247
+      ],
+      "undetected": 0
+    }
+  },
+  "lambda_cal": {
+    "value": 0.007751937984496124,
+    "formula": "32/(32+4096)",
+    "source": "docs/nbpolar/DATA_LEDGER.md §7（CAL32=32 帧/会话排除；64 块池=32 块/会话 x 128 帧=4096 帧/会话）"
+  },
+  "eps_tag": {
+    "value": 5.421010862427522e-20,
+    "formula": "2^-64",
+    "source": "冻结参数（Toeplitz tag 64 bit）"
+  },
+  "runtime": {
+    "R2_scl_joint_L16": {
+      "impl": "scl_joint Python/numba 参考实现",
+      "data": "真实",
+      "wall_scl_s": {
+        "n": 64,
+        "mean": 530.4223976186586,
+        "max": 554.2258405709872,
+        "min": 513.925687149982
+      },
+      "wall_sc_s": {
+        "n": 64,
+        "mean": 20.446992475825027,
+        "max": 21.880754095036536,
+        "min": 20.185199959902093
+      },
+      "rss_gib_peak": {
+        "n": 64,
+        "mean": 0.5666296482086182,
+        "max": 0.5767021179199219,
+        "min": 0.5204544067382812
+      }
+    },
+    "R2E_native_L32": {
+      "impl": "原生 Rust SCL",
+      "data": "真实",
+      "wall_scl_s": {
+        "n": 64,
+        "mean": 34.66503497585836,
+        "max": 37.3413404020248,
+        "min": 33.86912867100909
+      },
+      "rss_gib_peak": {
+        "n": 64,
+        "mean": 1.3889585137367249,
+        "max": 1.3928718566894531,
+        "min": 1.3882865905761719
+      }
+    },
+    "R2B_native_L32": {
+      "impl": "原生 Rust SCL",
+      "data": "真实",
+      "wall_scl_s": {
+        "n": 64,
+        "mean": 35.32372793347167,
+        "max": 39.37917227298021,
+        "min": 33.78551158506889
+      },
+      "rss_gib_peak": {
+        "n": 64,
+        "mean": 1.386904776096344,
+        "max": 1.3876495361328125,
+        "min": 1.3862648010253906
+      }
+    },
+    "upper_bound_native_L16": {
+      "value_s": 39.37917227298021,
+      "source": "R2B",
+      "note": "由论证得到的上界，非 L=16 真实数据实测"
+    },
+    "throughput_sym_per_s": {
+      "bound_conservative": 832.1150016269786,
+      "synth_L16_typical_mean": 1498.3827219970024,
+      "synth_L16_typical_max": 1235.2166762944628,
+      "scl_joint_reference_mean": 61.777180124958065
+    },
+    "eff_sweep": {
+      "threads": 4,
+      "H": 0.8165136251536648,
+      "seeds": [
+        2026093010,
+        2026093011
+      ],
+      "points": [
+        {
+          "L": 16,
+          "f_nominal": 1.15,
+          "k1": 289,
+          "k2": 5865,
+          "n_blocks": 32,
+          "counts": {
+            "exact": 16,
+            "verify_failed": 16,
+            "undetected": 0,
+            "decode_failed": 0,
+            "crc_failed": 16,
+            "resource_abort": 0
+          },
+          "wall_per_block_mean_s": 23.493788375428267,
+          "wall_per_block_max_s": 27.845936452038586,
+          "f_book_with_crc": 1.1506411298151173
+        },
+        {
+          "L": 16,
+          "f_nominal": 1.18,
+          "k1": 296,
+          "k2": 6018,
+          "n_blocks": 32,
+          "counts": {
+            "exact": 29,
+            "verify_failed": 3,
+            "undetected": 0,
+            "decode_failed": 0,
+            "crc_failed": 3,
+            "resource_abort": 0
+          },
+          "wall_per_block_mean_s": 23.64705831239553,
+          "wall_per_block_max_s": 27.552844953956082,
+          "f_book_with_crc": 1.1805415034866593
+        },
+        {
+          "L": 16,
+          "f_nominal": 1.2,
+          "k1": 301,
+          "k2": 6120,
+          "n_blocks": 32,
+          "counts": {
+            "exact": 29,
+            "verify_failed": 3,
+            "undetected": 0,
+            "decode_failed": 0,
+            "crc_failed": 3,
+            "resource_abort": 0
+          },
+          "wall_per_block_mean_s": 21.976880135483952,
+          "wall_per_block_max_s": 26.474016855936497,
+          "f_book_with_crc": 1.200537378379503
+        },
+        {
+          "L": 16,
+          "f_nominal": 1.22,
+          "k1": 306,
+          "k2": 6222,
+          "n_blocks": 32,
+          "counts": {
+            "exact": 30,
+            "verify_failed": 2,
+            "undetected": 0,
+            "decode_failed": 0,
+            "crc_failed": 2,
+            "resource_abort": 0
+          },
+          "wall_per_block_mean_s": 23.10300253006426,
+          "wall_per_block_max_s": 27.67414954304695,
+          "f_book_with_crc": 1.220533253272347
+        },
+        {
+          "L": 16,
+          "f_nominal": 1.25,
+          "k1": 314,
+          "k2": 6375,
+          "n_blocks": 32,
+          "counts": {
+            "exact": 31,
+            "verify_failed": 1,
+            "undetected": 0,
+            "decode_failed": 0,
+            "crc_failed": 1,
+            "resource_abort": 0
+          },
+          "wall_per_block_mean_s": 21.86891207363078,
+          "wall_per_block_max_s": 26.528139255940914,
+          "f_book_with_crc": 1.2506205042793361
+        },
+        {
+          "L": 32,
+          "f_nominal": 1.15,
+          "k1": 289,
+          "k2": 5865,
+          "n_blocks": 32,
+          "counts": {
+            "exact": 20,
+            "verify_failed": 12,
+            "undetected": 0,
+            "decode_failed": 0,
+            "crc_failed": 12,
+            "resource_abort": 0
+          },
+          "wall_per_block_mean_s": 41.303572771979816,
+          "wall_per_block_max_s": 53.998981734970585,
+          "f_book_with_crc": 1.1506411298151173
+        },
+        {
+          "L": 32,
+          "f_nominal": 1.18,
+          "k1": 296,
+          "k2": 6018,
+          "n_blocks": 32,
+          "counts": {
+            "exact": 30,
+            "verify_failed": 2,
+            "undetected": 0,
+            "decode_failed": 0,
+            "crc_failed": 2,
+            "resource_abort": 0
+          },
+          "wall_per_block_mean_s": 39.360264687318704,
+          "wall_per_block_max_s": 42.36025312705897,
+          "f_book_with_crc": 1.1805415034866593
+        },
+        {
+          "L": 32,
+          "f_nominal": 1.2,
+          "k1": 301,
+          "k2": 6120,
+          "n_blocks": 32,
+          "counts": {
+            "exact": 31,
+            "verify_failed": 1,
+            "undetected": 0,
+            "decode_failed": 0,
+            "crc_failed": 1,
+            "resource_abort": 0
+          },
+          "wall_per_block_mean_s": 39.61543052836714,
+          "wall_per_block_max_s": 41.542911017895676,
+          "f_book_with_crc": 1.200537378379503
+        }
+      ],
+      "typical_L16_point": {
+        "L": 16,
+        "f_nominal": 1.25,
+        "k1": 314,
+        "k2": 6375,
+        "n_blocks": 32,
+        "counts": {
+          "exact": 31,
+          "verify_failed": 1,
+          "undetected": 0,
+          "decode_failed": 0,
+          "crc_failed": 1,
+          "resource_abort": 0
+        },
+        "wall_per_block_mean_s": 21.86891207363078,
+        "wall_per_block_max_s": 26.528139255940914,
+        "f_book_with_crc": 1.2506205042793361
+      },
+      "sc_reference_summary": [
+        {
+          "f_nominal": 1.2,
+          "n_blocks": 32,
+          "counts": {
+            "exact": 20,
+            "verify_failed": 12,
+            "undetected": 0,
+            "decode_failed": 0,
+            "resource_abort": 0
+          },
+          "wall_per_block_mean_s": 18.857475612578128
+        },
+        {
+          "f_nominal": 1.25,
+          "n_blocks": 32,
+          "counts": {
+            "exact": 28,
+            "verify_failed": 4,
+            "undetected": 0,
+            "decode_failed": 0,
+            "resource_abort": 0
+          },
+          "wall_per_block_mean_s": 18.57071659210851
+        }
+      ],
+      "note": "合成数据，仅供典型耗时参考"
+    }
+  },
+  "descriptive": {
+    "R2E": {
+      "D_blk": 33365,
+      "k1": 253,
+      "k2": 6404,
+      "L": 32,
+      "undetected": [],
+      "sessions": {
+        "G2": {
+          "H_total_bits": 0.8168138204133305,
+          "n_blocks": 32,
+          "n_fail": 1,
+          "p_hat": 0.03125,
+          "wilson95": [
+            0.005537717362550945,
+            0.15744607800372734
+          ],
+          "f_book": 1.2465741503068324,
+          "f_book_file": 1.2465741503068324,
+          "f_eff": 1.286786219671569,
+          "f_eff_upper_session": 1.479518542093199
+        },
+        "G3": {
+          "H_total_bits": 0.8214782076249098,
+          "n_blocks": 32,
+          "n_fail": 2,
+          "p_hat": 0.0625,
+          "wilson95": [
+            0.017310203195157234,
+            0.2014746724800358
+          ],
+          "f_book": 1.239496050765047,
+          "f_book_file": 1.239496050765047,
+          "f_eff": 1.3221291208160502,
+          "f_eff_upper_session": 1.5522313545327815
+        }
+      }
+    },
+    "R2C": {
+      "F2": {
+        "crc": "二元不付 CRC（RESULT_SUMMARY §结论：NB 侧付 CRC 16 位，二元侧不付）",
+        "tag_bits": 64,
+        "pooled": {
+          "n": 64,
+          "n_fail": 18,
+          "p_hat": 0.28125,
+          "wilson95": [
+            0.18593226105484584,
+            0.40134162399503504
+          ]
+        },
+        "sessions": {
+          "G2": {
+            "f_realized_as_f_book": 1.2753426830727925,
+            "K_frozen": 34071,
+            "n": 32,
+            "n_fail": 2,
+            "p_hat": 0.0625,
+            "wilson95": [
+              0.017310203195157234,
+              0.2014746724800358
+            ],
+            "f_eff": 1.3603655286109786,
+            "f_eff_upper_session": 1.5971223943938175,
+            "f_eff_upper_pooled": 2.1303346519321322
+          },
+          "G3": {
+            "f_realized_as_f_book": 1.268101234613064,
+            "K_frozen": 34071,
+            "n": 32,
+            "n_fail": 16,
+            "p_hat": 0.5,
+            "wilson95": [
+              0.33630614316859386,
+              0.6636938568314061
+            ],
+            "f_eff": 2.536202469226128,
+            "f_eff_upper_session": 3.770675202853346,
+            "f_eff_upper_pooled": 2.1182385237395343
+          }
+        }
+      },
+      "F3": {
+        "crc": "二元不付 CRC（RESULT_SUMMARY §结论：NB 侧付 CRC 16 位，二元侧不付）",
+        "tag_bits": 64,
+        "pooled": {
+          "n": 64,
+          "n_fail": 0,
+          "p_hat": 0.0,
+          "wilson95": [
+            0.0,
+            0.056626022971156334
+          ]
+        },
+        "sessions": {
+          "G2": {
+            "f_realized_as_f_book": 1.3124428818216216,
+            "K_frozen": 35064,
+            "n": 32,
+            "n_fail": 0,
+            "p_hat": 0.0,
+            "wilson95": [
+              0.0,
+              0.1071827150573635
+            ],
+            "f_eff": 1.3124428818216216,
+            "f_eff_upper_session": 1.4700016497843074,
+            "f_eff_upper_pooled": 1.3912222658029645
+          },
+          "G3": {
+            "f_realized_as_f_book": 1.3135723320545871,
+            "K_frozen": 35295,
+            "n": 32,
+            "n_fail": 0,
+            "p_hat": 0.0,
+            "wilson95": [
+              0.0,
+              0.1071827150573635
+            ],
+            "f_eff": 1.3135723320545871,
+            "f_eff_upper_session": 1.4712666905177403,
+            "f_eff_upper_pooled": 1.3924195112861637
+          }
+        }
+      }
+    },
+    "note": "NB 与二元 FER 点不同，不得据此宣称胜负"
+  },
+  "expected_checks": [
+    {
+      "name": "D_blk",
+      "value": 34135,
+      "expected": 34135,
+      "abs_diff": 0,
+      "tol": 0.0001,
+      "pass": true
+    },
+    {
+      "name": "D_blk_noCRC",
+      "value": 34119,
+      "expected": 34119,
+      "abs_diff": 0,
+      "tol": 0.0001,
+      "pass": true
+    },
+    {
+      "name": "H_G2",
+      "value": 0.8168138204133305,
+      "expected": 0.8168138204133305,
+      "abs_diff": 0.0,
+      "tol": 0.0,
+      "pass": true
+    },
+    {
+      "name": "H_G3",
+      "value": 0.8214782076249098,
+      "expected": 0.8214782076249098,
+      "abs_diff": 0.0,
+      "tol": 0.0,
+      "pass": true
+    },
+    {
+      "name": "f_book_G2",
+      "value": 1.2753426830727925,
+      "expected": 1.275343,
+      "abs_diff": 3.1692720736664626e-07,
+      "tol": 0.0001,
+      "pass": true
+    },
+    {
+      "name": "f_book_G3",
+      "value": 1.268101234613064,
+      "expected": 1.268101,
+      "abs_diff": 2.3461306408734117e-07,
+      "tol": 0.0001,
+      "pass": true
+    },
+    {
+      "name": "f_book_noCRC_G2",
+      "value": 1.2747448953789544,
+      "expected": 1.27475,
+      "abs_diff": 5.104621045637359e-06,
+      "tol": 0.0001,
+      "pass": true
+    },
+    {
+      "name": "f_book_noCRC_G3",
+      "value": 1.267506841182456,
+      "expected": 1.26751,
+      "abs_diff": 3.1588175439800636e-06,
+      "tol": 0.0001,
+      "pass": true
+    },
+    {
+      "name": "p_hat_G2",
+      "value": 0.03125,
+      "expected": 0.03125,
+      "abs_diff": 0.0,
+      "tol": 0.0,
+      "pass": true
+    },
+    {
+      "name": "p_hat_G3",
+      "value": 0.03125,
+      "expected": 0.03125,
+      "abs_diff": 0.0,
+      "tol": 0.0,
+      "pass": true
+    },
+    {
+      "name": "p_hat_pooled",
+      "value": 0.03125,
+      "expected": 0.03125,
+      "abs_diff": 0.0,
+      "tol": 0.0,
+      "pass": true
+    },
+    {
+      "name": "wilson_pooled_lo",
+      "value": 0.00861195771251659,
+      "expected": 0.008612,
+      "abs_diff": 4.2287483409050863e-08,
+      "tol": 0.0001,
+      "pass": true
+    },
+    {
+      "name": "wilson_pooled_hi",
+      "value": 0.10697493882294247,
+      "expected": 0.106975,
+      "abs_diff": 6.117705753094782e-08,
+      "tol": 0.0001,
+      "pass": true
+    },
+    {
+      "name": "wilson_session_G2_rounded",
+      "value": [
+        0.005537717362550945,
+        0.15744607800372734
+      ],
+      "expected": "[0.0055, 0.157] 舍入一致",
+      "abs_diff": null,
+      "tol": null,
+      "pass": true
+    },
+    {
+      "name": "wilson_session_G3_rounded",
+      "value": [
+        0.005537717362550945,
+        0.15744607800372734
+      ],
+      "expected": "[0.0055, 0.157] 舍入一致",
+      "abs_diff": null,
+      "tol": null,
+      "pass": true
+    },
+    {
+      "name": "f_eff_G2",
+      "value": 1.3164827696235277,
+      "expected": 1.3165,
+      "abs_diff": 1.7230376472276987e-05,
+      "tol": 0.0001,
+      "pass": true
+    },
+    {
+      "name": "f_eff_G3",
+      "value": 1.309007726052195,
+      "expected": 1.309,
+      "abs_diff": 7.72605219512279e-06,
+      "tol": 0.0001,
+      "pass": true
+    },
+    {
+      "name": "f_eff_upper_pooled_G2_rounded",
+      "value": 1.428115221527847,
+      "expected": "≈1.428（舍入到 3 位一致）",
+      "abs_diff": 0.00011522152784704254,
+      "tol": "舍入一致",
+      "pass": true
+    },
+    {
+      "name": "f_eff_upper_pooled_G3_rounded",
+      "value": 1.4200063242812413,
+      "expected": "≈1.420（舍入到 3 位一致）",
+      "abs_diff": 6.324281241365526e-06,
+      "tol": "舍入一致",
+      "pass": true
+    },
+    {
+      "name": "lambda_cal",
+      "value": 0.007751937984496124,
+      "expected": 0.00775,
+      "abs_diff": 1.937984496123979e-06,
+      "tol": 0.0001,
+      "pass": true
+    },
+    {
+      "name": "eps_tag",
+      "value": 5.421010862427522e-20,
+      "expected": 5.4e-20,
+      "abs_diff": 2.1010862427522256e-22,
+      "tol": 0.0001,
+      "pass": true
+    },
+    {
+      "name": "R2C_F3_pooled_wilson_upper",
+      "value": 0.056626022971156334,
+      "expected": 0.0566,
+      "abs_diff": 2.602297115633645e-05,
+      "tol": 0.0001,
+      "pass": true
+    }
+  ]
+}

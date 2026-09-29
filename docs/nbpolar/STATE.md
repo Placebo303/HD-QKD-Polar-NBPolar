@@ -24,6 +24,7 @@
 > 门：verification-aware f_eff + 运行时/RSS 上界），尚未开始，本次不晋级到
 > R3 或更高级。详见 `docs/decision-log.md` 2026-09-29 条目、
 > `workspace/r2_fer_shg_64/RESULT_SUMMARY.md`。
+> （2026-09-30 注：约 60 符号/s 为 scl_joint 参考实现；原生实现见 docs/nbpolar/R3_EFFICIENCY_ACCOUNTING_20260930.md。）
 
 > **二元基线 `r2-binary-baseline-shg-64` 主线程裁定（2026-09-29）**：SC 主臂 PASS_WITH_COMMENTS 已发布；CA-SCL 副臂 FAIL/INVALID（`decode_batch` 把冻结位当 0 的实现缺陷）。结论句：在 SHG `_1`/`_2` 同一 64 块池上，冻结原生二元 Polar 分层基线（独立比特面、SC、N=4096、PW 构造、MC 码率分配）在 f_book≈4.1–4.8 时块失败率为 0.61–0.94；同池 NB-Polar（M2+SCL L=16）在 f_book≈1.27 时失败率为 0.031。
 > caveats：独立层模型 f 下限≈2.57、网格未覆盖块失败率≈0.03 区间、f(m) 非单调属 MC 噪声、适用域仅限两次 SHG。下一步候选：修复 CA-SCL 后仅重跑 pass2（须 PI 授权）或另立条件化 MSD 合同；见 `docs/decision-log.md`、`workspace/r2_binary_baseline_shg_64/RESULT_SUMMARY.md`。
@@ -34,6 +35,12 @@
 > **PI 2026-09-30：保持 f≈1.27（L=16）为主工作点**；f≈1.24/L=32 记为已测备选点。
 
 > **R2C `r2c-strong-binary-msd-shg-64` 主线程裁定（2026-09-30）**：最强二元臂（硬前缀 MSD + SCL L=16，无 CRC，genie-MC 构造，逐层 μ_i）同一 64 块池：f=1.20 0/64 exact；f≈1.27（NB 同披露量）46/64（G2 30/32、G3 16/32）；f≈1.31 64/64；f≈1.41 64/64；undetected 0。Pre-RESULT PASS_WITH_COMMENTS。二元约 3% 块失败所需 f 在 1.28–1.313，**NB-Polar 领先约 0.01–0.04**（不可点估；二元未做 CRC/软前缀/更大 L，不宣称最优）。见 `workspace/r2c_strong_binary_msd_shg_64/RESULT_SUMMARY.md`。
+
+> **收尾（2026-09-30）**：R3 效率记账完成——f_book G2 1.275343 / G3 1.268101，f_eff 点值 G2 ≈1.3165 / G3 ≈1.3090（pooled 上界 G2 ≈1.428 / G3 ≈1.420），
+> 运行时上界 39.38 s/块（原生 L=32 最大值论证，非 L=16 实测），独立审查 PASS，结论句"**R3 记账完成，建议 PI 批准 M2 晋级 EFFICIENCY_ACCOUNTED**"
+> （见 `docs/nbpolar/R3_EFFICIENCY_ACCOUNTING_20260930.md`）。总报告 `docs/nbpolar/NBPOLAR_FINAL_REPORT_20260930.md`（11 章，独立审查 PASS）。
+> 仓库清理：`.gitignore` 追加 4 条原生编译产物规则；其余先存改动（stat 脏内容无变化的测试文件、pytest 证据、测试夹具）一律不碰不提交。
+> 待 PI 决定：是否批准晋级 `EFFICIENCY_ACCOUNTED` / 是否 push / G2+G3 是否算 ≥2 独立 session / 后续研究方向。M2 状态串不变。
 
 ## §0 2026-09-27 更新（合成 Tier-X，描述性）
 

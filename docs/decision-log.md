@@ -24,6 +24,13 @@ Durable decisions and rejected alternatives for the HD-QKD_Polar_Comparison-nbpo
 
 ## Decisions
 
+## 2026-09-30 NB-Polar 收尾：R3 效率记账 + 总报告 + 仓库清理
+
+- R3 效率记账（`docs/nbpolar/R3_EFFICIENCY_ACCOUNTING_20260930.md`；脚本 `workspace/closure_20260930/r3_accounting.py` + 输出 `r3_accounting.json`）：R2 主工作点 f_book G2 1.2753426830727925 / G3 1.268101234613064；f_eff 点值 G2 1.3164827696235277 / G3 1.309007726052195；f_eff 上界（pooled）G2 1.428115221527847 / G3 1.4200063242812413；λ_cal 0.007751937984496124；ε_tag 5.421010862427522e-20；运行时上界 39.37917227298021 s/块（原生 L=32 最大值论证，非 L=16 实测）；λ 分解 8 项齐全；R3 门 (a)(b)(c)(d) 全满足，独立审查 PASS（`workspace/closure_20260930/R3_REVIEW.md`，BLOCKER 0 / MAJOR 0 / MINOR 2）→ 结论"R3 记账完成，建议 PI 批准 M2 晋级 EFFICIENCY_ACCOUNTED"。
+- 总报告 `docs/nbpolar/NBPOLAR_FINAL_REPORT_20260930.md`（379 行，11 章；局限 9 条全列，无超范围表述；`workspace/closure_20260930/REPORT_REVIEW.md` 独立审查 PASS，三项零问题）。
+- 仓库清理（`workspace/closure_20260930/HYGIENE_LOG.md`）：`.gitignore` 追加 4 条原生编译产物规则（5 个 `??` 消失，文件本身未删）；`_test_aggregation.py` 内容与 HEAD 一致（仅 stat 脏）不提交不还原；STATE.md 只追加一行 scl_joint 吞吐注；测试夹具与 pytest 证据不碰不提交；未动 `openspec/`。
+- M2 状态串不变（仍 `FER_MEASURED_AT_CONTRACT`）；待 PI：是否批准晋级 EFFICIENCY_ACCOUNTED / 是否 push / G2+G3 是否算 ≥2 独立 session / 后续研究方向。
+
 ## 2026-09-30 R2C 最强二元臂裁定 MEASURED_AT_CONTRACT；PI 保持 f≈1.27 为主工作点
 
 - R2C（硬前缀 MSD + SCL L=16，无 CRC，genie-MC 构造，逐层 μ_i；同一 64 块池）22:53–23:51（3428 s），undetected 0，lab 未改动。F1 f=1.20：0/64 exact；F2 f≈1.275/1.268（NB 同披露量）：46/64（G2 30/32、G3 16/32）；F3 f≈1.312/1.314：64/64（Wilson 上界 0.057）；F4 f≈1.41：64/64。构造：不变性 R 0.99–1.06、CV 选 P-M2（优 0.133 nat）、Σcaps 与 H_total 一致至 1e-14。Pre-RESULT PASS_WITH_COMMENTS。

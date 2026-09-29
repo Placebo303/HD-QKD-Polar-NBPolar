@@ -57,3 +57,9 @@ Thumbs.db
 .idea/
 .env
 *.local
+# native build outputs (rebuilt by build_rust.sh / build_cpp.sh)
+comparison_bench/src/comparison_bench/formal_ir/nbpolar/_native/*.so
+comparison_bench/src/comparison_bench/formal_ir/nbpolar/_native/*.dll
+comparison_bench/src/comparison_bench/formal_ir/nbpolar/_native/rust_kernels/target/
+src/reconciliation/cpp_polar/ca_scl.so
+

@@ -1,3 +1,9 @@
+## 2026-09-30 NB-Polar closure
+
+- R3 效率记账完成 [repo-observed, decision, R3]：R2 主工作点 f_book G2 1.2753426830727925 / G3 1.268101234613064；f_eff 点值 G2 1.3164827696235277 / G3 1.309007726052195；pooled 上界 G2 1.428115221527847 / G3 1.4200063242812413；λ_cal 0.007751937984496124；ε_tag 5.421010862427522e-20；运行时上界 39.37917227298021 s/块（原生 L=32 最大值论证，非 L=16 实测）；R3 门 (a)(b)(c)(d) 全满足，独立审查 PASS（BLOCKER 0 / MAJOR 0 / MINOR 2）→ 结论"R3 记账完成，建议 PI 批准 M2 晋级 EFFICIENCY_ACCOUNTED"。源：docs/nbpolar/R3_EFFICIENCY_ACCOUNTING_20260930.md、workspace/closure_20260930/r3_accounting.json、workspace/closure_20260930/R3_REVIEW.md。
+- 总报告与清理 [repo-observed, R3]：docs/nbpolar/NBPOLAR_FINAL_REPORT_20260930.md（379 行，11 章，局限 9 条全列；REPORT_REVIEW.md 独立审查 PASS）；.gitignore 追加 4 条原生编译产物规则；STATE.md 只追加收尾段与一行吞吐注，状态串未动。源：workspace/closure_20260930/REPORT_REVIEW.md、workspace/closure_20260930/HYGIENE_LOG.md、docs/nbpolar/STATE.md §0。
+- 待 PI 四项 [decision, open item]：是否批准晋级 EFFICIENCY_ACCOUNTED / 是否 push / G2+G3 是否算 ≥2 独立 session / 后续研究方向。源：docs/nbpolar/CLOSURE_PACKET_20260930.md §8、docs/decision-log.md 2026-09-30 收尾条目。
+
 ## 2026-09-29 R2E r2e-fer-shg-64-L32-f124 Tier-Y one-shot (R2B delta-successor; FER_MEASURED_AT_CONTRACT)
 
 - R2E r2e-fer-shg-64-L32-f124（R2B delta-successor，Tier-Y one-shot，2026-09-29）[repo-observed, decision, R2]: M2+原生SCL(Rust L=32/top_m=4/CRC-16)+P16，K_total=6657/k1=253/k2=6404（R2D f1.24_s0380 点），SHG _1/_2 64块；D=64（exact 61/verify_failed 3/decode_failed 0），p̂=0.0469 Wilson95% [0.0161,0.1290]，undetected 0，fidelity 28/28；主线程裁定 FER_MEASURED_AT_CONTRACT；M2 状态不变；工作点是否切换由 PI 定。源：docs/decision-log.md 2026-09-29 R2E 条目、docs/nbpolar/STATE.md §0 R2E、workspace/r2e_fer_shg_64_L32_f124/RESULT_SUMMARY.md。
