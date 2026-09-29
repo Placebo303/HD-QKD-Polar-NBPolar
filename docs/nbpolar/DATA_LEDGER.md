@@ -61,6 +61,8 @@ post-skip 总帧数 4219（skip=702，window=200；`frame_census.json` 2026-09-2
 > 2026-09-29 条目。本行不改变本表其余各段"剩余"数字（RESERVE 29 帧仍未
 > 接触）。
 
+> 2026-09-29 二元基线接触记录（`r2-binary-baseline-shg-64`）：冻结原生二元 Polar 分层基线（SC 主臂，及后作废的 CA-SCL 副臂）解码了同一 64 块池（G2 32 块 + G3 32 块）在 3 个 margin 点的全部块；无新披露（R1 "解码≠消耗"），未消耗任何 RESERVE 帧。CA-SCL 副臂数据已作废（`workspace/r2_binary_baseline_shg_64/INVALID_CA_SCL.md`）。详见 `RESULT_SUMMARY.md`。
+
 ## §2 SHG `_2`（`20260113_SHG_Type2PPLN_3s_2`，即 G3 参照会话）
 
 post-skip 总帧数 4289（skip=702，window=200；`frame_census.json` 2026-09-28

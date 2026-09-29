@@ -1,0 +1,61 @@
+{
+  "block_hash": {
+    "n_symbols": 32768,
+    "sha256_alice": "b58039e44bf8a7e72a809caf5732899d1dde4d885ec6b8d3feef294d7ddd8ca8",
+    "sha256_bob": "b84e5b3ca77087af245e4c5fedea35cae5a7a24ebac0733e84a391ad955b1764"
+  },
+  "dry_run": false,
+  "error": null,
+  "frame_end": 255,
+  "frame_start": 128,
+  "global_block_index": 33,
+  "grid": [
+    {
+      "accepted": false,
+      "budget_rss_gib_per_block": 4.0,
+      "decode_failed": false,
+      "exact": false,
+      "rss_gib_peak_advisory": 1.3005180358886719,
+      "sc_disclosed_total": 110592,
+      "sc_margin": 0.02,
+      "status": "ok",
+      "tag_pass": false,
+      "undetected": false,
+      "verify_failed": true
+    },
+    {
+      "accepted": false,
+      "budget_rss_gib_per_block": 4.0,
+      "decode_failed": false,
+      "exact": false,
+      "rss_gib_peak_advisory": 1.3005180358886719,
+      "sc_disclosed_total": 114344,
+      "sc_margin": 0.08,
+      "status": "ok",
+      "tag_pass": false,
+      "undetected": false,
+      "verify_failed": true
+    },
+    {
+      "accepted": true,
+      "budget_rss_gib_per_block": 4.0,
+      "decode_failed": false,
+      "exact": true,
+      "rss_gib_peak_advisory": 1.3005180358886719,
+      "sc_disclosed_total": 126984,
+      "sc_margin": 0.18,
+      "status": "ok",
+      "tag_pass": true,
+      "undetected": false,
+      "verify_failed": false
+    }
+  ],
+  "resources": {
+    "budget_wall_s_per_block": 1200.0,
+    "wall_total_s": 16.68923494592309
+  },
+  "session": "G3",
+  "status": "ok",
+  "stratum_official": "A1_CAL_characterization",
+  "stratum_task": "never_decoded"
+}

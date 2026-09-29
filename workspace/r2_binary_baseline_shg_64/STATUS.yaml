@@ -1,0 +1,253 @@
+# STATUS — r2-binary-baseline-shg-64 (descriptive binary-Polar-baseline
+# comparison on the SAME frozen 64-block SHG _1/_2 pool NB-Polar's
+# r2-fer-shg-64 used, DATA_LEDGER.md §7). Planner+operator prep pass,
+# 2026-09-29. PREPARATION ONLY. No execution against real data performed.
+# No git write performed.
+packet: r2-binary-baseline-shg-64
+location: workspace/r2_binary_baseline_shg_64/   # new, additive-only directory
+branch: codex/nbpolar-phase0
+contract: docs/nbpolar/R2_BINARY_BASELINE_COMPARISON_CONTRACT_20260929.md
+incidents:
+  - id: INC_2026_09_29_01_SLOW_SMOKE_RUN
+    when: "2026-09-29, ~01:21-01:30 (host local, wall clock)"
+    reported_by: operator, in response to main-thread fact-check request
+    what_ran: >-
+      `_smoke_synthetic.py` (this directory), FIRST version, launched via
+      `MSYS_NO_PATHCONV=1 wsl.exe -e /home/karel_303/.venvs/hd-qkd-polar-comparison/bin/python
+      /mnt/d/Code/HD-QKD_Polar_Comparison-nbpolar/workspace/r2_binary_baseline_shg_64/_smoke_synthetic.py`
+      (via the harness's Bash tool, initially foreground with a 120s
+      timeout, auto-moved to background as task id `bxiim5fqx`, then killed
+      with `kill -9 1430880` after observing ~8:15 CPU-minutes at 99.9% CPU
+      via `ps aux` with no progress).
+    data_touched: >-
+      SYNTHETIC ONLY. This run did NOT read any raw `.ttbin` file, did NOT
+      call `scripts.m2_prior_validation` or `workspace/r2_fer_shg_64/run.py`'s
+      real-data functions (`_reproduce_session_context`, `_read_timetags_*`,
+      `mod.g2_cal_ids`, etc.), and did NOT open any file under
+      `workspace/r2_fer_shg_64/` or any acquisition directory. It generated
+      symbols in-memory via `numpy.random.default_rng` and a hand-picked
+      synthetic per-layer BER list (`_synthetic_layer_bers()`), at the
+      time-unpatched module constant `LAYER_N=4096` (the packet's REAL
+      per-layer code length) with `CALIB_N_FRAMES=300` and a 6-point margin
+      sweep -- i.e. it exercised the real N=4096 decode cost with fake
+      symbol data, which is precisely what exposed the O(N^2 log N) finding
+      (see D_BIN_SC_DECODER_COMPLEXITY). The operator's original phrasing
+      ("已用一次真实尝试证实不可行") meant "an actual (non-hypothetical)
+      execution attempt", using SYNTHETIC data -- flagged here because that
+      phrasing was ambiguous and the main thread correctly asked for
+      clarification.
+    files_written_by_this_run: >-
+      None under `workspace/r2_binary_baseline_shg_64/` (the script has no
+      file-write side effect of its own; its stdout was lost to Python's
+      default block-buffering + the SIGKILL, hence the empty
+      `bxiim5fqx.output`). No `results.json`/`part_*.json`/`construction_frozen_*.json`
+      were created by this run (those are only written by `run.py`'s own
+      `main()`, never invoked this session).
+    side_effect_confirmed: >-
+      Importing/running the frozen `src/reconciliation/real_polar_sc_rescue.py`,
+      `cpp_scl_wrapper.py`, `verification.py`, and
+      `experiments/run_real_polar_max_pie.py` modules (via this run AND the
+      later corrected smoke run, the involution self-check, and the timing
+      probe) caused Python/numba to write ordinary bytecode/JIT caches under
+      `src/reconciliation/__pycache__/`, `src/__pycache__/`,
+      `experiments/__pycache__/` (new files dated 2026-09-29 01:14-01:21,
+      confirmed via `ls -la` and `find -newermt`) -- e.g.
+      `real_polar_sc_rescue.polar_sc_decode_with_frozen-89.py312.1.nbc`.
+      These are standard numba/CPython caches, NOT source edits, and ALL are
+      `.gitignore`d (`git status --porcelain --ignored` shows `!!` for every
+      one of these `__pycache__/` directories; `git status --porcelain`
+      shows zero changes under `src/` or `experiments/`). No
+      `src/reconciliation/cpp_polar/ca_scl.so` was built at any point this
+      session (`PolarSCLDecoder(...)` was never instantiated; confirmed by
+      `find src/reconciliation/cpp_polar -iname "*.so"` returning nothing).
+      Per the main thread's instruction, NONE of these cache artifacts have
+      been deleted.
+    resolution: >-
+      Not a real-data-contact incident (confirmed no `.ttbin`/CAL32/any
+      acquisition file was read). Recorded for full transparency per the
+      main thread's explicit request. The killed run's only lasting
+      consequence was the numba/pyc caches above (harmless, gitignored) and
+      the CALIB_N_FRAMES/sc_margin design revision it motivated (D_BIN_SC_DECODER_COMPLEXITY).
+depends_on:
+  data_ledger: docs/nbpolar/DATA_LEDGER.md §7   # 64-block pool definition (authoritative; SAME pool as the NB packet)
+  nb_predecessor_result: workspace/r2_fer_shg_64/RESULT_SUMMARY.md   # FER_MEASURED_AT_CONTRACT, 2026-09-29; caveat §7(a) explicitly notes "no same-batch binary baseline comparison"
+  nb_predecessor_code: workspace/r2_fer_shg_64/run.py   # imported BY FILE PATH, read-only, for build_session_blocks/_reproduce_session_context/SESSION_CFG/ARM
+  binary_baseline_src: [src/reconciliation/real_polar_sc_rescue.py, src/reconciliation/cpp_scl_wrapper.py, src/reconciliation/verification.py, src/reconciliation/cpp_polar/main.cpp]
+  binary_baseline_experiments: experiments/run_real_polar_max_pie.py
+venv: /home/karel_303/.venvs/hd-qkd-polar-comparison/bin/python  # NOTE: DIFFERENT from the NB packet's own timetagger venv -- this one has numba (required for src/reconciliation), confirmed present
+authorizations: []  # NOT YET GRANTED -- AUTHORIZATION_PROMPT.md is a template
+pi_directional_note_2026_09_29: "按建议起草对比合同，reviewer核查合同后可以直接开始 -- directional go-ahead to DRAFT the contract and a fast path to execution once reviewed; does NOT itself satisfy AGENTS.md §10.3 Pre-EXECUTE, and does NOT itself confirm this packet's specific budget/search-range numbers."
+execution_authorized: false
+decoder_modification: false  # frozen: none of src/experiments/tools/comparison_bench-src files edited; run.py only imports+calls them
+classification: "Descriptive real-data comparison measurement (NOT a Tier-Y decision gate: no win/lose threshold computed per contract §5), but real-data and one-shot, so it follows the same Pre-EXECUTE/Pre-RESULT/authorization discipline."
+state: executed_awaiting_pre_result
+next_gate: independent_pre_execute_review_round3
+static_selfcheck:
+  py_compile: pass
+  ast_percent_format_check: {expressions_found: 0, mismatches: 0, verdict: pass}
+  involution_selfcheck: {n_log_tested: [2, 3, 4, 6], trials_per_n_log: 30, failures: 0, verdict: pass, evidence: _selfcheck_involution.py}
+  synthetic_smoke_test: {script: _smoke_synthetic.py, status: PASS, wall_s: 5.6, n_grid_points_found: 3, note: "exercises freeze_binary_construction, sc_decode_codeword, block tag self-consistency, and per-block leakage-accounting self-consistency (329728==329728 over 2 synthetic blocks) against a synthetic (non-real-data) G1R2-matched-style channel with N=256 smoke override; does not touch raw .ttbin"}
+  sc_decoder_timing_probe: {script: _selfcheck_sc_timing.py, ms_per_call_post_jit: {n256: 0.244, n1024: 4.420, n4096: 80.771}, finding: "polar_sc_decode_with_frozen is O(N^2 log N), not O(N log N); drove CALIB_N_FRAMES 4000->100 and the sc_margin dense-sweep->7-point-list revision, see TASK_PACKET.md D_BIN_SC_DECODER_COMPLEXITY and contract §3.1"}
+  results_json_absent: true
+  part_files_absent: true
+  no_predecessor_write: true  # workspace/r2_fer_shg_64/ untouched
+  no_frozen_source_edit: true  # no Edit/Write tool invoked against src/, experiments/, tools/, comparison_bench/src/
+  no_git_write: true
+artifacts_prepared:
+  - workspace/r2_binary_baseline_shg_64/run.py
+  - workspace/r2_binary_baseline_shg_64/TASK_PACKET.md
+  - workspace/r2_binary_baseline_shg_64/prereg.md
+  - workspace/r2_binary_baseline_shg_64/STATUS.yaml
+  - workspace/r2_binary_baseline_shg_64/AUTHORIZATION_PROMPT.md
+  - workspace/r2_binary_baseline_shg_64/_selfcheck_involution.py
+  - workspace/r2_binary_baseline_shg_64/_selfcheck_ast_percent.py
+  - workspace/r2_binary_baseline_shg_64/_smoke_synthetic.py
+  - workspace/r2_binary_baseline_shg_64/_selfcheck_sc_timing.py
+  - workspace/r2_binary_baseline_shg_64/_test_aggregation.py
+  - workspace/r2_binary_baseline_shg_64/_test_f3_guard.py
+  - workspace/r2_binary_baseline_shg_64/_test_total_wall.py   # also covers D_BIN_TWO_PASS (W6)
+  - workspace/r2_binary_baseline_shg_64/PRE_EXECUTE_REVIEW.md   # round 1 (FAIL)
+  - workspace/r2_binary_baseline_shg_64/PRE_EXECUTE_REVIEW_R2.md   # round 2 (FAIL, F4 only)
+  - docs/nbpolar/R2_BINARY_BASELINE_COMPARISON_CONTRACT_20260929.md
+artifacts_pending_execution:
+  - workspace/r2_binary_baseline_shg_64/construction_frozen_G2.json
+  - workspace/r2_binary_baseline_shg_64/construction_frozen_G3.json
+  - workspace/r2_binary_baseline_shg_64/part_<SESSION>_<global_block_index:02d>.json (64 files)
+  - workspace/r2_binary_baseline_shg_64/scl_part_<SESSION>_<global_block_index:02d>.json (pass 2, CA-SCL secondary arm; <=64 files, entries may be ca_scl_not_started_total_wall_budget)
+  - workspace/r2_binary_baseline_shg_64/results.json  # aggregation code now implemented + unit-tested (S13); this file itself still only comes from a real authorized run
+open_questions_for_main_thread:
+  - id: D_BIN_AGGREGATION_NOT_IMPLEMENTED
+    resolved_by: "RESOLVED 2026-09-29, operator, per main-thread requirement (2)"
+    blocking: false
+    text: >-
+      `run.py::aggregate_results` + `build_cross_comparison` are now
+      implemented (pooled/stratum_official/stratum_task/per-session
+      taxonomy with the SAME status=="ok"-only-into-D convention as
+      workspace/r2_fer_shg_64/run.py's reviewed `_taxonomy_counts`;
+      stop_undetected scans all blocks/margins; per-margin f_breakdown with
+      per-layer disclosed/CRC/tag decomposition; three cross-comparison 2x2
+      tables against workspace/r2_fer_shg_64/'s own READ-ONLY part files).
+      Verified via a new fake-data unit test, `_test_aggregation.py`
+      (PASS). See TASK_PACKET.md §7 for the full description.
+  - id: D_BIN_PRIMARY_ARM
+    resolved_by: self-adjudicated (operator, per contract §11)
+    blocking: false
+    text: "SC primary, CA-SCL descriptive-only. See contract §1/§11, TASK_PACKET.md §3."
+  - id: D_BIN_CODE_LENGTH
+    resolved_by: self-adjudicated (operator)
+    blocking: false
+    text: "N=4096 (largest of the frozen {1024,2048,4096} choices). See contract §2/§11."
+  - id: D_BIN_F_GRID_SEARCH_RANGE
+    resolved_by: self-adjudicated (operator, revised after D_BIN_SC_DECODER_COMPLEXITY)
+    blocking: false
+    text: "sc_margin is now a short 7-point candidate list {0.02,0.05,0.08,0.12,0.18,0.25,0.30}, not a dense sweep -- revised for tractability, see D_BIN_SC_DECODER_COMPLEXITY below. --dry-run-one will still reveal if the list needs widening. See contract §3/§3.1/§11."
+  - id: D_BIN_SC_DECODER_COMPLEXITY
+    resolved_by: self-adjudicated (operator), evidence-backed
+    blocking: false
+    text: >-
+      NEW FINDING (this preparation pass, via `_selfcheck_sc_timing.py`):
+      the frozen `polar_sc_decode_with_frozen` is O(N^2 log N) per frame
+      (80.771 ms/call at N=4096 post-JIT, not the O(N log N) a standard SC
+      decoder would give). The packet's original design
+      (CALIB_N_FRAMES=4000, dense sc_margin sweep) was infeasible at this
+      cost (a real attempt ran >8 CPU-minutes without finishing and was
+      killed). RESOLVED in this same pass: CALIB_N_FRAMES lowered to 100
+      (the frozen baseline's OWN `--frames` CLI default) and the margin
+      sweep replaced by the 7-point list (echoing the baseline's own
+      `--scl-margins` short-list style). Re-verified via
+      `_smoke_synthetic.py` (PASS, 5.6s) and the timing probe itself. This
+      is flagged prominently (not silently fixed) because it changes the
+      contract's own numbers from what PI's 2026-09-29 directional
+      go-ahead was based on -- the Pre-EXECUTE reviewer should
+      specifically re-check this arithmetic (contract §3.1).
+  - id: D_BUDGET_NUMBERS
+    resolved_by: null
+    blocking: false
+    text: >-
+      Contract §6 proposes 1200s/(block,grid-point) wall, 4 GiB/block RSS,
+      4h total wall (serial single process; in-code check). With the REVISED construction-search
+      cost (D_BIN_SC_DECODER_COMPLEXITY above), the estimated real cost is
+      ~75 min PER SESSION (worst case) x 2 sessions = ~150 min construction
+      + ~28 min (64-block x <=4-grid-point SC decode) = ~178 min ~= 3.0h --
+      well under 4h, so the stated budget is generously conservative, not
+      the bottleneck it originally appeared to be. (Pre-EXECUTE round 1 C2
+      fix: an earlier write-up mischaracterized 75 min as already being
+      the two-session combined figure; corrected here and in
+      TASK_PACKET.md.) --dry-run-one timing is still the concrete
+      pre-full-run check; not blocking Pre-EXECUTE review of the packet's
+      logic, but IS the input the PI authorization text needs before
+      confirming the budget table in AUTHORIZATION_PROMPT.md.
+  - id: D_BIN_DECODER_STRENGTH_PARITY
+    resolved_by: self-adjudicated (operator, per main-thread requirement (3))
+    blocking: false
+    text: >-
+      Table A (NB-SC vs binary-SC) is the only same-strength comparison;
+      Table B1 (NB-SCL(L=16) vs binary-SC) and Table B2 (NB-SCL(L=16) vs
+      binary-CA-SCL's `all_applicable_msg_exact` proxy) are explicitly
+      labeled different-decoder-strength / descriptive-only in the
+      contract §4.1 and in `build_cross_comparison`'s own
+      `decoder_strength_parity_note` field. Recommend: accept -- building a
+      binary-side list decoder that does not sacrifice real data bits (to
+      make a true L-for-L comparison possible) is out of this packet's
+      scope.
+main_thread_acceptance: null  # not yet reviewed
+pre_execute_review: {state: round2_done, reviewer: independent reviewer-go, verdict: FAIL, evidence: [PRE_EXECUTE_REVIEW.md, PRE_EXECUTE_REVIEW_R2.md]}
+pre_execute_round1:
+  verdict: FAIL  # revise-required; all findings mechanical/documentation-consistency, no scientific redesign
+  record: PRE_EXECUTE_REVIEW.md
+  fixes_applied_2026_09_29:  # operator; no real data touched, no git write; awaiting round-2 re-review
+    F1: "AUTHORIZATION_PROMPT.md copy-paste block + confirm-table now state the run.py-frozen values: sc_margin short list {0.02,0.05,0.08,0.12,0.18,0.25,0.30}, select <=4 points (closest to NB f_book_with_crc + low/mid/high by sorted f_book_sc), CALIB_N_FRAMES=100; dense-sweep/4000 kept only in an explicit superseded-note. Other numbers (1200 s, 4 GiB, 4 h, 8-way, MAX_F_POINTS=4, N=4096, L=4, CRC-16) cross-checked against run.py constants."
+    F2: "prereg.md P: section synced to CALIB_N_FRAMES=100 and the 7-point list; old values (4000, [0.00,0.30] step 0.01) kept with strikethrough + a dated note '2026-09-29 Pre-EXECUTE F2 修正前的旧值'."
+    F3: "run.py: dry-run outputs (part + construction) go to dry_run/ (DRY_RUN_DIR, _part_path/_construction_path dry_run flag, records stamped dry_run=True + note); full run _fail()s if RESULTS_PATH exists OR any top-level part_*.json exists (single one suffices); construction is always recomputed fresh, never read from dry_run/ or disk; _load_all_part_records only reads top level and rejects dry_run=True records. Test: _test_f3_guard.py. TASK_PACKET S8 wording corrected."
+    C1: "BUDGET_RSS_GIB_PER_BLOCK 2.0 -> 4.0 (matches contract §6 / AUTHORIZATION_PROMPT). Cheap advisory check added (VmHWM via /proc/self/status, _peak_rss_gib) after every grid point; over budget -> status resource_abort_rss_post_decode (excluded from D, counted in resource_abort, fields kept for audit). RSS is process-peak (not per-grid-point delta) -- contract §6 states this honestly. Because this status can now override an entry AFTER the tag decision, undetected scanning (per-entry counts, stop_undetected, undetected_ids) was changed to ignore status (security signal never suppressed); regression case added to _test_aggregation.py."
+    C2: "Arithmetic corrected in TASK_PACKET.md, STATUS.yaml D_BUDGET_NUMBERS and contract §6: ~75 min per session x 2 = ~150 min construction + ~28 min decode = ~178 min ~= 3.0 h, within the 4 h budget."
+  round2_tests: "py_compile, AST %-scan, _smoke_synthetic.py, _test_aggregation.py, _test_f3_guard.py -- results in the operator report / TASK_PACKET.md evidence matrix (S13/S14)."
+pre_execute_round2:
+  verdict: FAIL  # only blocking finding F4; round-1 fixes F1/F2/F3/C1/C2 all verified PASS by the reviewer
+  record: PRE_EXECUTE_REVIEW_R2.md
+  fixes_applied_2026_09_29:  # operator; no real data touched, no git write; awaiting round-3 re-review
+    F4: "Main-thread ruling: option (a). run.py now implements the total-wall check for real (`_run_sessions`, `_total_wall_exceeded`, `_write_not_started_part`; clock hook `_now()`): t_start at main() start; check before each session's construction and before each block; once elapsed > BUDGET_WALL_S_TOTAL (4 h) nothing new starts, remaining blocks get a part record status=not_started_total_wall_budget (no grid), the running block finishes. Unused MAX_PARALLEL / HARD_TERMINATE_MARGIN_S / CONSTRUCTION_PATH constants and the multiprocessing import removed. Execution is SERIAL single process. AUTHORIZATION_PROMPT.md (block, confirm table, gate checklist), contract §6/§7/§8, prereg.md budget paragraph reworded to: serial single process; in-code 4 h total-wall check, not_started afterwards; per-block wall 1200 s cumulative from block start (checked before each grid point); RSS by VmHWM 4 GiB; projected serial time construction ~151 min + SC decode ~28 min + CA-SCL secondary arm (UNMEASURED rough guess 15-70 min) => ~3.3-4.2 h, upper end may touch the 4 h check. not_started blocks are outside D and counted separately; pooled D<56 => INSUFFICIENT flag."
+    C4: "results.json adds block_accounting (64 = contributing + error + not_started + resource_abort [+ no_grid_entries, expected 0], with `consistent`), error_block_ids (block-level error:* incl. mid-block exception), not_started_block_ids, top-level n_blocks_contributing (blocks with >=1 status==ok entry), per-margin insufficient flag. Per-margin tallies and cross tables now only include block-level status==ok blocks (same convention as the NB packet); the undetected scan still covers ALL records."
+    C5: "Main-thread ruling: this execution does NOT run --dry-run-one, it goes straight to the full run with the in-code total-wall check as backstop (see dry_run_plan). Per-session construction wall time is written into results.json (timing.construction_wall_s_by_session, construction_search_wall_s_by_session) and into construction_frozen_<SESSION>.json (search_wall_s)."
+    C6: "Contract §5: in the comparison tables undetected entries fall into the non-exact cell; stop_undetected is a global flag (ids carry sc_margin)."
+  round3_tests: "py_compile, AST %-scan, _smoke_synthetic.py, _test_aggregation.py, _test_f3_guard.py, _test_total_wall.py (mock clock) -- see operator report."
+d_bin_two_pass:
+  ruling: "Main-thread ruling D_BIN_TWO_PASS (2026-09-29, after pre_execute_round2): execution is TWO-PASS. Pass 1: both sessions' construction, then the SC primary arm over ALL 64 blocks x selected grid points. Pass 2: CA-SCL secondary arm over the pass-1-ok blocks x grid points while total wall remains; total wall checked before each block; entries not run are recorded status=ca_scl_not_started_total_wall_budget (separate scl_part_*.json; pass-1 part_*.json are never rewritten)."
+  reason: "Serial projected time 3.3-4.2 h may touch the 4 h total-wall check. With the old per-block interleaving the check would truncate the PRIMARY arm (fewer blocks in D); with two passes it can only truncate the descriptive CA-SCL arm."
+  consequences: "Summary, Table A and Table B1 depend on the SC primary arm only; Table B2 (CA-SCL) counts only finished blocks and states coverage (table_B2_coverage; per-margin ca_scl_descriptive.coverage / n_ca_scl_not_started_entries). Guard refuses a full run if any top-level part_*.json or scl_part_*.json exists."
+  implemented_in: "run.py::_run_sessions / _run_scl_block_entry / _write_scl_part / aggregate_results(scl_records=) / build_cross_comparison(scl_index=); docs synced: contract §6/§7, AUTHORIZATION_PROMPT.md (block + confirm table), prereg.md, TASK_PACKET (S16)."
+  tests: "_test_total_wall.py W6 (pass 2 truncated: SC 8/8, D unchanged, 4 CA-SCL done / 4 not_started, A/B1 unchanged, B2 coverage 4 of 8); _test_f3_guard.py G7; _test_aggregation.py (CA-SCL now from scl records)."
+dry_run_plan:
+  main_thread_ruling_C5: "For this execution, --dry-run-one is NOT run; go straight to the full run. Reasons: (1) a dry-run itself needs ~75 min for the G2 construction (worst case) and its result is then discarded (the full run rebuilds construction fresh); (2) with the in-code total-wall hard check (4 h, before each construction and each block; not_started afterwards) there is no need to pre-judge overrun from a dry-run. The dry-run feature is kept in run.py, unused here."
+  block_used_for_timing: {session: G2, global_block_index: 0, frame_start: 0, frame_end: 127, stratum_official: A1_CAL_characterization, stratum_task: never_decoded}  # main(): --dry-run-one takes blocks_meta[:1] of the first session (G2); this is the SAME block as workspace/r2_fer_shg_64/part_G2_00.json
+  output_location: workspace/r2_binary_baseline_shg_64/dry_run/   # construction_frozen_G2.json + part_G2_00.json, both stamped dry_run=true / 'not counted in results'
+  full_run_treatment: "The authorized full run RE-DECODES this block (G2 idx 0) like every other block and writes its result to the TOP-LEVEL part_G2_00.json; dry_run/ files are never read, reused or aggregated. Construction is likewise rebuilt fresh at top level."
+  not_yet_executed: true
+pre_result_review: {state: not_started, reviewer: null, verdict: null, record: null}
+counters: {attempts: 0, reruns: 0}
+result: {id: null, summary: "not executed; preparation only", decision_needed: "main thread: (1) review contract (incl. new §3.1/§4.1) + TASK_PACKET.md; (2) request independent Pre-EXECUTE review; (3) obtain PI verbatim authorization (AUTHORIZATION_PROMPT.md) confirming/amending the budget and search-range numbers."}
+pi_authorization_2026_09_29:
+  who: PI (user, in chat)
+  verbatim: "按建议起草对比合同，reviewer核查合同后可以直接开始"
+  scope_note: "Conditional pre-authorization: execution (dry-run-one timing, then full 64-block grid if projected total wall <= 4 h) may start only after the independent contract + Pre-EXECUTE review returns PASS/PASS_WITH_COMMENTS with no blocking findings. Budget/grid per contract §6 as frozen at review time."
+pre_execute_round3: {verdict: PASS_WITH_COMMENTS, record: PRE_EXECUTE_REVIEW_R3.md, blocking: none, comments: [C7 VmHWM process-lifetime, C8 pass-2 G2-first coverage bias, C3 f_book non-monotone MC noise]}
+execution_authorized: true  # pi_authorization_2026_09_29 condition met (independent review PASS_WITH_COMMENTS, no blockers); main thread 2026-09-29
+incident_INC_2026_09_29_02_ENV_MISSING_PACKAGE:
+  when: "2026-09-29 ~06:06 local (stopped before launch); resumed 10:44"
+  what: "Operator stopped BEFORE launch: prereg interpreter hd-qkd-polar-comparison venv lacked TimeTagger/Swabian.TimeTagger. No .ttbin read, no block decoded."
+  resolution: "PI approved; main thread installed Swabian-TimeTagger 2.22.6 (local pip cache) into that venv; operator re-verified numpy 2.4.4, numba 0.65.1, from Swabian import TimeTagger, frozen binary modules all import."
+  reruns: 0
+execution_started: "2026-09-29 10:44 local (date, host)"
+execution_finished: "2026-09-29 12:16:56 local; exit 0; total_wall_s 5556.4; results.json written; reruns 0; transcript EXECUTION_TRANSCRIPT.md"
+# --- appended 2026-09-29 (post-execution adjudication; earlier content unchanged, incl. the not_started pre_result_review key above which is superseded by this block) ---
+pre_result_review_2026_09_29:
+  reviewer: independent reviewer-go
+  record: PRE_RESULT_REVIEW.md
+  sc_arm: PASS_WITH_COMMENTS
+  ca_scl_arm: FAIL   # implementation defect: run.py:377-404 decode_batch treats frozen bits as 0; see INVALID_CA_SCL.md
+main_thread_verdict_2026_09_29:
+  sc_arm: "published (RESULT_SUMMARY.md); descriptive, non-Tier-Y"
+  ca_scl_arm: "INVALID - scl_part_*.json, results.json pass2_ca_scl / table_B2 / ca_scl_descriptive withdrawn; raw files retained, invalidation by annotation only (INVALID_CA_SCL.md)"
+  rerun: "requires separate PI ruling (fix: decode_batch_frozen with genie frozen values, no CRC overwrite, compare all k bits, pass 2 only, ~54 min)"
+  sentence: "在 SHG `_1`/`_2` 同一 64 块池上，冻结原生二元 Polar 分层基线（独立比特面、SC、N=4096、PW 构造、MC 码率分配）在 f_book≈4.1–4.8 时块失败率为 0.61–0.94；同池 NB-Polar（M2+SCL L=16）在 f_book≈1.27 时失败率为 0.031。"
+state: completed_sc_arm_published_ca_scl_invalid

@@ -1,0 +1,52 @@
+{
+  "arm": "ca_scl_descriptive",
+  "dry_run": false,
+  "error": null,
+  "frame_end": 511,
+  "frame_start": 384,
+  "global_block_index": 3,
+  "grid": [
+    {
+      "ca_scl_descriptive": {
+        "all_applicable_msg_exact": false,
+        "msg_exact_rate": 0.0,
+        "n_codewords_applicable": 80,
+        "n_codewords_msg_exact": 0
+      },
+      "rss_gib_peak_advisory": 1.3005180358886719,
+      "sc_margin": 0.08,
+      "scl_disclosed_total": 114560,
+      "status": "ok"
+    },
+    {
+      "ca_scl_descriptive": {
+        "all_applicable_msg_exact": false,
+        "msg_exact_rate": 0.0,
+        "n_codewords_applicable": 80,
+        "n_codewords_msg_exact": 0
+      },
+      "rss_gib_peak_advisory": 1.3005180358886719,
+      "sc_margin": 0.02,
+      "scl_disclosed_total": 117176,
+      "status": "ok"
+    },
+    {
+      "ca_scl_descriptive": {
+        "all_applicable_msg_exact": false,
+        "msg_exact_rate": 0.0,
+        "n_codewords_applicable": 80,
+        "n_codewords_msg_exact": 0
+      },
+      "rss_gib_peak_advisory": 1.3005180358886719,
+      "sc_margin": 0.18,
+      "scl_disclosed_total": 130168,
+      "status": "ok"
+    }
+  ],
+  "pass": 2,
+  "resources": {
+    "wall_total_s": 50.87856403191108
+  },
+  "session": "G2",
+  "status": "ok"
+}

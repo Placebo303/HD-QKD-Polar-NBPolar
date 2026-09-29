@@ -24,6 +24,19 @@ Durable decisions and rejected alternatives for the HD-QKD_Polar_Comparison-nbpo
 
 ## Decisions
 
+## 2026-09-29 二元基线 r2-binary-baseline-shg-64 主线程裁定：SC 主臂发布，CA-SCL 副臂作废
+
+**Decision**: 依据独立 Pre-RESULT 审查（`workspace/r2_binary_baseline_shg_64/PRE_RESULT_REVIEW.md`）：SC 主臂 PASS_WITH_COMMENTS，予以发布（`RESULT_SUMMARY.md`，描述性、非 Tier-Y）；CA-SCL 副臂 FAIL，数据作废（`INVALID_CA_SCL.md`）。作废原因是实现缺陷：`run.py:377-404` 调用 `decode_batch` 时把冻结位当作 0，而真实数据冻结位非零；`scl_part_*.json` 及 `results.json` 中 pass2_ca_scl / table_B2 / ca_scl_descriptive 全部撤回（仅标注作废，原始文件保留）。允许的结论句：在 SHG `_1`/`_2` 同一 64 块池上，冻结原生二元 Polar 分层基线（独立比特面、SC、N=4096、PW 构造、MC 码率分配）在 f_book≈4.1–4.8 时块失败率为 0.61–0.94；同池 NB-Polar（M2+SCL L=16）在 f_book≈1.27 时失败率为 0.031。
+
+**Context**: 合同 `docs/nbpolar/R2_BINARY_BASELINE_COMPARISON_CONTRACT_20260929.md`；同一 64 块池、同批 NB 结果（`r2_fer_shg_64`）逐块配对。二元 SC 臂 pooled 失败 60/64、55/64、39/64（margin 0.02/0.08/0.18），f_book_sc 4.11–4.82，undetected=0。f≈4 由独立层模型下限（Σh(BER_i)/H≈2.57）加 N=4096 SC 有限长度差距（≈1.7）所致；f 随 margin 不单调属 100 帧 MC 校准噪声。caveats：网格未覆盖二元块失败率≈0.03 区间；冻结基线无跨层条件化，结论不代表最优二元方案；适用域仅限 2026-01-13 两次 SHG 采集。
+
+**Alternatives considered**:
+- 原样发布含 CA-SCL 的整包（“CA-SCL msg_exact=0”）：否决，该 0 是调用错误，合成复现 run.py 同款调用 0/12，而 decode_batch_frozen 为 12/12。
+- 删除或改名 scl_part_*.json：否决，原始产物不得删除，作废仅以标注表达。
+- 把 SC 臂也一并撤回：否决，独立复算（part/scl_part 重算、分层、Table A/B1）全部吻合，SC 实现无缺陷。
+
+**Consequences**: 下一步候选为 (i) 修复 CA-SCL 后仅重跑 pass2（约 54 min，须 PI 授权）；(ii) 若要与“最强二元”比较，需另立合同，实现条件化 MSD。在此之前不得引用任何 CA-SCL 数字。
+
 ## 2026-09-29 R2 FER 测量 r2-fer-shg-64 主线程裁定：`FER_MEASURED_AT_CONTRACT`（M2 晋级第 3 级）
 
 **Decision**: 主线程对 `workspace/r2_fer_shg_64/` 的独立 Pre-RESULT 审查结论
