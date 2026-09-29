@@ -2,7 +2,7 @@
 # Delta-successor of workspace/r2_fer_shg_64/ (FER_MEASURED_AT_CONTRACT).
 # Delta contract: docs/nbpolar/R2B_L32_F120_DELTA_20260929.md
 # Tier-Y one-shot, claim-bearing, real data. PREPARATION ONLY: nothing executed.
-state: prepared_not_authorized
+state: authorized_executing
 classification: tier_y_decision_gate
 predecessor: workspace/r2_fer_shg_64
 frozen:
@@ -24,8 +24,8 @@ static_selfcheck:
   ast_percent_format_check: pass
   synthetic_smoke: pass   # _smoke_synthetic.py (native call path, f accounting, guards, total-wall edge)
   env: {Swabian_TimeTagger: "2.22.6 via Swabian shim", native_backend: rust, nbpolar_scl_decode_f64: exported}
-authorizations: []   # none granted
-pre_execute_review: {verdict: null, record: null}
+authorizations: [{by: PI, date: 2026-09-29, record: AUTHORIZATION_RECORD.md}]
+pre_execute_review: {verdict: PASS_WITH_COMMENTS, record: PRE_EXECUTE_REVIEW.md}
 pre_result_review: {verdict: null, record: null}
 execution_started: null
 execution_finished: null

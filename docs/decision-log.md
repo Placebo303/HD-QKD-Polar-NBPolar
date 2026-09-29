@@ -24,6 +24,11 @@ Durable decisions and rejected alternatives for the HD-QKD_Polar_Comparison-nbpo
 
 ## Decisions
 
+## 2026-09-29 R2C 合同 D1–D8 按建议批准；R2B（L=32, f=1.20）PI 逐字授权并开始执行
+
+- PI 回复"按建议批准 R2C"：`docs/nbpolar/R2C_STRONG_BINARY_MSD_CONTRACT_20260929.md` §12 D1–D8 全部取推荐项；实现授权开始，真实数据执行仍须 Pre-EXECUTE + 逐字授权。
+- `r2b-fer-shg-64-L32-f120`：Pre-EXECUTE PASS_WITH_COMMENTS（`workspace/r2b_fer_shg_64_L32_f120/PRE_EXECUTE_REVIEW.md`），PI 逐字授权（`AUTHORIZATION_RECORD.md`），同日开始执行。主线程裁定：SC 保真路径沿用 K1=319/K2=6492，SCL 路径用 k1=302/k2=6140（K_total=6442）。
+
 ## 2026-09-29 二元基线 r2-binary-baseline-shg-64 主线程裁定：SC 主臂发布，CA-SCL 副臂作废
 
 **Decision**: 依据独立 Pre-RESULT 审查（`workspace/r2_binary_baseline_shg_64/PRE_RESULT_REVIEW.md`）：SC 主臂 PASS_WITH_COMMENTS，予以发布（`RESULT_SUMMARY.md`，描述性、非 Tier-Y）；CA-SCL 副臂 FAIL，数据作废（`INVALID_CA_SCL.md`）。作废原因是实现缺陷：`run.py:377-404` 调用 `decode_batch` 时把冻结位当作 0，而真实数据冻结位非零；`scl_part_*.json` 及 `results.json` 中 pass2_ca_scl / table_B2 / ca_scl_descriptive 全部撤回（仅标注作废，原始文件保留）。允许的结论句：在 SHG `_1`/`_2` 同一 64 块池上，冻结原生二元 Polar 分层基线（独立比特面、SC、N=4096、PW 构造、MC 码率分配）在 f_book≈4.1–4.8 时块失败率为 0.61–0.94；同池 NB-Polar（M2+SCL L=16）在 f_book≈1.27 时失败率为 0.031。
