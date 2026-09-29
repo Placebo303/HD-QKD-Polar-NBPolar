@@ -774,3 +774,13 @@ still required (decision-log 2026-09-21 prior-form entry, caveats (a)–(f)).
 ### Miller–Madow sign error: a "bias-corrected" entropy that moves the wrong way
 
 **Symptom**: Miller–Madow "corrected" H2 below the plug-in estimate. **Root cause**: subtracting the positive plug-in bias correction (`body.py:240`). **Fix**: MM ADDS `(K−1)/(2 n ln2)` (correct values 0.8026903611/0.8089106006). **Prevention**: check the correction's sign against a tiny hand-computed case.
+
+### setsid/nohup detached long-run loses the exit-code chain (run.log missing EXIT=0)
+
+**Symptom**: setsid/nohup 脱离启动的长任务 run.log 缺 EXIT=0 行、EXECUTION_START.txt 缺结束行。
+
+**Root cause**: 脱离后退出码链丢失。
+
+**Fix**（R2E 已用，不补写）： 以 DONE+64parts+results.json mtime+零Traceback 实质替代，Pre-RESULT 核查通过。
+
+**Prevention**: 下次长跑用同一 shell 链式 echo EXIT=$? >> run.log 生效的写法（或可记录退出码的包装），不用裸 setsid/nohup 丢码。
