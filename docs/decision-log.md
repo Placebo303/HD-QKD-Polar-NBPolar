@@ -24,6 +24,13 @@ Durable decisions and rejected alternatives for the HD-QKD_Polar_Comparison-nbpo
 
 ## Decisions
 
+## 2026-09-30 净密钥比较方法更正（PI 批准）
+
+- 错误：`NET_SECRET_KEY_COMPARISON_20260930.md` v1 (a) 每池公式写成 `(1−p̂)(H(A)−χ) − f_book·H(A|B)`，多扣了失败块泄漏；(b) 断言 Δr=−(f_eff,A−f_eff,B)·H(A|B) 使“χ 抵消、排序与 Eve 信息量和 H(A) 无关”——该抵消只在每成功符号口径成立，把失败块零产出丢掉了。
+- 更正：主指标 = 每原始符号 `r_pool(χ)=(1−p̂)(H(A)−χ−f_book·H(A|B))`；`Δr_pool=(p̂_B−p̂_A)(H(A)−χ)−[(1−p̂_A)f_A−(1−p̂_B)f_B]·H(A|B)`，排序依赖 χ 与 H(A)，失败率差×(H(A)−χ) 通常主导；删除无依据的 χ=½I 点，改 χ=0..8 表 + 各方案 χ*；Δr 带 Wilson 角点区间；新增 β/β_eff 表（β 对 f 不敏感，论文以 f 为主）。
+- 结论变化：“排序稳健/χ 无关”作废。v2：R2 vs R2E、R2 vs F3 全 χ 不可区分；R2 vs F2 仅 G3 与 pooled 可区分（R2 更优，F2 G3 构造失配 caveat）；R2 vs R2B 仅 pooled χ≤7 可区分。真实 χ 需安全分析（项目暂无），绝对 r 不可作结论。
+- 同步：AGENT_PROJECT_MEMORY.md、`NBPOLAR_FINAL_REPORT_20260930.md` L9 等处旧结论已加删除线并追加更正（append-only）。
+
 ## 2026-09-30 PI 裁定：批准 M2 晋级 EFFICIENCY_ACCOUNTED（第 4 级）
 
 - 批准 M2 由 `FER_MEASURED_AT_CONTRACT`（第 3 级）晋级 `EFFICIENCY_ACCOUNTED`（第 4 级）；依据：R3 门四项完整性（(a)§3.2 每量有公式/数值/文件来源；(b)λ 分解表逐项；(c)运行时/RSS 表完整且上界论证写明；(d)独立审查 PASS）全满足（见 `docs/nbpolar/R3_EFFICIENCY_ACCOUNTING_20260930.md`、`workspace/closure_20260930/R3_REVIEW.md`）。
